@@ -1,0 +1,84 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../string-interpolate/string-interpolate.html">
+<dom-module id="api-model-exists">
+  <template>
+
+    <string-interpolate
+      string="{{path}}"
+      prefix="/api/"
+      postfix="/exists"
+      params="{{pathParams}}"
+      result="{{url}}">
+    </string-interpolate>
+
+    <iron-ajax id="ajax"
+      auto="{{auto}}"
+      method="[[method]]"
+      url="{{url}}"
+      params="{{params}}"
+      headers="{{headers}}"
+      last-response="{{model}}"
+      last-error="{{error}}">
+    </iron-ajax>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-model-exists',
+
+    properties: {
+      auto: {
+        type: Boolean,
+        value: false
+      },
+      method: {
+        type: String,
+        value: 'GET'
+      },
+      path: {
+        type: String
+      },
+      pathParams: {
+        type: Object
+      },
+      url: {
+        type: String
+      },
+      params: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      headers: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      token: {
+        type: String
+      },
+      model: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    observers: [
+      'on_change_token(token)'
+    ],
+
+    on_change_token: function (token) {
+      this.headers.Authorization = token;
+    },
+
+    send: function () {
+      this.$.ajax.generateRequest();
+    }
+
+  });
+</script>

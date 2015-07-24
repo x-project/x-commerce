@@ -1,0 +1,98 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../string-interpolate/string-interpolate.html">
+<dom-module id="api-model-get">
+  <template>
+
+    <string-interpolate
+      string="{{path}}"
+      prefix="/api/"
+      params="{{pathParams}}"
+      result="{{url}}">
+    </string-interpolate>
+
+    <iron-ajax id="ajax"
+      auto="{{auto}}"
+      method="[[method]]"
+      url="{{url}}"
+      params="{{params}}"
+      headers="{{headers}}"
+      handleAs="[[handleAs]]"
+      last-response="{{model}}"
+      last-error="{{error}}">
+    </iron-ajax>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-model-get',
+
+    properties: {
+      auto: {
+        type: Boolean,
+        value: false
+      },
+      method: {
+        type: String,
+        value: 'GET'
+      },
+      path: {
+        type: String
+      },
+      pathParams: {
+        type: Object
+      },
+      url: {
+        type: String
+      },
+      params: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      headers: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      handleAs: {
+        type: String,
+        value: 'json'
+      },
+      token: {
+        type: String
+      },
+      include: {
+        type: Array
+      },
+      model: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    observers: [
+      'on_change_token(token)',
+      'on_change_filter(include)'
+    ],
+
+    on_change_token: function (token) {
+      this.headers.Authorization = token;
+    },
+
+    on_change_filter: function (include) {
+      var data = { include: include };
+      var filter = JSON.stringify(data);
+      this.params.filter = filter;
+    },
+
+    send: function () {
+      this.$.ajax.generateRequest();
+    }
+
+  });
+</script>

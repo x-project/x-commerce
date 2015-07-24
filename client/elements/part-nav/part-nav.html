@@ -1,0 +1,34 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<dom-module id="part-nav">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+
+		<nav>
+			<ul>
+				<li><a is="app-link" href="/">home</a></li>
+				<li><a is="app-link" href="/about">about</a></li>
+			</ul>
+		</nav>
+
+		<nav>
+			<ul>
+				<li><a is="app-link" href="/admin">admin</a></li>
+			</ul>
+		</nav>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-nav',
+
+		properties: {}
+
+	});
+</script>

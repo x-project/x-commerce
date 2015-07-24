@@ -1,0 +1,92 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<dom-module id="app-router">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <div id="container" on-click-link="on_click_link"></div>
+
+    <div id="routes">
+      <content select="app-route"></content>
+    </div>
+
+  </template>
+</dom-module>
+<script src="../../components/page/page.js"></script>
+<script>
+  Polymer({
+
+    is: 'app-router',
+
+    properties: {
+      current_page: {
+        type: Object
+      },
+      current_page_name: {
+        type: String
+      },
+      previous_page: {
+        type: Object
+      },
+      previous_page_name: {
+        type: String
+      }
+    },
+
+    ready: function () {
+      this.container = this.$.container;
+      var routes = this.querySelectorAll('app-route')
+      this.routes = Array.prototype.slice.call(routes);
+      this.routes.forEach(function (route) {
+        var path = route.getAttribute('path');
+        var page_name = route.getAttribute('page');
+        page(path, this.open(page_name));
+      }, this);
+      page();
+    },
+
+    on_click_link: function (event) {
+      page.show(event.detail);
+    },
+
+    open: function (page_name) {
+      var router = this;
+      var container = this.container;
+
+      return function (context) {
+        router.previous_page_name = router.current_page_name;
+        router.previous_page = router.current_page;
+        router.current_page_name = page_name;
+        router.current_page = router.previous_page;
+
+        var current_page;
+        if (router.current_page_name !== router.previous_page_name) {
+          current_page = document.createElement(page_name);
+        } else {
+          current_page = router.previous_page;
+        }
+        router.current_page = current_page;
+
+        var params = context.params;
+        var property;
+        for (property in params) {
+          if (isNaN(property)) {
+            current_page.setAttribute(property, params[property]);
+          }
+        }
+        current_page.pathParams = params;
+        current_page.context = context;
+
+        if (router.current_page_name !== router.previous_page_name) {
+          while (container.firstChild) container.removeChild(container.firstChild);
+          container.appendChild(current_page);
+        }
+        scroll(0,0);
+      };
+    }
+
+  });
+</script>
