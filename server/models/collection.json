@@ -1,0 +1,10 @@
+{
+  "name": "Collection",
+  "plural": "Collections",
+  "base": "PersistedModel",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

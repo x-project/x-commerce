@@ -1,0 +1,41 @@
+{
+  "_meta": {
+    "sources": [
+      "../common/models",
+      "./models"
+    ]
+  },
+  "User": {
+    "dataSource": "mongo"
+  },
+  "AccessToken": {
+    "dataSource": "mongo",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+
+  "Collection": {
+    "dataSource": "mongo"
+  },
+  "Customer": {
+    "dataSource": "mongo"
+  },
+  "Order": {
+    "dataSource": "mongo"
+  },
+  "Product": {
+    "dataSource": "mongo"
+  }
+
+}

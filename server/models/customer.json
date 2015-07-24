@@ -1,0 +1,10 @@
+{
+  "name": "Customer",
+  "plural": "Customers",
+  "base": "User",
+  "properties": {},
+  "relations": {},
+  "acls": [],
+  "validations": [],
+  "methods": []
+}

@@ -1,0 +1,5 @@
+{
+  "restApiRoot": "/api",
+  "host": "localhost",
+  "legacyExplorer": false
+}
