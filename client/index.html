@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
-  <title>x-commerce</title>
-  <script src="/components/webcomponentsjs/webcomponents.js"></script>
-  <link rel="import" href="/components/polymer/polymer.html">
-  <link rel="import" href="/elements/app-theme/app-theme.html">
-  <link rel="import" href="/elements/app-router/app-router.html">
-  <link rel="import" href="/elements/app-route/app-route.html">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
+        <title>x-commerce</title>
+        <script src="/components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="import" href="/components/polymer/polymer.html">
+        <link rel="import" href="/elements/app-theme/app-theme.html">
+        <link rel="import" href="/elements/app-router/app-router.html">
+        <link rel="import" href="/elements/app-route/app-route.html">
+        <link rel="import" href="/elements/page-about/page-about.html">
+        <link rel="import" href="/elements/page-admin-home/page-admin-home.html">
+        <link rel="import" href="/elements/page-home/page-home.html">
+        <link rel="import" href="/elements/page-cart/page-cart.html">
+        <link rel="import" href="/elements/page-catalog/page-catalog.html">
+        <style>
+        body{
+            background-color: FloralWhite;
+        }
+        </style>
+    </head>
 
-  <link rel="import" href="/elements/page-about/page-about.html">
-  <link rel="import" href="/elements/page-admin-home/page-admin-home.html">
-  <link rel="import" href="/elements/page-home/page-home.html">
-</head>
-<body>
+    <body>
+        <app-router id="router">
+            <!--user side -->
+            <app-route path="/" page="page-home"></app-route>
+            <app-route path="/catalog" page="page-catalog"></app-route>
+            <app-route path="/about" page="page-about"></app-route>
+            <app-route path="/cart" page="page-cart"></app-route>
 
-  <app-router id="router">
-    <app-route path="/" page="page-home"></app-route>
-    <app-route path="/about" page="page-about"></app-route>
-    <app-route path="/admin" page="page-admin-home"></app-route>
-  </app-router>
-</body>
+            <!--admin side -->
+            <app-route path="/admin" page="page-admin-home"></app-route>
+        </app-router>
+    </body>
 </html>

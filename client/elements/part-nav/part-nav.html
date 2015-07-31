@@ -5,30 +5,61 @@
 		:host {
 			display: block;
 		}
+		nav.user-side>ul>li{
+		    margin: 0;
+		    list-style: none outside none;
+		    display: inline;
+		    font-size: 18px;
+		    margin: 0 5px;
+		}
+
+
+		nav.admin-side>ul>li{
+		    margin: 0;
+		    list-style: none outside none;
+		    display: inline;
+		    font-size: 18px;
+		    margin: 0 5px;
+		}
+		a{
+			text-decoration: none;
+			opacity: 1;
+		}
+		a:hover{
+			opacity: .5;
+		}
+		nav{
+			margin: 10px auto;
+			width: 60%;
+		    border-top: 1px solid #dddddd;
+		    border-bottom: 1px solid #ddd;
+		   	text-align :center;
+
+		}
+
 	</style>
 	<template>
-
-		<nav>
+		<nav class="user-side">
 			<ul>
-				<li><a is="app-link" href="/">home</a></li>
-				<li><a is="app-link" href="/about">about</a></li>
+				<li><a is="app-link" href="/">Home</a></li>
+				<li><a is="app-link" href="/catalog">Catalog</a></li>
+				<li><a is="app-link" href="/about">About Us</a></li>
+				<li><a is="app-link" href="/cart">Cart</a></li>
 			</ul>
 		</nav>
 
-		<nav>
+		<nav class="admin-side">
 			<ul>
-				<li><a is="app-link" href="/admin">admin</a></li>
+				<li><a is="app-link" href="/admin">Admin</a></li>
 			</ul>
 		</nav>
-
 	</template>
 </dom-module>
+
 <script>
 	Polymer({
-
 		is: 'part-nav',
 
 		properties: {}
-
 	});
 </script>
