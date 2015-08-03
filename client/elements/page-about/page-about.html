@@ -3,39 +3,27 @@
 <link rel="import" href="../part-nav/part-nav.html">
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="part-about.html">
 
 <dom-module id="page-about">
 	<style>
 		:host {
 			display: block;
 		}
-		div{
-			margin: 5px 100px;
+		div.aboutUs{
+			border-top: 2px solid #dddddd;
+			border-bottom: 2px solid #dddddd;
+		   	padding: 20px 0;
 		}
 	</style>
 	<template>
 		<part-header></part-header>
 		<part-nav></part-nav>
-		<div class="aboutContent">
-			<h1>About</h1>
-			A great About Us page helps builds trust between you and your customers. The more content you provide about you and your business, the more confident people will be when purchasing from your store.
-
-			Your About Us page might include:
-			<ul>
-				<li>Who you are</li>
-				<li>Why you sell the items you sell</li>
-				<li>Where you are located</li>
-				<li>How long you have been in business</li>
-				<li>How long you have been running your online shop</li>
-				<li>Who are the people on your team/li>
-				<li>Contact information</li>
-				<li>Social links (Twitter, Facebook)</li>
-			</ul>
-			To edit the content on this page, go to the Pages section of your Shopify admin.
+		<b>About Us</b>
+		<div class="aboutUs">
+			<part-about></part-about>
 		</div>
-		<div>
-			<part-footer></part-footer>
-		<div>
+		<part-footer></part-footer>
 	</template>
 </dom-module>
 <script>

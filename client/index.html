@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0">
         <title>x-commerce</title>
         <script src="/components/webcomponentsjs/webcomponents.js"></script>
+        <script src="/components/webcomponentsjs/webcomponents-lite.min.js"></script>
         <link rel="import" href="/components/polymer/polymer.html">
         <link rel="import" href="/elements/app-theme/app-theme.html">
         <link rel="import" href="/elements/app-router/app-router.html">
@@ -13,11 +13,18 @@
         <link rel="import" href="/elements/page-admin-home/page-admin-home.html">
         <link rel="import" href="/elements/page-home/page-home.html">
         <link rel="import" href="/elements/page-cart/page-cart.html">
-        <link rel="import" href="/elements/page-catalog/page-catalog.html">
+        <link rel="import" href="/elements/page-products/page-products.html">
+        <link rel="import" href="/elements/page-product/page-product.html">
+        <link rel="import" href="/elements/page-admin-orders/page-admin-orders.html">
+        <link rel="import" href="/elements/page-admin-order/page-admin-order.html">
+        <link rel="import" href="/elements/page-admin-order-new/page-admin-order-new.html">
+        <link rel="import" href="/elements/page-admin-products/page-admin-products.html">
+        <link rel="import" href="/elements/page-admin-product/page-admin-product.html">
+        <link rel="import" href="/elements/page-admin-product-new/page-admin-product-new.html">
         <style>
-        body{
-            background-color: FloralWhite;
-        }
+            body{
+                background-color: #FFF5EE;
+            }
         </style>
     </head>
 
@@ -25,11 +32,18 @@
         <app-router id="router">
             <!--user side -->
             <app-route path="/" page="page-home"></app-route>
-            <app-route path="/catalog" page="page-catalog"></app-route>
+            <app-route path="/products" page="page-products"></app-route>
             <app-route path="/about" page="page-about"></app-route>
             <app-route path="/cart" page="page-cart"></app-route>
+            <app-route path="/product" page="page-product"></app-route>
             <!--admin side -->
             <app-route path="/admin" page="page-admin-home"></app-route>
+            <app-route path="/admin/orders" page="page-admin-orders"></app-route>
+            <app-route path="/admin/orders/id" page="page-admin-order"></app-route>
+            <app-route path="/admin/orders/new" page="page-admin-order-new"></app-route>
+            <app-route path="/admin/products" page="page-admin-products"></app-route>
+            <app-route path="/admin/products/id" page="page-admin-product"></app-route>
+            <app-route path="/admin/products/new" page="page-admin-product-new"></app-route>
         </app-router>
     </body>
 </html>

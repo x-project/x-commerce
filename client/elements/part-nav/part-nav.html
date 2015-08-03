@@ -12,45 +12,32 @@
 		    font-size: 18px;
 		    margin: 0 5px;
 		}
-
-
-		nav.admin-side>ul>li{
-		    margin: 0;
-		    list-style: none outside none;
-		    display: inline;
-		    font-size: 18px;
-		    margin: 0 5px;
-		}
 		a{
 			text-decoration: none;
 			opacity: 1;
+			color: black;
 		}
 		a:hover{
-			opacity: .5;
+			opacity: .3;
 		}
 		nav{
 			margin: 10px auto;
-			width: 60%;
-		    border-top: 1px solid #dddddd;
-		    border-bottom: 1px solid #ddd;
+			width: 70%;
+		    border-top: 2px solid #dddddd;
+		    border-bottom: 2px solid #ddd;
 		   	text-align :center;
 		   	padding: 10px 0;
 		}
 
 	</style>
 	<template>
-		<nav class="user-side">
+		<nav class="user-side" role="navigation">
 			<ul>
 				<li><a is="app-link" href="/">Home</a></li>
-				<li><a is="app-link" href="/catalog">Catalog</a></li>
+				<li><a is="app-link" href="/products">Catalog</a></li>
 				<li><a is="app-link" href="/about">About Us</a></li>
 				<li><a is="app-link" href="/cart">Cart</a></li>
-			</ul>
-		</nav>
-
-		<nav class="admin-side">
-			<ul>
-				<li><a is="app-link" href="/admin">Admin</a></li>
+				<li><a is="app-link" href="/admin">Admin-View</a></li>
 			</ul>
 		</nav>
 	</template>
