@@ -21,11 +21,8 @@
         <link rel="import" href="/elements/page-admin-products/page-admin-products.html">
         <link rel="import" href="/elements/page-admin-product/page-admin-product.html">
         <link rel="import" href="/elements/page-admin-product-new/page-admin-product-new.html">
-        <style>
-            body{
-                background-color: #FFF5EE;
-            }
-        </style>
+        <link rel="import" href="/elements/page-test1/page-test1.html">
+        <link rel="import" href="/elements/page-test2/page-test2.html">
     </head>
 
     <body>
@@ -39,11 +36,16 @@
             <!--admin side -->
             <app-route path="/admin" page="page-admin-home"></app-route>
             <app-route path="/admin/orders" page="page-admin-orders"></app-route>
-            <app-route path="/admin/orders/id" page="page-admin-order"></app-route>
+            <app-route path="/admin/orders/:order_id" page="page-admin-order"></app-route>
             <app-route path="/admin/orders/new" page="page-admin-order-new"></app-route>
             <app-route path="/admin/products" page="page-admin-products"></app-route>
             <app-route path="/admin/products/id" page="page-admin-product"></app-route>
             <app-route path="/admin/products/new" page="page-admin-product-new"></app-route>
+
+            <!-- test -->
+            <app-route path="/test1" page="page-test1"></app-route>
+            <app-route path="/test2" page="page-test2"></app-route>
+
         </app-router>
     </body>
 </html>
