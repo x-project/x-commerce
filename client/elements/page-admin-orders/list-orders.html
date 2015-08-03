@@ -1,0 +1,28 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="list-item-order.html">
+
+<dom-module id="list-orders">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<ul>
+			<li><b>list-orders:</b></li>
+			<ul>
+				<li><list-item-order></list-item-order></li>
+				<li><list-item-order></list-item-order></li>
+				<li><list-item-order></list-item-order></li>
+			</ul>
+		</ul>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'list-orders',
+		properties: {}
+	});
+</script>

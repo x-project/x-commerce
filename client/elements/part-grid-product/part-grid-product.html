@@ -1,0 +1,53 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+
+<dom-module id="part-grid-product">
+	<style>
+		:host {
+			display: block;
+		}  
+        .paper-header{
+            background-color: blue;
+            height: 50px;
+        }
+        .itemPrice{
+            opacity: 0.3;
+        }
+        img{
+            height: 15%;
+            width: 15%;
+        }
+        img:hover{
+           opacity: 0.5;
+        }
+        .gridItem{
+            display: inline;
+        }
+        b:hover{
+            opacity: .5;
+        }
+	</style>
+	<template>
+    	<div class="gridItem">
+            <div class="imageItem">
+                <a href="/product">
+                    <img src="../../imges/torta.jpg"></img>
+                </a>
+            </div>
+            <div class="itemName">
+                <b>torta</b>
+            </div>
+            <div class="itemPrice">
+                <b>1.0</b>
+            </div>
+        </div>
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+		is: 'part-grid-product',
+
+		properties: {}
+	});
+</script>

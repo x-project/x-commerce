@@ -1,0 +1,26 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="part-header-home">
+	<style>
+		:host {
+			display: block;
+		}
+		div.adminhome{
+			background-color: white;
+		}
+	</style>
+	<template>
+		<div class="adminhome">
+			<paper-icon-button id="adminhome" icon="home"></paper-icon-button>
+			<b>Home</b>
+		<div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'part-header-home',
+		properties: {}
+	});
+</script>

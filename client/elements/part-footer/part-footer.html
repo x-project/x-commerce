@@ -1,0 +1,33 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<dom-module id="part-footer">
+	<style>
+		:host {
+			display: block;
+		}
+		footer{
+		   	float: left;
+		   	padding-top: 100px;
+		   			   	padding-bottom: 100px;
+
+		}
+	</style>
+	<template>
+		<footer>
+			<div class="news">
+				<b>Latest News</b></br>
+				<article>
+					This is your store’s blog. You can use it to talk about new product launches, experiences, tips or other news you want your customers to read about. You can check...
+				</article>
+			</div>
+		</footer>
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+		is: 'part-footer',
+
+		properties: {}
+	});
+</script>

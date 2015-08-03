@@ -1,0 +1,35 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../part-nav/part-nav.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="part-orders.html">
+<link rel="import" href="part-orders-details.html">
+<link rel="import" href="part-total-price.html">
+<link rel="import" href="../part-social/part-social.html">
+
+<dom-module id="page-cart">
+	<style>
+		:host {
+			display: block;
+		}
+
+	</style>
+	<template>
+		<part-header></part-header>
+		<part-nav></part-nav>
+		<b>cart</b>
+		<part-orders></part-orders>
+		<part-total-price></part-total-price>
+		<part-orders-details></part-orders-details>
+		<part-footer></part-footer>
+
+	</template>
+
+</dom-module>
+<script>
+	Polymer({
+		is: 'page-cart',
+		properties: {}
+	});
+</script>

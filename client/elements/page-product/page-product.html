@@ -1,0 +1,33 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../part-nav/part-nav.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="part-product.html">
+
+<dom-module id="page-product">
+	<style>
+		:host {
+			display: block;
+		}
+		div.product{
+		    border-top: 2px solid #dddddd;
+		   	padding: 20px 0;
+		}
+	</style>
+	<template>
+		<part-header></part-header>
+		<part-nav></part-nav>
+		<b>Product</b>
+		<div class="product">
+			<part-product></part-product>
+		</div>
+		<part-footer></part-footer>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'page-product',
+		properties: {}
+	});
+</script>

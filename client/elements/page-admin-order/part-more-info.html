@@ -1,0 +1,45 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-input/paper-input.html">
+<link rel="import" href="/components/paper-button/paper-button.html">
+
+<dom-module id="part-more-info">
+	<style>
+		:host {
+			display: block;
+		}
+		paper-input{
+			margin: 0px 50px;
+		}
+		paper-button {
+		    background: CornflowerBlue;
+		    color: white;
+		    margin-top: 20px;
+		}
+		.saveMoreInfo{
+			display: inline-block;
+			margin-right: 50px;
+			margin-top: 50px;
+		    float: right;
+		}
+	</style>
+	<template>
+		<b>more info</b>
+		<div>
+			<div class="inputNote">
+				<paper-input class="note" label="Add a note to this order…"></paper-input>
+			</div>
+			<div class="inputTags">
+				<paper-input class="tags" label="Reviewed, packed, delivered"></paper-input>
+			</div>
+		</div>
+		<paper-button class="saveMoreInfo">Save</paper-button>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'part-more-info',
+		properties: {}
+	});
+</script>

@@ -1,0 +1,47 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-button/paper-button.html">
+<dom-module id="part-orders-details">
+	<style>
+		:host {
+			display: block;
+		}
+		paper-button {
+		    background: #f45b4f;
+		    color: white;
+		    margin-top: 20px;
+		}
+		.button{
+			display: inline-block;
+			margin-right: 200px;
+		    float: right;
+		}
+		.textarea{
+			display: inline-block;
+		}
+		textarea.orderDetails{
+			margin-top: 20px;
+			margin-left: 20px;
+			height: 100px;
+			width: 20%;
+		}
+		.details{
+			border-top: 2px solid #dddddd;
+		}
+	</style>
+	<template>
+		<div class="details">
+	  		<textarea class="orderDetails"></textarea>
+		 	<div class="button">
+				<paper-button id="update">Update</paper-button>
+	  			<paper-button id="checkout">Check out</paper-button>
+			</div>
+	  	</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'part-orders-details',
+		properties: {}
+	});
+</script>
