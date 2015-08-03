@@ -1,20 +1,29 @@
 <link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../part-nav/part-nav.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="part-about.html">
+
 <dom-module id="page-about">
 	<style>
 		:host {
 			display: block;
 		}
+		div.aboutUs{
+			border-top: 2px solid #dddddd;
+			border-bottom: 2px solid #dddddd;
+		  padding: 20px 0;
+		}
 	</style>
 	<template>
-
-		<h1>About</h1>
-
+		<part-header></part-header>
 		<part-nav></part-nav>
-
-
-
+		<b>About Us</b>
+		<div class="aboutUs">
+			<part-about></part-about>
+		</div>
+		<part-footer></part-footer>
 	</template>
 </dom-module>
 <script>

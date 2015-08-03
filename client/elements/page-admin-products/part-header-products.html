@@ -1,0 +1,39 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-button/paper-button.html">
+
+<dom-module id="part-header-products">
+	<style>
+		:host {
+			display: block;
+		}
+		.button{
+			display: inline-block;
+			margin-right: 200px;
+		    float: right;
+		}
+		paper-button {
+		    background: CornflowerBlue;
+		    color: white;
+		    margin-top: 20px;
+		}
+		div{
+			background-color: white;
+			margin: 20px 0;
+		}
+	</style>
+	<template>
+		<div>
+			<div class="button">
+		  		<paper-button id="addProduct">Add product</paper-button>
+			</div>
+			<b>Products</b>
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'part-header-products',
+		properties: {}
+	});
+</script>

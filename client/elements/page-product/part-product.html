@@ -1,0 +1,67 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-button/paper-button.html">
+
+<dom-module id="part-product">
+	<style>
+		:host {
+			display: block;
+		}
+		.paper-header{
+            background-color: blue;
+            height: 50px;
+        }
+     
+        img{
+            height: 25%;
+            width: 25%;
+        }
+        img:hover{
+           opacity: 0.5;
+        }
+        .gridItem{
+            display: inline;
+        }
+        b:hover{
+            opacity: .5;
+        }
+        div{
+        	display: inline;
+        	margin-right: 100px;
+        	padding-top: 10px;
+        }
+        .addCart{
+            display: inline-block;
+            margin-right: 200px;
+            float: right;
+
+        }
+        paper-button {
+            background: #f45b4f;
+            color: white;
+            margin-top: 20px;
+        }  
+
+	</style>
+	<template>
+		<div class="gridItem">
+            <div class="imageProduct">
+                <a href="/product">
+                    <img src="../../imges/torta.jpg"></img>
+                </a>
+            </div>
+            <b>torta</b>
+            <b class="price">1.0</b>
+            <paper-button id="addCart">add to cart</paper-button>
+
+        </div>
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+		is: 'part-product',
+
+		properties: {}
+	});
+</script>

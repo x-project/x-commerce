@@ -1,0 +1,36 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-button/paper-button.html">
+<link rel="import" href="list-item-product.html">
+
+<dom-module id="list-products">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<ul>
+			<li><b>products list:</b>
+				<ul>
+					<li>
+						<a href="/admin/products/id">
+							<list-item-product></list-item-product>
+						</a>
+					</li>
+					<li>
+						<a href="/admin/products/id">
+							<list-item-product></list-item-product>
+						</a>
+					</li>				
+				</ul>
+			</li>
+		</ul>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'list-products',
+		properties: {}
+	});
+</script>

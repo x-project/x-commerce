@@ -14,7 +14,9 @@
     "page": "visionmedia/page.js",
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0",
     "paper-header-panel": "PolymerElements/paper-header-panel#^1.0",
-    "polymer": "Polymer/polymer#^1.0"
+    "polymer": "Polymer/polymer#^1.0",
+    "paper-button": "PolymerElements/paper-button#^1.0.0",
+    "social-media-icons": "~1.0.1"
   },
   "license": "MIT"
 }

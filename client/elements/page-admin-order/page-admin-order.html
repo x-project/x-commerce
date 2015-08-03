@@ -1,0 +1,75 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="part-header-order.html">
+<link rel="import" href="order-details.html">
+<link rel="import" href="customer-info.html">
+<link rel="import" href="part-more-info.html">
+<link rel="import" href="part-history.html">
+
+<dom-module id="page-admin-order">
+	<style>
+		:host {
+			display: block;
+		}
+		#orderDetails{
+			display: inline-block;
+			width: 50%;
+			height: 500px;
+			border: 2px solid #dddddd;
+			margin-right: 5px;
+			margin-bottom: 30px;
+		}
+		#customerInfo{
+			display: inline-block;
+			width: 20%;
+			height: 100px;
+			border: 2px solid #dddddd;
+			margin-bottom: 30px;
+
+		}
+		#moreInfoOrder{
+			border: 2px solid #dddddd;
+			width: 50%;
+			height: 250px;
+			margin-bottom: 30px;
+		}
+		#history{
+			border: 2px solid #dddddd;
+			width: 50%;
+			height: auto;
+		}
+		div.orderContainer{
+			margin: 50px 0;
+		}
+		div.orderContainer>div{
+			background-color: white;
+		}
+	</style>
+	<template>
+		<nav-admin></nav-admin>
+		<part-header-order></part-header-order>
+		<div class="orderContainer">
+			<div id="orderDetails">
+				<order-details></order-details>
+			</div>
+			<div id="customerInfo">
+				<customer-info></customer-info>
+			</div>
+			<div id="moreInfoOrder">
+				<part-more-info></part-more-info>
+			</div>
+			<div id="history">
+				<part-history></part-history>
+			</div>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'page-admin-order',
+		properties: {}
+
+	});
+</script>

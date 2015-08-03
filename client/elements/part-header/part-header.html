@@ -1,0 +1,48 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/components/iron-icons/iron-icons.html">
+<link rel="import" href="/components/paper-input/paper-input.html">
+
+<dom-module id="part-header">
+	<style>
+		:host {
+			display: block;
+		}
+		.commerceTitle{
+			margin: 100px 0;
+			text-align: center;
+			font-size: 35px;
+		}
+		#cart{
+			float: right;
+			margin-right: 150px;
+			display: inline-block;	
+		}
+		.search{
+			margin-left: 150px;	
+			display: inline-block;	
+			width: 120px;
+		}
+		a{
+			text-decoration: none;
+			color: black;
+		}
+	</style>
+	<template>
+		<paper-input class="search" label="search item"></paper-input>
+		<paper-icon-button id="cart" icon="shopping-cart" on-click="cartPage"></paper-icon-button>
+		<h1 class="commerceTitle">
+			<a href="/">x-commerce</a>
+		</h1>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'part-header',
+		properties: {},
+		cartPage: function(){
+			console.log("vai alla pagina del carrello");
+		}
+	});
+</script>

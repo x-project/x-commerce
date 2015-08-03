@@ -1,0 +1,27 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../part-grid-product/part-grid-product.html">
+
+<dom-module id="part-lastest-items">
+	<style>
+		:host {
+			display: block;
+		}
+		div.gridItems{
+		    border-top: 2px solid #dddddd;
+		   	padding: 20px 0;
+		}
+	</style>
+	<template>
+		<b>grid-lastest item</b>
+		<div class="gridItems">
+			<part-grid-product></part-grid-product>
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'part-lastest-items',
+		properties: {}
+	});
+</script>

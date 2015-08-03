@@ -1,0 +1,51 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="part-header-order-new.html">
+<link rel="import" href="details-order-new.html">
+<link rel="import" href="customer-info-order-new.html">
+
+<dom-module id="page-admin-order-new">
+	<style>
+		:host {
+			display: block;
+		}
+		#detailsOrderNew{
+			display: inline-block;
+			width: 50%;
+			height: 500px;
+			border: 2px solid #dddddd;
+			margin-right: 5px;
+			margin-bottom: 30px;
+		}
+		#customerInfoOrderNew{
+			display: inline-block;
+			width: 20%;
+			height: auto;
+			border: 2px solid #dddddd;
+			padding-bottom: 30px;
+			margin-bottom: 30px;
+
+		}
+		div{
+			background-color: white;
+		}
+	</style>
+	<template>
+		<nav-admin></nav-admin>
+		<part-header-order-new></part-header-order-new>
+		<div id="detailsOrderNew">
+			<details-order-new></details-order-new>
+		</div>
+		<div id="customerInfoOrderNew">
+			<customer-info-order-new></customer-info-order-new>
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+		is: 'page-admin-order-new',
+		properties: {}
+
+	});
+</script>
