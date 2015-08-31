@@ -1,0 +1,29 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="part-item-history.html">
+
+<dom-module id="part-history">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<h2>part-history:</h2>
+		<ul>
+			<ul>
+				<li><part-item-history></part-item-history></li>
+				<li><part-item-history></part-item-history></li>
+			</ul>
+		</ul>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-history',
+
+		properties: {}
+	
+	});
+</script>

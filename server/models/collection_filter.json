@@ -1,0 +1,22 @@
+{
+	"name": "CollectionFilter",
+	"plural": "CollectionFilters",
+	"base": "PersistedModel",
+	"properties": {
+		"name": {
+			"type": "String"
+		},
+		"type": {
+			"type": "String"
+		},
+		"relation": {
+			"type": "String"
+		},
+		"value": {
+			"type": "String"
+		}
+	},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

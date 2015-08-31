@@ -1,9 +1,10 @@
 <link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../part-nav/part-nav.html">
-<link rel="import" href="./part-products.html">
-<link rel="import" href="./part-product.html">
-
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="part-lastest-items.html">
+<link rel="import" href="part-xcommerce-personal-home.html">
 
 <dom-module id="page-home">
 	<style>
@@ -12,15 +13,15 @@
 		}
 	</style>
 	<template>
-
-		<h1>Home</h1>
-		<part-products></part-products>
-		<part-product></part-product>
+		<part-header></part-header>
 		<part-nav></part-nav>
-
-
+		<h1>page-home</h1>
+		<part-lastest-items></part-lastest-items>
+		<part-xcommerce-personal-home></part-xcommerce-personal-home>
+		<part-footer></part-footer>
 	</template>
 </dom-module>
+
 <script>
 	Polymer({
 

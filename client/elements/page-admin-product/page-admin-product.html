@@ -1,0 +1,42 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="part-header-product.html">
+<link rel="import" href="part-info-product.html">
+<link rel="import" href="part-visibility-product.html">
+<link rel="import" href="part-image-product.html">
+<link rel="import" href="part-organization-product.html">
+<link rel="import" href="part-pricing-product.html">
+<link rel="import" href="part-details-product.html">
+<link rel="import" href="part-save-delete-product.html">
+
+
+
+<dom-module id="page-admin-product">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<nav-admin></nav-admin>
+		<h1>page-admin-product</h1>
+		<part-header-product></part-header-product>
+		<part-info-product></part-info-product>
+		<part-visibility-product></part-visibility-product>
+		<part-image-product></part-image-product>
+		<part-organization-product></part-organization-product>
+		<part-pricing-product></part-pricing-product>
+		<part-details-product></part-details-product>
+		<part-save-delete-product></part-save-delete-product>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'page-admin-product',
+
+		properties: {}
+
+	});
+</script>

@@ -1,5 +1,6 @@
 {
   "restApiRoot": "/api",
   "host": "localhost",
-  "legacyExplorer": false
+  "legacyExplorer": false,
+  "port": 4000
 }

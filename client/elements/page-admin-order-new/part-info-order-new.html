@@ -1,0 +1,28 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="part-email-invoice-order-new.html">
+<link rel="import" href="part-payment-order-new.html">
+<link rel="import" href="part-details-order-new.html">
+
+<dom-module id="part-info-order-new">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<h2>part-info-order-new: list-items / form-find-item / form notes:</h2>
+		<part-details-order-new></part-details-order-new>
+		<part-email-invoice-order-new></part-email-invoice-order-new>
+		<part-payment-order-new></part-payment-order-new>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-info-order-new',
+
+		properties: {}
+	
+	});
+</script>

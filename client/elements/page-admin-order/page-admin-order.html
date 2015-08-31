@@ -1,0 +1,34 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="part-header-order.html">
+<link rel="import" href="part-info-order.html">
+<link rel="import" href="part-customer-info-order.html">
+<link rel="import" href="part-details-order.html">
+<link rel="import" href="part-history.html">
+
+<dom-module id="page-admin-order">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<nav-admin></nav-admin>
+		<h1>page-admin-order</h1>
+		<part-header-order></part-header-order>
+		<part-info-order></part-info-order>
+		<part-customer-info-order></part-customer-info-order>
+		<part-details-order></part-details-order>
+		<part-history></part-history>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'page-admin-order',
+
+		properties: {}
+
+	});
+</script>

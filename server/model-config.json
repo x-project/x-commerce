@@ -1,41 +1,60 @@
 {
-  "_meta": {
-    "sources": [
-      "../common/models",
-      "./models"
-    ]
-  },
-  "User": {
-    "dataSource": "mongo"
-  },
-  "AccessToken": {
-    "dataSource": "mongo",
-    "public": false
-  },
-  "ACL": {
-    "dataSource": "db",
-    "public": false
-  },
-  "RoleMapping": {
-    "dataSource": "db",
-    "public": false
-  },
-  "Role": {
-    "dataSource": "db",
-    "public": false
-  },
-
-  "Collection": {
-    "dataSource": "mongo"
-  },
-  "Customer": {
-    "dataSource": "mongo"
-  },
-  "Order": {
-    "dataSource": "mongo"
-  },
-  "Product": {
-    "dataSource": "mongo"
-  }
-
+    "_meta": {
+        "sources": [
+            "../common/models",
+            "./models"
+        ]
+    },
+    "AccessToken": {
+        "dataSource": "mongo",
+        "public": false
+    },
+    "ACL": {
+        "dataSource": "db",
+        "public": false
+    },
+    "RoleMapping": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Role": {
+        "dataSource": "db",
+        "public": false
+    },
+    "Collection": {
+        "dataSource": "mongo"
+    },
+     "CollectionFilter": {
+        "dataSource": "mongo"
+    },
+    "Customer": {
+        "dataSource": "mongo"
+    },
+    "Image": {
+        "dataSource": "mongo"
+    },
+    "Order": {
+        "dataSource": "mongo"
+    },
+    "OrderItem": {
+        "dataSource": "mongo"
+    },
+    "Product": {
+        "dataSource": "mongo"
+    },
+    "ProductType": {
+        "dataSource": "mongo"
+    },
+    "ProductVariant": {
+        "dataSource": "mongo"
+    },
+    "ProductVariantOption": {
+        "dataSource": "mongo"
+    },
+    "Tax": {
+        "dataSource": "mongo"
+    },
+    "Vendor": {
+        "dataSource": "mongo"
+    }
 }

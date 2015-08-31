@@ -1,10 +1,49 @@
 {
-  "name": "Order",
-  "plural": "Orders",
-  "base": "PersistedModel",
-  "properties": {},
-  "validations": [],
-  "relations": {},
-  "acls": [],
-  "methods": []
+	"name": "Order",
+	"plural": "Orders",
+	"base": "PersistedModel",
+	"properties": {
+		"notes": {
+			"type": "String"
+		},
+		"subtotal": {
+			"type": "Number"
+		},
+		"discount": {
+			"type": "Number"
+		},
+		"shipping_cost": {
+			"type": "Number"
+		},
+		"taxes": {
+			"type": "Number"
+		},
+		"payment_status": {
+			"type": "String",
+			"enum": ["paid", "pending"]
+		},
+		"created_at": {
+			"type": "Date"
+		},
+		"feedback": {
+			"type": "Number"
+		}
+	},
+	"validations": [],
+	"relations": {
+		"order_items": {
+			"type": "hasMany",
+			"model": "OrderItem"
+		},
+		"customer": {
+			"type": "belongsTo",
+			"model": "Customer"
+		},
+		"taxes": {
+			"type": "hasMany",
+			"model": "Tax"
+		}
+	},
+	"acls": [],
+	"methods": []
 }

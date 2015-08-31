@@ -1,10 +1,85 @@
 {
-  "name": "Product",
-  "plural": "Products",
-  "base": "PersistedModel",
-  "properties": {},
-  "relations": {},
-  "acls": [],
-  "methods": [],
-  "validations": []
+	"name": "Product",
+	"plural": "Products",
+	"base": "PersistedModel",
+	"properties": {
+		"title": {
+			"type": "String",
+			"required": true
+		},
+		"description": {
+			"type": "String"
+		},
+		"price":  {
+			"type": "Number"
+		},
+		"compare_at_price": {
+			"type": "Number"
+		},
+		"is_charge_taxes": {
+			"type": "Boolean"
+		},
+		"sku": {
+			"type": "String"
+		},
+		"barcode": {
+			"type": "String"
+		},
+		"track_quantity": {
+			"type": "String"
+		},
+		"quantity": {
+			"type": "Number"
+		},
+		"sell_after_purchase": {
+			"type": "Boolean"
+		},
+		"unit_measure_weight": {
+			"type": "String"
+		},
+		"weight": {
+			"type": "Number"
+		},
+		"require_shipping": {
+			"type": "Booelan"
+		},
+		"is_published": {
+			"type": "Boolean"
+		},
+		"published_at": {
+			"type": "Date"
+		},
+		"tags": {
+			"type": ["String"]
+		}
+	},
+	"relations": {
+		"images": {
+			"type": "hasMany",
+			"model": "Image"
+		},
+		"collections": {
+			"type": "hasMany",
+			"model": "Collection"
+		},
+		"product_type": {
+			"type": "belongsTo",
+			"model": "ProductType"
+		},
+		"product_options": {
+			"type": "hasMany",
+			"model": "ProductVariantOption"
+		},
+		"product_variants": {
+			"type": "hasMany",
+			"model": "ProductVariant"
+		},
+		"vendor": {
+			"type": "belongsTo",
+			"model": "Vendor"
+		}
+	},
+	"acls": [],
+	"methods": [],
+	"validations": []
 }

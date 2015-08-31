@@ -1,10 +1,51 @@
 {
-  "name": "Customer",
-  "plural": "Customers",
-  "base": "User",
-  "properties": {},
-  "relations": {},
-  "acls": [],
-  "validations": [],
-  "methods": []
+ 	"name": "Customer",
+  	"plural": "Customers",
+  	"base": "PersistedModel",
+  	"properties": {
+		"first_name": {
+			"type": "String"
+		},
+		"last_name": {
+			"type": "String"
+		},
+		"email": {
+			"type": "String",
+			"length": 64,
+			"required": true
+		},
+		"marketing": {
+			"type": "Boolean"
+		},
+		"taxes_exempt": {
+			"type": "Boolean"
+		},
+		"address": {
+			"name": {
+				"type": "String"
+			},
+			"surname":  {
+				"type": "String"
+			},
+			"company":  {
+				"type": "String"
+			},
+			"phone":  {
+				"type": "String"
+			},
+			"location": {
+				"type": "String"
+			}
+		},
+		"notes": {
+			"type": "String"
+		},
+		"tags": {
+			"type": ["String"]
+		}
+  	},
+  	"relations": {},
+  	"acls": [],
+  	"validations": [],
+  	"methods": []
 }

@@ -1,6 +1,9 @@
 <link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../part-nav/part-nav.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="part-about.html">
 <dom-module id="page-about">
 	<style>
 		:host {
@@ -8,11 +11,11 @@
 		}
 	</style>
 	<template>
-
-		<h1>About</h1>
-
+		<part-header></part-header>
 		<part-nav></part-nav>
-
+		<h1>About Us</h1>
+		<part-about></part-about>
+		<part-footer></part-footer>
 	</template>
 </dom-module>
 <script>

@@ -1,0 +1,32 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/components/iron-icons/iron-icons.html">
+<link rel="import" href="/components/paper-input/paper-input.html">
+
+<dom-module id="part-header">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<paper-icon-button icon="shopping-cart" on-click="on_click_cart"></paper-icon-button>
+		<h1>
+			<a href="/">x-commerce</a>
+		</h1>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-header',
+
+		properties: {},
+
+		on_click_cart: function () {
+			page('/cart');
+		}
+
+	});
+</script>

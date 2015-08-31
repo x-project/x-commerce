@@ -1,0 +1,14 @@
+{
+	"name": "Image",
+	"plural": "Images",
+	"base": "PersistedModel",
+	"properties": {
+		"path": {
+			"type": "String"
+		}
+	},
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}
