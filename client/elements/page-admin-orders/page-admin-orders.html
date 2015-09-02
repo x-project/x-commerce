@@ -1,8 +1,8 @@
 <link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../nav-admin/nav-admin.html">
-<link rel="import" href="part-header-orders.html">
-<link rel="import" href="part-list-orders.html">
+<link rel="import" href="part-orders-header.html">
+<link rel="import" href="part-orders-list.html">
 
 <dom-module id="page-admin-orders">
 	<style>
@@ -13,15 +13,15 @@
 	<template>
 		<nav-admin></nav-admin>
 		<h1>page-admin-orders</h1>
-		<part-header-orders></part-header-orders>
-		<part-list-orders></part-list-orders>
+		<part-orders-header></part-orders-header>
+		<part-orders-list></part-orders-list>
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
 		is: 'page-admin-orders',
-		
+
 		properties: {}
 
 	});

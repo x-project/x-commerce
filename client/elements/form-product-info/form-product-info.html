@@ -1,0 +1,29 @@
+<link rel="import" href="/components/polymer/polymer.html">
+
+<dom-module id="form-product-info">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">Title</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
+			</div>
+			<div class="field">
+				<label class="label">Description</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.description}}">
+			</div>					
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-info',
+
+		properties: {}
+	});
+</script>

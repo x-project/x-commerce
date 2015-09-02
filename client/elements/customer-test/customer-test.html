@@ -1,0 +1,53 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../form-customer-overview/form-customer-overview.html">
+<link rel="import" href="../form-customer-address/form-customer-address.html">
+<link rel="import" href="../form-customer-note/form-customer-note.html">
+<link rel="import" href="../form-customer-tags/form-customer-tags.html">
+
+<dom-module id="customer-test">
+	<style>
+		:host {
+			display: block;
+		}
+		.container{
+			text-align: center;
+			border: 2px solid red;
+		}
+		div.container>div{
+			margin: 100px auto;
+			border: 1px solid;
+			width: 500px;
+			padding: 50px 50px;
+		}
+	</style>
+	<template>
+		<div class="container">
+			<h1>customer page</h1>
+			<div>
+				<h2>form-customer-overview</h2>
+				<form-customer-overview></form-customer-overview>	
+			</div>
+			<div>
+				<h2>form-customer-address</h2>
+				<form-customer-address></form-customer-address>	
+			</div>
+			<div>
+				<h2>form-customer-note</h2>
+				<form-customer-note></form-customer-note>	
+			</div>
+			<div>
+				<h2>form-customer-tags</h2>
+				<form-customer-tags></form-customer-tags>	
+			</div>
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'customer-test',
+
+		properties: {}
+
+	});
+</script>

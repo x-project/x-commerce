@@ -1,0 +1,29 @@
+<link rel="import" href="/components/polymer/polymer.html">
+
+<dom-module id="form-product-visibility">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">Online Store</label>
+				<input class="input" type="checkbox" bind-value="{{data.is_published}}">
+			</div>
+			<div class="field">
+				<label class="label">Publish this product on</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.date_time}}">
+			</div>
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-visibility',
+
+		properties: {}
+	});
+</script>

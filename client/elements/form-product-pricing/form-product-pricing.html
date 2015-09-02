@@ -1,0 +1,33 @@
+<link rel="import" href="/components/polymer/polymer.html">
+
+<dom-module id="form-product-pricing">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">Price</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
+			</div>
+			<div class="field">
+				<label class="label">Compare at price</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.compare_at_price}}">
+			</div>
+			<div class="field">
+				<label class="label">Charge taxes on this product</label>
+				<input class="input" type="checkbox" bind-value="{{data.is_charge_taxes}}">
+			</div>				
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-pricing',
+
+		properties: {}
+	});
+</script>

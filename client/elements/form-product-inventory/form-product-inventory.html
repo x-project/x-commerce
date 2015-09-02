@@ -1,0 +1,37 @@
+<link rel="import" href="/components/polymer/polymer.html">
+
+<dom-module id="form-product-inventory">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">SKU</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.sku}}">
+			</div>
+			<div class="field">
+				<label class="label">Barcode</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.barcode}}">
+			</div>
+			<div class="field">
+				<label class="label">Track quantity</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.track_quantity}}">
+			</div>
+			<div class="field">
+				<label class="label">Quantiy</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.quantity}}">
+			</div>			
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-inventory',
+
+		properties: {}
+	});
+</script>

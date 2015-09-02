@@ -1,0 +1,38 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="part-collection-new-header.html">
+<link rel="import" href="part-collection-new-info.html">
+<link rel="import" href="part-collection-new-condition.html">
+<link rel="import" href="part-collection-new-visibility.html">
+<link rel="import" href="part-collection-new-image.html">
+<link rel="import" href="part-collection-new-list-product.html">
+<link rel="import" href="part-collection-new-save-delete.html">
+
+<dom-module id="page-admin-collection-new">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <nav-admin></nav-admin>
+    <h1>page-admin-collection</h1>
+    <part-collection-new-header></part-collection-new-header>
+    <part-collection-new-info></part-collection-new-info>
+    <part-collection-new-condition></part-collection-new-condition>
+    <part-collection-new-visibility></part-collection-new-visibility>
+    <part-collection-new-image></part-collection-new-image>
+    <part-collection-new-list-product></part-collection-new-list-product>
+    <part-collection-new-save-delete></part-collection-new-save-delete>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-admin-collection-new',
+
+    properties: {}
+
+  });
+</script>

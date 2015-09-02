@@ -7,22 +7,31 @@
         <script src="/components/webcomponentsjs/webcomponents.js"></script>
         <link rel="import" href="/components/polymer/polymer.html">
         <link rel="import" href="/elements/app-theme/app-theme.html">
+
         <link rel="import" href="/elements/app-router/app-router.html">
         <link rel="import" href="/elements/app-route/app-route.html">
-        <link rel="import" href="/elements/page-about/page-about.html">
-        <link rel="import" href="/elements/page-admin-home/page-admin-home.html">
+
         <link rel="import" href="/elements/page-home/page-home.html">
-        <link rel="import" href="/elements/page-cart/page-cart.html">
         <link rel="import" href="/elements/page-products/page-products.html">
         <link rel="import" href="/elements/page-product/page-product.html">
+        <link rel="import" href="/elements/page-about/page-about.html">
+        <link rel="import" href="/elements/page-cart/page-cart.html">
+        <link rel="import" href="/elements/page-admin-home/page-admin-home.html">
         <link rel="import" href="/elements/page-admin-orders/page-admin-orders.html">
         <link rel="import" href="/elements/page-admin-order/page-admin-order.html">
-        <link rel="import" href="/elements/page-admin-order-new/page-admin-order-new.html">
-        <link rel="import" href="/elements/page-admin-products/page-admin-products.html">
         <link rel="import" href="/elements/page-admin-product/page-admin-product.html">
+        <link rel="import" href="/elements/page-admin-products/page-admin-products.html">
+
+        <link rel="import" href="/elements/page-admin-collection/page-admin-collection.html">
+        <link rel="import" href="/elements/page-admin-collections/page-admin-collections.html">
+
+        <link rel="import" href="/elements/customer-test/customer-test.html">
+        <link rel="import" href="/elements/order-test/order-test.html">
+<!--
+        <link rel="import" href="/elements/page-admin-order-new/page-admin-order-new.html">
         <link rel="import" href="/elements/page-admin-product-new/page-admin-product-new.html">
-        <link rel="import" href="/elements/page-test1/page-test1.html">
-        <link rel="import" href="/elements/page-test2/page-test2.html">
+        <link rel="import" href="/elements/page-admin-collection-new/page-admin-collection-new.html">
+ -->
     </head>
 
     <body>
@@ -30,21 +39,26 @@
             <!--user side -->
             <app-route path="/" page="page-home"></app-route>
             <app-route path="/products" page="page-products"></app-route>
+            <app-route path="/product" page="page-product"></app-route>
             <app-route path="/about" page="page-about"></app-route>
             <app-route path="/cart" page="page-cart"></app-route>
-            <app-route path="/product" page="page-product"></app-route>
             <!--admin side -->
             <app-route path="/admin" page="page-admin-home"></app-route>
             <app-route path="/admin/orders" page="page-admin-orders"></app-route>
-            <app-route path="/admin/order/:id" page="page-admin-order"></app-route>
-            <app-route path="/admin/orders/new" page="page-admin-order-new"></app-route>
+            <app-route path="/admin/orders/:id" page="page-admin-order"></app-route>
             <app-route path="/admin/products" page="page-admin-products"></app-route>
             <app-route path="/admin/product/:id" page="page-admin-product"></app-route>
-            <app-route path="/admin/products/new" page="page-admin-product-new"></app-route>
 
+            <app-route path="/admin/collection/:id" page="page-admin-collection"></app-route>
+            <app-route path="/admin/collections" page="page-admin-collections"></app-route>
+
+           <!--  <app-route path="/admin/collection/new" page="page-admin-collection-new"></app-route>
+            <app-route path="/admin/orders/new" page="page-admin-order-new"></app-route>
+            <app-route path="/admin/collections/new" page="page-admin-collection-new"></app-route>
+ -->
             <!-- test -->
-            <app-route path="/test1" page="page-test1"></app-route>
-            <app-route path="/test2" page="page-test2"></app-route>
+            <app-route path="/orderTest" page="order-test"></app-route>
+            <app-route path="/customerTest" page="customer-test"></app-route>
 
         </app-router>
     </body>

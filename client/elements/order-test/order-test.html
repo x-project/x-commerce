@@ -1,0 +1,44 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../form-order-detail/form-order-detail.html">
+<link rel="import" href="../form-order-customer/form-order-customer.html">
+
+<dom-module id="order-test">
+	<style>
+		:host {
+			display: block;
+		}
+		.container{
+			text-align: center;
+			border: 2px solid red;
+		}
+		div.container>div{
+			margin: 100px auto;
+			border: 1px solid;
+			width: 500px;
+			padding: 50px 50px;
+		}
+	</style>
+	<template>
+	<div class="container">
+		<h1>Order page</h1>
+		<div>
+			<h2>form-order-detail</h2>
+			<form-order-detail></form-order-detail>	
+		</div>
+		<div>
+			<h2>form-order-customer</h2>
+			<form-order-customer></form-order-customer>	
+		</div>
+	</div>
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+
+		is: 'order-test',
+
+		properties: {}
+
+	});
+</script>

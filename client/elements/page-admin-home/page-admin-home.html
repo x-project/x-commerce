@@ -1,26 +1,26 @@
 <link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../nav-admin/nav-admin.html">
-<link rel="import" href="part-header-home.html">
+<link rel="import" href="part-admin-header.html">
 
 <dom-module id="page-admin-home">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
-		<nav-admin></nav-admin>
-		<h1>page-admin-home</h1>
-		<part-header-home></part-header-home>
-	</template>
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <nav-admin></nav-admin>
+    <h1>page-admin-home</h1>
+    <part-admin-header></part-admin-header>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-admin-home',
+    is: 'page-admin-home',
 
-		properties: {}
+    properties: {}
 
-	});
+  });
 </script>

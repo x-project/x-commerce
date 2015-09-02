@@ -1,0 +1,41 @@
+<link rel="import" href="/components/polymer/polymer.html">
+
+<dom-module id="form-product-variant">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">Selected</label>
+				<input class="input" type="checkbox" is="iron-input" bind-value="{{data.selected}}">
+			</div>
+			<div class="field">
+				<label class="label">Name</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.name}}">
+			</div>
+			<div class="field">
+				<label class="label">Price</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
+			</div>
+			<div class="field">
+				<label class="label">SKU</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.sku}}">
+			</div>
+			<div class="field">
+				<label class="label">Barcode</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.barcode}}">
+			</div>
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-variant',
+
+		properties: {}
+	});
+</script>
