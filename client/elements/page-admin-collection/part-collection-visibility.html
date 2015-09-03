@@ -1,24 +1,23 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../form-collection-visibility/form-collection-visibility.html">
-
 <dom-module id="part-collection-visibility">
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
   <template>
-    <h2>part-collection-visibility</h2>
-    <form-collection-visibility></form-collection-visibility>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>
+      <h3>visibility</h3>
+      <form-collection-visibility></form-collection-visibility>
+    </div>
+
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-collection-visibility',
-
-    properties: {}
+    is: 'part-collection-visibility'
 
   });
 </script>

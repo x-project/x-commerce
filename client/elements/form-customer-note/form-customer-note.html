@@ -1,25 +1,24 @@
-<link rel="import" href="/components/polymer/polymer.html">
-
 <dom-module id="form-customer-note">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">Note</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.note}}" placeholder="Add a note to this customer">
-			</div>						
+			</div>
 		</form>
+
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'form-customer-note',
+		is: 'form-customer-note'
 
-		properties: {}
 	});
 </script>

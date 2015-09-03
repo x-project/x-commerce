@@ -1,0 +1,14 @@
+{
+  "name": "Resource",
+  "plural": "Resources",
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

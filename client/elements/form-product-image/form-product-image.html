@@ -1,25 +1,24 @@
-<link rel="import" href="/components/polymer/polymer.html">
-
 <dom-module id="form-product-image">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">image</label>
 				<input class="input" type="file" bind-value="{{data.images}}">
-			</div>					
+			</div>
 		</form>
+
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'form-product-image',
+		is: 'form-product-image'
 
-		properties: {}
 	});
 </script>

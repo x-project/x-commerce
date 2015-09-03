@@ -1,28 +1,31 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-collections-header.html">
 <link rel="import" href="part-collections-list.html">
-
 <dom-module id="page-admin-collections">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
-		<nav-admin></nav-admin>
-		<h1>page-admin-collections</h1>
-		<part-collections-header></part-collections-header>
-		<part-collections-list></part-collections-list>
-	</template>
+  <template>
+    <style include="style-page"></style>
+
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>Collections</h1>
+        </part-jumbotron>
+        <h1>page-admin-collections</h1>
+        <part-collections-header></part-collections-header>
+        <part-collections-list></part-collections-list>
+      </div>
+      <part-footer class="footer"></part-footer>
+    </div>
+
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-admin-collections',
+    is: 'page-admin-collections',
 
-		properties: {}
+    properties: {}
 
-	});
+  });
 </script>

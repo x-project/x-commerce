@@ -1,13 +1,11 @@
-<link rel="import" href="/components/polymer/polymer.html">
-
 <dom-module id="form-customer-overview">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-
 	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">First Name</label>
@@ -28,7 +26,7 @@
 			<div class="field">
 				<label class="label">Customer is tax excempt</label>
 				<input class="input" type="checkbox" bind-value="{{data.taxes_exempt}}">
-			</div>										
+			</div>
 		</form>
 	</template>
 
@@ -36,8 +34,7 @@
 <script>
 	Polymer({
 
-		is: 'form-customer-overview',
+		is: 'form-customer-overview'
 
-		properties: {}
 	});
 </script>

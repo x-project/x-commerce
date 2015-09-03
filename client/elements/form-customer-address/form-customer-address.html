@@ -1,12 +1,11 @@
-<link rel="import" href="/components/polymer/polymer.html">
-
 <dom-module id="form-customer-address">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">Name</label>
@@ -17,29 +16,29 @@
 				<input class="input" type="text" is="iron-input" bind-value="{{data.surname}}">
 			</div>
 			<div class="field">
-				<label class="label">Address - Address Con't</label>
+				<label class="label">Company</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.company}}">
+			</div>
+			<div class="field">
+				<label class="label">Location</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.county}}">
+			</div>
+			<div class="field">
+				<label class="label">Address</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.address}}">
 			</div>
 			<div class="field">
 				<label class="label">Phone</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.phone}}">
 			</div>
-			<div class="field">
-				<label class="label">Company</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.company}}">
-			</div>
-			<div class="field">
-				<label class="label">Country - City - Province - Zip Code</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.county}}">
-			</div>						
 		</form>
+
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'form-customer-address',
+		is: 'form-customer-address'
 
-		properties: {}
 	});
 </script>

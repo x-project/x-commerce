@@ -1,0 +1,57 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/api-user-reset/api-user-reset.html">
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="../form-reset/form-reset.html">
+<dom-module id="page-reset">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #panel {
+      margin-top: 50px;
+    }
+    #panel a {
+      text-decoration: none;
+    }
+  </style>
+  <template>
+
+    <api-user-reset id="reset" email="{{email}}"
+      response="{{response}}" on-response="{{on_response}}">
+    </api-user-reset>
+
+    <div id="panel" class="container">
+      <a is="app-link" href="/">&larr;</a>
+      <h3>Reset password</h3>
+      <form-reset on-submit="on_submit"></form-reset>
+      <div>
+        <a is="app-link" href="/signup">not registered?</a>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-reset',
+
+    properties: {
+      email: {
+        type: String
+      }
+    },
+
+    on_submit: function (event) {
+      this.email = event.detail;
+      console.log(event.detail, this.email);
+      this.$.reset.send();
+    },
+
+    on_response: function (event) {
+      page('/login');
+    }
+
+  });
+</script>

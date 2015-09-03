@@ -1,12 +1,11 @@
-<link rel="import" href="/components/polymer/polymer.html">
-
 <dom-module id="form-order-detail">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<input class="input" type="text" is="iron-input" bind-value="{{data.item}}" placeholder="find or create item">
@@ -16,13 +15,13 @@
 				<input class="input" type="text" is="iron-input" bind-value="{{data.notes}}">
 			</div>
 		</form>
+
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'form-order-detail',
+		is: 'form-order-detail'
 
-		properties: {}
 	});
 </script>

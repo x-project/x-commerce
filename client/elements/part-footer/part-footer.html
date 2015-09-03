@@ -1,22 +1,68 @@
 <link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/components/select-lang/select-lang.html">
 <dom-module id="part-footer">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
-		<h2>part-footer:</h2>
-		<a is="app-link" href="/admin">Admin-View</a>
+  <style>
+    :host {
+      display: block;
+    }
 
-	</template>
+    .footer {
+      margin-top: 40px;
+      background: white;
+    }
+    .footer .container {
+      @apply(--layout);
+      @apply(--layout-justified);
+      @apply(--layout-center);
+    }
+    .footer .links {
+      @apply(--layout-horizontal);
+      @apply(--layout-wrap);
+      -webkit-padding-start: 0px;
+      list-style: none;
+      margin: 0;
+    }
+    .footer a {
+      text-decoration: none;
+      display: block;
+    }
+    .footer .links a {
+      padding: 1em 1em 1em 0;
+      color: #3d3d3d;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .lang {
+      color: #3d3d3d;
+      letter-spacing: 1px;
+      font-size: 14px;
+    }
+  </style>
+  <template>
+
+    <footer class="footer">
+      <div class="container">
+        <nav class="nav">
+          <ul class="links">
+            <li><a is="app-link" href="/about">about</a></li>
+            <li><a is="app-link" href="/contact">contact</a></li>
+            <li><a is="app-link" href="/privacy">privacy</a></li>
+          </ul>
+        </nav>
+        <div class="lang">
+          <select-lang></select-lang>
+        </div>
+      </div>
+    </footer>
+
+  </template>
 </dom-module>
-
 <script>
-	Polymer({
-		is: 'part-footer',
+  Polymer({
 
-		properties: {}
-	});
+    is: 'part-footer'
+
+  });
 </script>

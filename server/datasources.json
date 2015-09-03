@@ -2,10 +2,5 @@
   "db": {
     "name": "db",
     "connector": "memory"
-  },
-  "mongo": {
-    "name": "mongo",
-    "database": "x-commerce",
-    "connector": "mongodb"
   }
 }

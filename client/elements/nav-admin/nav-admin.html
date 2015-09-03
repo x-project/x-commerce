@@ -1,53 +1,22 @@
-<link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="../app-link/app-link.html">
 <dom-module id="nav-admin">
-	<style>
-		:host {
-			display: block;
-		}
-		nav.user-side>ul>li{
-		    margin: 0;
-		    list-style: none outside none;
-		    display: inline;
-		    font-size: 18px;
-		    margin: 0 5px;
-		}
-
-
-		nav.admin-side>ul>li{
-		    margin: 0;
-		    list-style: none outside none;
-		    display: inline;
-		    font-size: 18px;
-		    margin: 0 5px;
-		}
-		a{
-			text-decoration: none;
-			opacity: 1;
-			color: black;
-		}
-		a:hover{
-			opacity: .3;
-		}
-		nav{
-			margin: 10px auto;
-			width: 70%;
-		    border-top: 2px solid #dddddd;
-		    border-bottom: 2px solid #ddd;
-		   	text-align :center;
-		   	padding: 10px 0;
-		}
-
-	</style>
 	<template>
-		<nav class="user-side" role="navigation">
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<nav role="navigation">
 			<ul>
-				<li><a is="app-link" href="/admin">Home</a></li>
+				<li><a is="app-link" href="/">Home</a></li>
+				<li><a is="app-link" href="/admin">Admin</a></li>
+				<li><a is="app-link" href="/admin/collections">Collections</a></li>
 				<li><a is="app-link" href="/admin/orders">Orders</a></li>
 				<li><a is="app-link" href="/admin/products">Products</a></li>
-				<li><a is="app-link" href="/">Client-View</a></li>
 			</ul>
 		</nav>
+
 	</template>
 </dom-module>
 

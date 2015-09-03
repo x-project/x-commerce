@@ -1,0 +1,9 @@
+{
+  "name": "x-commerce",
+  "version": "0.0.1",
+  "description": "x-commerce",
+  "dependencies": {
+    "x-element": "x-element/x-element",
+    "iron-input": "PolymerElements/iron-input#^1.0"
+  }
+}

@@ -1,0 +1,63 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../app-page/app-page.html">
+<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<dom-module id="page-contact">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #jumbotron {
+      height: 300px;
+      --jumbotron-background: {
+        /*background-image: url('/images/image.jpg');*/
+      }
+      --jumbotron-content: {
+        @apply(--layout-col-10);
+        @apply(--layout-col-offset-1);
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+        @apply(--layout-start-justified);
+      }
+    }
+
+    #header {
+      color: white;
+    }
+  </style>
+  <template>
+
+    <app-page>
+      <part-jumbotron id="jumbotron">
+        <header id="header">
+          <h1>Contact</h1>
+        </header>
+      </part-jumbotron>
+
+      <div class="container">
+        <h3>Drop us a line</h3>
+        <a href="{{url}}">{{email}}</a>
+      </div>
+    </app-page>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-contact',
+
+    properties: {
+      url: {
+        type: String,
+        value: 'mailto:info@example.com'
+      },
+      email: {
+        type: String,
+        value: 'info@example.com'
+      }
+    }
+
+  });
+</script>

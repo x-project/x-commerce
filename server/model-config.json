@@ -1,60 +1,35 @@
 {
-    "_meta": {
-        "sources": [
-            "../common/models",
-            "./models"
-        ]
-    },
-    "AccessToken": {
-        "dataSource": "mongo",
-        "public": false
-    },
-    "ACL": {
-        "dataSource": "db",
-        "public": false
-    },
-    "RoleMapping": {
-        "dataSource": "db",
-        "public": false
-    },
-    "Role": {
-        "dataSource": "db",
-        "public": false
-    },
-    "Collection": {
-        "dataSource": "mongo"
-    },
-     "CollectionFilter": {
-        "dataSource": "mongo"
-    },
-    "Customer": {
-        "dataSource": "mongo"
-    },
-    "Image": {
-        "dataSource": "mongo"
-    },
-    "Order": {
-        "dataSource": "mongo"
-    },
-    "OrderItem": {
-        "dataSource": "mongo"
-    },
-    "Product": {
-        "dataSource": "mongo"
-    },
-    "ProductType": {
-        "dataSource": "mongo"
-    },
-    "ProductVariant": {
-        "dataSource": "mongo"
-    },
-    "ProductVariantOption": {
-        "dataSource": "mongo"
-    },
-    "Tax": {
-        "dataSource": "mongo"
-    },
-    "Vendor": {
-        "dataSource": "mongo"
-    }
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "db"
+  },
+  "AccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  }
 }
