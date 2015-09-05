@@ -1,12 +1,9 @@
 <link rel="import" href="/components/polymer/polymer.html">
-
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-product-organization">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
+		<style include="style-form"></style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">Product type</label>
@@ -23,7 +20,7 @@
 			<div class="field">
 				<label class="label">Tags</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.tags}}">
-			</div>				
+			</div>
 		</form>
 	</template>
 </dom-module>

@@ -1,6 +1,6 @@
 {
   "name": "braintree-web",
-  "version": "2.12.1",
+  "version": "2.12.2",
   "authors": [
     "braintree <code@getbraintree.com>"
   ],
@@ -25,11 +25,11 @@
     "*",
     "!dist/braintree.js"
   ],
-  "_release": "2.12.1",
+  "_release": "2.12.2",
   "_resolution": {
     "type": "version",
-    "tag": "2.12.1",
-    "commit": "06c83dcb3c5b5d9c84974899cc31e64503836561"
+    "tag": "2.12.2",
+    "commit": "81e04193f57328857485f8dded3b57398c510efe"
   },
   "_source": "git://github.com/braintree/braintree-web.git",
   "_target": "^2.0",

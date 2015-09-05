@@ -41,7 +41,7 @@
 			"type": "Number"
 		},
 		"require_shipping": {
-			"type": "Booelan"
+			"type": "Boolean"
 		},
 		"is_published": {
 			"type": "Boolean"

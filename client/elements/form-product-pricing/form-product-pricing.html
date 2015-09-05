@@ -1,13 +1,11 @@
-<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
 
 <dom-module id="form-product-pricing">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<form id="form" role="form">
+	  <style include="style-form"></style>
+
+		<form id="form" role="form" on-submit="on_submit">
 			<div class="field">
 				<label class="label">Price</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
@@ -18,8 +16,8 @@
 			</div>
 			<div class="field">
 				<label class="label">Charge taxes on this product</label>
-				<input class="input" type="checkbox" bind-value="{{data.is_charge_taxes}}">
-			</div>				
+				<paper-checkbox checked="{{data.is_charge_taxes}}"></paper-checkbox>
+			</div>
 		</form>
 	</template>
 </dom-module>
@@ -28,6 +26,16 @@
 
 		is: 'form-product-pricing',
 
-		properties: {}
-	});
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+  });
 </script>

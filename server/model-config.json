@@ -31,5 +31,42 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+
+  "Collection": {
+      "dataSource": "mongo"
+  },
+   "CollectionFilter": {
+      "dataSource": "mongo"
+  },
+  "Customer": {
+      "dataSource": "mongo"
+  },
+  "Image": {
+      "dataSource": "mongo"
+  },
+  "Order": {
+      "dataSource": "mongo"
+  },
+  "OrderItem": {
+      "dataSource": "mongo"
+  },
+  "Product": {
+      "dataSource": "mongo"
+  },
+  "ProductType": {
+      "dataSource": "mongo"
+  },
+  "ProductVariant": {
+      "dataSource": "mongo"
+  },
+  "ProductVariantOption": {
+      "dataSource": "mongo"
+  },
+  "Tax": {
+      "dataSource": "mongo"
+  },
+  "Vendor": {
+      "dataSource": "mongo"
   }
 }

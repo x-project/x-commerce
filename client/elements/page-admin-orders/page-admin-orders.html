@@ -1,28 +1,32 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-orders-header.html">
 <link rel="import" href="part-orders-list.html">
 
 <dom-module id="page-admin-orders">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<nav-admin></nav-admin>
-		<h1>page-admin-orders</h1>
-		<part-orders-header></part-orders-header>
-		<part-orders-list></part-orders-list>
+		<style include="style-page"></style>
+    <div class="page">
+			<part-header class="header"></part-header>
+		  <div class="main">
+		    <part-jumbotron class="jumbotron">
+		      <h1>Admin Orders</h1>
+		    </part-jumbotron>
+		    <div class="container">
+		      <part-orders-header></part-orders-header>
+					<part-orders-list></part-orders-list>
+		    </div>
+		  </div>
+		  <div class="space"></div>
+		  <part-footer class="footer"></part-footer>
+		</div>
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'page-admin-orders',
-
-		properties: {}
+		is: 'page-admin-orders'
 
 	});
 </script>
+

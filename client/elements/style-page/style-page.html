@@ -15,12 +15,12 @@
         @apply(--layout-flex);
       }
 
-      part-header {
+      .header {
         position: absolute;
         width: 100%;
       }
 
-      part-jumbotron {
+      .jumbotron {
         height: 300px;
         --jumbotron-content: {
           @apply(--layout-col-10);
@@ -32,11 +32,7 @@
         }
       }
 
-      .page part-jumbotron {
-        height: 600px;
-      }
-
-      part-jumbotron h1 {
+      .jumbotron h1 {
         color: white;
       }
     </style>

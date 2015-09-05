@@ -1,34 +1,40 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-<link rel="import" href="../nav-admin/nav-admin.html">
-<link rel="import" href="part-order-header.html">
-<link rel="import" href="part-order-info.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-order-customer-info.html">
 <link rel="import" href="part-order-details.html">
+<link rel="import" href="part-order-header.html">
 <link rel="import" href="part-order-history.html">
+<link rel="import" href="part-order-info.html">
 
 <dom-module id="page-admin-order">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<nav-admin></nav-admin>
-		<h1>page-admin-order</h1>
-		<part-order-header></part-order-header>
-		<part-order-info></part-order-info>
-		<part-order-customer-info></part-order-customer-info>
-		<part-order-details></part-order-details>
-		<part-order-history></part-order-history>
+		<style include="style-page"></style>
+
+		<div class="page">
+		  <part-header class="header"></part-header>
+		  <div class="main">
+		    <part-jumbotron class="jumbotron">
+		      <h1>Admin Order</h1>
+		    </part-jumbotron>
+		    <div class="container">
+		      <part-order-header></part-order-header>
+					<part-order-info></part-order-info>
+					<part-order-customer-info></part-order-customer-info>
+					<part-order-details></part-order-details>
+					<part-order-history></part-order-history>
+		    </div>
+		  </div>
+		  <div class="space"></div>
+		  <part-footer class="footer"></part-footer>
+		</div>
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'page-admin-order',
-
-		properties: {}
+		is: 'page-admin-order'
 
 	});
 </script>
+

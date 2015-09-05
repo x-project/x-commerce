@@ -1,26 +1,33 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-<link rel="import" href="part-product-category.html">
 <link rel="import" href="../form-product-organization/form-product-organization.html">
+<link rel="import" href="../style-panel/style-panel.html">
 
 <dom-module id="part-product-organization">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
-		<h2>part-product-organization:</h2>
-		<!-- <part-product-category></part-product-category> -->
-		<form-product-organization></form-product-organization>
-	</template>
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Organization</h2>
+      <form-product-organization on-submit="on_submit" data="{{data}}"></form-product-organization>
+    </div>
+
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-organization',
+    is: 'part-product-organization',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
 
-	});
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
+  });
 </script>

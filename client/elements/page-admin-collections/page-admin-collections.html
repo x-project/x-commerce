@@ -1,4 +1,7 @@
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-admin-header.html">
 <link rel="import" href="part-collections-header.html">
 <link rel="import" href="part-collections-list.html">
 <dom-module id="page-admin-collections">
@@ -11,10 +14,13 @@
         <part-jumbotron class="jumbotron">
           <h1>Collections</h1>
         </part-jumbotron>
-        <h1>page-admin-collections</h1>
-        <part-collections-header></part-collections-header>
-        <part-collections-list></part-collections-list>
+        <div class="container">
+          <part-collections-header></part-collections-header>
+          <part-collections-list></part-collections-list>
+        </div>
       </div>
+
+      <div class="space"></div>
       <part-footer class="footer"></part-footer>
     </div>
 
@@ -23,9 +29,7 @@
 <script>
   Polymer({
 
-    is: 'page-admin-collections',
-
-    properties: {}
+    is: 'page-admin-collections'
 
   });
 </script>

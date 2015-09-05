@@ -1,31 +1,34 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-<link rel="import" href="../part-nav/part-nav.html">
-<link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-products-grid-products.html">
 
 <dom-module id="page-products">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
-		<part-header></part-header>
-		<part-nav></part-nav>
-		<h1>page-products</h1>
-		<part-products-grid-products></part-products-grid-products>
-		<part-footer></part-footer>
-	</template>
+  <template>
+    <style include="style-page"></style>
 
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>Products</h1>
+        </part-jumbotron>
+        <div class="container">
+          <part-products-grid-products></part-products-grid-products>
+        </div>
+      </div>
+      <div class="space"></div>
+      <part-footer class="footer"></part-footer>
+    </div>
+
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-products',
+    is: 'page-products'
 
-		properties: {}
-
-	});
+  });
 </script>
+

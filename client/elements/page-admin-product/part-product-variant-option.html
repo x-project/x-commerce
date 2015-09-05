@@ -1,16 +1,13 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../form-product-variant-option/form-product-variant-option.html">
-
+<link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="part-product-variant-option">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<h2>part-product-variant-option</h2>
-		<form-product-variant-option></form-product-variant-option>
+	  <style include="style-panel"></style>
+
+    <div class="panel">
+			<h2 class="title">Variants</h2>
+			<form-product-variant-option></form-product-variant-option>
+		</div>
 	</template>
 </dom-module>
 <script>

@@ -1,16 +1,14 @@
-<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
 
 <dom-module id="form-product-variant">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
+	  <style include="style-form"></style>
+
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">Selected</label>
-				<input class="input" type="checkbox" is="iron-input" bind-value="{{data.selected}}">
+				<paper-checkbox checked></paper-checkbox>
 			</div>
 			<div class="field">
 				<label class="label">Name</label>

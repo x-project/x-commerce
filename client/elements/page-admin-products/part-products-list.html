@@ -1,0 +1,32 @@
+<link rel="import" href="part-products-list-item.html">
+<dom-module id="part-products-list">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<h2>part-list-products:</h2>
+		<ul>
+			<ul>
+				<li>
+					<a href="/admin/products/11">
+						<part-products-list-item></part-products-list-item>
+					</a>
+				</li>
+				<li>
+					<a href="/admin/products/22">
+						<part-products-list-item></part-products-list-item>
+					</a>
+				</li>
+			</ul>
+		</ul>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-products-list'
+
+	});
+</script>

@@ -1,16 +1,13 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../form-product-inventory/form-product-inventory.html">
+<link rel="import" href="../style-panel/style-panel.html">
 
 <dom-module id="part-product-inventory">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<h2>part-product-inventory</h2>
-		<form-product-inventory></form-product-inventory>
+    <style include="style-panel"></style>
+    <div class="panel">
+		  <h2 class="title">Inventory</h2>
+		  <form-product-inventory on-submit="on_submit" data="{{data}}"></form-product-inventory>
+    </div>
 	</template>
 </dom-module>
 <script>
@@ -18,7 +15,17 @@
 
 		is: 'part-product-inventory',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
 
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
 	});
 </script>

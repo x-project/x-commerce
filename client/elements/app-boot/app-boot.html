@@ -1,6 +1,7 @@
 <link rel="import" href="/components/app-routes/app-routes.html">
 <link rel="import" href="/components/app-route/app-route.html">
 <link rel="import" href="/components/app-container/app-container.html">
+<link rel="import" href="/components/app-link/app-link.html">
 <link rel="import" href="/components/app-session/app-session.html">
 
 <link rel="import" href="/elements/app-theme/app-theme.html">
@@ -25,6 +26,9 @@
 <link rel="import" href="/elements/page-admin-order/page-admin-order.html">
 <link rel="import" href="/elements/page-admin-product/page-admin-product.html">
 <link rel="import" href="/elements/page-admin-products/page-admin-products.html">
+
+
+<link rel="import" href="/elements/page-test/page-test.html">
 
 <dom-module id="app-boot">
   <style>
@@ -52,15 +56,20 @@
       <app-route path="/signup" page="page-signup" on-route="/signup"></app-route>
 
       <app-route path="/cart" page="page-cart"></app-route>
-      <app-route path="/product/:product_id" page="page-product"></app-route>
       <app-route path="/products" page="page-products"></app-route>
+      <app-route path="/products/:product_id" page="page-product"></app-route>
+
       <app-route path="/admin" page="page-admin-home"></app-route>
-      <app-route path="/admin/collections/:collection_id" page="page-admin-collection"></app-route>
       <app-route path="/admin/collections" page="page-admin-collections"></app-route>
-      <app-route path="/admin/orders/:order_id" page="page-admin-order"></app-route>
+      <app-route path="/admin/collections/:collection_id" page="page-admin-collection"></app-route>
       <app-route path="/admin/orders" page="page-admin-orders"></app-route>
-      <app-route path="/admin/products/:product_id" page="page-admin-product"></app-route>
+      <app-route path="/admin/orders/:order_id" page="page-admin-order"></app-route>
       <app-route path="/admin/products" page="page-admin-products"></app-route>
+      <app-route path="/admin/products/new" page="page-admin-product"></app-route>
+      <app-route path="/admin/products/:product_id" page="page-admin-product"></app-route>
+
+      <app-route path="/test" page="page-test"></app-route>
+
     </app-routes>
 
   </template>

@@ -1,14 +1,16 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-
 <dom-module id="part-product-header">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
 	<template>
-		<h2>part-product-header: button client-view / button duplicate-product</h2>
+
+		<div>
+      <h2 class="title"><span>Products /</span> <span>{{data.title}}</span></h2>
+      <button on-click="on_click">save</button>
+		</div>
+
 	</template>
 </dom-module>
 <script>
@@ -16,7 +18,20 @@
 
 		is: 'part-product-header',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    attached: function () {
+      this.url = 'http://localhost:3000/api/Products/' + '55e84949b246e34011c6f02c';
+    },
+
+    on_click: function (event) {
+      this.fire('try-save');
+    }
 
 	});
 </script>

@@ -1,6 +1,4 @@
-<link rel="import" href="/components/polymer/polymer.html">
 <link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../app-link/app-link.html">
 <dom-module id="part-header">
   <style>
     :host {
@@ -37,18 +35,29 @@
       font-weight: 600;
       letter-spacing: 1px;
     }
+
+    #brand a.link {
+      display: inline-block;
+      padding: 2em 0;
+    }
   </style>
   <template>
 
     <div id="header" class="container">
       <div id="brand">
-        <a is="app-link" class="link" href="/">{{brand}}</a>
+        <a is="app-link" class="link" href="/admin">x</a>
+        <a is="app-link" class="link" href="/">-commerce</a>
       </div>
       <nav id="navbar">
         <ul class="links">
-          <li><a is="app-link" class="link" href="/portfolio">portfolio</a></li>
-          <li><a is="app-link" class="link" href="/settings">settings</a></li>
-          <li><a is="app-link" class="link" href="/login">login</a></li>
+          <li><a is="app-link" class="link" href="/products">catalog</a></li>
+          <li><a is="app-link" class="link" href="/cart">cart</a></li>
+          <li><a is="app-link" class="link" href="/products">@products</a></li>
+          <li><a is="app-link" class="link" href="/products/1">@product</a></li>
+          <li><a is="app-link" class="link" href="/admin/orders">@orders</a></li>
+          <li><a is="app-link" class="link" href="/admin/orders/1">@order</a></li>
+          <li><a is="app-link" class="link" href="/admin/collections">@collections</a></li>
+          <li><a is="app-link" class="link" href="/admin/collections/1">@collection</a></li>
         </ul>
       </nav>
     </div>

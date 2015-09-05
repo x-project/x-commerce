@@ -1,0 +1,79 @@
+<link rel="import" href="/components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../form-product-info/form-product-info.html">
+
+<dom-module id="page-test">
+  <template>
+    <style include="style-page"></style>
+
+    <iron-ajax id="ajax_get"
+      auto
+      method="GET"
+      url="http://localhost:3000/api/Products/55e84949b246e34011c6f02c"
+      content-type="application/json"
+      body="{{body}}"
+      handle-as="json"
+      last-response="{{data}}"
+      debounce-duration="300">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_post"
+        method="PUT"
+        url="http://localhost:3000/api/Products/55e84949b246e34011c6f02c"
+        content-type="application/json"
+        body="{{body}}"
+        handleAs="json"
+        on-response="on_put_response"
+        debounce-duration="300">
+    </iron-ajax>
+
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>test</h1>
+        </part-jumbotron>
+        <div class="container">
+          <form-product-info on-submit="on_submit"  data="{{data}}"></form-product-info>
+        </div>
+      </div>
+      <div class="space"></div>
+      <part-footer class="footer"></part-footer>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-test',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
+
+    // attached: function {
+    //   this.url = 'http://localhost:3000/api/Products/' + this.data.id;
+    // },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_put_response: function (event, detail) {
+      var response = detail.response;
+      console.log("response", response);
+    }
+
+  });
+</script>

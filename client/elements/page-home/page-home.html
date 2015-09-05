@@ -1,31 +1,33 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
-<link rel="import" href="../part-nav/part-nav.html">
-<link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-nav/part-nav.html">
+<link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-home-latest.html">
 
 <dom-module id="page-home">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<part-header></part-header>
-		<part-nav></part-nav>
-		<h1>page-home</h1>
-		<part-home-latest></part-home-latest>
-		<part-footer></part-footer>
+		<style include="style-page"></style>
+
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>Home</h1>
+        </part-jumbotron>
+        <div class="container">
+					<part-home-latest></part-home-latest>
+        </div>
+      </div>
+      <div class="space"></div>
+      <part-footer class="footer"></part-footer>
+    </div>
 	</template>
 </dom-module>
 
 <script>
 	Polymer({
 
-		is: 'page-home',
-
-		properties: {}
+		is: 'page-home'
 
 	});
 </script>

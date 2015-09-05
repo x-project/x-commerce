@@ -1,0 +1,21 @@
+<dom-module id="part-products-header">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<h2>part-header-products:</h2>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-products-header',
+
+		on_click_add_product: function(){
+			page('/admin/products/new');
+		}
+
+	});
+</script>

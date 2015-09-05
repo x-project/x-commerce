@@ -1,23 +1,19 @@
 <link rel="import" href="../form-collection-info/form-collection-info.html">
+<link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="part-collection-info">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style include="style-panel"></style>
 
-		<div>
-			<h3>info</h3>
-			<form-collection-info></form-collection-info>
-		</div>
-
-	</template>
+    <div class="panel">
+      <h3 class="title">Collection Info</h3>
+      <form-collection-info></form-collection-info>
+    </div>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-collection-info'
+    is: 'part-collection-info'
 
-	});
+  });
 </script>

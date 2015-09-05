@@ -1,16 +1,14 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../form-product-visibility/form-product-visibility.html">
+<link rel="import" href="../style-panel/style-panel.html">
 
 <dom-module id="part-product-visibility">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<h2>part-product-visibility</h2>
-		<form-product-visibility></form-product-visibility>
+		<style include="style-panel"></style>
+
+		<div class="panel">
+			<h2 class="title">Visibility</h2>
+			<form-product-visibility on-submit="on_submit" data="{{data}}"></form-product-visibility>
+		</div>
 	</template>
 </dom-module>
 <script>
@@ -18,7 +16,16 @@
 
 		is: 'part-product-visibility',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
 
 	});
 </script>

@@ -1,24 +1,38 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../form-product-info/form-product-info.html">
+<link rel="import" href="../style-panel/style-panel.html">
 
 <dom-module id="part-product-info">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
-		<h2>part-product-info</h2>
-		<form-product-info></form-product-info>
-	</template>
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Basic Info</h2>
+      <form-product-info on-submit="on_submit" data="{{data}}"></form-product-info>
+    </div>
+
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-info',
+    is: 'part-product-info',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
 
-	});
+    on_submit: function (event) {
+      event.stopPropagation();
+    },
+
+    on_put_response: function (event, detail) {
+      var response = detail.response;
+    }
+
+  });
 </script>

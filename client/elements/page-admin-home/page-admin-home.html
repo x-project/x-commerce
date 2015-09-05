@@ -1,12 +1,25 @@
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-admin-header.html">
+
 <dom-module id="page-admin-home">
   <template>
     <style include="style-page"></style>
 
-    <nav-admin></nav-admin>
-    <h1>page-admin-home</h1>
-    <part-admin-header></part-admin-header>
-
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>Admin Home</h1>
+        </part-jumbotron>
+        <div class="container">
+          <part-admin-header></part-admin-header>
+        </div>
+      </div>
+        <div class="space"></div>
+        <part-footer class="footer"></part-footer>
+    </div>
   </template>
 </dom-module>
 <script>

@@ -1,16 +1,13 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
 <link rel="import" href="../form-product-shipping/form-product-shipping.html">
-
+<link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="part-product-shipping">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<h2>part-product-shipping</h2>
-		<form-product-shipping></form-product-shipping>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+		  <h2 class="title">Shipping</h2>
+		  <form-product-shipping on-submit="on_submit" data="{{data}}"></form-product-shipping>
+    </div>
 	</template>
 </dom-module>
 <script>
@@ -18,7 +15,17 @@
 
 		is: 'part-product-shipping',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
 
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
 	});
 </script>

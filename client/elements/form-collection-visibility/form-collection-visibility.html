@@ -1,10 +1,7 @@
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-collection-visibility">
 	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+	  <style include="style-form"></style>
 
 		<form id="form" role="form">
 			<div class="field">
@@ -13,7 +10,7 @@
 			</div>
 			<div class="field">
 				<label class="label">Publish this collection on</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.date_time}}">
+				<input class="input" type="datatime-local" is="iron-input" bind-value="{{data.date_time}}">
 			</div>
 		</form>
 

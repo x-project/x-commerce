@@ -1,13 +1,11 @@
 <link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="../style-form/style-form.html">
 
 <dom-module id="form-product-inventory">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<form id="form" role="form">
+    <style include="style-form"></style>
+
+		<form id="form" role="form" on-submit="on_submit">
 			<div class="field">
 				<label class="label">SKU</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.sku}}">
@@ -23,7 +21,7 @@
 			<div class="field">
 				<label class="label">Quantiy</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.quantity}}">
-			</div>			
+			</div>
 		</form>
 	</template>
 </dom-module>
@@ -32,6 +30,16 @@
 
 		is: 'form-product-inventory',
 
-		properties: {}
-	});
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+  });
 </script>
