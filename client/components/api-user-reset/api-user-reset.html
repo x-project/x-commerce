@@ -1,0 +1,88 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<dom-module id="api-user-reset">
+  <template>
+
+    <iron-ajax id="ajax"
+      method="[[method]]"
+      content-type="[[contentType]]"
+      url="{{url}}"
+      handle-as="[[handleAs]]"
+      headers="{{headers}}"
+      body="{{body}}"
+      last-response="{{response}}"
+      last-error="{{error}}">
+    </iron-ajax>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-user-reset',
+
+    properties: {
+      method: {
+        type: String,
+        value: 'POST'
+      },
+      contentType: {
+        type: String,
+        value: 'application/json'
+      },
+      collection: {
+        type: String,
+        value: 'Users'
+      },
+      handleAs: {
+        type: String,
+        value: 'json'
+      },
+      token: {
+        type: String,
+      },
+      headers: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      email: {
+        type: String
+      },
+      body: {
+        type: String
+      },
+      response: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    _compute_url: function () {
+      var url = '/api/' + this.collection + '/reset'
+      url = url.replace(/\/\/+/, '/');
+      this.url = url;
+    },
+
+    _compute_headers: function () {
+      if (this.access_token) {
+        this.headers.Authorization = this.access_token;
+      }
+    },
+
+    _compute_body: function () {
+      this.body = JSON.stringify({ email: this.email });
+    },
+
+    send: function () {
+      this._compute_url();
+      this._compute_headers();
+      this._compute_body();
+      this.$.ajax.generateRequest();
+    }
+
+  });
+</script>

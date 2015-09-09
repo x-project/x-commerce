@@ -1,0 +1,22 @@
+{
+  "name": "api-model-get",
+  "description": "API for models",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API"
+  ],
+  "homepage": "https://github.com/x-element/api-model-get",
+  "_release": "c374880fef",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c374880fef24e38e386d9ab7041155d7b6342e48"
+  },
+  "_source": "git://github.com/x-element/api-model-get.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-model-get"
+}

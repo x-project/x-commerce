@@ -1,0 +1,12 @@
+{
+  "name": "app-session",
+  "description": "App session",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "session"
+  ]
+}

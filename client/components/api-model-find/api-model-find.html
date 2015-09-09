@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<dom-module id="api-model-find">
+  <template>
+
+    <iron-ajax id="ajax"
+      auto="{{auto}}"
+      method="[[method]]"
+      url="{{url}}"
+      handleAs="[[handleAs]]"
+      last-response="{{models}}"
+      last-error="{{error}}">
+    </iron-ajax>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-model-find',
+
+    properties: {
+      auto: {
+        type: Boolean,
+        value: false
+      },
+      method: {
+        type: String,
+        value: 'GET'
+      },
+      collection: {
+        type: String
+      },
+      url: {
+        type: String
+      },
+      handleAs: {
+        type: String,
+        value: 'json'
+      },
+      access_token: {
+        type: String
+      },
+      include: {
+        type: Array,
+        value: function () { return []; }
+      },
+      where: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      order: {
+        type: String,
+        value: ''
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 100
+      },
+      debounce_duration: {
+        type: Number,
+        value: 0,
+        notify: true
+      },
+      models: {
+        type: Array,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    get filter () {
+      return {
+        where: this.where,
+        order: this.order,
+        skip: this.page ? this.page * this.perpage : 0,
+        limit: this.perpage,
+        include: this.include
+      };
+    },
+
+    _compute_url: function () {
+      var url;
+      if (this.collection) {
+        url = '/api/' + this.collection;
+        url = url.replace(/\/\/+/, '/');
+        this.url = url;
+      }
+    },
+
+    _compute_headers: function () {
+      if (this.access_token) {
+        this.headers.Authorization = this.access_token;
+      }
+    },
+
+    _compute_params: function () {
+      this.params.filter = JSON.stringify(this.filter);
+    },
+
+    send: function () {
+      this._compute_url();
+      this._compute_headers();
+      this._compute_params();
+      this.$.ajax.generateRequest();
+    }
+
+  });
+</script>

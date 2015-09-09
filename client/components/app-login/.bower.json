@@ -1,0 +1,25 @@
+{
+  "name": "app-login",
+  "description": "App login",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "app-session": "x-element/app-session",
+    "api-user-login": "x-element/api-user-login"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "user",
+    "login"
+  ],
+  "homepage": "https://github.com/x-element/app-login",
+  "_release": "12331cbfb8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "12331cbfb8a223d0d63de5a5fde4450ffdbaf51f"
+  },
+  "_source": "git://github.com/x-element/app-login.git",
+  "_target": "*",
+  "_originalSource": "x-element/app-login"
+}

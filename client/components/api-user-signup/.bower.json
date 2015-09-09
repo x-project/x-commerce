@@ -1,0 +1,24 @@
+{
+  "name": "api-user-signup",
+  "description": "API for user",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-model-create": "x-element/api-model-create",
+    "api-user-login": "x-element/api-user-login"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "user"
+  ],
+  "homepage": "https://github.com/x-element/api-user-signup",
+  "_release": "65f1546fe1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "65f1546fe13e73ea4fbe8b6a749d26d1422c597e"
+  },
+  "_source": "git://github.com/x-element/api-user-signup.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-user-signup"
+}

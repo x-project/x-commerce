@@ -1,0 +1,22 @@
+{
+  "name": "api-model-find",
+  "description": "API for models",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API"
+  ],
+  "homepage": "https://github.com/x-element/api-model-find",
+  "_release": "a96b6486d6",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a96b6486d62b97099d325d136987c47c6a13544d"
+  },
+  "_source": "git://github.com/x-element/api-model-find.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-model-find"
+}

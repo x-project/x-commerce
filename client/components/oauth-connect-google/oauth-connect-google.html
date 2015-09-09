@@ -1,0 +1,83 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../oauth-v2/oauth-v2.html">
+<dom-module id="oauth-connect-google">
+  <style>
+    :host {
+      display: none;
+    }
+  </style>
+  <template>
+
+    <oauth-v2 id="popup"
+      name="{{name}}"
+      exchange_url="{{exchange_url}}"
+      endpoint="{{endpoint}}"
+      redirect_uri="{{redirect_uri}}"
+      scope="{{scope}}"
+      scope-prefix="openid"
+      scope-delimiter=" "
+      url-params="{{urlParams}}"
+      display="{{display}}"
+      type="2.0"
+      popup-width="{{popupWidth}}"
+      popup-height="{{popupHeight}}"
+      client_id="{{client_id}}">
+    </oauth-v2>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'oauth-service-google',
+
+    properties: {
+      client_id: {
+        type: String
+      },
+      name: {
+        type: String,
+        value: 'google'
+      },
+      exchange_url: {
+        type: String,
+        value: '/auth/google'
+      },
+      endpoint: {
+        type: String,
+        value: 'http://accounts.google.com/o/oauth2/auth'
+      },
+      scope: {
+        type: Array,
+        value: ["profile", "email"]
+      },
+      urlParams: {
+        type: Array,
+        value: ["scope", "display"]
+      },
+      display: {
+        type: String,
+        value: 'popup'
+      },
+      popupWidth: {
+        type: Number,
+        value: 452
+      },
+      popupHeight: {
+        type: Number,
+        value: 633
+      },
+      redirect_uri: {
+        type: String,
+        value: function () {
+          return window.location.origin || window.location.protocol + '//' + window.location.host;
+        }
+      }
+    },
+
+    connect: function () {
+      this.$.popup.open();
+    }
+
+  });
+</script>

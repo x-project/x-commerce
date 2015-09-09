@@ -1,0 +1,24 @@
+{
+  "name": "layout-grid",
+  "description": "layout grid",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "css",
+    "layout",
+    "grid"
+  ],
+  "homepage": "https://github.com/x-element/layout-grid",
+  "_release": "55f605e1e9",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "55f605e1e9925e1dddffb9a8f5606cd432b1bbf6"
+  },
+  "_source": "git://github.com/x-element/layout-grid.git",
+  "_target": "*",
+  "_originalSource": "x-element/layout-grid"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "api-s3",
+  "description": "API for S3",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-s3-delete": "x-element/api-s3-delete",
+    "api-s3-list": "x-element/api-s3-list",
+    "api-s3-upload": "x-element/api-s3-upload"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "S3"
+  ],
+  "homepage": "https://github.com/x-element/api-s3",
+  "_release": "155730d615",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "155730d615830b9df9f74e872c38c248fa3faea0"
+  },
+  "_source": "git://github.com/x-element/api-s3.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-s3"
+}

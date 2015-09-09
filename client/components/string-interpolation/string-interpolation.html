@@ -1,0 +1,43 @@
+<link rel="import" href="../polymer/polymer.html">
+<script>
+  Polymer({
+
+    is: 'string-interpolation',
+
+    properties: {
+      string: {
+        type: String
+      },
+      prefix: {
+        type: String,
+        value: ''
+      },
+      postfix: {
+        type: String,
+        value: ''
+      },
+      params: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      result: {
+        type: String,
+        notify: true
+      }
+    },
+
+    observers: [
+      'on_change(string, prefix, postfix, params)'
+    ],
+
+    on_change: function (string, prefix, postfix, params) {
+      var regexp = /\${(\w+)}/ig;
+      var replaced = string.replace(regexp, function (match, key) {
+        return params[key];
+      });
+      var result = prefix + replaced + postfix;
+      this.result = result;
+    }
+
+  });
+</script>

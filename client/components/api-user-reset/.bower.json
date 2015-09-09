@@ -1,0 +1,23 @@
+{
+  "name": "api-user-reset",
+  "description": "API for user",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "user"
+  ],
+  "homepage": "https://github.com/x-element/api-user-reset",
+  "_release": "27ddae088c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "27ddae088c6b82891819ebc9ce8722151eae76b0"
+  },
+  "_source": "git://github.com/x-element/api-user-reset.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-user-reset"
+}

@@ -1,0 +1,36 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../oauth-connect-facebook/oauth-connect-facebook.html">
+<link rel="import" href="../oauth-session/oauth-session.html">
+<dom-module id="button-connect-facebook">
+  <style>
+    :host {
+      display: inline-block;
+    }
+  </style>
+  <template>
+
+    <oauth-session id="session" is-authenticated="{{isAuthenticated}}"></oauth-session>
+
+    <oauth-connect-facebook id="service" client_id="{{client_id}}"></oauth-connect-facebook>
+
+    <button id="button" disabled$="{{isAuthenticated}}" on-click="connect">connect with Facebook</button>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'button-connect-facebook',
+
+    properties: {
+      client_id: {
+        type: String
+      }
+    },
+
+    connect: function () {
+      this.$.service.connect();
+    }
+
+  });
+</script>

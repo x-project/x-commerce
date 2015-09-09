@@ -1,0 +1,46 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-signals/iron-signals.html">
+<dom-module id="app-container">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <iron-signals on-iron-signal-page="on_page"></iron-signals>
+
+    <div id="container" on-link="on_link"></div>
+
+  </template>
+</dom-module>
+<script src="../../components/page/page.js"></script>
+<script>
+  Polymer({
+
+    is: 'app-container',
+
+    on_link: function (event) {
+      page.show(event.detail);
+    },
+
+    on_page: function (event) {
+      this.clear();
+      this.mount(event.detail);
+    },
+
+    clear: function () {
+      var container = this.$.container;
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+    },
+
+    mount: function (element) {
+      var container = this.$.container;
+      container.appendChild(element);
+      this.fire('mount', element);
+    }
+
+  });
+</script>

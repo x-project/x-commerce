@@ -1,0 +1,60 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<dom-module id="api-s3-delete">
+  <template>
+
+    <iron-ajax id="request" method="GET"
+      url="/api/Images/signed_delete" params="{{params}}"
+      last-response="{{response}}" on-response="on_response">
+    </iron-ajax>
+
+    <iron-ajax id="s3_request" method="DELETE" url="{{response.signed_url}}"
+      last-response="{{s3_response}}" on-response="on_s3_response">
+    </iron-ajax>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-s3-delete',
+
+    properties: {
+      fileName: {
+        type: String
+      },
+      params: {
+        type: Object,
+        computed: '_compute_params(fileName)'
+      },
+      response: {
+        type: Object
+      },
+      s3_response: {
+        type: Object
+      },
+      lastResponse: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    _compute_params: function () {
+      return { file_name: this.fileName };
+    },
+
+    send: function () {
+      this.$.request.generateRequest();
+    },
+
+    on_response: function (event) {
+      this.$.s3_request.generateRequest();
+    },
+
+    on_s3_response: function (event) {
+      this.lastResponse = this.s3_response;
+      this.fire('delete', this.s3_response);
+    }
+
+  });
+</script>

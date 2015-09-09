@@ -1,0 +1,16 @@
+{
+  "name": "button-connect-google",
+  "description": "button connect google",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "oauth-connect-google": "x-element/oauth-connect-google",
+    "oauth-session": "x-element/oauth-session"
+  },
+  "keywords": [
+    "web-components",
+    "oauth",
+    "button",
+    "connect",
+    "google"
+  ]
+}

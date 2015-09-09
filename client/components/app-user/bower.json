@@ -1,0 +1,14 @@
+{
+  "name": "app-user",
+  "description": "App user",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-model-get": "x-element/api-model-get",
+    "app-session": "x-element/app-session"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "user"
+  ]
+}

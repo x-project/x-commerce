@@ -1,0 +1,23 @@
+{
+  "name": "api-s3-delete",
+  "description": "API for S3",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "S3"
+  ],
+  "homepage": "https://github.com/x-element/api-s3-delete",
+  "_release": "2a3aa15003",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2a3aa15003ee6d9975cd4f8f54b031a2186f32bd"
+  },
+  "_source": "git://github.com/x-element/api-s3-delete.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-s3-delete"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "select-lang",
+  "description": "select app lang",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "lang"
+  ],
+  "homepage": "https://github.com/x-element/select-lang",
+  "_release": "3989e011a4",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "3989e011a4df4b8f3c88b35c191f3faf928f7304"
+  },
+  "_source": "git://github.com/x-element/select-lang.git",
+  "_target": "*",
+  "_originalSource": "x-element/select-lang"
+}

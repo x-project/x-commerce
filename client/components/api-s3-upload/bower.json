@@ -1,0 +1,13 @@
+{
+  "name": "api-s3-upload",
+  "description": "API for S3",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "S3"
+  ]
+}

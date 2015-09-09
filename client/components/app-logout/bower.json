@@ -1,0 +1,15 @@
+{
+  "name": "app-logout",
+  "description": "App logout",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "app-session": "x-element/app-session",
+    "api-user-logout": "x-element/api-user-logout"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "user",
+    "logout"
+  ]
+}

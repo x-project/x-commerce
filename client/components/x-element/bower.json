@@ -1,0 +1,39 @@
+{
+  "name": "x-element",
+  "description": "x-element elements",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-model": "x-element/api-model",
+    "api-s3": "x-element/api-s3",
+    "api-user": "x-element/api-user",
+    "app-container": "x-element/app-container",
+    "app-lang": "x-element/app-lang",
+    "app-link": "x-element/app-link",
+    "app-login": "x-element/app-login",
+    "app-logout": "x-element/app-logout",
+    "app-route": "x-element/app-route",
+    "app-routes": "x-element/app-routes",
+    "app-session": "x-element/app-session",
+    "app-signup": "x-element/app-signup",
+    "app-user": "x-element/app-user",
+    "button-connect-facebook": "x-element/button-connect-facebook",
+    "button-connect-google": "x-element/button-connect-google",
+    "form-braintree": "x-element/form-braintree",
+    "input-location": "x-element/input-location",
+    "layout-grid": "x-element/layout-grid",
+    "oauth-connect-facebook": "x-element/oauth-connect-facebook",
+    "oauth-connect-google": "x-element/oauth-connect-google",
+    "oauth-popup": "x-element/oauth-popup",
+    "oauth-session": "x-element/oauth-session",
+    "oauth-v1": "x-element/oauth-v1",
+    "oauth-v2": "x-element/oauth-v2",
+    "select-lang": "x-element/select-lang",
+    "string-interpolation": "x-element/string-interpolation",
+    "style-bootstrap": "x-element/style-bootstrap",
+    "xml-parser": "x-element/xml-parser"
+  },
+  "keywords": [
+    "web-components",
+    "x-element"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "api-s3-list",
+  "description": "API for S3",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0",
+    "xml-parser": "x-element/xml-parser"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "S3"
+  ],
+  "homepage": "https://github.com/x-element/api-s3-list",
+  "_release": "6dd9709f6d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6dd9709f6da8eb78c20fc5ba2d8a1349f6b1cf46"
+  },
+  "_source": "git://github.com/x-element/api-s3-list.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-s3-list"
+}

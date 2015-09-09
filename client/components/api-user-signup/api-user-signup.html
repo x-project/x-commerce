@@ -1,0 +1,60 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../api-model-create/api-model-create.html">
+<link rel="import" href="../api-user-login/api-user-login.html">
+<dom-module id="api-user-signup">
+  <template>
+
+    <api-model-create id="create"
+      collection="{{collection}}"
+      data="{{credentials}}"
+      on-response="on_create">
+    </api-model-create>
+
+    <api-user-login id="login"
+      collection="{{collection}}"
+      credentials="{{credentials}}"
+      response="{{user}}"
+      on-response="on_login">
+    </api-user-login>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-user-signup',
+
+    properties: {
+      collection: {
+        type: String,
+        value: 'Users'
+      },
+      credentials: {
+        type: Object
+      },
+      user: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    send: function () {
+      this.$.create.send();
+    },
+
+    on_create: function (event) {
+      event.stopPropagation();
+      this.$.login.send();
+    },
+
+    on_login: function (event) {
+      event.stopPropagation();
+      this.fire('signup', this.user);
+    }
+
+  });
+</script>

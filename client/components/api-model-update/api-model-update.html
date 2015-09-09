@@ -1,0 +1,100 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<dom-module id="api-model-update">
+  <template>
+
+    <iron-ajax id="ajax"
+      auto="{{auto}}"
+      method="[[method]]"
+      url="{{url}}"
+      params="{{params}}"
+      headers="{{headers}}"
+      handleAs="[[handleAs]]"
+      content-type="[[contentType]]"
+      body="{{body}}"
+      last-response="{{model}}"
+      last-error="{{error}}">
+    </iron-ajax>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-model-update',
+
+    properties: {
+      auto: {
+        type: Boolean,
+        value: false
+      },
+      method: {
+        type: String,
+        value: 'PUT'
+      },
+      contentType: {
+        type: String,
+        value: 'application/json'
+      },
+      collection: {
+        type: String
+      },
+      model_id: {
+        type: String
+      },
+      url: {
+        type: String
+      },
+      params: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      headers: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      body: {
+        type: String
+      },
+      model: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    _compute_url: function () {
+      var url;
+      if (this.collection && this.model_id) {
+        url = '/api/' + this.collection + '/' + this.model_id;
+        url = url.replace(/\/\/+/, '/');
+        this.url = url;
+      }
+    },
+
+    _compute_headers: function () {
+      if (this.access_token) {
+        this.headers.Authorization = this.access_token;
+      }
+    },
+
+    _compute_body: function () {
+      this.body = JSON.stringify(this.data);
+    },
+
+    send: function () {
+      this._compute_url();
+      this._compute_headers();
+      this._compute_body();
+      this.$.ajax.generateRequest();
+    }
+
+  });
+</script>

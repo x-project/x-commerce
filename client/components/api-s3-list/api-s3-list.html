@@ -1,0 +1,99 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../xml-parser/xml-parser.html">
+<dom-module id="api-s3-list">
+  <template>
+
+    <iron-ajax id="request" method="GET" url="/api/Images/signed_list"
+      params="{{params}}"
+      last-response="{{response}}" on-response="on_response">
+    </iron-ajax>
+
+    <iron-ajax id="s3_request" method="GET" url="{{response.signed_url}}"
+      handle-as="text" last-response="{{s3_response_xml}}">
+    </iron-ajax>
+
+    <xml-parser xml="{{s3_response_xml}}" json="{{s3_response_json}}"></xml-parser>
+
+  </template>
+</dom-module>
+<script>
+(function () {
+
+  Polymer({
+
+    is: 'api-s3-list',
+
+    properties: {
+      folder: {
+        type: String,
+        observer: 'init'
+      },
+      params: {
+        type: Object,
+        value: { folder: '' }
+      },
+      response: {
+        type: Object
+      },
+      s3_response_xml: {
+        type: String
+      },
+      s3_response_json: {
+        type: String,
+        observer: 'create_list'
+      },
+      list: {
+        type: Array,
+        notify: true
+      }
+    },
+
+    init: function () {
+      this.params.folder = this.folder;
+    },
+
+    send: function () {
+      this.$.request.generateRequest();
+    },
+
+    on_response: function (event) {
+      this.$.s3_request.generateRequest();
+    },
+
+    create_list: function () {
+      var json = this.s3_response_json;
+      var children = json.root.children;
+      var list = children
+        .filter(function (node) {
+          return node.name === 'Contents';
+        }).map(function (node) {
+          return parse_children(node.children);
+        });
+      this.list = list;
+    }
+
+  });
+
+  function parse_children (children) {
+    var result = {};
+    children.forEach(function (node) {
+      var name = node.name.toLowerCase();
+      result[name] = parse_node(node);
+    });
+    return result;
+  }
+
+  function parse_node (node) {
+    var content;
+    if (node.children.length) {
+      content = parse_children(node.children);
+    }
+    else {
+      content = node.content;
+    }
+    return content;
+  }
+
+})();
+</script>

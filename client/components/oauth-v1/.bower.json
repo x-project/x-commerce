@@ -1,0 +1,23 @@
+{
+  "name": "oauth-v1",
+  "description": "oauth v1",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0",
+    "oauth-popup": "x-element/oauth-popup"
+  },
+  "keywords": [
+    "web-components",
+    "oauth"
+  ],
+  "homepage": "https://github.com/x-element/oauth-v1",
+  "_release": "2cee15d139",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2cee15d13938b0794dda2e3d64e8e98090e9a7a6"
+  },
+  "_source": "git://github.com/x-element/oauth-v1.git",
+  "_target": "*",
+  "_originalSource": "x-element/oauth-v1"
+}

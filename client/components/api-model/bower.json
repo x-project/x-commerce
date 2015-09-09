@@ -1,0 +1,20 @@
+{
+  "name": "api-model",
+  "description": "LoopBack API for models",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-model-count": "x-element/api-model-count",
+    "api-model-create": "x-element/api-model-create",
+    "api-model-delete": "x-element/api-model-delete",
+    "api-model-exists": "x-element/api-model-exists",
+    "api-model-find": "x-element/api-model-find",
+    "api-model-get": "x-element/api-model-get",
+    "api-model-update": "x-element/api-model-update"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "model",
+    "LoopBack"
+  ]
+}
