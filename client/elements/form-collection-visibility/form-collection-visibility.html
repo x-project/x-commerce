@@ -1,25 +1,37 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../input-datetime/input-datetime.html">
 <dom-module id="form-collection-visibility">
 	<template>
 	  <style include="style-form"></style>
 
-		<form id="form" role="form">
+		<form id="form" role="form" on-submit="on_submit">
 			<div class="field">
 				<label class="label">Online Store</label>
-				<input class="input" type="checkbox" bind-value="{{data.is_published}}">
+        <paper-checkbox class="input" is="iron-input" checked="{{data.is_published}}"></paper-checkbox>
 			</div>
 			<div class="field">
 				<label class="label">Publish this collection on</label>
-				<input class="input" type="datatime-local" is="iron-input" bind-value="{{data.date_time}}">
+				<input-datetime class="input" data="{{data.published_at}}"></input-datetime>
 			</div>
 		</form>
-
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'form-collection-visibility'
+		is: 'form-collection-visibility',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+ 		on_submit: function (event) {
+      event.preventDefault();
+    }
 
 	});
 </script>

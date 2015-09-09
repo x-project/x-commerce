@@ -3,6 +3,8 @@
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../input-location/input-location.html">
+
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
@@ -23,7 +25,6 @@
       method="GET"
       url="{{url}}"
       content-type="application/json"
-      body="{{body}}"
       handle-as="json"
       last-response="{{data}}"
       debounce-duration="300">
@@ -39,6 +40,15 @@
         debounce-duration="300">
     </iron-ajax>
 
+    <iron-ajax id="ajax_get"
+      auto
+      method="GET"
+      url="http://localhost:3000/api/Vendors/55ef49bb045914571e88398d"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{dataVendor}}"
+      debounce-duration="300">
+    </iron-ajax>
 
     <div class="page">
       <part-header class="header"></part-header>
@@ -47,17 +57,19 @@
           <h1>Admin Product</h1>
         </part-jumbotron>
         <div class="container">
+          <!-- <input-location></input-location> -->
           <part-product-header data="{{data}}" on-try-save="save"></part-product-header>
           <part-product-info data="{{data}}"></part-product-info>
-          <!-- <part-product-visibility data="{{data}}"></part-product-visibility> -->
+          <part-product-visibility data="{{data}}"></part-product-visibility>
           <!-- <part-product-image data="{{data}}"></part-product-image> -->
           <!-- <part-product-organization data="{{data}}"></part-product-organization> -->
           <part-product-pricing data="{{data}}"></part-product-pricing>
           <part-product-inventory data="{{data}}"></part-product-inventory>
           <part-product-shipping data="{{data}}"></part-product-shipping>
+          <part-product-organization data="{{dataVendor}}"></part-product-organization>
           <!-- <part-product-variant-option></part-product-variant-option> -->
           <!-- <part-product-variant></part-product-variant> -->
-          <!-- <part-product-save-delete></part-product-save-delete> -->
+          <part-product-save-delete data="{{data}}" on-try-save="save"></part-product-save-delete>
         </div>
       </div>
       <div class="space"></div>
@@ -77,14 +89,21 @@
         value: function () {
           return {};
         }
+      },
+      dataVendor: {
+        type: Object,
+        value: function () {
+          return {};
+        }
       }
     },
 
     attached: function () {
-      this.url = 'http://localhost:3000/api/Products/'+ '55e84949b246e34011c6f02c';
+      this.url = 'http://localhost:3000/api/Products/'+ '55eebc692cdb3b363e825f1d';
     },
 
     save: function (event) {
+      console.log(this.data);
       this.body = JSON.stringify(this.data);
       this.$.ajax_post.generateRequest();
     },

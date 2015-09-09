@@ -5,7 +5,9 @@
   "dependencies": {
     "iron-ajax": "PolymerElements/iron-ajax#1.0.0",
     "iron-input": "PolymerElements/iron-input#^1.0",
+    "paper-button": "PolymerElements/paper-button#^1.0.0",
     "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.0",
-    "x-element": "x-element/x-element"
+    "x-element": "x-element/x-element",
+    "google-apis": "GoogleWebComponents/google-apis#^1.0"
   }
 }

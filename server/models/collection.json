@@ -3,7 +3,7 @@
 	"plural": "Collections",
 	"base": "PersistedModel",
 	"properties": {
-		"name": {
+		"title": {
 			"type": "String"
 		},
 		"description": {

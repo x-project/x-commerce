@@ -6,7 +6,7 @@
 
     <div class="panel">
 			<h2 class="title">Variants</h2>
-			<form-product-variant-option></form-product-variant-option>
+			<form-product-variant-option on-submit="on_submit" data="{{data}}"></form-product-variant-option>
 		</div>
 	</template>
 </dom-module>
@@ -15,7 +15,16 @@
 
 		is: 'part-product-variant-option',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
 
 	});
 </script>

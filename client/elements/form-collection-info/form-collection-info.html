@@ -3,7 +3,7 @@
 	<template>
 		<style include="style-form"></style>
 
-		<form id="form" role="form">
+		<form id="form" role="form" on-submit="on_submit">
 			<div class="field">
 				<label class="label">Title</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
@@ -18,7 +18,18 @@
 <script>
 	Polymer({
 
-		is: 'form-collection-info'
+		is: 'form-collection-info',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
 
 	});
 </script>

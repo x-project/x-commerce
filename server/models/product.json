@@ -56,27 +56,33 @@
 	"relations": {
 		"images": {
 			"type": "hasMany",
-			"model": "Image"
+			"model": "Image",
+			"foreignKey": "imageId"
 		},
 		"collections": {
 			"type": "hasMany",
-			"model": "Collection"
+			"model": "Collection",
+			"foreignKey": "collectionId"
 		},
 		"product_type": {
 			"type": "belongsTo",
-			"model": "ProductType"
+			"model": "ProductType",
+			"foreignKey": "producttypeId"
 		},
 		"product_options": {
 			"type": "hasMany",
-			"model": "ProductVariantOption"
+			"model": "ProductVariantOption",
+			"foreignKey": "productvariantoptionId"
 		},
 		"product_variants": {
 			"type": "hasMany",
-			"model": "ProductVariant"
+			"model": "ProductVariant",
+			"foreignKey": "productvariantId"
 		},
 		"vendor": {
 			"type": "belongsTo",
-			"model": "Vendor"
+			"model": "Vendor",
+			"foreignKey": "vendorId"
 		}
 	},
 	"acls": [],

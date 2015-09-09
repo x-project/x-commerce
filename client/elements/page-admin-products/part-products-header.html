@@ -1,3 +1,4 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
 <dom-module id="part-products-header">
 	<style>
 		:host {
@@ -5,7 +6,10 @@
 		}
 	</style>
 	<template>
-		<h2>part-header-products:</h2>
+    <div>
+      <h2 class="title">Products</h2>
+      <paper-button on-click="on_click" raised>Add a product</paper-button>
+		</div>
 	</template>
 </dom-module>
 <script>
@@ -13,8 +17,8 @@
 
 		is: 'part-products-header',
 
-		on_click_add_product: function(){
-			page('/admin/products/new');
+		on_click: function  (argument) {
+			page("/admin/products/new");
 		}
 
 	});

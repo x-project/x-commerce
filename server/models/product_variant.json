@@ -6,7 +6,7 @@
 		"name": {
 			"type": "String"
 		},
-		"price": { 
+		"price": {
 			"type": "Number"
 		},
 		"sku": {
@@ -16,6 +16,7 @@
 			"type": "String"
 		}
 	},
+
 	"relations": {},
 	"acls": [],
 	"methods": [],

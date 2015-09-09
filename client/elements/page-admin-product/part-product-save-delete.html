@@ -1,3 +1,4 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
 <dom-module id="part-product-save-delete">
 	<style>
 		:host {
@@ -5,7 +6,12 @@
 		}
 	</style>
 	<template>
-		<h2>part-product-save-delete: button-delete-product / button-save-product</h2>
+    <div>
+      <paper-button on-click="on_cancel_click" raised>Cancel</paper-button>
+      <paper-button on-click="on_save_click" raised>Save Product</paper-button>
+      <paper-button on-click="on_reset_click" raised>Reset</paper-button>
+
+		</div>
 	</template>
 </dom-module>
 <script>
@@ -13,7 +19,24 @@
 
 		is: 'part-product-save-delete',
 
-		properties: {}
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_cancel_click: function  (event) {
+    	page("/admin/products");
+    },
+
+    on_save_click: function (event) {
+      this.fire('try-save');
+    },
+
+    on_reset_click: function (event) {
+    	this.data.description = "";
+    }
 
 	});
 </script>

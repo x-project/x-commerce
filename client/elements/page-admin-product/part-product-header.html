@@ -1,14 +1,16 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
 <dom-module id="part-product-header">
   <style>
     :host {
       display: block;
     }
   </style>
-	<template>
+  <template>
 
-		<div>
+    <div>
       <h2 class="title"><span>Products /</span> <span>{{data.title}}</span></h2>
-      <button on-click="on_click">save</button>
+      <paper-button on-click="on_save_click" raised>Save Product</paper-button>
+
 		</div>
 
 	</template>
@@ -25,11 +27,7 @@
       }
     },
 
-    attached: function () {
-      this.url = 'http://localhost:3000/api/Products/' + '55e84949b246e34011c6f02c';
-    },
-
-    on_click: function (event) {
+    on_save_click: function (event) {
       this.fire('try-save');
     }
 

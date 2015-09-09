@@ -1,0 +1,54 @@
+<link rel="import" href="/components/iron-input/iron-input.html">
+<dom-module id="input-datetime">
+  <style>
+    :host {
+      display: block;
+    }
+    input[type="datetime-local"] {
+      font-family: inherit;
+    }
+  </style>
+  <template>
+      <input is="iron-input" type="datetime-local" step="60" bind-value="{{parsed_datetime}}" on-change="on_change">
+      <button id="now" class="btn" on-click="on_click_now">now</button>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-datetime',
+    properties: {
+      value: {
+        type: String,
+        notify: true
+      },
+
+      parsed_datetime: {
+        type: String,
+        computed: 'parse(value)'
+      }
+    },
+
+    ready: function () {
+
+    },
+
+    parse: function (value) {
+      if (!value) {
+        return '';
+      }
+      var parsed = value.slice(0, - 8);
+      return parsed;
+    },
+
+    on_click_now: function (event) {
+      event.preventDefault();
+      this.value = new Date().toISOString();
+    },
+
+    on_change: function (event) {
+      this.value = event.target.value + ':00.000Z';
+    }
+
+  });
+</script>

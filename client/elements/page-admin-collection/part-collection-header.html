@@ -1,3 +1,4 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
 <dom-module id="part-collection-header">
   <style>
     :host {
@@ -5,13 +6,27 @@
     }
   </style>
   <template>
-    <h2>Collection header</h2>
+    <div>
+      <h2 class="title"><span>Collection /</span> <span>{{data.title}}</span></h2>
+      <paper-button on-click="on_click" raised>Save Collection</paper-button>
+    </div>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-collection-header'
+    is: 'part-collection-header',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_click: function (event) {
+      this.fire('try-save');
+    }
 
   });
 </script>
