@@ -14,7 +14,9 @@
     "page": "visionmedia/page.js",
     "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0",
     "paper-header-panel": "PolymerElements/paper-header-panel#^1.0",
-    "polymer": "Polymer/polymer#^1.0"
+    "polymer": "Polymer/polymer#^1.0",
+    "google-apis": "GoogleWebComponents/google-apis#^1.0",
+    "x-element": "x-element/x-element"
   },
   "license": "MIT"
 }
