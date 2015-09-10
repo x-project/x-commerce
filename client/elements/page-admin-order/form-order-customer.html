@@ -14,8 +14,8 @@
 
 		<form id="form" role="form">
 			<div class="field">
-				<label class="label">Find or create customer</label>
-				<input class="input" id="input" type="text" is="iron-input" on-click="on_customer" bind-value="{{data.customer}}">
+				<label class="label">customer</label>
+				<input class="input" id="input" type="text" is="iron-input" on-keypress="on_customer" bind-value="{{data.customer}}">
 			</div>
 		</form>
 
@@ -47,15 +47,7 @@
 				value: function () {
           return {};
         }
-			},
-
-			item: {
-				type: Object,
-				notify: true,
-				value: function () {
-          return {};
-        }
-      }
+			}
 		},
 
 		on_customer:  function (event) {

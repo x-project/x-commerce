@@ -20,29 +20,17 @@
 		"taxes_exempt": {
 			"type": "Boolean"
 		},
-		"address": {
-			"name": {
-				"type": "String"
-			},
-			"surname":  {
-				"type": "String"
-			},
-			"company":  {
-				"type": "String"
-			},
-			"phone":  {
-				"type": "String"
-			},
-			"location": {
-				"type": "String"
-			}
+		"location": {
+			"type": "String"
 		},
+    "phone":  {
+      "type": "String"
+    },
 		"notes": {
 			"type": "String"
 		},
 		"tags": {
 			"type": ["String"]
-		}
   	},
   	"relations": {},
   	"acls": [],

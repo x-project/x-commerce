@@ -14,7 +14,14 @@
 <script>
   Polymer({
 
-    is: 'part-collection-visibility'
+    is: 'part-collection-visibility',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
 
   });
 </script>

@@ -1,11 +1,9 @@
 <link rel="import" href="/components/api-model-get/api-model-get.html">
-<link rel="import" href="/components/input-location/input-location.html">
 <link rel="import" href="../nav-admin/nav-admin.html">
 <link rel="import" href="../part-footer/part-footer.html">
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
-
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
@@ -21,7 +19,7 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get"
+<!--     <iron-ajax id="ajax_get"
       auto
       method="GET"
       url="{{url}}"
@@ -29,12 +27,16 @@
       handle-as="json"
       last-response="{{data}}"
       debounce-duration="300">
-    </iron-ajax>
+    </iron-ajax> -->
 
 
-    <api-model-get id="get_product" collection="Products" model_id="test"
-      include='["vendor","product_type","collections"]' response="{{data}}">
+    <api-model-get id="get_product" collection="Products" model_id="55eebc692cdb3b363e825f1d" on-response="on_get_response" response="{{data}}"
+      include='["vendor","product_type","collections"]'>
     </api-model-get>
+
+<!--     <api-model-get id="get_product" collection="Products" model_id="55eebc692cdb3b363e825f1d"
+      include='["vendor","product_type","collections"]' response="{{data}}">
+    </api-model-get> -->
 
     <iron-ajax id="ajax_post"
         method="PUT"
@@ -53,7 +55,6 @@
           <h1>Admin Product</h1>
         </part-jumbotron>
         <div class="container">
-          <input-location></input-location>
           <part-product-header data="{{data}}" on-try-save="save"></part-product-header>
           <part-product-info data="{{data}}"></part-product-info>
           <part-product-visibility data="{{data}}"></part-product-visibility>
@@ -88,17 +89,16 @@
         }
       },
     },
+
     attached: function () {
-      this.url = 'http://localhost:3000/api/Products/'+'55eebc692cdb3b363e825f1d';
-      // this.$.ajax_get.generateRequest();
-      // this.$.get_product.send();
-      // console.log(this.data);
+      this.$.get_product.send();
     },
 
-
+    on_get_response: function () {
+      // console.log(JSON.stringify(this.data));
+    },
 
     save: function (event) {
-      console.log(this.data);
       this.body = JSON.stringify(this.data);
       this.$.ajax_post.generateRequest();
     },
