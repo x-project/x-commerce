@@ -21,7 +21,6 @@
   <template>
     <style include="style-page"></style>
 
-<!--
     <iron-ajax id="ajax_get"
       auto
       method="GET"
@@ -30,11 +29,8 @@
       handle-as="json"
       last-response="{{data}}"
       debounce-duration="300">
-
     </iron-ajax>
- -->
 
-    <!-- 55eebc692cdb3b363e825f1d -->
 
     <api-model-get id="get_product" collection="Products" model_id="test"
       include='["vendor","product_type","collections"]' response="{{data}}">
@@ -91,18 +87,15 @@
           return {};
         }
       },
-      dataVendor: {
-        type: Object,
-        value: function () {
-          return {};
-        }
-      }
+    },
+    attached: function () {
+      this.url = 'http://localhost:3000/api/Products/'+'55eebc692cdb3b363e825f1d';
+      // this.$.ajax_get.generateRequest();
+      // this.$.get_product.send();
+      // console.log(this.data);
     },
 
-    attached: function () {
-      this.$.get_product.send();
-      console.log(this.data);
-    },
+
 
     save: function (event) {
       console.log(this.data);

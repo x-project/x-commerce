@@ -1,0 +1,40 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-orders-item.html">
+<dom-module id="part-orders-items">
+	<template>
+		<style include="style-list"></style>
+
+		<iron-ajax id="ajax"
+      auto
+      method="GET"
+      url="http://localhost:3000/api/Orders"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{data}}"
+      debounce-duration="300">
+    </iron-ajax>
+
+ 		<div class="items">
+	    <template is="dom-repeat" items="{{data}}">
+	      <part-orders-item item="{{item}}"></part-orders-item>
+	    </template>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-orders-items',
+
+    properties: {
+      item: {
+        type: Array,
+        value: function () {
+          return [];
+        }
+      }
+    }
+
+	});
+</script>

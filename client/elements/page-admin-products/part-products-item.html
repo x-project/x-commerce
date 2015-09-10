@@ -1,0 +1,37 @@
+<link rel="import" href="../style-item/style-item.html">
+<dom-module id="part-products-item">
+	<style include="style-item"></style>
+
+	<template>
+		<div class="item">
+      <b>id: </b><span>{{item.id}}</span>
+		  <b>name: </b><span>{{item.title}}</span>
+  	  <b>description: </b><span>{{item.description}}</span>
+      <b>barcode: </b><span>{{item.barcode}}</span>
+      <a href="{{url}}"> edit</button>
+     </div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-products-item',
+
+		properties: {
+      item: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
+
+    attached: function () {
+      this.url = '/admin/products/'+ this.item.id;
+    },
+
+
+
+
+	});
+</script>

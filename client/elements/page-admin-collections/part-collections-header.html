@@ -7,13 +7,17 @@
   </style>
   <template>
     <h2> Collection </h2>
-    <paper-button raised>Add Collection</paper-button>
+    <button on-click="on_add_collection"> Add Collection</button>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-collections-header'
+    is: 'part-collections-header',
+
+    on_add_collection: function () {
+      pages('/admin/collections');
+    }
 
   });
 </script>

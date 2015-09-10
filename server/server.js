@@ -19,6 +19,8 @@ boot(app, __dirname, function(err) {
   var index_path = path.resolve(__dirname, '../client/index.html');
   app.get('*', function (req, res) { res.sendFile(index_path); });
 
+  // app.get('/admin/*', function (req, res) { res.sendFile(index_path); });
+
   if (require.main === module)
     app.start();
 });
