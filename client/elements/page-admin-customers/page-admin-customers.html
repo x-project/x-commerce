@@ -2,13 +2,8 @@
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-admin-customer-address.html">
-<link rel="import" href="part-admin-customer-header.html">
-<link rel="import" href="part-admin-customer-note.html">
-<link rel="import" href="part-admin-customer-overview.html">
-<link rel="import" href="part-admin-customer-tag.html">
 
-<dom-module id="page-admin-customer">
+<dom-module id="page-admin-customers">
   <template>
     <style include="style-page"></style>
 
@@ -32,11 +27,7 @@
           <h1>Customer</h1>
         </part-jumbotron>
         <div class="container">
-          <part-admin-customer-header on-try-customer-save="save"></part-admin-customer-header>
-          <part-admin-customer-overview data="{{data}}"></part-admin-customer-overview>
-          <part-admin-customer-address data="{{data}}"></part-admin-customer-address>
-          <part-admin-customer-note data="{{data}}"></part-admin-customer-note>
-          <part-admin-customer-tag data="{{data}}"></part-admin-customer-tag>
+
         </div>
       </div>
         <div class="space"></div>
@@ -47,7 +38,7 @@
 <script>
   Polymer({
 
-    is: 'page-admin-customer',
+    is: 'page-admin-customers',
 
     properties: {
       data: {
