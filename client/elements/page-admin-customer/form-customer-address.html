@@ -21,7 +21,14 @@
 				<label class="label">Address</label>
 				<input-location class="input" options="{{option}}" value="{{data.location}}" place="{{place}}"></input-location>
 			</div>
-
+      <div class="field">
+        <label class="label">Number</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.location_number}}">
+      </div>
+      <div class="field">
+        <label class="label">Bell Number</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.bell}}">
+      </div>
 			<div class="field">
 				<label class="label">Phone</label>
 				<input class="input" type="text" is="iron-input" bind-value="{{data.phone}}">
@@ -55,7 +62,7 @@
     },
 
     on_change_place: function (place) {
-      // console.log(place);
+      console.log(place);
     }
 
 	});

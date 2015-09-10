@@ -3,26 +3,32 @@
   	"plural": "Customers",
   	"base": "PersistedModel",
   	"properties": {
-		"first_name": {
-			"type": "String"
-		},
-		"last_name": {
-			"type": "String"
-		},
-		"email": {
-			"type": "String",
-			"length": 64,
-			"required": true
-		},
-		"marketing": {
-			"type": "Boolean"
-		},
-		"taxes_exempt": {
-			"type": "Boolean"
-		},
-		"location": {
-			"type": "String"
-		},
+  		"first_name": {
+  			"type": "String"
+  		},
+  		"last_name": {
+  			"type": "String"
+  		},
+  		"email": {
+  			"type": "String",
+  			"length": 64,
+  			"required": true
+  		},
+  		"marketing": {
+  			"type": "Boolean"
+  		},
+  		"taxes_exempt": {
+  			"type": "Boolean"
+  		},
+  		"location": {
+  			"type": "String"
+  		},
+      "location_number": {
+        "type": "String"
+      },
+     "bell": {
+        "type": "String"
+      },
     "phone":  {
       "type": "String"
     },
@@ -31,8 +37,14 @@
 		},
 		"tags": {
 			"type": ["String"]
-  	},
-  	"relations": {},
+  	}
+  },
+  	"relations": {
+      "shipping_addresses": {
+        "type": "hasMany",
+        "model": "Address"
+      }
+    },
   	"acls": [],
   	"validations": [],
   	"methods": []

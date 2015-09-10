@@ -22,7 +22,7 @@
         debounce-duration="300">
     </iron-ajax>
 
-    <api-model-get id="get_customer" collection="Customers" model_id="55f058e3ab9c8a7126cc47cd" response="{{data}}">
+    <api-model-get id="get_customer" collection="Customers" model_id="55f203f42752330476397195" response="{{data}}">
     </api-model-get>
 
     <div class="page">
@@ -57,7 +57,7 @@
     },
 
     attached: function () {
-      this.url = 'http://localhost:3000/api/Customers/'+ '55f058e3ab9c8a7126cc47cd';
+      this.url = 'http://localhost:3000/api/Customers/'+ '55f203f42752330476397195';
       this.$.get_customer.send();
     },
 

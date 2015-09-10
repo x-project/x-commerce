@@ -42,7 +42,11 @@
 		"taxes": {
 			"type": "hasMany",
 			"model": "Tax"
-		}
+		},
+    "invoices": {
+      "type": "belongsTo",
+      "model": "Invoice"
+    }
 	},
 	"acls": [],
 	"methods": []

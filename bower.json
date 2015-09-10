@@ -5,7 +5,9 @@
     "x-element": "x-element/x-element",
     "iron-ajax": "PolymerElements/iron-ajax#^1.0",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0",
-    "iron-input": "PolymerElements/iron-input#^1.0"
+    "iron-input": "PolymerElements/iron-input#^1.0",
+    "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.0"
+
   },
   "license": "MIT"
 }

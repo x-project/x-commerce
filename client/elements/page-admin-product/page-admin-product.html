@@ -19,24 +19,11 @@
   <template>
     <style include="style-page"></style>
 
-<!--     <iron-ajax id="ajax_get"
-      auto
-      method="GET"
-      url="{{url}}"
-      content-type="application/json"
-      handle-as="json"
-      last-response="{{data}}"
-      debounce-duration="300">
-    </iron-ajax> -->
 
-
-    <api-model-get id="get_product" collection="Products" model_id="55eebc692cdb3b363e825f1d" on-response="on_get_response" response="{{data}}"
+    <api-model-get id="get_product" collection="Products" model_id="55f2051027523304763971a4" on-response="on_get_response" response="{{data}}"
       include='["vendor","product_type","collections"]'>
     </api-model-get>
 
-<!--     <api-model-get id="get_product" collection="Products" model_id="55eebc692cdb3b363e825f1d"
-      include='["vendor","product_type","collections"]' response="{{data}}">
-    </api-model-get> -->
 
     <iron-ajax id="ajax_post"
         method="PUT"

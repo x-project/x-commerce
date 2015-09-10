@@ -34,39 +34,45 @@
   },
 
   "Collection": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
    "CollectionFilter": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "Customer": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "Image": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "Order": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "OrderItem": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "Product": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "ProductType": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "ProductVariant": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "ProductVariantOption": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "Tax": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
   },
   "Vendor": {
-      "dataSource": "mongo"
+    "dataSource": "mongo"
+  },
+  "Invoice": {
+    "dataSource": "mongo"
+  },
+  "Address": {
+    "dataSource": "mongo"
   }
 }

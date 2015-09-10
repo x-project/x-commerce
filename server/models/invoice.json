@@ -1,0 +1,55 @@
+{
+	"name": "Invoice",
+	"plural": "Invoices",
+	"base": "PersistedModel",
+	"properties": {
+		"document_type": {
+			"type": "String",
+			"required": true
+		},
+		"number": {
+			"type": "String",
+			"required": true
+		},
+		"date": {
+			"type": "Date"
+		},
+		"taxable": {
+			"type": "Number"
+		},
+		"tot_taxable": {
+			"type": "Number"
+		},
+		"tax_percentual": {
+			"type": "Number"
+		},
+		"tax": {
+			"type": "Number"
+		},
+		"total_tax": {
+			"type": "Number"
+		},
+		"discount": {
+			"type": "Number"
+		},
+		"tot_document": {
+			"type": "Number"
+		},
+		"subtotal_document": {
+			"type": "Number"
+		},
+		"tot_document": {
+			"type": "Number"
+		},
+		"deadline": {
+			"type": "Date"
+		},
+		"notes": {
+			"type": "String"
+		}
+	},
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

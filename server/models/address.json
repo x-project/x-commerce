@@ -1,0 +1,44 @@
+{
+	"name": "Address",
+	"plural": "Address",
+	"base": "PersistedModel",
+	"properties": {
+		"route": {
+			"type": "String"
+		},
+		"street_number": {
+			"type": "String"
+		},
+		"locality": {
+			"type": "String"
+		},
+		"province": {
+			"type": "String"
+		},
+		"region": {
+			"type": "String"
+		},
+		"country": {
+			"type": "String"
+		},
+		"postal_code": {
+			"type": "String"
+		},
+		"formatted_address": {
+			"type": "String"
+		},
+		"geometry_location": {
+			"type": "String"
+		},
+		"vicinity": {
+			"type": "String"
+		},
+		"notes": {
+			"type": "String"
+		}
+	},
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}
