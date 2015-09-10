@@ -1,0 +1,62 @@
+<link rel="import" href="/components/input-location/input-location.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-customer-address">
+	<template>
+		<style include="style-form"></style>
+
+		<form id="form" role="form">
+<!-- 			<div class="field">
+				<label class="label">Name</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.name}}">
+			</div>
+			<div class="field">
+				<label class="label">Surname</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.surname}}">
+			</div>
+			<div class="field">
+				<label class="label">Company</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.company}}">
+			</div> -->
+			<div class="field">
+				<label class="label">Address</label>
+				<input-location class="input" options="{{option}}" value="{{data.location}}" place="{{place}}"></input-location>
+			</div>
+
+			<div class="field">
+				<label class="label">Phone</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.phone}}">
+			</div>
+		</form>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-customer-address',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      },
+      options: {
+        type: Object,
+        notify: true
+      },
+      place: {
+        type: Object,
+        observer: 'on_change_place'
+      }
+    },
+
+    ready: function () {
+    	this.option  = { 'types': ['address'] };
+    },
+
+    on_change_place: function (place) {
+      // console.log(place);
+    }
+
+	});
+</script>

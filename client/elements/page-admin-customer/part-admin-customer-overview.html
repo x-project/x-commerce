@@ -1,0 +1,28 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-customer-overview.html">
+<dom-module id="part-admin-customer-overview">
+	<template>
+    <style include="style-panel"></style>
+
+		<h2>Overview</h2>
+		<form-customer-overview on-submit="on_submit" data="{{data}}"></form-customer-overview>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-admin-customer-overview',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
+
+	});
+</script>
