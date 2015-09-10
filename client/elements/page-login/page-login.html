@@ -1,0 +1,57 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<link rel="import" href="/components/api-user-login/api-user-login.html">
+<link rel="import" href="../form-login/form-login.html">
+<dom-module id="page-login">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #panel {
+      margin-top: 50px;
+    }
+    #panel a {
+      text-decoration: none;
+    }
+  </style>
+  <template>
+
+    <api-user-login id="login" credentials="{{credentials}}"
+      response="{{response}}" on-response="on_login" on-error="on_error">
+    </api-user-login>
+
+    <div id="panel" class="container">
+      <a is="app-link" href="/">&larr;</a>
+      <h3>Login</h3>
+      <form-login id="form" on-submit="on_submit"></form-login>
+      <div>
+        <a is="app-link" href="/signup">not registered?</a>
+      </div>
+      <div>
+        <a is="app-link" href="/reset">forgot password?</a>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-login',
+
+    on_submit: function (event) {
+      this.credentials = event.detail;
+      this.$.login.send();
+    },
+
+    on_login: function (event) {
+      event.stopPropagation();
+      this.fire('login', event.detail);
+    },
+
+    on_error: function (event) {
+      console.warn(event);
+    }
+
+  });
+</script>

@@ -1,0 +1,28 @@
+<link rel="import" href="../app-link/app-link.html">
+<dom-module id="nav-admin">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<nav role="navigation">
+			<ul>
+				<li><a is="app-link" href="/">Home</a></li>
+				<li><a is="app-link" href="/admin">Admin</a></li>
+				<li><a is="app-link" href="/admin/collections">Collections</a></li>
+				<li><a is="app-link" href="/admin/orders">Orders</a></li>
+				<li><a is="app-link" href="/admin/products">Products</a></li>
+			</ul>
+		</nav>
+
+	</template>
+</dom-module>
+
+<script>
+	Polymer({
+		is: 'nav-admin',
+		properties: {}
+	});
+</script>

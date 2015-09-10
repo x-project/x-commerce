@@ -1,0 +1,69 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-order-customer">
+	<template>
+	 <style include="style-form"></style>
+
+    <iron-ajax id="ajax_get"
+      method="GET"
+      url="http://localhost:3000/api/Customers"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{customers}}"
+      debounce-duration="300">
+    </iron-ajax>
+
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">customer</label>
+				<input class="input" id="input" type="text" is="iron-input" on-keypress="on_customer" bind-value="{{data.customer}}">
+			</div>
+		</form>
+
+	    <template id="customerFilter" is="dom-repeat" items="{{customers}}" filter="filter_customer">
+		   	<div>
+		      <b>name: </b><span>{{item.first_name}}</span>
+				  <b>surname: </b><span>{{item.last_name}}</span>
+				  <button on-click="on_customer_selected">select</button>
+				</div>
+	    </template>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-order-customer',
+
+		properties: {
+			customers: {
+				type: Array,
+				notify: true,
+				value: function () {
+          return [];
+        }
+			},
+			data: {
+				type: Object,
+				notify: true,
+				value: function () {
+          return {};
+        }
+			}
+		},
+
+		on_customer:  function (event) {
+      this.$.ajax_get.generateRequest();
+		},
+
+		filter_customer: function(item) {
+    	return item.first_name.search(this.data.customer)>=0 || item.last_name.search(this.data.customer)>=0;
+		},
+
+		on_customer_selected: function (event) {
+			var item = this.$.customerFilter.itemForElement(event.target);
+			// this.data.customer = item.last_name;
+			this.$.input.value = item.last_name;
+		}
+
+
+	});
+</script>

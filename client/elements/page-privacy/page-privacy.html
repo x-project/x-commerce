@@ -1,0 +1,61 @@
+<link rel="import" href="../app-page/app-page.html">
+<link rel="import" href="../app-session/app-session.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<dom-module id="page-privacy">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #jumbotron {
+      height: 300px;
+      --jumbotron-background: {
+        background-image: url('/images/test-3.jpg');
+      }
+      --jumbotron-content: {
+        @apply(--layout-col-10);
+        @apply(--layout-col-offset-1);
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+        @apply(--layout-start-justified);
+      }
+    }
+
+    #header {
+      color: white;
+    }
+  </style>
+  <template>
+
+    <app-page class="page">
+      <part-jumbotron id="jumbotron">
+        <header id="header">
+          <h1>Privacy policy</h1>
+        </header>
+      </part-jumbotron>
+
+      <div class="container">
+        <h3>Duis aute irure</h3>
+        <p>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.
+        </p>
+      </div>
+    </app-page>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-privacy',
+
+    properties: {}
+
+  });
+</script>

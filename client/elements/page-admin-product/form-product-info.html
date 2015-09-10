@@ -1,0 +1,37 @@
+<link rel="import" href="/components/iron-input/iron-input.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-product-info">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Title</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.description}}">
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-product-info',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+  });
+</script>

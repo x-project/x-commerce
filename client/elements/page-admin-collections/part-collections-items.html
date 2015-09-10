@@ -1,0 +1,40 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-collections-item.html">
+<dom-module id="part-collections-items">
+	<template>
+	  <style include="style-list"></style>
+
+    <iron-ajax id="ajax"
+      auto
+      method="GET"
+      url="http://localhost:3000/api/Collections"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{data}}"
+      debounce-duration="300">
+    </iron-ajax>
+
+		<div class="items">
+	    <template is="dom-repeat" items="{{data}}">
+	      <part-collections-item item="{{item}}"></part-collections-item>
+	    </template>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-collections-items',
+
+    properties: {
+      item: {
+        type: Array,
+        value: function () {
+          return [];
+        }
+      }
+    }
+
+	});
+</script>

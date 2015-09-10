@@ -1,0 +1,45 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/iron-input/iron-input.html">
+<dom-module id="part-settings-email">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <form id="form" on-submit="on_submit">
+      <div>
+        <label>new email</label>
+        <input is="iron-input" type="email" bind-value="{{data.email}}">
+      </div>
+      <div>
+        <label>confirm email</label>
+        <input is="iron-input" type="email" bind-value="{{data.confirm}}">
+      </div>
+      <div>
+        <label>password</label>
+        <input is="iron-input" type="password" bind-value="{{data.password}}">
+      </div>
+      <input type="submit" value="change" />
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-settings-email',
+
+    properties: {
+      data: {
+        type: Object
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+  });
+</script>

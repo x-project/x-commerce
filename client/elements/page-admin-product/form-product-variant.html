@@ -1,0 +1,39 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
+
+<dom-module id="form-product-variant">
+	<template>
+	  <style include="style-form"></style>
+
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">Selected</label>
+				<paper-checkbox checked></paper-checkbox>
+			</div>
+			<div class="field">
+				<label class="label">Name</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.name}}">
+			</div>
+			<div class="field">
+				<label class="label">Price</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
+			</div>
+			<div class="field">
+				<label class="label">SKU</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.sku}}">
+			</div>
+			<div class="field">
+				<label class="label">Barcode</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.barcode}}">
+			</div>
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-variant',
+
+		properties: {}
+	});
+</script>

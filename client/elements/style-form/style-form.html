@@ -1,0 +1,36 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="style-form">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #form {
+        margin-bottom: 4px;
+      }
+
+      #form .field {
+        margin-bottom: 4px;
+      }
+
+      #form .field .input {
+        height: 24px;
+        padding: 4px;
+        font-family: sans-serif;
+        font-size: 14px;
+      }
+
+      #form .field .input:focus {
+        outline: none;
+      }
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-form'
+
+  });
+</script>

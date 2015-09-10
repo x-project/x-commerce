@@ -1,0 +1,36 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
+<link rel="import" href="../nav-admin/nav-admin.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-products-header.html">
+<link rel="import" href="part-products-items.html">
+
+<dom-module id="page-admin-products">
+  <template>
+    <style include="style-page"></style>
+
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>Products</h1>
+        </part-jumbotron>
+        <div class="container">
+          <part-products-header></part-products-header>
+          <part-products-items></part-products-items>
+        </div>
+      </div>
+      <div class="space"></div>
+      <part-footer class="footer"></part-footer>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-admin-products'
+
+  });
+</script>

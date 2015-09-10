@@ -1,0 +1,47 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="style-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .page {
+        @apply(--layout-vertical);
+        min-height: 100vh;
+      }
+
+      .page .space {
+        @apply(--layout-flex);
+      }
+
+      .header {
+        position: absolute;
+        width: 100%;
+      }
+
+      .jumbotron {
+        height: 300px;
+        --jumbotron-content: {
+          @apply(--layout-col-10);
+          @apply(--layout-col-offset-1);
+
+          @apply(--layout-horizontal);
+          @apply(--layout-end);
+          @apply(--layout-start-justified);
+        }
+      }
+
+      .jumbotron h1 {
+        color: white;
+      }
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-page'
+
+  });
+</script>

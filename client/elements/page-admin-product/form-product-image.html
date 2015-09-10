@@ -1,0 +1,21 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-product-image">
+	<template>
+		<style include="style-form"></style>
+
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">image</label>
+				<input class="input" type="file" bind-value="{{data.images.path}}">
+			</div>
+		</form>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-image'
+
+	});
+</script>

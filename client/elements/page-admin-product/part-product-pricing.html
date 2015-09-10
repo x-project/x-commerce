@@ -1,0 +1,32 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-product-pricing.html">
+
+<dom-module id="part-product-pricing">
+	<template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+		  <h2 class="title">Pricing</h2>
+		  <form-product-pricing on-submit="on_submit" data="{{data}}"></form-product-pricing>
+    </div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-pricing',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
+	});
+</script>

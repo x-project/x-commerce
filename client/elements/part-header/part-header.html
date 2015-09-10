@@ -1,0 +1,94 @@
+<link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
+<dom-module id="part-header">
+  <style>
+    :host {
+      display: block;
+      z-index: 100;
+    }
+
+    #header {
+      @apply(--layout-horizontal);
+      @apply(--layout-justified);
+      width: 100%;
+      z-index: 100;
+    }
+
+    #brand {
+      /*@apply(--layout-start-justified);*/
+    }
+
+    ul.links {
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    a.link {
+      text-decoration: none;
+      display: block;
+      padding: 2em 1em;
+      color: white;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    #brand a.link {
+      display: inline-block;
+      padding: 2em 0;
+    }
+  </style>
+  <template>
+
+    <div id="header" class="container">
+      <div id="brand">
+        <a is="app-link" class="link" href="/admin">x</a>
+        <a is="app-link" class="link" href="/">-commerce</a>
+      </div>
+      <nav id="navbar">
+        <ul class="links">
+          <li><a is="app-link" class="link" href="/cart">cart</a></li>
+          <li><a is="app-link" class="link" href="/products">catalog</a></li>
+          <li><a is="app-link" class="link" href="/products/1">product</a></li>
+
+          <li><a is="app-link" class="link" href="/admin/collections">@collections</a></li>
+          <li><a is="app-link" class="link" href="/admin/collections/1">@collectionID</a></li>
+          <li><a is="app-link" class="link" href="/admin/orders">@orders</a></li>
+          <li><a is="app-link" class="link" href="/admin/orders/1">@orderID</a></li>
+
+          <li><a is="app-link" class="link" href="/admin/products">@products</a></li>
+          <li><a is="app-link" class="link" href="/admin/products/1">@productsID</a></li>
+
+
+          <li><a is="app-link" class="link" href="/admin/customers">@customer</a></li>
+          <li><a is="app-link" class="link" href="/admin/customers/1">@customerID</a></li>
+
+        </ul>
+      </nav>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-header',
+
+    properties: {
+      brand: {
+        type: String,
+        value: 'home'
+      },
+      links: {
+        type: Array
+      },
+      user: {
+        type: Object
+      }
+    }
+
+  });
+</script>

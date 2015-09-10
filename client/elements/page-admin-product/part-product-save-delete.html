@@ -1,0 +1,40 @@
+<dom-module id="part-product-save-delete">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+    <div>
+      <button on-click="on_cancel_click">Cancel</button>
+      <button on-click="on_save_click">Save Product</button>
+      <button on-click="on_reset_click">Reset</button>
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-save-delete',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_cancel_click: function  (event) {
+    	page("/admin/products");
+    },
+
+    on_save_click: function (event) {
+      this.fire('try-save');
+    },
+
+    on_reset_click: function (event) {
+    	this.data.description = "";
+    }
+
+	});
+</script>

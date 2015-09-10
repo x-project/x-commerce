@@ -1,0 +1,33 @@
+<dom-module id="part-product-header">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <div>
+      <h2 class="title"><span>Products /</span> <span>{{data.title}}</span></h2>
+      <button on-click="on_save_click">Save Product</button>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-header',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_save_click: function (event) {
+      this.fire('try-save');
+    }
+
+	});
+</script>

@@ -1,0 +1,43 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-product-organization">
+	<template>
+		<style include="style-form"></style>
+
+		<form id="form" role="form" on-submit="on_submit">
+			<div class="field">
+				<label class="label">Product type</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
+			</div>
+			<div class="field">
+				<label class="label">Vendor</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.name}}">
+			</div>
+			<div class="field">
+				<label class="label">Collections</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.collections}}">
+			</div>
+			<div class="field">
+				<label class="label">Tags</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.tags}}">
+			</div>
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-organization',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+  });
+</script>

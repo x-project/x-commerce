@@ -1,22 +1,11 @@
 {
   "name": "x-commerce",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "dependencies": {
-    "braintree-web": "~2.8.0",
-    "gold-cc-input": "PolymerElements/gold-cc-input#^1.0",
-    "gold-cc-expiration-input": "PolymerElements/gold-cc-expiration-input#^1.0",
-    "gold-cc-cvc-input": "PolymerElements/gold-cc-cvc-input#^1.0",
+    "x-element": "x-element/x-element",
     "iron-ajax": "PolymerElements/iron-ajax#^1.0",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0",
-    "iron-input": "PolymerElements/iron-input#^1.0",
-    "iron-signals": "PolymerElements/iron-signals#^1.0",
-    "moment": "moment/moment",
-    "page": "visionmedia/page.js",
-    "paper-drawer-panel": "PolymerElements/paper-drawer-panel#^1.0",
-    "paper-header-panel": "PolymerElements/paper-header-panel#^1.0",
-    "polymer": "Polymer/polymer#^1.0",
-    "google-apis": "GoogleWebComponents/google-apis#^1.0",
-    "x-element": "x-element/x-element"
+    "iron-input": "PolymerElements/iron-input#^1.0"
   },
   "license": "MIT"
 }

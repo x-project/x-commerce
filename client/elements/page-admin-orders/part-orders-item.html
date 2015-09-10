@@ -1,0 +1,38 @@
+<link rel="import" href="../style-item/style-item.html">
+<dom-module id="part-orders-item">
+	<style include="style-item"></style>
+
+	<template>
+		<div class="item">
+			<b>id: </b><span>{{item.id}}</span>
+		  <b>notes: </b><span>{{item.notes}}</span>
+  	  <b>subtotal: </b><span>{{item.subtotal}}</span>
+      <b>discount: </b><span>{{item.discount}}</span>
+      <b>shipping_cost: </b><span>{{item.shipping_cost}}</span>
+      <b>taxes: </b><span>{{item.taxes}}</span>
+      <b>payment_status: </b><span>{{item.payment_status}}</span>
+      <b>created_at: </b><span>{{item.created_at}}</span>
+      <button on-click="on_edit_order"> edit</button>
+     </div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-orders-item',
+
+    properties: {
+      item: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      }
+    },
+
+    on_edit_order: function (id) {
+    	page('/admin/orders/'+this.item.id);
+    }
+
+	});
+</script>

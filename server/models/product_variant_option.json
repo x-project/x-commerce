@@ -1,0 +1,17 @@
+{
+	"name": "ProductVariantOption",
+	"plural": "ProductVariantsOptions",
+	"base": "PersistedModel",
+	"properties": {
+		"name": {
+			"type": "String"
+		},
+		"values": {
+			"type": ["String"]
+		}
+	},
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

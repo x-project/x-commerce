@@ -1,0 +1,25 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
+<dom-module id="part-orders-header">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+		<h2>Orders</h2>
+	  	<paper-button on-click="on_click_create_order" raised>Create Order</paper-button>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-orders-header',
+
+		properties: {},
+
+		on_click_create_order: function(){
+			page('/admin/orders/new');
+		}
+
+	});
+</script>

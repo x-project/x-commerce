@@ -1,0 +1,73 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-order-detail">
+	<template>
+	<style include="style-form"></style>
+
+    <iron-ajax id="ajax_get"
+      method="GET"
+      url="http://localhost:3000/api/Products"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{productsItem}}"
+      debounce-duration="300">
+    </iron-ajax>
+
+		<form id="form" role="form">
+			<div class="field">
+				<input class="input"  id="input" type="text" is="iron-input" bind-value="{{data.title}}" placeholder="find or create item" on-keypress="on_order">
+			</div>
+			<div class="field">
+				<label class="label">Notes</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.notes}}">
+			</div>
+		</form>
+
+
+		<template id="orderFilter" is="dom-repeat" items="{{productsItem}}" filter="filter_order">
+	   	<div class="test">
+	      <b>title: </b><span>{{item.title}}</span>
+			  <b>description: </b><span>{{item.description}}</span>
+			  <button on-click="on_order_selected">select</button>
+			</div>
+	  </template>
+
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-order-detail',
+
+		properties: {
+			customers: {
+				type: Array,
+				notify: true,
+				value: function () {
+          return [];
+        }
+			},
+			data: {
+				type: Object,
+				notify: true,
+				value: function () {
+          return {};
+        }
+			}
+		},
+
+		on_order: function () {
+			this.$.ajax_get.generateRequest();
+		},
+
+		filter_order: function(item) {
+    	return item.title.search(this.data.title)>=0;
+		},
+
+		on_order_selected: function (event) {
+			var item = this.$.orderFilter.itemForElement(event.target);
+			this.$.input.value = item.title;
+		}
+
+	});
+</script>

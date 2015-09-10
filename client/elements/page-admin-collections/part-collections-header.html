@@ -1,0 +1,23 @@
+<link rel="import" href="/components/paper-button/paper-button.html">
+<dom-module id="part-collections-header">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+    <h2> Collection </h2>
+    <button on-click="on_add_collection"> Add Collection</button>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-collections-header',
+
+    on_add_collection: function () {
+      pages('/admin/collections');
+    }
+
+  });
+</script>

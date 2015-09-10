@@ -1,0 +1,81 @@
+<link rel="import" href="/components/api-model-get/api-model-get.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-admin-customer-address.html">
+<link rel="import" href="part-admin-customer-header.html">
+<link rel="import" href="part-admin-customer-note.html">
+<link rel="import" href="part-admin-customer-overview.html">
+<link rel="import" href="part-admin-customer-tag.html">
+
+<dom-module id="page-admin-customer">
+  <template>
+    <style include="style-page"></style>
+
+    <iron-ajax id="ajax_post"
+        method="PUT"
+        url="{{url}}"
+        content-type="application/json"
+        body="{{body}}"
+        handleAs="json"
+        on-response="on_put_response"
+        debounce-duration="300">
+    </iron-ajax>
+
+    <api-model-get id="get_customer" collection="Customers" model_id="55f058e3ab9c8a7126cc47cd"     response="{{data}}">
+    </api-model-get>
+
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>Customer</h1>
+        </part-jumbotron>
+        <div class="container">
+          <part-admin-customer-header on-try-customer-save="save"></part-admin-customer-header>
+          <part-admin-customer-overview data="{{data}}"></part-admin-customer-overview>
+          <part-admin-customer-address data="{{data}}"></part-admin-customer-address>
+          <part-admin-customer-note data="{{data}}"></part-admin-customer-note>
+          <part-admin-customer-tag data="{{data}}"></part-admin-customer-tag>
+        </div>
+      </div>
+        <div class="space"></div>
+        <part-footer class="footer"></part-footer>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-admin-customer',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    attached: function () {
+      this.url = 'http://localhost:3000/api/Customers/'+ '55f058e3ab9c8a7126cc47cd';
+      this.$.get_customer.send();
+    },
+
+    save: function (event) {
+      convert_tags_to_array();
+      console.log(this.data.tags);
+      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_put_response: function (event, detail) {
+      var response = detail.response;
+      // console.log(response);
+    },
+
+    convert_tags_to_array: function () {
+      var tags = this.data.tags;
+    }
+
+  });
+</script>

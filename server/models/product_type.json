@@ -1,0 +1,23 @@
+{
+	"name": "ProductType",
+	"plural": "ProductTypes",
+	"base": "PersistedModel",
+	"properties": {
+		"name": {
+			"type": "String",
+			"required": true
+		},
+		"description":{
+			"type": "String"
+		}
+	},
+	"relations": {
+		"products": {
+			"type": "hasMany",
+			"model": "Product"
+		}
+	},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

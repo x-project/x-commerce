@@ -1,26 +1,33 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="../app-link/app-link.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../part-nav/part-nav.html">
+<link rel="import" href="../style-page/style-page.html">
 <dom-module id="page-about">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
-	<template>
+  <template>
+    <style include="style-page"></style>
 
-		<h1>About</h1>
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <part-jumbotron class="jumbotron">
+          <h1>About Us</h1>
+        </part-jumbotron>
+        <div class="container">
+          ................
+        </div>
+      </div>
+      <div class="space"></div>
+      <part-footer class="footer"></part-footer>
+    </div>
 
-		<part-nav></part-nav>
-
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-about',
+    is: 'page-about'
 
-		properties: {}
-
-	});
+  });
 </script>
+

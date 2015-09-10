@@ -1,0 +1,23 @@
+{
+	"name": "Tax",
+	"plural": "Taxes",
+	"base": "PersistedModel",
+	"properties": {
+		"name": {
+			"type": "String"
+		},
+		"description": {
+			"type": "String"
+		},
+		"reason":{
+			"type": "String"
+		},
+		"import": {
+			"type": "Number"
+		}
+	},
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

@@ -1,0 +1,38 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-customer-overview">
+	<template>
+	  <style include="style-form"></style>
+
+		<form id="form" role="form">
+			<div class="field">
+				<label class="label">First Name</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.first_name}}">
+			</div>
+			<div class="field">
+				<label class="label">Last Name</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.last_name}}">
+			</div>
+			<div class="field">
+				<label class="label">Email</label>
+				<input class="input" type="text" is="iron-input" bind-value="{{data.email}}">
+			</div>
+			<div class="field">
+				<label class="label">Customer accepts marketing</label>
+				<paper-checkbox checked="{{data.marketing}}"></paper-checkbox>
+			</div>
+			<div class="field">
+				<label class="label">Customer is tax excempt</label>
+				<paper-checkbox checked="{{data.taxes_exempt}}"></paper-checkbox>
+			</div>
+		</form>
+	</template>
+
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-customer-overview'
+
+	});
+</script>

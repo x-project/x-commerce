@@ -1,0 +1,24 @@
+{
+	"name": "ProductVariant",
+	"plural": "ProductVariants",
+	"base": "PersistedModel",
+	"properties": {
+		"name": {
+			"type": "String"
+		},
+		"price": {
+			"type": "Number"
+		},
+		"sku": {
+			"type": "String"
+		},
+		"barcode": {
+			"type": "String"
+		}
+	},
+
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

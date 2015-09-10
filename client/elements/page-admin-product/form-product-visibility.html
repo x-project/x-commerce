@@ -1,0 +1,37 @@
+<link rel="import" href="/components/input-datetime/input-datetime.html">
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-product-visibility">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Online Store</label>
+        <paper-checkbox is="iron-input" checked="{{data.is_published}}"></paper-checkbox>
+      </div>
+      <div class="field">
+        <label class="label">Publish this product on</label>
+        <input-datetime class="input" value="{{data.published_at}}"></input-datetime>
+			</div>
+		</form>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-product-visibility',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+	});
+</script>

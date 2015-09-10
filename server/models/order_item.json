@@ -1,0 +1,24 @@
+{
+	"name": "OrderItem",
+	"plural": "OrderItems",
+	"base": "PersistedModel",
+	"properties": {
+		"quantity": {
+			"type": "Number"
+		}
+	},
+	"relations": {
+		"product": {
+			"type": "belongsTo",
+			"model": "Product"
+		},
+		"product_variant": {
+			"type": "belongsTo",
+			"model": "ProductVariant"
+		}
+
+	},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

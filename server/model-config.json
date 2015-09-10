@@ -1,15 +1,23 @@
 {
   "_meta": {
     "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
       "../common/models",
       "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
     ]
   },
   "User": {
-    "dataSource": "mongo"
+    "dataSource": "db"
   },
   "AccessToken": {
-    "dataSource": "mongo",
+    "dataSource": "db",
     "public": false
   },
   "ACL": {
@@ -26,16 +34,39 @@
   },
 
   "Collection": {
-    "dataSource": "mongo"
+      "dataSource": "mongo"
+  },
+   "CollectionFilter": {
+      "dataSource": "mongo"
   },
   "Customer": {
-    "dataSource": "mongo"
+      "dataSource": "mongo"
+  },
+  "Image": {
+      "dataSource": "mongo"
   },
   "Order": {
-    "dataSource": "mongo"
+      "dataSource": "mongo"
+  },
+  "OrderItem": {
+      "dataSource": "mongo"
   },
   "Product": {
-    "dataSource": "mongo"
+      "dataSource": "mongo"
+  },
+  "ProductType": {
+      "dataSource": "mongo"
+  },
+  "ProductVariant": {
+      "dataSource": "mongo"
+  },
+  "ProductVariantOption": {
+      "dataSource": "mongo"
+  },
+  "Tax": {
+      "dataSource": "mongo"
+  },
+  "Vendor": {
+      "dataSource": "mongo"
   }
-
 }

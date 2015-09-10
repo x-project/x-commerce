@@ -1,0 +1,30 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-collection-info.html">
+<dom-module id="part-collection-info">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h3 class="title">Collection Info</h3>
+      <form-collection-info on-submit="on_submit" data="{{data}}"></form-collection-info>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-collection-info',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
+
+  });
+</script>
