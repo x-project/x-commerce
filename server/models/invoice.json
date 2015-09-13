@@ -3,7 +3,7 @@
 	"plural": "Invoices",
 	"base": "PersistedModel",
 	"properties": {
-		"document_type": {
+		"type": {
 			"type": "String",
 			"required": true
 		},
@@ -32,13 +32,13 @@
 		"discount": {
 			"type": "Number"
 		},
-		"tot_document": {
+		"total_document": {
 			"type": "Number"
 		},
 		"subtotal_document": {
 			"type": "Number"
 		},
-		"tot_document": {
+		"total_document": {
 			"type": "Number"
 		},
 		"deadline": {

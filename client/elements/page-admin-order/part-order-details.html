@@ -6,14 +6,19 @@
 	</style>
 	<template>
 		<h2>Order details: form note / form tags / </h2>
-		<button>save order</button>
+		<button on-click="on_save_click">save order</button>
 
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'part-order-details'
+		is: 'part-order-details',
+
+
+    on_save_click: function (event) {
+      this.fire('try-save-order');
+    }
 
 	});
 </script>

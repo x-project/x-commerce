@@ -27,9 +27,6 @@
 		"formatted_address": {
 			"type": "String"
 		},
-		"geometry_location": {
-			"type": "String"
-		},
 		"vicinity": {
 			"type": "String"
 		},

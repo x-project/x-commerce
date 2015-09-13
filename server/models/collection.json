@@ -19,7 +19,7 @@
 	"validations": [],
 	"relations": {
 		"image":{
-			"type": "belongsTo",
+			"type": "hasMany",
 			"model": "Image"
 		},
 		"products":{

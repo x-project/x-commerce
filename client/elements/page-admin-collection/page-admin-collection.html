@@ -16,17 +16,6 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get"
-      auto
-      method="GET"
-      url="{{url}}"
-      content-type="application/json"
-      body="{{body}}"
-      handle-as="json"
-      last-response="{{data}}"
-      debounce-duration="300">
-    </iron-ajax>
-
     <iron-ajax id="ajax_post"
         method="PUT"
         url="{{url}}"
@@ -75,7 +64,8 @@
     },
 
     attached: function () {
-      this.url = 'http://localhost:3000/api/Collections/'+ '55f203f92752330476397196';
+      this.data = this.route.data.collection;
+      this.url = '/api/Collections/'+this.data.id;
     },
 
     save: function (event) {

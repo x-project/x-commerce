@@ -19,12 +19,6 @@
   <template>
     <style include="style-page"></style>
 
-
-    <api-model-get id="get_product" collection="Products" model_id="55f2051027523304763971a4" on-response="on_get_response" response="{{data}}"
-      include='["vendor","product_type","collections"]'>
-    </api-model-get>
-
-
     <iron-ajax id="ajax_post"
         method="PUT"
         url="{{url}}"
@@ -78,7 +72,8 @@
     },
 
     attached: function () {
-      this.$.get_product.send();
+      this.data = this.route.data.product;
+      this.url = '/api/Products/'+this.data.id;
     },
 
     on_get_response: function () {

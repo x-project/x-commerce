@@ -2,7 +2,8 @@
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
-
+<link rel="import" href="part-admin-customers-items.html">
+<link rel="import" href="part-admin-customers-header.html">
 <dom-module id="page-admin-customers">
   <template>
     <style include="style-page"></style>
@@ -17,9 +18,6 @@
         debounce-duration="300">
     </iron-ajax>
 
-    <api-model-get id="get_customer" collection="Customers" model_id="55f058e3ab9c8a7126cc47cd" response="{{data}}">
-    </api-model-get>
-
     <div class="page">
       <part-header class="header"></part-header>
       <div class="main">
@@ -27,7 +25,8 @@
           <h1>Customer</h1>
         </part-jumbotron>
         <div class="container">
-
+          <part-admin-customers-header></part-admin-customers-header>
+          <part-admin-customers-items></part-admin-customers-items>
         </div>
       </div>
         <div class="space"></div>
@@ -48,8 +47,8 @@
     },
 
     attached: function () {
-      this.url = 'http://localhost:3000/api/Customers/'+ '55f058e3ab9c8a7126cc47cd';
-      this.$.get_customer.send();
+      this.url = '/api/Customers';
+      // this.$.get_customer.send();
     },
 
     save: function (event) {

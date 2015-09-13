@@ -1,0 +1,40 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-admin-customers-item.html">
+<dom-module id="part-admin-customers-items">
+	<template>
+	  <style include="style-list"></style>
+
+    <iron-ajax id="ajax"
+      auto
+      method="GET"
+      url="http://localhost:3000/api/Customers"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{data}}"
+      debounce-duration="300">
+    </iron-ajax>
+
+		<div class="items">
+	    <template is="dom-repeat" items="{{data}}">
+	      <part-admin-customers-item item="{{item}}"></part-admin-customers-item>
+	    </template>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-admin-customers-items',
+
+    properties: {
+      item: {
+        type: Array,
+        value: function () {
+          return [];
+        }
+      }
+    }
+
+	});
+</script>

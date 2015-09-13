@@ -1,15 +1,10 @@
 <link rel="import" href="/components/api-model-get/api-model-get.html">
 <link rel="import" href="/components/iron-ajax/iron-ajax.html">
-<!-- style-list -->
 <dom-module id="page-test">
   <template>
     <style include="style-page"></style>
-<!-- inclde style-list -->
-    <h1>test</h1>
 
-<!--     <api-model-get id="get_product" collection="Products" model_id="55eebc692cdb3b363e825f1d"
-     response="{{data}}">
-    </api-model-get> -->
+    <h1>test</h1>
     <iron-ajax id="ajax_get"
       auto
       method="GET"
@@ -21,15 +16,13 @@
       debounce-duration="300">
     </iron-ajax>
 
-<!-- div class items -->
-
-      <template is="dom-repeat" items="{{data}}">
-        <div class="item">
-          <b>name: </b><span>{{item.title}}</span>
-          <b>description: </b><span>{{item.description}}</span>
-          <b>barcode: </b><span>{{item.barcode}}</span>
-        </div>
-      </template>
+    <template is="dom-repeat" items="{{data}}">
+      <div class="item">
+        <b>name: </b><span>{{item.title}}</span>
+        <b>description: </b><span>{{item.description}}</span>
+        <b>barcode: </b><span>{{item.barcode}}</span>
+      </div>
+    </template>
 
   </template>
 </dom-module>
@@ -47,13 +40,9 @@
       }
     },
 
-    checkResponse: function () {
-      // console.log(JSON.stringify(this.data));
-      console.log(this.data);
-
+    checkResponse: function () {
+      // console.log(this.data);
     }
-
-
 
   });
 </script>

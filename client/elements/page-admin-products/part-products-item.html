@@ -8,7 +8,7 @@
 		  <b>name: </b><span>{{item.title}}</span>
   	  <b>description: </b><span>{{item.description}}</span>
       <b>barcode: </b><span>{{item.barcode}}</span>
-      <a href="{{url}}"> edit</button>
+      <button on-click="on_edit_product"> edit</button>
      </div>
 	</template>
 </dom-module>
@@ -26,8 +26,8 @@
       }
     },
 
-    attached: function () {
-      this.url = '/admin/products/'+ this.item.id;
+    on_edit_product: function () {
+      page('/admin/products/'+this.item.id);
     },
 
 

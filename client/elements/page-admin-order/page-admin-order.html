@@ -11,6 +11,16 @@
 	<template>
 		<style include="style-page"></style>
 
+		<iron-ajax id="ajax_post"
+        method="PUT"
+        url="{{url}}"
+        content-type="application/json"
+        body="{{body}}"
+        handleAs="json"
+        on-response="on_put_response"
+        debounce-duration="300">
+    </iron-ajax>
+
 		<div class="page">
 		  <part-header class="header"></part-header>
 		  <div class="main">
@@ -19,9 +29,9 @@
 		    </part-jumbotron>
 		    <div class="container">
 		      <part-order-header></part-order-header>
-					<part-order-info></part-order-info>
+					<part-order-info data="{{data}}"></part-order-info>
 					<part-order-customer-info></part-order-customer-info>
-					<part-order-details></part-order-details>
+					<part-order-details on-try-save-order="save"></part-order-details>
 					<part-order-history></part-order-history>
 		    </div>
 		  </div>
@@ -33,7 +43,33 @@
 <script>
 	Polymer({
 
-		is: 'page-admin-order'
+		is: 'page-admin-order',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      },
+    },
+
+    attached: function () {
+      this.data = this.route.data.order;
+      this.url = '/api/Orders/'+this.data.id;
+    },
+
+    save: function (event) {
+      event.stopPropagation();
+      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_put_response: function (event, detail) {
+      var response = detail.response;
+      // console.log(response);
+    }
+
 
 	});
 </script>
