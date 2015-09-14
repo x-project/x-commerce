@@ -1,0 +1,74 @@
+<link rel="import" href="/components/api-model-get/api-model-get.html">
+<link rel="import" href="../part-sidebar/part-sidebar.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-customer-address.html">
+<link rel="import" href="part-customer-header.html">
+<link rel="import" href="part-customer-note.html">
+<link rel="import" href="part-customer-overview.html">
+<link rel="import" href="part-customer-tag.html">
+
+<dom-module id="page-customer">
+  <template>
+    <style include="style-page"></style>
+
+    <iron-ajax id="ajax_post"
+        method="PUT"
+        url="{{url}}"
+        content-type="application/json"
+        body="{{body}}"
+        handleAs="json"
+        on-response="on_put_response"
+        debounce-duration="300">
+    </iron-ajax>
+
+
+    <div class="page">
+      <part-sidebar class="sidebar"></part-sidebar>
+      <div class="main">
+        <div class="container">
+          <h1>Customers</h1>
+          <part-customer-header on-try-customer-save="save"></part-customer-header>
+          <part-customer-overview data="{{data}}"></part-customer-overview>
+          <part-customer-address data="{{data}}"></part-customer-address>
+          <part-customer-note data="{{data}}"></part-customer-note>
+          <part-customer-tag data="{{data}}"></part-customer-tag>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-customer',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    attached: function () {
+      this.data = this.route.data.customer;
+      this.url = '/api/Customers/'+this.data.id;
+    },
+
+    save: function (event) {
+      this.convert_tags_to_array();
+      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_put_response: function (event, detail) {
+      var response = detail.response;
+      // console.log(response);
+    },
+
+    convert_tags_to_array: function () {
+      this.data.tags = [this.data.tags];
+    }
+
+  });
+</script>

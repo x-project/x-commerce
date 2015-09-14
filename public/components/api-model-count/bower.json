@@ -1,0 +1,13 @@
+{
+  "name": "api-model-count",
+  "description": "LoopBack API for models",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "LoopBack"
+  ]
+}

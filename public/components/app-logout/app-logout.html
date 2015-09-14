@@ -1,0 +1,59 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-session/app-session.html">
+<link rel="import" href="../api-user-logout/api-user-logout.html">
+<dom-module id="app-logout">
+  <template>
+
+    <app-session id="session"></app-session>
+
+    <api-user-logout id="request"
+      access_token="{{access_token}}"
+      collection="{{collection}}"
+      response="{{response}}"
+      error="{{error}}"
+      on-response="on_logout"
+      on-error="on_error">
+    </api-user-logout>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'app-logout',
+
+    properties: {
+      collection: {
+        type: String,
+        value: 'Users'
+      },
+      access_token: {
+        type: String,
+      },
+      response: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    logout: function () {
+      this.$.request.send();
+    },
+
+    on_logout: function (event) {
+      var session = this.$.session;
+      session.unset('access_token');
+      session.unset('user');
+      this.fire('logout');
+    },
+
+    on_error: function (event) {
+      console.warn(event);
+    }
+
+  });
+</script>

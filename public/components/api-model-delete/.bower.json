@@ -1,0 +1,22 @@
+{
+  "name": "api-model-delete",
+  "description": "API for models",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API"
+  ],
+  "homepage": "https://github.com/x-element/api-model-delete",
+  "_release": "2098d4afe1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2098d4afe13dabcbe91dde0052feeacb5910950e"
+  },
+  "_source": "git://github.com/x-element/api-model-delete.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-model-delete"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "api-user",
+  "description": "API for user",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-user-login": "x-element/api-user-login",
+    "api-user-logout": "x-element/api-user-logout",
+    "api-user-reset": "x-element/api-user-reset",
+    "api-user-signup": "x-element/api-user-signup"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "user"
+  ],
+  "homepage": "https://github.com/x-element/api-user",
+  "_release": "020fa7130e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "020fa7130eb9e2f3f179a871a8efedc6b1c9461d"
+  },
+  "_source": "git://github.com/x-element/api-user.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-user"
+}

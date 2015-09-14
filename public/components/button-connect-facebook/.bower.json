@@ -1,0 +1,26 @@
+{
+  "name": "button-connect-facebook",
+  "description": "button connect facebook",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "oauth-connect-facebook": "x-element/oauth-connect-facebook",
+    "oauth-session": "x-element/oauth-session"
+  },
+  "keywords": [
+    "web-components",
+    "oauth",
+    "button",
+    "connect",
+    "facebook"
+  ],
+  "homepage": "https://github.com/x-element/button-connect-facebook",
+  "_release": "62504318fc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "62504318fc070b50a9462d10bf2b214d36c19ab6"
+  },
+  "_source": "git://github.com/x-element/button-connect-facebook.git",
+  "_target": "*",
+  "_originalSource": "x-element/button-connect-facebook"
+}

@@ -1,0 +1,61 @@
+<link rel="import" href="/components/api-model-get/api-model-get.html">
+<link rel="import" href="../part-sidebar/part-sidebar.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-customers-items.html">
+<link rel="import" href="part-customers-header.html">
+<dom-module id="page-customers">
+  <template>
+    <style include="style-page"></style>
+
+    <iron-ajax id="ajax_post"
+        method="PUT"
+        url="/api/Customers"
+        content-type="application/json"
+        body="{{body}}"
+        handleAs="json"
+        on-response="on_put_response"
+        debounce-duration="300">
+    </iron-ajax>
+
+    <div class="page">
+      <part-sidebar class="sidebar"></part-sidebar>
+      <div class="main">
+        <div class="container">
+          <h1>Customers</h1>
+          <part-customers-header></part-customers-header>
+          <part-customers-items></part-customers-items>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-customers',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    save: function (event) {
+      this.convert_tags_to_array();
+      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_put_response: function (event, detail) {
+      var response = detail.response;
+      // console.log(response);
+    },
+
+    convert_tags_to_array: function () {
+      this.data.tags = [this.data.tags];
+    }
+
+  });
+</script>

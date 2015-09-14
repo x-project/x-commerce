@@ -1,0 +1,16 @@
+{
+  "name": "form-braintree",
+  "description": "form for Braintree",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "braintree-web": "braintree/braintree-web#^2.0"
+  },
+  "keywords": [
+    "web-components",
+    "form",
+    "braintree",
+    "credit-card",
+    "pay",
+    "payment"
+  ]
+}

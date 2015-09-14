@@ -1,0 +1,23 @@
+{
+  "name": "api-user-logout",
+  "description": "API for user",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "user"
+  ],
+  "homepage": "https://github.com/x-element/api-user-logout",
+  "_release": "d51e570b73",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "d51e570b735ca89debe1d7ff92d8ac6477d13bad"
+  },
+  "_source": "git://github.com/x-element/api-user-logout.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-user-logout"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "oauth-popup",
+  "description": "OAuth popup",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "oauth"
+  ]
+}

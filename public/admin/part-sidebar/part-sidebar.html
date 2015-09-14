@@ -1,0 +1,35 @@
+<dom-module id="part-sidebar">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+
+			nav {
+				padding: 20px;
+			}
+
+			h3 {
+				margin-top: 0;
+			}
+		</style>
+
+		<nav role="navigation">
+			<h3><a href="/">x-commerce</a></h3>
+			<ul class="links">
+				<li><a is="app-link" href="/admin">Admin</a></li>
+				<li><a is="app-link" href="/admin/products">Products</a></li>
+				<li><a is="app-link" href="/admin/collections">Collections</a></li>
+				<li><a is="app-link" href="/admin/orders">Orders</a></li>
+			</ul>
+		</nav>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-sidebar'
+
+	});
+</script>

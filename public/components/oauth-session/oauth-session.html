@@ -1,0 +1,114 @@
+<link rel="import" href="../polymer/polymer.html">
+<script>
+  Polymer({
+
+    is: 'oauth-session',
+
+    properties: {
+      token_prefix: {
+        type: String,
+        value: 'oauth'
+      },
+      isAuthenticated: {
+        type: Boolean,
+        notify: true
+      },
+      token: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    ready: function () {
+      this.isAuthenticated = this.is_authenticated();
+    },
+
+    get_token_name: function () {
+      var name = 'token';
+      var prefix = this.token_prefix;
+      var separator = '_';
+      var value = prefix ? prefix + separator + name : name;
+      return value;
+    },
+
+    get_token: function() {
+      var token_name = this.get_token_name();
+      return window.localStorage.getItem(token_name);
+    },
+
+    get_payload: function() {
+      var token = this.get_token();
+
+      if (!token) {
+        return;
+      }
+
+      var parts = token.split('.');
+      if (parts.length !== 3) {
+        return;
+      }
+
+      var base64Url = parts[1];
+      var base64 = base64Url.replace('-', '+').replace('_', '/');
+      var string = window.atob(base64);
+      var json = JSON.parse(string);
+      return json;
+    },
+
+    set_token: function (response) {
+      if (!response) {
+        return;
+      }
+
+      var token = response.token;
+      var token_name = this.get_token_name();
+      var token_root = this.token_root;
+
+      if (!token) {
+        if (response[token_root]) {
+          token = response[token_root][token_name];
+        }
+      }
+
+      if (!token) {
+        if (token_root) {
+          token_name = token_root + '.' + token_name;
+        }
+        throw new Error('Expecting a token named "' + token_name + '"' +
+          'in: ' + JSON.stringify(response));
+      }
+
+      window.localStorage.setItem(token_name, token);
+
+      this.fire('set-token', token);
+      this.token = token;
+    },
+
+    remove_token: function() {
+      window.localStorage.removeItem(this.token_name);
+    },
+
+    is_authenticated: function() {
+      var payload = this.get_payload();
+
+      if (!payload) {
+        return false;
+      }
+
+      var exp = payload.exp;
+      if (!exp) {
+        return true;
+      }
+
+      var time = Math.round(new Date().getTime() / 1000);
+      var valid = time <= exp;
+      return valid;
+    },
+
+    logout: function () {
+      this.remove_token();
+      this.fire('logout');
+    }
+
+  });
+</script>

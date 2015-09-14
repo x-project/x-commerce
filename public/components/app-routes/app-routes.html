@@ -1,0 +1,44 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="app-routes">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+
+    <content></content>
+
+  </template>
+</dom-module>
+
+<script src="../page/page.js"></script>
+<script>
+  Polymer({
+
+    is: 'app-routes',
+
+    listeners: {
+      'route': 'on_route'
+    },
+
+    attached: function () {
+      this.async(function () {
+        page();
+      });
+    },
+
+    on_route: function (event) {
+      var page_name = event.detail.page_name;
+      this.open_page(page_name, event.detail);
+    },
+
+    open_page: function (page_name, route) {
+      var element = document.createElement(page_name);
+      element.route = route;
+      this.fire('iron-signal', { name: 'page', data: element });
+    }
+
+  });
+</script>

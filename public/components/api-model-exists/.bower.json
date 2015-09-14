@@ -1,0 +1,22 @@
+{
+  "name": "api-model-exists",
+  "description": "API for models",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "API"
+  ],
+  "homepage": "https://github.com/x-element/api-model-exists",
+  "_release": "5dab71b6f0",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "5dab71b6f024f44af4674e34747fd16efddd203e"
+  },
+  "_source": "git://github.com/x-element/api-model-exists.git",
+  "_target": "*",
+  "_originalSource": "x-element/api-model-exists"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "oauth-v1",
+  "description": "oauth v1",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0",
+    "oauth-popup": "x-element/oauth-popup"
+  },
+  "keywords": [
+    "web-components",
+    "oauth"
+  ]
+}

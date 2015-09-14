@@ -20,7 +20,7 @@ boot(app, __dirname, function(err) {
   app.get('/admin/*', function (req, res) { res.sendFile(admin_index_path); });
 
   var client_index_path = path.resolve(__dirname, '../public/index.html');
-  app.get('*', function (req, res) { res.sendFile(index_path); });
+  app.get('/*', function (req, res) { res.sendFile(client_index_path); });
 
   if (require.main === module)
     app.start();

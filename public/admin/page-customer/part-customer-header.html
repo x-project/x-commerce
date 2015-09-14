@@ -1,0 +1,33 @@
+<dom-module id="part-customer-header">
+	<style>
+		:host {
+			display: block;
+		}
+	</style>
+	<template>
+
+    <div>
+      <h2 class="title"><span>Customer</span> <span>{{data.first_name}}</span></h2>
+      <button on-click="on_click">Save customer</button>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-customer-header',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    on_click: function (event) {
+      this.fire('try-customer-save');
+    }
+
+	});
+</script>

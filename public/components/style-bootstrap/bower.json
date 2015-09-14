@@ -1,0 +1,14 @@
+{
+  "name": "style-bootstrap",
+  "description": "Bootstrap for Polymer.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/x-element/style-bootstrap",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "style",
+    "bootstrap"
+  ]
+}

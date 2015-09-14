@@ -1,0 +1,24 @@
+{
+  "name": "app-user",
+  "description": "App user",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-model-get": "x-element/api-model-get",
+    "app-session": "x-element/app-session"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "user"
+  ],
+  "homepage": "https://github.com/x-element/app-user",
+  "_release": "25023e968a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "25023e968afdc0d8c6afe83c1ef6e7b218623729"
+  },
+  "_source": "git://github.com/x-element/app-user.git",
+  "_target": "*",
+  "_originalSource": "x-element/app-user"
+}

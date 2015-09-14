@@ -1,0 +1,50 @@
+<link rel="import" href="../polymer/polymer.html">
+<dom-module id="app-link" extends="a"></dom-module>
+<script>
+  Polymer({
+
+    is: 'app-link',
+
+    properties: {
+      base: {
+        type: String,
+        value: ''
+      }
+    },
+
+    listeners: {
+      'click': 'prevent'
+    },
+
+    prevent: function (event) {
+      // sender should be event.target
+      var el = event.target;
+
+      // ensure non-hash for the same path
+      var link = el.getAttribute('href');
+      if (el.pathname == location.pathname && (el.hash || '#' == link)) return;
+
+      // check for mailto: in the href
+      if (link.indexOf("mailto:") > -1) return;
+
+      // check target
+      if (el.target) return;
+
+      // check x-origin
+      var origin = location.protocol + '//' + location.hostname;
+      if (location.port) origin += ':' + location.port;
+      if (el.href.indexOf(origin) !== 0) return;
+
+      // rebuild path
+      var path = el.pathname + el.search + (el.hash || '');
+      origin = path + el.hash;
+      path = path.replace(this.base, '');
+      if (this.base && origin == path) return;
+
+      // prevent default
+      event.preventDefault();
+      this.fire('link', origin);
+    }
+
+  });
+</script>

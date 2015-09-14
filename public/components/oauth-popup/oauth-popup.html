@@ -1,0 +1,162 @@
+<link rel="import" href="../polymer/polymer.html">
+<script>
+  Polymer({
+
+    is: 'oauth-popup',
+
+    properties: {
+      url: {
+        type: String
+      },
+      target: {
+        type: String,
+        value: '_blank'
+      },
+      width: {
+        type: Number,
+        value: 500
+      },
+      height: {
+        type: Number,
+        value: 500
+      },
+      left: {
+        type: Number,
+        computed: '_compute_left(width)'
+      },
+      top: {
+        type: Number,
+        computed: '_compute_top(height)'
+      },
+      options: {
+        type: Object,
+        computed: '_compute_options(width, height, left, top)'
+      },
+      options_string: {
+        type: String,
+        computed: '_compute_options_string(options)'
+      },
+      response: {
+        type: Object,
+        notify: true
+      },
+      error: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    ready: function () {
+      this.popup = null;
+    },
+
+    open: function () {
+      this.popup = window.open(this.url, '_blank', this.options_string);
+
+      if (this.popup && this.popup.focus) {
+        this.popup.focus();
+      }
+
+      this._poll_popup();
+    },
+
+    _poll_popup: function () {
+      var scope = this;
+      var popup = this.popup;
+
+      var polling = setInterval(function() {
+        var document_domain = document.domain;
+        var response = {};
+        var error = {};
+
+        try {
+          var popup_domain = popup.document.domain;
+          var popup_search = popup.location.search;
+          var popup_hash = popup.location.hash;
+          var popup_redirect = document_domain === popup_domain && (popup_search || popup_hash);
+
+          if (popup_redirect) {
+            var hash_params = popup.location.hash.substring(1).replace(/\/$/, '');
+            var query_params = popup.location.search.substring(1).replace(/\/$/, '');
+            var query = scope._parse_querystring(query_params);
+            var hash = scope._parse_querystring(hash_params);
+            var key;
+
+            for (key in query) {
+              response[key] = query[key];
+            }
+            for (key in hash) {
+              response[key] = hash[key];
+            }
+
+            if (response.error) {
+              scope.error = response;
+              scope.fire('error', scope.response);
+            } else {
+              scope.response = response;
+              scope.fire('response', scope.response);
+            }
+
+            popup.close();
+            clearInterval(polling);
+          }
+        } catch (error) {
+          // console.warn(error);
+        }
+
+        if (!popup) {
+          clearInterval(polling);
+          scope.error = { data: 'Provider Popup Blocked' };
+          scope.fire('error', scope.error);
+        } else if (popup.closed) {
+          clearInterval(polling);
+          scope.error = { data: 'Authorization Failed' };
+          scope.fire('error', scope.error);
+        }
+      }, 100);
+
+    },
+
+    _compute_left: function (width) {
+      return window.screenX + ((window.outerWidth - width) / 2);
+    },
+
+    _compute_top: function (height) {
+      return window.screenY + ((window.outerHeight - height) / 2.5);
+    },
+
+    _compute_options: function (width, height, left, top) {
+      var options = { width: width, height: height, left: left, top: top };
+    },
+
+    _compute_options_string: function (options) {
+      var string;
+      var pairs = [];
+      var pair;
+      var key;
+      var value;
+      for (key in options) {
+        value = options[key];
+        pair = key + '=' + value;
+        pairs.push();
+      }
+      string = pairs.join(',');
+      return string;
+    },
+
+    _parse_querystring: function (querystring) {
+      var obj = {};
+      var pairs = querystring.split('&');
+      var key;
+      var value;
+      pairs.forEach(function (pair) {
+        pair = pair.split('=');
+        key = decodeURIComponent(pair[0]);
+        value = (typeof pair[1] !== 'undefined') ? decodeURIComponent(pair[1]) : true;
+        obj[key] = value;
+      });
+      return obj;
+    }
+
+  });
+</script>

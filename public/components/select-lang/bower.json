@@ -1,0 +1,12 @@
+{
+  "name": "select-lang",
+  "description": "select app lang",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "lang"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "app-session",
+  "description": "App session",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "web-app",
+    "session"
+  ],
+  "homepage": "https://github.com/x-element/app-session",
+  "_release": "ca8f8675ec",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ca8f8675ec9c56ab67900971afe2c8cd25b58716"
+  },
+  "_source": "git://github.com/x-element/app-session.git",
+  "_target": "*",
+  "_originalSource": "x-element/app-session"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "string-interpolation",
+  "description": "string interpolation",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "string",
+    "interpolation"
+  ]
+}

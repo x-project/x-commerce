@@ -1,0 +1,12 @@
+{
+  "name": "oauth-session",
+  "description": "oauth session",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "oauth",
+    "session"
+  ]
+}

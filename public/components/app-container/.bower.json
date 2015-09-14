@@ -1,0 +1,22 @@
+{
+  "name": "app-container",
+  "description": "App container",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "iron-signals": "PolymerElements/iron-signals#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "web-app"
+  ],
+  "homepage": "https://github.com/x-element/app-container",
+  "_release": "7f9c5493c1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "7f9c5493c1617236a774ba8076db6829287fd143"
+  },
+  "_source": "git://github.com/x-element/app-container.git",
+  "_target": "*",
+  "_originalSource": "x-element/app-container"
+}

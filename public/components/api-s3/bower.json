@@ -1,0 +1,15 @@
+{
+  "name": "api-s3",
+  "description": "API for S3",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "api-s3-delete": "x-element/api-s3-delete",
+    "api-s3-list": "x-element/api-s3-list",
+    "api-s3-upload": "x-element/api-s3-upload"
+  },
+  "keywords": [
+    "web-components",
+    "API",
+    "S3"
+  ]
+}

@@ -4,82 +4,39 @@
 <link rel="import" href="/components/app-link/app-link.html">
 <link rel="import" href="/components/app-session/app-session.html">
 <link rel="import" href="/components/iron-ajax/iron-ajax.html">
-
-<link rel="import" href="/elements/app-theme/app-theme.html">
-
-<link rel="import" href="/elements/page-home/page-home.html">
-<link rel="import" href="/elements/page-about/page-about.html">
-<link rel="import" href="/elements/page-contact/page-contact.html">
-<link rel="import" href="/elements/page-privacy/page-privacy.html">
-
-<link rel="import" href="/elements/page-login/page-login.html">
-<link rel="import" href="/elements/page-reset/page-reset.html">
-<link rel="import" href="/elements/page-signup/page-signup.html">
-
-<link rel="import" href="/elements/page-cart/page-cart.html">
-<link rel="import" href="/elements/page-product/page-product.html">
-<link rel="import" href="/elements/page-products/page-products.html">
-
-<link rel="import" href="/elements/page-admin-home/page-admin-home.html">
-<link rel="import" href="/elements/page-admin-collection/page-admin-collection.html">
-<link rel="import" href="/elements/page-admin-collections/page-admin-collections.html">
-<link rel="import" href="/elements/page-admin-orders/page-admin-orders.html">
-<link rel="import" href="/elements/page-admin-order/page-admin-order.html">
-<link rel="import" href="/elements/page-admin-product/page-admin-product.html">
-<link rel="import" href="/elements/page-admin-products/page-admin-products.html">
-
-<link rel="import" href="/elements/page-admin-customer/page-admin-customer.html">
-<link rel="import" href="/elements/page-admin-customers/page-admin-customers.html">
-
-<link rel="import" href="/elements/page-404/page-404.html">
-<link rel="import" href="/elements/page-test/page-test.html">
-
+<link rel="import" href="../app-theme/app-theme.html">
+<link rel="import" href="../page-home/page-home.html">
+<link rel="import" href="../page-about/page-about.html">
+<link rel="import" href="../page-contact/page-contact.html">
+<link rel="import" href="../page-privacy/page-privacy.html">
+<link rel="import" href="../page-cart/page-cart.html">
+<link rel="import" href="../page-product/page-product.html">
+<link rel="import" href="../page-products/page-products.html">
+<link rel="import" href="../page-404/page-404.html">
+<link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
 
     <app-session id="session"></app-session>
 
-    <app-container id="app" on-mount="on_mount"
-      on-login="on_login" on-signup="on_signup" on-logout="on_logout">
-    </app-container>
+    <app-container id="app"></app-container>
 
-    <app-routes id="routes" on-route="on_route">
-
+    <app-routes id="routes">
       <app-route path="/" page="page-home"></app-route>
       <app-route path="/home" page="page-home"></app-route>
       <app-route path="/about" page="page-about"></app-route>
       <app-route path="/contact" page="page-contact"></app-route>
       <app-route path="/privacy" page="page-privacy"></app-route>
-
-      <app-route path="/login" page="page-login" on-route="/login"></app-route>
-      <app-route path="/reset" page="page-reset" on-route="/reset"></app-route>
-      <app-route path="/signup" page="page-signup" on-route="/signup"></app-route>
-
       <app-route path="/cart" page="page-cart"></app-route>
       <app-route path="/products" page="page-products"></app-route>
       <app-route path="/products/:product_id" page="page-product"></app-route>
-
-      <app-route path="/admin" page="page-admin-home"></app-route>
-      <app-route path="/admin/collections" page="page-admin-collections"></app-route>
-      <app-route path="/admin/collections/:collection_id" page="page-admin-collection" on-route="/admin/collections/:collection_id"></app-route>
-      <app-route path="/admin/orders" page="page-admin-orders"></app-route>
-      <app-route path="/admin/orders/:order_id" page="page-admin-order" on-route="/admin/orders/:order_id"></app-route>
-      <app-route path="/admin/products" page="page-admin-products"></app-route>
-      <app-route path="/admin/products/new" page="page-admin-product"></app-route>
-      <app-route path="/admin/products/:product_id" page="page-admin-product"
-        on-route="/admin/products/:product_id" ></app-route>
-
-      <app-route path="/admin/customers" page="page-admin-customers"></app-route>
-      <app-route path="/admin/customers/:customer_id" page="page-admin-customer" on-route="/admin/customers/:customer_id"></app-route>
-
       <app-route path="/404" page="page-404"></app-route>
       <app-route path="/test" page="page-test"></app-route>
-
     </app-routes>
 
   </template>
@@ -87,138 +44,7 @@
 <script>
   Polymer({
 
-    is: 'app-boot',
-
-    properties: {
-      user: {
-        type: Object
-      }
-    },
-
-    on_route: function (event) {
-      this.user = this.$.session.get('user');
-    },
-
-    on_mount: function (event) {
-      event.detail.user = this.$.session.get('user');
-    },
-
-    on_login: function (event) {
-      this.$.session.set('user', event.detail.user);
-    },
-
-    on_signup: function (event) {
-      this.$.session.set('user', event.detail.user);
-    },
-
-    on_logout: function (event) {
-      this.$.session.unset('user');
-    },
-
-    '/login': function (event) {
-      if (this.user) {
-        event.stopPropagation();
-        page('/');
-        return;
-      }
-    },
-
-    '/reset': function (event) {
-      if (this.user) {
-        event.stopPropagation();
-        page('/');
-        return;
-      }
-    },
-
-    '/signup': function (event) {
-      if (this.user) {
-        event.stopPropagation();
-        page('/');
-        return;
-      }
-    },
-
-    '/admin/products/:product_id': function (event) {
-      event.stopPropagation();
-      var model_id = event.detail.params.product_id;
-      var routes = this.$.routes;
-
-      this.get_model('Products', model_id, function (err, model) {
-        if (err) {
-          page('/404');
-          return;
-        }
-        event.detail.data = { product: model };
-        routes.fire('route', event.detail);
-      });
-    },
-
-    '/admin/collections/:collection_id': function (event) {
-      event.stopPropagation();
-      var model_id = event.detail.params.collection_id;
-      var routes = this.$.routes;
-
-      this.get_model('Collections', model_id, function (err, model) {
-        if (err) {
-          page('/404');
-          return;
-        }
-        event.detail.data = { collection: model };
-        routes.fire('route', event.detail);
-      });
-    },
-
-    '/admin/orders/:order_id': function (event) {
-      event.stopPropagation();
-      var model_id = event.detail.params.order_id;
-      var routes = this.$.routes;
-
-      this.get_model('Orders', model_id, function (err, model) {
-        if (err) {
-          page('/404');
-          return;
-        }
-        event.detail.data = { order: model };
-        routes.fire('route', event.detail);
-      });
-    },
-
-    '/admin/customers/:customer_id': function (event) {
-      event.stopPropagation();
-      var model_id = event.detail.params.customer_id;
-      var routes = this.$.routes;
-
-      this.get_model('Customers', model_id, function (err, model) {
-        if (err) {
-          page('/404');
-          return;
-        }
-        event.detail.data = { customer: model };
-        routes.fire('route', event.detail);
-      });
-    },
-
-    get_model: function (model, model_id, callback) {
-      var ajax = document.createElement('iron-ajax');
-
-      var on_error = function () {
-        var err = ajax.lastError;
-        callback(err, null);
-      };
-
-      var on_response = function () {
-        var response = ajax.lastResponse;
-        callback(null, response);
-      };
-
-      ajax.url = '/api/'+ model +'/'+ model_id;
-      ajax.method = 'GET';
-      ajax.handleAs = 'json';
-      ajax.addEventListener('response', on_response, false);
-      ajax.addEventListener('error', on_error, false);
-      ajax.generateRequest();
-    }
+    is: 'app-boot'
 
   });
 </script>

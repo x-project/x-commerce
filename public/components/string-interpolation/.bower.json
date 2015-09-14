@@ -1,0 +1,22 @@
+{
+  "name": "string-interpolation",
+  "description": "string interpolation",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0"
+  },
+  "keywords": [
+    "web-components",
+    "string",
+    "interpolation"
+  ],
+  "homepage": "https://github.com/x-element/string-interpolation",
+  "_release": "87d3e2e072",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "87d3e2e07269ed1d14aa5a66e997a9e2504a1f3f"
+  },
+  "_source": "git://github.com/x-element/string-interpolation.git",
+  "_target": "*",
+  "_originalSource": "x-element/string-interpolation"
+}
