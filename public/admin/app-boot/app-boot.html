@@ -5,7 +5,6 @@
 <link rel="import" href="/components/app-session/app-session.html">
 <link rel="import" href="/components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../app-theme/app-theme.html">
-
 <link rel="import" href="../page-home/page-home.html">
 <link rel="import" href="../page-collections/page-collections.html">
 <link rel="import" href="../page-collection/page-collection.html">
@@ -15,14 +14,13 @@
 <link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-customers/page-customers.html">
 <link rel="import" href="../page-customer/page-customer.html">
-
 <dom-module id="app-boot">
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
 
     <app-session id="session"></app-session>
 
@@ -31,19 +29,19 @@
     <app-routes id="routes" on-route="on_route">
       <app-route path="/admin" page="page-home"></app-route>
       <app-route path="/admin/" page="page-home"></app-route>
-
       <app-route path="/admin/collections" page="page-collections"></app-route>
-      <app-route path="/admin/collections/:collection_id" page="page-collection" on-route="/admin/collections/:collection_id"></app-route>
+      <app-route path="/admin/collections/:collection_id" page="page-collection"
+        on-route="/admin/collections/:collection_id"></app-route>
       <app-route path="/admin/orders" page="page-orders"></app-route>
-      <app-route path="/admin/orders/:order_id" page="page-order" on-route="/admin/orders/:order_id"></app-route>
-
+      <app-route path="/admin/orders/:order_id" page="page-order"
+        on-route="/admin/orders/:order_id"></app-route>
       <app-route path="/admin/products" page="page-products"></app-route>
-      <app-route path="/admin/products/:product_id" page="page-product" on-route="/admin/products/:product_id" ></app-route>
-
-      <!-- <app-route path="/admin/products/new" page="page-product"></app-route> -->
-
+      <app-route path="/admin/products/new" page="page-product"></app-route>
+      <app-route path="/admin/products/:product_id" page="page-product"
+        on-route="/admin/products/:product_id"></app-route>
       <app-route path="/admin/customers" page="page-customers"></app-route>
-      <app-route path="/admin/customers/:customer_id" page="page-customer" on-route="/admin/customers/:customer_id"></app-route>
+      <app-route path="/admin/customers/:customer_id" page="page-customer"
+        on-route="/admin/customers/:customer_id"></app-route>
     </app-routes>
 
   </template>
