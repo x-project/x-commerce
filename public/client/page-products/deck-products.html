@@ -1,0 +1,23 @@
+<dom-module id="deck-products">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<div class="deck">
+			<template is="dom-repeat" items="{{products}}">
+				<div>...</div>
+			</template>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'deck-products'
+
+	});
+</script>

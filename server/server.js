@@ -14,12 +14,13 @@ app.start = function() {
 boot(app, __dirname, function(err) {
   if (err) throw err;
 
-  app.use(loopback.static(path.resolve(__dirname, '../client')));
+  app.use(loopback.static(path.resolve(__dirname, '../public')));
 
-  var index_path = path.resolve(__dirname, '../client/index.html');
+  var admin_index_path = path.resolve(__dirname, '../public/admin.html');
+  app.get('/admin/*', function (req, res) { res.sendFile(admin_index_path); });
+
+  var client_index_path = path.resolve(__dirname, '../public/index.html');
   app.get('*', function (req, res) { res.sendFile(index_path); });
-
-  // app.get('/admin/*', function (req, res) { res.sendFile(index_path); });
 
   if (require.main === module)
     app.start();

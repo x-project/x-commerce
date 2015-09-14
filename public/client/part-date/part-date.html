@@ -1,0 +1,39 @@
+<dom-module id="part-date">
+  <style>
+    :host {
+      display: inline-block;
+    }
+  </style>
+  <template>
+
+    <span>{{formatted}}</span>
+
+  </template>
+</dom-module>
+<!-- <script src="/components/moment/moment.js"></script> -->
+<script>
+  Polymer({
+
+    is: 'part-date',
+
+    properties: {
+      date: {
+        type: String,
+        observer: 'update'
+      },
+      format: {
+        type: String,
+        value: 'L'
+      },
+      formatted: {
+        type: String,
+        notify: true
+      }
+    },
+
+    update: function (date) {
+      // this.formatted = moment(date).calendar()
+    }
+
+  });
+</script>

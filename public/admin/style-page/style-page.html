@@ -1,0 +1,32 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+
+<dom-module id="style-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .page {
+        @apply(--layout-horizontal);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 280px;
+      }
+
+      .main {
+        @apply(--layout-flex);
+      }
+    </style>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'style-page'
+
+  });
+</script>
