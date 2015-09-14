@@ -1,18 +1,27 @@
 <dom-module id="part-cart-orders">
-	<style>
-		:host {
-			display: block;
-		}
-	</style>
 	<template>
-		<h2>Your Cart</h2>
-		<h3>list order..</h3>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<template is="dom-repeat" items="{{orders}}">
+			...
+		</template>
+
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'part-cart-orders'
+		is: 'part-cart-orders',
+
+		properties: {
+			orders: {
+				type: Array
+			}
+		}
 
 	});
 </script>

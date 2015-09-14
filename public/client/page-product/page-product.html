@@ -1,8 +1,7 @@
 <link rel="import" href="../part-footer/part-footer.html">
-<link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../part-social/part-social.html">
-<link rel="import" href="part-product-product.html">
+<link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="part-product-info.html">
 <dom-module id="page-product">
 	<template>
 		<style include="style-page"></style>
@@ -14,7 +13,7 @@
           <h1>Product</h1>
         </part-jumbotron>
         <div class="container">
-					<part-product-product></part-product-product>
+					<part-product-info product="{{product}}"></part-product-product>
         </div>
       </div>
       <div class="space"></div>
@@ -26,7 +25,13 @@
 <script>
 	Polymer({
 
-		is: 'page-product'
+		is: 'page-product',
+
+    properties: {
+      product: {
+        type: Object
+      }
+    }
 
 	});
 </script>

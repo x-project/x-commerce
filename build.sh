@@ -1,0 +1,2 @@
+vulcanize -p './public' --inline-scripts --inline-css --strip-comments index.html > public/build/index.html
+vulcanize -p './public' --inline-scripts --inline-css --strip-comments admin.html > public/build/admin.html
