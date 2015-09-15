@@ -14,6 +14,7 @@
 <link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-customers/page-customers.html">
 <link rel="import" href="../page-customer/page-customer.html">
+<link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
     <style>
@@ -30,18 +31,23 @@
       <app-route path="/admin" page="page-home"></app-route>
       <app-route path="/admin/" page="page-home"></app-route>
       <app-route path="/admin/collections" page="page-collections"></app-route>
+      <!-- <app-route path="/admin/collections/new" page="page-collection"></app-route> -->
       <app-route path="/admin/collections/:collection_id" page="page-collection"
         on-route="/admin/collections/:collection_id"></app-route>
       <app-route path="/admin/orders" page="page-orders"></app-route>
+      <!-- <app-route path="/admin/orders/new" page="page-order"></app-route> -->
       <app-route path="/admin/orders/:order_id" page="page-order"
         on-route="/admin/orders/:order_id"></app-route>
       <app-route path="/admin/products" page="page-products"></app-route>
-      <app-route path="/admin/products/new" page="page-product"></app-route>
+      <!-- <app-route path="/admin/products/new" page="page-product"></app-route> -->
       <app-route path="/admin/products/:product_id" page="page-product"
         on-route="/admin/products/:product_id"></app-route>
       <app-route path="/admin/customers" page="page-customers"></app-route>
+      <!-- <app-route path="/admin/customers/new" page="page-customer"></app-route> -->
       <app-route path="/admin/customers/:customer_id" page="page-customer"
         on-route="/admin/customers/:customer_id"></app-route>
+
+      <app-route path="/admin/test" page="page-test"></app-route>
     </app-routes>
 
   </template>

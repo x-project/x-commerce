@@ -1,0 +1,85 @@
+<link rel="import" href="/components/iron-ajax/iron-ajax.html">
+
+<dom-module id="part-product-collections">
+	<template>
+
+    <iron-ajax id="ajax_get"
+      method="GET"
+      url="/api/Collections"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{collections}}">
+    </iron-ajax>
+
+		<div class="panel">
+      <div class="field">
+        <label class="label">Collections</label>
+        <input class="input" type="text" on-focus="on_focus">
+      </div>
+		</div>
+
+    <div class="items">
+      <template id="collections" is="dom-repeat" items="{{collections}}">
+        <div on-click="on_click_collection">
+          <span>{{item.id}}</span>
+          <span>{{item.title}}</span>
+          <span>{{item.description}}</span>
+          <span>{{item.is_published}}</span>
+        <div>
+      </template>
+    </div>
+
+    <div class="selected items">
+      <template id="selected" is="dom-repeat" items="{{selected}}">
+        <div on-click="on_click_selected">
+          <span>{{item.title}}</span>
+        <div>
+      </template>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-collections',
+
+    properties: {
+      collections: {
+        type: Array,
+        value: function () { return []; }
+      },
+      selected:{
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    on_focus: function (event) {
+      event.stopPropagation();
+      this.$.ajax_get.generateRequest();
+    },
+
+    on_click_collection: function (event) {
+      var collection = this.$.collections.itemForElement(event.target);
+      if (this.selected.indexOf(collection) < 0) {
+        this.add_collection(collection);
+      }
+    },
+
+    add_collection: function (collection) {
+      this.push('selected', collection);
+
+      //TODO: ajax
+    },
+
+    on_click_selected: function (event) {
+      var collection = this.$.selected.itemForElement(event.target);
+      var index = this.$.selected.indexForElement(event.target);
+      this.splice('selected', index, 1);
+
+      //TODO: ajax
+    }
+
+	});
+</script>

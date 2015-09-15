@@ -74,5 +74,8 @@
   },
   "Address": {
     "dataSource": "mongo"
+  },
+  "CollectionProduct": {
+    "dataSource": "mongo"
   }
 }

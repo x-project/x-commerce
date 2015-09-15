@@ -1,0 +1,17 @@
+{
+	"name": "CollectionProduct",
+	"plural": "CollectionProducts",
+	"base": "PersistedModel",
+	"properties": {
+		"collectionId": {
+			"type": "Number"
+		},
+		"productId": {
+			"type": "Number"
+		}
+	},
+	"relations": {},
+	"acls": [],
+	"methods": [],
+	"validations": []
+}

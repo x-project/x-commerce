@@ -23,8 +23,9 @@
 			"model": "Image"
 		},
 		"products":{
-			"type": "hasMany",
-			"model": "Product"
+			"type": "hasAndBelongsToMany",
+			"model": "Product",
+			"through": "CollectionProduct"
 		},
 		"collection_filters": {
 			"type": "hasMany",

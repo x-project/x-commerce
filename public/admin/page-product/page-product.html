@@ -12,6 +12,8 @@
 <link rel="import" href="part-product-visibility.html">
 <link rel="import" href="part-product-variant-option.html">
 <link rel="import" href="part-product-variant.html">
+<link rel="import" href="part-product-collections.html">
+<link rel="import" href="part-product-vendor.html">
 <dom-module id="page-product">
   <template>
     <style include="style-page"></style>
@@ -40,7 +42,10 @@
           <part-product-inventory data="{{data}}"></part-product-inventory>
           <part-product-shipping data="{{data}}"></part-product-shipping>
 
-          <part-product-organization data="{{data.vendor}}"></part-product-organization>
+          <h1>Organization</h1>
+          <part-product-collections></part-product-collections>
+          <part-product-vendor></part-product-vendor>
+          <!-- <part-product-organization data="{{data.vendor}}"></part-product-organization> -->
           <!-- <part-product-variant-option></part-product-variant-option> -->
           <!-- <part-product-variant></part-product-variant> -->
           <part-product-save-delete data="{{data}}" on-try-save="save"></part-product-save-delete>

@@ -1,0 +1,83 @@
+
+<dom-module id="part-product-vendor">
+	<template>
+    <iron-ajax id="ajax_get"
+      method="GET"
+      url="/api/Vendors"
+      content-type="application/json"
+      handle-as="json"
+      last-response="{{vendors}}">
+    </iron-ajax>
+
+    <div class="panel">
+      <div class="field">
+        <label class="label">Vendor</label>
+        <input class="input" type="text" on-focus="on_focus">
+      </div>
+    </div>
+
+    <div class="items">
+      <template id="vendors" is="dom-repeat" items="{{vendors}}">
+        <div on-click="on_click_vendor">
+          <span>{{item.name}}</span>
+          <span>{{item.description}}</span>
+        <div>
+      </template>
+    </div>
+
+    <div class="selected items">
+      <template id="selected" is="dom-repeat" items="{{selected}}">
+        <div on-click="on_click_selected">
+          <span>{{item.name}}</span>
+        <div>
+      </template>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-vendor',
+
+    properties: {
+      vendors: {
+        type: Array,
+        value: function () { return []; }
+      },
+      selected:{
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    on_focus: function (event) {
+      event.stopPropagation();
+      this.$.ajax_get.generateRequest();
+      console.log(this.vendors);
+    },
+
+    on_click_vendor: function (event) {
+      var vendor = this.$.vendors.itemForElement(event.target);
+      if (this.selected.indexOf(vendor) < 0) {
+        this.add_collection(vendor);
+      }
+    },
+
+    add_collection: function (vendor) {
+      this.push('selected', vendor);
+
+      //TODO: ajax
+    },
+
+    on_click_selected: function (event) {
+      var collection = this.$.selected.itemForElement(event.target);
+      var index = this.$.selected.indexForElement(event.target);
+      this.splice('selected', index, 1);
+
+      //TODO: ajax
+    }
+
+
+	});
+</script>
