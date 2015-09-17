@@ -11,6 +11,15 @@
       last-response="{{collections}}">
     </iron-ajax>
 
+    <iron-ajax id="ajax_post"
+      method="PUT"
+      url="/api/CollectionProducts"
+      content-type="application/json"
+      body="{{body}}"
+      handleAs="json"
+      on-response="on_put_response">
+    </iron-ajax>
+
 		<div class="panel">
       <div class="field">
         <label class="label">Collections</label>
@@ -52,6 +61,12 @@
       selected:{
         type: Array,
         value: function () { return []; }
+      },
+      data: {
+        type: String,
+        value: function () {
+          return '';
+        }
       }
     },
 
@@ -69,7 +84,7 @@
 
     add_collection: function (collection) {
       this.push('selected', collection);
-
+      this.save_collection_product(collection.id);
       //TODO: ajax
     },
 
@@ -77,9 +92,19 @@
       var collection = this.$.selected.itemForElement(event.target);
       var index = this.$.selected.indexForElement(event.target);
       this.splice('selected', index, 1);
+      this.delete_collection_product(collection);
+    },
 
-      //TODO: ajax
+    save_collection_product: function (collectionId) {
+      var put_params = { 'collectionId': collectionId, 'productId': this.data.id };
+      var this.body = JSON.stringify(put_params);
+      this.$.ajax_post.generateRequest();
+    },
+
+    delete_collection_product: function () {
+
     }
+
 
 	});
 </script>

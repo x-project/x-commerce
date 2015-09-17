@@ -5,7 +5,6 @@
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
 <link rel="import" href="part-product-inventory.html">
-<link rel="import" href="part-product-organization.html">
 <link rel="import" href="part-product-pricing.html">
 <link rel="import" href="part-product-shipping.html">
 <link rel="import" href="part-product-save-delete.html">
@@ -14,18 +13,20 @@
 <link rel="import" href="part-product-variant.html">
 <link rel="import" href="part-product-collections.html">
 <link rel="import" href="part-product-vendor.html">
+<link rel="import" href="part-product-type.html">
+<link rel="import" href="part-product-tag.html">
+
 <dom-module id="page-product">
   <template>
     <style include="style-page"></style>
 
     <iron-ajax id="ajax_post"
-        method="PUT"
-        url="{{url}}"
-        content-type="application/json"
-        body="{{body}}"
-        handleAs="json"
-        on-response="on_put_response"
-        debounce-duration="300">
+      method="PUT"
+      url="{{url}}"
+      content-type="application/json"
+      body="{{body}}"
+      handleAs="json"
+      on-response="on_put_response">
     </iron-ajax>
 
     <div class="page">
@@ -43,12 +44,13 @@
           <part-product-shipping data="{{data}}"></part-product-shipping>
 
           <h1>Organization</h1>
-          <part-product-collections></part-product-collections>
+          <part-product-collections data="{{data}}"></part-product-collections>
           <part-product-vendor></part-product-vendor>
-          <!-- <part-product-organization data="{{data.vendor}}"></part-product-organization> -->
+          <part-product-type></part-product-type>
+          <part-product-tag data="{{data}}"></part-product-tag>
           <!-- <part-product-variant-option></part-product-variant-option> -->
           <!-- <part-product-variant></part-product-variant> -->
-          <part-product-save-delete data="{{data}}" on-try-save="save"></part-product-save-delete>
+          <part-product-save-delete on-try-save="save"></part-product-save-delete>
         </div>
       </div>
     </div>
@@ -63,10 +65,12 @@
     properties: {
       data: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       },
+      productId: {
+        type: String,
+        value: function () { return ''; }
+      }
     },
 
     attached: function () {
@@ -74,9 +78,6 @@
       this.url = '/api/Products/'+this.data.id;
     },
 
-    on_get_response: function () {
-      // console.log(JSON.stringify(this.data));
-    },
 
     save: function (event) {
       this.body = JSON.stringify(this.data);
