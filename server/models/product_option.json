@@ -1,6 +1,6 @@
 {
-	"name": "ProductVariantOption",
-	"plural": "ProductVariantsOptions",
+	"name": "ProductOption",
+	"plural": "ProductOptions",
 	"base": "PersistedModel",
 	"properties": {
 		"name": {

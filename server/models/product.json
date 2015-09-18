@@ -54,7 +54,7 @@
 		}
 	},
 	"relations": {
-		"product_type": {
+		"producttype": {
 			"type": "belongsTo",
 			"model": "ProductType",
 			"foreignKey": "producttypeId"
@@ -74,12 +74,12 @@
 			"model": "Collection",
 			"through": "CollectionProduct"
 		},
-		"product_options": {
+		"options": {
 			"type": "hasMany",
-			"model": "ProductVariantOption",
-			"foreignKey": "productvariantoptionId"
+			"model": "ProductOption",
+			"foreignKey": "productoptionId"
 		},
-		"product_variants": {
+		"variants": {
 			"type": "hasMany",
 			"model": "ProductVariant",
 			"foreignKey": "productvariantId"

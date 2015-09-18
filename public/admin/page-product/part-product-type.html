@@ -1,25 +1,24 @@
-<dom-module id="part-product-vendor">
-  <template>
 
+<dom-module id="part-product-type">
+	<template>
     <iron-ajax id="ajax_get"
       method="GET"
-      url="/api/Vendors"
+      url="/api/ProductTypes"
       content-type="application/json"
       handle-as="json"
-      last-response="{{vendors}}">
+      last-response="{{product_types}}">
     </iron-ajax>
-
 
     <div class="panel">
       <div class="field">
-        <label class="label">Vendor</label>
+        <label class="label">product type</label>
         <input class="input" type="text" on-focus="on_focus">
       </div>
     </div>
 
     <div class="items">
-      <template id="vendors" is="dom-repeat" items="{{vendors}}">
-        <div on-click="on_click_vendor">
+      <template id="product_types" is="dom-repeat" items="{{product_types}}">
+        <div on-click="on_click_product_types">
           <span>{{item.name}}</span>
           <span>{{item.description}}</span>
         <div>
@@ -39,10 +38,10 @@
 <script>
 	Polymer({
 
-		is: 'part-product-vendor',
+		is: 'part-product-type',
 
     properties: {
-      vendors: {
+      product_types: {
         type: Array,
         value: function () { return []; }
       },
@@ -55,18 +54,17 @@
     on_focus: function (event) {
       event.stopPropagation();
       this.$.ajax_get.generateRequest();
-      console.log(this.vendors);
     },
 
-    on_click_vendor: function (event) {
-      var vendor = this.$.vendors.itemForElement(event.target);
-      if (this.selected.indexOf(vendor) < 0) {
-        this.add_collection(vendor);
+    on_click_product_types: function (event) {
+      var product_type = this.$.product_types.itemForElement(event.target);
+      if (this.selected.indexOf(product_type) < 0) {
+        this.add_collection(product_type);
       }
     },
 
-    add_collection: function (vendor) {
-      this.push('selected', vendor);
+    add_collection: function (product_type) {
+      this.push('selected', product_type);
 
       //TODO: ajax
     },

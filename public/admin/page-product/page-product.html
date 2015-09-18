@@ -9,8 +9,8 @@
 <link rel="import" href="part-product-shipping.html">
 <link rel="import" href="part-product-save-delete.html">
 <link rel="import" href="part-product-visibility.html">
-<link rel="import" href="part-product-variant-option.html">
-<link rel="import" href="part-product-variant.html">
+<link rel="import" href="part-product-options.html">
+<link rel="import" href="part-product-variants.html">
 <link rel="import" href="part-product-collections.html">
 <link rel="import" href="part-product-vendor.html">
 <link rel="import" href="part-product-type.html">
@@ -47,9 +47,9 @@
           <part-product-collections data="{{data}}"></part-product-collections>
           <part-product-vendor></part-product-vendor>
           <part-product-type></part-product-type>
-          <part-product-tag data="{{data}}"></part-product-tag>
-          <!-- <part-product-variant-option></part-product-variant-option> -->
-          <!-- <part-product-variant></part-product-variant> -->
+          <!-- <part-product-tag data="{{data}}"></part-product-tag> -->
+          <part-product-options></part-product-options>
+          <!-- <part-product-variants></part-product-variants> -->
           <part-product-save-delete on-try-save="save"></part-product-save-delete>
         </div>
       </div>
@@ -70,6 +70,10 @@
       productId: {
         type: String,
         value: function () { return ''; }
+      },
+      options: {
+        type: Object,
+        value: { 'size': true, 'color': true, 'material': true }
       }
     },
 

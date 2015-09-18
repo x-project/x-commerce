@@ -1,0 +1,29 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<dom-module id="part-product-variants">
+	<template>
+		<style include="style-panel"></style>
+
+    <div class="panel">
+			<h2>Variants</h2>
+
+      <template is="dom-repeat">
+
+      </template>
+
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-variants',
+
+    properties: {
+      data: {
+        type: Object,
+        notify: true
+      }
+    }
+
+  });
+</script>

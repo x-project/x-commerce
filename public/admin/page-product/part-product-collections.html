@@ -3,22 +3,18 @@
 <dom-module id="part-product-collections">
 	<template>
 
-    <iron-ajax id="ajax_get"
-      method="GET"
-      url="/api/Collections"
-      content-type="application/json"
-      handle-as="json"
-      last-response="{{collections}}">
+    <iron-ajax id="ajax_get_filter_collection" method="GET" url="/api/Collections"
+      handle-as="json" last-response="{{collections}}">
     </iron-ajax>
 
-    <iron-ajax id="ajax_post"
-      method="PUT"
-      url="/api/CollectionProducts"
-      content-type="application/json"
-      body="{{body}}"
-      handleAs="json"
-      on-response="on_put_response">
+    <iron-ajax id="ajax_put" method="PUT" on-error="on_error"></iron-ajax>
+
+    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
+
+    <iron-ajax id="ajax_product_collections" method="GET" url="{{url_product_collections}}"
+      handle-as="json" last-response="{{selected}}">
     </iron-ajax>
+
 
 		<div class="panel">
       <div class="field">
@@ -40,8 +36,9 @@
 
     <div class="selected items">
       <template id="selected" is="dom-repeat" items="{{selected}}">
-        <div on-click="on_click_selected">
+        <div>
           <span>{{item.title}}</span>
+          <button on-click="on_click_selected">remove</button>
         <div>
       </template>
     </div>
@@ -63,48 +60,55 @@
         value: function () { return []; }
       },
       data: {
-        type: String,
-        value: function () {
-          return '';
-        }
+        type: Object,
+        value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      this.url_product_collections = '/api/Products/' + this.data.id + '/collections';
+      this.$.ajax_product_collections.generateRequest();
     },
 
     on_focus: function (event) {
       event.stopPropagation();
-      this.$.ajax_get.generateRequest();
+      this.$.ajax_get_filter_collection.generateRequest();
     },
 
     on_click_collection: function (event) {
       var collection = this.$.collections.itemForElement(event.target);
-      if (this.selected.indexOf(collection) < 0) {
-        this.add_collection(collection);
+      if (!this.check_exists_selected_collection(collection)) {
+        this.add_collection_product(collection);
       }
     },
 
-    add_collection: function (collection) {
+    add_collection_product: function (collection) {
       this.push('selected', collection);
-      this.save_collection_product(collection.id);
-      //TODO: ajax
+      this.$.ajax_put.url = '/api/Products/' + this.data.id + '/collections/rel/' + collection.id;
+      this.$.ajax_put.generateRequest();
     },
 
     on_click_selected: function (event) {
       var collection = this.$.selected.itemForElement(event.target);
-      var index = this.$.selected.indexForElement(event.target);
+      this.remove_collection_product(collection);
+    },
+
+    remove_collection_product: function (collection) {
+      var index = this.selected.indexOf(collection);
       this.splice('selected', index, 1);
-      this.delete_collection_product(collection);
+      this.$.ajax_delete.url = '/api/Products/' + this.data.id + '/collections/rel/' + collection.id;
+      this.$.ajax_delete.generateRequest();
     },
 
-    save_collection_product: function (collectionId) {
-      var put_params = { 'collectionId': collectionId, 'productId': this.data.id };
-      var this.body = JSON.stringify(put_params);
-      this.$.ajax_post.generateRequest();
+    on_error: function (event) {
+      console.log(event);
     },
 
-    delete_collection_product: function () {
-
+    check_exists_selected_collection: function (collection) {
+      return this.selected.some(function (element) {
+        return element.id === collection.id;
+      });
     }
-
 
 	});
 </script>

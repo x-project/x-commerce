@@ -60,7 +60,7 @@
   "ProductVariant": {
     "dataSource": "mongo"
   },
-  "ProductVariantOption": {
+  "ProductOption": {
     "dataSource": "mongo"
   },
   "Tax": {

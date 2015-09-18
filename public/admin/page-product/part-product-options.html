@@ -1,0 +1,67 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-product-options.html">
+<dom-module id="part-product-options">
+	<template>
+	  <style include="style-panel"></style>
+    <style>
+      #form {
+        display: none;
+      }
+      #form[open] {
+        display: block;
+      }
+    </style>
+
+    <div class="panel">
+			<h2 class="title">Options</h2>
+
+      <!-- <template></template> -->
+
+      <button on-click="on_click_add">add option</button>
+
+			<form-product-options id="form" open$="{{open}}"
+        on-try-save="on_try_save" option="{{option}}">
+      </form-product-options>
+
+		</div>
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-options',
+
+    properties: {
+      option: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      open: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    on_click_add: function (event) {
+      this.open_form();
+    },
+
+    open_form: function (event) {
+      this.set('open', true);
+      this.set('option', {});
+    },
+
+    close_form: function (event) {
+      this.set('open', false);
+      this.set('option', {});
+    },
+
+    on_try_save: function (event) {
+      this.options.values = this.options.values.split(' ');
+      // TODO: ajax
+      console.log(this.option);
+      this.close_form();
+    }
+
+	});
+</script>
