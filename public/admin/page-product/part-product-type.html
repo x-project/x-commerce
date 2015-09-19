@@ -1,39 +1,41 @@
 <dom-module id="part-product-type">
 	<template>
-
-    <iron-ajax id="ajax_get_prod_type" url="{{url_prod_type}}" handle-as="json"
-      last-response="{{prod_type}}" on-response="on_response_prod_type">
+    <!-- get di tutti i productType-->
+    <iron-ajax id="ajax_init_prod_type" url="{{url_init_prod_type}}" handle-as="json"
+      last-response="{{prod_type}}">
     </iron-ajax>
-
-    <iron-ajax id="ajax_get_prod_types" url="/api/ProductTypes" handle-as="json"
+    <!-- get productType del prodotto, al caricamento della pagina-->
+    <iron-ajax id="ajax_prod_types" url="/api/ProductTypes" handle-as="json"
       last-response="{{product_types}}">
     </iron-ajax>
-
+    <!-- associa un productType al prodotto corrente facendo un update del prodotto-->
     <iron-ajax id="ajax_put_prod" method="PUT" url="{{url_update_product}}" content-type="application/json"
       body="{{body}}" handleAs="json">
     </iron-ajax>
-
-    <iron-ajax id="ajax_put_prod_type" method="PUT" url="/api/ProductTypes" content-type="application/json"
-      body="{{body}}" handleAs="json">
+    <!-- crea un productType nuovo-->
+    <iron-ajax id="ajax_post_prod_type" method="POST" url="/api/ProductTypes" content-type="application/json"
+      body="{{body}}" handleAs="json" on-response="on_response_product_type">
     </iron-ajax>
-
-    <iron-ajax id="ajax_count_prod_type" url="{{url_count_prod_type}}" last-response="{{cout_prod_type}}" on-response="on_response_prod_type_count">
+    <!-- ritorna il numero di vendor con lo stesso nome-->
+    <iron-ajax id="ajax_count_prod_type" url="{{url_count_prod_type}}" last-response="{{count_prod_type}}"
+      on-response="on_response_count_prod_type">
     </iron-ajax>
 
     <div class="panel">
       <div class="field">
         <label class="label">product type</label>
-        <input class="input" id="input"  type="text" is="iron-input" bind-value="{{name}}" on-keypress="on_product_type_search">
+        <input class="input" id="input"  type="text" is="iron-input" bind-value="{{prod_type.name}}"
+          on-keypress="on_product_type_search">
       </div>
     </div>
 
     <div class="items">
-      <template id="product_types" is="dom-repeat" items="{{product_types}}" filter="filter_product_type" sort="sort">
+      <template id="product_types" is="dom-repeat" items="{{product_types}}" filter="filter_product_types">
         <div>
           <span>{{item.id}}</span>
           <span>{{item.name}}</span>
           <span>{{item.description}}</span>
-          <button on-click="on_product_type_selected">select</button>
+          <button on-click="on_click_product_type">select</button>
         <div>
       </template>
     </div>
@@ -54,11 +56,6 @@
         type: Array,
         value: function () { return []; }
       },
-      name: {
-        type: String,
-        value: function () { return ''; },
-        observer: 'changed_name'
-      },
       data: {
         type: Object,
         value: function () { return {}; }
@@ -67,26 +64,24 @@
         type: Object,
         value: function () { return {}; }
       },
-      cout_prod_type: {
+      count_prod_type: {
         type: Object,
         value: function () { return {}; }
       }
     },
 
     attached: function () {
-      this.url_prod_type = '/api/Products/' + this.data.id + '/producttype';
-      this.$.ajax_get_prod_type.generateRequest();
-    },
-
-    on_response_prod_type: function () {
-      this.set('name', this.prod_type.name);
+      this.url_init_prod_type = '/api/Products/' + this.data.id + '/producttype';
+      this.$.ajax_init_prod_type.generateRequest();
     },
 
     on_product_type_search: function (event) {
-      this.$.ajax_get_prod_types.generateRequest();
+      event.stopPropagation();
       if(event.keyCode === 13){
-        this.check_if_prod_type_exists(this.name);
+        this.check_if_prod_type_exists(this.prod_type.name);
+        return;
       }
+      this.$.ajax_prod_types.generateRequest();
     },
 
     check_if_prod_type_exists: function (prod_type_name) {
@@ -94,45 +89,45 @@
       this.$.ajax_count_prod_type.generateRequest();
     },
 
-    on_response_prod_type_count: function (event) {
-      if(this.cout_prod_type.count > 0)
+    on_response_count_prod_type: function (event) {
+      event.stopPropagation();
+      if(this.count_prod_type.count > 0)
         return;
       this.create_new_prod_type();
     },
 
     create_new_prod_type: function () {
-      var new_prod_type = { name: this.name, description: ''};
-      this.$.ajax_put_prod_type.body = JSON.stringify(new_prod_type);
-      this.$.ajax_put_prod_type.generateRequest();
+      var new_prod_type = { name: this.prod_type.name, description: ''};
+      this.$.ajax_post_prod_type.body = JSON.stringify(new_prod_type);
+      this.$.ajax_post_prod_type.generateRequest();
     },
 
-    filter_product_type: function (item) {
-      return item.name.search(this.name)>=0;
+    filter_product_types: function (item) {
+      return item.name.search(this.prod_type.name) >= 0;
     },
 
-    sort: function (prod_typeA, prod_typeB) {
-      if(prod_typeA.name > prod_typeB.name)
-        return 1;
-      return -1;
-    },
-
-    on_product_type_selected: function (event) {
+    on_click_product_type: function (event) {
       event.stopPropagation();
-      var item = this.$.product_types.itemForElement(event.target);
-      this.name = item.name;
-      this.set('prod_type.name', item.name);
-      this.try_save(item);
+      var product_type = this.$.product_types.itemForElement(event.target);
+      this.prod_type.name = product_type.name;
+      this.set('prod_type.name', product_type.name);
+      this.try_save(product_type);
     },
 
-    try_save: function (item) {
+    try_save: function (product_type) {
       this.url_update_product = '/api/Products/' + this.data.id;
-      this.data['productTypeId'] =  item.id;
+      this.data['productTypeId'] =  product_type.id;
       this.$.ajax_put_prod.body = JSON.stringify(this.data);
       this.$.ajax_put_prod.generateRequest();
     },
 
-    changed_name: function (prod_type_name) {
-      //notify template repeat for refresh filter items
+    on_response_product_type: function (event, details) {
+      var new_prod_type = details.response;
+      this.try_save(new_prod_type);
+    },
+
+    changed_prod_type_name: function (prod_type_name) {
+      //notify template repeat for refresh filter items on input value deleted
     }
 
 	});
