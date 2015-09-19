@@ -14,7 +14,6 @@
         method="PUT"
         url="{{url}}"
         content-type="application/json"
-        body="{{body}}"
         handleAs="json"
         on-response="on_put_response"
         debounce-duration="300">
@@ -57,15 +56,13 @@
 
     save: function (event) {
       event.stopPropagation();
-      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.body = JSON.stringify(this.data);
       this.$.ajax_post.generateRequest();
     },
 
     on_put_response: function (event, detail) {
       var response = detail.response;
-      // console.log(response);
     }
-
 
 	});
 </script>

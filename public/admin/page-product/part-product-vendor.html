@@ -1,35 +1,39 @@
 <dom-module id="part-product-vendor">
   <template>
-
-    <iron-ajax id="ajax_get"
-      method="GET"
-      url="/api/Vendors"
-      content-type="application/json"
-      handle-as="json"
+    <!-- get di tutti i vendor-->
+    <iron-ajax id="ajax_vendors" url="/api/Vendors" handle-as="json"
       last-response="{{vendors}}">
+    </iron-ajax>
+    <!-- get vendor del prodotto, al caricamento della pagina-->
+    <iron-ajax id="ajax_init_vendor" url="{{url_init_vendor}}" handle-as="json"
+      last-response="{{vendor}}">
+    </iron-ajax>
+    <!-- associa un vendor al prodotto corrente facendo un update del prodotto-->
+    <iron-ajax id="ajax_put_product_vendor" method="PUT" url="{{url_put_product_vendor}}"
+      content-type="application/json" body="{{body}}" handleAs="json">
+    </iron-ajax>
+    <!-- crea un vendor nuovo-->
+    <iron-ajax id="ajax_post_vendor" method="POST" url="/api/Vendors" content-type="application/json"
+      body="{{body}}" handleAs="json" on-response="on_response_new_vendor">
+    </iron-ajax>
+    <!-- ritorna il numero di vendor con lo stesso nome-->
+    <iron-ajax id="ajax_count_vendors" url="{{url_count_vendor}}" last-response="{{count_vendors}}"
+      on-response="on_response_vendor_count">
     </iron-ajax>
 
 
     <div class="panel">
       <div class="field">
         <label class="label">Vendor</label>
-        <input class="input" type="text" on-focus="on_focus">
+        <input class="input" type="text" is="iron-input" bind-value="{{vendor.name}}" on-keypress="on_vendor_search">
       </div>
     </div>
 
     <div class="items">
-      <template id="vendors" is="dom-repeat" items="{{vendors}}">
-        <div on-click="on_click_vendor">
-          <span>{{item.name}}</span>
-          <span>{{item.description}}</span>
+      <template id="vendors" is="dom-repeat" items="{{vendors}}" filter="filter_vendors">
         <div>
-      </template>
-    </div>
-
-    <div class="selected items">
-      <template id="selected" is="dom-repeat" items="{{selected}}">
-        <div on-click="on_click_selected">
           <span>{{item.name}}</span>
+          <button on-click="on_click_vendor">select</button>
         <div>
       </template>
     </div>
@@ -46,39 +50,83 @@
         type: Array,
         value: function () { return []; }
       },
-      selected:{
+      selected: {
         type: Array,
         value: function () { return []; }
+      },
+      data: {
+        type: Object,
+        value: function () {return {}; }
+      },
+      count_vendors: {
+        type: Object,
+        value: function () {return {}; }
+      },
+      vendor: {
+        type: Object,
+        value: function () {return {}; }
       }
     },
 
-    on_focus: function (event) {
+    attached: function () {
+      this.url_init_vendor = '/api/Products/' + this.data.id + '/vendor';
+      this.$.ajax_init_vendor.generateRequest();
+    },
+
+    on_vendor_search: function (event) {
       event.stopPropagation();
-      this.$.ajax_get.generateRequest();
-      console.log(this.vendors);
-    },
-
-    on_click_vendor: function (event) {
-      var vendor = this.$.vendors.itemForElement(event.target);
-      if (this.selected.indexOf(vendor) < 0) {
-        this.add_collection(vendor);
+      if(event.keyCode === 13){
+        this.check_if_vendor_exists(this.vendor.name);
+        return;
       }
+      this.$.ajax_vendors.generateRequest();
     },
 
-    add_collection: function (vendor) {
-      this.push('selected', vendor);
-
-      //TODO: ajax
+    check_if_vendor_exists: function (vendor_name) {
+      this.url_count_vendor = '/api/Vendors/count?where={' + "\"name\":" + "\""+ vendor_name + "\"" + "}";
+      this.$.ajax_count_vendors.generateRequest();
     },
 
-    on_click_selected: function (event) {
-      var collection = this.$.selected.itemForElement(event.target);
-      var index = this.$.selected.indexForElement(event.target);
-      this.splice('selected', index, 1);
+    on_click_vendor: function (event) {
+      event.stopPropagation();
+      var vendor = this.$.vendors.itemForElement(event.target);
+      this.vendor.name = vendor.name;
+      this.set('vendor.name', vendor.name);
+      this.try_save(vendor);
+    },
 
-      //TODO: ajax
+    on_response_vendor_count: function () {
+      event.stopPropagation();
+      if(this.count_vendors.count > 0)
+        return;
+      this.create_new_vendor();
+    },
+
+    create_new_vendor: function () {
+      var new_vendor = { name: this.vendor.name, description: ''};
+      this.$.ajax_post_vendor.body = JSON.stringify(new_vendor);
+      this.$.ajax_post_vendor.generateRequest();
+    },
+
+    try_save: function (vendor) {
+      this.url_put_product_vendor = '/api/Products/' + this.data.id;
+      this.data['vendorId'] =  vendor.id;
+      this.$.ajax_put_product_vendor.body = JSON.stringify(this.data);
+      this.$.ajax_put_product_vendor.generateRequest();
+    },
+
+    on_response_new_vendor: function (event, details) {
+      var vendor = details.response;
+      this.try_save(vendor);
+    },
+
+    filter_vendors: function (item) {
+      return item.name.search(this.vendor.name) >= 0;
+    },
+
+    changed_vendor_name: function (vendor_name) {
+      //notify template repeat for refresh filter items on input value deleted
     }
-
 
 	});
 </script>

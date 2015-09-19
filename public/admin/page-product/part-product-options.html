@@ -15,12 +15,19 @@
     <div class="panel">
 			<h2 class="title">Options</h2>
 
-      <!-- <template></template> -->
+      <template is="dom-repeat" items="{{list_option}}">
+      <div>
+        <span>{{item.name}}</span>
+        <span>{{item.values}}</span>
+
+      </div>
+      </template>
+
 
       <button on-click="on_click_add">add option</button>
 
 			<form-product-options id="form" open$="{{open}}"
-        on-try-save="on_try_save" option="{{option}}">
+        on-try-save="on_try_save" option="{{options}}">
       </form-product-options>
 
 		</div>
@@ -32,13 +39,17 @@
 		is: 'part-product-options',
 
     properties: {
-      option: {
+      options: {
         type: Object,
         value: function () { return {}; }
       },
       open: {
         type: Boolean,
         value: false
+      },
+      list_option: {
+        type: Array,
+        value: function () { return []; }
       }
     },
 
@@ -48,18 +59,19 @@
 
     open_form: function (event) {
       this.set('open', true);
-      this.set('option', {});
+      this.set('options', {});
     },
 
     close_form: function (event) {
       this.set('open', false);
-      this.set('option', {});
+      this.set('options', {});
     },
 
     on_try_save: function (event) {
       this.options.values = this.options.values.split(' ');
       // TODO: ajax
-      console.log(this.option);
+      console.log(this.options.name);
+      this.push('list_option', this.options);
       this.close_form();
     }
 
