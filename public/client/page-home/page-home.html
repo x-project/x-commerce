@@ -2,7 +2,7 @@
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-home-latest.html">
+<link rel="import" href="part-home-products.html">
 
 <dom-module id="page-home">
 	<template>
@@ -12,10 +12,11 @@
       <part-header class="header"></part-header>
       <div class="main">
         <part-jumbotron class="jumbotron">
-          <h1>Home</h1>
+          <h1>x-commerce</h1>
         </part-jumbotron>
         <div class="container">
-					<part-home-latest></part-home-latest>
+          <h2>Catalag</h2>
+					<part-home-products products="{{products}}"></part-home-products>
         </div>
       </div>
       <div class="space"></div>
@@ -27,7 +28,14 @@
 <script>
 	Polymer({
 
-		is: 'page-home'
+		is: 'page-home',
+
+    properties: {
+      products: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
 
 	});
 </script>

@@ -2,6 +2,8 @@
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="part-product-info.html">
+<link rel="import" href="part-product-images.html">
+<link rel="import" href="part-product-details.html">
 <dom-module id="page-product">
 	<template>
 		<style include="style-page"></style>
@@ -9,11 +11,11 @@
     <div class="page">
       <part-header class="header"></part-header>
       <div class="main">
-        <part-jumbotron class="jumbotron">
-          <h1>Product</h1>
-        </part-jumbotron>
+        <h1><span>Product</span> <span>product.name</span></h1>
         <div class="container">
 					<part-product-info product="{{product}}"></part-product-product>
+          <part-product-images product="{{product}}"></part-product-images>
+          <part-product-details product="{{product}}"></part-product-details>
         </div>
       </div>
       <div class="space"></div>

@@ -1,0 +1,25 @@
+<link rel="import" href="../style-card/style-card.html">
+<dom-module id="card-product">
+  <template>
+    <style include="style-card"></style>
+
+    <div class="card">
+      <div class="info"></div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'card-product',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

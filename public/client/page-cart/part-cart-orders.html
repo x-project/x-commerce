@@ -1,27 +1,28 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-card-order.html">
 <dom-module id="part-cart-orders">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style include="style-list"></style>
 
-		<template is="dom-repeat" items="{{orders}}">
-			...
-		</template>
+    <div class="list">
+      <template is="dom-repeat" items="{{orders}}" as="order">
+        <part-cart-order order="{{order}}"></part-cart-order>
+      </template>
+    </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-cart-orders',
+    is: 'part-cart-orders',
 
-		properties: {
-			orders: {
-				type: Array
-			}
-		}
+    properties: {
+      orders: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
 
-	});
+  });
 </script>
