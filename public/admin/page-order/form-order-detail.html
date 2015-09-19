@@ -14,8 +14,9 @@
 
 		<form id="form" role="form" on-submit="on_submit">
 			<div class="field">
-				<input class="input"  id="input" type="text" is="iron-input" bind-value="{{data.title}}" placeholder="find or create item" on-keypress="on_order">
+				<input class="input" id="input" type="text" is="iron-input" bind-value="{{data.title}}" placeholder="find or create item" on-keypress="on_order">
 			</div>
+
     <template id="orderFilter" is="dom-repeat" items="{{productsItem}}" filter="filter_order">
       <div class="test">
         <b>title: </b><span>{{item.title}}</span>
@@ -70,7 +71,8 @@
 		on_order_selected: function (event) {
       event.stopPropagation();
 			var item = this.$.orderFilter.itemForElement(event.target);
-			this.$.input.value = item.title;
+      this.data.value = item.title;
+      this.set('data.value', item.title);
 		}
 
 	});

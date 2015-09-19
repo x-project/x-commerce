@@ -1,34 +1,39 @@
-
 <dom-module id="part-product-type">
 	<template>
-    <iron-ajax id="ajax_get"
-      method="GET"
-      url="/api/ProductTypes"
-      content-type="application/json"
-      handle-as="json"
+
+    <iron-ajax id="ajax_get_prod_type" url="{{url_prod_type}}" handle-as="json"
+      last-response="{{prod_type}}" on-response="on_response_prod_type">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_get_prod_types" url="/api/ProductTypes" handle-as="json"
       last-response="{{product_types}}">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_put_prod" method="PUT" url="{{url_update_product}}" content-type="application/json"
+      body="{{body}}" handleAs="json">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_put_prod_type" method="PUT" url="/api/ProductTypes" content-type="application/json"
+      body="{{body}}" handleAs="json">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_count_prod_type" url="{{url_count_prod_type}}" last-response="{{cout_prod_type}}" on-response="on_response_prod_type_count">
     </iron-ajax>
 
     <div class="panel">
       <div class="field">
         <label class="label">product type</label>
-        <input class="input" type="text" on-focus="on_focus">
+        <input class="input" id="input"  type="text" is="iron-input" bind-value="{{name}}" on-keypress="on_product_type_search">
       </div>
     </div>
 
     <div class="items">
-      <template id="product_types" is="dom-repeat" items="{{product_types}}">
-        <div on-click="on_click_product_types">
+      <template id="product_types" is="dom-repeat" items="{{product_types}}" filter="filter_product_type" sort="sort">
+        <div>
+          <span>{{item.id}}</span>
           <span>{{item.name}}</span>
           <span>{{item.description}}</span>
-        <div>
-      </template>
-    </div>
-
-    <div class="selected items">
-      <template id="selected" is="dom-repeat" items="{{selected}}">
-        <div on-click="on_click_selected">
-          <span>{{item.name}}</span>
+          <button on-click="on_product_type_selected">select</button>
         <div>
       </template>
     </div>
@@ -48,35 +53,87 @@
       selected:{
         type: Array,
         value: function () { return []; }
+      },
+      name: {
+        type: String,
+        value: function () { return ''; },
+        observer: 'changed_name'
+      },
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      prod_type: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      cout_prod_type: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
-    on_focus: function (event) {
+    attached: function () {
+      this.url_prod_type = '/api/Products/' + this.data.id + '/producttype';
+      this.$.ajax_get_prod_type.generateRequest();
+    },
+
+    on_response_prod_type: function () {
+      this.set('name', this.prod_type.name);
+    },
+
+    on_product_type_search: function (event) {
+      this.$.ajax_get_prod_types.generateRequest();
+      if(event.keyCode === 13){
+        this.check_if_prod_type_exists(this.name);
+      }
+    },
+
+    check_if_prod_type_exists: function (prod_type_name) {
+      this.url_count_prod_type = '/api/ProductTypes/count?where={' + "\"name\":" + "\""+prod_type_name+ "\"" + "}";
+      this.$.ajax_count_prod_type.generateRequest();
+    },
+
+    on_response_prod_type_count: function (event) {
+      if(this.cout_prod_type.count > 0)
+        return;
+      this.create_new_prod_type();
+    },
+
+    create_new_prod_type: function () {
+      var new_prod_type = { name: this.name, description: ''};
+      this.$.ajax_put_prod_type.body = JSON.stringify(new_prod_type);
+      this.$.ajax_put_prod_type.generateRequest();
+    },
+
+    filter_product_type: function (item) {
+      return item.name.search(this.name)>=0;
+    },
+
+    sort: function (prod_typeA, prod_typeB) {
+      if(prod_typeA.name > prod_typeB.name)
+        return 1;
+      return -1;
+    },
+
+    on_product_type_selected: function (event) {
       event.stopPropagation();
-      this.$.ajax_get.generateRequest();
+      var item = this.$.product_types.itemForElement(event.target);
+      this.name = item.name;
+      this.set('prod_type.name', item.name);
+      this.try_save(item);
     },
 
-    on_click_product_types: function (event) {
-      var product_type = this.$.product_types.itemForElement(event.target);
-      if (this.selected.indexOf(product_type) < 0) {
-        this.add_collection(product_type);
-      }
+    try_save: function (item) {
+      this.url_update_product = '/api/Products/' + this.data.id;
+      this.data['productTypeId'] =  item.id;
+      this.$.ajax_put_prod.body = JSON.stringify(this.data);
+      this.$.ajax_put_prod.generateRequest();
     },
 
-    add_collection: function (product_type) {
-      this.push('selected', product_type);
-
-      //TODO: ajax
-    },
-
-    on_click_selected: function (event) {
-      var collection = this.$.selected.itemForElement(event.target);
-      var index = this.$.selected.indexForElement(event.target);
-      this.splice('selected', index, 1);
-
-      //TODO: ajax
+    changed_name: function (prod_type_name) {
+      //notify template repeat for refresh filter items
     }
-
 
 	});
 </script>

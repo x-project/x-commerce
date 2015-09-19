@@ -57,7 +57,7 @@
 		"producttype": {
 			"type": "belongsTo",
 			"model": "ProductType",
-			"foreignKey": "producttypeId"
+			"foreignKey": "productTypeId"
 		},
 		"vendor": {
 			"type": "belongsTo",

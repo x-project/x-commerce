@@ -20,7 +20,7 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_post"
+    <iron-ajax id="ajax_put"
       method="PUT"
       url="{{url}}"
       content-type="application/json"
@@ -46,7 +46,7 @@
           <h1>Organization</h1>
           <part-product-collections data="{{data}}"></part-product-collections>
           <part-product-vendor></part-product-vendor>
-          <part-product-type></part-product-type>
+          <part-product-type data="{{data}}"></part-product-type>
           <!-- <part-product-tag data="{{data}}"></part-product-tag> -->
           <part-product-options></part-product-options>
           <!-- <part-product-variants></part-product-variants> -->
@@ -85,7 +85,7 @@
 
     save: function (event) {
       this.body = JSON.stringify(this.data);
-      this.$.ajax_post.generateRequest();
+      this.$.ajax_put.generateRequest();
     },
 
     on_put_response: function (event, detail) {
