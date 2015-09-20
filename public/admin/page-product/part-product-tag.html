@@ -1,5 +1,28 @@
 <dom-module id="part-product-tag">
 	<template>
+    <style>
+      :host {
+        display: block;
+       }
+       .tag{
+        border-radius: 4px 4px;
+        display: inline-block;
+        width: 80px;
+        height: 40px;
+        background-color: LIGHTSTEELBLUE;
+
+       }
+       .btn_delete_tag{
+        display: inline-block;
+        opacity: .4;
+        float: right;
+        margin-right: 10px;
+       }
+       .btn_delete_tag:hover {
+        opacity: 1;
+        cursor: pointer;
+       }
+    </style>
 
     <div class="field">
       <label class="label">Tags</label>
@@ -10,7 +33,7 @@
       <template id="tags" is="dom-repeat" items="{{tags_list}}">
         <div class="tag">
           <span>{{item}}</span>
-          <button on-click="on_click_tag" class="btn_delete_tag">X</button>
+          <div on-click="on_click_tag" class="btn_delete_tag">X</div>
         <div>
       </template>
     </div>

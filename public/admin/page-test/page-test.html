@@ -1,5 +1,4 @@
 <link rel="import" href="../part-product-options/part-product-options.html">
-<link rel="import" href="../page-product/part-product-tag.html">
 
 <dom-module id="page-test">
   <template>
@@ -8,12 +7,14 @@
         display: block;
         padding: 40px;
        }
+       h1{
+        color: red;
+       }
     </style>
 
     <h1>test</h1>
 
-    <!-- <part-product-options></part-product-options> -->
-    <part-product-tag on-change-tags-list="test" data="{{data}}"></part-product-tag>
+    <part-product-options></part-product-options>
   </template>
 </dom-module>
 <script>
