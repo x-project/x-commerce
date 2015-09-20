@@ -9,8 +9,8 @@
       last-response="{{product_types}}">
     </iron-ajax>
     <!-- associa un productType al prodotto corrente facendo un update del prodotto-->
-    <iron-ajax id="ajax_put_prod" method="PUT" url="{{url_update_product}}" content-type="application/json"
-      body="{{body}}" handleAs="json">
+    <iron-ajax id="ajax_put_prod" method="PUT" url="{{url_update_product}}"
+      content-type="application/json" body="{{body}}" handleAs="json">
     </iron-ajax>
     <!-- crea un productType nuovo-->
     <iron-ajax id="ajax_post_prod_type" method="POST" url="/api/ProductTypes" content-type="application/json"

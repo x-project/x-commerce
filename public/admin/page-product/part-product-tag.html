@@ -1,10 +1,18 @@
-
 <dom-module id="part-product-tag">
 	<template>
 
     <div class="field">
       <label class="label">Tags</label>
-      <input class="input" type="text" is="iron-input" bind-value="{{data.tags}}">
+      <input class="input" type="text" is="iron-input" bind-value="{{tag}}" on-keyup="on_tag_edit">
+    </div>
+
+    <div class="items">
+      <template id="tags" is="dom-repeat" items="{{tags_list}}">
+        <div class="tag">
+          <span>{{item}}</span>
+          <button on-click="on_click_tag" class="btn_delete_tag">X</button>
+        <div>
+      </template>
     </div>
 
 	</template>
@@ -17,10 +25,58 @@
     properties: {
       data: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       },
+      tag: {
+        type: String,
+        value: function () { return ''; }
+      },
+      separator: {
+        type: Array,
+        value: function () { return ['.', '-', ',']; }
+      },
+      tags_list: {
+        type: Array,
+        notify: true,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      this.tags_list = this.data.tags;
+    },
+
+    on_tag_edit: function (event) {
+      var tag_last_char = this.tag.substring(this.tag.length-1, this.tag.length);
+      if(event.keyCode === 13 || this.isContains(tag_last_char)){
+        (event.keyCode === 13) ? this.add_tag(this.tag.substring(0, this.tag.length))
+          : this.add_tag(this.tag.substring(0, this.tag.length-1));
+        this.reset_tag_value();
+      }
+    },
+
+    add_tag: function (clean_tag) {
+      if(clean_tag.length > 0 && !this.isContains(clean_tag))
+        this.push('tags_list', clean_tag);
+    },
+
+    isContains: function (tag_last_char) {
+      return this.separator.some(function (element) {
+        if(element === tag_last_char)
+          return true;
+      });
+    },
+
+    reset_tag_value: function () {
+      this.set('tag', '');
+      this.fire('change-tags-list', { tags: this.tags_list });
+    },
+
+    on_click_tag: function (event) {
+      var tag = this.$.tags.itemForElement(event.target);
+      var index = this.$.tags.indexForElement(event.target);
+      this.splice('tags_list', index, 1);
+      this.fire('change-tags-list', { tags: this.tags_list });
     }
 
 	});

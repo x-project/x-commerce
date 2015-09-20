@@ -87,7 +87,6 @@
       event.stopPropagation();
       var model_id = event.detail.params.product_id;
       var routes = this.$.routes;
-
       this.get_model('Products', model_id, function (err, model) {
         if (err) {
           page('/404');

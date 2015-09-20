@@ -47,8 +47,8 @@
           <part-product-collections data="{{data}}"></part-product-collections>
           <part-product-vendor data="{{data}}"></part-product-vendor>
           <part-product-type data="{{data}}"></part-product-type>
-          <!-- <part-product-tag data="{{data}}"></part-product-tag> -->
-          <part-product-options></part-product-options>
+          <part-product-tag data="{{data}}" on-change-tags-list="get_tag_list"></part-product-tag>
+          <!-- <part-product-options></part-product-options> -->
           <!-- <part-product-variants></part-product-variants> -->
           <part-product-save-delete on-try-save="save"></part-product-save-delete>
         </div>
@@ -90,6 +90,11 @@
 
     on_put_response: function (event, detail) {
       var response = detail.response;
+    },
+
+    get_tag_list: function (event) {
+      var tags = event.detail.tags;
+      this.data['tags'] = tags;
     }
 
   });
