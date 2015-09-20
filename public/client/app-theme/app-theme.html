@@ -1,6 +1,17 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="/components/layout-grid/layout-grid.html">
 <style is="custom-style">
+
+  @font-face {
+    font-family: font-light;
+    src: url('/fonts/font/font-light.woff');
+  }
+  @font-face {
+    font-family: font-regular;
+    src: url('/fonts/font/font-regular.woff');
+  }
+  @font-face {
+    font-family: font-bold;
+    src: url('/fonts/font/font-bold.woff');
+  }
 
   html,
   body {
@@ -11,33 +22,7 @@
   }
 
   body {
-    font-family: sans-serif;
-  }
-
-  html /deep/ p {
-    line-height: 1.75;
-    letter-spacing: 0.5px;
-  }
-
-  html /deep/ .field {
-    margin-bottom: 4px;
-  }
-
-  html /deep/ input {
-    height: 24px;
-    padding: 4px;
-    font-family: sans-serif;
-    font-size: 14px;
-  }
-
-  html /deep/ input:focus {
-    outline: none;
-  }
-
-  html /deep/ .container {
-    display: block;
-    @apply(--layout-col-10);
-    @apply(--layout-col-offset-1);
+    font-family: font-regular, sans-serif;
   }
 
 </style>

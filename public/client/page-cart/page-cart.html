@@ -1,12 +1,12 @@
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-footer/part-footer.html">
-<link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-cart-orders.html">
 <dom-module id="page-cart">
-	<template>
-		<style include="style-page"></style>
+  <template>
+    <style include="style-page"></style>
 
     <div class="page">
       <part-header class="header"></part-header>
@@ -15,20 +15,23 @@
           <h1>Cart</h1>
         </part-jumbotron>
         <div class="container">
-					<part-cart-orders></part-cart-orders>
-					<part-cart-orders-details></part-cart-orders-details>
+          <part-cart-orders></part-cart-orders>
         </div>
       </div>
       <div class="space"></div>
       <part-footer class="footer"></part-footer>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-cart'
+    is: 'page-cart',
 
-	});
+    properties: {
+
+    }
+
+  });
 </script>

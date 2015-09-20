@@ -1,23 +1,28 @@
+<link rel="import" href="../style-deck/style-deck.html">
+<link rel="import" href="card-product.html">
 <dom-module id="deck-products">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style include="style-deck"></style>
 
-		<div class="deck">
-			<template is="dom-repeat" items="{{products}}">
-				<div>...</div>
-			</template>
-		</div>
+    <div class="deck">
+      <template is="dom-repeat" items="{{products}}" as="product">
+        <card-product product="{{product}}"></card-product>
+      </template>
+    </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'deck-products'
+    is: 'deck-products',
 
-	});
+    properties: {
+      products: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
 </script>

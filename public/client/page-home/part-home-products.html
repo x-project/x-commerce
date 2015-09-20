@@ -1,0 +1,27 @@
+<link rel="import" href="../style-deck/style-deck.html">
+<dom-module id="part-home-products">
+	<template>
+		<style include="style-deck"></style>
+
+		<div class="deck">
+			<template is="dom-repeat" items="{{products}}" as="product">
+				<part-home-product product="{{product}}"></part-home-product>
+			</template>
+		</div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-home-products',
+
+		properties: {
+			products: {
+				type: Array,
+				value: function () { return []; }
+			}
+		}
+
+	});
+</script>

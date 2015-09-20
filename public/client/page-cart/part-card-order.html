@@ -1,4 +1,4 @@
-<dom-module id="part-product-info">
+<dom-module id="part-cart-order">
   <template>
     <style>
       :host {
@@ -6,18 +6,19 @@
       }
     </style>
 
-    <div class="description">{{product.description}}</div>
+    <div class="item"></div>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-product-info',
+    is: 'part-cart-order',
 
     properties: {
-      product: {
-        type: Object
+      order: {
+        type: Object,
+        value: function () { return {}; }
       }
     }
 
