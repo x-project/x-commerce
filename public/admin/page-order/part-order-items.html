@@ -1,0 +1,31 @@
+<link rel="import" href="part-order-item.html">
+<dom-module id="part-order-items">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+
+		<h2>Order items</h2>
+		<template is="dom-repeat" items="{{items}}">
+			<part-order-item item="{{item}}"></part-order-item>
+		</template>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-order-items',
+
+		properties: {
+			items: {
+				type: Array,
+				value: function () { return []; }
+			}
+		}
+
+
+	});
+</script>
