@@ -11,12 +11,7 @@
 			"type": "String"
 		}
 	},
-	"relations": {
-		"products": {
-			"type": "hasMany",
-			"model": "Product"
-		}
-	},
+	"relations": {},
 	"acls": [],
 	"methods": [],
 	"validations": []

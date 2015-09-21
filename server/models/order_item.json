@@ -16,7 +16,6 @@
 			"type": "belongsTo",
 			"model": "ProductVariant"
 		}
-
 	},
 	"acls": [],
 	"methods": [],

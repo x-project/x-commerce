@@ -33,22 +33,21 @@
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
-          <h1>Products</h1>
           <part-product-header data="{{data}}" on-try-save="save"></part-product-header>
           <part-product-info data="{{data}}"></part-product-info>
           <part-product-visibility data="{{data}}"></part-product-visibility>
-          <!-- <part-product-image data="{{data}}"></part-product-image> -->
+          <part-product-image data="{{data}}"></part-product-image>
           <part-product-pricing data="{{data}}"></part-product-pricing>
           <part-product-inventory data="{{data}}"></part-product-inventory>
           <part-product-shipping data="{{data}}"></part-product-shipping>
 
-          <h1>Organization</h1>
+          <h2>Organization</h2>
           <part-product-collections data="{{data}}"></part-product-collections>
           <part-product-vendor data="{{data}}"></part-product-vendor>
-          <part-product-type data="{{data}}"></part-product-type>
-          <part-product-tag data="{{data}}" on-change-tags-list="get_tag_list"></part-product-tag>
-          <part-product-options></part-product-options>
-          <!-- <part-product-variants></part-product-variants> -->
+          <!-- <part-product-type data="{{data}}"></part-product-type> -->
+          <part-product-tag data="{{data}}"></part-product-tag>
+          <part-product-options data="{{data}}"></part-product-options>
+          <part-product-variants></part-product-variants>
           <part-product-save-delete on-try-save="save"></part-product-save-delete>
         </div>
       </div>
@@ -68,11 +67,7 @@
       },
       productId: {
         type: String,
-        value: function () { return ''; }
-      },
-      options: {
-        type: Object,
-        value: { 'size': true, 'color': true, 'material': true }
+        value: ''
       }
     },
 
@@ -81,7 +76,6 @@
       this.url = '/api/Products/'+this.data.id;
     },
 
-
     save: function (event) {
       this.body = JSON.stringify(this.data);
       this.$.ajax_put.generateRequest();
@@ -89,11 +83,6 @@
 
     on_put_response: function (event, detail) {
       var response = detail.response;
-    },
-
-    get_tag_list: function (event) {
-      var tags = event.detail.tags;
-      this.data['tags'] = tags;
     }
 
   });

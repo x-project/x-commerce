@@ -1,5 +1,5 @@
-<link rel="import" href="../part-product-options/part-product-options.html">
-
+<link rel="import" href="../page-product/part-product-options.html">
+<link rel="import" href="../page-product/part-product-input-option.html">
 <dom-module id="page-test">
   <template>
     <style>
@@ -7,14 +7,12 @@
         display: block;
         padding: 40px;
        }
-       h1{
-        color: red;
-       }
     </style>
 
     <h1>test</h1>
 
-    <part-product-options></part-product-options>
+    <!-- <part-product-options></part-product-options> -->
+    <part-product-input-option></part-product-input-option>
   </template>
 </dom-module>
 <script>
@@ -22,14 +20,7 @@
 
     is: 'page-test',
 
-    properties: {
-
-    },
-
-    test: function (event) {
-      console.log(event.detail.tags_list);
-    }
-
+    properties: {}
 
   });
 </script>

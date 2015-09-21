@@ -1,22 +1,17 @@
 {
-	"name": "Vendor",
-	"plural": "Vendors",
-	"base": "PersistedModel",
-	"properties": {
-		"name": {
-			"type": "String"
-		},
-		"description": {
-			"type": "String"
-		}
-	},
-	"relations": {
-		"products": {
-			"type": "hasMany",
-			"model": "Product"
-		}
-	},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "name": "Vendor",
+  "plural": "Vendors",
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
 }
