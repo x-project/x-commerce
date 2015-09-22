@@ -52,6 +52,16 @@
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
+    <iron-ajax id="ajax_variants" method="GET" url="/api/ProductVariants/generate" handle-as="json"
+      last-response="{{variants}}" on-error="on_error" on-response="on_response_variants">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
+      content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
+    </iron-ajax>
+
+
+
     <div class="panel">
       <h2 class="title">Options</h2>
 
@@ -114,6 +124,10 @@
       product_options: {
         type: Object,
         value: function () { return {}; }
+      },
+      variants: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
@@ -125,6 +139,9 @@
     on_response_options: function (event) {
       event.stopPropagation();
       this.set('options', this.product_options);
+      if(this.product_options.length > 0){
+        this.$.generate_variant.disabled = '';
+      }
     },
 
     on_click_add_option: function (event) {
@@ -176,14 +193,18 @@
 
     on_click_generate_variant: function (event) {
       event.stopPropagation();
-      // chiamata remota....
-      // cancella opzioni dopo aver creato varianti
+      this.$.ajax_variants.generateRequest();
+    },
+
+    on_response_variants: function (event) {
+      console.log(this.variants);
+      event.stopPropagation();
+      this.fire('generate-variants', {variant_result: this.variants});
     },
 
     on_error: function (event) {
       console.log(event);
     }
-
 
   });
 </script>

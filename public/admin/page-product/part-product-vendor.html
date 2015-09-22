@@ -28,6 +28,7 @@
       <template id="vendors" is="dom-repeat" items="{{vendors}}" filter="filter_vendors">
         <div class="item" on-click="on_click_vendor">
           <span>{{item.name}}</span>
+          <span>{{index}}</span>
         <div>
       </template>
     </div>

@@ -40,14 +40,13 @@
           <part-product-pricing data="{{data}}"></part-product-pricing>
           <part-product-inventory data="{{data}}"></part-product-inventory>
           <part-product-shipping data="{{data}}"></part-product-shipping>
-
           <h2>Organization</h2>
           <part-product-collections data="{{data}}"></part-product-collections>
           <part-product-vendor data="{{data}}"></part-product-vendor>
           <part-product-type data="{{data}}"></part-product-type>
           <part-product-tag data="{{data}}"></part-product-tag>
-          <part-product-options data="{{data}}"></part-product-options>
-          <part-product-variants></part-product-variants>
+          <part-product-options data="{{data}}" on-generate-variants="on_generate_variants"></part-product-options>
+          <part-product-variants variants="{{variants}}"></part-product-variants>
           <part-product-save-delete on-try-save="save"></part-product-save-delete>
         </div>
       </div>
@@ -68,7 +67,11 @@
       productId: {
         type: String,
         value: ''
-      }
+      },
+      variants: {
+        type: Array,
+        value: function () { return []; }
+      },
     },
 
     attached: function () {
@@ -83,7 +86,11 @@
 
     on_put_response: function (event, detail) {
       var response = detail.response;
-    }
+    },
 
+    on_generate_variants: function (event){
+      event.stopPropagation();
+      this.set('variants', event.detail.variant_result.variants);
+    }
   });
 </script>

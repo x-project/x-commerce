@@ -1,24 +1,46 @@
 <link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <dom-module id="part-product-variants">
-	<template>
-		<style include="style-panel"></style>
+  <template>
+    <style include="style-panel"></style>
 
     <div class="panel">
-			<h2>Variants</h2>
-
-      <template is="dom-repeat">
-
+      <h2>Variants</h2>
+      <template is="dom-repeat" id="variants" items="{{variants}}">
+        <div class="item">
+          <paper-checkbox checked="{{item.available}}" on-click="on_click_variant"></paper-checkbox>
+          <span>{{item.combo}}</span>
+          <input type="text" placeholder="price">
+          <input type="text" placeholder="sku">
+          <input type="text" placeholder="barcode">
+        </div>
       </template>
-
-		</div>
-	</template>
+    </div>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-variants',
+    is: 'part-product-variants',
 
-    properties: {}
+    properties: {
+      variants: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    on_click_variant: function (event) {
+      event.stopPropagation();
+      var variant = this.$.variants.itemForElement(event.target);
+      var index = this.$.variants.indexForElement(event.target);
+    },
+
+    on_click_variant: function (event) {
+      event.preventDefault();
+      var variant = this.$.variants.itemForElement(event.target);
+      console.log(variant);
+    }
 
   });
 </script>
