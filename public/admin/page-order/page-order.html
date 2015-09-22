@@ -1,34 +1,23 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-order-customer-info.html">
-<link rel="import" href="part-order-details.html">
+<link rel="import" href="part-order-customer.html">
+<link rel="import" href="part-order-items.html">
 <link rel="import" href="part-order-header.html">
-<link rel="import" href="part-order-history.html">
 <link rel="import" href="part-order-info.html">
-
 <dom-module id="page-order">
 	<template>
 		<style include="style-page"></style>
-
-		<iron-ajax id="ajax_post"
-        method="PUT"
-        url="{{url}}"
-        content-type="application/json"
-        handleAs="json"
-        on-response="on_put_response"
-        debounce-duration="300">
-    </iron-ajax>
 
 		<div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
 		  <div class="main">
         <div class="container">
-		      <h1>Orders</h1>
-		      <part-order-header></part-order-header>
+		      <h1><span>Order</span> <span>{{data.id}}</span></h1>
+		      <part-order-header data="{{data}}"></part-order-header>
 					<part-order-info data="{{data}}"></part-order-info>
-					<part-order-customer-info></part-order-customer-info>
-					<part-order-details on-try-save-order="save"></part-order-details>
-					<part-order-history></part-order-history>
+					<part-order-customer data="{{data}}"></part-order-customer>
+					<part-order-details data="{{data}}"></part-order-details>
+					<part-order-items items="{{data.items}}"></part-order-items>
 		    </div>
 		  </div>
 		</div>
@@ -43,25 +32,8 @@
     properties: {
       data: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       },
-    },
-
-    attached: function () {
-      this.data = this.route.data.order;
-      this.url = '/api/Orders/'+this.data.id;
-    },
-
-    save: function (event) {
-      event.stopPropagation();
-      this.$.ajax_post.body = JSON.stringify(this.data);
-      this.$.ajax_post.generateRequest();
-    },
-
-    on_put_response: function (event, detail) {
-      var response = detail.response;
     }
 
 	});

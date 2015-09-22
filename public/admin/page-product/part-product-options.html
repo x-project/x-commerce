@@ -1,45 +1,103 @@
 <link rel="import" href="../style-panel/style-panel.html">
-<link rel="import" href="form-product-options.html">
+<link rel="import" href="form-product-option.html">
+<link rel="import" href="part-product-option.html">
 <dom-module id="part-product-options">
-	<template>
-	  <style include="style-panel"></style>
+  <template>
     <style>
+      :host {
+        display: block;
+      }
       #form {
         display: none;
       }
       #form[open] {
         display: block;
       }
+      #last_option {
+        display: none;
+      }
+      #last_option[saving] {
+        display: block;
+      }
+      .option {
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: #eee;
+      }
+      .option .delete {
+        padding-left: 8px;
+        opacity: .4;
+        cursor: pointer;
+      }
+      .option .delete:hover {
+        opacity: 1;
+      }
+      .option .name {
+        background-color: #eaa;
+        border-radius: 4px;
+      }
+      .option .value{
+        background-color: #aae;
+        border-radius: 4px;
+      }
     </style>
 
+    <iron-ajax id="ajax_product_options" method="GET" url="{{url_product_options}}"
+      handle-as="json" last-response="{{product_options}}" on-error="on_error" on-response="on_response_options">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
+      content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
+
+    <iron-ajax id="ajax_variants" method="GET" url="/api/ProductVariants/generate" handle-as="json"
+      last-response="{{variants}}" on-error="on_error" on-response="on_response_variants">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
+      content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
+    </iron-ajax>
+
+
+
     <div class="panel">
-			<h2 class="title">Options</h2>
+      <h2 class="title">Options</h2>
 
-      <template is="dom-repeat" items="{{list_option}}">
-      <div>
-        <span>{{item.name}}</span>
-        <span>{{item.values}}</span>
-
+      <div class="list">
+        <template is="dom-repeat" id="options" items="{{options}}">
+          <part-product-option option="{{item}}">
+            <span class="delete" on-click="on_delete_option">x</span>
+          </part-product-option>
+        </template>
+        <part-product-option id="last_option" option="{{option_pending}}"
+          saving$="{{last_option_saving}}">
+          <span class="saving">saving...............</span>
+        </part-product-option>
       </div>
-      </template>
 
+      <button class="add_option" on-click="on_click_add_option">add option</button>
+      <button id="generate_variant" on-click="on_click_generate_variant" disabled>generate variant</button>
 
-      <button on-click="on_click_add">add option</button>
+      <form-product-option id="form" open$="{{open}}" option="{{option}}"
+        on-try-save="on_try_save">
+      </form-product-option>
 
-			<form-product-options id="form" open$="{{open}}"
-        on-try-save="on_try_save" option="{{options}}">
-      </form-product-options>
-
-		</div>
-	</template>
+    </div>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-options',
+    is: 'part-product-options',
 
     properties: {
-      options: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      option: {
         type: Object,
         value: function () { return {}; }
       },
@@ -47,33 +105,107 @@
         type: Boolean,
         value: false
       },
-      list_option: {
+      options: {
         type: Array,
         value: function () { return []; }
+      },
+      last_option_saving: {
+        type: Boolean,
+        value: false
+      },
+      option_pending: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      btn_generate_variante: {
+        type: Boolean,
+        value: false
+      },
+      product_options: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variants: {
+        type: Object,
+        value: function () { return {}; },
+        notify: true
       }
     },
 
-    on_click_add: function (event) {
+    attached: function () {
+      this.url_product_options = '/api/Products/' + this.data.id + '/options'
+      this.$.ajax_product_options.generateRequest();
+    },
+
+    on_response_options: function (event) {
+      event.stopPropagation();
+      this.set('options', this.product_options);
+      if(this.product_options.length > 0){
+        this.$.generate_variant.disabled = '';
+      }
+    },
+
+    on_click_add_option: function (event) {
+      event.stopPropagation();
       this.open_form();
     },
 
-    open_form: function (event) {
+    open_form: function () {
       this.set('open', true);
-      this.set('options', {});
+      this.set('option', {});
     },
 
-    close_form: function (event) {
+    close_form: function () {
       this.set('open', false);
-      this.set('options', {});
+      this.set('option', {});
     },
 
     on_try_save: function (event) {
-      this.options.values = this.options.values.split(' ');
-      // TODO: ajax
-      console.log(this.options.name);
-      this.push('list_option', this.options);
+      this.set('option_pending',this.option);
+      this.set('last_option_saving', true);
+      this.add_option();
       this.close_form();
+    },
+
+    add_option: function () {
+      this.url_product_option = '/api/Products/' + this.data.id + '/options';
+      this.$.ajax_product_option.body = JSON.stringify(this.option);
+      this.async(function () {
+        this.$.ajax_product_option.generateRequest();
+      }, 2000);
+    },
+
+    on_response_product_option: function (event, details) {
+      var response_option = details.response;
+      this.set('last_option_saving', false);
+      this.push('options', response_option);
+      this.$.generate_variant.disabled = '';
+    },
+
+    on_delete_option: function (event) {
+      var option = this.$.options.itemForElement(event.target);
+      var index = this.$.options.indexForElement(event.target);
+      this.splice('options', index, 1);
+      if(this.options.length < 1)
+        this.$.generate_variant.disabled = 'disabled';
+      this.$.ajax_delete.url = '/api/Products/' + this.data.id + '/options/' + option.id;
+      this.$.ajax_delete.generateRequest();
+    },
+
+    on_click_generate_variant: function (event) {
+      event.stopPropagation();
+      this.$.ajax_variants.generateRequest();
+    },
+
+    on_response_variants: function (event) {
+      console.log(this.variants);
+      event.stopPropagation();
+      this.fire('generate-variants', {variant_result: this.variants});
+    },
+
+    on_error: function (event) {
+      console.log(event);
     }
 
-	});
+  });
 </script>

@@ -1,28 +1,39 @@
 <link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="part-product-variants">
-	<template>
-		<style include="style-panel"></style>
+  <template>
+    <style include="style-panel"></style>
 
     <div class="panel">
-			<h2>Variants</h2>
-
-      <template is="dom-repeat">
-
+      <h2>Variants</h2>
+      <template is="dom-repeat" id="variants" items="{{variants}}" as="variant" filter="filter">
+        <div class="item">
+          <span>{{variant.name}}</span>
+          <a href="{{variant.edit_url}}">edit</a>
+        </div>
       </template>
+    </div>
 
-		</div>
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-variants',
+    is: 'part-product-variants',
 
     properties: {
       data: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
+      },
+      variants: {
+        type: Array,
+        value: function () { return []; }
       }
+    },
+
+    filter: function (variant) {
+      variant.edit_url = '/api/Products/' + this.data.id + '/ProductVariants/' + variant.id;
+      return true;
     }
 
   });

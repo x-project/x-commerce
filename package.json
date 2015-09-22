@@ -8,18 +8,23 @@
     "pretest": "jshint ."
   },
   "dependencies": {
+    "async": "^1.4.2",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "errorhandler": "^1.1.1",
     "loopback": "^2.14.0",
     "loopback-boot": "^2.6.5",
-    "loopback-datasource-juggler": "^2.19.0",
     "loopback-connector-mongodb": "^1.10.0",
+<<<<<<< HEAD
     "serve-favicon": "^2.0.1",
     "gm": "^1.18.1",
     "mkdirp": "^0.5.1",
     "json-web-token": "^1.5.3",
     "async": "^1.3.0"
+=======
+    "loopback-datasource-juggler": "^2.19.0",
+    "serve-favicon": "^2.0.1"
+>>>>>>> 9f6bc345c428feb9c6e153f2c46e5d8021909ab0
   },
   "optionalDependencies": {
     "loopback-explorer": "^1.1.0"

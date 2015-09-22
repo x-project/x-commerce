@@ -1,24 +1,31 @@
 {
-	"name": "ProductVariant",
-	"plural": "ProductVariants",
-	"base": "PersistedModel",
-	"properties": {
-		"name": {
-			"type": "String"
-		},
-		"price": {
-			"type": "Number"
-		},
-		"sku": {
-			"type": "String"
-		},
-		"barcode": {
-			"type": "String"
-		}
-	},
-
-	"relations": {},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "name": "ProductVariant",
+  "plural": "ProductVariants",
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String",
+      "required": true
+    },
+    "combo": {
+      "type": ["String"],
+      "required": true
+    },
+    "price": {
+      "type": "Number"
+    },
+    "sku": {
+      "type": "String"
+    },
+    "barcode": {
+      "type": "String"
+    },
+    "available": {
+      "type": "Boolean"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

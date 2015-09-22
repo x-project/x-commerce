@@ -1,26 +1,26 @@
-<link rel="import" href="../part-product-options/part-product-options.html">
-<link rel="import" href="../page-product/part-product-type.html">
-
+<link rel="import" href="../page-product/part-product-options.html">
+<link rel="import" href="../page-product/part-product-input-option.html">
 <dom-module id="page-test">
   <template>
     <style>
       :host {
         display: block;
-        padding: 20px;
+        padding: 40px;
        }
     </style>
 
     <h1>test</h1>
 
     <!-- <part-product-options></part-product-options> -->
-    <part-product-type></part-product-type>
-
+    <part-product-input-option></part-product-input-option>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'page-test'
+    is: 'page-test',
+
+    properties: {}
 
   });
 </script>

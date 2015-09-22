@@ -1,0 +1,26 @@
+<dom-module id="part-product-tags">
+	<template>
+
+    <div class="field">
+      <label class="label">Tags</label>
+      <input class="input" type="text" is="iron-input" bind-value="{{data.tags}}">
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-product-tags',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      },
+    }
+
+	});
+</script>

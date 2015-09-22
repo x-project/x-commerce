@@ -1,7 +1,25 @@
 <link rel="import" href="/components/iron-ajax/iron-ajax.html">
-
 <dom-module id="part-product-collections">
 	<template>
+    <style>
+      :host {
+        display: block;
+       }
+       .pill {
+        padding: 4px 8px;
+        border-radius: 2px;
+        display: inline-block;
+        background-color: #eee;
+       }
+       .pill .delete {
+        padding-left: 8px;
+        opacity: .4;
+       }
+       .pill .delete:hover {
+        opacity: 1;
+        cursor: pointer;
+       }
+    </style>
 
     <iron-ajax id="ajax_get_filter_collection" method="GET" url="/api/Collections"
       handle-as="json" last-response="{{collections}}">
@@ -11,35 +29,32 @@
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
-    <iron-ajax id="ajax_product_collections" method="GET" url="{{url_product_collections}}"
+    <iron-ajax id="ajax_product_collections" url="{{url_product_collections}}"
       handle-as="json" last-response="{{selected}}">
     </iron-ajax>
 
-
-		<div class="panel">
-      <h2>Collection</h2>
-      <div class="field">
-        <label class="label">Collections</label>
-        <input class="input" type="text" on-focus="on_focus">
-      </div>
-		</div>
-
     <div class="items">
-      <template id="collections" is="dom-repeat" items="{{collections}}">
-        <div on-click="on_click_collection">
-          <span>{{item.id}}</span>
-          <span>{{item.title}}</span>
-          <span>{{item.description}}</span>
-          <span>{{item.is_published}}</span>
+      <template id="collections" is="dom-repeat" items="{{collections}}" filter="filter_collection">
+          <div class="item" on-click="on_click_select">
+            <span>{{item.title}}</span>
+          </div>
         <div>
       </template>
     </div>
 
+    <div class="panel">
+      <div class="field ">
+        <label class="label">Collections</label>
+        <input class="input" type="text" on-keypress="on_edit_collection"
+          on-focus="on_edit_collection" is="iron-input" bind-value="{{title}}">
+      </div>
+    </div>
+
     <div class="selected items">
       <template id="selected" is="dom-repeat" items="{{selected}}">
-        <div>
+        <div class="pill">
           <span>{{item.title}}</span>
-          <button on-click="on_click_selected">remove</button>
+          <span on-click="on_click_selected" class="delete">x</span>
         <div>
       </template>
     </div>
@@ -63,6 +78,10 @@
       data: {
         type: Object,
         value: function () { return {}; }
+      },
+      title: {
+        type: String,
+        value: function () { return ''; }
       }
     },
 
@@ -71,12 +90,11 @@
       this.$.ajax_product_collections.generateRequest();
     },
 
-    on_focus: function (event) {
-      event.stopPropagation();
+    on_edit_collection: function (event) {
       this.$.ajax_get_filter_collection.generateRequest();
     },
 
-    on_click_collection: function (event) {
+    on_click_select: function (event) {
       var collection = this.$.collections.itemForElement(event.target);
       if (!this.check_exists_selected_collection(collection)) {
         this.add_collection_product(collection);
@@ -109,6 +127,10 @@
       return this.selected.some(function (element) {
         return element.id === collection.id;
       });
+    },
+
+    filter_collection: function (item) {
+      return item.title.search(this.title) >= 0;
     }
 
 	});

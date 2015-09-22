@@ -1,5 +1,5 @@
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="form-product-options">
+<dom-module id="form-product-option">
 	<template>
 	  <style include="style-form"></style>
 
@@ -20,24 +20,27 @@
 <script>
 	Polymer({
 
-		is: 'form-product-options',
+		is: 'form-product-option',
 
 		properties: {
 			option: {
 				type: Object,
 				notify: true,
 				value: function () { return {}; }
-			}
+			},
+      separators: {
+        type: Array,
+        value: function () { return ['.', '-', ',']; }
+      }
 		},
 
     on_submit: function (event) {
       event.preventDefault();
-
       if (!this.option.name && !this.option.value) {
       	return;
       }
-
-    	this.fire('try-save');
+      this.option.values = this.option.values.split(',');
+      this.fire('try-save');
     }
 
 	});
