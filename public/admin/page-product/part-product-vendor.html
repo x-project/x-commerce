@@ -64,17 +64,17 @@
       this.$.ajax_product_vendor.generateRequest();
     },
 
+    on_search_vendor: function (event) {
+      event.stopPropagation();
+      this.$.ajax_vendors.generateRequest();
+    },
+
     on_response_product_vendor: function (event) {
       this.set('search', this.vendor.name);
     },
 
     filter_vendors: function (vendor) {
       return vendor.name.search(this.search) >= 0;
-    },
-
-    on_search_vendor: function (event) {
-      event.stopPropagation();
-      this.$.ajax_vendors.generateRequest();
     },
 
     on_click_vendor: function (event) {

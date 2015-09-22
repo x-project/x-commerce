@@ -1,12 +1,12 @@
 <dom-module id="part-product-type">
-	<template>
-    <iron-ajax id="ajax_product_prod_type" method="GET" url="{{url_prod_type}}"
-      handle-as="json" last-response="{{prod_type}}"
-      on-response="on_response_prod_type" on-error="on_error">
+  <template>
+    <iron-ajax id="ajax_product_prod_type" method="GET" url="{{url_product_type}}"
+      handle-as="json" last-response="{{product_type}}"
+      on-response="on_response_product_type" on-error="on_error">
     </iron-ajax>
 
     <iron-ajax id="ajax_prod_types" method="GET" url="/api/ProductTypes"
-      handle-as="json" last-response="{{prod_types}}" on-error="on_error">
+      handle-as="json" last-response="{{product_types}}" on-error="on_error">
     </iron-ajax>
 
     <iron-ajax id="ajax_product" method="PUT" url="{{url_product}}"
@@ -18,37 +18,36 @@
     <div class="panel">
       <div class="field">
         <label class="label">product type</label>
-        <input class="input" id="input"  type="text" is="iron-input" bind-value="{{search}}"
+        <input class="input" type="text" is="iron-input" bind-value="{{search}}"
           on-keypress="on_search_prod_type">
       </div>
     </div>
 
     <div class="items">
-      <template id="prod_types" is="dom-repeat" items="{{prod_types}}" filter="filter_product_types">
-        <div>
+      <template id="product_types" is="dom-repeat" items="{{product_types}}" filter="filter_product_types">
+        <div class="item" on-click="on_click_product_type">
           <span>{{item.name}}</span>
-          <button on-click="on_click_product_type">select</button>
         <div>
       </template>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-type',
+    is: 'part-product-type',
 
     properties: {
       data: {
         type: Object,
         value: function () { return {}; }
       },
-      prod_type: {
-        type: Array,
-        value: function () { return []; }
+      product_type: {
+        type: Object,
+        value: function () { return {}; }
       },
-      prod_types: {
+      product_types: {
         type: Array,
         value: function () { return []; }
       },
@@ -60,40 +59,38 @@
 
     attached: function () {
       this.url_product = '/api/Products/' + this.data.id;
-      this.url_prod_type = '/api/Products/' + this.data.id + '/vendor';
+      this.url_product_type = '/api/Products/' + this.data.id + '/product_type';
+      console.log(this.url_product_type);
       this.$.ajax_product_prod_type.generateRequest();
     },
 
-    on_response_product_vendor: function (event) {
-      this.set('search', this.vendor.name);
-    },
-
-    filter_vendors: function (vendor) {
-      return vendor.name.search(this.search) >= 0;
-    },
-
-    on_search_vendor: function (event) {
+    on_search_prod_type: function (event) {
       event.stopPropagation();
-      this.$.ajax_vendors.generateRequest();
+      this.$.ajax_prod_types.generateRequest();
     },
 
-    on_click_vendor: function (event) {
+    on_click_product_type: function (event) {
       event.stopPropagation();
-      var vendor = this.$.vendors.itemForElement(event.target);
-      this.set('search', vendor.name);
-      this.$.ajax_product.body = JSON.stringify({ vendorId: vendor.id });
+      var product_type = this.$.product_types.itemForElement(event.target);
+      this.set('search', product_type.name);
+      this.$.ajax_product.body = JSON.stringify({ productTypeId: product_type.id });
       this.$.ajax_product.generateRequest();
     },
 
-    on_response_product: function (event) {
-      this.set('vendors', []);
+    on_response_product_type: function (event) {
+      event.stopPropagation();
+      console.log(this.product_type);
+      this.set('search', this.product_type.name);
     },
 
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
+    on_response_product: function (event) {
+      this.set('product_types', []);
+    },
+
+    filter_product_types: function (product_type) {
+      return product_type.name.search(this.search) >= 0;
     }
 
 
-	});
+  });
 </script>

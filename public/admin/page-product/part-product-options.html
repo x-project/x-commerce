@@ -147,7 +147,7 @@
       var option = this.$.options.itemForElement(event.target);
       var index = this.$.options.indexForElement(event.target);
       this.splice('options', index, 1);
-      if(this.options.length <= 0)
+      if(this.options.length < 1)
         this.$.generate_variant.disabled = 'disabled';
       this.$.ajax_delete.url = '/api/Products/' + this.data.id + '/options/' + option.id;
       this.$.ajax_delete.generateRequest();
