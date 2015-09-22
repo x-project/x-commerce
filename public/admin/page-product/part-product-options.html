@@ -16,7 +16,7 @@
       #last_option {
         display: none;
       }
-      #last_option[last_option_visibile] {
+      #last_option[saving] {
         display: block;
       }
       .option {
@@ -42,6 +42,10 @@
       }
     </style>
 
+    <iron-ajax id="ajax_product_options" method="GET" url="{{url_product_options}}"
+      handle-as="json" last-response="{{product_options}}" on-error="on_error" on-response="on_response_options">
+    </iron-ajax>
+
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
       content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
     </iron-ajax>
@@ -58,7 +62,7 @@
           </part-product-option>
         </template>
         <part-product-option id="last_option" option="{{option_pending}}"
-          visible$="{{last_option_visibile}}">
+          saving$="{{last_option_saving}}">
           <span class="saving">saving...............</span>
         </part-product-option>
       </div>
@@ -95,7 +99,7 @@
         type: Array,
         value: function () { return []; }
       },
-      last_option_visibile: {
+      last_option_saving: {
         type: Boolean,
         value: false
       },
@@ -106,10 +110,25 @@
       btn_generate_variante: {
         type: Boolean,
         value: false
+      },
+      product_options: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
+    attached: function () {
+      this.url_product_options = '/api/Products/' + this.data.id + '/options'
+      this.$.ajax_product_options.generateRequest();
+    },
+
+    on_response_options: function (event) {
+      event.stopPropagation();
+      this.set('options', this.product_options);
+    },
+
     on_click_add_option: function (event) {
+      event.stopPropagation();
       this.open_form();
     },
 
@@ -124,8 +143,8 @@
     },
 
     on_try_save: function (event) {
-      this.option_pending = this.option;
-      this.set('last_option_visibile', true);
+      this.set('option_pending',this.option);
+      this.set('last_option_saving', true);
       this.add_option();
       this.close_form();
     },
@@ -133,12 +152,14 @@
     add_option: function () {
       this.url_product_option = '/api/Products/' + this.data.id + '/options';
       this.$.ajax_product_option.body = JSON.stringify(this.option);
-      this.$.ajax_product_option.generateRequest();
+      this.async(function () {
+        this.$.ajax_product_option.generateRequest();
+      }, 2000);
     },
 
     on_response_product_option: function (event, details) {
       var response_option = details.response;
-      this.set('last_option_visibile', false);
+      this.set('last_option_saving', false);
       this.push('options', response_option);
       this.$.generate_variant.disabled = '';
     },
@@ -162,7 +183,6 @@
     on_error: function (event) {
       console.log(event);
     }
-
 
 
   });

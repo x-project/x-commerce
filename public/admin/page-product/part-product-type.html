@@ -60,7 +60,6 @@
     attached: function () {
       this.url_product = '/api/Products/' + this.data.id;
       this.url_product_type = '/api/Products/' + this.data.id + '/product_type';
-      console.log(this.url_product_type);
       this.$.ajax_product_prod_type.generateRequest();
     },
 
@@ -79,7 +78,6 @@
 
     on_response_product_type: function (event) {
       event.stopPropagation();
-      console.log(this.product_type);
       this.set('search', this.product_type.name);
     },
 
