@@ -53,14 +53,12 @@
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
     <iron-ajax id="ajax_variants" method="GET" url="/api/ProductVariants/generate" handle-as="json"
-      last-response="{{variants}}" on-error="on_error" on-response="on_response_variants">
+      last-response="{{response_variants}}" on-error="on_error" on-response="on_response_variants">
     </iron-ajax>
 
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
       content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
     </iron-ajax>
-
-
 
     <div class="panel">
       <h2 class="title">Options</h2>
@@ -125,9 +123,13 @@
         type: Object,
         value: function () { return {}; }
       },
-      variants: {
+      response_variants: {
         type: Object,
-        value: function () { return {}; },
+        value: function () { return {}; }
+      },
+      variants: {
+        type: Array,
+        value: function () { return []; },
         notify: true
       }
     },
@@ -198,9 +200,8 @@
     },
 
     on_response_variants: function (event) {
-      console.log(this.variants);
       event.stopPropagation();
-      this.fire('generate-variants', {variant_result: this.variants});
+      this.variants = this.response_variants.variants;
     },
 
     on_error: function (event) {
