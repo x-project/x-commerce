@@ -6,11 +6,11 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{name}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{option.name}}">
       </div>
       <div class="field">
         <label class="label">Values (space separed values)</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{values}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{option.values}}">
       </div>
       <input type="submit" value="save">
     </form>

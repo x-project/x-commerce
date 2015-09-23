@@ -104,7 +104,10 @@ var generate_thumbnail = function (buffer, filename) {
 var save_resized_buffer = function (folder_path) {
   return function (buffer, side, err, done) {
     var file_name = path.join(folder_path, 'thumb-' + side + '.jpg');
-    fs.writeFile(file_name, buffer, 'binary', done);
+    fs.writeFile(file_name, buffer, 'binary', function () {
+      // console.log(folder_path, file_name, side);
+      done();
+    });
   };
 };
 

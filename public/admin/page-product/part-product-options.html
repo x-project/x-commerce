@@ -131,6 +131,10 @@
         type: Array,
         value: function () { return []; },
         notify: true
+      },
+      url_generate_variant: {
+        type: String,
+        value: ''
       }
     },
 
@@ -201,6 +205,7 @@
 
     on_response_variants: function (event) {
       event.stopPropagation();
+      // this.url_generate_variant = '/api/ProductVariants/generate/' + this.product.id
       this.variants = this.response_variants.variants;
     },
 

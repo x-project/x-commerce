@@ -25,6 +25,8 @@ module.exports = function (ProductVariant) {
         };
       });
 
+
+
       ProductVariant.create(models, function (err, models) {
         if (err) {
           callback(err, null);
@@ -32,26 +34,6 @@ module.exports = function (ProductVariant) {
         }
         callback(null, models);
       });
-
-      // async.forEach(combos, function (combo, next) {
-      //   ProductVariant.create({
-      //     name: combo.join('-'),
-      //     values: combo
-      //   }, function (err, model) {
-      //     if (err) {
-      //       next(err);
-      //       return;
-      //     }
-      //     models.push(model)
-      //     next();
-      //   }, function (err) {
-      //     if (err) {
-      //       callback(err, null);
-      //       return;
-      //     }
-      //     callback(null, models);
-      //   });
-      // });
     });
   };
 

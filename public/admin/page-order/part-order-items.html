@@ -8,9 +8,12 @@
 		</style>
 
 		<h2>Order items</h2>
-		<template is="dom-repeat" items="{{items}}">
-			<part-order-item item="{{item}}"></part-order-item>
-		</template>
+
+		<div class="list">
+			<template is="dom-repeat" items="{{items}}">
+				<part-order-item item="{{item}}"></part-order-item>
+			</template>
+		</div>
 
 	</template>
 </dom-module>
