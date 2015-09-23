@@ -1,0 +1,71 @@
+<dom-module id="part-image">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+
+      #image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    </style>
+
+    <div id="image"></div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-image',
+
+    properties: {
+      image: {
+        type: Object
+      },
+      size: {
+        type: Number,
+        value: 800
+      },
+      thumb: {
+        type: Boolean,
+        value: false
+      },
+      url_original: {
+        type: String,
+        computed: '_compute_url_original(image)'
+      },
+      url_thumb: {
+        type: String,
+        computed: '_compute_url_thumb(image, size)'
+      },
+      url: {
+        type: String,
+        computed: '_compute_url(thumb, url_original, url_thumb)',
+        observer: 'on_change_url'
+      }
+    },
+
+    _compute_url_original: function (image) {
+      return image.base_url + '/' + 'original' + image.extension;
+    },
+
+    _compute_url_thumb: function (image, size) {
+      return image.base_url + '/thumb-' + size + '.jpg';
+    },
+
+    _compute_url: function (thumb, url_original, url_thumb) {
+      return thumb ? url_thumb : url_original;
+    },
+
+    on_change_url: function (url) {
+      this.$.image.style.backgroundImage = 'url(' + url + ')';
+    }
+
+  });
+</script>

@@ -1,0 +1,27 @@
+<link rel="import" href="../api-image-upload/api-image-upload.html">
+<dom-module id="input-image">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <api-image-upload id="request" collection="Images"></api-image-upload>
+
+    <input id="input" type="file" on-change="on_change_file">
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-image',
+
+    on_change_file: function (event) {
+      this.file = event.target.files[0];
+      this.$.request.send(file);
+    }
+
+  });
+</script>

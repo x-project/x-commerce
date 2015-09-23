@@ -1,0 +1,70 @@
+<link rel="import" href="/api-model-create/api-model-create/api-model-create.html">
+<dom-module id="api-image-upload">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+
+    <api-model-create id="create"
+      collection="{{collection}}" data="{{data}}"
+      model="{{image}}" on-response="on_response">
+    </api-model-create>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'api-image-upload',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      collection: {
+        type: String,
+        value: 'Images'
+      },
+      upload_response: {
+        type: Object,
+        notify: true
+      },
+      image: {
+        type: Object,
+        notify: true
+      }
+    },
+
+    send: function (file) {
+      var data = {};
+      data.filename = file.name;
+      data.filetype = file.type;
+      data.container = 'standard';
+      this.data = data;
+      this.file = file;
+      this.async(function () {
+        this.$.create.send();
+      })
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      var formData = new FormData();
+      formData.append('file', this.file);
+      var access_token = this.$.session.get('access_token');
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', this.image.signed_url);
+      xhr.setRequestHeader('Authorization', access_token);
+      xhr.send(formData);
+    },
+
+    on_upload_response: function (event) {
+      this.upload_response = this.upload_response;
+      this.fire('response', this.upload_response);
+    }
+
+  });
+</script>
