@@ -1,6 +1,6 @@
 var QUALITY = 80; //[0,100]
-var gm = require('gm');
 var fs = require('fs');
+var gm = require('gm');
 var mkdirp = require('mkdirp');
 var jwt = require('json-web-token');
 var async = require('async');
@@ -181,6 +181,7 @@ module.exports = function(Image) {
         var image_id = payload.id;
         var container = payload.container;
         var expired = payload.expires < Date.now();
+
         var file = req.files.file;
         var image_buffer = file.buffer;
         var filename = file.originalname;

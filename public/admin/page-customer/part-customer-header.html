@@ -7,7 +7,7 @@
   <template>
 
     <div>
-      <h2 class="title"><span>Customer</span> <span>{{data.first_name}}</span></h2>
+      <h2 class="title"><span>Customer</span> / <span>{{customer.first_name}}</span></h2>
       <button on-click="on_click">Save customer</button>
     </div>
 
@@ -19,9 +19,9 @@
     is: 'part-customer-header',
 
     properties: {
-      data: {
+      customer: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 

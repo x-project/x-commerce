@@ -6,11 +6,11 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Title</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{collection.title}}">
       </div>
       <div class="field">
         <label class="label">Description</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.description}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{collection.description}}">
       </div>
     </form>
   </template>
@@ -21,7 +21,7 @@
     is: 'form-collection-info',
 
     properties: {
-      data: {
+      collection: {
         type: Object,
         notify: true
       }

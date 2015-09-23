@@ -9,20 +9,23 @@
   },
   "dependencies": {
     "async": "^1.4.2",
+    "body-parser": "^1.13.2",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "errorhandler": "^1.1.1",
+    "gm": "^1.19.0",
+    "json-web-token": "^1.5.3",
     "loopback": "^2.14.0",
     "loopback-boot": "^2.6.5",
     "loopback-connector-mongodb": "^1.10.0",
     "loopback-datasource-juggler": "^2.19.0",
-    "serve-favicon": "^2.0.1",
-    "gm": "^1.18.1",
     "mkdirp": "^0.5.1",
-    "json-web-token": "^1.5.3"
+    "multer": "^0.1.8",
+    "node-env-file": "^0.1.7",
+    "serve-favicon": "^2.0.1"
   },
   "optionalDependencies": {
-    "loopback-explorer": "^1.1.0"
+    "loopback-explorer": "^1.7"
   },
   "devDependencies": {
     "jshint": "^2.5.6"

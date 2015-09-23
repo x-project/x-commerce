@@ -12,7 +12,7 @@
       <part-sidebar class="sidebar"></part-sidebar>
 		  <div class="main">
         <div class="container">
-		      <h1><span>Order</span> <span>{{order.id}}</span></h1>
+          <h1>Order</h1>
 		      <part-order-header order="{{order}}"></part-order-header>
 					<part-order-info order="{{order}}"></part-order-info>
 					<part-order-customer order="{{order}}"></part-order-customer>
@@ -37,8 +37,9 @@
     },
 
     attached: function () {
-      this.product = this.route.data.order;
-      this.url_put = '/api/Products/' + this.product.id;
+      console.log(this.route.data.order);
+      this.order = this.route.data.order;
+      this.url_put = '/api/Orders/' + this.order.id;
     }
 
 	});

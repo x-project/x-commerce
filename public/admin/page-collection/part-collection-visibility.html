@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h3 class="title">Collection Visibility</h3>
-      <form-collection-visibility data="{{data}}"></form-collection-visibility>
+      <form-collection-visibility collection="{{collection}}"></form-collection-visibility>
     </div>
 
   </template>
@@ -17,7 +17,7 @@
     is: 'part-collection-visibility',
 
     properties: {
-      data: {
+      collection: {
         type: Object,
         notify: true
       }

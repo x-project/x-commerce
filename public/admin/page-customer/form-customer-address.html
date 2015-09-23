@@ -7,31 +7,31 @@
     <form id="form" role="form">
 <!--      <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.name}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.name}}">
       </div>
       <div class="field">
         <label class="label">Surname</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.surname}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.surname}}">
       </div>
       <div class="field">
         <label class="label">Company</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.company}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.company}}">
       </div> -->
       <div class="field">
         <label class="label">Address</label>
-        <input-location class="input" options="{{option}}" value="{{data.location}}" place="{{place}}"></input-location>
+        <input-location class="input" options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
       </div>
       <div class="field">
         <label class="label">Number</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.location_number}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.location_number}}">
       </div>
       <div class="field">
         <label class="label">Bell Number</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.bell}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.bell}}">
       </div>
       <div class="field">
         <label class="label">Phone</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.phone}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.phone}}">
       </div>
     </form>
 
@@ -43,9 +43,10 @@
     is: 'form-customer-address',
 
     properties: {
-      data: {
+      customer: {
         type: Object,
-        notify: true
+        notify: true,
+        value: function () { return {}; }
       },
       options: {
         type: Object,

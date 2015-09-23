@@ -6,7 +6,7 @@
   </style>
   <template>
     <div>
-      <h2 class="title"><span>Collection</span> <span>{{data.title}}</span></h2>
+      <h2 class="title"><span>Collection</span> <span>{{collection.title}}</span></h2>
       <button on-click="on_click">Save Collection</button>
     </div>
   </template>
@@ -17,7 +17,7 @@
     is: 'part-collection-header',
 
     properties: {
-      data: {
+      collection: {
         type: Object,
         notify: true
       }

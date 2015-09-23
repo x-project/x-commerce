@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h3 class="title">Collection Info</h3>
-      <form-collection-info on-submit="on_submit" data="{{data}}"></form-collection-info>
+      <form-collection-info on-submit="on_submit" collection="{{collection}}"></form-collection-info>
     </div>
   </template>
 </dom-module>
@@ -16,7 +16,7 @@
     is: 'part-collection-info',
 
     properties: {
-      data: {
+      collection: {
         type: Object,
         notify: true
       }

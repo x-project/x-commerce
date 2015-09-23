@@ -11,27 +11,20 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_post"
-        method="PUT"
-        url="{{url}}"
-        content-type="application/json"
-        body="{{body}}"
-        handleAs="json"
-        on-response="on_put_response"
-        debounce-duration="300">
+    <iron-ajax id="ajax_post" method="PUT" url="{{url}}" handleAs="json"
+      content-type="application/json" on-response="on_put_response">
     </iron-ajax>
-
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
           <h1>Customers</h1>
-          <part-customer-header on-try-customer-save="save"></part-customer-header>
-          <part-customer-overview data="{{data}}"></part-customer-overview>
-          <part-customer-address data="{{data}}"></part-customer-address>
-          <part-customer-note data="{{data}}"></part-customer-note>
-          <part-customer-tag data="{{data}}"></part-customer-tag>
+          <part-customer-header customer="{{customer}}" on-try-save="save"></part-customer-header>
+          <part-customer-overview customer="{{customer}}"></part-customer-overview>
+          <part-customer-address customer="{{customer}}"></part-customer-address>
+          <part-customer-note customer="{{customer}}"></part-customer-note>
+          <part-customer-tag customer="{{customer}}"></part-customer-tag>
         </div>
       </div>
     </div>
@@ -44,30 +37,29 @@
     is: 'page-customer',
 
     properties: {
-      data: {
+      customer: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     attached: function () {
-      this.data = this.route.data.customer;
-      this.url = '/api/Customers/'+this.data.id;
+      this.customer = this.route.data.customer;
+      this.url = '/api/Customers/'+this.customer.id;
     },
 
     save: function (event) {
       this.convert_tags_to_array();
-      this.body = JSON.stringify(this.data);
+      this.$.ajax_post.body = JSON.stringify(this.customer);
       this.$.ajax_post.generateRequest();
     },
 
     on_put_response: function (event, detail) {
       var response = detail.response;
-      // console.log(response);
     },
 
     convert_tags_to_array: function () {
-      this.data.tags = [this.data.tags];
+      this.customer.tags = [this.customer.tags];
     }
 
   });

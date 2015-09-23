@@ -10,14 +10,8 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_post"
-        method="PUT"
-        url="{{url}}"
-        content-type="application/json"
-        body="{{body}}"
-        handleAs="json"
-        on-response="on_put_response"
-        debounce-duration="300">
+    <iron-ajax id="ajax_post" method="PUT" url="{{url}}" content-type="application/json"
+      body="{{body}}" handleAs="json" on-response="on_put_response">
     </iron-ajax>
 
     <div class="page">
@@ -25,12 +19,12 @@
       <div class="main">
         <div class="container">
           <h1>Collections</h1>
-          <part-collection-header data="{{data}}" on-try-save="save"></part-collection-header>
-          <part-collection-info data="{{data}}"></part-collection-info>
-          <part-collection-visibility data="{{data}}"></part-collection-visibility>
-          <!-- <part-collection-image></part-collection-image> -->
-          <!-- <part-collection-filter></part-collection-filter> -->
-          <!-- <part-collection-products></part-collection-products> -->
+          <part-collection-header collection="{{collection}}" on-try-save="save"></part-collection-header>
+          <part-collection-info collection="{{collection}}"></part-collection-info>
+          <part-collection-visibility collection="{{collection}}"></part-collection-visibility>
+          <part-collection-image></part-collection-image>
+          <part-collection-filter></part-collection-filter>
+          <part-collection-products></part-collection-products>
         </div>
       </div>
     </div>
@@ -43,7 +37,7 @@
     is: 'page-collection',
 
     properties: {
-      data: {
+      collection: {
         type: Object,
         value: function () {
           return {};
@@ -52,13 +46,13 @@
     },
 
     attached: function () {
-      this.data = this.route.data.collection;
-      this.url = '/api/Collections/'+this.data.id;
+      this.collection = this.route.data.collection;
+      this.url = '/api/Collections/'+this.collection.id;
     },
 
     save: function (event) {
-      console.log(this.data);
-      this.body = JSON.stringify(this.data);
+      console.log(this.collection);
+      this.body = JSON.stringify(this.collection);
       this.$.ajax_post.generateRequest();
     },
 

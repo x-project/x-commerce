@@ -1,4 +1,4 @@
-<link rel="import" href="/api-model-create/api-model-create/api-model-create.html">
+<link rel="import" href="/components/api-model-create/api-model-create.html">
 <dom-module id="api-image-upload">
   <template>
     <style>
@@ -47,21 +47,23 @@
       this.file = file;
       this.async(function () {
         this.$.create.send();
-      })
+      });
     },
 
     on_response: function (event) {
       event.stopPropagation();
       var formData = new FormData();
       formData.append('file', this.file);
-      var access_token = this.$.session.get('access_token');
+      console.log(this.file)
+      //var access_token = this.$.session.get('access_token');
       var xhr = new XMLHttpRequest();
       xhr.open('POST', this.image.signed_url);
-      xhr.setRequestHeader('Authorization', access_token);
+      //xhr.setRequestHeader('Authorization', access_token);
       xhr.send(formData);
     },
 
     on_upload_response: function (event) {
+      event.stopPropagation();
       this.upload_response = this.upload_response;
       this.fire('response', this.upload_response);
     }

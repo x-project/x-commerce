@@ -18,9 +18,17 @@
 
     is: 'input-image',
 
+    properties:{
+      file: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+
     on_change_file: function (event) {
       this.file = event.target.files[0];
-      this.$.request.send(file);
+      this.$.request.send(this.file);
     }
 
   });

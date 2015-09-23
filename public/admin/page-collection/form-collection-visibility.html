@@ -8,11 +8,11 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Online Store</label>
-        <paper-checkbox class="input" is="iron-input" checked="{{data.is_published}}"></paper-checkbox>
+        <paper-checkbox class="input" is="iron-input" checked="{{collection.is_published}}"></paper-checkbox>
       </div>
       <div class="field">
         <label class="label">Publish this collection on</label>
-        <input-datetime class="input" value="{{data.published_at}}"></input-datetime>
+        <input-datetime class="input" value="{{collection.published_at}}"></input-datetime>
       </div>
     </form>
   </template>
@@ -23,7 +23,7 @@
     is: 'form-collection-visibility',
 
     properties: {
-      data: {
+      collection: {
         type: Object,
         notify: true
       }

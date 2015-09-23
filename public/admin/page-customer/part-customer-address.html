@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <h2>Address</h2>
-    <form-customer-address on-submit="on_submit" data="{{data}}"></form-customer-address>
+    <form-customer-address on-submit="on_submit" customer="{{customer}}"></form-customer-address>
   </template>
 </dom-module>
 <script>
@@ -14,9 +14,9 @@
     is: 'part-customer-address',
 
     properties: {
-      data: {
+      customer: {
         type: Object,
-        notify: true
+        value: function () {return {}; }
       }
     },
 
