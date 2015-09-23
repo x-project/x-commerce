@@ -4,18 +4,8 @@
   <template>
     <style include="style-list"></style>
 
-    <iron-ajax id="ajax"
-      auto
-      method="GET"
-      url="/api/Customers"
-      content-type="application/json"
-      handle-as="json"
-      last-response="{{data}}"
-      debounce-duration="300">
-    </iron-ajax>
-
     <div class="items">
-      <template is="dom-repeat" items="{{data}}">
+      <template is="dom-repeat" items="{{items}}">
         <part-customers-item item="{{item}}"></part-customers-item>
       </template>
     </div>
@@ -28,11 +18,9 @@
     is: 'part-customers-items',
 
     properties: {
-      item: {
+      items: {
         type: Array,
-        value: function () {
-          return [];
-        }
+        value: function () { return []; }
       }
     }
 

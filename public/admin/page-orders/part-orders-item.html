@@ -4,15 +4,9 @@
 
 	<template>
 		<div class="item">
-			<b>id: </b><span>{{item.id}}</span>
-		  <b>notes: </b><span>{{item.notes}}</span>
   	  <b>subtotal: </b><span>{{item.subtotal}}</span>
-      <b>discount: </b><span>{{item.discount}}</span>
       <b>shipping_cost: </b><span>{{item.shipping_cost}}</span>
-      <b>taxes: </b><span>{{item.taxes}}</span>
-      <b>payment_status: </b><span>{{item.payment_status}}</span>
-      <b>created_at: </b><span>{{item.created_at}}</span>
-      <button on-click="on_edit_order"> edit</button>
+      <a is="app-link" href="{{edit_url}}">edit</a>
      </div>
 	</template>
 </dom-module>
@@ -30,8 +24,8 @@
       }
     },
 
-    on_edit_order: function (id) {
-    	page('/admin/orders/'+this.item.id);
+    attached: function () {
+      this.edit_url = '/admin/orders/' + this.item.id;
     }
 
 	});

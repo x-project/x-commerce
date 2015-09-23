@@ -40,7 +40,7 @@
     is: 'part-product-type',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       },
@@ -59,8 +59,8 @@
     },
 
     attached: function () {
-      this.url_product = '/api/Products/' + this.data.id;
-      this.url_product_type = '/api/Products/' + this.data.id + '/product_type';
+      this.url_product = '/api/Products/' + this.product.id;
+      this.url_product_type = '/api/Products/' + this.product.id + '/product_type';
       this.$.ajax_product_prod_type.generateRequest();
     },
 

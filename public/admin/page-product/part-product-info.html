@@ -7,7 +7,7 @@
 
     <div class="panel">
       <h2 class="title">Basic Info</h2>
-      <form-product-info on-submit="on_submit" data="{{data}}"></form-product-info>
+      <form-product-info on-submit="on_submit" data="{{product}}"></form-product-info>
     </div>
 
   </template>
@@ -18,14 +18,12 @@
     is: 'part-product-info',
 
     properties: {
-      data: {
+      product: {
         type: Object,
-        value: function () {
-          return {};
+        value: function () { return {};
         }
       }
     },
-
     on_submit: function (event) {
       event.stopPropagation();
     }

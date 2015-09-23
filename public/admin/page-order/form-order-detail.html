@@ -14,7 +14,7 @@
 
 		<form id="form" role="form" on-submit="on_submit">
 			<div class="field">
-				<input class="input" id="input" type="text" is="iron-input" bind-value="{{data.title}}" placeholder="find or create item" on-keypress="on_order">
+				<input class="input" id="input" type="text" is="iron-input" bind-value="{{order.title}}" placeholder="find or create item" on-keypress="on_order">
 			</div>
 
     <template id="orderFilter" is="dom-repeat" items="{{productsItem}}" filter="filter_order">
@@ -27,7 +27,7 @@
 
       <div class="field">
         <label class="label">Notes</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.notes}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{order.notes}}">
       </div>
 		</form>
 
@@ -47,7 +47,7 @@
           return [];
         }
 			},
-			data: {
+			order: {
 				type: Object,
 				notify: true,
 				value: function () {
@@ -65,14 +65,14 @@
 		},
 
 		filter_order: function(item) {
-    	return item.title.search(this.data.title)>=0;
+    	return item.title.search(this.order.title)>=0;
 		},
 
 		on_order_selected: function (event) {
       event.stopPropagation();
 			var item = this.$.orderFilter.itemForElement(event.target);
-      this.data.value = item.title;
-      this.set('data.value', item.title);
+      this.order.value = item.title;
+      this.set('order.value', item.title);
 		}
 
 	});

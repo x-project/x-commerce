@@ -4,11 +4,10 @@
 
   <template>
     <div class="item">
-      <b>id: </b><span>{{item.id}}</span>
       <b>first_name: </b><span>{{item.first_name}}</span>
       <b>last_name: </b><span>{{item.last_name}}</span>
       <b>email: </b><span>{{item.email}}</span>
-      <button on-click="on_edit_customer"> edit</button>
+      <a is="app-link" href="{{edit_url}}">edit</a>
      </div>
   </template>
 </dom-module>
@@ -20,15 +19,15 @@
     properties: {
       item: {
         type: Object,
-        value: function () {
-          return {};
+        value: function () { return {};
         }
       }
     },
 
-    on_edit_customer: function () {
-      page('/admin/Customers/'+this.item.id);
+    attached: function () {
+      this.edit_url = '/admin/customers/' + this.item.id;
     }
+
 
   });
 </script>

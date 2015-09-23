@@ -75,7 +75,7 @@
         type: Array,
         value: function () { return []; }
       },
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       },
@@ -86,7 +86,7 @@
     },
 
     attached: function () {
-      this.url_product_collections = '/api/Products/' + this.data.id + '/collections';
+      this.url_product_collections = '/api/Products/' + this.product.id + '/collections';
       this.$.ajax_product_collections.generateRequest();
     },
 
@@ -103,7 +103,7 @@
 
     add_collection_product: function (collection) {
       this.push('selected', collection);
-      this.$.ajax_put.url = '/api/Products/' + this.data.id + '/collections/rel/' + collection.id;
+      this.$.ajax_put.url = '/api/Products/' + this.product.id + '/collections/rel/' + collection.id;
       this.$.ajax_put.generateRequest();
     },
 
@@ -115,7 +115,7 @@
     remove_collection_product: function (collection) {
       var index = this.selected.indexOf(collection);
       this.splice('selected', index, 1);
-      this.$.ajax_delete.url = '/api/Products/' + this.data.id + '/collections/rel/' + collection.id;
+      this.$.ajax_delete.url = '/api/Products/' + this.product.id + '/collections/rel/' + collection.id;
       this.$.ajax_delete.generateRequest();
     },
 

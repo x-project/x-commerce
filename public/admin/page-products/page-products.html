@@ -1,19 +1,28 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-products-header.html">
+<link rel="import" href="part-products-create.html">
 <link rel="import" href="part-products-items.html">
-
+<link rel="import" href="part-products-pages.html">
+<link rel="import" href="part-products-search.html">
+<link rel="import" href="part-products-stats.html">
 <dom-module id="page-products">
   <template>
     <style include="style-page"></style>
+
+    <iron-ajax id="ajax_get" auto method="GET" url="/api/Products"
+      handle-as="json" last-response="{{products}}">
+    </iron-ajax>
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
           <h1>Products</h1>
-          <part-products-header></part-products-header>
-          <part-products-items></part-products-items>
+          <part-products-create></part-products-create>
+          <part-products-search></part-products-search>
+          <part-products-stats></part-products-stats>
+          <part-products-items items="{{products}}"></part-products-items>
+          <part-products-pages></part-products-pages>
         </div>
       </div>
     </div>
@@ -23,7 +32,14 @@
 <script>
   Polymer({
 
-    is: 'page-products'
+    is: 'page-products',
+
+    properties: {
+      products: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
 
   });
 </script>

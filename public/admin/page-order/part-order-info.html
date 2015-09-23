@@ -7,7 +7,7 @@
 
 	  <div class="panel">
 			<h2 class="title">part-order-info</h2>
-			<form-order-detail on-submit="on_submit" data="{{data}}"></form-order-detail>
+			<form-order-detail on-submit="on_submit" data="{{order}}"></form-order-detail>
 		</div>
 	</template>
 </dom-module>
@@ -17,7 +17,7 @@
 		is: 'part-order-info',
 
     properties: {
-      data: {
+      order: {
         type: Object,
         value: function () {
           return {};

@@ -42,7 +42,7 @@
     is: 'part-product-tag',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       },
@@ -61,13 +61,13 @@
     },
 
     attached: function () {
-      if(this.data.tags !== undefined)
-        this.set('tags', this.data.tags);
+      if(this.product.tags !== undefined)
+        this.set('tags', this.product.tags);
     },
 
     reset: function () {
       this.set('tag', '');
-      this.data.tags = this.tags;
+      this.product.tags = this.tags;
     },
 
     add_tag: function (tag) {

@@ -42,15 +42,15 @@
     is: 'part-product-vendor',
 
     properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
       vendors: {
         type: Array,
         value: function () { return []; }
       },
       vendor: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      data: {
         type: Object,
         value: function () { return {}; }
       },
@@ -61,8 +61,8 @@
     },
 
     attached: function () {
-      this.url_product = '/api/Products/' + this.data.id;
-      this.url_product_vendor = '/api/Products/' + this.data.id + '/vendor';
+      this.url_product = '/api/Products/' + this.product.id;
+      this.url_product_vendor = '/api/Products/' + this.product.id + '/vendor';
       this.$.ajax_product_vendor.generateRequest();
     },
 

@@ -15,7 +15,8 @@
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">customer</label>
-				<input class="input" id="input" type="text" is="iron-input" on-keypress="on_customer" bind-value="{{data.customer}}">
+				<input class="input" id="input" type="text" is="iron-input" on-keypress="on_customer"
+          bind-value="{{order.customer}}">
 			</div>
 		</form>
 
@@ -41,7 +42,7 @@
           return [];
         }
 			},
-			data: {
+			order: {
 				type: Object,
 				notify: true,
 				value: function () {
@@ -55,12 +56,11 @@
 		},
 
 		filter_customer: function(item) {
-    	return item.first_name.search(this.data.customer)>=0 || item.last_name.search(this.data.customer)>=0;
+    	return item.first_name.search(this.order.customer)>=0 || item.last_name.search(this.order.customer)>=0;
 		},
 
 		on_customer_selected: function (event) {
 			var item = this.$.customerFilter.itemForElement(event.target);
-			// this.data.customer = item.last_name;
 			this.$.input.value = item.last_name;
 		}
 

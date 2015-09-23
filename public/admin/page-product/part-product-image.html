@@ -1,13 +1,14 @@
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-product-image.html">
-
 <dom-module id="part-product-image">
   <template>
     <style include="style-panel"></style>
+
     <div class="panel">
       <h2 class="title">Images</h2>
-      <form-product-image on-submit="on_submit" data="{{data}}"></form-product-image>
+      <form-product-image on-submit="on_submit" data="{{product}}"></form-product-image>
     </div>
+
   </template>
 </dom-module>
 <script>
@@ -16,7 +17,7 @@
     is: 'part-product-image',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () {
           return {};
@@ -26,7 +27,6 @@
 
     on_submit: function (event) {
       event.stopPropagation();
-      console.log(this.data);
     }
 
   });

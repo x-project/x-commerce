@@ -1,18 +1,28 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-collections-header.html">
+<link rel="import" href="part-collections-create.html">
 <link rel="import" href="part-collections-items.html">
+<link rel="import" href="part-collections-pages.html">
+<link rel="import" href="part-collections-search.html">
+<link rel="import" href="part-collections-stats.html">
 <dom-module id="page-collections">
   <template>
     <style include="style-page"></style>
+
+    <iron-ajax id="ajax_get" auto method="GET" url="/api/Collections"
+      handle-as="json" last-response="{{collections}}">
+    </iron-ajax>
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
           <h1>Collections</h1>
-          <part-collections-header></part-collections-header>
-          <part-collections-items></part-collections-items>
+          <part-collections-create></part-collections-create>
+          <part-collections-search></part-collections-search>
+          <part-collections-stats></part-collections-stats>
+          <part-collections-items items="{{collections}}"></part-collections-items>
+          <part-collections-pages></part-collections-pages>
         </div>
       </div>
     </div>
@@ -22,7 +32,14 @@
 <script>
   Polymer({
 
-    is: 'page-collections'
+    is: 'page-collections',
+
+    properties: {
+      collections: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
 
   });
 </script>

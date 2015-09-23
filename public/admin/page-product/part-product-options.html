@@ -91,7 +91,7 @@
     is: 'part-product-options',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       },
@@ -135,7 +135,7 @@
     },
 
     attached: function () {
-      this.url_product_options = '/api/Products/' + this.data.id + '/options'
+      this.url_product_options = '/api/Products/' + this.product.id + '/options'
       this.$.ajax_product_options.generateRequest();
     },
 
@@ -170,7 +170,7 @@
     },
 
     add_option: function () {
-      this.url_product_option = '/api/Products/' + this.data.id + '/options';
+      this.url_product_option = '/api/Products/' + this.product.id + '/options';
       this.$.ajax_product_option.body = JSON.stringify(this.option);
       this.async(function () {
         this.$.ajax_product_option.generateRequest();
@@ -190,7 +190,7 @@
       this.splice('options', index, 1);
       if(this.options.length < 1)
         this.$.generate_variant.disabled = 'disabled';
-      this.$.ajax_delete.url = '/api/Products/' + this.data.id + '/options/' + option.id;
+      this.$.ajax_delete.url = '/api/Products/' + this.product.id + '/options/' + option.id;
       this.$.ajax_delete.generateRequest();
     },
 

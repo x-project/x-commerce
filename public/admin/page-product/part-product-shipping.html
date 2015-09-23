@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h2 class="title">Shipping</h2>
-      <form-product-shipping on-submit="on_submit" data="{{data}}"></form-product-shipping>
+      <form-product-shipping on-submit="on_submit" data="{{product}}"></form-product-shipping>
     </div>
   </template>
 </dom-module>
@@ -16,7 +16,7 @@
     is: 'part-product-shipping',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () {
           return {};

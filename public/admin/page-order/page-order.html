@@ -12,12 +12,12 @@
       <part-sidebar class="sidebar"></part-sidebar>
 		  <div class="main">
         <div class="container">
-		      <h1><span>Order</span> <span>{{data.id}}</span></h1>
-		      <part-order-header data="{{data}}"></part-order-header>
-					<part-order-info data="{{data}}"></part-order-info>
-					<part-order-customer data="{{data}}"></part-order-customer>
-					<part-order-details data="{{data}}"></part-order-details>
-					<part-order-items items="{{data.items}}"></part-order-items>
+		      <h1><span>Order</span> <span>{{order.id}}</span></h1>
+		      <part-order-header order="{{order}}"></part-order-header>
+					<part-order-info order="{{order}}"></part-order-info>
+					<part-order-customer order="{{order}}"></part-order-customer>
+					<part-order-details order="{{order}}"></part-order-details>
+					<part-order-items items="{{order.items}}"></part-order-items>
 		    </div>
 		  </div>
 		</div>
@@ -30,10 +30,15 @@
 		is: 'page-order',
 
     properties: {
-      data: {
+      order: {
         type: Object,
         value: function () { return {}; }
       },
+    },
+
+    attached: function () {
+      this.product = this.route.data.order;
+      this.url_put = '/api/Products/' + this.product.id;
     }
 
 	});

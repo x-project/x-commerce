@@ -17,7 +17,7 @@
     is: 'part-product-save-delete',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         notify: true
       }
@@ -32,7 +32,7 @@
     },
 
     on_reset_click: function (event) {
-      this.data.description = "";
+      this.product.description = "";
     }
 
   });

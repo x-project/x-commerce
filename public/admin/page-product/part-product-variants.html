@@ -21,7 +21,7 @@
     is: 'part-product-variants',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       },
@@ -32,7 +32,7 @@
     },
 
     filter: function (variant) {
-      variant.edit_url = '/api/Products/' + this.data.id + '/ProductVariants/' + variant.id;
+      variant.edit_url = '/api/Products/' + this.product.id + '/ProductVariants/' + variant.id;
       return true;
     }
 

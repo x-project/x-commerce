@@ -7,7 +7,7 @@
 
     <div class="panel">
       <h2 class="title">Visibility</h2>
-      <form-product-visibility on-submit="on_submit" data="{{data}}"></form-product-visibility>
+      <form-product-visibility on-submit="on_submit" data="{{product}}"></form-product-visibility>
     </div>
   </template>
 </dom-module>
@@ -17,7 +17,7 @@
     is: 'part-product-visibility',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         notify: true
       }

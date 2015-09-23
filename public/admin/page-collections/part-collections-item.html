@@ -4,12 +4,11 @@
 
   <template>
     <div class="item">
-      <b>id: </b><span>{{item.id}}</span>
       <b>name: </b><span>{{item.title}}</span>
       <b>description: </b><span>{{item.description}}</span>
       <b>is_published: </b><span>{{item.is_published}}</span>
       <b>published_at: </b><span>{{item.published_at}}</span>
-      <button on-click="on_edit_collection"> edit</button>
+      <a is="app-link" href="{{edit_url}}">edit</a>
      </div>
   </template>
 </dom-module>
@@ -27,8 +26,8 @@
       }
     },
 
-    on_edit_collection: function () {
-      page('/admin/collections/'+this.item.id);
+    attached: function () {
+      this.edit_url = '/admin/collections/' + this.item.id;
     }
 
   });
