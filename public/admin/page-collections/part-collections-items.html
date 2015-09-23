@@ -1,8 +1,8 @@
 <link rel="import" href="../style-list/style-list.html">
 <link rel="import" href="part-collections-item.html">
 <dom-module id="part-collections-items">
-	<template>
-	  <style include="style-list"></style>
+  <template>
+    <style include="style-list"></style>
 
     <iron-ajax id="ajax"
       auto
@@ -14,18 +14,18 @@
       debounce-duration="300">
     </iron-ajax>
 
-		<div class="items">
-	    <template is="dom-repeat" items="{{data}}">
-	      <part-collections-item item="{{item}}"></part-collections-item>
-	    </template>
+    <div class="items">
+      <template is="dom-repeat" items="{{data}}">
+        <part-collections-item item="{{item}}"></part-collections-item>
+      </template>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-collections-items',
+    is: 'part-collections-items',
 
     properties: {
       item: {
@@ -36,5 +36,5 @@
       }
     }
 
-	});
+  });
 </script>

@@ -2,29 +2,29 @@
 <link rel="import" href="../style-form/style-form.html">
 
 <dom-module id="form-product-pricing">
-	<template>
-	  <style include="style-form"></style>
+  <template>
+    <style include="style-form"></style>
 
-		<form id="form" role="form" on-submit="on_submit">
-			<div class="field">
-				<label class="label">Price</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
-			</div>
-			<div class="field">
-				<label class="label">Compare at price</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.compare_at_price}}">
-			</div>
-			<div class="field">
-				<label class="label">Charge taxes on this product</label>
-				<paper-checkbox checked="{{data.is_charge_taxes}}"></paper-checkbox>
-			</div>
-		</form>
-	</template>
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Price</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
+      </div>
+      <div class="field">
+        <label class="label">Compare at price</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.compare_at_price}}">
+      </div>
+      <div class="field">
+        <label class="label">Charge taxes on this product</label>
+        <paper-checkbox checked="{{data.is_charge_taxes}}"></paper-checkbox>
+      </div>
+    </form>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'form-product-pricing',
+    is: 'form-product-pricing',
 
     properties: {
       data: {

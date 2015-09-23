@@ -1,25 +1,25 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-product-shipping">
-	<template>
-	  <style include="style-form"></style>
+  <template>
+    <style include="style-form"></style>
 
-		<form id="form" role="form" on-submit="on_submit">
-			<div class="field">
-				<label class="label">Weight</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.weight}}">
-			</div>
-			<div class="field">
-				<label class="label">This product requires shipping</label>
-				<paper-checkbox checked="{{data.require_shipping}}"></paper-checkbox>
-			</div>
-		</form>
-	</template>
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Weight</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.weight}}">
+      </div>
+      <div class="field">
+        <label class="label">This product requires shipping</label>
+        <paper-checkbox checked="{{data.require_shipping}}"></paper-checkbox>
+      </div>
+    </form>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'form-product-shipping',
+    is: 'form-product-shipping',
 
     properties: {
       data: {
@@ -32,5 +32,5 @@
       event.preventDefault();
     }
 
-	});
+  });
 </script>

@@ -7,8 +7,8 @@
     </style>
 
     <div class="option">
-      <input class="name" on-click="on_click_name" is="iron-input" bind-value="{{option.name}}">
-      <input class="value" on-click="on_click_value" is="iron-input" bind-value="{{option.values}}">
+      <input class="name" is="iron-input" bind-value="{{option.name}}">
+      <input class="value" is="iron-input" bind-value="{{option.values}}">
       <content></content>
     </div>
 
@@ -24,21 +24,8 @@
         type: Object,
         notify: true,
         value: function () { return {}; }
-      },
-      enable_input: {
-        type: Boolean,
-        value: true
       }
-    },
-
-    on_click_name: function (event) {
-      event.stopPropagation();
-    },
-
-    on_click_value: function (event) {
-      event.stopPropagation();
     }
-
 
   });
 </script>

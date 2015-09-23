@@ -5,8 +5,8 @@
 <link rel="import" href="part-home-products.html">
 
 <dom-module id="page-home">
-	<template>
-		<style include="style-page"></style>
+  <template>
+    <style include="style-page"></style>
 
     <div class="page">
       <part-header class="header"></part-header>
@@ -16,19 +16,19 @@
         </part-jumbotron>
         <div class="container">
           <h2>Catalag</h2>
-					<part-home-products products="{{products}}"></part-home-products>
+          <part-home-products products="{{products}}"></part-home-products>
         </div>
       </div>
       <div class="space"></div>
       <part-footer class="footer"></part-footer>
     </div>
-	</template>
+  </template>
 </dom-module>
 
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-home',
+    is: 'page-home',
 
     properties: {
       products: {
@@ -37,5 +37,5 @@
       }
     }
 
-	});
+  });
 </script>

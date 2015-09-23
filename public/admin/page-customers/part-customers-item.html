@@ -1,23 +1,23 @@
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-customers-item">
-	<style include="style-item"></style>
+  <style include="style-item"></style>
 
-	<template>
-		<div class="item">
+  <template>
+    <div class="item">
       <b>id: </b><span>{{item.id}}</span>
-		  <b>first_name: </b><span>{{item.first_name}}</span>
-  	  <b>last_name: </b><span>{{item.last_name}}</span>
+      <b>first_name: </b><span>{{item.first_name}}</span>
+      <b>last_name: </b><span>{{item.last_name}}</span>
       <b>email: </b><span>{{item.email}}</span>
       <button on-click="on_edit_customer"> edit</button>
      </div>
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-customers-item',
+    is: 'part-customers-item',
 
-		properties: {
+    properties: {
       item: {
         type: Object,
         value: function () {
@@ -30,5 +30,5 @@
       page('/admin/Customers/'+this.item.id);
     }
 
-	});
+  });
 </script>

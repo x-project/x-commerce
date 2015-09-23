@@ -5,15 +5,15 @@
 <link rel="import" href="part-product-images.html">
 <link rel="import" href="part-product-details.html">
 <dom-module id="page-product">
-	<template>
-		<style include="style-page"></style>
+  <template>
+    <style include="style-page"></style>
 
     <div class="page">
       <part-header class="header"></part-header>
       <div class="main">
         <h1><span>Product</span> <span>product.name</span></h1>
         <div class="container">
-					<part-product-info product="{{product}}"></part-product-product>
+          <part-product-info product="{{product}}"></part-product-product>
           <part-product-images product="{{product}}"></part-product-images>
           <part-product-details product="{{product}}"></part-product-details>
         </div>
@@ -22,12 +22,12 @@
       <part-footer class="footer"></part-footer>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-product',
+    is: 'page-product',
 
     properties: {
       product: {
@@ -35,5 +35,5 @@
       }
     }
 
-	});
+  });
 </script>

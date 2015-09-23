@@ -2,18 +2,18 @@
 <link rel="import" href="form-product-image.html">
 
 <dom-module id="part-product-image">
-	<template>
+  <template>
     <style include="style-panel"></style>
     <div class="panel">
-		  <h2 class="title">Images</h2>
-		  <form-product-image on-submit="on_submit" data="{{data}}"></form-product-image>
+      <h2 class="title">Images</h2>
+      <form-product-image on-submit="on_submit" data="{{data}}"></form-product-image>
     </div>
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-image',
+    is: 'part-product-image',
 
     properties: {
       data: {
@@ -26,7 +26,8 @@
 
     on_submit: function (event) {
       event.stopPropagation();
+      console.log(this.data);
     }
 
-	});
+  });
 </script>

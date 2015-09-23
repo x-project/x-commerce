@@ -1,29 +1,29 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-collection-filter">
-	<template>
-	  <style include="style-form"></style>
+  <template>
+    <style include="style-form"></style>
 
-		<form class="form" role="form">
-			<div class="field">
-				<label class="label">Filter by</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.filter}}">
-			</div>
-			<div class="field">
-				<label class="label">Relation</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.relation}}">
-			</div>
-			<div class="field">
-				<label class="label">Value</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.value}}">
-			</div>
-		</form>
+    <form class="form" role="form">
+      <div class="field">
+        <label class="label">Filter by</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.filter}}">
+      </div>
+      <div class="field">
+        <label class="label">Relation</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.relation}}">
+      </div>
+      <div class="field">
+        <label class="label">Value</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.value}}">
+      </div>
+    </form>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'form-collection-filter'
+    is: 'form-collection-filter'
 
-	});
+  });
 </script>

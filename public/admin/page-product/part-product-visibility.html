@@ -2,19 +2,19 @@
 <link rel="import" href="form-product-visibility.html">
 
 <dom-module id="part-product-visibility">
-	<template>
-		<style include="style-panel"></style>
+  <template>
+    <style include="style-panel"></style>
 
-		<div class="panel">
-			<h2 class="title">Visibility</h2>
-			<form-product-visibility on-submit="on_submit" data="{{data}}"></form-product-visibility>
-		</div>
-	</template>
+    <div class="panel">
+      <h2 class="title">Visibility</h2>
+      <form-product-visibility on-submit="on_submit" data="{{data}}"></form-product-visibility>
+    </div>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-visibility',
+    is: 'part-product-visibility',
 
     properties: {
       data: {
@@ -27,5 +27,5 @@
       event.stopPropagation();
     }
 
-	});
+  });
 </script>

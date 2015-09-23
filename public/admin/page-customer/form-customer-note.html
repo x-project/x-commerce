@@ -1,21 +1,21 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-customer-note">
-	<template>
-	  <style include="style-form"></style>
+  <template>
+    <style include="style-form"></style>
 
-		<form id="form" role="form">
-			<div class="field">
-				<label class="label">Note</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.note}}" placeholder="Add a note to this customer">
-			</div>
-		</form>
+    <form id="form" role="form">
+      <div class="field">
+        <label class="label">Note</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.note}}" placeholder="Add a note to this customer">
+      </div>
+    </form>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'form-customer-note'
+    is: 'form-customer-note'
 
-	});
+  });
 </script>

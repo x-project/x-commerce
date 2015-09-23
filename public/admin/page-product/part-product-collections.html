@@ -1,6 +1,6 @@
 <link rel="import" href="/components/iron-ajax/iron-ajax.html">
 <dom-module id="part-product-collections">
-	<template>
+  <template>
     <style>
       :host {
         display: block;
@@ -59,12 +59,12 @@
       </template>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-product-collections',
+    is: 'part-product-collections',
 
     properties: {
       collections: {
@@ -133,5 +133,5 @@
       return item.title.search(this.title) >= 0;
     }
 
-	});
+  });
 </script>

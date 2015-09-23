@@ -1,24 +1,24 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-collection-info">
-	<template>
-		<style include="style-form"></style>
+  <template>
+    <style include="style-form"></style>
 
-		<form id="form" role="form" on-submit="on_submit">
-			<div class="field">
-				<label class="label">Title</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
-			</div>
-			<div class="field">
-				<label class="label">Description</label>
-				<input class="input" type="text" is="iron-input" bind-value="{{data.description}}">
-			</div>
-		</form>
-	</template>
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Title</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.title}}">
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{data.description}}">
+      </div>
+    </form>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'form-collection-info',
+    is: 'form-collection-info',
 
     properties: {
       data: {
@@ -31,5 +31,5 @@
       event.preventDefault();
     }
 
-	});
+  });
 </script>

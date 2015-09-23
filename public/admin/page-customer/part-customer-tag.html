@@ -1,17 +1,17 @@
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-customer-tags.html">
 <dom-module id="part-customer-tag">
-	<template>
+  <template>
     <style include="style-panel"></style>
 
-		<h2>Tags</h2>
-		<form-customer-tags on-submit="on_submit" data="{{data}}"></form-customer-tags>
-	</template>
+    <h2>Tags</h2>
+    <form-customer-tags on-submit="on_submit" data="{{data}}"></form-customer-tags>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-customer-tag',
+    is: 'part-customer-tag',
 
     properties: {
       data: {
@@ -24,5 +24,5 @@
       event.stopPropagation();
     }
 
-	});
+  });
 </script>

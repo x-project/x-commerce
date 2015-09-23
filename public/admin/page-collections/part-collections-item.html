@@ -1,24 +1,24 @@
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-collections-item">
-	<style include="style-item"></style>
+  <style include="style-item"></style>
 
-	<template>
-		<div class="item">
+  <template>
+    <div class="item">
       <b>id: </b><span>{{item.id}}</span>
-		  <b>name: </b><span>{{item.title}}</span>
-  	  <b>description: </b><span>{{item.description}}</span>
+      <b>name: </b><span>{{item.title}}</span>
+      <b>description: </b><span>{{item.description}}</span>
       <b>is_published: </b><span>{{item.is_published}}</span>
       <b>published_at: </b><span>{{item.published_at}}</span>
       <button on-click="on_edit_collection"> edit</button>
      </div>
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-collections-item',
+    is: 'part-collections-item',
 
-		properties: {
+    properties: {
       item: {
         type: Object,
         value: function () {
@@ -31,5 +31,5 @@
       page('/admin/collections/'+this.item.id);
     }
 
-	});
+  });
 </script>

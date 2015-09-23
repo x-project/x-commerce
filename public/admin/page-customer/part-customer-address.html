@@ -1,17 +1,17 @@
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-customer-address.html">
 <dom-module id="part-customer-address">
-	<template>
+  <template>
     <style include="style-panel"></style>
 
-		<h2>Address</h2>
-		<form-customer-address on-submit="on_submit" data="{{data}}"></form-customer-address>
-	</template>
+    <h2>Address</h2>
+    <form-customer-address on-submit="on_submit" data="{{data}}"></form-customer-address>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-customer-address',
+    is: 'part-customer-address',
 
     properties: {
       data: {
@@ -24,5 +24,5 @@
       event.stopPropagation();
     }
 
-	});
+  });
 </script>

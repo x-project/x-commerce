@@ -1,23 +1,23 @@
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-products-item">
-	<style include="style-item"></style>
+  <style include="style-item"></style>
 
-	<template>
-		<div class="item">
+  <template>
+    <div class="item">
       <b>id: </b><span>{{item.id}}</span>
-		  <b>name: </b><span>{{item.title}}</span>
-  	  <b>description: </b><span>{{item.description}}</span>
+      <b>name: </b><span>{{item.title}}</span>
+      <b>description: </b><span>{{item.description}}</span>
       <b>barcode: </b><span>{{item.barcode}}</span>
       <button on-click="on_edit_product"> edit</button>
      </div>
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-products-item',
+    is: 'part-products-item',
 
-		properties: {
+    properties: {
       item: {
         type: Object,
         value: function () {
@@ -33,5 +33,5 @@
 
 
 
-	});
+  });
 </script>
