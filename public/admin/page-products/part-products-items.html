@@ -1,18 +1,8 @@
 <link rel="import" href="../style-list/style-list.html">
 <link rel="import" href="part-products-item.html">
 <dom-module id="part-products-items">
-  <style include="style-list"></style>
-
-	<template>
-    <iron-ajax id="ajax_get"
-      auto
-      method="GET"
-      url="http://localhost:3000/api/Products"
-      content-type="application/json"
-      handle-as="json"
-      last-response="{{data}}"
-      debounce-duration="300">
-    </iron-ajax>
+  <template>
+    <style include="style-list"></style>
 
 		<div class="items">
 	    <template is="dom-repeat" items="{{data}}">
@@ -30,9 +20,7 @@
     properties: {
       items: {
         type: Array,
-        value: function () {
-          return [];
-        }
+        value: function () { return []; }
       }
     }
 

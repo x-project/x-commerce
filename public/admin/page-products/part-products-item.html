@@ -1,15 +1,15 @@
+<link rel="import" href="/components/app-link/app-link.html">
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-products-item">
-	<style include="style-item"></style>
+  <template>
+  	<style include="style-item"></style>
 
-	<template>
-		<div class="item">
-      <b>id: </b><span>{{item.id}}</span>
-		  <b>name: </b><span>{{item.title}}</span>
-  	  <b>description: </b><span>{{item.description}}</span>
-      <b>barcode: </b><span>{{item.barcode}}</span>
-      <button on-click="on_edit_product"> edit</button>
-     </div>
+  	<div class="item">
+      <label>{{item.id}}</label>
+		  <span>{{item.title}}</span>
+      <a is="app-link" href="[[edit_url]]">edit</a>
+    </div>
+
 	</template>
 </dom-module>
 <script>
@@ -20,18 +20,14 @@
 		properties: {
       item: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       }
     },
 
-    on_edit_product: function () {
-      page('/admin/products/'+this.item.id);
-    },
-
-
-
+    attached: function () {
+      var product_id = this.route.params.product_id;
+      this.edit_url = '/admin/products/' + product_id;
+    }
 
 	});
 </script>
