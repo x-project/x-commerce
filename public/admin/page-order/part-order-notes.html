@@ -1,0 +1,33 @@
+<link rel="import" href="form-order-detail.html">
+<link rel="import" href="components.html">
+
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="part-order-notes">
+  <template>
+    <style include="style-form"></style>
+
+    <div class="field">
+      <label class="label">notes</label>
+      <textarea class="textarea"></textarea>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-notes',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+    }
+
+  });
+</script>

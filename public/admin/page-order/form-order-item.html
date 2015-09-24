@@ -1,0 +1,56 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-order-item">
+	<template>
+  	<style include="style-form"></style>
+
+    <iron-ajax id="request" method="PUT"
+      content-type="application/json"
+      handle-as="json" last-response="{{response}}" last-error="{{error}}">
+    </iron-ajax>
+
+		<form id="form" class="form" on-submit="on_submit">
+			<div class="field">
+        <label>product</label>
+				<input is="iron-input" class="input" type="text" bind-value="{{item.product}}">
+			</div>
+      <div class="field">
+        <label>quantity</label>
+        <input is="iron-input" class="input" type="number" bind-value="{{item.quantity}}">
+      </div>
+      <div class="field">
+        <input type="submit" value="save">
+      </div>
+    </form>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'form-order-item',
+
+		properties: {
+			order: {
+				type: Object,
+				value: function () { return {}; }
+			},
+      item: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      response: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+		},
+
+    on_submit: function (event) {
+      event.preventDefault();
+    }
+
+	});
+</script>

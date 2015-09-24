@@ -1,0 +1,31 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-product-shipping.html">
+<dom-module id="part-product-create-variant">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Variant</h2>
+      <a is="app-link" href="{{edit_url}}">variant</a>
+
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-create-variant',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.edit_url = '/admin/products/' + this.product.id + '/variants'
+    }
+
+  });
+</script>

@@ -1,0 +1,51 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-variants-option">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Name</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{option.name}}">
+      </div>
+      <div class="field">
+        <label class="label">Values (space separed values)</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{option.values}}">
+      </div>
+      <input type="submit" value="save">
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-variants-option',
+
+    properties: {
+      option: {
+        type: Object,
+        notify: true,
+        value: function () { return {}; }
+      },
+      separators: {
+        type: Array,
+        value: function () { return [' ', ',']; }
+      }
+    },
+
+    on_change: function (event) {
+      this.set('option.values', this.values.split(/\ +/));
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      if (!this.option.name && !this.option.value) {
+        return;
+      }
+      this.set('option.values', this.option.values.split(' '));
+      this.fire('try-save');
+    }
+
+  });
+</script>

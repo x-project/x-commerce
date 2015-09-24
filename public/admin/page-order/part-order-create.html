@@ -1,0 +1,28 @@
+<link rel="import" href="form-order-detail.html">
+<link rel="import" href="../style-panel/style-panel.html">
+<dom-module id="part-order-create">
+	<template>
+		<style include="style-panel"></style>
+
+    <button class="button" on-click="on_click">create order item</button>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-order-create',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_click: function (event) {
+      //TODO create order item
+    }
+
+	});
+</script>
