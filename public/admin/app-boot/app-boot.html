@@ -14,6 +14,8 @@
 <link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-customers/page-customers.html">
 <link rel="import" href="../page-customer/page-customer.html">
+<link rel="import" href="../page-variants/page-variants.html">
+
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -46,6 +48,9 @@
       <!-- <app-route path="/admin/customers/new" page="page-customer"></app-route> -->
       <app-route path="/admin/customers/:customer_id" page="page-customer"
         on-route="/admin/customers/:customer_id"></app-route>
+      <app-route path="/admin/products/:product_id/variants" page="page-variants"
+        on-route="/admin/products/:product_id/variants">
+      </app-route>
 
       <app-route path="/admin/test" page="page-test"></app-route>
     </app-routes>
@@ -138,6 +143,21 @@
           return;
         }
         event.detail.data = { customer: model };
+        routes.fire('route', event.detail);
+      });
+    },
+
+    '/admin/products/:product_id/variants': function (event) {
+      event.stopPropagation();
+      var model_id = event.detail.params.product_id;
+      var routes = this.$.routes;
+
+      this.get_model('Products', model_id, function (err, model) {
+        if (err) {
+          page('/404');
+          return;
+        }
+        event.detail.data = { product: model };
         routes.fire('route', event.detail);
       });
     },

@@ -6,6 +6,7 @@
 <link rel="import" href="part-order-delete.html">
 <link rel="import" href="part-order-items.html">
 <link rel="import" href="part-order-notes.html">
+<link rel="import" href="part-order-header.html">
 <dom-module id="page-order">
 	<template>
 		<style include="style-page"></style>
@@ -14,10 +15,11 @@
       <part-sidebar class="sidebar"></part-sidebar>
 		  <div class="main">
         <div class="container">
-          <h1><span>Order</span> <span>{{order.id}}</span></h1>
+          <h1>Orders</h1>
+          <part-order-header order="{{order}}"></part-order-header>
 		      <part-order-delete order="{{order}}"></part-order-delete>
 					<part-order-customer order="{{order}}"></part-order-customer>
-          <part-order-items items="{{order.items}}"></part-order-items>
+          <part-order-items order="{{order}}"></part-order-items>
 					<part-order-create order="{{order}}"></part-order-create>
           <form-order-item item="{{order}}"></form-order-item>
           <part-order-notes items="{{order.items}}"></part-order-notes>
@@ -37,6 +39,10 @@
         type: Object,
         value: function () { return {}; }
       },
+    },
+
+    attached: function () {
+      this.order = this.route.data.order;
     }
 
 	});

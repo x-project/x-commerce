@@ -1,5 +1,8 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-variants-options.html">
+<!-- <link rel="import" href="part-variants-variants.html">
+ -->
 <dom-module id="page-variants">
   <template>
     <style include="style-page"></style>
@@ -8,8 +11,9 @@
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
-          <h1>page variants</h1>
-          .......
+          <h1>Variants</h1>
+            <part-variants-options product="{{product}}" variants="{{variants}}"></part-variants-options>
+            <!-- <part-variants-variants product="{{product}}" variants="{{variants}}"></part-variants-variants> -->
         </div>
       </div>
     </div>
@@ -19,7 +23,22 @@
 <script>
   Polymer({
 
-    is: 'page-variants'
+    is: 'page-variants',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variants: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      this.product = this.route.data.product;
+    }
 
   });
 </script>

@@ -7,23 +7,23 @@
     <form id="form" role="form">
       <div class="field">
         <label class="label">First Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.first_name}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.first_name}}">
       </div>
       <div class="field">
         <label class="label">Last Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.last_name}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.last_name}}">
       </div>
       <div class="field">
         <label class="label">Email</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.email}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.email}}">
       </div>
       <div class="field">
         <label class="label">Customer accepts marketing</label>
-        <paper-checkbox checked="{{data.marketing}}"></paper-checkbox>
+        <paper-checkbox checked="{{customer.marketing}}"></paper-checkbox>
       </div>
       <div class="field">
         <label class="label">Customer is tax excempt</label>
-        <paper-checkbox checked="{{data.taxes_exempt}}"></paper-checkbox>
+        <paper-checkbox checked="{{customer.taxes_exempt}}"></paper-checkbox>
       </div>
     </form>
   </template>
@@ -32,7 +32,14 @@
 <script>
   Polymer({
 
-    is: 'form-customer-overview'
+    is: 'form-customer-overview',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

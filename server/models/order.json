@@ -1,53 +1,48 @@
 {
-	"name": "Order",
-	"plural": "Orders",
-	"base": "PersistedModel",
-	"properties": {
-		"notes": {
-			"type": "String"
-		},
-		"subtotal": {
-			"type": "Number"
-		},
-		"discount": {
-			"type": "Number"
-		},
-		"shipping_cost": {
-			"type": "Number"
-		},
-		"taxes": {
-			"type": "Number"
-		},
-		"payment_status": {
-			"type": "String",
-			"enum": ["paid", "pending"]
-		},
-		"created_at": {
-			"type": "Date"
-		},
-		"feedback": {
-			"type": "Number"
-		}
-	},
-	"validations": [],
-	"relations": {
-		"order_items": {
-			"type": "hasMany",
-			"model": "OrderItem"
-		},
-		"customer": {
-			"type": "belongsTo",
-			"model": "Customer"
-		},
-		"taxes": {
-			"type": "hasMany",
-			"model": "Tax"
-		},
-    "invoices": {
-      "type": "belongsTo",
-      "model": "Invoice"
+  "name": "Order",
+  "plural": "Orders",
+  "base": "PersistedModel",
+  "properties": {
+    "status": {
+      "type": "String",
+      "enum": ["open", "pending", "paid", "closed"],
+      "default": "open",
+      "required": true
+    },
+    "discount": {
+      "type": "Number"
+    },
+    "shipping_cost": {
+      "type": "Number"
+    },
+    "taxes": {
+      "type": "Number"
+    },
+    "total": {
+      "type": "Number"
+    },
+    "notes": {
+      "type": "String"
+    },
+    "feedback": {
+      "type": "Number"
     }
-	},
-	"acls": [],
-	"methods": []
+  },
+  "validations": [],
+  "relations": {
+    "order_items": {
+      "type": "hasMany",
+      "model": "OrderItem"
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer"
+    },
+    "taxes": {
+      "type": "hasMany",
+      "model": "Tax"
+    }
+  },
+  "acls": [],
+  "methods": []
 }

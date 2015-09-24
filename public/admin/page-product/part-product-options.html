@@ -52,8 +52,9 @@
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
-    <iron-ajax id="ajax_variants" method="GET" url="/api/ProductVariants/generate" handle-as="json"
-      last-response="{{response_variants}}" on-error="on_error" on-response="on_response_variants">
+    <iron-ajax id="ajax_variants_product" method="GET" url="/api/Products/generate_variants"
+      handle-as="json" last-response="{{response_variants}}" on-error="on_error"
+      on-response="on_response_variants" params="{{params_product_variant}}">
     </iron-ajax>
 
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
@@ -71,7 +72,7 @@
         </template>
         <part-product-option id="last_option" option="{{option_pending}}"
           saving$="{{last_option_saving}}">
-          <span class="saving">saving...............</span>
+          <span class="saving">saving...</span>
         </part-product-option>
       </div>
 
@@ -178,7 +179,7 @@
       this.$.ajax_product_option.body = JSON.stringify(this.option);
       this.async(function () {
         this.$.ajax_product_option.generateRequest();
-      }, 2000);
+      }, 500);
     },
 
     on_response_product_option: function (event, details) {
@@ -200,12 +201,12 @@
 
     on_click_generate_variant: function (event) {
       event.stopPropagation();
-      this.$.ajax_variants.generateRequest();
+      this.params_product_variant = { product_id: this.product.id };
+      this.$.ajax_variants_product.generateRequest();
     },
 
     on_response_variants: function (event) {
       event.stopPropagation();
-      // this.url_generate_variant = '/api/ProductVariants/generate/' + this.product.id
       this.variants = this.response_variants.variants;
     },
 

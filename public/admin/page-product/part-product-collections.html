@@ -32,6 +32,7 @@
     <iron-ajax id="ajax_product_collections" url="{{url_product_collections}}"
       handle-as="json" last-response="{{selected}}">
     </iron-ajax>
+    <h2>Collections</h2>
 
     <div class="items">
       <template id="collections" is="dom-repeat" items="{{collections}}" filter="filter_collection">

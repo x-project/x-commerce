@@ -6,7 +6,7 @@
 
 	  <div class="panel">
 			<h2 class="title">Customer</h2>
-			<form-order-customer></form-order-customer>
+			<form-order-customer order="{{order}}"></form-order-customer>
 		</div>
 	</template>
 </dom-module>
@@ -14,6 +14,13 @@
 	Polymer({
 
 		is: 'part-order-customer',
+
+		properties: {
+			order: {
+				type: Object,
+				value: function () { return {}; }
+			},
+		}
 
 	});
 </script>

@@ -1,6 +1,6 @@
 var QUALITY = 80; //[0,100]
-var fs = require('fs');
 var gm = require('gm');
+var fs = require('fs');
 var mkdirp = require('mkdirp');
 var jwt = require('json-web-token');
 var async = require('async');
@@ -104,10 +104,7 @@ var generate_thumbnail = function (buffer, filename) {
 var save_resized_buffer = function (folder_path) {
   return function (buffer, side, err, done) {
     var file_name = path.join(folder_path, 'thumb-' + side + '.jpg');
-    fs.writeFile(file_name, buffer, 'binary', function () {
-      // console.log(folder_path, file_name, side);
-      done();
-    });
+    fs.writeFile(file_name, buffer, 'binary', done);
   };
 };
 
@@ -184,7 +181,6 @@ module.exports = function(Image) {
         var image_id = payload.id;
         var container = payload.container;
         var expired = payload.expires < Date.now();
-
         var file = req.files.file;
         var image_buffer = file.buffer;
         var filename = file.originalname;
@@ -198,7 +194,7 @@ module.exports = function(Image) {
           extension: extension,
           filename: filename_no_ext,
           size: file.size,
-          base_url: '/' + path.join(storage, container, image_id)
+          base_url: path.join(storage, container, image_id)
         };
 
         if (payload.check !== secret || expired) {
@@ -219,13 +215,16 @@ module.exports = function(Image) {
     });
   };
 
-  Image.remoteMethod('upload', {
-    accepts: [
-      { arg: 'media_token', type: 'string', http: { source: 'query' } },
-      { arg: 'req', type: 'object', http: { source: 'req' } }
-    ],
-    returns: { arg: 'image', type: 'object' },
-    http: { path: '/upload', verb: 'post' }
-  });
-
+  Image.remoteMethod(
+      'upload',
+      {
+        accepts: [
+          {arg: 'media_token', type: 'string', http: {source: 'query'}},
+          {arg: 'req', type: 'object', http: {source: 'req'}}
+        ],
+        returns: {arg: 'image', type: 'object'},
+        http: {path: '/upload', verb: 'post'}
+      }
+  );
 };
+

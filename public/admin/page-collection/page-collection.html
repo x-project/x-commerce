@@ -51,7 +51,6 @@
     },
 
     save: function (event) {
-      console.log(this.collection);
       this.body = JSON.stringify(this.collection);
       this.$.ajax_post.generateRequest();
     },

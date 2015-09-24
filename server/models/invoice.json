@@ -48,7 +48,12 @@
 			"type": "String"
 		}
 	},
-	"relations": {},
+	"relations": {
+    "invoice": {
+      "type": "belongsTo",
+      "model": "Order"
+    }
+	},
 	"acls": [],
 	"methods": [],
 	"validations": []

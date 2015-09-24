@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <h2>Overview</h2>
-    <form-customer-overview on-submit="on_submit" data="{{data}}"></form-customer-overview>
+    <form-customer-overview on-submit="on_submit" customer="{{customer}}"></form-customer-overview>
   </template>
 </dom-module>
 <script>
@@ -14,7 +14,7 @@
     is: 'part-customer-overview',
 
     properties: {
-      data: {
+      customer: {
         type: Object,
         notify: true
       }

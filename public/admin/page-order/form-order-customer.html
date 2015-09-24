@@ -3,28 +3,30 @@
 	<template>
 	 <style include="style-form"></style>
 
-    <iron-ajax id="ajax_get"
-      method="GET"
-      url="http://localhost:3000/api/Customers"
-      content-type="application/json"
-      handle-as="json"
-      last-response="{{customers}}"
-      debounce-duration="300">
+    <iron-ajax id="ajax_get_customers" method="GET" url="/api/Customers"
+      handle-as="json" last-response="{{customers}}">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_get_customer" method="GET" url="{{url_customer}}"
+      handle-as="json" last-response="{{customer}}">
+    </iron-ajax>
+
+    <iron-ajax id="put_order_customer" method="PUT" url="{{url_put_order_customer}}"
+      content-type="application/json" handleAs="json" on-response="on_put_response">
     </iron-ajax>
 
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">customer</label>
 				<input class="input" id="input" type="text" is="iron-input" on-keypress="on_customer"
-          bind-value="{{order.customer}}">
+          bind-value="{{customer.first_name}}">
 			</div>
 		</form>
 
-	    <template id="customerFilter" is="dom-repeat" items="{{customers}}" filter="filter_customer">
-		   	<div>
-		      <b>name: </b><span>{{item.first_name}}</span>
-				  <b>surname: </b><span>{{item.last_name}}</span>
-				  <button on-click="on_customer_selected">select</button>
+    <div class="item">
+	    <template id="customers" is="dom-repeat" items="{{customers}}" filter="filter_customer">
+		   	<div class="item" on-click="on_customer_selected">
+		      <span>{{item.first_name}}</span>
 				</div>
 	    </template>
 	</template>
@@ -42,22 +44,43 @@
 			order: {
 				type: Object,
 				value: function () { return {}; }
-			}
+			},
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
 		},
+
+    attached: function () {
+      this.url_customer = '/api/Orders/' + this.order.id + '/customer'
+      this.$.ajax_get_customer.generateRequest();
+    },
 
 		on_customer:  function (event) {
-      this.$.ajax_get.generateRequest();
+      event.stopPropagation();
+      this.$.ajax_get_customers.generateRequest();
 		},
 
-		filter_customer: function(item) {
-    	return item.first_name.search(this.order.customer)>=0 || item.last_name.search(this.order.customer)>=0;
+		filter_customer: function(customer) {
+    	return customer.first_name.search(this.customer.first_name)>=0;
 		},
 
 		on_customer_selected: function (event) {
-			var item = this.$.customerFilter.itemForElement(event.target);
-			this.$.input.value = item.last_name;
-		}
+      event.stopPropagation();
+			var customer = this.$.customers.itemForElement(event.target);
+			this.$.input.value = customer.first_name;
+      this.try_save(customer);
+		},
 
+    try_save: function (customer) {
+      this.url_put_order_customer = '/api/Orders/' + this.order.id;
+      this.$.put_order_customer.body = {customerId: customer.id}
+      this.$.put_order_customer.generateRequest();
+    },
+
+    on_put_response: function (event, details) {
+      event.stopPropagation();
+    }
 
 	});
 </script>
