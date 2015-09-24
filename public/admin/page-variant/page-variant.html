@@ -1,6 +1,8 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
-
+<link rel="import" href="part-variant-create.html">
+<link rel="import" href="part-variant-delete.html">
+<link rel="import" href="part-variant-inventory.html">
 <dom-module id="page-variant">
   <template>
     <style include="style-page"></style>
@@ -9,8 +11,16 @@
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
-          <h1>page variant</h1>
-          ......
+          <h2 class="title">
+            <span>Product</span> : <span>{{product.title}}</span>
+             / <span>variant</span> : <span>{{variant.name}}</span>
+          </h2>
+
+          <part-variant-inventory variantdetails="{{variantdetails}}"
+            on-try-save="on_save">
+          </part-variant-inventory>
+          <part-variant-create on-try-save="on_save"></part-variant-create>
+          <part-variant-delete on-try-delete="on_delete"></part-variant-delete>)
         </div>
       </div>
     </div>
@@ -20,7 +30,42 @@
 <script>
   Polymer({
 
-    is: 'page-variant'
+    is: 'page-variant',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () {return {}; }
+      },
+      variant: {
+        type: Object,
+        value: function () {return {}; }
+      },
+      sku: {
+        type: String,
+        value: ''
+      },
+      variantdetails:{
+        type: Object,
+        value: function () {return {}; }
+      }
+    },
+
+    attached: function () {
+      this.product = this.route.data_product.product;
+      this.variant = this.route.data_variant.variant;
+    },
+
+    on_save: function (event) {
+      //to do save
+      event.stopPropagation();
+      console.log(this.variantdetails);
+    },
+
+    on_delete: function (event) {
+      event.stopPropagation();
+      //to do delete
+    }
 
   });
 </script>

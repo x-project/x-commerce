@@ -15,6 +15,7 @@
 <link rel="import" href="../page-customers/page-customers.html">
 <link rel="import" href="../page-customer/page-customer.html">
 <link rel="import" href="../page-variants/page-variants.html">
+<link rel="import" href="../page-variant/page-variant.html">
 
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
@@ -48,9 +49,15 @@
       <!-- <app-route path="/admin/customers/new" page="page-customer"></app-route> -->
       <app-route path="/admin/customers/:customer_id" page="page-customer"
         on-route="/admin/customers/:customer_id"></app-route>
+       <!--varianti di un prodotto-->
       <app-route path="/admin/products/:product_id/variants" page="page-variants"
         on-route="/admin/products/:product_id/variants">
       </app-route>
+      <!--scheda variante-->
+      <app-route path="/admin/products/:product_id/ProductVariants/:variant_id" page="page-variant"
+        on-route="/admin/products/:product_id/ProductVariants/:variant_id">
+      </app-route>
+
 
       <app-route path="/admin/test" page="page-test"></app-route>
     </app-routes>
@@ -158,6 +165,28 @@
           return;
         }
         event.detail.data = { product: model };
+        routes.fire('route', event.detail);
+      });
+    },
+
+    '/admin/products/:product_id/ProductVariants/:variant_id': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      var product_id = event.detail.params.product_id;
+      var variant_id = event.detail.params.variant_id;
+      this.get_model('Products', product_id, function (err, model) {
+        if (err) {
+          page('/404');
+          return;
+        }
+        event.detail.data_product = { product: model };
+      });
+      this.get_model('ProductVariants', variant_id, function (err, model) {
+        if (err) {
+          page('/404');
+          return;
+        }
+        event.detail.data_variant = { variant: model };
         routes.fire('route', event.detail);
       });
     },

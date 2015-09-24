@@ -1,0 +1,67 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-variant-inventory">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">SKU</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{sku}}">
+      </div>
+      <div class="field">
+        <label class="label">Barcode</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{barcode}}">
+      </div>
+      <div class="field">
+        <label class="label">Track quantity</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{track_quantity}}">
+      </div>
+      <div class="field">
+        <label class="label">Quantiy</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{quantity}}">
+      </div>
+    </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-variant-inventory',
+
+    properties: {
+      variantdetails: {
+        type: Object,
+        notify: true,
+        value: function () {return {}; }
+      },
+      sku: {
+        type: String,
+        value: ''
+      },
+      track_quantity: {
+        type: String,
+        value: ''
+      },
+      quantity: {
+        type: String,
+        value: ''
+      },
+      barcode: {
+        type: String,
+        value: ''
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      var variant = {
+                      sku: this.sku,
+                      track_quantity: this.track_quantity,
+                      quantity: this.quantity,
+                      barcode: this.barcode
+                    };
+      this.variantdetails = variant;
+    }
+
+  });
+</script>

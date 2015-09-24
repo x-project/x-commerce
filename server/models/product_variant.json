@@ -22,6 +22,18 @@
     },
     "available": {
       "type": "Boolean"
+    },
+    "require_shipping": {
+      "type": "Boolean"
+    },
+    "quantity": {
+      "type": "Number"
+    },
+    "unit_measure_weight": {
+      "type": "String"
+    },
+    "weight": {
+      "type": "Number"
     }
   },
   "relations": {},

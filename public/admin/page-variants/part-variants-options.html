@@ -47,16 +47,23 @@
       on-response="on_response_options">
     </iron-ajax>
 
+    <iron-ajax id="ajax_product_variants_init" method="GET" url="{{url_product_variants_init}}"
+      handle-as="json" last-response="{{response_variants_init}}" on-error="on_error"
+      on-response="on_response_variants_init">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_product_variants" method="GET" url="/api/Products/generate"
+      handle-as="json" last-response="{{response_variants}}" on-error="on_error"
+      on-response="on_response_variants" params="{{params_product_variant}}">
+    </iron-ajax>
+
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
       content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
     </iron-ajax>
 
-    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
+    <iron-ajax id="ajax_delete_option" method="DELETE" on-error="on_error"></iron-ajax>
 
-    <iron-ajax id="ajax_variants_product" method="GET" url="/api/Products/generate"
-      handle-as="json" last-response="{{response_variants}}" on-error="on_error"
-      on-response="on_response_variants" params="{{params_product_variant}}">
-    </iron-ajax>
+    <iron-ajax id="ajax_delete_variant" method="DELETE" on-error="on_error"></iron-ajax>
 
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
       content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
@@ -77,7 +84,7 @@
         </part-variants-option>
       </div>
 
-      <button class="add_option" on-click="on_click_add_option">add option</button>
+      <button id="add_option" class="add_option" on-click="on_click_add_option">add option</button>
       <button id="generate_variant" on-click="on_click_generate_variant" disabled>generate variant</button>
 
       <form-variants-option id="form" open$="{{open}}" option="{{option}}"
@@ -133,16 +140,14 @@
         type: Array,
         value: function () { return []; },
         notify: true
-      },
-      url_generate_variant: {
-        type: String,
-        value: ''
       }
     },
 
     attached: function () {
-      this.url_product_options = '/api/Products/' + this.product.id + '/options'
+      this.url_product_options = '/api/Products/' + this.product.id + '/options';
       this.$.ajax_product_options.generateRequest();
+      this.url_product_variants_init = '/api/Products/' + this.product.id + '/variants'
+      this.$.ajax_product_variants_init.generateRequest();
     },
 
     on_response_options: function (event) {
@@ -153,9 +158,15 @@
       }
     },
 
+    on_response_variants_init: function (event) {
+      event.stopPropagation();
+      this.variants = this.response_variants_init;
+    },
+
     on_click_add_option: function (event) {
       event.stopPropagation();
       this.open_form();
+      this.$.add_option.disabled = 'disabled';
     },
 
     open_form: function () {
@@ -173,6 +184,7 @@
       this.set('last_option_saving', true);
       this.add_option();
       this.close_form();
+      this.$.add_option.disabled = '';
     },
 
     add_option: function () {
@@ -196,19 +208,47 @@
       this.splice('options', index, 1);
       if(this.options.length < 1)
         this.$.generate_variant.disabled = 'disabled';
-      this.$.ajax_delete.url = '/api/Products/' + this.product.id + '/options/' + option.id;
-      this.$.ajax_delete.generateRequest();
+      this.$.ajax_delete_option.url = '/api/Products/' + this.product.id + '/options/' + option.id;
+      this.$.ajax_delete_option.generateRequest();
+      this.delete_product_variants();
+    },
+
+    delete_product_variants: function () {
+      if(this.options.length > 0){
+        this.generate_variant();
+        return;
+      }
+      if(this.options.length === 0){
+        this.delete_last_variant_manually();
+        return;
+      }
+    },
+
+    delete_last_variant_manually: function () {
+      this.$.ajax_delete_variant.url = '/api/Products/' + this.product.id + '/variants'
+      this.$.ajax_delete_variant.params = { id: this.product.id };
+      this.$.ajax_delete_variant.generateRequest();
+      this.variants = [];
     },
 
     on_click_generate_variant: function (event) {
       event.stopPropagation();
+      this.generate_variant();
+    },
+
+    generate_variant: function () {
       this.params_product_variant = { product_id: this.product.id };
-      this.$.ajax_variants_product.generateRequest();
+      this.$.ajax_product_variants.generateRequest();
     },
 
     on_response_variants: function (event) {
       event.stopPropagation();
       this.variants = this.response_variants.variants;
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     },
 
     on_error: function (event) {

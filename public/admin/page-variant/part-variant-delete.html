@@ -1,0 +1,23 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<dom-module id="part-variant-delete">
+  <template>
+    <style include="style-panel"></style>
+    <div class="panel">
+      <button on-click="on_delete">delete</button>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-variant-delete',
+
+    properties: {},
+
+    on_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    }
+
+  });
+</script>
