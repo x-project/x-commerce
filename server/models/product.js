@@ -61,7 +61,7 @@ module.exports = function (Product) {
   Product.remoteMethod('generate_variants', {
     accepts: { arg: 'product_id', type: 'string', required: true },
     returns: { arg: 'variants', type: 'Array' },
-    http: { verb: 'get', path:'/generate_variants' }
+    http: { verb: 'get', path:'/generate' }
   });
 };
 

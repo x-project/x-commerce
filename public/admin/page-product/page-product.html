@@ -16,13 +16,12 @@
 <link rel="import" href="part-product-variants.html">
 <link rel="import" href="part-product-vendor.html">
 <link rel="import" href="part-product-visibility.html">
-
 <dom-module id="page-product">
   <template>
     <style include="style-page"></style>
 
     <iron-ajax id="ajax_put" method="PUT" url="{{url_put}}" content-type="application/json"
-      body="{{body}}" handleAs="json">
+      body="{{body}}" handleAs="json" on-response="on_response">
     </iron-ajax>
 
     <div class="page">
@@ -42,9 +41,7 @@
           <part-product-type product="{{product}}"></part-product-type>
           <part-product-tag product="{{product}}"></part-product-tag>
           <part-product-create-variant product="{{product}}"></part-product-create-variant>
-          <!-- <part-product-options product="{{product}}" variants="{{variants}}"></part-product-options> -->
-          <!-- <part-product-variants product="{{product}}" variants="{{variants}}"></part-product-variants> -->
-          <part-product-save-delete on-try-save="save"></part-product-save-delete>
+          <part-product-save-delete on-try-save="on_save"></part-product-save-delete>
         </div>
       </div>
     </div>
@@ -72,18 +69,13 @@
       this.url_put = '/api/Products/' + this.product.id;
     },
 
-    save: function (event) {
+    on_save: function (event) {
       this.body = JSON.stringify(this.product);
       this.$.ajax_put.generateRequest();
     },
 
-    on_save: function (event, detail) {
+    on_response: function (event, detail) {
       var response = detail.response;
-    },
-
-    on_generate_variants: function (event){
-      event.stopPropagation();
-      this.set('variants', event.detail.variant_result.variants);
     }
 
   });
