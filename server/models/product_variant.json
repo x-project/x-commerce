@@ -34,6 +34,9 @@
     },
     "weight": {
       "type": "Number"
+    },
+    "sell_after_purchase": {
+      "type": "Boolean"
     }
   },
   "relations": {},

@@ -11,14 +11,15 @@
 		<form id="form" class="form" on-submit="on_submit">
 			<div class="field">
         <label>product</label>
-				<input is="iron-input" class="input" type="text" bind-value="{{item.product}}">
+				<input is="iron-input" class="input" type="text" bind-value="{{title_product}}"
+          on-keypress="on_search_product">
 			</div>
       <div class="field">
         <label>quantity</label>
-        <input is="iron-input" class="input" type="number" bind-value="{{item.quantity}}">
+        <input is="iron-input" class="input" type="number" bind-value="{{quantity}}">
       </div>
       <div class="field">
-        <input type="submit" value="save">
+        <input type="submit" value="save" on-click="on_click_save">
       </div>
     </form>
 
@@ -34,23 +35,33 @@
 				type: Object,
 				value: function () { return {}; }
 			},
-      item: {
-        type: Object,
-        value: function () { return {}; }
+      title_product: {
+        type: String,
+        value: ''
       },
-      response: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      error: {
-        type: Object,
-        value: function () { return {}; }
+      quantity: {
+        type: Number
       }
+      orders: {
+        type: Array,
+        value: function () { return []; }
+      },
 		},
 
     on_submit: function (event) {
       event.preventDefault();
-    }
+      event.stopPropagation();
+    },
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('create-order-item');
+    },
+
+    on_search_product: function (event) {
+      event.stopPropagation();
+
+    },
 
 	});
 </script>

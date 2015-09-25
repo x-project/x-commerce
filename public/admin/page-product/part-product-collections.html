@@ -32,8 +32,8 @@
     <iron-ajax id="ajax_product_collections" url="{{url_product_collections}}"
       handle-as="json" last-response="{{selected}}">
     </iron-ajax>
-    <h2>Collections</h2>
 
+    <h2>Collections</h2>
     <div class="items">
       <template id="collections" is="dom-repeat" items="{{collections}}" filter="filter_collection">
           <div class="item" on-click="on_click_select">
@@ -92,10 +92,12 @@
     },
 
     on_edit_collection: function (event) {
+      event.stopPropagation();
       this.$.ajax_get_filter_collection.generateRequest();
     },
 
     on_click_select: function (event) {
+      event.stopPropagation();
       var collection = this.$.collections.itemForElement(event.target);
       if (!this.check_exists_selected_collection(collection)) {
         this.add_collection_product(collection);
@@ -109,6 +111,7 @@
     },
 
     on_click_selected: function (event) {
+      event.stopPropagation();
       var collection = this.$.selected.itemForElement(event.target);
       this.remove_collection_product(collection);
     },
@@ -121,6 +124,7 @@
     },
 
     on_error: function (event) {
+      event.stopPropagation();
       console.log(event);
     },
 

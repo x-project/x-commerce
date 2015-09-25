@@ -1,0 +1,26 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-variant-shipping.html">
+<dom-module id="part-variant-shipping">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Shipping</h2>
+      <form-variant-shipping variant="{{variant}}"></form-variant-shipping>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-variant-shipping',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

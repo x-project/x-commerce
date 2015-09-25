@@ -14,7 +14,7 @@
 
     properties: {},
 
-    on_save: function (event) {
+    on_delete: function (event) {
       event.stopPropagation();
       this.fire('try-delete');
     }

@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
     <div class="panel">
       <h2 class="title">Inventory</h2>
-      <form-product-inventory on-submit="on_submit" data="{{product}}"></form-product-inventory>
+      <form-product-inventory on-submit="on_submit" product="{{product}}"></form-product-inventory>
     </div>
   </template>
 </dom-module>
@@ -17,9 +17,7 @@
     properties: {
       product: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       }
     },
 

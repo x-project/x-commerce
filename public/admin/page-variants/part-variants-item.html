@@ -1,0 +1,56 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-item/style-item.html">
+<dom-module id="part-variants-item">
+  <template>
+    <style include="style-item"></style>
+
+    <iron-ajax id="ajax_put_variant" method="PUT" content-type="application/json"
+      handleAs="json" on-response="on_response_put_variant" on-error="on_error_put_variant">
+    </iron-ajax>
+
+    <div class="item">
+      <paper-checkbox is="iron-input" checked="{{variant.available}}"
+        on-click="on_click_available">
+      </paper-checkbox>
+      <label class="label">name</label>
+      <span>{{variant.name}}</span>
+      <label class="label">price</label>
+      <span>{{variant.price}}</span>
+      <label class="label">quantity</label>
+      <span>{{variant.quantity}}</span>
+      <a href="{{variant.edit_url}}">edit</a>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-variants-item',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_click_available: function (event) {
+      event.stopPropagation();
+      this.$.ajax_put_variant.body = JSON.stringify(this.variant);
+      this.$.ajax_put_variant.url = '/api/ProductVariants/' + this.variant.id;
+      this.$.ajax_put_variant.generateRequest();
+    },
+
+    on_response_put_variant: function (event, details) {
+      event.stopPropagation();
+      // console.log(details.response);
+    },
+
+    on_error_put_variant: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

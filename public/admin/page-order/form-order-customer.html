@@ -18,8 +18,8 @@
 		<form id="form" role="form">
 			<div class="field">
 				<label class="label">customer</label>
-				<input class="input" id="input" type="text" is="iron-input" on-keypress="on_customer"
-          bind-value="{{customer.first_name}}">
+				<input class="input" id="input" type="text" is="iron-input" bind-value="{{customer.first_name}}"
+          on-keypress="on_customer" on-focus="on_customer">
 			</div>
 		</form>
 

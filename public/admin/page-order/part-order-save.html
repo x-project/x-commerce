@@ -1,4 +1,4 @@
-<dom-module id="part-order-delete">
+<dom-module id="part-order-save">
   <template>
     <style>
       :host {
@@ -6,18 +6,18 @@
       }
     </style>
 
-    <button class="button" on-click="on_click">delete</button>
+    <button class="button" on-click="on_click">save</button>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-order-delete',
+    is: 'part-order-save',
 
     on_click: function (event) {
       event.stopPropagation();
-      this.fire('try-delete');
+      this.fire('try-save');
     }
 
   });

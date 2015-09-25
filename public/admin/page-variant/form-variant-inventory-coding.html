@@ -1,0 +1,39 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-variant-inventory-coding">
+  <template>
+    <style include="style-form"></style>
+
+    <h3 class="title">coding</h3>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">SKU</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{variant.sku}}">
+      </div>
+      <div class="field">
+        <label class="label">Barcode</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{variant.barcode}}">
+      </div>
+
+    </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-variant-inventory-coding',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+  });
+</script>

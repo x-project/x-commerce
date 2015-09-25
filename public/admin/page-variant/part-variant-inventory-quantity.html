@@ -1,0 +1,29 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<dom-module id="part-variant-inventory-quantity">
+  <template>
+    <style include="style-panel"></style>
+      <h3 class="title">tracking</h3>
+      <div class="field">
+        <label class="label">Quantiy</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{variant.quantity}}">
+      </div>
+      <div class="field">
+        <label class="label">Allow customers to purchase this product when it's out of stock</label>
+        <paper-checkbox is="iron-input" checked="{{variant.sell_after_purchase}}"></paper-checkbox>
+      </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-variant-inventory-quantity',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

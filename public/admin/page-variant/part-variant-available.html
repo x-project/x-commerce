@@ -1,0 +1,28 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-panel/style-panel.html">
+<dom-module id="part-variant-available">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Avaiable</h2>
+      <label class="label">available</label>
+      <paper-checkbox is="iron-input" checked="{{variant.available}}"></paper-checkbox>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-variant-available',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

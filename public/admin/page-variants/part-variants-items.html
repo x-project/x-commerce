@@ -1,5 +1,6 @@
 <link rel="import" href="../style-panel/style-panel.html">
-<dom-module id="part-variants-variants">
+<link rel="import" href="part-variants-item.html">
+<dom-module id="part-variants-items">
   <template>
     <style include="style-panel"></style>
 
@@ -7,8 +8,7 @@
       <h2>Variants</h2>
       <template is="dom-repeat" id="variants" items="{{variants}}" as="variant" filter="filter">
         <div class="item">
-          <span>{{variant.name}}</span>
-          <a href="{{variant.edit_url}}">edit</a>
+          <part-variants-item variant="{{variant}}"></part-variants-item>
         </div>
       </template>
     </div>
@@ -18,7 +18,7 @@
 <script>
   Polymer({
 
-    is: 'part-variants-variants',
+    is: 'part-variants-items',
 
     properties: {
       product: {
@@ -32,7 +32,7 @@
     },
 
     filter: function (variant) {
-      variant.edit_url = '/admin/Products/' + this.product.id + '/ProductVariants/' + variant.id;
+      variant.edit_url = '/admin/products/' + this.product.id + '/variants/' + variant.id;
       return true;
     }
 

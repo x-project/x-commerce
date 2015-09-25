@@ -23,13 +23,11 @@ module.exports = function (Product) {
       },
 
       function (product, next) {
-        product.variants.destroyAll(function (err, num_destroy_istance) {
-          (err) ? next(err, null) : next(null, product)
-        });
+        current_product = product;
+        product.variants.destroyAll(next);
       },
 
-      function (product, next) {
-        current_product = product;
+      function (variants, next) {
         current_product.options(next);
       },
 
@@ -42,7 +40,14 @@ module.exports = function (Product) {
           return {
             name: values.join('-'),
             combo: values,
-            available: true
+            available: true,
+            price: current_product.price,
+            compare_at_price: current_product.compare_at_price,
+            track_quantity: current_product.track_quantity,
+            quantity: current_product.quantity,
+            sell_after_purchase: current_product.sell_after_purchase,
+            weight: current_product.weight,
+            require_shipping: current_product.require_shipping
           };
         });
         current_product.variants.create(variants, next);

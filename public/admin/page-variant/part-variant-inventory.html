@@ -1,12 +1,16 @@
 <link rel="import" href="../style-panel/style-panel.html">
-<link rel="import" href="form-variant-inventory.html">
+<link rel="import" href="form-variant-inventory-coding.html">
+<link rel="import" href="form-variant-inventory-track.html">
 <dom-module id="part-variant-inventory">
   <template>
     <style include="style-panel"></style>
+
     <div class="panel">
       <h2 class="title">Inventory</h2>
-      <form-variant-inventory on-submit="on_submit" variantdetails="{{variantdetails}}">
-      </form-variant-inventory>
+        <div class="panel">
+          <form-variant-inventory-coding variant="{{variant}}"></form-variant-inventory-coding>
+          <form-variant-inventory-track variant="{{variant}}"> </form-variant-inventory-track>
+        </div>
     </div>
   </template>
 </dom-module>
@@ -16,16 +20,10 @@
     is: 'part-variant-inventory',
 
     properties: {
-      variantdetails: {
+      variant: {
         type: Object,
-        notify: true,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      this.fire('try-save');
     }
 
   });

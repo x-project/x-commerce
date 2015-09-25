@@ -1,0 +1,37 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-variant-shipping">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Weight</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{variant.weight}}">
+      </div>
+      <div class="field">
+        <label class="label">This product requires shipping</label>
+        <paper-checkbox checked="{{variant.require_shipping}}"></paper-checkbox>
+      </div>
+    </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-variant-shipping',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+  });
+</script>

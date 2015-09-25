@@ -1,6 +1,6 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-collection-filter.html">
+<link rel="import" href="part-collection-add-products.html">
 <link rel="import" href="part-collection-header.html">
 <link rel="import" href="part-collection-image.html">
 <link rel="import" href="part-collection-info.html">
@@ -23,8 +23,7 @@
           <part-collection-info collection="{{collection}}"></part-collection-info>
           <part-collection-visibility collection="{{collection}}"></part-collection-visibility>
           <part-collection-image></part-collection-image>
-          <part-collection-filter></part-collection-filter>
-          <part-collection-products></part-collection-products>
+          <part-collection-add-products collection="{{collection}}"></part-collection-add-products>
         </div>
       </div>
     </div>
@@ -39,9 +38,11 @@
     properties: {
       collection: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
+      },
+      products: {
+        type: Array,
+        value: function () { return []; }
       }
     },
 

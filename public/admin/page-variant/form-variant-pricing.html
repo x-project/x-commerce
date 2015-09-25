@@ -1,0 +1,37 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-variant-pricing">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Price</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{variant.price}}">
+      </div>
+      <div class="field">
+        <label class="label">Compare at price</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{variant.compare_at_price}}">
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-variant-pricing',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+  });
+</script>

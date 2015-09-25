@@ -2,29 +2,39 @@
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-variant-create.html">
 <link rel="import" href="part-variant-delete.html">
+<link rel="import" href="part-variant-pricing.html">
 <link rel="import" href="part-variant-inventory.html">
+<link rel="import" href="part-variant-shipping.html">
+<link rel="import" href="part-variant-available.html">
+<link rel="import" href="part-variant-header.html">
+
 <dom-module id="page-variant">
   <template>
     <style include="style-page"></style>
+
+    <iron-ajax id="ajax_put_variant" method="PUT" content-type="application/json"
+      handleAs="json" on-response="on_response_put_variant">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_delete_variant" method="DELETE" on-error="on_error"
+      on-response="on_response_delete">
+    </iron-ajax>
+
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
-          <h2 class="title">
-            <span>Product</span> : <span>{{product.title}}</span>
-             / <span>variant</span> : <span>{{variant.name}}</span>
-          </h2>
-
-          <part-variant-inventory variantdetails="{{variantdetails}}"
-            on-try-save="on_save">
-          </part-variant-inventory>
-          <part-variant-create on-try-save="on_save"></part-variant-create>
-          <part-variant-delete on-try-delete="on_delete"></part-variant-delete>)
+          <part-variant-header product="{{product}}"variant="{{variant}}"></part-variant-header>
+          <part-variant-available variant="{{variant}}"></part-variant-available>
+          <part-variant-pricing variant="{{variant}}"></part-variant-pricing>
+          <part-variant-inventory variant="{{variant}}"></part-variant-inventory>
+          <part-variant-shipping variant="{{variant}}"></part-variant-shipping>
+          <part-variant-create on-try-save="on_try_save"></part-variant-create>
+          <part-variant-delete on-try-delete="on_try_delete"></part-variant-delete>
         </div>
       </div>
     </div>
-
   </template>
 </dom-module>
 <script>
@@ -35,19 +45,11 @@
     properties: {
       product: {
         type: Object,
-        value: function () {return {}; }
+        value: function () { return {}; }
       },
       variant: {
         type: Object,
-        value: function () {return {}; }
-      },
-      sku: {
-        type: String,
-        value: ''
-      },
-      variantdetails:{
-        type: Object,
-        value: function () {return {}; }
+        value: function () { return {}; }
       }
     },
 
@@ -56,15 +58,31 @@
       this.variant = this.route.data_variant.variant;
     },
 
-    on_save: function (event) {
-      //to do save
+    on_try_save: function (event) {
       event.stopPropagation();
-      console.log(this.variantdetails);
+      this.$.ajax_put_variant.body = JSON.stringify(this.variant);
+      this.$.ajax_put_variant.url = '/api/ProductVariants/' + this.variant.id;
+      this.$.ajax_put_variant.generateRequest();
     },
 
-    on_delete: function (event) {
+    on_response_put_variant: function (event, details) {
       event.stopPropagation();
-      //to do delete
+      // console.log(details.response);
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.$.ajax_delete_variant.url = '/api/ProductVariants/' + this.variant.id;
+      this.$.ajax_delete_variant.generateRequest();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

@@ -1,0 +1,31 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-variant-pricing.html">
+<dom-module id="part-variant-pricing">
+	<template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+		  <h2 class="title">Pricing</h2>
+		  <form-variant-pricing product="{{product}}" variant="{{variant}}"></form-variant-pricing>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-variant-pricing',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+	});
+</script>
