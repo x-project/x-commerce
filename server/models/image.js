@@ -10,7 +10,7 @@ var secret = "TOOOPPVIPPP"; // TODO: read from .env
 var token_ttl = 1000 * 120; // TODO: read from .env
 var sides = [100, 400, 800];  // TODO: read from .env
 var storage = 'storage';  // TODO: read from .env
-
+var no_generate_size_file = [];
 /**
  * resize_image
  * Resize image from the `buffer`
@@ -44,6 +44,7 @@ var resize_image = function (options, callback) {
       }
 
       if (size.width < side && size.height < side) {
+        no_generate_size_file.push(side);
         callback(null);
         return;
       }
@@ -104,7 +105,9 @@ var generate_thumbnail = function (buffer, filename) {
 var save_resized_buffer = function (folder_path) {
   return function (buffer, side, err, done) {
     var file_name = path.join(folder_path, 'thumb-' + side + '.jpg');
-    fs.writeFile(file_name, buffer, 'binary', done);
+    if(no_generate_size_file.indexOf(side) < 0){
+      fs.writeFile(file_name, buffer, 'binary', done);
+    }
   };
 };
 
