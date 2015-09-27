@@ -3,17 +3,28 @@
 	<template>
   	<style include="style-form"></style>
 
-    <iron-ajax id="request" method="PUT"
-      content-type="application/json"
-      handle-as="json" last-response="{{response}}" last-error="{{error}}">
+    <iron-ajax id="ajax_get_products" method="GET" handle-as="json"
+      last-response="{{products}}" on-response="on_response">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_put" method="POST" on-error="on_error"
+      content-type="application/json" on-response="on_response_put">
     </iron-ajax>
 
 		<form id="form" class="form" on-submit="on_submit">
-			<div class="field">
+    <div class="items">
+      <template id="products" is="dom-repeat" items="{{products}}" as="product" filter="filter_products">
+        <div class="item" on-click="on_click_select">
+          <span>{{product.title}}</span>
+        </div>
+      </template>
+    </div>
+
+      <div class="field">
         <label>product</label>
-				<input is="iron-input" class="input" type="text" bind-value="{{title_product}}"
-          on-keypress="on_search_product">
-			</div>
+        <input is="iron-input" class="input" type="text" bind-value="{{title}}"
+          on-keypress="on_search_product" on-focus="on_search_product">
+      </div>
       <div class="field">
         <label>quantity</label>
         <input is="iron-input" class="input" type="number" bind-value="{{quantity}}">
@@ -33,19 +44,21 @@
 		properties: {
 			order: {
 				type: Object,
-				value: function () { return {}; }
-			},
-      title_product: {
+        value: function () { return {}; }
+      },
+      orders: {
+        type: Array,
+        notify: true,
+        value: function () { return []; }
+      },
+      title: {
         type: String,
         value: ''
       },
       quantity: {
-        type: Number
+        type: Number,
+        value: 1
       }
-      orders: {
-        type: Array,
-        value: function () { return []; }
-      },
 		},
 
     on_submit: function (event) {
@@ -60,8 +73,49 @@
 
     on_search_product: function (event) {
       event.stopPropagation();
-
+      //prende prodotti e include le varianti
+      this.$.ajax_get_products.url = "/api/Products?filter=%7B%22include%22%3A%22variants%22%7D";
+      this.$.ajax_get_products.generateRequest();
     },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      // console.log(this.products);
+    },
+
+    on_click_select: function (event) {
+      event.stopPropagation();
+      var product = this.$.products.itemForElement(event.target);
+      if (!this.check_exists_selected_product(product)) {
+        this.add_product_collection(product);
+      }
+    },
+
+    add_product_collection: function (product) {
+      this.$.ajax_put.url = '/api/Orders/' + this.order.id + '/order_items';
+      this.$.ajax_put.body = { quantity : this.quantity, productId: product.id, productVariantId: ""};
+      this.$.ajax_put.generateRequest();
+    },
+
+    on_response_put: function (event, details) {
+      console.log(details.response);
+      this.push('orders', details.response);
+    },
+
+    check_exists_selected_product: function (product) {
+      return this.orders.some(function (element) {
+        return element.id === product.id;
+      });
+    },
+
+    filter_products: function (collection) {
+      return collection.title.search(this.title) >= 0;
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
 
 	});
 </script>

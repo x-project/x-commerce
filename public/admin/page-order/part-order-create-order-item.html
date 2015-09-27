@@ -15,7 +15,6 @@
     <form-order-item id="form" show$="{{show}}" order="{{order}}" orders="{{orders}}"
       on-create-order-item="on_create_order_item">
     </form-order-item>
-
 	</template>
 </dom-module>
 <script>
@@ -34,6 +33,7 @@
       },
       orders: {
         type: Array,
+        notify: true,
         value: function () { return []; }
       }
     },

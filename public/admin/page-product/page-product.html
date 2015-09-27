@@ -65,6 +65,9 @@
     },
 
     attached: function () {
+      if(this.route.data.product === undefined){
+        return;
+      }
       this.product = this.route.data.product;
       this.url_put = '/api/Products/' + this.product.id;
     },

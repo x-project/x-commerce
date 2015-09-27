@@ -23,7 +23,9 @@
       handle-as="json" last-response="{{products}}">
     </iron-ajax>
 
-    <iron-ajax id="ajax_put" method="PUT" on-error="on_error"></iron-ajax>
+    <iron-ajax id="ajax_put" method="PUT" handle-as="json"
+      content-type="application/json" on-error="on_error">
+    </iron-ajax>
 
     <iron-ajax id="ajax_products_collection" url="{{url_products_collection}}"
       handle-as="json" last-response="{{selected}}">
@@ -34,10 +36,10 @@
     <div class="panel">
       <h3 class="title">Add product in Collection </h3>
       <div class="field">
-          <label class="label">Search product</label>
-          <input class="input" type="text" is="iron-input" bind-value="{{title}}"
+        <label class="label">Search product</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{title}}"
           on-keypress="on_search_product" on-focus="on_search_product">
-        </div>
+      </div>
     </div>
 
     <div class="selected items">
@@ -54,7 +56,6 @@
           <span>{{item.title}}</span>
           <span>{{item.price}}</span>
           <span>{{item.quantity}}</span>
-
         </div>
       </template>
     </div>
@@ -82,6 +83,9 @@
     },
 
     attached: function () {
+      if(this.is_new_model()){
+        return;
+      }
       this.url_products_collection = '/api/Collections/' + this.collection.id + '/products';
       this.$.ajax_products_collection.generateRequest();
     },
@@ -126,8 +130,13 @@
 
     filter_products: function (collection) {
       return collection.title.search(this.title) >= 0;
-    }
+    },
 
+    is_new_model: function () {
+      if(Object.keys(this.collection).length === 0)
+        return true;
+      return false;
+    }
 
   });
 </script>

@@ -44,6 +44,9 @@
     },
 
     attached: function () {
+      if(this.route.data.customer === undefined){
+        return;
+      }
       this.customer = this.route.data.customer;
       this.url = '/api/Customers/'+this.customer.id;
     },

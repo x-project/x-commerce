@@ -61,6 +61,9 @@
     },
 
     attached: function () {
+      if(this.is_new_model()){
+        return;
+      }
       this.url_product = '/api/Products/' + this.product.id;
       this.url_product_vendor = '/api/Products/' + this.product.id + '/vendor';
       this.$.ajax_product_vendor.generateRequest();
@@ -94,6 +97,12 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    is_new_model: function () {
+      if(Object.keys(this.product).length === 0)
+        return true;
+      return false;
     }
 
   });

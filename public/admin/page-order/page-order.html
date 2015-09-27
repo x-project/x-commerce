@@ -18,12 +18,12 @@
 		  <div class="main">
         <div class="container">
           <h1>Orders</h1>
-          <!-- <part-order-header order="{{order}}"></part-order-header> -->
+          <part-order-header order="{{order}}"></part-order-header>
           <!-- <part-order-delete order="{{order}}" on-try-delete="on_try_delete"></part-order-delete> -->
           <!-- <part-order-save order="{{order}}" on-try-save="on_try_save"></part-order-save> -->
           <!-- <part-order-status order="{{order}}"></part-order-status> -->
           <!-- <part-order-customer order="{{order}}"></part-order-customer> -->
-          <part-order-items orders="{{orders}}"></part-order-items>
+          <part-order-items orders="{{orders}}" order="{{order}}"></part-order-items>
 					<part-order-create-order-item orders="{{orders}}" order="{{order}}"></part-order-create-order-item>
           <!-- <part-order-notes order="{{order}}"></part-order-notes> -->
 		    </div>
@@ -49,6 +49,9 @@
     },
 
     attached: function () {
+      if(this.route.data.order === undefined){
+        return;
+      }
       this.order = this.route.data.order;
     },
 

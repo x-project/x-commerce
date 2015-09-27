@@ -11,13 +11,15 @@
 
 
     <iron-ajax id="ajax_get_order_items" method="GET" url="{{url_order_items}}"
-      handle-as="json" last-response="{{order_items}}" on-response="on_response">
+      handle-as="json" last-response="{{orders}}" on-response="on_response">
     </iron-ajax>
 
 
-		<div class="list">
-			<template is="dom-repeat" items="{{order_items}}">
-				product_id<span>{{item.productId}}</span>
+		<div class="items">
+			<template is="dom-repeat" items="{{orders}}">
+			<div class="item">
+				quantity <span>{{item.quantity}}</span>
+			</div>
 			</template>
 		</div>
 
@@ -37,21 +39,29 @@
 				type: Array,
 				value: function () { return []; }
 			},
-			order_items: {
+			orders: {
 				type: Array,
 				value: function () { return []; }
 			}
 		},
 
 		attached: function () {
+			if(this.is_new_model()){
+				return;
+			}
 			this.url_order_items = '/api/Orders/' + this.order.id + '/order_items'
 			this.$.ajax_get_order_items.generateRequest();
 		},
 
 		on_response: function () {
+			// console.log(this.order_items);
+		},
 
-		}
-
+    is_new_model: function () {
+      if(Object.keys(this.order).length === 0)
+        return true;
+      return false;
+    }
 
 	});
 </script>

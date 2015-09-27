@@ -47,6 +47,9 @@
     },
 
     attached: function () {
+      if(this.route.data.collection === undefined){
+        return;
+      }
       this.collection = this.route.data.collection;
       this.url = '/api/Collections/'+this.collection.id;
     },

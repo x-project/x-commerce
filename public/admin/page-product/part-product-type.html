@@ -59,6 +59,9 @@
     },
 
     attached: function () {
+      if(this.is_new_model()){
+        return;
+      }
       this.url_product = '/api/Products/' + this.product.id;
       this.url_product_type = '/api/Products/' + this.product.id + '/product_type';
       this.$.ajax_product_prod_type.generateRequest();
@@ -88,6 +91,12 @@
 
     filter_product_types: function (product_type) {
       return product_type.name.search(this.search) >= 0;
+    },
+
+    is_new_model: function () {
+      if(Object.keys(this.product).length === 0)
+        return true;
+      return false;
     }
 
 

@@ -12,7 +12,7 @@
 			"type": "belongsTo",
 			"model": "Product"
 		},
-		"product_variant": {
+		"productVariant": {
 			"type": "belongsTo",
 			"model": "ProductVariant"
 		}

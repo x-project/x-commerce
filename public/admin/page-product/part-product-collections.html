@@ -87,6 +87,9 @@
     },
 
     attached: function () {
+      if(this.is_new_model()){
+        return;
+      }
       this.url_product_collections = '/api/Products/' + this.product.id + '/collections';
       this.$.ajax_product_collections.generateRequest();
     },
@@ -99,7 +102,7 @@
     on_click_select: function (event) {
       event.stopPropagation();
       var collection = this.$.collections.itemForElement(event.target);
-      if (!this.check_exists_selected_collection(collection)) {
+      if (!this.is_contain(collection)) {
         this.add_collection_product(collection);
       }
     },
@@ -128,7 +131,7 @@
       console.log(event);
     },
 
-    check_exists_selected_collection: function (collection) {
+    is_contain: function (collection) {
       return this.selected.some(function (element) {
         return element.id === collection.id;
       });
@@ -136,6 +139,12 @@
 
     filter_collection: function (item) {
       return item.title.search(this.title) >= 0;
+    },
+
+   is_new_model: function () {
+      if(Object.keys(this.product).length === 0)
+        return true;
+      return false;
     }
 
   });
