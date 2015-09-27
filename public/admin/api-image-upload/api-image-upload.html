@@ -59,7 +59,6 @@
       event.stopPropagation();
       var formData = new FormData();
       formData.append('file', this.file);
-      console.log(this.file);
       var access_token = this.$.session.get('access_token');
       var xhr = new XMLHttpRequest();
       xhr.open('POST', this.image.signed_url);
