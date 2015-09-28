@@ -55,7 +55,8 @@
         on-route="/admin/products/:product_id"></app-route>
 
       <app-route path="/admin/customers" page="page-customers"></app-route>
-      <!-- <app-route path="/admin/customers/new" page="page-customer"></app-route> -->
+      <app-route path="/admin/customers/new" page="page-customer"
+        on-route='/admin/customers/new'></app-route>
       <app-route path="/admin/customers/:customer_id" page="page-customer"
         on-route="/admin/customers/:customer_id"></app-route>
        <!--varianti di un prodotto-->
@@ -109,6 +110,13 @@
       event.stopPropagation();
       var routes = this.$.routes;
       event.detail.data = { product: {} };
+      routes.fire('route', event.detail);
+    },
+
+    '/admin/customers/new': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      event.detail.data = { customer: {} };
       routes.fire('route', event.detail);
     },
 
@@ -171,22 +179,18 @@
     '/admin/customers/:customer_id': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
-      if(this.is_new_model(event)){
-        event.detail.data = { customer: undefined };
+      var model_id = event.detail.params.customer_id;
+      this.get_model({
+        collection: 'customers',
+        modelId: model_id
+      }, function (err, model) {
+        if (err) {
+          event.detail.page_name = '404';
+        } else {
+          event.detail.data = { customer: model };
+        }
         routes.fire('route', event.detail);
-        return;
-      }
-        else{
-        var model_id = event.detail.params.customer_id;
-        this.get_model('Customers', model_id, function (err, model) {
-          if (err) {
-            event.detail.page_name = '404';
-          } else {
-            event.detail.data = { customer: model };
-          }
-          routes.fire('route', event.detail);
-        });
-      }
+      });
     },
 
     '/admin/products/:product_id/variants': function (event) {

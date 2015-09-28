@@ -18,13 +18,13 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// // generate random customers
-// create_customers(100, function (err) {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-// });
+// generate random customers
+create_customers(10, function (err) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+});
 
 
 // generate random orders
@@ -303,10 +303,10 @@ function create_customer (callback) {
     .end(callback);
 }
 
-data_faker(function (err) {
-  if (err) {
-    console.log(err);
-    return;
-  }
-  console.log('yeah');
-});
+// data_faker(function (err) {
+//   if (err) {
+//     console.log(err);
+//     return;
+//   }
+//   console.log('yeah');
+// });

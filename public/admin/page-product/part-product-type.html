@@ -55,7 +55,8 @@
     },
 
     attached: function () {
-      this.search = this.product.product_type.name;
+      if(this.product.hasOwnProperty('product_type'))
+        this.search = this.product.product_type.name;
     },
 
     on_search_prod_type: function (event) {

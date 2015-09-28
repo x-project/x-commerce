@@ -44,15 +44,12 @@
     },
 
     attached: function () {
-      if(this.route.data.customer === undefined){
-        return;
-      }
       this.customer = this.route.data.customer;
-      this.url = '/api/Customers/'+this.customer.id;
     },
 
     save: function (event) {
       this.convert_tags_to_array();
+      this.url = '/api/customers/'+this.customer.id;
       this.$.ajax_post.body = JSON.stringify(this.customer);
       this.$.ajax_post.generateRequest();
     },

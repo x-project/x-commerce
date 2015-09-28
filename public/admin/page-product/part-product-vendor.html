@@ -56,7 +56,8 @@
     },
 
     attached: function () {
-      this.search = this.product.vendor.name;
+      if(this.product.hasOwnProperty('vendor'))
+        this.search = this.product.vendor.name;
     },
 
     on_search_vendor: function (event) {
