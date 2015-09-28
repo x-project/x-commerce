@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h2 class="title">Images</h2>
-      <form-product-image on-submit="on_submit" data="{{product}}"></form-product-image>
+      <form-product-image product="{{product}}"></form-product-image>
     </div>
 
   </template>
@@ -19,9 +19,7 @@
     properties: {
       product: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       }
     },
 

@@ -5,6 +5,8 @@
 <link rel="import" href="part-customers-pages.html">
 <link rel="import" href="part-customers-search.html">
 <link rel="import" href="part-customers-stats.html">
+<link rel="import" href="part-customers-delete.html">
+
 <dom-module id="page-customers">
   <template>
     <style include="style-page"></style>
@@ -13,15 +15,21 @@
       handle-as="json" last-response="{{customers}}">
     </iron-ajax>
 
+    <iron-ajax id="ajax_delete" method="DELETE" url="/api/Customers"
+      on-response="on_reponse_delete">
+    </iron-ajax>
+
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
           <h1>Customers</h1>
           <part-customers-create></part-customers-create>
+          <part-customers-delete on-try-delete="on_try_delete"></part-customers-delete>
           <part-customers-search></part-customers-search>
           <part-customers-stats></part-customers-stats>
-          <part-customers-items items="{{customers}}"></part-customers-items>
+          <part-customers-items customers="{{customers}}"
+            delete_customers="{{delete_customers}}"></part-customers-items>
           <part-customers-pages></part-customers-pages>
         </div>
       </div>
@@ -38,7 +46,29 @@
       customers: {
         type: Array,
         value: function () { return []; }
+      },
+      delete_customers: {
+        type: Array,
+        value: function () { return []; }
       }
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      console.log(this.delete_customers);
+      // async.each(this.delete_customers, function(customer, callback) {
+      //   this.$.ajax_delete.url = '/api/Customers/' + customer.id;
+      //   this.$.ajax_delete.generateRequest();
+      // },
+      //   function(err){
+      //     if( err ) {
+      //       console.log('A customer delete failed');
+      //   }
+      // });
+    },
+
+    on_reponse_delete: function (event,details) {
+      console.log(event, details);
     }
 
   });

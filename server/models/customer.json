@@ -1,34 +1,37 @@
 {
   "name": "Customer",
-    "plural": "Customers",
-    "base": "PersistedModel",
-    "properties": {
-      "first_name": {
-        "type": "String"
-      },
-      "last_name": {
-        "type": "String"
-      },
-      "email": {
-        "type": "String",
-        "length": 64,
-        "required": true
-      },
-      "marketing": {
-        "type": "Boolean"
-      },
-      "taxes_exempt": {
-        "type": "Boolean"
-      },
-      "location": {
-        "type": "String"
-      },
-      "location_number": {
-        "type": "String"
-      },
-     "bell": {
-        "type": "String"
-      },
+  "plural": "customers",
+  "mongodb": {
+    "collection": "customers"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "first_name": {
+      "type": "String"
+    },
+    "last_name": {
+      "type": "String"
+    },
+    "email": {
+      "type": "String",
+      "length": 64,
+      "required": true
+    },
+    "marketing": {
+      "type": "Boolean"
+    },
+    "taxes_exempt": {
+      "type": "Boolean"
+    },
+    "location": {
+      "type": "String"
+    },
+    "location_number": {
+      "type": "String"
+    },
+   "address_details": {
+      "type": "String"
+    },
     "phone":  {
       "type": "String"
     },

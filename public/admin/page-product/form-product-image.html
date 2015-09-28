@@ -4,7 +4,7 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form">
+    <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">image</label>
         <input-image></input-image>
@@ -19,12 +19,16 @@
     is: 'form-product-image',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       }
     },
 
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
   });
 </script>

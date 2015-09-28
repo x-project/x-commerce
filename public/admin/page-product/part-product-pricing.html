@@ -6,7 +6,7 @@
 
     <div class="panel">
 		  <h2 class="title">Pricing</h2>
-		  <form-product-pricing on-submit="on_submit" data="{{product}}"></form-product-pricing>
+		  <form-product-pricing on-submit="on_submit" product="{{product}}"></form-product-pricing>
     </div>
 	</template>
 </dom-module>
@@ -18,14 +18,14 @@
     properties: {
       product: {
         type: Object,
-        value: function () {
-          return {};
-        }
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.stopPropagation();
+      this.fire('try-save');
     }
+
 	});
 </script>

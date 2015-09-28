@@ -1,0 +1,76 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="part-product-quantity.html">
+<dom-module id="form-product-track">
+  <template>
+    <style include="style-form">
+      #quantity {
+        display: none;
+      }
+      #quantity[show] {
+        display: block;
+      }
+    </style>
+
+    <h2 class="title">Policy</h2>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">track quantity</label>
+        <paper-checkbox is="iron-input" checked="{{product.track_quantity}}"
+         on-click="on_click_track">
+        </paper-checkbox>
+      </div>
+      <part-product-quantity id="quantity"show$="{{show}}"
+        product="{{product}}">
+      </part-product-quantity>
+    </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-product-track',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+    if(this.product.track_quantity){
+        this.show_quantity();
+        return;
+      }
+    },
+
+    on_click_track: function (event) {
+      if(this.product.track_quantity){
+        this.show_quantity();
+        return;
+      }
+      this.set('show', false);
+    },
+
+    show_quantity: function () {
+      this.set('show', true);
+    },
+
+    hide_quantity: function () {
+      this.set('show', false);
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.fire('on-submit');
+    }
+
+  });
+</script>

@@ -1,7 +1,10 @@
 {
 	"name": "Address",
-	"plural": "Address",
-	"base": "PersistedModel",
+	"plural": "addresses",
+  "mongodb": {
+    "collection": "addresses"
+  },
+  "base": "PersistedModel",
 	"properties": {
 		"route": {
 			"type": "String"

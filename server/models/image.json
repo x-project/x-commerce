@@ -1,6 +1,9 @@
 {
   "name": "Image",
-  "plural": "Images",
+  "plural": "images",
+  "mongodb": {
+    "collection": "images"
+  },
   "base": "PersistedModel",
   "strict": false,
   "idInjection": false,
@@ -38,13 +41,6 @@
   },
   "validations": [],
   "relations": {},
-  "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW"
-    }
-  ],
+  "acls": [],
   "methods": []
 }

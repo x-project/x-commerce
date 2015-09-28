@@ -1,31 +1,32 @@
-<link rel="import" href="/components/iron-input/iron-input.html">
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="form-product-info">
+<dom-module id="form-product-coding">
   <template>
     <style include="style-form"></style>
 
+    <h2 class="title">Coding</h2>
+
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Title</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.title}}">
+        <label class="label">SKU</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{product.sku}}">
       </div>
       <div class="field">
-        <label class="label">Description</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.description}}">
+        <label class="label">Barcode</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{product.barcode}}">
       </div>
-    </form>
 
+    </form>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'form-product-info',
+    is: 'form-product-coding',
 
     properties: {
       product: {
         type: Object,
-        value: function () { return {}; }
+        value: function () { return {}; }
       }
     },
 

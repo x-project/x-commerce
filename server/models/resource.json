@@ -1,6 +1,9 @@
 {
   "name": "Resource",
-  "plural": "Resources",
+  "plural": "resources",
+  "mongodb": {
+    "collection": "resources"
+  },
   "base": "PersistedModel",
   "properties": {
     "name": {

@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h2 class="title">Basic Info</h2>
-      <form-product-info on-submit="on_submit" data="{{product}}"></form-product-info>
+      <form-product-info on-submit="on_submit" product="{{product}}"></form-product-info>
     </div>
 
   </template>
@@ -23,8 +23,10 @@
         }
       }
     },
+
     on_submit: function (event) {
       event.stopPropagation();
+      this.fire('try-save');
     }
 
   });

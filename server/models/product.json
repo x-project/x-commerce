@@ -1,6 +1,9 @@
 {
 	"name": "Product",
-	"plural": "Products",
+	"plural": "products",
+  "mongodb": {
+    "collection": "products"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"title": {
@@ -57,12 +60,12 @@
 		"product_type": {
 			"type": "belongsTo",
 			"model": "ProductType",
-			"foreignKey": "productTypeId"
+			"foreignKey": "product_type_id"
 		},
 		"vendor": {
 			"type": "belongsTo",
 			"model": "Vendor",
-			"foreignKey": "vendorId"
+			"foreignKey": "vendor_id"
 		},
 		"collections": {
 			"type": "hasAndBelongsToMany",

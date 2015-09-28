@@ -3,9 +3,9 @@
 <dom-module id="part-product-inventory">
   <template>
     <style include="style-panel"></style>
+
     <div class="panel">
-      <h2 class="title">Inventory</h2>
-      <form-product-inventory on-submit="on_submit" product="{{product}}"></form-product-inventory>
+      <form-product-inventory product="{{product}}" on-submit="on_submit"></form-product-inventory>
     </div>
   </template>
 </dom-module>
@@ -23,6 +23,8 @@
 
     on_submit: function (event) {
       event.stopPropagation();
+      this.fire('try-save');
     }
+
   });
 </script>

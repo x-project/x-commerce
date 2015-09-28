@@ -1,11 +1,7 @@
 <dom-module id="part-product-type">
   <template>
-    <iron-ajax id="ajax_product_prod_type" method="GET" url="{{url_product_type}}"
-      handle-as="json" last-response="{{product_type}}"
-      on-response="on_response_product_type" on-error="on_error">
-    </iron-ajax>
 
-    <iron-ajax id="ajax_prod_types" method="GET" url="/api/ProductTypes"
+    <iron-ajax id="ajax_prod_types" method="GET" url="/api/product_types"
       handle-as="json" last-response="{{product_types}}" on-error="on_error">
     </iron-ajax>
 
@@ -59,12 +55,7 @@
     },
 
     attached: function () {
-      if(this.is_new_model()){
-        return;
-      }
-      this.url_product = '/api/Products/' + this.product.id;
-      this.url_product_type = '/api/Products/' + this.product.id + '/product_type';
-      this.$.ajax_product_prod_type.generateRequest();
+      this.search = this.product.product_type.name;
     },
 
     on_search_prod_type: function (event) {
@@ -76,13 +67,9 @@
       event.stopPropagation();
       var product_type = this.$.product_types.itemForElement(event.target);
       this.set('search', product_type.name);
+      this.url_product = '/api/products/' + this.product.id;
       this.$.ajax_product.body = JSON.stringify({ productTypeId: product_type.id });
       this.$.ajax_product.generateRequest();
-    },
-
-    on_response_product_type: function (event) {
-      event.stopPropagation();
-      this.set('search', this.product_type.name);
     },
 
     on_response_product: function (event) {

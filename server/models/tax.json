@@ -1,7 +1,10 @@
 {
 	"name": "Tax",
-	"plural": "Taxes",
-	"base": "PersistedModel",
+  "plural": "taxes",
+  "mongodb": {
+    "collection": "taxes"
+  },
+  "base": "PersistedModel",
 	"properties": {
 		"name": {
 			"type": "String"

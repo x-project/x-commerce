@@ -1,6 +1,9 @@
 {
 	"name": "CollectionProduct",
-	"plural": "CollectionProducts",
+	"plural": "collection_products",
+  "mongodb": {
+    "collection": "collection_products"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"collectionId": {

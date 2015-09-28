@@ -7,7 +7,7 @@
 
     <div class="panel">
       <h2 class="title">Visibility</h2>
-      <form-product-visibility on-submit="on_submit" data="{{product}}"></form-product-visibility>
+      <form-product-visibility on-submit="on_submit" product="{{product}}"></form-product-visibility>
     </div>
   </template>
 </dom-module>
@@ -19,12 +19,13 @@
     properties: {
       product: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.stopPropagation();
+      this.fire('try-save');
     }
 
   });

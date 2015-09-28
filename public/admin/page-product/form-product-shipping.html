@@ -7,11 +7,11 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Weight</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.weight}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{product.weight}}">
       </div>
       <div class="field">
         <label class="label">This product requires shipping</label>
-        <paper-checkbox checked="{{data.require_shipping}}"></paper-checkbox>
+        <paper-checkbox checked="{{product.require_shipping}}"></paper-checkbox>
       </div>
     </form>
   </template>
@@ -22,14 +22,16 @@
     is: 'form-product-shipping',
 
     properties: {
-      data: {
+      product: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.preventDefault();
+      event.stopPropagation();
+      this.fire('on-submit');
     }
 
   });

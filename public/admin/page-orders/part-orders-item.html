@@ -1,10 +1,12 @@
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-orders-item">
+  <template>
 	<style include="style-item"></style>
 
-	<template>
-	  <b>subtotal: </b><span>{{item.subtotal}}</span>
-    <b>shipping_cost: </b><span>{{item.shipping_cost}}</span>
+	  <label class="label">subtotal: </label>
+    <span>{{order.subtotal}}</span>
+    <label class="label">shipping_cost: </label>
+    <span>{{order.shipping_cost}}</span>
     <a is="app-link" href="{{edit_url}}">edit</a>
 	</template>
 </dom-module>
@@ -14,7 +16,7 @@
 		is: 'part-orders-item',
 
     properties: {
-      item: {
+      order: {
         type: Object,
         value: function () {
           return {};
@@ -23,7 +25,7 @@
     },
 
     attached: function () {
-      this.edit_url = '/admin/orders/' + this.item.id;
+      this.edit_url = '/admin/orders/' + this.order.id;
     }
 
 	});

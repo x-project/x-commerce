@@ -5,9 +5,12 @@
     <style include="style-item"></style>
 
     <div class="item">
-      <span>{{item.title}}</span>
-      <span>{{item.description}}</span>
-      <span>{{item.price}}</span>
+      <label class="label">title: </label>
+      <span>{{product.title}}</span>
+      <label class="label">description: </label>
+      <span>{{product.description}}</span>
+      <label class="label">price: </label>
+      <span>{{product.price}}</span>
       <a is="app-link" href="{{edit_url}}">edit</a>
     </div>
 
@@ -19,14 +22,14 @@
     is: 'part-products-item',
 
     properties: {
-      item: {
+      product: {
         type: Object,
         value: function () { return {}; }
       }
     },
 
     attached: function () {
-      this.edit_url = '/admin/products/' + this.item.id;
+      this.edit_url = '/admin/products/' + this.product.id;
     }
 
   });

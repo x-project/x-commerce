@@ -1,6 +1,9 @@
 {
   "name": "Order",
-  "plural": "Orders",
+  "plural": "orders",
+  "mongodb": {
+    "collection": "orders"
+  },
   "base": "PersistedModel",
   "properties": {
     "status": {
@@ -36,7 +39,8 @@
     },
     "customer": {
       "type": "belongsTo",
-      "model": "Customer"
+      "model": "Customer",
+      "foreignKey": "customer_id"
     },
     "taxes": {
       "type": "hasMany",

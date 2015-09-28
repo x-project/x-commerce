@@ -1,7 +1,10 @@
 {
 	"name": "Collection",
-	"plural": "Collections",
-	"base": "PersistedModel",
+	"plural": "collections",
+  "mongodb": {
+    "collection": "collections"
+  },
+  "base": "PersistedModel",
 	"properties": {
 		"title": {
 			"type": "String"
@@ -18,11 +21,11 @@
 	},
 	"validations": [],
 	"relations": {
-		"image":{
+		"images": {
 			"type": "hasMany",
 			"model": "Image"
 		},
-		"products":{
+		"products": {
 			"type": "hasAndBelongsToMany",
 			"model": "Product",
 			"through": "CollectionProduct"

@@ -1,21 +1,69 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-order-item">
-	<template>
-  	<style include="style-form"></style>
+  <template>
+    <style include="style-form">
+      ul{
+        list-style-type: none;
+      }
+      li{
+        padding: 6px 10px;
+      }
+      .product .item_product {
+        opacity: 1;
+        background-color: #eee;
+        padding: 4px 8px;
+
+      }
+      .variant .item_variant {
+        padding: 4px 8px;
+        background-color: #eea;
+      }
+      .product .item_product:hover {
+        opacity: .5;
+      }
+      .variant .item_variant:hover {
+        opacity: .5;
+      }
+      .items {
+        display: none
+      }
+      .items[show] {
+        display: block;
+      }
+    </style>
 
     <iron-ajax id="ajax_get_products" method="GET" handle-as="json"
       last-response="{{products}}" on-response="on_response">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_get_item_product" method="GET" handle-as="json"
+      last-response="{{order_item_product}}" on-response="on_response_item_product">
     </iron-ajax>
 
     <iron-ajax id="ajax_put" method="POST" on-error="on_error"
       content-type="application/json" on-response="on_response_put">
     </iron-ajax>
 
-		<form id="form" class="form" on-submit="on_submit">
-    <div class="items">
-      <template id="products" is="dom-repeat" items="{{products}}" as="product" filter="filter_products">
-        <div class="item" on-click="on_click_select">
-          <span>{{product.title}}</span>
+    <form id="form" class="form" on-submit="on_submit">
+    <div class="items" show$="{{show}}">
+      <template id="products" is="dom-repeat" items="{{products}}" as="product"
+        filter="filter_products" index-as="index_product">
+        <div class="product" on-click="on_click_select">
+          <ul>
+            <li>
+              <span class="item_product">{{product.title}}</span>
+            </li>
+            <template id="variants" is="dom-repeat" items="{{product.variants}}" as="variant"
+              index-as="index_variant">
+              <div class="variant" on-click="on_click_variant">
+                <ul>
+                  <li>
+                    <span class="item_variant">{{variant.name}}</span>
+                  </li>
+                </ul>
+              </div>
+            </template>
+          </ul>
         </div>
       </template>
     </div>
@@ -34,16 +82,16 @@
       </div>
     </form>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'form-order-item',
+    is: 'form-order-item',
 
-		properties: {
-			order: {
-				type: Object,
+    properties: {
+      order: {
+        type: Object,
         value: function () { return {}; }
       },
       orders: {
@@ -58,8 +106,12 @@
       quantity: {
         type: Number,
         value: 1
+      },
+      show: {
+        type: Boolean,
+        value: false
       }
-		},
+    },
 
     on_submit: function (event) {
       event.preventDefault();
@@ -71,8 +123,17 @@
       this.fire('create-order-item');
     },
 
+    show_products: function () {
+      this.set('show', true);
+    },
+
+    hide_products: function () {
+      this.set('show', false);
+    },
+
     on_search_product: function (event) {
       event.stopPropagation();
+      this.show_products();
       //prende prodotti e include le varianti
       this.$.ajax_get_products.url = "/api/Products?filter=%7B%22include%22%3A%22variants%22%7D";
       this.$.ajax_get_products.generateRequest();
@@ -80,12 +141,15 @@
 
     on_response: function (event) {
       event.stopPropagation();
-      // console.log(this.products);
     },
 
     on_click_select: function (event) {
       event.stopPropagation();
       var product = this.$.products.itemForElement(event.target);
+      if(this.check_if_have_variants(product)){
+        return;
+      }
+      this.hide_products();
       if (!this.check_exists_selected_product(product)) {
         this.add_product_collection(product);
       }
@@ -98,8 +162,15 @@
     },
 
     on_response_put: function (event, details) {
-      console.log(details.response);
-      this.push('orders', details.response);
+      var order_item = details.response;
+      this.$.ajax_get_item_product.url = '/api/OrderItems/' + order_item.id +'/product'
+      this.$.ajax_get_item_product.generateRequest();
+    },
+
+    on_response_item_product: function (event) {
+      event.stopPropagation();
+      this.order_item_product.quantity = this.quantity;
+      this.push('orders', this.order_item_product);
     },
 
     check_exists_selected_product: function (product) {
@@ -115,7 +186,19 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    //come prendo le variant del template repate interno
+    on_click_variant: function (event) {
+      event.stopPropagation();
+      // var variant = this.$.variants.itemForElement(event.target);
+    },
+
+    check_if_have_variants: function (product) {
+      if(product.variants.length > 0)
+        return true;
+      return false;
     }
 
-	});
+  });
 </script>

@@ -8,7 +8,7 @@
 
     <div>
       <h2 class="title"><span>Product</span> / <span>{{product.title}}</span></h2>
-      <button on-click="on_save_click">Save Product</button>
+      <button on-click="on_click_save">Save Product</button>
     </div>
 
   </template>
@@ -25,10 +25,9 @@
       }
     },
 
-    on_save_click: function (event) {
+    on_click_save: function (event) {
       this.fire('try-save');
     }
-
 
   });
 </script>

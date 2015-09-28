@@ -1,12 +1,17 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-customers-item">
   <style include="style-item"></style>
 
   <template>
     <div class="item">
-      <b>first_name: </b><span>{{item.first_name}}</span>
-      <b>last_name: </b><span>{{item.last_name}}</span>
-      <b>email: </b><span>{{item.email}}</span>
+      <paper-checkbox is="iron-input" on-click="on_click_customer"></paper-checkbox>
+      <label class="label">first_name: </label>
+      <span>{{customer.first_name}}</span>
+      <label class="label">last_name: </label>
+      <span>{{customer.last_name}}</span>
+      <label class="label">email: </label>
+      <span>{{customer.email}}</span>
       <a is="app-link" href="{{edit_url}}">edit</a>
      </div>
   </template>
@@ -17,15 +22,20 @@
     is: 'part-customers-item',
 
     properties: {
-      item: {
+      delete_customers: {
         type: Object,
-        value: function () { return {};
-        }
+        notify: true,
+        value: function () { return {}; }
       }
     },
 
     attached: function () {
-      this.edit_url = '/admin/customers/' + this.item.id;
+      this.edit_url = '/admin/customers/' + this.customer.id;
+    },
+
+    on_click_customer: function (event) {
+      event.stopPropagation();
+      this.push('delete_customers', this.customer);
     }
 
 

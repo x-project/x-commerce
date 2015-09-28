@@ -1,6 +1,9 @@
 {
 	"name": "ProductType",
-	"plural": "ProductTypes",
+	"plural": "product_types",
+  "mongodb": {
+    "collection": "product_types"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"name": {

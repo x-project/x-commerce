@@ -21,17 +21,13 @@
        }
     </style>
 
-    <iron-ajax id="ajax_get_filter_collection" method="GET" url="/api/Collections"
+    <iron-ajax id="ajax_get_filter_collection" method="GET" url="/api/collections"
       handle-as="json" last-response="{{collections}}">
     </iron-ajax>
 
     <iron-ajax id="ajax_put" method="PUT" on-error="on_error"></iron-ajax>
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
-
-    <iron-ajax id="ajax_product_collections" url="{{url_product_collections}}"
-      handle-as="json" last-response="{{selected}}">
-    </iron-ajax>
 
     <h2>Collections</h2>
     <div class="items">
@@ -87,11 +83,7 @@
     },
 
     attached: function () {
-      if(this.is_new_model()){
-        return;
-      }
-      this.url_product_collections = '/api/Products/' + this.product.id + '/collections';
-      this.$.ajax_product_collections.generateRequest();
+      this.selected = this.product.collections;
     },
 
     on_edit_collection: function (event) {

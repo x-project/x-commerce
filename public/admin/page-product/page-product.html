@@ -29,19 +29,19 @@
       <div class="main">
         <div class="container">
           <h1>Products</h1>
-          <part-product-header product="{{product}}" on-try-save="save"></part-product-header>
-          <part-product-info product="{{product}}"></part-product-info>
-          <part-product-visibility product="{{product}}"></part-product-visibility>
+          <part-product-header product="{{product}}" on-try-save="on_try_save"></part-product-header>
+          <part-product-info product="{{product}}" on-try-save="on_try_save"></part-product-info>
+          <part-product-visibility product="{{product}}" on-try-save="on_try_save"></part-product-visibility>
           <part-product-image product="{{product}}"></part-product-image>
-          <part-product-pricing product="{{product}}"></part-product-pricing>
-          <part-product-inventory product="{{product}}"></part-product-inventory>
-          <part-product-shipping product="{{product}}"></part-product-shipping>
+          <part-product-pricing product="{{product}}" on-try-save="on_try_save"></part-product-pricing>
+          <part-product-inventory product="{{product}}" on-try-save="on_try_save"></part-product-inventory>
+          <part-product-shipping product="{{product}}" on-try-save="on_try_save"></part-product-shipping>
           <part-product-collections product="{{product}}"></part-product-collections>
           <part-product-vendor product="{{product}}"></part-product-vendor>
           <part-product-type product="{{product}}"></part-product-type>
           <part-product-tag product="{{product}}"></part-product-tag>
           <part-product-create-variant product="{{product}}"></part-product-create-variant>
-          <part-product-save-delete on-try-save="on_save"></part-product-save-delete>
+          <part-product-save-delete on-try-save="on_try_save"></part-product-save-delete>
         </div>
       </div>
     </div>
@@ -65,14 +65,11 @@
     },
 
     attached: function () {
-      if(this.route.data.product === undefined){
-        return;
-      }
       this.product = this.route.data.product;
-      this.url_put = '/api/Products/' + this.product.id;
+      this.url_put = '/api/products/' + this.product.id;
     },
 
-    on_save: function (event) {
+    on_try_save: function (event) {
       this.body = JSON.stringify(this.product);
       this.$.ajax_put.generateRequest();
     },

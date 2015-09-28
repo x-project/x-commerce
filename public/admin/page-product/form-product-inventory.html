@@ -1,32 +1,16 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
-
+<link rel="import" href="form-product-coding.html">
+<link rel="import" href="form-product-track.html">
 <dom-module id="form-product-inventory">
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form" on-submit="on_submit">
-      <div class="field">
-        <label class="label">SKU</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.sku}}">
-      </div>
-      <div class="field">
-        <label class="label">Barcode</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.barcode}}">
-      </div>
-      <div class="field">
-        <label class="label">Track quantity</label>
-        <paper-checkbox is="iron-input" checked="{{product.track_quantity}}"></paper-checkbox>
-      </div>
-      <div class="field">
-        <label class="label">Quantiy</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.quantity}}">
-      </div>
-      <div class="field">
-        <label class="label">Allow customers to purchase this product when it's out of stock</label>
-        <paper-checkbox is="iron-input" checked="{{product.sell_after_purchase}}"></paper-checkbox>
-      </div>
-    </form>
+    <div>
+      <form-product-coding product="{{product}}" on-submit="on_submit"></form-product-coding>
+      <form-product-track product="{{product}}" on-submit="on_submit"></form-product-track>
+    </div>
+
   </template>
 </dom-module>
 <script>
@@ -37,12 +21,14 @@
     properties: {
       product: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.preventDefault();
+      event.stopPropagation();
+      this.fire('on-submit');
     }
 
   });

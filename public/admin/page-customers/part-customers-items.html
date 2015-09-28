@@ -2,11 +2,12 @@
 <link rel="import" href="part-customers-item.html">
 <dom-module id="part-customers-items">
   <template>
-    <style include="style-list"></style>
 
     <div class="items">
-      <template is="dom-repeat" items="{{items}}">
-        <part-customers-item item="{{item}}"></part-customers-item>
+      <template id="customers" is="dom-repeat" items="{{customers}}" as="customer">
+        <part-customers-item customer="{{customer}}"
+          delete_customers="{{delete_customers}}">
+        </part-customers-item>
       </template>
     </div>
 
@@ -18,8 +19,13 @@
     is: 'part-customers-items',
 
     properties: {
-      items: {
+      customers: {
         type: Array,
+        value: function () { return []; }
+      },
+      delete_customers: {
+        type: Array,
+        notyfy: true,
         value: function () { return []; }
       }
     }

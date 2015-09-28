@@ -1,6 +1,9 @@
 {
   "name": "ProductVariant",
-  "plural": "ProductVariants",
+  "plural": "product_variants",
+  "mongodb": {
+    "collection": "product_variants"
+  },
   "base": "PersistedModel",
   "properties": {
     "name": {

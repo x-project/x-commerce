@@ -1,6 +1,9 @@
 {
 	"name": "OrderItem",
-	"plural": "OrderItems",
+	"plural": "order_items",
+  "mongodb": {
+    "collection": "order_items"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"quantity": {
@@ -10,11 +13,13 @@
 	"relations": {
 		"product": {
 			"type": "belongsTo",
-			"model": "Product"
+			"model": "Product",
+      "foreignKey": "product_id"
 		},
-		"productVariant": {
+		"product_variant": {
 			"type": "belongsTo",
-			"model": "ProductVariant"
+			"model": "ProductVariant",
+      "foreignKey": "product_variant_id"
 		}
 	},
 	"acls": [],

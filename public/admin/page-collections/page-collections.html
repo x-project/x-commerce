@@ -1,6 +1,7 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-collections-create.html">
+<link rel="import" href="part-collections-delete.html">
 <link rel="import" href="part-collections-items.html">
 <link rel="import" href="part-collections-pages.html">
 <link rel="import" href="part-collections-search.html">
@@ -19,9 +20,12 @@
         <div class="container">
           <h1>Collections</h1>
           <part-collections-create></part-collections-create>
+          <part-collections-delete on-try-delete="on_try_delete"></part-collections-delete>
           <part-collections-search></part-collections-search>
           <part-collections-stats></part-collections-stats>
-          <part-collections-items items="{{collections}}"></part-collections-items>
+          <part-collections-items items="{{collections}}"
+            delete_collections="{{delete_collections}}">
+          </part-collections-items>
           <part-collections-pages></part-collections-pages>
         </div>
       </div>
@@ -38,7 +42,16 @@
       collections: {
         type: Array,
         value: function () { return []; }
+      },
+      delete_collections: {
+        type: Array,
+        value: function () { return []; }
       }
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      console.log(this.delete_collections);
     }
 
   });

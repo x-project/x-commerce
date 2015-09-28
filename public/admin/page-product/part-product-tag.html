@@ -61,8 +61,7 @@
     },
 
     attached: function () {
-      if(this.product.tags !== undefined)
-        this.set('tags', this.product.tags);
+      this.tags = this.product.tags;
     },
 
     reset: function () {

@@ -8,11 +8,11 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Online Store</label>
-        <paper-checkbox is="iron-input" checked="{{data.is_published}}"></paper-checkbox>
+        <paper-checkbox is="iron-input" checked="{{product.is_published}}"></paper-checkbox>
       </div>
       <div class="field">
         <label class="label">Publish this product on</label>
-        <input-datetime class="input" value="{{data.published_at}}"></input-datetime>
+        <input-datetime class="input" value="{{product.published_at}}"></input-datetime>
       </div>
     </form>
   </template>
@@ -23,14 +23,16 @@
     is: 'form-product-visibility',
 
     properties: {
-      data: {
+      product: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.preventDefault();
+      event.stopPropagation();
+      this.fire('on-submit');
     }
 
   });

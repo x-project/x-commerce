@@ -9,10 +9,6 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get" auto method="GET" url="/api/Products"
-      handle-as="json" last-response="{{products}}">
-    </iron-ajax>
-
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
@@ -21,7 +17,7 @@
           <part-products-create></part-products-create>
           <part-products-search></part-products-search>
           <part-products-stats></part-products-stats>
-          <part-products-items items="{{products}}"></part-products-items>
+          <part-products-items products="{{products}}"></part-products-items>
           <part-products-pages></part-products-pages>
         </div>
       </div>
@@ -39,6 +35,10 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    attached: function () {
+      this.products = this.route.data.products;
     }
 
   });

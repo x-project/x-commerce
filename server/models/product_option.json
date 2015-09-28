@@ -1,6 +1,9 @@
 {
 	"name": "ProductOption",
-	"plural": "ProductOptions",
+	"plural": "product_options",
+  "mongodb": {
+    "collection": "product_options"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"name": {

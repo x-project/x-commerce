@@ -1,6 +1,9 @@
 {
 	"name": "CollectionFilter",
-	"plural": "CollectionFilters",
+	"plural": "collection_filters",
+  "mongodb": {
+    "collection": "collection_filters"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"name": {

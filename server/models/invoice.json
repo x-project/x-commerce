@@ -1,6 +1,9 @@
 {
 	"name": "Invoice",
-	"plural": "Invoices",
+  "plural": "invoices",
+  "mongodb": {
+    "collection": "invoices"
+  },
 	"base": "PersistedModel",
 	"properties": {
 		"type": {
@@ -51,7 +54,8 @@
 	"relations": {
     "invoice": {
       "type": "belongsTo",
-      "model": "Order"
+      "model": "Order",
+      "foreignKey": "invoice_id"
     }
 	},
 	"acls": [],

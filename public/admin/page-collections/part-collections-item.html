@@ -1,15 +1,21 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-collections-item">
   <style include="style-item"></style>
 
   <template>
     <div class="item">
-      <b>name: </b><span>{{item.title}}</span>
-      <b>description: </b><span>{{item.description}}</span>
-      <b>is_published: </b><span>{{item.is_published}}</span>
-      <b>published_at: </b><span>{{item.published_at}}</span>
+      <paper-checkbox is="iron-input" on-click="on_click_collection"></paper-checkbox>
+      <label class="label">name: </label>
+      <span>{{collection.title}}</span>
+      <label class="label">description: </label>
+      <span>{{collection.description}}</span>
+      <label class="label">is_published: </label>
+      <span>{{collection.is_published}}</span>
+      <label class="label">published_at: </label>
+      <span>{{collection.published_at}}</span>
       <a is="app-link" href="{{edit_url}}">edit</a>
-     </div>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -18,16 +24,20 @@
     is: 'part-collections-item',
 
     properties: {
-      item: {
-        type: Object,
-        value: function () {
-          return {};
-        }
+      delete_collections: {
+        type: Array,
+        notify: true,
+        value: function () { return []; }
       }
     },
 
     attached: function () {
-      this.edit_url = '/admin/collections/' + this.item.id;
+      this.edit_url = '/admin/collections/' + this.collection.id;
+    },
+
+    on_click_collection: function (event) {
+      event.stopPropagation();
+      this.push('delete_collections', this.collection);
     }
 
   });

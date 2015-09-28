@@ -1,6 +1,9 @@
 {
   "name": "Vendor",
-  "plural": "Vendors",
+  "plural": "vendors",
+  "mongodb": {
+    "collection": "vendors"
+  },
   "base": "PersistedModel",
   "properties": {
     "name": {

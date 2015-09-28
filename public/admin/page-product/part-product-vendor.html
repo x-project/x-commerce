@@ -2,12 +2,7 @@
 <dom-module id="part-product-vendor">
   <template>
 
-    <iron-ajax id="ajax_product_vendor" method="GET" url="{{url_product_vendor}}"
-      handle-as="json" last-response="{{vendor}}"
-      on-response="on_response_product_vendor" on-error="on_error">
-    </iron-ajax>
-
-    <iron-ajax id="ajax_vendors" method="GET" url="/api/Vendors"
+    <iron-ajax id="ajax_vendors" method="GET" url="/api/vendors"
       handle-as="json" last-response="{{vendors}}" on-error="on_error">
     </iron-ajax>
 
@@ -61,21 +56,12 @@
     },
 
     attached: function () {
-      if(this.is_new_model()){
-        return;
-      }
-      this.url_product = '/api/Products/' + this.product.id;
-      this.url_product_vendor = '/api/Products/' + this.product.id + '/vendor';
-      this.$.ajax_product_vendor.generateRequest();
+      this.search = this.product.vendor.name;
     },
 
     on_search_vendor: function (event) {
       event.stopPropagation();
       this.$.ajax_vendors.generateRequest();
-    },
-
-    on_response_product_vendor: function (event) {
-      this.set('search', this.vendor.name);
     },
 
     filter_vendors: function (vendor) {
@@ -86,6 +72,7 @@
       event.stopPropagation();
       var vendor = this.$.vendors.itemForElement(event.target);
       this.set('search', vendor.name);
+      this.url_product = '/api/products/' + this.product.id;
       this.$.ajax_product.body = JSON.stringify({ vendorId: vendor.id });
       this.$.ajax_product.generateRequest();
     },

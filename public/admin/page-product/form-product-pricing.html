@@ -8,17 +8,18 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Price</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.price}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{product.price}}">
       </div>
       <div class="field">
         <label class="label">Compare at price</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.compare_at_price}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{product.compare_at_price}}">
       </div>
       <div class="field">
         <label class="label">Charge taxes on this product</label>
-        <paper-checkbox checked="{{data.is_charge_taxes}}"></paper-checkbox>
+        <paper-checkbox checked="{{product.is_charge_taxes}}"></paper-checkbox>
       </div>
     </form>
+
   </template>
 </dom-module>
 <script>
@@ -27,14 +28,16 @@
     is: 'form-product-pricing',
 
     properties: {
-      data: {
+      product: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.preventDefault();
+      event.stopPropagation();
+      this.fire('on-submit');
     }
 
   });
