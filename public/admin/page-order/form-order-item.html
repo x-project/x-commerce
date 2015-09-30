@@ -1,86 +1,40 @@
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="input-search-product.html">
+<link rel="import" href="input-search-product-variant.html">
+
 <dom-module id="form-order-item">
   <template>
     <style include="style-form">
-      ul{
-        list-style-type: none;
+      .input_variants {
+        display: none;
       }
-      li{
-        padding: 6px 10px;
-      }
-      .product .item_product {
-        opacity: 1;
-        background-color: #eee;
-        padding: 4px 8px;
-
-      }
-      .variant .item_variant {
-        padding: 4px 8px;
-        background-color: #eea;
-      }
-      .product .item_product:hover {
-        opacity: .5;
-      }
-      .variant .item_variant:hover {
-        opacity: .5;
-      }
-      .items {
-        display: none
-      }
-      .items[show] {
+      .input_variants[visible] {
         display: block;
       }
     </style>
 
-    <iron-ajax id="ajax_get_products" method="GET" handle-as="json"
-      last-response="{{products}}" on-response="on_response">
+    <iron-ajax id="ajax_post_order_item" method="POST" handle-as="json"
+      content-type="application/json" on-response="on_response_post" on-error="on_error">
     </iron-ajax>
 
-    <iron-ajax id="ajax_get_item_product" method="GET" handle-as="json"
-      last-response="{{order_item_product}}" on-response="on_response_item_product">
-    </iron-ajax>
+    <input-search-product id_selected="{{order_item.product_id}}"
+      selected_product="{{product_selected}}" on-change-product-id="on_change_product_id">
+    </input-search-product>
 
-    <iron-ajax id="ajax_put" method="POST" on-error="on_error"
-      content-type="application/json" on-response="on_response_put">
-    </iron-ajax>
+    <input-search-product-variant class="input_variants" visible$="{{visible}}"
+      id_variant_selected="{{order_item.variant_id}}" variants="{{product_selected.variants}}"
+      selected_variant="{{variant_selected}}">
+    </input-search-product-variant>
 
-    <form id="form" class="form" on-submit="on_submit">
-    <div class="items" show$="{{show}}">
-      <template id="products" is="dom-repeat" items="{{products}}" as="product"
-        filter="filter_products" index-as="index_product">
-        <div class="product" on-click="on_click_select">
-          <ul>
-            <li>
-              <span class="item_product">{{product.title}}</span>
-            </li>
-            <template id="variants" is="dom-repeat" items="{{product.variants}}" as="variant"
-              index-as="index_variant">
-              <div class="variant" on-click="on_click_variant">
-                <ul>
-                  <li>
-                    <span class="item_variant">{{variant.name}}</span>
-                  </li>
-                </ul>
-              </div>
-            </template>
-          </ul>
-        </div>
-      </template>
+    <div class="field">
+      <label>quantity</label>
+      <input is="iron-input" class="input" type="number" bind-value="{{order_item.quantity}}">
     </div>
 
-      <div class="field">
-        <label>product</label>
-        <input is="iron-input" class="input" type="text" bind-value="{{title}}"
-          on-keypress="on_search_product" on-focus="on_search_product">
-      </div>
-      <div class="field">
-        <label>quantity</label>
-        <input is="iron-input" class="input" type="number" bind-value="{{quantity}}">
-      </div>
-      <div class="field">
-        <input type="submit" value="save" on-click="on_click_save">
-      </div>
-    </form>
+    <div class="field">
+      <input type="submit" value="save" on-click="on_click_save">
+    </div>
+
 
   </template>
 </dom-module>
@@ -94,110 +48,43 @@
         type: Object,
         value: function () { return {}; }
       },
-      orders: {
-        type: Array,
-        notify: true,
-        value: function () { return []; }
+      order_item: {
+        type: Object,
+        value: function () { return { quantity: 1 }; },
       },
-      title: {
-        type: String,
-        value: ''
-      },
-      quantity: {
-        type: Number,
-        value: 1
-      },
-      show: {
+      visible: {
         type: Boolean,
         value: false
       }
     },
 
-    on_submit: function (event) {
-      event.preventDefault();
+    on_change_product_id: function (event) {
       event.stopPropagation();
+      this.order_item.variant_id = '';
+      this.set('visible', this.product_selected.variants.length > 0);
     },
 
     on_click_save: function (event) {
       event.stopPropagation();
-      this.fire('create-order-item');
+      this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
+      this.$.ajax_post_order_item.body = {
+        quantity: this.order_item.quantity,
+        orderId: this.order.id,
+        product_id: this.order_item.product_id,
+        product_variant_id: this.order_item.variant_id
+      };
+      this.$.ajax_post_order_item.generateRequest();
     },
 
-    show_products: function () {
-      this.set('show', true);
-    },
-
-    hide_products: function () {
-      this.set('show', false);
-    },
-
-    on_search_product: function (event) {
+    on_response_post: function (event, details) {
       event.stopPropagation();
-      this.show_products();
-      //prende prodotti e include le varianti
-      this.$.ajax_get_products.url = "/api/Products?filter=%7B%22include%22%3A%22variants%22%7D";
-      this.$.ajax_get_products.generateRequest();
-    },
-
-    on_response: function (event) {
-      event.stopPropagation();
-    },
-
-    on_click_select: function (event) {
-      event.stopPropagation();
-      var product = this.$.products.itemForElement(event.target);
-      if(this.check_if_have_variants(product)){
-        return;
-      }
-      this.hide_products();
-      if (!this.check_exists_selected_product(product)) {
-        this.add_product_collection(product);
-      }
-    },
-
-    add_product_collection: function (product) {
-      this.$.ajax_put.url = '/api/Orders/' + this.order.id + '/order_items';
-      this.$.ajax_put.body = { quantity : this.quantity, productId: product.id, productVariantId: ""};
-      this.$.ajax_put.generateRequest();
-    },
-
-    on_response_put: function (event, details) {
-      var order_item = details.response;
-      this.$.ajax_get_item_product.url = '/api/OrderItems/' + order_item.id +'/product'
-      this.$.ajax_get_item_product.generateRequest();
-    },
-
-    on_response_item_product: function (event) {
-      event.stopPropagation();
-      this.order_item_product.quantity = this.quantity;
-      this.push('orders', this.order_item_product);
-    },
-
-    check_exists_selected_product: function (product) {
-      return this.orders.some(function (element) {
-        return element.id === product.id;
-      });
-    },
-
-    filter_products: function (collection) {
-      return collection.title.search(this.title) >= 0;
+      var response = details.response;
+      this.fire('change-order-items');
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
-    },
-
-    //come prendo le variant del template repate interno
-    on_click_variant: function (event) {
-      event.stopPropagation();
-      // var variant = this.$.variants.itemForElement(event.target);
-    },
-
-    check_if_have_variants: function (product) {
-      if(product.variants.length > 0)
-        return true;
-      return false;
     }
 
   });

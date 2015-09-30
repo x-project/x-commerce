@@ -79,14 +79,7 @@
 
     filter_product_types: function (product_type) {
       return product_type.name.search(this.search) >= 0;
-    },
-
-    is_new_model: function () {
-      if(Object.keys(this.product).length === 0)
-        return true;
-      return false;
     }
-
 
   });
 </script>

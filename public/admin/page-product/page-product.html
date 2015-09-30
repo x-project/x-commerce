@@ -1,16 +1,17 @@
 <link rel="import" href="/components/api-model-get/api-model-get.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-product-collections.html">
+<link rel="import" href="part-product-save.html">
+<link rel="import" href="part-product-delete.html">
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
-<link rel="import" href="part-product-collections.html">
 <link rel="import" href="part-product-options.html">
 <link rel="import" href="part-product-inventory.html">
 <link rel="import" href="part-product-pricing.html">
 <link rel="import" href="part-product-create-variant.html">
 <link rel="import" href="part-product-shipping.html">
-<link rel="import" href="part-product-save-delete.html">
 <link rel="import" href="part-product-type.html">
 <link rel="import" href="part-product-tag.html">
 <link rel="import" href="part-product-variants.html">
@@ -20,8 +21,12 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_put" method="PUT" url="{{url_put}}" content-type="application/json"
-      body="{{body}}" handleAs="json" on-response="on_response">
+    <iron-ajax id="ajax_put" method="PUT" content-type="application/json"
+      handleAs="json" on-response="on_response_put" on-error="on_error">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
+      on-response="on_response_delete">
     </iron-ajax>
 
     <div class="page">
@@ -29,23 +34,23 @@
       <div class="main">
         <div class="container">
           <h1>Products</h1>
-          <part-product-header product="{{product}}" on-try-save="on_try_save"></part-product-header>
-          <part-product-info product="{{product}}" on-try-save="on_try_save"></part-product-info>
-          <part-product-visibility product="{{product}}" on-try-save="on_try_save"></part-product-visibility>
+          <part-product-header product="{{product}}"></part-product-header>
+          <part-product-save on-try-save="on_try_save"></part-product-save>
+          <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
+          <part-product-info product="{{product}}"></part-product-info>
+          <part-product-visibility product="{{product}}"></part-product-visibility>
           <part-product-image product="{{product}}"></part-product-image>
-          <part-product-pricing product="{{product}}" on-try-save="on_try_save"></part-product-pricing>
-          <part-product-inventory product="{{product}}" on-try-save="on_try_save"></part-product-inventory>
-          <part-product-shipping product="{{product}}" on-try-save="on_try_save"></part-product-shipping>
+          <part-product-pricing product="{{product}}"></part-product-pricing>
+          <part-product-inventory product="{{product}}"></part-product-inventory>
+          <part-product-shipping product="{{product}}"></part-product-shipping>
           <part-product-collections product="{{product}}"></part-product-collections>
           <part-product-vendor product="{{product}}"></part-product-vendor>
           <part-product-type product="{{product}}"></part-product-type>
           <part-product-tag product="{{product}}"></part-product-tag>
           <part-product-create-variant product="{{product}}"></part-product-create-variant>
-          <part-product-save-delete on-try-save="on_try_save"></part-product-save-delete>
         </div>
       </div>
     </div>
-
   </template>
 </dom-module>
 <script>
@@ -66,16 +71,27 @@
 
     attached: function () {
       this.product = this.route.data.product;
-      this.url_put = '/api/products/' + this.product.id;
     },
 
     on_try_save: function (event) {
-      this.body = JSON.stringify(this.product);
+      this.$.ajax_put.body = JSON.stringify(this.product);
+      this.$.ajax_put.url = '/api/products/' + this.product.id;
       this.$.ajax_put.generateRequest();
     },
 
-    on_response: function (event, detail) {
-      var response = detail.response;
+    on_response_put: function (event, details) {
+      var response = details.response;
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.$.ajax_delete.url = '/api/products/' + this.product.id;
+      this.$.ajax_delete.generateRequest();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+      page('/admin/products');
     }
 
   });

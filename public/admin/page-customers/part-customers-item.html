@@ -1,11 +1,9 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-customers-item">
   <style include="style-item"></style>
 
   <template>
     <div class="item">
-      <paper-checkbox is="iron-input" on-click="on_click_customer"></paper-checkbox>
       <label class="label">first_name: </label>
       <span>{{customer.first_name}}</span>
       <label class="label">last_name: </label>
@@ -21,23 +19,11 @@
 
     is: 'part-customers-item',
 
-    properties: {
-      delete_customers: {
-        type: Object,
-        notify: true,
-        value: function () { return {}; }
-      }
-    },
+    properties: {},
 
     attached: function () {
       this.edit_url = '/admin/customers/' + this.customer.id;
-    },
-
-    on_click_customer: function (event) {
-      event.stopPropagation();
-      this.push('delete_customers', this.customer);
     }
-
 
   });
 </script>

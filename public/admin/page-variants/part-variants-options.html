@@ -42,15 +42,6 @@
       }
     </style>
 
-    <iron-ajax id="ajax_product_options" method="GET" url="{{url_product_options}}"
-      handle-as="json" last-response="{{product_options}}" on-error="on_error"
-      on-response="on_response_options">
-    </iron-ajax>
-
-    <iron-ajax id="ajax_product_variants_init" method="GET" url="{{url_product_variants_init}}"
-      handle-as="json" last-response="{{response_variants_init}}" on-error="on_error"
-      on-response="on_response_variants_init">
-    </iron-ajax>
 
     <iron-ajax id="ajax_product_variants" method="GET" url="/api/Products/generate"
       handle-as="json" last-response="{{response_variants}}" on-error="on_error"
@@ -86,7 +77,6 @@
 
       <button id="add_option" class="add_option" on-click="on_click_add_option">add option</button>
       <button id="generate_variant" on-click="on_click_generate_variant" disabled>generate variant</button>
-
 
       <form-variants-option id="form" open$="{{open}}" option="{{option}}"
         on-try-save="on_try_save">
@@ -145,23 +135,12 @@
     },
 
     attached: function () {
-      this.url_product_options = '/api/Products/' + this.product.id + '/options';
-      this.$.ajax_product_options.generateRequest();
-      this.url_product_variants_init = '/api/Products/' + this.product.id + '/variants'
-      this.$.ajax_product_variants_init.generateRequest();
-    },
-
-    on_response_options: function (event) {
-      event.stopPropagation();
-      this.set('options', this.product_options);
+      this.options = this.product.options;
       if(this.product_options.length > 0){
         this.$.generate_variant.disabled = '';
       }
-    },
-
-    on_response_variants_init: function (event) {
-      event.stopPropagation();
-      this.variants = this.response_variants_init;
+      this.variants = this.product.variants;
+      console.log(this.options);
     },
 
     on_click_add_option: function (event) {
@@ -189,7 +168,7 @@
     },
 
     add_option: function () {
-      this.url_product_option = '/api/Products/' + this.product.id + '/options';
+      this.url_product_option = '/api/products/' + this.product.id + '/options';
       this.$.ajax_product_option.body = JSON.stringify(this.option);
       this.async(function () {
         this.$.ajax_product_option.generateRequest();
@@ -209,7 +188,7 @@
       this.splice('options', index, 1);
       if(this.options.length < 1)
         this.$.generate_variant.disabled = 'disabled';
-      this.$.ajax_delete_option.url = '/api/Products/' + this.product.id + '/options/' + option.id;
+      this.$.ajax_delete_option.url = '/api/products/' + this.product.id + '/options/' + option.id;
       this.$.ajax_delete_option.generateRequest();
       this.delete_product_variants();
     },
@@ -226,7 +205,7 @@
     },
 
     delete_last_variant_manually: function () {
-      this.$.ajax_delete_variant.url = '/api/Products/' + this.product.id + '/variants'
+      this.$.ajax_delete_variant.url = '/api/products/' + this.product.id + '/variants'
       this.$.ajax_delete_variant.params = { id: this.product.id };
       this.$.ajax_delete_variant.generateRequest();
       this.variants = [];

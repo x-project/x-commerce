@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <h2>Overview</h2>
-    <form-customer-overview on-submit="on_submit" customer="{{customer}}"></form-customer-overview>
+    <form-customer-overview customer="{{customer}}"></form-customer-overview>
   </template>
 </dom-module>
 <script>
@@ -16,12 +16,8 @@
     properties: {
       customer: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
     }
 
   });

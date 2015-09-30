@@ -2,17 +2,22 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-customer-address.html">
+<link rel="import" href="part-customer-delete.html">
 <link rel="import" href="part-customer-header.html">
 <link rel="import" href="part-customer-note.html">
 <link rel="import" href="part-customer-overview.html">
+<link rel="import" href="part-customer-save.html">
 <link rel="import" href="part-customer-tag.html">
-
 <dom-module id="page-customer">
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_post" method="PUT" url="{{url}}" handleAs="json"
-      content-type="application/json" on-response="on_put_response">
+    <iron-ajax id="ajax_post" method="PUT" handleAs="json"
+      content-type="application/json">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
+      on-response="on_response_delete">
     </iron-ajax>
 
     <div class="page">
@@ -20,7 +25,9 @@
       <div class="main">
         <div class="container">
           <h1>Customers</h1>
-          <part-customer-header customer="{{customer}}" on-try-save="save"></part-customer-header>
+          <part-customer-header customer="{{customer}}"></part-customer-header>
+          <part-customer-save on-try-save="on_try_save"></part-customer-save>
+          <part-customer-delete on-try-delete="on_try_delete"></part-customer-delete>
           <part-customer-overview customer="{{customer}}"></part-customer-overview>
           <part-customer-address customer="{{customer}}"></part-customer-address>
           <part-customer-note customer="{{customer}}"></part-customer-note>
@@ -47,19 +54,32 @@
       this.customer = this.route.data.customer;
     },
 
-    save: function (event) {
+    on_try_save: function (event) {
+      console.log('ciao');
       this.convert_tags_to_array();
-      this.url = '/api/customers/'+this.customer.id;
+      this.$.ajax_post.url = '/api/customers/'+this.customer.id;
       this.$.ajax_post.body = JSON.stringify(this.customer);
       this.$.ajax_post.generateRequest();
     },
 
-    on_put_response: function (event, detail) {
-      var response = detail.response;
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.$.ajax_delete.url = '/api/customers/'+this.customer.id;
+      this.$.ajax_delete.generateRequest();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+      page('/admin/customers');
     },
 
     convert_tags_to_array: function () {
       this.customer.tags = [this.customer.tags];
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

@@ -19,7 +19,7 @@ function getRandomInt(min, max) {
 }
 
 // generate random customers
-create_customers(10, function (err) {
+create_customers(100, function (err) {
   if (err) {
     console.log(err);
     return;
@@ -28,26 +28,26 @@ create_customers(10, function (err) {
 
 
 // generate random orders
-// create_orders(100, function (err) {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-// });
+create_orders(100, function (err) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+});
 
 function data_faker (callback) {
   async.waterfall([
     function (next) {
-      create_vendors(20, vendors, next);
+      create_vendors(100, vendors, next);
     },
     function (next) {
-      create_product_types(20, product_types, next);
+      create_product_types(100, product_types, next);
     },
     function (next) {
-      create_collections(20, collections, next);
+      create_collections(100, collections, next);
     },
     function (next) {
-      create_products(20, products, next)
+      create_products(100, products, next)
     }
   ], callback);
 }
@@ -303,10 +303,10 @@ function create_customer (callback) {
     .end(callback);
 }
 
-// data_faker(function (err) {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-//   console.log('yeah');
-// });
+data_faker(function (err) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log('yeah');
+});

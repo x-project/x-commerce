@@ -7,14 +7,29 @@
 			}
 		</style>
 
-		<div></div>
+		<div>
+			<label class="product">product</label>
+			<span>{{data.product.title}}</span>
+			<label class="label">quantity</label>
+			<span>{{data.quantity}}</span>
+			<label class="label">variant</label>
+			<span>{{data.product_variant.name}}</span>
+	    <span on-click="on_click_selected" class="delete">x</span>
+		</div>
 
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'part-order-item'
+		is: 'part-order-item',
+
+		properties: {
+			data: {
+				type: Object,
+				value: function () { return {}; }
+			}
+		}
 
 
 	});

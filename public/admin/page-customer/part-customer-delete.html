@@ -1,0 +1,21 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="part-customer-delete">
+	<template>
+    <style include="style-form"></style>
+
+      <input type="submit" value="delete" on-click="on_click_delete">
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-customer-delete',
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    }
+
+	});
+</script>

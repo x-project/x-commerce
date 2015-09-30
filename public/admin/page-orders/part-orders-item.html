@@ -15,14 +15,7 @@
 
 		is: 'part-orders-item',
 
-    properties: {
-      order: {
-        type: Object,
-        value: function () {
-          return {};
-        }
-      }
-    },
+    properties: {},
 
     attached: function () {
       this.edit_url = '/admin/orders/' + this.order.id;

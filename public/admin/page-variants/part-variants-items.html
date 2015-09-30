@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h2>Variants</h2>
-      <template is="dom-repeat" id="variants" items="{{variants}}" as="variant" filter="filter">
+      <template is="dom-repeat" id="variants" items="{{variants}}" as="variant" filter="filter_variant">
         <div class="item">
           <part-variants-item variant="{{variant}}"></part-variants-item>
         </div>
@@ -31,7 +31,7 @@
       }
     },
 
-    filter: function (variant) {
+    filter_variant: function (variant) {
       variant.edit_url = '/admin/products/' + this.product.id + '/variants/' + variant.id;
       return true;
     }

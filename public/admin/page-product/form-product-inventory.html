@@ -7,8 +7,8 @@
     <style include="style-form"></style>
 
     <div>
-      <form-product-coding product="{{product}}" on-submit="on_submit"></form-product-coding>
-      <form-product-track product="{{product}}" on-submit="on_submit"></form-product-track>
+      <form-product-coding product="{{product}}"></form-product-coding>
+      <form-product-track product="{{product}}"></form-product-track>
     </div>
 
   </template>
@@ -23,12 +23,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.fire('on-submit');
     }
 
   });

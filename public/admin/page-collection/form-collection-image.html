@@ -3,10 +3,10 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form">
+    <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Images</label>
-        <input class="input" type="file" bind-value="{{data.images}}">
+        <input class="input" type="file" bind-value="{{collection.images}}">
       </div>
     </form>
 
@@ -15,7 +15,19 @@
 <script>
   Polymer({
 
-    is: 'form-collection-image'
+    is: 'form-collection-image',
+
+    properties: {
+      collection: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
 
   });
 </script>

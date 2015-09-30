@@ -1,0 +1,99 @@
+<dom-module id="input-search-product">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+      .items {
+        display: none;
+      }
+      .items[show] {
+        display: block;
+      }
+		</style>
+
+
+    <iron-ajax id="ajax_get_products" method="GET" handle-as="json"
+    	last-response="{{products}}" on-response="on_response">
+    </iron-ajax>
+
+    <form id="form" class="form" on-submit="on_submit">
+      <div class="field">
+        <label>product</label>
+        <input is="iron-input" class="input" type="text" bind-value="{{title}}"
+          on-keypress="on_search_product" on-focus="on_search_product">
+      </div>
+    </form>
+
+    <div class="items" show$="{{show}}">
+      <template id="products" is="dom-repeat" items="{{products}}" as="product"
+        filter="filter_products">
+        <div class="product" on-click="on_click_select">
+          <span class="product">{{product.title}}</span>
+        </div>
+      </template>
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'input-search-product',
+
+		properties: {
+			title: {
+        type: String,
+        value: ''
+      },
+      show: {
+        type: Boolean,
+        value: false,
+      },
+      id_selected: {
+      	type: String,
+      	notify: true,
+      	value: ''
+      },
+      selected_product: {
+      	type: Object,
+      	notify: true,
+      	value: function () { return {}; }
+      }
+		},
+
+		show_products: function () {
+      this.set('show', true);
+    },
+
+    hide_products: function () {
+      this.set('show', false);
+    },
+
+    on_search_product: function (event) {
+      event.stopPropagation();
+      this.show_products();
+      this.$.ajax_get_products.url = '/api/products?filter=%7B%22include%22%3A%22variants%22%7D';
+      this.$.ajax_get_products.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+    },
+
+    on_click_select: function (event) {
+    	event.stopPropagation();
+      var product = this.$.products.itemForElement(event.target);
+      this.hide_products();
+      this.id_selected = product.id;
+      this.selected_product = product;
+      this.title = product.title;
+      this.fire('change-product-id');
+    },
+
+    filter_products: function (product) {
+      return product.title.search(this.title) >= 0;
+    }
+
+	});
+</script>

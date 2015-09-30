@@ -8,7 +8,6 @@
 
     <div>
       <h2 class="title"><span>Customer</span> / <span>{{customer.first_name}}</span></h2>
-      <button on-click="on_click">Save customer</button>
     </div>
 
   </template>
@@ -23,10 +22,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_click: function (event) {
-      this.fire('try-customer-save');
     }
 
   });

@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <h2>Tags</h2>
-    <form-customer-tags on-submit="on_submit" data="{{data}}"></form-customer-tags>
+    <form-customer-tags customer="{{customer}}"></form-customer-tags>
   </template>
 </dom-module>
 <script>
@@ -14,14 +14,10 @@
     is: 'part-customer-tag',
 
     properties: {
-      data: {
+      customer: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
     }
 
   });

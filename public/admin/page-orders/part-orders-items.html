@@ -5,7 +5,7 @@
 		<style include="style-list"></style>
 
  		<div class="items">
-	    <template is="dom-repeat" items="{{items}}" as="order">
+	    <template is="dom-repeat" items="{{orders}}" as="order">
         <div class="item">
 	       <part-orders-item order="{{order}}"></part-orders-item>
         </div>
@@ -19,7 +19,11 @@
 
 		is: 'part-orders-items',
 
-    properties: {}
-
+    properties: {
+      orders: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
 	});
 </script>

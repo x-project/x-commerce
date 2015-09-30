@@ -101,7 +101,7 @@
 
     add_collection_product: function (collection) {
       this.push('selected', collection);
-      this.$.ajax_put.url = '/api/Products/' + this.product.id + '/collections/rel/' + collection.id;
+      this.$.ajax_put.url = '/api/products/' + this.product.id + '/collections/rel/' + collection.id;
       this.$.ajax_put.generateRequest();
     },
 
@@ -114,7 +114,7 @@
     remove_collection_product: function (collection) {
       var index = this.selected.indexOf(collection);
       this.splice('selected', index, 1);
-      this.$.ajax_delete.url = '/api/Products/' + this.product.id + '/collections/rel/' + collection.id;
+      this.$.ajax_delete.url = '/api/products/' + this.product.id + '/collections/rel/' + collection.id;
       this.$.ajax_delete.generateRequest();
     },
 
@@ -131,12 +131,6 @@
 
     filter_collection: function (item) {
       return item.title.search(this.title) >= 0;
-    },
-
-   is_new_model: function () {
-      if(Object.keys(this.product).length === 0)
-        return true;
-      return false;
     }
 
   });

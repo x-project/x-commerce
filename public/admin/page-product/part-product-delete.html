@@ -1,17 +1,16 @@
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="part-collections-delete">
+<dom-module id="part-product-delete">
 	<template>
-	  <style include="style-form"></style>
+    <style include="style-form"></style>
 
-      <input class="button" type="submit" value="delete" on-click="on_click_delete" >
+      <input type="submit" value="delete" on-click="on_click_delete">
 
 	</template>
 </dom-module>
 <script>
 	Polymer({
 
-		is: 'part-collections-delete',
-
+		is: 'part-product-delete',
 
     on_click_delete: function (event) {
       event.stopPropagation();

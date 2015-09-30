@@ -38,13 +38,12 @@
     on_click_available: function (event) {
       event.stopPropagation();
       this.$.ajax_put_variant.body = JSON.stringify(this.variant);
-      this.$.ajax_put_variant.url = '/api/ProductVariants/' + this.variant.id;
+      this.$.ajax_put_variant.url = '/api/product_variants/' + this.variant.id;
       this.$.ajax_put_variant.generateRequest();
     },
 
     on_response_put_variant: function (event, details) {
       event.stopPropagation();
-      // console.log(details.response);
     },
 
     on_error_put_variant: function (event) {

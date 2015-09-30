@@ -1,11 +1,9 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-collections-item">
   <style include="style-item"></style>
 
   <template>
     <div class="item">
-      <paper-checkbox is="iron-input" on-click="on_click_collection"></paper-checkbox>
       <label class="label">name: </label>
       <span>{{collection.title}}</span>
       <label class="label">description: </label>
@@ -23,21 +21,10 @@
 
     is: 'part-collections-item',
 
-    properties: {
-      delete_collections: {
-        type: Array,
-        notify: true,
-        value: function () { return []; }
-      }
-    },
+    properties: {},
 
     attached: function () {
       this.edit_url = '/admin/collections/' + this.collection.id;
-    },
-
-    on_click_collection: function (event) {
-      event.stopPropagation();
-      this.push('delete_collections', this.collection);
     }
 
   });

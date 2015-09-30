@@ -3,10 +3,11 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form">
+    <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Note</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{data.note}}" placeholder="Add a note to this customer">
+        <input class="input" type="text" is="iron-input" bind-value="{{customer.note}}"
+          placeholder="Add a note to this customer">
       </div>
     </form>
 
@@ -15,7 +16,19 @@
 <script>
   Polymer({
 
-    is: 'form-customer-note'
+    is: 'form-customer-note',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
 
   });
 </script>

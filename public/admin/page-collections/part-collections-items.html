@@ -5,10 +5,8 @@
     <style include="style-list"></style>
 
     <div class="items">
-      <template is="dom-repeat" items="{{items}}" as="collection">
-        <part-collections-item collection="{{collection}}"
-          delete_collections="{{delete_collections}}">
-        </part-collections-item>
+      <template is="dom-repeat" items="{{collections}}" as="collection">
+        <part-collections-item collection="{{collection}}"></part-collections-item>
       </template>
     </div>
 
@@ -20,13 +18,8 @@
     is: 'part-collections-items',
 
     properties: {
-      collection: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      delete_collections: {
+      collections: {
         type: Array,
-        notify: true,
         value: function () { return []; }
       }
     }

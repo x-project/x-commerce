@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h3 class="title">Collection Info</h3>
-      <form-collection-info on-submit="on_submit" collection="{{collection}}"></form-collection-info>
+      <form-collection-info collection="{{collection}}"></form-collection-info>
     </div>
   </template>
 </dom-module>
@@ -18,12 +18,8 @@
     properties: {
       collection: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
     }
 
   });

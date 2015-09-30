@@ -5,39 +5,18 @@
 			:host {
 				display: block;
 			}
-      .pill {
-        padding: 4px 8px;
-        border-radius: 2px;
-        display: inline-block;
-        background-color: #eee;
-      }
-      .pill .delete {
-        padding-left: 8px;
-        opacity: .4;
-      }
-      .pill .delete:hover {
-        opacity: 1;
-        cursor: pointer;
-      }
 		</style>
 
 		<h2>Order items</h2>
 
-    <iron-ajax id="ajax_get_order_items" method="GET" url="{{url_order_items}}"
-      handle-as="json" last-response="{{order_latest}}" on-response="on_response">
-    </iron-ajax>
+    <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
+      last-response="{{order_items}}"></iron-ajax>
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
 		<div class="items">
-			<template is="dom-repeat" items="{{orders}}" as="product">
-				<div class="pill">
-					<label class="label">title</label>
-					<span>{{product.title}}</span>
-					<label class="label">quantity</label>
-					<span>{{product.quantity}}</span>
-	        <span on-click="on_click_selected" class="delete">x</span>
-				</div>
+			<template is="dom-repeat" items="{{order_items}}" as="order_item">
+        <part-order-item data="{{order_item}}"></part-order-item>
 			</template>
 		</div>
 
@@ -49,51 +28,24 @@
 		is: 'part-order-items',
 
 		properties: {
-			order: {
-				type: Object,
-				value: function () { return {}; }
-			},
-			items: {
-				type: Array,
-				value: function () { return []; }
-			},
-			orders: {
+			order_items: {
 				type: Array,
 				value: function () { return []; }
 			}
 		},
 
-		attached: function () {
-			if(this.is_new_model()){
-				return;
-			}
-			this.url_order_items = '/api/Orders/' + this.order.id + '/order_items'
-			this.$.ajax_get_order_items.generateRequest();
-		},
+    attached: function () {
+      this.update_order_items();
+    },
 
-		on_response: function () {
-			// console.log(this.order_items);
-		},
+    update_order_items: function () {
+      this.$.ajax_get_order_items.url = '/api/orders/'+ this.order.id + '/order_items?filter=%7B%22include%22%3A%5B%22product%22%2C%22product_variant%22%5D%7D'
+      this.$.ajax_get_order_items.generateRequest();
+    },
 
-
-    // on_click_selected: function (event) {
-    //   event.stopPropagation();
-    //   var product = this.$.orders.itemForElement(event.target);
-    //   this.remove_product_form_order_item(product);
-    // },
-
-    // remove_product_form_order_item: function (product) {
-    //   var index = this.orders.indexOf(product);
-    //   this.splice('orders', index, 1);
-    //   this.$.ajax_delete.url = '/api/Products/' + this.product.id + '/collections/rel/' + collection.id;
-    //   this.$.ajax_delete.generateRequest();
-    // },
-
-
-    is_new_model: function () {
-      if(Object.keys(this.order).length === 0)
-        return true;
-      return false;
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
 	});

@@ -85,12 +85,6 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
-    },
-
-    is_new_model: function () {
-      if(Object.keys(this.product).length === 0)
-        return true;
-      return false;
     }
 
   });

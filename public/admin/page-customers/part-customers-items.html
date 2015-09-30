@@ -5,9 +5,7 @@
 
     <div class="items">
       <template id="customers" is="dom-repeat" items="{{customers}}" as="customer">
-        <part-customers-item customer="{{customer}}"
-          delete_customers="{{delete_customers}}">
-        </part-customers-item>
+        <part-customers-item customer="{{customer}}"></part-customers-item>
       </template>
     </div>
 
@@ -21,11 +19,6 @@
     properties: {
       customers: {
         type: Array,
-        value: function () { return []; }
-      },
-      delete_customers: {
-        type: Array,
-        notyfy: true,
         value: function () { return []; }
       }
     }

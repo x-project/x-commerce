@@ -23,8 +23,10 @@
           <!-- <part-order-save order="{{order}}" on-try-save="on_try_save"></part-order-save> -->
           <!-- <part-order-status order="{{order}}"></part-order-status> -->
           <!-- <part-order-customer order="{{order}}"></part-order-customer> -->
-          <part-order-items orders="{{orders}}" order="{{order}}"></part-order-items>
-					<part-order-create-order-item orders="{{orders}}" order="{{order}}"></part-order-create-order-item>
+          <part-order-items id="order_items" order="{{order}}"></part-order-items>
+					<part-order-create-order-item order="{{order}}"
+            on-change-order-items="on_change_order_items">
+          </part-order-create-order-item>
           <!-- <part-order-notes order="{{order}}"></part-order-notes> -->
 		    </div>
 		  </div>
@@ -42,17 +44,20 @@
         type: Object,
         value: function () { return {}; }
       },
-      orders: {
+      orders_items: {
         type: Array,
         value: function () { return []; }
-      }
+      },
     },
 
     attached: function () {
-      if(this.route.data.order === undefined){
-        return;
-      }
       this.order = this.route.data.order;
+      this.orders = this.order.order_items;
+    },
+
+    on_change_order_items: function (event) {
+      event.stopPropagation();
+      this.$.order_items.update_order_items();
     },
 
     on_try_save: function (event) {

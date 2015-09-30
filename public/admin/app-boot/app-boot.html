@@ -39,7 +39,9 @@
       <!-- <app-route path="/admin/collections/new" page="page-collection"></app-route> -->
       <app-route path="/admin/collections/:collection_id" page="page-collection"
         on-route="/admin/collections/:collection_id"></app-route>
-      <app-route path="/admin/orders" page="page-orders"></app-route>
+      <app-route path="/admin/orders" page="page-orders"
+        on-route="/admin/orders">
+      </app-route>
       <!-- <app-route path="/admin/orders/new" page="page-order"></app-route> -->
       <app-route path="/admin/orders/:order_id" page="page-order"
         on-route="/admin/orders/:order_id"></app-route>
@@ -54,7 +56,9 @@
       <app-route path="/admin/products/:product_id" page="page-product"
         on-route="/admin/products/:product_id"></app-route>
 
-      <app-route path="/admin/customers" page="page-customers"></app-route>
+      <app-route path="/admin/customers" page="page-customers"
+        on-route="/admin/customers">
+      </app-route>
       <app-route path="/admin/customers/new" page="page-customer"
         on-route='/admin/customers/new'></app-route>
       <app-route path="/admin/customers/:customer_id" page="page-customer"
@@ -120,57 +124,35 @@
       routes.fire('route', event.detail);
     },
 
-    '/admin/products/:product_id': function (event) {
+
+    '/admin/collections/:collection_id': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
-      var model_id = event.detail.params.product_id;
+      var model_id = event.detail.params.collection_id;
       this.get_model({
-        collection: 'products',
+        collection: 'collections',
         modelId: model_id,
-        include: ['collections', 'product_type', 'vendor']
+        include: ['products']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';
         } else {
-          event.detail.data = { product: model };
+          event.detail.data = { collection: model };
         }
         routes.fire('route', event.detail);
       });
     },
 
-    '/admin/collections/:collection_id': function (event) {
+    '/admin/customers': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
-      if(this.is_new_model(event)){
-        event.detail.data = { collection: undefined };
-        routes.fire('route', event.detail);
-        return;
-      }
-      else{
-        var model_id = event.detail.params.collection_id;
-        this.get_model('Collections', model_id, function (err, model) {
-          if (err) {
-            page('/404');
-            return;
-          }
-          event.detail.data = { collection: model };
-          routes.fire('route', event.detail);
-        });
-      }
-    },
-
-    '/admin/orders/:order_id': function (event) {
-      event.stopPropagation();
-      var routes = this.$.routes;
-      var model_id = event.detail.params.order_id;
-      this.get_model({
-        collection: 'orders',
-        modelId: model_id
-      }, function (err, model) {
+      this.get_models({
+          collection: 'customers'
+      }, function (err, models) {
         if (err) {
           event.detail.page_name = '404';
         } else {
-          event.detail.data = { order: model };
+          event.detail.data = { customers: models };
         }
         routes.fire('route', event.detail);
       });
@@ -199,7 +181,8 @@
       var model_id = event.detail.params.product_id;
       this.get_model({
         collection: 'products',
-        modelId: model_id
+        modelId: model_id,
+        include: ['options', 'variants']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';
@@ -222,7 +205,8 @@
         if (err) {
           event.detail.page_name = '404';
         } else {
-          event.detail.data = { order: model };
+          console.log(model);
+          event.detail.data = { product: model };
         }
         routes.fire('route', event.detail);
       });
@@ -238,6 +222,57 @@
           event.detail.page_name = '404';
         } else {
           event.detail.data = { products: models };
+        }
+        routes.fire('route', event.detail);
+      });
+    },
+
+    '/admin/products/:product_id': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      var model_id = event.detail.params.product_id;
+      this.get_model({
+        collection: 'products',
+        modelId: model_id,
+        include: ['collections', 'product_type', 'vendor']
+      }, function (err, model) {
+        if (err) {
+          event.detail.page_name = '404';
+        } else {
+          event.detail.data = { product: model };
+        }
+        routes.fire('route', event.detail);
+      });
+    },
+
+    '/admin/orders': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      this.get_models({
+          collection: 'orders'
+      }, function (err, models) {
+        if (err) {
+          event.detail.page_name = '404';
+        } else {
+          event.detail.data = { orders: models };
+        }
+        routes.fire('route', event.detail);
+      });
+    },
+
+    '/admin/orders/:order_id': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      var model_id = event.detail.params.order_id;
+      this.get_model({
+        collection: 'orders',
+        modelId: model_id,
+        include: ['order_items']
+      }, function (err, model) {
+        if (err) {
+          event.detail.page_name = '404';
+        } else {
+          event.detail.data = { order: model };
         }
         routes.fire('route', event.detail);
       });
@@ -268,14 +303,6 @@
         callback(event.detail.error, event.detail.response);
       });
       api.send();
-    },
-
-    is_new_model: function (event) {
-      var path_splitted = event.detail.path.split('/');
-      var model_new = path_splitted[3];
-      if(model_new === 'new')
-        return true;
-      return false;
     }
 
   });

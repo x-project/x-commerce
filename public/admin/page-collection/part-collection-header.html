@@ -7,7 +7,6 @@
   <template>
     <div>
       <h2 class="title"><span>Collection</span> / <span>{{collection.title}}</span></h2>
-      <button on-click="on_click">Save Collection</button>
     </div>
   </template>
 </dom-module>
@@ -19,12 +18,8 @@
     properties: {
       collection: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
-    },
-
-    on_click: function (event) {
-      this.fire('try-save');
     }
 
   });

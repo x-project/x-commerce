@@ -23,11 +23,12 @@
     properties: {
       collection: {
         type: Object,
-        notify: true
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
+      event.stopPropagation();
       event.preventDefault();
     }
 

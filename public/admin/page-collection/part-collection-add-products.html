@@ -20,16 +20,10 @@
     </style>
 
     <iron-ajax id="ajax_get_filter_products" method="GET" url="/api/Products"
-      handle-as="json" last-response="{{products}}">
+      handle-as="json" last-response="{{new_products}}">
     </iron-ajax>
 
-    <iron-ajax id="ajax_put" method="PUT" handle-as="json"
-      content-type="application/json" on-error="on_error">
-    </iron-ajax>
-
-    <iron-ajax id="ajax_products_collection" url="{{url_products_collection}}"
-      handle-as="json" last-response="{{selected}}">
-    </iron-ajax>
+    <iron-ajax id="ajax_put" method="PUT" on-error="on_error"></iron-ajax>
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
@@ -51,7 +45,7 @@
       </template>
     </div>
     <div class="items">
-      <template id="products" is="dom-repeat" items="{{products}}" filter="filter_products">
+      <template id="products" is="dom-repeat" items="{{new_products}}" filter="filter_products">
         <div class="item" on-click="on_click_select">
           <span>{{item.title}}</span>
           <span>{{item.price}}</span>
@@ -79,15 +73,19 @@
       selected: {
         type: Array,
         value: function () { return []; }
+      },
+      products: {
+        type: Array,
+        value: function () { return []; }
+      },
+      new_products: {
+        type: Array,
+        value: function () { return []; }
       }
     },
 
     attached: function () {
-      if(this.is_new_model()){
-        return;
-      }
-      this.url_products_collection = '/api/Collections/' + this.collection.id + '/products';
-      this.$.ajax_products_collection.generateRequest();
+      this.selected = this.products;
     },
 
     on_search_product: function (event) {
@@ -111,7 +109,7 @@
 
     add_product_collection: function (product) {
       this.push('selected', product);
-      this.$.ajax_put.url = '/api/Collections/' + this.collection.id + '/products/rel/' + product.id;
+      this.$.ajax_put.url = '/api/collections/' + this.collection.id + '/products/rel/' + product.id;
       this.$.ajax_put.generateRequest();
     },
 
@@ -124,7 +122,7 @@
     remove_product_collection: function (product) {
       var index = this.selected.indexOf(product);
       this.splice('selected', index, 1);
-      this.$.ajax_delete.url = '/api/Collections/' + this.collection.id + '/products/rel/' + product.id;
+      this.$.ajax_delete.url = '/api/collections/' + this.collection.id + '/products/rel/' + product.id;
       this.$.ajax_delete.generateRequest();
     },
 
@@ -132,10 +130,10 @@
       return collection.title.search(this.title) >= 0;
     },
 
-    is_new_model: function () {
-      if(Object.keys(this.collection).length === 0)
-        return true;
-      return false;
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+
     }
 
   });
