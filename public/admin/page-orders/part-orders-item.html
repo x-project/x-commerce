@@ -1,19 +1,19 @@
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-orders-item">
   <template>
-	<style include="style-item"></style>
+  <style include="style-item"></style>
 
-	  <label class="label">subtotal: </label>
+    <label class="label">subtotal: </label>
     <span>{{order.subtotal}}</span>
     <label class="label">shipping_cost: </label>
     <span>{{order.shipping_cost}}</span>
     <a is="app-link" href="{{edit_url}}">edit</a>
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-orders-item',
+    is: 'part-orders-item',
 
     properties: {},
 
@@ -21,5 +21,5 @@
       this.edit_url = '/admin/orders/' + this.order.id;
     }
 
-	});
+  });
 </script>

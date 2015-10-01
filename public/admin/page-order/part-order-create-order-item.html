@@ -1,8 +1,8 @@
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-order-item.html">
 <dom-module id="part-order-create-order-item">
-	<template>
-		<style include="style-panel">
+  <template>
+    <style include="style-panel">
       .form_search_product {
         display: none;
       }
@@ -17,12 +17,12 @@
       on-create-order-item="on_create_order_item">
     </form-order-item>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-order-create-order-item',
+    is: 'part-order-create-order-item',
 
     properties: {
       order: {
@@ -60,5 +60,5 @@
       this.$.btn_add_order_item.disabled = '';
     }
 
-	});
+  });
 </script>

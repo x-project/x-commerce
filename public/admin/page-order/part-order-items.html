@@ -38,7 +38,7 @@
 
     <div class="items">
       <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
-        <part-order-item data="{{order_item}}">
+        <part-order-item data="{{order_item}}" editing="{{editing}}" on-change-quantity="on_change_quantity">
           <span on-click="on_click_edit" class="edit">edit</span>
           <span on-click="on_click_delete" class="delete">x</span>
         </part-order-item>
@@ -71,6 +71,10 @@
       saving: {
         type: Boolean,
         value: false
+      },
+      editing: {
+        type: Boolean,
+        value: true
       }
     },
 
@@ -119,7 +123,13 @@
 
     on_click_edit: function (event) {
       event.stopPropagation();
+      this.set('editing', false);
+    },
 
+    on_change_quantity: function (event) {
+      event.stopPropagation();
+      console.log(event.detail.data);
+      this.disabled = false;
     },
 
     on_error: function (event) {

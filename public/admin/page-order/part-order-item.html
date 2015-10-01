@@ -1,36 +1,70 @@
 <link rel="import" href="part-order-item.html">
 <dom-module id="part-order-item">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
 
-		<div class="item">
-			<label class="product">product</label>
-			<span>{{data.product.title}}</span>
-			<label class="label">quantity</label>
-			<span>{{data.quantity}}</span>
-			<label class="label">variant</label>
-			<span>{{data.product_variant.name}}</span>
-			<content></content>
-		</div>
+    <div class="item">
+      <span>{{data.product.title}}</span>
+      <span>{{data.product_variant.name}}</span>
+      <span> </span>
+      <input readonly$="{{editing}}" type="number" is="iron-input" min="1" bind-value="{{data.quantity}}"
+       on-change="on_change_value">
+      <span>x $</span>
+      <span>{{data.product.price}}</span>
+      <span>= $</span>
+      <span>{{subtotal}}</span>
+      <content></content>
+    </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-order-item',
+    is: 'part-order-item',
 
-		properties: {
-			data: {
-				type: Object,
-				value: function () { return {}; }
-			}
-		}
+    properties: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      subtotal: {
+        type: Number
+      },
+      editing: {
+        type: Boolean,
+        value: false
+      }
+    },
 
+    on_change_value: function (event) {
+      if (!this.data.product){
+        return;
+      }
+      if(this.data.hasOwnProperty('product_variant')) {
+        this.set('subtotal', this.calculate_subtotal_variant());
+        this.data_changed();
+        return;
+      }
+      this.set('subtotal', this.calculate_subtotal_product());
+      this.data_changed();
+    },
 
-	});
+    calculate_subtotal_variant: function () {
+      return this.data.quantity * this.data.product_variant.price;
+    },
+
+    calculate_subtotal_product: function () {
+      return this.data.quantity * this.data.product.price;
+    },
+
+    data_changed: function () {
+      this.fire('change-quantity', {data: this.data});
+    }
+
+  });
 </script>
