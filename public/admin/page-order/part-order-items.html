@@ -1,46 +1,125 @@
 <link rel="import" href="part-order-item.html">
+<link rel="import" href="input-search-product.html">
+<link rel="import" href="input-search-product-variant.html">
 <dom-module id="part-order-items">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .items .delete:hover{
+        opacity: .5;
+      }
+      .items .edit:hover{
+        opacity: .5;
+      }
+      .items .last_order_item {
+        display: none;
+      }
+      .items .last_order_item[saving] {
+        display: block;
+      }
 
-		<h2>Order items</h2>
+    </style>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
-      last-response="{{order_items}}"></iron-ajax>
+      last-response="{{order_items}}">
+    </iron-ajax>
 
-    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
+    <iron-ajax id="ajax_get_order_item_pending" method="GET" on-error="on_error"
+      last-response="{{order_items_pending}}" on-response="on_response_get_pending">
+    </iron-ajax>
 
-		<div class="items">
-			<template is="dom-repeat" items="{{order_items}}" as="order_item">
-        <part-order-item data="{{order_item}}"></part-order-item>
-			</template>
-		</div>
+    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
+      on-response="on_response_delete">
+    </iron-ajax>
 
-	</template>
+    <h2>Order items</h2>
+
+    <div class="items">
+      <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
+        <part-order-item data="{{order_item}}">
+          <span on-click="on_click_edit" class="edit">edit</span>
+          <span on-click="on_click_delete" class="delete">x</span>
+        </part-order-item>
+      </template>
+      <part-order-item class="last_order_item" data="{{order_items_pending}}"
+        saving$="{{saving}}">
+        <span>saving....</span>
+      </part-order-item>
+    </div>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-order-items',
+    is: 'part-order-items',
 
-		properties: {
-			order_items: {
-				type: Array,
-				value: function () { return []; }
-			}
-		},
+    properties: {
+      order_items: {
+        type: Array,
+        value: function () { return []; }
+      },
+      last_order_item_saving: {
+        type: Boolean,
+        value: false
+      },
+      order_items_pending: {
+        type: Array,
+        value: function () { return []; }
+      },
+      saving: {
+        type: Boolean,
+        value: false
+      }
+    },
 
     attached: function () {
       this.update_order_items();
     },
 
+    show_item_pending: function () {
+      this.set('saving', true);
+    },
+
+    hide_item_pending: function () {
+      this.set('saving', false);
+    },
+
     update_order_items: function () {
       this.$.ajax_get_order_items.url = '/api/orders/'+ this.order.id + '/order_items?filter=%7B%22include%22%3A%5B%22product%22%2C%22product_variant%22%5D%7D'
       this.$.ajax_get_order_items.generateRequest();
+      this.hide_item_pending();
+
+    },
+
+    order_item_pending: function (order_item) {
+      this.$.ajax_get_order_item_pending.url = '/api/order_items/'+ order_item.id + '?filter=%7B%22include%22%3A%5B%22product%22%2C%20%22product_variant%22%5D%7D';
+      this.$.ajax_get_order_item_pending.generateRequest();
+    },
+
+    on_response_get_pending: function (event) {
+      event.stopPropagation();
+      this.show_item_pending();
+      this.async(function () {
+        this.update_order_items();
+      }, 1000);
+    },
+
+    on_click_delete: function () {
+      var order_item = this.$.order_items.itemForElement(event.target);
+      this.$.ajax_delete.url = '/api/orders/' + order_item.orderId + '/order_items/' + order_item.id;
+      this.$.ajax_delete.generateRequest();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+      this.update_order_items();
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+
     },
 
     on_error: function (event) {
@@ -48,5 +127,5 @@
       console.log(event);
     }
 
-	});
+  });
 </script>

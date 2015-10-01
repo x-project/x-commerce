@@ -46,7 +46,7 @@
 				type: String,
 				value: ''
 			},
-      selected_variant: {
+      selected: {
       	type: Object,
       	notify: true,
       	value: function () { return {}; }
@@ -55,7 +55,7 @@
       	type: Boolean,
       	value: false
       },
-      id_variant_selected: {
+      id_selected_variant: {
         type: String,
         notify: true,
         value: ''
@@ -80,13 +80,17 @@
 			event.stopPropagation();
 			this.hide_variants();
       var variant = this.$.variants.itemForElement(event.target);
-      this.id_variant_selected = variant.id;
-      this.selected_variant = variant;
+      this.id_selected_variant = variant.id;
+      this.selected = variant;
       this.name = variant.name;
 		},
 
     filter_variant: function (variant) {
       return variant.name.search(this.name) >= 0;
+    },
+
+    reset_variant_name: function () {
+      this.set('name', '');
     },
 
     on_submit: function (event) {

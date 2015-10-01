@@ -267,7 +267,7 @@
       this.get_model({
         collection: 'orders',
         modelId: model_id,
-        include: ['order_items']
+        include: ['order_items', 'customer']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';

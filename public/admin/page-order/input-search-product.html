@@ -55,7 +55,7 @@
       	notify: true,
       	value: ''
       },
-      selected_product: {
+      selected: {
       	type: Object,
       	notify: true,
       	value: function () { return {}; }
@@ -86,13 +86,17 @@
       var product = this.$.products.itemForElement(event.target);
       this.hide_products();
       this.id_selected = product.id;
-      this.selected_product = product;
+      this.selected = product;
       this.title = product.title;
-      this.fire('change-product-id');
+      this.fire('change');
     },
 
     filter_products: function (product) {
       return product.title.search(this.title) >= 0;
+    },
+
+    reset_title: function () {
+      this.set('title', '');
     }
 
 	});

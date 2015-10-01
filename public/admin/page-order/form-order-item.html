@@ -17,13 +17,13 @@
       content-type="application/json" on-response="on_response_post" on-error="on_error">
     </iron-ajax>
 
-    <input-search-product id_selected="{{order_item.product_id}}"
-      selected_product="{{product_selected}}" on-change-product-id="on_change_product_id">
+    <input-search-product id="search_product" id_selected="{{order_item.product_id}}"
+      selected="{{product_selected}}" on-change="on_change_product_id">
     </input-search-product>
 
-    <input-search-product-variant class="input_variants" visible$="{{visible}}"
-      id_variant_selected="{{order_item.variant_id}}" variants="{{product_selected.variants}}"
-      selected_variant="{{variant_selected}}">
+    <input-search-product-variant id="search_product_variant" class="input_variants"
+      visible$="{{visible}}" id_selected_variant="{{order_item.variant_id}}"
+      variants="{{product_selected.variants}}" selected="{{variant_selected}}">
     </input-search-product-variant>
 
     <div class="field">
@@ -34,7 +34,6 @@
     <div class="field">
       <input type="submit" value="save" on-click="on_click_save">
     </div>
-
 
   </template>
 </dom-module>
@@ -67,19 +66,27 @@
     on_click_save: function (event) {
       event.stopPropagation();
       this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
-      this.$.ajax_post_order_item.body = {
+      this.$.ajax_post_order_item.body = JSON.stringify({
         quantity: this.order_item.quantity,
         orderId: this.order.id,
         product_id: this.order_item.product_id,
         product_variant_id: this.order_item.variant_id
-      };
+      });
       this.$.ajax_post_order_item.generateRequest();
     },
 
     on_response_post: function (event, details) {
       event.stopPropagation();
-      var response = details.response;
-      this.fire('change-order-items');
+      var order_item = details.response;
+
+      this.$.search_product.reset_title();
+      this.$.search_product_variant.reset_variant_name();
+      this.reset_quantity();
+      this.fire('create-order-item', {order_item: order_item});
+    },
+
+    reset_quantity: function () {
+      this.set('order_item.quantity', 1);
     },
 
     on_error: function (event) {

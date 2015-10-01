@@ -30,14 +30,6 @@
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
     <h2>Collections</h2>
-    <div class="items">
-      <template id="collections" is="dom-repeat" items="{{collections}}" filter="filter_collection">
-          <div class="item" on-click="on_click_select">
-            <span>{{item.title}}</span>
-          </div>
-        <div>
-      </template>
-    </div>
 
     <div class="panel">
       <div class="field ">
@@ -47,11 +39,21 @@
       </div>
     </div>
 
+
     <div class="selected items">
       <template id="selected" is="dom-repeat" items="{{selected}}">
         <div class="pill">
           <span>{{item.title}}</span>
           <span on-click="on_click_selected" class="delete">x</span>
+        <div>
+      </template>
+    </div>
+
+    <div class="items">
+      <template id="collections" is="dom-repeat" items="{{collections}}" filter="filter_collection">
+          <div class="item" on-click="on_click_select">
+            <span>{{item.title}}</span>
+          </div>
         <div>
       </template>
     </div>

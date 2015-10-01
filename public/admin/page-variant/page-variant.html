@@ -26,12 +26,12 @@
       <div class="main">
         <div class="container">
           <part-variant-header product="{{product}}"variant="{{variant}}"></part-variant-header>
+          <part-variant-create on-try-save="on_try_save"></part-variant-create>
+          <part-variant-delete on-try-delete="on_try_delete"></part-variant-delete>
           <part-variant-available variant="{{variant}}"></part-variant-available>
           <part-variant-pricing variant="{{variant}}"></part-variant-pricing>
           <part-variant-inventory variant="{{variant}}"></part-variant-inventory>
           <part-variant-shipping variant="{{variant}}"></part-variant-shipping>
-          <part-variant-create on-try-save="on_try_save"></part-variant-create>
-          <part-variant-delete on-try-delete="on_try_delete"></part-variant-delete>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@
 
     attached: function () {
       this.product = this.route.data.product;
-      this.variant = this.product.variant;
+      // this.variant = this.product.variants;
     },
 
     on_try_save: function (event) {
