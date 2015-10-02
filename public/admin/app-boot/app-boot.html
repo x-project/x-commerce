@@ -205,7 +205,6 @@
         if (err) {
           event.detail.page_name = '404';
         } else {
-          console.log(model);
           event.detail.data = { product: model };
         }
         routes.fire('route', event.detail);
@@ -221,6 +220,7 @@
         if (err) {
           event.detail.page_name = '404';
         } else {
+          console.log();
           event.detail.data = { products: models };
         }
         routes.fire('route', event.detail);
