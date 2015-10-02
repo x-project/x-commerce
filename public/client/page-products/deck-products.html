@@ -5,7 +5,7 @@
     <style include="style-deck"></style>
 
     <div class="deck">
-      <template is="dom-repeat" items="{{products}}" as="product">
+      <template is="dom-repeat" items="{{products}}" as="product" filter="filter">
         <card-product product="{{product}}"></card-product>
       </template>
     </div>
@@ -22,6 +22,11 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    filter: function (product) {
+      product.url = '/products/' + product.id;
+      return true;
     }
 
   });

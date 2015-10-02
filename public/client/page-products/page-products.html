@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/api-model-find/api-model-find.html">
 <link rel="import" href="../part-footer/part-footer.html">
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
@@ -7,6 +8,8 @@
   <template>
     <style include="style-page"></style>
 
+    <api-model-find id="find" collection="products" response="{{products}}"></api-model-find>
+
     <div class="page">
       <part-header class="header"></part-header>
       <div class="main">
@@ -14,7 +17,7 @@
           <h1>Catalog</h1>
         </part-jumbotron>
         <div class="container">
-          <deck-products></deck-products>
+          <deck-products products="{{products}}"></deck-products>
         </div>
       </div>
       <div class="space"></div>
@@ -26,7 +29,18 @@
 <script>
   Polymer({
 
-    is: 'page-products'
+    is: 'page-products',
+
+    properties: {
+      products: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      this.$.find.send();
+    }
 
   });
 </script>

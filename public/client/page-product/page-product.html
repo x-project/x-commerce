@@ -11,7 +11,9 @@
     <div class="page">
       <part-header class="header"></part-header>
       <div class="main">
-        <h1><span>Product</span> <span>product.name</span></h1>
+        <part-jumbotron class="jumbotron">
+          <h1><span>Product</span> <span>{{product.name}}</span></h1>
+        </part-jumbotron>
         <div class="container">
           <part-product-info product="{{product}}"></part-product-product>
           <part-product-images product="{{product}}"></part-product-images>
@@ -31,7 +33,8 @@
 
     properties: {
       product: {
-        type: Object
+        type: Object,
+        value: function () { return {}; }
       }
     }
 

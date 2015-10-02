@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-collections-create.html">
@@ -9,9 +10,9 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get" auto method="GET" url="/api/Collections"
-      handle-as="json" last-response="{{collections}}">
-    </iron-ajax>
+    <api-model-find id="request" collection="collections"
+      response="{{collections}}">
+    </api-model-find>
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
@@ -39,6 +40,10 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    attached: function () {
+      this.$.request.send();
     }
 
   });
