@@ -1,0 +1,33 @@
+<dom-module id="input-dataitem">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>{{value}}</div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-dataitem',
+
+    properties: {
+      value: {
+        type: String
+      },
+      focused: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    focus: function (focus) {
+      this.set('focused', focus || true);
+    }
+
+  });
+</script>

@@ -1,10 +1,13 @@
 <link rel="import" href="/components/layout-grid/layout-grid.html">
-
 <dom-module id="style-card">
   <template>
     <style>
       :host {
         display: block;
+        padding: 20px;
+        @apply(--layout-flex);
+        @apply(--layout-col-3);
+        box-sizing: border-box;
       }
 
       .card {
@@ -14,7 +17,6 @@
     </style>
   </template>
 </dom-module>
-
 <script>
   Polymer({
 
