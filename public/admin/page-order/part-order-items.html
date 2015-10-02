@@ -7,19 +7,6 @@
       :host {
         display: block;
       }
-      .items .delete:hover{
-        opacity: .5;
-      }
-      .items .edit:hover{
-        opacity: .5;
-      }
-      .items .last_order_item {
-        display: none;
-      }
-      .items .last_order_item[saving] {
-        display: block;
-      }
-
     </style>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
@@ -30,6 +17,10 @@
       last-response="{{order_items_pending}}" on-response="on_response_get_pending">
     </iron-ajax>
 
+    <iron-ajax id="ajax_put_order_item" method="PUT" content-type="application/json"
+      on-error="on_error">
+    </iron-ajax>
+
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
       on-response="on_response_delete">
     </iron-ajax>
@@ -38,15 +29,11 @@
 
     <div class="items">
       <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
-        <part-order-item data="{{order_item}}" editing="{{editing}}" on-change-quantity="on_change_quantity">
-          <span on-click="on_click_edit" class="edit">edit</span>
-          <span on-click="on_click_delete" class="delete">x</span>
+        <part-order-item data="{{order_item}}"on-click-delete="on_click_delete"
+          on-edit-order-item="on_edit_order_item">
         </part-order-item>
       </template>
-      <part-order-item class="last_order_item" data="{{order_items_pending}}"
-        saving$="{{saving}}">
-        <span>saving....</span>
-      </part-order-item>
+        <!-- <part-order-item data="{{order_items_pending}}" editable="{{}}"></part-order-item> -->
     </div>
   </template>
 </dom-module>
@@ -67,14 +54,6 @@
       order_items_pending: {
         type: Array,
         value: function () { return []; }
-      },
-      saving: {
-        type: Boolean,
-        value: false
-      },
-      editing: {
-        type: Boolean,
-        value: true
       }
     },
 
@@ -82,19 +61,9 @@
       this.update_order_items();
     },
 
-    show_item_pending: function () {
-      this.set('saving', true);
-    },
-
-    hide_item_pending: function () {
-      this.set('saving', false);
-    },
-
     update_order_items: function () {
       this.$.ajax_get_order_items.url = '/api/orders/'+ this.order.id + '/order_items?filter=%7B%22include%22%3A%5B%22product%22%2C%22product_variant%22%5D%7D'
       this.$.ajax_get_order_items.generateRequest();
-      this.hide_item_pending();
-
     },
 
     order_item_pending: function (order_item) {
@@ -104,7 +73,6 @@
 
     on_response_get_pending: function (event) {
       event.stopPropagation();
-      this.show_item_pending();
       this.async(function () {
         this.update_order_items();
       }, 1000);
@@ -121,15 +89,18 @@
       this.update_order_items();
     },
 
-    on_click_edit: function (event) {
+    on_edit_order_item: function (event) {
       event.stopPropagation();
-      this.set('editing', false);
-    },
-
-    on_change_quantity: function (event) {
-      event.stopPropagation();
-      console.log(event.detail.data);
-      this.disabled = false;
+      var data = this.$.order_items.itemForElement(event.target);
+      this.$.ajax_put_order_item.url = '/api/orders/' + data.orderId + '/order_items/' + data.id;
+      var order_item = {
+        quantity: data.quantity,
+        orderId: data.orderId,
+        product_id: data.product_id,
+        product_variant_id: data.product_variant_id
+      };
+      this.$.ajax_put_order_item.body = JSON.stringify(order_item);
+      this.$.ajax_put_order_item.generateRequest();
     },
 
     on_error: function (event) {
