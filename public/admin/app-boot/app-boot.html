@@ -207,27 +207,7 @@
       });
     },
 
-<<<<<<< HEAD
-    '/admin/products': function (event) {
-      event.stopPropagation();
-      var routes = this.$.routes;
-      this.get_models({
-          collection: 'products'
-      }, function (err, models) {
-        if (err) {
-          event.detail.page_name = '404';
-        } else {
-          console.log();
-          event.detail.data = { products: models };
-        }
-        routes.fire('route', event.detail);
-      });
-    },
-
-    '/admin/products/:product_id': function (event) {
-=======
     '/admin/products/:product_id/variants/:variant_id': function (event) {
->>>>>>> ace6e28d2bba33f6ab43e0b87e8835e31bb50378
       event.stopPropagation();
       var routes = this.$.routes;
       var model_id = event.detail.params.variant_id;
@@ -256,13 +236,11 @@
       event.stopPropagation();
       var routes = this.$.routes;
       var model_id = event.detail.params.order_id;
-      console.log(model_id);
       this.get_model({
         collection: 'orders',
         modelId: model_id,
         include: ['order_items', 'customer']
       }, function (err, model) {
-        console.log(err, model)
         if (err) {
           event.detail.page_name = '404';
         } else {
@@ -280,15 +258,11 @@
       api.include = params.include || [];
       // api.accessToken = accessToken;
 
-      console.log(api);
-
       api.addEventListener('response', function (event) {
-        console.log(api.response);
         callback(null, api.response);
       }, true);
 
       api.addEventListener('error', function (event) {
-        console.log(api.error);
         callback(api.error, null);
       }, true);
 

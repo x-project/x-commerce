@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-customers-create.html">
@@ -9,6 +10,10 @@
 <dom-module id="page-customers">
   <template>
     <style include="style-page"></style>
+
+    <api-model-find id="request" collection="customers"
+      response="{{customers}}">
+    </api-model-find>
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
@@ -39,7 +44,7 @@
     },
 
     attached: function () {
-      this.customers = this.route.data.customers;
+      this.$.request.send();
     }
 
   });
