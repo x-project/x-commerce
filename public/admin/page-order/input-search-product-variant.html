@@ -1,16 +1,16 @@
 <dom-module id="input-search-product-variant">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-			.items {
-				display: none;
-			}
-			.items[show] {
-				display: block;
-			}
-		</style>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .items {
+        display: none;
+      }
+      .items[show] {
+        display: block;
+      }
+    </style>
 
 
    <form id="form" class="form" on-submit="on_submit">
@@ -30,60 +30,60 @@
       </template>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'input-search-product-variant',
+    is: 'input-search-product-variant',
 
-		properties: {
-			variants: {
-				type: Array,
-				value: function () { return []; }
-			},
-			name: {
-				type: String,
-				value: ''
-			},
+    properties: {
+      variants: {
+        type: Array,
+        value: function () { return []; }
+      },
+      name: {
+        type: String,
+        value: ''
+      },
       selected: {
-      	type: Object,
-      	notify: true,
-      	value: function () { return {}; }
+        type: Object,
+        notify: true,
+        value: function () { return {}; }
       },
       show: {
-      	type: Boolean,
-      	value: false
+        type: Boolean,
+        value: false
       },
       id_selected_variant: {
         type: String,
         notify: true,
         value: ''
       },
-		},
+    },
 
-		show_variants: function () {
-			this.set('show', true);
-		},
+    show_variants: function () {
+      this.set('show', true);
+    },
 
-		hide_variants: function () {
-			this.set('show', false);
-		},
+    hide_variants: function () {
+      this.set('show', false);
+    },
 
-		on_search_variant: function (event) {
-			event.stopPropagation();
-			this.show_variants();
-			this.set('variants', this.variants);
-		},
+    on_search_variant: function (event) {
+      event.stopPropagation();
+      this.show_variants();
+      this.set('variants', this.variants);
+    },
 
-		on_click_select: function (event) {
-			event.stopPropagation();
-			this.hide_variants();
+    on_click_select: function (event) {
+      event.stopPropagation();
+      this.hide_variants();
       var variant = this.$.variants.itemForElement(event.target);
       this.id_selected_variant = variant.id;
       this.selected = variant;
       this.name = variant.name;
-		},
+    },
 
     filter_variant: function (variant) {
       return variant.name.search(this.name) >= 0;
@@ -94,10 +94,10 @@
     },
 
     on_submit: function (event) {
-    	event.stopPropagation();
-    	event.preventDefault();
+      event.stopPropagation();
+      event.preventDefault();
     }
 
 
-	});
+  });
 </script>

@@ -1,36 +1,105 @@
 <link rel="import" href="part-order-item.html">
 <dom-module id="part-order-item">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .item .delete:hover{
+        opacity: .5;
+      }
+      .item .edit:hover{
+        opacity: .5;
+      }
+    </style>
 
-		<div class="item">
-			<label class="product">product</label>
-			<span>{{data.product.title}}</span>
-			<label class="label">quantity</label>
-			<span>{{data.quantity}}</span>
-			<label class="label">variant</label>
-			<span>{{data.product_variant.name}}</span>
-			<content></content>
-		</div>
+    <div class="item">
+      <span>{{data.product.title}}</span>
+      <span>{{data.product_variant.name}}</span>
+      <span> </span>
+      <input id="quantity_edit" readonly$="{{editing}}" type="number" is="iron-input"
+        min="1" bind-value="{{data.quantity}}" on-keyup="on_keyup" on-change="on_change">
+      <span>x $</span>
+      <span>{{data.product.price}}</span>
+      <span>= $</span>
+      <span>{{subtotal}}</span>
+      <span on-click="on_click_edit" class="edit">edit</span>
+      <span on-click="on_click_delete" class="delete">x</span>
+      <!-- <span>saving....</span> -->
+    </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-order-item',
+    is: 'part-order-item',
 
-		properties: {
-			data: {
-				type: Object,
-				value: function () { return {}; }
-			}
-		}
+    properties: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      subtotal: {
+        type: Number
+      },
+      editing: {
+        type: Boolean,
+        value: true
+      }
+    },
 
+    attached: function () {
+      this.update_subtotal();
+    },
 
-	});
+    on_change: function (event) {
+      event.stopPropagation();
+      this.update_subtotal();
+    },
+
+    readonly_quantity: function () {
+      this.set('editing', true);
+    },
+
+    edit_quantity: function () {
+      this.set('editing', false);
+    },
+
+    update_subtotal: function () {
+      if(this.data.hasOwnProperty('product_variant')) {
+        this.set('subtotal', this.calculate_subtotal_variant());
+        return;
+      }
+      this.set('subtotal', this.calculate_subtotal_product());
+    },
+
+    calculate_subtotal_variant: function () {
+      return this.data.quantity * this.data.product_variant.price;
+    },
+
+    calculate_subtotal_product: function () {
+      return this.data.quantity * this.data.product.price;
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('click-delete');
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+      this.edit_quantity();
+    },
+
+    on_keyup: function (event) {
+      this.update_subtotal();
+      if(event.keyCode === 13) {
+        this.readonly_quantity();
+        this.fire('edit-order-item');
+        return;
+      }
+    }
+
+  });
 </script>

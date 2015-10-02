@@ -78,7 +78,6 @@
     on_response_post: function (event, details) {
       event.stopPropagation();
       var order_item = details.response;
-
       this.$.search_product.reset_title();
       this.$.search_product_variant.reset_variant_name();
       this.reset_quantity();

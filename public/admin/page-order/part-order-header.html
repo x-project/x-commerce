@@ -1,28 +1,28 @@
 <dom-module id="part-order-header">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
 
     <div>
       <h2 class="title"><span>Order</span> / <span>{{order.id}}</span></h2>
     </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-order-header',
+    is: 'part-order-header',
 
-		properties: {
-			order: {
-				type: Object,
-				value: function () { return {}; }
-			}
-		}
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
-	});
+  });
 </script>

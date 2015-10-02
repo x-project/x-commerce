@@ -10,12 +10,12 @@
 <link rel="import" href="part-order-save.html">
 
 <dom-module id="page-order">
-	<template>
-		<style include="style-page"></style>
+  <template>
+    <style include="style-page"></style>
 
-		<div class="page">
+    <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
-		  <div class="main">
+      <div class="main">
         <div class="container">
           <h1>Orders</h1>
           <part-order-header order="{{order}}"></part-order-header>
@@ -24,20 +24,20 @@
           <part-order-status order="{{order}}"></part-order-status>
           <part-order-customer order="{{order}}"></part-order-customer>
           <part-order-items id="order_items" order="{{order}}"></part-order-items>
-					<part-order-create-order-item order="{{order}}"
+          <part-order-create-order-item order="{{order}}"
             on-create-order-item="on_create_order_item">
           </part-order-create-order-item>
           <part-order-notes order="{{order}}"></part-order-notes>
-		    </div>
-		  </div>
-		</div>
+        </div>
+      </div>
+    </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'page-order',
+    is: 'page-order',
 
     properties: {
       order: {
@@ -69,6 +69,6 @@
       event.stopPropagation();
     }
 
-	});
+  });
 </script>
 

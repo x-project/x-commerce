@@ -1,32 +1,31 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="part-order-item.html">
 <dom-module id="part-order-status">
-	<template>
-		<style>
-			:host {
-				display: block;
-			}
-		</style>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
 
-		<div>
-			<label class="label">order status</label>
+    <div>
+      <label class="label">order status</label>
        <paper-checkbox is="iron-input" checked=""></paper-checkbox>
-		</div>
+    </div>
 
-	</template>
+  </template>
 </dom-module>
 <script>
-	Polymer({
+  Polymer({
 
-		is: 'part-order-status',
+    is: 'part-order-status',
 
-		properties: {
-			order: {
-				type: Object,
-				value: function () { return {}; }
-			}
-		}
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
-
-	});
+  });
 </script>
