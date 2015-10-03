@@ -77,5 +77,8 @@
   },
   "CollectionProduct": {
     "dataSource": "mongo"
+  },
+  "StoreInformation": {
+    "dataSource": "mongo"
   }
 }
