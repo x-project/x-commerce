@@ -1,0 +1,35 @@
+<dom-module id="form-store-info">
+  <template>
+    <style include="style-page"></style>
+
+    <form role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Store Name</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{information.name}}">
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{information.description}}">
+      </div>
+    </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-store-info',
+
+    properties: {
+      information: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>

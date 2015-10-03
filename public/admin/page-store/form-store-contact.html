@@ -1,0 +1,39 @@
+<dom-module id="form-store-contact">
+  <template>
+    <style include="style-page"></style>
+
+    <form role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Email</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{information.email}}">
+      </div>
+      <div class="field">
+        <label class="label">Phone</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{information.phone}}">
+      </div>
+      <div class="field">
+        <label class="label">Fax</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{information.fax}}">
+      </div>
+    </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-store-contact',
+
+    properties: {
+      information: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>

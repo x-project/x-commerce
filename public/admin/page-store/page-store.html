@@ -1,0 +1,37 @@
+<link rel="import" href="../part-sidebar/part-sidebar.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-store-header.html">
+<link rel="import" href="part-store-info.html">
+<link rel="import" href="part-store-contact.html">
+<dom-module id="page-store">
+  <template>
+    <style include="style-page"></style>
+
+    <div class="page">
+      <part-sidebar class="sidebar"></part-sidebar>
+      <div class="main">
+        <div class="container">
+          <h1>Store</h1>
+          <part-store-header information="{{information}}"></part-store-header>
+          <part-store-info information="{{information}}"></part-store-info>
+          <part-store-contact information="{{information}}"></part-store-contact>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-store',
+
+    properties: {
+      information: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
