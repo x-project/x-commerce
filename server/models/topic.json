@@ -4,13 +4,13 @@
   "base": "PersistedModel",
   "properties": {
     "title": {
-      "type": "string"
+      "type": "String"
     },
     "text": {
-      "type": "string"
+      "type": "String"
     },
     "created_at": {
-      "type": "date"
+      "type": "Date"
     }
   },
   "validations": [],

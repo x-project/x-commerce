@@ -1,8 +1,8 @@
 {
-  "name": "StoreInformation",
-  "plural": "store_informations",
+  "name": "Store",
+  "plural": "stores",
   "mongodb": {
-    "collection": "store_informations"
+    "collection": "stores"
   },
   "base": "PersistedModel",
   "properties": {
