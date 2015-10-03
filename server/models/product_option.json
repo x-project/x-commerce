@@ -1,20 +1,20 @@
 {
-	"name": "ProductOption",
-	"plural": "product_options",
+  "name": "ProductOption",
+  "plural": "product_options",
   "mongodb": {
     "collection": "product_options"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"name": {
-			"type": "String"
-		},
-		"values": {
-			"type": ["String"]
-		}
-	},
-	"relations": {},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String"
+    },
+    "values": {
+      "type": ["String"]
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

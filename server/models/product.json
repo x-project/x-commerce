@@ -1,93 +1,97 @@
 {
-	"name": "Product",
-	"plural": "products",
+  "name": "Product",
+  "plural": "products",
   "mongodb": {
     "collection": "products"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"title": {
-			"type": "String",
-			"required": true
-		},
-		"description": {
-			"type": "String"
-		},
-		"price":  {
-			"type": "Number"
-		},
-		"compare_at_price": {
-			"type": "Number"
-		},
-		"is_charge_taxes": {
-			"type": "Boolean"
-		},
-		"sku": {
-			"type": "String"
-		},
-		"barcode": {
-			"type": "String"
-		},
-		"track_quantity": {
-			"type": "Boolean"
-		},
-		"quantity": {
-			"type": "Number"
-		},
-		"sell_after_purchase": {
-			"type": "Boolean"
-		},
-		"unit_measure_weight": {
-			"type": "String"
-		},
-		"weight": {
-			"type": "Number"
-		},
-		"require_shipping": {
-			"type": "Boolean"
-		},
-		"is_published": {
-			"type": "Boolean"
-		},
-		"published_at": {
-			"type": "Date"
-		},
-		"tags": {
-			"type": ["String"]
-		}
-	},
-	"relations": {
-		"product_type": {
-			"type": "belongsTo",
-			"model": "ProductType",
-			"foreignKey": "product_type_id"
-		},
-		"vendor": {
-			"type": "belongsTo",
-			"model": "Vendor",
-			"foreignKey": "vendor_id"
-		},
-		"collections": {
-			"type": "hasAndBelongsToMany",
-			"model": "Collection",
-			"through": "CollectionProduct"
-		},
-		"images": {
-			"type": "hasMany",
-			"model": "Image",
-			"foreignKey": "product_id"
-		},
-		"options": {
-			"type": "hasMany",
-			"model": "ProductOption"
-		},
-		"variants": {
-			"type": "hasMany",
-			"model": "ProductVariant",
-			"foreignKey": "product_id"
-		}
-	},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "base": "PersistedModel",
+  "properties": {
+    "title": {
+      "type": "String",
+      "required": true
+    },
+    "description": {
+      "type": "String"
+    },
+    "price":  {
+      "type": "Number"
+    },
+    "compare_at_price": {
+      "type": "Number"
+    },
+    "is_charge_taxes": {
+      "type": "Boolean"
+    },
+    "sku": {
+      "type": "String"
+    },
+    "barcode": {
+      "type": "String"
+    },
+    "track_quantity": {
+      "type": "Boolean"
+    },
+    "quantity": {
+      "type": "Number"
+    },
+    "sell_after_purchase": {
+      "type": "Boolean"
+    },
+    "unit_measure_weight": {
+      "type": "String"
+    },
+    "weight": {
+      "type": "Number"
+    },
+    "require_shipping": {
+      "type": "Boolean"
+    },
+    "is_published": {
+      "type": "Boolean"
+    },
+    "published_at": {
+      "type": "Date"
+    },
+    "tags": {
+      "type": ["String"]
+    }
+  },
+  "relations": {
+    "collections": {
+      "type": "hasAndBelongsToMany",
+      "model": "Collection",
+      "through": "CollectionProduct"
+    },
+    "discussion": {
+      "type": "hasOne",
+      "model": "Discussion"
+    },
+    "images": {
+      "type": "hasMany",
+      "model": "Image",
+      "foreignKey": "product_id"
+    },
+    "options": {
+      "type": "hasMany",
+      "model": "ProductOption"
+    },
+    "product_type": {
+      "type": "belongsTo",
+      "model": "ProductType",
+      "foreignKey": "product_type_id"
+    },
+    "variants": {
+      "type": "hasMany",
+      "model": "ProductVariant",
+      "foreignKey": "product_id"
+    },
+    "vendor": {
+      "type": "belongsTo",
+      "model": "Vendor",
+      "foreignKey": "vendor_id"
+    }
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

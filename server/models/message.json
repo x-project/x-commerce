@@ -1,0 +1,22 @@
+{
+  "name": "Message",
+  "plural": "messages",
+  "base": "PersistedModel",
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "author": {
+      "type": "belongsTo",
+      "model": "Customer"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

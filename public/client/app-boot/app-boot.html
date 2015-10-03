@@ -26,25 +26,114 @@
 
     <app-container id="app"></app-container>
 
-    <app-routes id="routes">
-      <app-route path="/" page="page-home"></app-route>
-      <app-route path="/home" page="page-home"></app-route>
-      <app-route path="/about" page="page-about"></app-route>
-      <app-route path="/contact" page="page-contact"></app-route>
-      <app-route path="/privacy" page="page-privacy"></app-route>
-      <app-route path="/cart" page="page-cart"></app-route>
-      <app-route path="/products" page="page-products"></app-route>
-      <app-route path="/products/:product_id" page="page-product"></app-route>
-      <app-route path="/404" page="page-404"></app-route>
-      <app-route path="/test" page="page-test"></app-route>
-    </app-routes>
-
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'app-boot'
+    is: 'app-boot',
+
+    ready: function () {
+      this.register();
+    },
+
+    register: function () {
+      var app = this;
+      Object.keys(app.constructor.prototype)
+        .filter(function (method) {
+          return method.indexOf('/') == 0;
+        })
+        .forEach(function (method) {
+          var handler = app[method].bind(this);
+          page(method, handler);
+        }, this);
+      page();
+    },
+
+    get_model: function (params) {
+      var request = document.createElement('api-model-get');
+      request.collection = params.collection;
+      request.modelId = params.modelId;
+      request.include = params.include || [];
+
+      return new Promise(function (resolve, reject) {
+        request.addEventListener('response', function (event) {
+          resolve(request.response);
+        }, true);
+        request.addEventListener('error', function (event) {
+          reject(request.error);
+        }, true);
+        request.send();
+      });
+    },
+
+    open_page: function (context) {
+      var element = document.createElement(context.page_name);
+      element.params = context.params;
+      element.data = context.data;
+      this.$.app.open(element);
+    },
+
+    '/': function (context) {
+      context.page_name = 'page-home';
+      this.open_page(context);
+    },
+
+    '/test': function (context) {
+      context.page_name = 'page-test';
+      this.open_page(context);
+    },
+
+    '/home': function (context) {
+      context.page_name = 'page-home';
+      this.open_page(context);
+    },
+
+    '/about': function (context) {
+      context.page_name = 'page-about';
+      this.open_page(context);
+    },
+
+    '/contact': function (context) {
+      context.page_name = 'page-contact';
+      this.open_page(context);
+    },
+
+    '/privacy': function (context) {
+      context.page_name = 'page-privacy';
+      this.open_page(context);
+    },
+
+    '/cart': function (context) {
+      context.page_name = 'page-cart';
+      this.open_page(context);
+    },
+
+    '/products': function (context) {
+      context.page_name = 'page-products';
+      this.open_page(context);
+    },
+
+    '/products/:product_id': function (context) {
+      this.get_model({
+        collection: 'products',
+        modelId: context.params.product_id
+      })
+      .then(function (model) {
+        context.page_name = 'page-product';
+        context.data = {};
+        context.data.product = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (err) {
+        context.page_name = 'page-404';
+        this.open_page(context);
+      });
+    },
+
+    '/*': function (context) {
+      page('/');
+    }
 
   });
 </script>

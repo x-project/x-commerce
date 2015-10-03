@@ -33,16 +33,31 @@
     "public": false
   },
 
+  "Address": {
+    "dataSource": "mongo"
+  },
   "Collection": {
     "dataSource": "mongo"
   },
-   "CollectionFilter": {
+  "CollectionFilter": {
+    "dataSource": "mongo"
+  },
+  "CollectionProduct": {
     "dataSource": "mongo"
   },
   "Customer": {
     "dataSource": "mongo"
   },
+  "Discussion": {
+    "dataSource": "mongo"
+  },
   "Image": {
+    "dataSource": "mongo"
+  },
+  "Invoice": {
+    "dataSource": "mongo"
+  },
+  "Message": {
     "dataSource": "mongo"
   },
   "Order": {
@@ -54,31 +69,28 @@
   "Product": {
     "dataSource": "mongo"
   },
+  "ProductOption": {
+    "dataSource": "mongo"
+  },
   "ProductType": {
     "dataSource": "mongo"
   },
   "ProductVariant": {
     "dataSource": "mongo"
   },
-  "ProductOption": {
+  "Store": {
     "dataSource": "mongo"
   },
   "Tax": {
     "dataSource": "mongo"
   },
-  "Vendor": {
-    "dataSource": "mongo"
-  },
-  "Invoice": {
-    "dataSource": "mongo"
-  },
-  "Address": {
-    "dataSource": "mongo"
-  },
-  "CollectionProduct": {
+  "Topic": {
     "dataSource": "mongo"
   },
   "Store": {
+    "dataSource": "mongo"
+  },
+  "Vendor": {
     "dataSource": "mongo"
   }
 }

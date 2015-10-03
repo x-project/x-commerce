@@ -1,64 +1,64 @@
 {
-	"name": "Invoice",
+  "name": "Invoice",
   "plural": "invoices",
   "mongodb": {
     "collection": "invoices"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"type": {
-			"type": "String",
-			"required": true
-		},
-		"number": {
-			"type": "String",
-			"required": true
-		},
-		"date": {
-			"type": "Date"
-		},
-		"taxable": {
-			"type": "Number"
-		},
-		"tot_taxable": {
-			"type": "Number"
-		},
-		"tax_percentual": {
-			"type": "Number"
-		},
-		"tax": {
-			"type": "Number"
-		},
-		"total_tax": {
-			"type": "Number"
-		},
-		"discount": {
-			"type": "Number"
-		},
-		"total_document": {
-			"type": "Number"
-		},
-		"subtotal_document": {
-			"type": "Number"
-		},
-		"total_document": {
-			"type": "Number"
-		},
-		"deadline": {
-			"type": "Date"
-		},
-		"notes": {
-			"type": "String"
-		}
-	},
-	"relations": {
+  "base": "PersistedModel",
+  "properties": {
+    "type": {
+      "type": "String",
+      "required": true
+    },
+    "number": {
+      "type": "String",
+      "required": true
+    },
+    "date": {
+      "type": "Date"
+    },
+    "taxable": {
+      "type": "Number"
+    },
+    "tot_taxable": {
+      "type": "Number"
+    },
+    "tax_percentual": {
+      "type": "Number"
+    },
+    "tax": {
+      "type": "Number"
+    },
+    "total_tax": {
+      "type": "Number"
+    },
+    "discount": {
+      "type": "Number"
+    },
+    "total_document": {
+      "type": "Number"
+    },
+    "subtotal_document": {
+      "type": "Number"
+    },
+    "total_document": {
+      "type": "Number"
+    },
+    "deadline": {
+      "type": "Date"
+    },
+    "notes": {
+      "type": "String"
+    }
+  },
+  "relations": {
     "invoice": {
       "type": "belongsTo",
       "model": "Order",
       "foreignKey": "invoice_id"
     }
-	},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

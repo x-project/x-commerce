@@ -1,0 +1,30 @@
+<dom-module id="part-discussion-message">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>
+      <div>{{message.text}}</div>
+      <div><span>by </span><span>{{message.author.fullname}}</span></div>
+      <div><span>posted at </span><span>{{message.created_at}}</span></div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-discussion-message',
+
+    properties: {
+      message: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

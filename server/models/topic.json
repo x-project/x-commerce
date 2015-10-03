@@ -1,0 +1,30 @@
+{
+  "name": "Topic",
+  "plural": "topics",
+  "base": "PersistedModel",
+  "properties": {
+    "title": {
+      "type": "String"
+    },
+    "text": {
+      "type": "String"
+    },
+    "created_at": {
+      "type": "Date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "author": {
+      "type": "belongsTo",
+      "model": "Customer"
+    },
+    "messages": {
+      "type": "hasMany",
+      "model": "Message",
+      "foreignKey": "topic_id"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

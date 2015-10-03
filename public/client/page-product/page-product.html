@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-product-info.html">
@@ -9,12 +10,13 @@
 
     <layout-client>
       <part-jumbotron class="jumbotron">
-        <h1><span>Product</span> <span>{{product.name}}</span></h1>
+        <h1><span>Product</span> <span>{{data.product.title}}</span></h1>
       </part-jumbotron>
       <div class="container">
-        <part-product-info product="{{product}}"></part-product-info>
-        <part-product-images product="{{product}}"></part-product-images>
-        <part-product-details product="{{product}}"></part-product-details>
+        <a is="app-link" href="/products">Back to products</a>
+        <part-product-info product="{{data.product}}"></part-product-info>
+        <part-product-images product="{{data.product}}"></part-product-images>
+        <part-product-details product="{{data.product}}"></part-product-details>
       </div>
     </layout-client>
 
@@ -23,14 +25,7 @@
 <script>
   Polymer({
 
-    is: 'page-product',
-
-    properties: {
-      product: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    }
+    is: 'page-product'
 
   });
 </script>

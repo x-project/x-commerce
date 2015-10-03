@@ -1,21 +1,21 @@
 {
-	"name": "ProductType",
-	"plural": "product_types",
+  "name": "ProductType",
+  "plural": "product_types",
   "mongodb": {
     "collection": "product_types"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"name": {
-			"type": "String",
-			"required": true
-		},
-		"description":{
-			"type": "String"
-		}
-	},
-	"relations": {},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String",
+      "required": true
+    },
+    "description":{
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

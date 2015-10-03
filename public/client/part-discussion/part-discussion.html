@@ -1,0 +1,29 @@
+<link rel="import" href="part-discussion-topics.html">
+<link rel="import" href="part-discussion-create.html">
+<dom-module id="part-discussion">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <part-discussion-topics topics="{{discussion.topics}}"></part-discussion-topics>
+    <part-discussion-create discussion="{{discussion}}"></part-discussion-create>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-discussion',
+
+    properties: {
+      discussion: {
+        type: Object,
+        value: function () { return {}; },
+      }
+    }
+
+  });
+</script>

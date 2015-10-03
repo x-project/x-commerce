@@ -1,20 +1,20 @@
 {
-	"name": "CollectionProduct",
-	"plural": "collection_products",
+  "name": "CollectionProduct",
+  "plural": "collection_products",
   "mongodb": {
     "collection": "collection_products"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"collectionId": {
-			"type": "Number"
-		},
-		"productId": {
-			"type": "Number"
-		}
-	},
-	"relations": {},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "base": "PersistedModel",
+  "properties": {
+    "collectionId": {
+      "type": "Number"
+    },
+    "productId": {
+      "type": "Number"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
 }
