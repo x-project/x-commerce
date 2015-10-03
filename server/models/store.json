@@ -1,0 +1,30 @@
+{
+  "name": "Store",
+  "plural": "stores",
+  "mongodb": {
+    "collection": "stores"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    },
+    "phone": {
+      "type": "String"
+    },
+    "email": {
+      "type": "String",
+      "length": 64
+    },
+    "fax": {
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}
