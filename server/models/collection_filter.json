@@ -1,25 +1,25 @@
 {
-	"name": "CollectionFilter",
-	"plural": "collection_filters",
+  "name": "CollectionFilter",
+  "plural": "collection_filters",
   "mongodb": {
     "collection": "collection_filters"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"name": {
-			"type": "String"
-		},
-		"type": {
-			"type": "String"
-		},
-		"relation": {
-			"type": "String"
-		},
-		"value": {
-			"type": "String"
-		}
-	},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String"
+    },
+    "type": {
+      "type": "String"
+    },
+    "relation": {
+      "type": "String"
+    },
+    "value": {
+      "type": "String"
+    }
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

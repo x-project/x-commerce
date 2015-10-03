@@ -1,28 +1,28 @@
 {
-	"name": "OrderItem",
-	"plural": "order_items",
+  "name": "OrderItem",
+  "plural": "order_items",
   "mongodb": {
     "collection": "order_items"
   },
-	"base": "PersistedModel",
-	"properties": {
-		"quantity": {
-			"type": "Number"
-		}
-	},
-	"relations": {
-		"product": {
-			"type": "belongsTo",
-			"model": "Product",
+  "base": "PersistedModel",
+  "properties": {
+    "quantity": {
+      "type": "Number"
+    }
+  },
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
       "foreignKey": "product_id"
-		},
-		"product_variant": {
-			"type": "belongsTo",
-			"model": "ProductVariant",
+    },
+    "product_variant": {
+      "type": "belongsTo",
+      "model": "ProductVariant",
       "foreignKey": "product_variant_id"
-		}
-	},
-	"acls": [],
-	"methods": [],
-	"validations": []
+    }
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

@@ -1,42 +1,42 @@
 {
-	"name": "Collection",
-	"plural": "collections",
+  "name": "Collection",
+  "plural": "collections",
   "mongodb": {
     "collection": "collections"
   },
   "base": "PersistedModel",
-	"properties": {
-		"title": {
-			"type": "String"
-		},
-		"description": {
-			"type": "String"
-		},
-		"is_published": {
-			"type": "Boolean"
-		},
-		"published_at": {
-			"type": "Date"
-		}
-	},
-	"validations": [],
-	"relations": {
-		"images": {
-			"type": "hasMany",
-			"model": "Image",
-			"foreignKey": "collection_id"
-		},
-		"products": {
-			"type": "hasAndBelongsToMany",
-			"model": "Product",
-			"through": "CollectionProduct"
-		},
-		"collection_filters": {
-			"type": "hasMany",
-			"model": "CollectionFilter",
-			"foreignKey": "collection_id"
-		}
-	},
-	"acls": [],
-	"methods": []
+  "properties": {
+    "title": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    },
+    "is_published": {
+      "type": "Boolean"
+    },
+    "published_at": {
+      "type": "Date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "images": {
+      "type": "hasMany",
+      "model": "Image",
+      "foreignKey": "collection_id"
+    },
+    "products": {
+      "type": "hasAndBelongsToMany",
+      "model": "Product",
+      "through": "CollectionProduct"
+    },
+    "collection_filters": {
+      "type": "hasMany",
+      "model": "CollectionFilter",
+      "foreignKey": "collection_id"
+    }
+  },
+  "acls": [],
+  "methods": []
 }
