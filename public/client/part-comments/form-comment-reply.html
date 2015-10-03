@@ -1,0 +1,41 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<dom-module id="form-comment-reply">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <form id="form" class="form" on-submit="on_submit">
+      <div class="field">
+        <iron-autogrow-textarea class="textarea" bind-value="{{reply.text}}"></iron-autogrow-textarea>
+      </div>
+      <div class="field">
+        <input class="button" type="submit" value="reply" />
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-comment-reply',
+
+    properties: {
+      reply: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.fire('try-save-reply', this.reply);
+    }
+
+  });
+</script>

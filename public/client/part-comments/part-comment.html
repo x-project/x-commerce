@@ -1,0 +1,39 @@
+<link rel="import" href="part-comment-reply.html">
+<link rel="import" href="form-comment-reply.html">
+<dom-module id="part-comment">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>
+      <div>{{comment.title}}</div>
+      <div>{{comment.text}}</div>
+      <div><span>by </span><span>{{comment.author.fullname}}</span></div>
+      <div><span>posted at </span><span>{{comment.created_at}}</span></div>
+    </div>
+
+    <template is="dom-repeat" items="{{comment.replies}}" as="reply">
+      <part-comment-reply reply="{{reply}}"></part-comment-reply>
+    </template>
+
+    <form-comment-reply reply="{{reply}}"></part-comment-reply>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-comment',
+
+    properties: {
+      comment: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

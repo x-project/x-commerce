@@ -1,26 +1,26 @@
 {
-	"name": "Tax",
+  "name": "Tax",
   "plural": "taxes",
   "mongodb": {
     "collection": "taxes"
   },
   "base": "PersistedModel",
-	"properties": {
-		"name": {
-			"type": "String"
-		},
-		"description": {
-			"type": "String"
-		},
-		"reason":{
-			"type": "String"
-		},
-		"import": {
-			"type": "Number"
-		}
-	},
-	"relations": {},
-	"acls": [],
-	"methods": [],
-	"validations": []
+  "properties": {
+    "name": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    },
+    "reason":{
+      "type": "String"
+    },
+    "import": {
+      "type": "Number"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
 }

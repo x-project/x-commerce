@@ -1,0 +1,32 @@
+<link rel="import" href="part-comment.html">
+<link rel="import" href="form-comment.html">
+<dom-module id="part-comments">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <template is="dom-repeat" items="{{comments}}" as="comment">
+      <part-comment comment="{{comment}}"></part-comment>
+    </template>
+
+    <form-comment comment="{{comment}}"></form-comment>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-comments',
+
+    properties: {
+      comments: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

@@ -62,9 +62,9 @@
       "model": "Collection",
       "through": "CollectionProduct"
     },
-    "discussion": {
-      "type": "hasOne",
-      "model": "Discussion"
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment"
     },
     "images": {
       "type": "hasMany",

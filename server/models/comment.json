@@ -1,6 +1,9 @@
 {
-  "name": "Topic",
-  "plural": "topics",
+  "name": "Comment",
+  "plural": "comments",
+  "mongodb": {
+    "collection": "comments"
+  },
   "base": "PersistedModel",
   "properties": {
     "title": {
