@@ -1,5 +1,4 @@
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-variant-create.html">
 <link rel="import" href="part-variant-delete.html">
 <link rel="import" href="part-variant-pricing.html">
@@ -7,10 +6,8 @@
 <link rel="import" href="part-variant-shipping.html">
 <link rel="import" href="part-variant-available.html">
 <link rel="import" href="part-variant-header.html">
-
 <dom-module id="page-variant">
   <template>
-    <style include="style-page"></style>
 
     <iron-ajax id="ajax_put_variant" method="PUT" content-type="application/json"
       handleAs="json" on-response="on_response_put_variant">
@@ -20,6 +17,7 @@
       on-response="on_response_delete">
     </iron-ajax>
 
+<<<<<<< HEAD
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
@@ -34,6 +32,18 @@
         </div>
       </div>
     </div>
+=======
+    <layout-admin>
+      <part-variant-header product="{{product}}"variant="{{variant}}"></part-variant-header>
+      <part-variant-create on-try-save="on_try_save"></part-variant-create>
+      <part-variant-delete on-try-delete="on_try_delete"></part-variant-delete>
+      <part-variant-available variant="{{variant}}"></part-variant-available>
+      <part-variant-pricing variant="{{variant}}"></part-variant-pricing>
+      <part-variant-inventory variant="{{variant}}"></part-variant-inventory>
+      <part-variant-shipping variant="{{variant}}"></part-variant-shipping>
+    </layout-admin>
+
+>>>>>>> 92be9871e9ebcea9820b32a0feea31eba36fd0c7
   </template>
 </dom-module>
 <script>

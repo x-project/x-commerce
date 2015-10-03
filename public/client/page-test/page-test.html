@@ -1,28 +1,8 @@
-<link rel="import" href="/components/api-model-get/api-model-get.html">
-<link rel="import" href="/components/iron-ajax/iron-ajax.html">
 <dom-module id="page-test">
   <template>
     <style include="style-page"></style>
 
     <h1>test</h1>
-    <iron-ajax id="ajax_get"
-      auto
-      method="GET"
-      url="http://localhost:3000/api/Products"
-      content-type="application/json"
-      handle-as="json"
-      last-response="{{data}}"
-      on-response="checkResponse"
-      debounce-duration="300">
-    </iron-ajax>
-
-    <template is="dom-repeat" items="{{data}}">
-      <div class="item">
-        <b>name: </b><span>{{item.title}}</span>
-        <b>description: </b><span>{{item.description}}</span>
-        <b>barcode: </b><span>{{item.barcode}}</span>
-      </div>
-    </template>
 
   </template>
 </dom-module>
@@ -31,18 +11,7 @@
 
     is: 'page-test',
 
-    properties: {
-      data: {
-        type: Array,
-        value: function () {
-          return [];
-        }
-      }
-    },
-
-    checkResponse: function () {
-      // console.log(this.data);
-    }
+    properties: {}
 
   });
 </script>

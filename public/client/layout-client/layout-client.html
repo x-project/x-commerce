@@ -1,0 +1,42 @@
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../part-header/part-header.html">
+<dom-module id="layout-client">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .page {
+        @apply(--layout-vertical);
+        min-height: 100vh;
+      }
+
+      .page .space {
+        @apply(--layout-flex);
+      }
+
+      .header {
+        position: absolute;
+        width: 100%;
+      }
+    </style>
+
+    <div class="page">
+      <part-header class="header"></part-header>
+      <div class="main">
+        <content></content>
+      </div>
+      <div class="space"></div>
+      <part-footer class="footer"></part-footer>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'layout-client'
+
+  });
+</script>

@@ -1,0 +1,67 @@
+<dom-module id="input-search-dataitem">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #item {
+        @apply(--input-search-dataitem);
+      }
+
+      #item[selected] {
+        @apply(--input-search-dataitem-selected);
+      }
+
+      #item:focus {
+        outline: none;
+        @apply(--input-search-dataitem-focused);
+      }
+    </style>
+
+    <div id="item" tabindex$="{{tabindex}}" selected$="{{is_selected}}">{{item}}</div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-search-dataitem',
+
+    properties: {
+      item: {
+        type: String
+      },
+      index: {
+        type: Number,
+        observer: 'update_tabindex'
+      },
+      tabindex: {
+        type: Number
+      },
+      selected: {
+        type: Number,
+        observer: 'update_selected'
+      },
+      is_selected: {
+        type: Boolean
+      }
+    },
+
+    update_tabindex: function (index) {
+      var tabindex = this.index + 1
+      this.set('tabindex', tabindex);
+    },
+
+    update_selected: function () {
+      var is_selected = this.index == this.selected;
+      this.set('is_selected', is_selected);
+      if (is_selected) {
+        this.$.item.focus();
+      } else {
+        this.$.item.blur();
+      }
+    }
+
+  });
+</script>

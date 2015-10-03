@@ -1,6 +1,5 @@
-<link rel="import" href="/components/api-model-get/api-model-get.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-product-collections.html">
 <link rel="import" href="part-product-save.html">
 <link rel="import" href="part-product-delete.html">
@@ -29,28 +28,24 @@
       on-response="on_response_delete">
     </iron-ajax>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Products</h1>
-          <part-product-header product="{{product}}"></part-product-header>
-          <part-product-save on-try-save="on_try_save"></part-product-save>
-          <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
-          <part-product-info product="{{product}}"></part-product-info>
-          <part-product-visibility product="{{product}}"></part-product-visibility>
-          <part-product-image product="{{product}}"></part-product-image>
-          <part-product-pricing product="{{product}}"></part-product-pricing>
-          <part-product-inventory product="{{product}}"></part-product-inventory>
-          <part-product-shipping product="{{product}}"></part-product-shipping>
-          <part-product-collections product="{{product}}"></part-product-collections>
-          <part-product-vendor product="{{product}}"></part-product-vendor>
-          <part-product-type product="{{product}}"></part-product-type>
-          <part-product-tag product="{{product}}"></part-product-tag>
-          <part-product-create-variant product="{{product}}"></part-product-create-variant>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Products</h1>
+      <part-product-header product="{{product}}"></part-product-header>
+      <part-product-save on-try-save="on_try_save"></part-product-save>
+      <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
+      <part-product-info product="{{product}}"></part-product-info>
+      <part-product-visibility product="{{product}}"></part-product-visibility>
+      <part-product-image product="{{product}}"></part-product-image>
+      <part-product-pricing product="{{product}}"></part-product-pricing>
+      <part-product-inventory product="{{product}}"></part-product-inventory>
+      <part-product-shipping product="{{product}}"></part-product-shipping>
+      <part-product-collections product="{{product}}"></part-product-collections>
+      <part-product-vendor product="{{product}}"></part-product-vendor>
+      <part-product-type product="{{product}}"></part-product-type>
+      <part-product-tag product="{{product}}"></part-product-tag>
+      <part-product-create-variant product="{{product}}"></part-product-create-variant>
+    </layout-admin>
+
   </template>
 </dom-module>
 <script>

@@ -1,4 +1,3 @@
-<link rel="import" href="input-datalist.html">
 <link rel="import" href="input-search.html">
 <dom-module id="page-test">
   <template>
@@ -6,13 +5,33 @@
       :host {
         display: block;
         padding: 40px;
-       }
+      }
+
+      input-search {
+        width: 300px;
+        --input-search: {
+          padding: 0.5em 1em;
+          border: 1px solid #eee;
+          border-radius: 2px;
+        }
+        --input-search-focused: {
+          border-color: lightblue;
+        }
+        --input-search-datalist: {
+          border: 1px solid #eee;
+        }
+        --input-search-dataitem: {
+          padding: 0.5em 1em;
+        }
+        --input-search-dataitem-selected: {
+          background-color: #eee;
+        }
+      }
     </style>
 
     <h1>test</h1>
 
-    <input-search></input-search>
-    <input-datalist></input-datalist>
+    <input-search items="{{items}}"></input-search>
 
   </template>
 </dom-module>
@@ -21,7 +40,12 @@
 
     is: 'page-test',
 
-    properties: {}
+    properties: {
+      items: {
+        type: Array,
+        value: function () { return ['a', 'b', 'c', 'd', 'e']; }
+      }
+    }
 
   });
 </script>
