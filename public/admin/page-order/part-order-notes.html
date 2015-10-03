@@ -5,9 +5,12 @@
     <style include="style-form"></style>
 
     <h2 class="title">Detail</h2>
-    <label class="label">notes</label>
     <div class="field">
-      <iron-autogrow-textarea is="iron-input" bind-value="{{order.notes}}" rows="4"></iron-autogrow-textarea>
+    <label class="label">notes</label>
+      <div class="detail">
+        <iron-autogrow-textarea is="iron-input" bind-value="{{order.notes}}" rows="4">
+        </iron-autogrow-textarea>
+      </div>
     </div>
 
   </template>

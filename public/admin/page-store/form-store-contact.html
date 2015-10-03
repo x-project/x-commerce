@@ -5,15 +5,11 @@
     <form role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Email</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{information.email}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{store.email}}">
       </div>
       <div class="field">
         <label class="label">Phone</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{information.phone}}">
-      </div>
-      <div class="field">
-        <label class="label">Fax</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{information.fax}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{store.phone}}">
       </div>
     </form>
   </template>
@@ -24,7 +20,7 @@
     is: 'form-store-contact',
 
     properties: {
-      information: {
+      store: {
         type: Object,
         value: function () { return {}; }
       }

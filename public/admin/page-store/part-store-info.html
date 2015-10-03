@@ -4,14 +4,21 @@
     <style include="style-page"></style>
 
     <h2>Basic Info</h2>
-    <form-store-info></form-store-info>
+    <form-store-info store="{{store}}"></form-store-info>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-store-info'
+    is: 'part-store-info',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

@@ -4,14 +4,21 @@
     <style include="style-page"></style>
 
     <h2>Contact</h2>
-    <form-store-contact></form-store-contact>
+    <form-store-contact store="{{store}}"></form-store-contact>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-store-contact'
+    is: 'part-store-contact',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

@@ -2,13 +2,22 @@
   <template>
     <style include="style-page"></style>
 
-    <h2>Store</h2>
+    <div>
+      <h2 class="title"><span>Store</span> / <span>{{store.name}}</span></h2>
+    </div>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-store-header'
+    is: 'part-store-header',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

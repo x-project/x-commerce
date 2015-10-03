@@ -190,7 +190,6 @@ module.exports = function(Image) {
         var extension = filename.slice(filename.lastIndexOf('.'));
         var filename_no_ext = filename.slice(0, -extension.length);
         var folder_path = path.join(__dirname, '..', storage, container, image_id);
-        console.log(folder_path);
 
         var file_path = path.join(folder_path, 'original' + extension);
         var image = {
