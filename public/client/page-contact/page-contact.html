@@ -1,3 +1,4 @@
+<link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-footer/part-footer.html">
 <link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
@@ -6,19 +7,14 @@
   <template>
     <style include="style-page"></style>
 
-    <div class="page">
-      <part-header class="header"></part-header>
-      <div class="main">
-        <part-jumbotron class="jumbotron">
-          <h1>Contact</h1>
-        </part-jumbotron>
-        <div class="container">
-          <a href="mailto:mail@example.com">mail@example.com</a>
-        </div>
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Contact</h1>
+      </part-jumbotron>
+      <div class="container">
+        <a href="mailto:mail@example.com">mail@example.com</a>
       </div>
-      <div class="space"></div>
-      <part-footer class="footer"></part-footer>
-    </div>
+    </layout-client>
 
   </template>
 </dom-module>

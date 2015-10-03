@@ -1,6 +1,5 @@
-<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../part-header/part-header.html">
 <link rel="import" href="part-product-info.html">
 <link rel="import" href="part-product-images.html">
 <link rel="import" href="part-product-details.html">
@@ -8,21 +7,16 @@
   <template>
     <style include="style-page"></style>
 
-    <div class="page">
-      <part-header class="header"></part-header>
-      <div class="main">
-        <part-jumbotron class="jumbotron">
-          <h1><span>Product</span> <span>{{product.name}}</span></h1>
-        </part-jumbotron>
-        <div class="container">
-          <part-product-info product="{{product}}"></part-product-product>
-          <part-product-images product="{{product}}"></part-product-images>
-          <part-product-details product="{{product}}"></part-product-details>
-        </div>
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1><span>Product</span> <span>{{product.name}}</span></h1>
+      </part-jumbotron>
+      <div class="container">
+        <part-product-info product="{{product}}"></part-product-info>
+        <part-product-images product="{{product}}"></part-product-images>
+        <part-product-details product="{{product}}"></part-product-details>
       </div>
-      <div class="space"></div>
-      <part-footer class="footer"></part-footer>
-    </div>
+    </layout-client>
 
   </template>
 </dom-module>
