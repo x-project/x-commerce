@@ -1,7 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../components/iron-input/iron-input.html">
-<dom-module id="part-discussion-create">
+<dom-module id="form-comment">
   <template>
     <style>
       :host {
@@ -9,18 +9,14 @@
       }
     </style>
 
-    <api-model-create id="request" collection="topics" data="{{topic}}"
-      on-response="on_response" on-error="on_error">
-    </api-model-create>
-
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
         <label class="label">title</label>
-        <input class="input" is="iron-input" type="text" bind-value="{{topic.title}}">
+        <input class="input" is="iron-input" type="text" bind-value="{{comment.title}}">
       </div>
       <div class="field">
         <label class="label">message</label>
-        <iron-autogrow-textarea class="textarea" bind-value="{{topic.text}}"></iron-autogrow-textarea>
+        <iron-autogrow-textarea class="textarea" bind-value="{{comment.text}}"></iron-autogrow-textarea>
       </div>
       <div class="field">
         <input class="button" type="submit" value="create" />
@@ -32,7 +28,7 @@
 <script>
   Polymer({
 
-    is: 'part-discussion-create',
+    is: 'form-comment',
 
     properties: {
       discussion: {
@@ -41,23 +37,15 @@
       },
       topic: {
         type: Object,
-        value: function () { return { title: 'title', text: 'text' }};
+        value: function () { return { title: 'title', text: 'text' }}
       }
     },
 
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
-      this.topic.discussion_id = this.discussion.id;
-      this.$.request.send();
-    },
-
-    on_response: function (event) {
-
-    },
-
-    on_error: function (event) {
-
+      //TODO: inject author.id
+      this.fire('try-save', this.comment);
     }
 
   });

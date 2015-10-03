@@ -45,19 +45,19 @@
   "CollectionProduct": {
     "dataSource": "mongo"
   },
-  "Customer": {
+  "Comment": {
     "dataSource": "mongo"
   },
-  "Discussion": {
+  "CommentReply": {
+    "dataSource": "mongo"
+  },
+  "Customer": {
     "dataSource": "mongo"
   },
   "Image": {
     "dataSource": "mongo"
   },
   "Invoice": {
-    "dataSource": "mongo"
-  },
-  "Message": {
     "dataSource": "mongo"
   },
   "Order": {
@@ -82,9 +82,6 @@
     "dataSource": "mongo"
   },
   "Tax": {
-    "dataSource": "mongo"
-  },
-  "Topic": {
     "dataSource": "mongo"
   },
   "Vendor": {

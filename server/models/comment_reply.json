@@ -1,6 +1,9 @@
 {
-  "name": "Message",
-  "plural": "messages",
+  "name": "CommentReply",
+  "plural": "comment_replies",
+  "mongodb": {
+    "collection": "comment_replies"
+  },
   "base": "PersistedModel",
   "properties": {
     "text": {

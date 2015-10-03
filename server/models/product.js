@@ -2,29 +2,25 @@ var async = require('async');
 
 module.exports = function (Product) {
 
-  /*
-    * quando elimino il prodotto, elimino anche le sue varianti, opzioni, ed immagini
-    * ed infine elimino il prodotto
-  */
   Product.observe('before delete', function(ctx, callback) {
-    var current_product;
+    var product;
 
     async.waterfall([
       function (next) {
         Product.findById(ctx.where.id, next);
       },
 
-      function (product, next) {
-        current_product = product;
-        current_product.options.destroyAll(next);
+      function (result, next) {
+        product = result;
+        product.options.destroyAll(next);
       },
 
-      function (options, next) {
-        current_product.variants.destroyAll(next);
+      function (result, next) {
+        product.variants.destroyAll(next);
       },
 
-      function (variants, next) {
-        current_product.images.destroyAll(next);
+      function (result, next) {
+        product.images.destroyAll(next);
       }
     ],
 
@@ -53,24 +49,24 @@ module.exports = function (Product) {
 
 
   Product.generate_variants = function (product_id, callback) {
-    var current_product;
+    var product;
 
     async.waterfall([
       function (next) {
         Product.findById(product_id, next);
       },
 
-      function (product, next) {
-        current_product = product;
-        current_product.variants.destroyAll(next);
+      function (result, next) {
+        product = result;
+        product.variants.destroyAll(next);
       },
 
-      function (variants, next) {
-        current_product.options(next);
+      function (result, next) {
+        product.options(next);
       },
 
-      function (options, next) {
-        var options = options.map(function (option) {
+      function (result, next) {
+        var options = result.map(function (option) {
           return option.values;
         });
         var combos = cartesian(options);
@@ -79,25 +75,25 @@ module.exports = function (Product) {
             name: values.join('-'),
             combo: values,
             available: true,
-            price: current_product.price,
-            compare_at_price: current_product.compare_at_price,
-            track_quantity: current_product.track_quantity,
-            quantity: current_product.quantity,
-            sell_after_purchase: current_product.sell_after_purchase,
-            weight: current_product.weight,
-            require_shipping: current_product.require_shipping
+            price: product.price,
+            compare_at_price: product.compare_at_price,
+            track_quantity: product.track_quantity,
+            quantity: product.quantity,
+            sell_after_purchase: product.sell_after_purchase,
+            weight: product.weight,
+            require_shipping: product.require_shipping
           };
         });
-        current_product.variants.create(variants, next);
+        product.variants.create(variants, next);
       }
     ],
 
-    function (err, variants) {
+    function (err, result) {
       if (err) {
         callback(err, null);
         return;
       }
-      callback(null, variants);
+      callback(null, result);
     });
   };
 

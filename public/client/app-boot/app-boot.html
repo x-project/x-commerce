@@ -117,7 +117,8 @@
     '/products/:product_id': function (context) {
       this.get_model({
         collection: 'products',
-        modelId: context.params.product_id
+        modelId: context.params.product_id,
+        include: ['comments', 'images', 'product_type', 'variants', 'vendor']
       })
       .then(function (model) {
         context.page_name = 'page-product';
