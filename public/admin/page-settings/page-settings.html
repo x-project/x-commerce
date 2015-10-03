@@ -1,28 +1,21 @@
-<link rel="import" href="/components/app-session/app-session.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-settings-profile.html">
 <link rel="import" href="part-settings-email.html">
 <link rel="import" href="part-settings-password.html">
 <dom-module id="page-settings">
   <template>
-    <style include="style-page"></style>
 
     <app-session id="session"></app-session>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h2>Personal</h2>
-          <part-settings-profile user="{{user}}" token="{{token}}"></part-settings-profile>
-          <h2>Change email</h2>
-          <part-settings-email user="{{user}}" token="{{token}}"></part-settings-email>
-          <h2>Change password</h2>
-          <part-settings-password user="{{user}}" token="{{token}}"></part-settings-password>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h2>Personal</h2>
+      <part-settings-profile user="{{user}}" token="{{token}}"></part-settings-profile>
+      <h2>Change email</h2>
+      <part-settings-email user="{{user}}" token="{{token}}"></part-settings-email>
+      <h2>Change password</h2>
+      <part-settings-password user="{{user}}" token="{{token}}"></part-settings-password>
+    </layout-admin>
 
   </template>
 </dom-module>

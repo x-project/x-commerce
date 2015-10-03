@@ -1,6 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-orders-create.html">
 <link rel="import" href="part-orders-items.html">
 <link rel="import" href="part-orders-search.html">
@@ -8,25 +7,19 @@
 <link rel="import" href="part-orders-pages.html">
 <dom-module id="page-orders">
   <template>
-    <style include="style-page"></style>
 
     <api-model-find id="request" collection="orders"
       response="{{orders}}">
     </api-model-find>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Orders</h1>
-          <part-orders-create></part-orders-create>
-          <part-orders-search></part-orders-search>
-          <part-orders-stats></part-orders-stats>
-          <part-orders-items orders="{{orders}}"></part-orders-items>
-          <part-orders-pages></part-orders-pages>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Orders</h1>
+      <part-orders-create></part-orders-create>
+      <part-orders-search></part-orders-search>
+      <part-orders-stats></part-orders-stats>
+      <part-orders-items orders="{{orders}}"></part-orders-items>
+      <part-orders-pages></part-orders-pages>
+    </layout-admin>
 
   </template>
 </dom-module>

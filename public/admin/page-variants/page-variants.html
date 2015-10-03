@@ -1,21 +1,14 @@
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-variants-options.html">
 <link rel="import" href="part-variants-items.html">
 <dom-module id="page-variants">
   <template>
-    <style include="style-page"></style>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Variants</h1>
-            <part-variants-options product="{{product}}" variants="{{variants}}"></part-variants-options>
-            <part-variants-items product="{{product}}" variants="{{variants}}"></part-variants-items>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Variants</h1>
+      <part-variants-options product="{{product}}" variants="{{variants}}"></part-variants-options>
+      <part-variants-items product="{{product}}" variants="{{variants}}"></part-variants-items>
+    </layout-admin>
 
   </template>
 </dom-module>

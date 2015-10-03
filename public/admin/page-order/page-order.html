@@ -1,5 +1,4 @@
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
 <link rel="import" href="part-order-delete.html">
@@ -8,29 +7,22 @@
 <link rel="import" href="part-order-header.html">
 <link rel="import" href="part-order-status.html">
 <link rel="import" href="part-order-save.html">
-
 <dom-module id="page-order">
   <template>
-    <style include="style-page"></style>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Orders</h1>
-          <part-order-header order="{{order}}"></part-order-header>
-          <part-order-delete order="{{order}}" on-try-delete="on_try_delete"></part-order-delete>
-          <part-order-save order="{{order}}" on-try-save="on_try_save"></part-order-save>
-          <part-order-status order="{{order}}"></part-order-status>
-          <part-order-customer order="{{order}}"></part-order-customer>
-          <part-order-items id="order_items" order="{{order}}"></part-order-items>
-          <part-order-create-order-item order="{{order}}"
-            on-create-order-item="on_create_order_item">
-          </part-order-create-order-item>
-          <part-order-notes order="{{order}}"></part-order-notes>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Orders</h1>
+      <part-order-header order="{{order}}"></part-order-header>
+      <part-order-delete order="{{order}}" on-try-delete="on_try_delete"></part-order-delete>
+      <part-order-save order="{{order}}" on-try-save="on_try_save"></part-order-save>
+      <part-order-status order="{{order}}"></part-order-status>
+      <part-order-customer order="{{order}}"></part-order-customer>
+      <part-order-items id="order_items" order="{{order}}"></part-order-items>
+      <part-order-create-order-item order="{{order}}"
+        on-create-order-item="on_create_order_item">
+      </part-order-create-order-item>
+      <part-order-notes order="{{order}}"></part-order-notes>
+    </layout-admin>
 
   </template>
 </dom-module>
@@ -71,4 +63,3 @@
 
   });
 </script>
-
