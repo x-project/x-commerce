@@ -23,7 +23,8 @@
 	"relations": {
 		"images": {
 			"type": "hasMany",
-			"model": "Image"
+			"model": "Image",
+			"foreignKey": "collection_id"
 		},
 		"products": {
 			"type": "hasAndBelongsToMany",
@@ -32,7 +33,8 @@
 		},
 		"collection_filters": {
 			"type": "hasMany",
-			"model": "CollectionFilter"
+			"model": "CollectionFilter",
+			"foreignKey": "collection_id"
 		}
 	},
 	"acls": [],

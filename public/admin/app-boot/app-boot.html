@@ -15,6 +15,7 @@
 <link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-customers/page-customers.html">
 <link rel="import" href="../page-customer/page-customer.html">
+<link rel="import" href="../page-store/page-store.html">
 <link rel="import" href="../page-variants/page-variants.html">
 <link rel="import" href="../page-variant/page-variant.html">
 
@@ -35,10 +36,13 @@
 
       <app-route path="/admin" page="page-home"></app-route>
       <app-route path="/admin/" page="page-home"></app-route>
+      <app-route path="/admin/store" page="page-store"
+        on-route="/admin/store"></app-route>
       <app-route path="/admin/collections" page="page-collections"></app-route>
       <!-- <app-route path="/admin/collections/new" page="page-collection"></app-route> -->
       <app-route path="/admin/collections/:collection_id" page="page-collection"
         on-route="/admin/collections/:collection_id"></app-route>
+
       <app-route path="/admin/orders" page="page-orders"
         on-route="/admin/orders">
       </app-route>
@@ -54,7 +58,6 @@
       </app-route>
       <app-route path="/admin/products/:product_id" page="page-product"
         on-route="/admin/products/:product_id"></app-route>
-
       <app-route path="/admin/customers" page="page-customers"
         on-route="/admin/customers">
       </app-route>
@@ -107,6 +110,12 @@
         page('/');
         return;
       }
+    },
+
+    '/admin/store': function () {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      routes.fire('route', event.detail);
     },
 
     '/admin/collections/:collection_id': function (event) {
@@ -212,14 +221,13 @@
       var routes = this.$.routes;
       var model_id = event.detail.params.variant_id;
       this.get_model({
-        collection: 'variants',
+        collection: 'product_variants',
         modelId: model_id,
         include: ['product']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';
         } else {
-          console.log(model);
           event.detail.data = { variant: model };
         }
         routes.fire('route', event.detail);

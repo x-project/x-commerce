@@ -20,7 +20,6 @@
       on-response="on_response_delete">
     </iron-ajax>
 
-
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
@@ -54,8 +53,8 @@
     },
 
     attached: function () {
-      this.product = this.route.data.product;
-      // this.variant = this.product.variants;
+      this.variant = this.route.data.variant;
+      this.product = this.variant.product;
     },
 
     on_try_save: function (event) {

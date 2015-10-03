@@ -92,6 +92,11 @@
     on_response_delete: function (event) {
       event.stopPropagation();
       page('/admin/products');
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

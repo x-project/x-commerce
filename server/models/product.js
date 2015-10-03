@@ -2,6 +2,43 @@ var async = require('async');
 
 module.exports = function (Product) {
 
+  /*
+    * quando elimino il prodotto, elimino anche le sue varianti, opzioni, ed immagini
+    * ed infine elimino il prodotto
+  */
+  Product.observe('before delete', function(ctx, callback) {
+    var current_product;
+
+    async.waterfall([
+      function (next) {
+        Product.findById(ctx.where.id, next);
+      },
+
+      function (product, next) {
+        current_product = product;
+        current_product.options.destroyAll(next);
+      },
+
+      function (options, next) {
+        current_product.variants.destroyAll(next);
+      },
+
+      function (variants, next) {
+        current_product.images.destroyAll(next);
+      }
+    ],
+
+    function (err) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, null);
+    });
+
+  });
+
+
   var cartesian = function (args) {
     return args.reduce(function (values_a, values_b) {
       var values_a_b = [];
@@ -14,6 +51,7 @@ module.exports = function (Product) {
     }, [[]]);
   };
 
+
   Product.generate_variants = function (product_id, callback) {
     var current_product;
 
@@ -24,7 +62,7 @@ module.exports = function (Product) {
 
       function (product, next) {
         current_product = product;
-        product.variants.destroyAll(next);
+        current_product.variants.destroyAll(next);
       },
 
       function (variants, next) {

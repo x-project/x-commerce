@@ -14,7 +14,7 @@
     <button id="btn_add_order_item" class="button"
       on-click="on_click_add_order_item">add order item</button>
     <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
-      on-create-order-item="on_create_order_item">
+      on-try-save-order-item="on_try_save_order_item">
     </form-order-item>
 
   </template>
@@ -54,8 +54,8 @@
       this.set('show', false);
     },
 
-    on_create_order_item: function (event) {
-      //passo passare l event con order item creato
+    on_try_save_order_item: function (event) {
+      //lascio passare l event con order item, prodotto e variante selezionata
       this.hide_form();
       this.$.btn_add_order_item.disabled = '';
     }

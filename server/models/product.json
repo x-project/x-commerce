@@ -75,7 +75,7 @@
 		"images": {
 			"type": "hasMany",
 			"model": "Image",
-			"foreignKey": "imageId"
+			"foreignKey": "product_id"
 		},
 		"options": {
 			"type": "hasMany",
@@ -83,7 +83,8 @@
 		},
 		"variants": {
 			"type": "hasMany",
-			"model": "ProductVariant"
+			"model": "ProductVariant",
+			"foreignKey": "product_id"
 		}
 	},
 	"acls": [],

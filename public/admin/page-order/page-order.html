@@ -23,9 +23,9 @@
           <part-order-save order="{{order}}" on-try-save="on_try_save"></part-order-save>
           <part-order-status order="{{order}}"></part-order-status>
           <part-order-customer order="{{order}}"></part-order-customer>
-          <part-order-items id="order_items" order="{{order}}"></part-order-items>
+          <part-order-items id="items" order="{{order}}"></part-order-items>
           <part-order-create-order-item order="{{order}}"
-            on-create-order-item="on_create_order_item">
+            on-try-save-order-item="on_try_save_order_item">
           </part-order-create-order-item>
           <part-order-notes order="{{order}}"></part-order-notes>
         </div>
@@ -55,14 +55,14 @@
       this.orders = this.order.order_items;
     },
 
-    on_create_order_item: function (event) {
+    on_try_save_order_item: function (event) {
       event.stopPropagation();
-      var order_item = event.detail.order_item;
-      this.$.order_items.order_item_pending(order_item);
+      this.$.items.selected_pending(event.detail.data);
     },
 
     on_try_save: function (event) {
       event.stopPropagation();
+      console.log(this.order);
     },
 
     on_try_delete: function (event) {

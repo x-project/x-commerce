@@ -1,15 +1,13 @@
-<link rel="import" href="form-order-detail.html">
-<link rel="import" href="components.html">
-
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="part-order-notes">
   <template>
     <style include="style-form"></style>
 
     <h2 class="title">Detail</h2>
+    <label class="label">notes</label>
     <div class="field">
-      <label class="label">notes</label>
-      <textarea class="textarea" value="{{order.notes}}"></textarea>
+      <iron-autogrow-textarea is="iron-input" bind-value="{{order.notes}}" rows="4"></iron-autogrow-textarea>
     </div>
 
   </template>
@@ -24,10 +22,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
     }
 
   });

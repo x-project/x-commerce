@@ -7,7 +7,9 @@
       }
     </style>
 
-    <api-image-upload id="request" collection="Images"></api-image-upload>
+    <api-image-upload id="request"
+      collection="{{collection}}" model-id="{{modelId}}" folder="{{folder}}">
+    </api-image-upload>
 
     <input id="input" type="file" on-change="on_change_file">
 
@@ -18,13 +20,21 @@
 
     is: 'input-image',
 
-    properties:{
+    properties: {
+      collection: {
+        type: String
+      },
+      modelId: {
+        type: String
+      },
+      folder: {
+        type: String
+      },
       file: {
         type: Object,
         value: function () { return {}; }
       }
     },
-
 
     on_change_file: function (event) {
       this.file = event.target.files[0];

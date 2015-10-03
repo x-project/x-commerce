@@ -10,9 +10,6 @@
   "options": {
     "validateUpsert": true
   },
-  "mongodb": {
-    "collection": "images"
-  },
   "properties": {
     "thumbs": {
       "type": "array"
@@ -37,6 +34,9 @@
     },
     "base_url": {
       "type": "string"
+    },
+    "thumbnails": {
+      "type": ["String"]
     }
   },
   "validations": [],

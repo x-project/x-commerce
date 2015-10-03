@@ -42,7 +42,13 @@
       "type": "Boolean"
     }
   },
-  "relations": {},
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id"
+    }
+  },
   "acls": [],
   "methods": [],
   "validations": []
