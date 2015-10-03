@@ -1,6 +1,6 @@
 {
   "name": "Discussion",
-  "plural": "Discussions",
+  "plural": "discussions",
   "base": "PersistedModel",
   "properties": {},
   "validations": [],
@@ -8,7 +8,7 @@
     "topics": {
       "type": "hasMany",
       "model": "Topic",
-      "foreignKey": "discussionId"
+      "foreignKey": "discussion_id"
     }
   },
   "acls": [],

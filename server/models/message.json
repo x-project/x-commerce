@@ -1,6 +1,6 @@
 {
   "name": "Message",
-  "plural": "Messages",
+  "plural": "messages",
   "base": "PersistedModel",
   "properties": {
     "text": {
@@ -13,8 +13,8 @@
   "validations": [],
   "relations": {
     "author": {
-      "type": "hasOne",
-      "model": "User"
+      "type": "belongsTo",
+      "model": "Customer"
     }
   },
   "acls": [],

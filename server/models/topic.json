@@ -1,6 +1,6 @@
 {
   "name": "Topic",
-  "plural": "Topics",
+  "plural": "topics",
   "base": "PersistedModel",
   "properties": {
     "title": {
@@ -16,13 +16,13 @@
   "validations": [],
   "relations": {
     "author": {
-      "type": "hasOne",
-      "model": "User"
+      "type": "belongsTo",
+      "model": "Customer"
     },
     "messages": {
       "type": "hasMany",
       "model": "Message",
-      "foreignKey": "topicId"
+      "foreignKey": "topic_id"
     }
   },
   "acls": [],
