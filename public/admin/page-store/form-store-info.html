@@ -1,3 +1,4 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <dom-module id="form-store-info">
   <template>
     <style include="style-page"></style>
@@ -5,11 +6,14 @@
     <form role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Store Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{information.name}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{store.name}}">
       </div>
-      <div class="field">
-        <label class="label">Description</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{information.description}}">
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="detail">
+            <iron-autogrow-textarea is="iron-input" bind-value="{{store.description}}" rows="5">
+            </iron-autogrow-textarea>
+          <div>
       </div>
     </form>
   </template>
@@ -20,7 +24,7 @@
     is: 'form-store-info',
 
     properties: {
-      information: {
+      store: {
         type: Object,
         value: function () { return {}; }
       }

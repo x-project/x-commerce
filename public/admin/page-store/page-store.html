@@ -3,18 +3,30 @@
 <link rel="import" href="part-store-header.html">
 <link rel="import" href="part-store-info.html">
 <link rel="import" href="part-store-contact.html">
+<link rel="import" href="part-store-save.html">
+<link rel="import" href="part-store-edit.html">
 <dom-module id="page-store">
   <template>
     <style include="style-page"></style>
+
+    <iron-ajax id="ajax_get_store" method="GET" on-response="on_response_get"
+      last-response="{{my_store}}" url="/api/stores/findOne" handleAs="json">
+     </iron-ajax>
+
+    <iron-ajax id="ajax_put_store" method="PUT" on-response="on_response_put"
+      content-type="application/json" handleAs="json">
+     </iron-ajax>
 
     <div class="page">
       <part-sidebar class="sidebar"></part-sidebar>
       <div class="main">
         <div class="container">
           <h1>Store</h1>
-          <part-store-header information="{{information}}"></part-store-header>
-          <part-store-info information="{{information}}"></part-store-info>
-          <part-store-contact information="{{information}}"></part-store-contact>
+          <part-store-header store="{{store}}"></part-store-header>
+          <part-store-save on-try-save="on_try_save"></part-store-save>
+          <part-store-edit on-try-save="on_try_edit"></part-store-edit>
+          <part-store-info store="{{store}}"></part-store-info>
+          <part-store-contact store="{{store}}"></part-store-contact>
         </div>
       </div>
     </div>
@@ -27,10 +39,26 @@
     is: 'page-store',
 
     properties: {
-      information: {
+      store: {
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_try_save: function (event) {
+      event.stopPropagation();
+      this.$.ajax_put_store.url = '/api/stores';
+      this.$.ajax_put_store.body = JSON.stringify(this.store);
+      this.$.ajax_put_store.generateRequest();
+    },
+
+    on_response_put: function (event, details) {
+      event.stopPropagation();
+      var response = details.response;
+    },
+
+    on_try_edit: function (event) {
+      event.stopPropagation();
     }
 
   });
