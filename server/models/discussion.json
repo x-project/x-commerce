@@ -1,0 +1,16 @@
+{
+  "name": "Discussion",
+  "plural": "Discussions",
+  "base": "PersistedModel",
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "topics": {
+      "type": "hasMany",
+      "model": "Topic",
+      "foreignKey": "discussionId"
+    }
+  },
+  "acls": [],
+  "methods": []
+}
