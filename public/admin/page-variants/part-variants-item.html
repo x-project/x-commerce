@@ -1,12 +1,13 @@
+<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-item/style-item.html">
 <dom-module id="part-variants-item">
   <template>
     <style include="style-item"></style>
 
-    <iron-ajax id="ajax_put_variant" method="PUT" content-type="application/json"
-      handleAs="json" on-response="on_response_put_variant" on-error="on_error_put_variant">
-    </iron-ajax>
+    <api-model-update id="update" collection="product_variants" data="{{variant}}"
+      model-id="{{variant.id}}" on-response="on_response_update" on-error="on_error">
+    </api-model-update>
 
     <div class="item">
       <paper-checkbox is="iron-input" checked="{{variant.available}}"
@@ -37,16 +38,14 @@
 
     on_click_available: function (event) {
       event.stopPropagation();
-      this.$.ajax_put_variant.body = JSON.stringify(this.variant);
-      this.$.ajax_put_variant.url = '/api/product_variants/' + this.variant.id;
-      this.$.ajax_put_variant.generateRequest();
+      this.$.update.send();
     },
 
-    on_response_put_variant: function (event, details) {
+    on_response_update: function (event, details) {
       event.stopPropagation();
     },
 
-    on_error_put_variant: function (event) {
+    on_error: function (event) {
       event.stopPropagation();
       console.log(event);
     }

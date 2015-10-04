@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-variant-create.html">
 <link rel="import" href="part-variant-delete.html">
@@ -9,13 +10,13 @@
 <dom-module id="page-variant">
   <template>
 
-    <iron-ajax id="ajax_put_variant" method="PUT" content-type="application/json"
-      handleAs="json" on-response="on_response_put_variant">
-    </iron-ajax>
+    <api-model-update id="update" collection="product_variants"
+      data="{{variant}}" model-id="{{variant.id}}">
+    </api-model-update>
 
-    <iron-ajax id="ajax_delete_variant" method="DELETE" on-error="on_error"
-      on-response="on_response_delete">
-    </iron-ajax>
+    <api-model-delete id="delete_model" collection="product_variants"
+      model-id="{{variant.id}}" on-response="on_response_delete">
+    </api-model-delete>
 
     <layout-admin>
       <part-variant-header product="{{product}}"variant="{{variant}}"></part-variant-header>
@@ -52,9 +53,7 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      this.$.ajax_put_variant.body = JSON.stringify(this.variant);
-      this.$.ajax_put_variant.url = '/api/product_variants/' + this.variant.id;
-      this.$.ajax_put_variant.generateRequest();
+      this.$.update.send();
     },
 
     on_response_put_variant: function (event, details) {
@@ -63,12 +62,12 @@
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete_variant.url = '/api/product_variants/' + this.variant.id;
-      this.$.ajax_delete_variant.generateRequest();
+      this.$.delete_model.send();
     },
 
     on_response_delete: function (event) {
       event.stopPropagation();
+      page('/admin/products/' + this.product.id + '/variants');
     },
 
     on_error: function (event) {

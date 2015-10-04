@@ -75,12 +75,13 @@
 
     try_save: function (customer) {
       this.url_put_order_customer = '/api/Orders/' + this.order.id;
-      this.$.put_order_customer.body = {customerId: customer.id}
+      this.$.put_order_customer.body = {customer_id: customer.id}
       this.$.put_order_customer.generateRequest();
     },
 
     on_put_response: function (event, details) {
       event.stopPropagation();
+      this.set('customers', []);
     }
 
   });

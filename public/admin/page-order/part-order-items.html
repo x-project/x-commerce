@@ -1,3 +1,4 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="part-order-item.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
@@ -14,6 +15,9 @@
         display: block;
       }
     </style>
+
+    <api-model-find id="find" collection="orders" response="order_items"
+      model-id="order.id"></api-model-find>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
       last-response="{{order_items}}">

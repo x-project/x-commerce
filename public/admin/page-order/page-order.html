@@ -1,3 +1,4 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
@@ -9,6 +10,14 @@
 <link rel="import" href="part-order-save.html">
 <dom-module id="page-order">
   <template>
+
+    <api-model-update id="ajax_update" collection="orders"
+      model-id="{{order.id}}">
+    </api-model-update>
+
+    <api-model-delete id="ajax_delete" collection="orders"
+      model-id="{{order.id}}" on-response="on_response_delete">
+    </api-model-delete>
 
     <layout-admin>
       <h1>Orders</h1>
@@ -54,11 +63,31 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      console.log(this.order);
+      this.$.ajax_update.data = this.create_order();
+      this.$.ajax_update.send();
+    },
+
+    create_order:  function () {
+      return {
+        status: this.order.status,
+        discount: this.order.discount,
+        shipping_cost: this.order.shipping_cost,
+        taxes: this.order.taxes,
+        total: this.order.total,
+        notes: this.order.notes,
+        feedback: this.order.feedback,
+        customer_id: this.order.customer_id
+      };
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
+      this.$.ajax_delete.send();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+      page('/admin/orders');
     }
 
   });
