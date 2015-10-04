@@ -16,8 +16,8 @@
       }
     </style>
 
-    <api-model-find id="find" collection="orders" response="order_items"
-      model-id="order.id"></api-model-find>
+    <api-model-find id="find" collection="orders" response="{{order_items}}"
+      model-id="{{order.id}}"></api-model-find>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
       last-response="{{order_items}}">
@@ -98,26 +98,26 @@
       this.set('order_item_pending', {});
     },
 
-    selected_pending: function (test) {
+    selected_pending: function (order_data) {
       this.show_pending();
-      this.order_item_pending = test;
-      this.request_post(test);
+      this.order_item_pending = order_data;
+      this.request_post(order_data);
     },
 
-    request_post: function (test) {
+    request_post: function (order_data) {
       this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
-      this.$.ajax_post_order_item.body = JSON.stringify(this.get_order_item(test));
+      this.$.ajax_post_order_item.body = JSON.stringify(this.get_order_item(order_data));
       this.async(function () {
         this.$.ajax_post_order_item.generateRequest();
       }, 3000);
     },
 
-    get_order_item: function (test) {
+    get_order_item: function (order_data) {
       return {
-        quantity: test.quantity,
-        orderId: this.order.id,
-        product_id: test.product_id,
-        product_variant_id: test.variant_id
+        quantity: order_data.quantity,
+        order_id: this.order.id,
+        product_id: order_data.product_id,
+        product_variant_id: order_data.variant_id
       };
     },
 
@@ -129,7 +129,7 @@
 
     on_click_delete: function () {
       var order_item = this.$.order_items.itemForElement(event.target);
-      this.$.ajax_delete.url = '/api/orders/' + order_item.orderId + '/order_items/' + order_item.id;
+      this.$.ajax_delete.url = '/api/orders/' + order_item.order_id + '/order_items/' + order_item.id;
       this.$.ajax_delete.generateRequest();
     },
 

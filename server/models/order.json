@@ -35,7 +35,8 @@
   "relations": {
     "order_items": {
       "type": "hasMany",
-      "model": "OrderItem"
+      "model": "OrderItem",
+      "foreignKey": "order_id"
     },
     "customer": {
       "type": "belongsTo",

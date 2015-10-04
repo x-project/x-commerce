@@ -39,28 +39,26 @@
       <app-route path="/admin/store" page="page-store"
         on-route="/admin/store"></app-route>
       <app-route path="/admin/collections" page="page-collections"></app-route>
-      <!-- <app-route path="/admin/collections/new" page="page-collection"></app-route> -->
+      <app-route path="/admin/collections/new" page="page-collection"
+        on-route="/admin/collections/new">
+      </app-route>
       <app-route path="/admin/collections/:collection_id" page="page-collection"
         on-route="/admin/collections/:collection_id"></app-route>
 
-      <app-route path="/admin/orders" page="page-orders"
-        on-route="/admin/orders">
+      <app-route path="/admin/orders" page="page-orders"></app-route>
+      <app-route path="/admin/orders/new" page="page-order"
+        on-route="/admin/orders/new">
       </app-route>
-      <!-- <app-route path="/admin/orders/new" page="page-order"></app-route> -->
       <app-route path="/admin/orders/:order_id" page="page-order"
         on-route="/admin/orders/:order_id"></app-route>
 
-      <app-route path="/admin/products" page="page-products"
-        on-route="/admin/products">
-        </app-route>
+      <app-route path="/admin/products" page="page-products"></app-route>
       <app-route path="/admin/products/new" page="page-product"
         on-route="/admin/products/new">
       </app-route>
       <app-route path="/admin/products/:product_id" page="page-product"
         on-route="/admin/products/:product_id"></app-route>
-      <app-route path="/admin/customers" page="page-customers"
-        on-route="/admin/customers">
-      </app-route>
+      <app-route path="/admin/customers" page="page-customers"></app-route>
       <app-route path="/admin/customers/new" page="page-customer"
         on-route='/admin/customers/new'></app-route>
       <app-route path="/admin/customers/:customer_id" page="page-customer"
@@ -118,6 +116,13 @@
       routes.fire('route', event.detail);
     },
 
+    '/admin/collections/new': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      event.detail.data = { collection: {} };
+      routes.fire('route', event.detail);
+    },
+
     '/admin/collections/:collection_id': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
@@ -134,12 +139,6 @@
         }
         routes.fire('route', event.detail);
       });
-    },
-
-    '/admin/customers': function (event) {
-      event.stopPropagation();
-      var routes = this.$.routes;
-      routes.fire('route', event.detail);
     },
 
     '/admin/customers/new': function (event) {
@@ -234,9 +233,10 @@
       });
     },
 
-    '/admin/orders': function (event) {
+    '/admin/orders/new': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
+      event.detail.data = { order: {} };
       routes.fire('route', event.detail);
     },
 

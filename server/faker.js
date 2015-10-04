@@ -19,23 +19,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-// // generate random customers
-// create_customers(100, function (err) {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-// });
-
-
-// // generate random orders
-// create_orders(100, function (err) {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-// });
-
 function data_faker (callback) {
   async.waterfall([
     function (next) {
