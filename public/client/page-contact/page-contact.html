@@ -7,12 +7,18 @@
   <template>
     <style include="style-page"></style>
 
+    <iron-ajax id="ajax_get_store" method="GET" on-error="on_error"
+      url="/api/stores/findOne" last-response="{{store}}">
+    </iron-ajax>
+
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Contact</h1>
       </part-jumbotron>
       <div class="container">
-        <a href="mailto:mail@example.com">mail@example.com</a>
+        <a href="{{store.email}}">{{store.email}}</a>
+        <p>{{store.phone}}</p>
       </div>
     </layout-client>
 
@@ -21,7 +27,23 @@
 <script>
   Polymer({
 
-    is: 'page-contact'
+    is: 'page-contact',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.$.ajax_get_store.generateRequest();
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
 
   });
 </script>

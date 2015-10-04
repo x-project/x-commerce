@@ -1,7 +1,22 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-variants-option">
   <template>
-    <style include="style-form"></style>
+    <style include="style-form">
+      .option {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: #eee;
+      }
+      .option .delete {
+        padding-left: 8px;
+        opacity: .4;
+      }
+      .option .delete:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    </style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
@@ -10,10 +25,22 @@
       </div>
       <div class="field">
         <label class="label">Values (space separed values)</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{option.values}}">
+        <input class="input" type="text" is="iron-input" bind-value="{{value}}"
+          on-keyup="on_edit_option">
       </div>
+
+      <div class="items">
+        <template id="options" is="dom-repeat" items="{{options}}">
+          <div class="option">
+            <span>{{item}}</span>
+            <span on-click="on_click_delete" class="delete">x</span>
+          <div>
+        </template>
+      </div>
+
       <input type="submit" value="save">
     </form>
+
 
   </template>
 </dom-module>
@@ -28,14 +55,62 @@
         notify: true,
         value: function () { return {}; }
       },
+      value: {
+        type: String,
+        value: ''
+      },
       separators: {
         type: Array,
         value: function () { return [' ', ',']; }
+      },
+      options: {
+        type: Array,
+        value: function () { return []; }
       }
     },
 
-    on_change: function (event) {
-      this.set('option.values', this.values.split(/\ +/));
+    clear: function () {
+      this.set('value', '');
+      this.option.values = this.options;
+    },
+
+    add_option: function (value) {
+      if (!this.is_exists(value)){
+        this.push('options', value);
+      }
+      this.clear();
+    },
+
+    is_exists: function (value_a) {
+      return this.options.some(function (value_b) {
+        if (value_a === value_b)
+          return true;
+      });
+    },
+
+    on_edit_option: function (event) {
+      event.stopPropagation();
+      if (event.keyCode === 13) {
+        this.add_option(this.value);
+        return;
+      }
+      if (this.value.length === 0) {
+        return;
+      }
+      var keypressed = this.value.charAt(this.value.length-1);
+      if (this.separators.indexOf(keypressed) >= 0) {
+        this.value = this.value.slice(0,-1);
+        if (this.value.length > 0) {
+          this.add_option(this.value);
+        }
+      }
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      var tag = this.$.options.itemForElement(event.target);
+      var index = this.$.options.indexForElement(event.target);
+      this.splice('options', index, 1);
     },
 
     on_submit: function (event) {
@@ -43,8 +118,12 @@
       if (!this.option.name && !this.option.value) {
         return;
       }
-      this.set('option.values', this.option.values.split(' '));
+      this.reset_options();
       this.fire('try-save');
+    },
+
+    reset_options: function () {
+      this.options = [];
     }
 
   });
