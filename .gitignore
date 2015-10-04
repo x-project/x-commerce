@@ -20,3 +20,4 @@ npm-debug.log
 public/build
 public/components
 server/storage
+server/imageTest
