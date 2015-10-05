@@ -3,6 +3,7 @@ var faker = require('faker');
 var async = require('async');
 var casual = require('casual');// random tags array
 var fs = require('fs');
+var retry = require('retry');
 
 var vendors = [];
 var product_types = [];
@@ -12,6 +13,7 @@ var orders = [];
 var customers = [];
 var store = [];
 var images = [];
+var images_name = [];
 
 function random_boolean () {
   return Math.random() > 0.5;
@@ -21,34 +23,170 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function get_images_files_name (path, callback) {
+  fs.readdir(path, function (err, files) {
+    if (err) {
+      images_name = [];
+      callback(err, null);
+      return;
+    }
+    images_name = files;
+    callback(null, files);
+  });
+}
+
 function data_faker (callback) {
   async.waterfall([
     function (next) {
-      create_vendors(100, vendors, next);
+      create_vendors(10, vendors, next);
     },
     function (next) {
-      create_product_types(100, product_types, next);
+      create_product_types(5, product_types, next);
     },
     function (next) {
-      create_collections(100, collections, next);
+      create_collections(5, collections, next);
     },
     function (next) {
-      create_products(100, products, next)
+      create_products(10, products, next)
     },
     function (next) {
       create_stores(1, store, next);
     },
     function (next) {
-      create_customers(100, customers, next);
+      create_customers(10, customers, next);
     },
     function (next) {
-      create_orders(100, orders, next);
+      create_orders(10, orders, next);
+    },
+    function  (next) {
+      get_images_files_name(__dirname + '/imageTest', function (err, files) {
+        images_name = files;
+        next();
+      });
+    },
+    function (next) {
+      create_images(images, 'products', next);
+    },
+    function (next) {
+      upload_images(next);
     }
-
-    // function (next) {
-    //   create_images(images, 'products', next);
-    // }
   ], callback);
+}
+
+
+
+// get images
+
+// foreach
+
+//  retry(
+
+//     POST signedURL
+//     UPLOAD
+
+//  )
+
+var upload = function (type) {
+  return function (data, callback) {
+    request.post('http://localhost:3000' + data.signed_url)
+    .attach('file', __dirname + '/imageTest/' + data_upload.filename)
+    .end(function(err, res) {
+      setImmediate(callback, err);
+   });
+  };
+};
+
+var signedURL = function (type, item, image) {
+  return function (callback) {
+    var url = '/api/' + type + '/' + item.id + '/images';
+    request
+      .post('http://localhost:3000' + url)
+      .send({
+        filename: image,
+        filetype: "image/jpeg",
+        container: type + '/' + item.id + '/images'
+      })
+      .type('json')
+      .set('X-API-Key', 'foobar')
+      .set('Accept', 'application/json')
+      .end(function (err, res) {
+        setImmediate(callback, err, res.body);
+      });
+  };
+};
+
+var store_image = function (item, done) {
+    var operation = retry.operation();
+    operation.attempt(function (current) {
+      async.waterfall([
+        signedURL(type, item, images_filenames(getRandomInt(0, images.length))),
+        upload(type)
+      ], function  (err) {
+        if (operation.retry(err)) {
+          return;
+        }
+        setImmediate(done, err ? operation.mainError() : null);
+      });
+    });
+};
+
+var each = function (type) {
+  return function (next) {
+    async.eachSeries(collections[type], store_image, next);
+  };
+};
+
+var get_images = function (next) {
+  var images_filenames = ...;
+
+  setImmediate(next, err);
+};
+
+var store_images = function (next) {
+  async.waterfall([
+    get_images_files_name,
+    each('product'),
+    each('collection')
+  ], next);
+};
+
+
+
+
+
+
+function upload_images (callback) {
+  async.eachSeries(images,
+    function (data_upload, done) {
+      upload_image(data_upload, function (err, model) {
+        if (err) {
+          done(err);
+          return;
+        }
+        done(null);
+      });
+    },
+    function (err) {
+      if (err) {
+        callback();
+        return;
+      }
+      setImmediate(callback);
+    }
+  );
+}
+
+function upload_image (data_upload, callback) {
+  request.post('http://localhost:3000' + data_upload.signed_url)
+    .attach('file', __dirname + '/imageTest/' + data_upload.filename)
+    .end(function(err, res) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      var model = res.body;
+      callback(null, model);
+   });
 }
 
 function create_images (models, collection, callback) {
@@ -59,15 +197,12 @@ function create_images (models, collection, callback) {
           done(err);
           return;
         }
-        console.log(model);
-        var obj = { product_id: product.id, image_id: model.id };
-        models.push(obj);
+        models.push(model);
         done(null);
       });
     },
     function (err) {
       if (err) {
-        console.log("err in image")
         callback();
         return;
       }
@@ -77,15 +212,15 @@ function create_images (models, collection, callback) {
 }
 
 function create_image (collection, model_id, callback) {
-  var url = '/api/' + collection + '/' + model_id + '/images'
-
+  var url = '/api/' + collection + '/' + model_id + '/images';
   request
     .post('http://localhost:3000' + url)
     .send({
-      name: "product1.jpg",
-      type: "image/jpeg"
+      filename: images_name[0, getRandomInt(0, images_name.length)],
+      filetype: "image/jpeg",
+      container: collection + '/' + model_id + '/images'
     })
-    .type('image/jpeg')
+    .type('json')
     .set('X-API-Key', 'foobar')
     .set('Accept', 'application/json')
     .end(function (err, res) {
@@ -138,7 +273,8 @@ function create_vendor (callback) {
       }
       var model = res.body;
       callback(null, model);
-    });
+    }
+  );
 }
 
 /*====================================================*/

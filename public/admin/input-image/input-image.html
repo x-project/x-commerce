@@ -38,7 +38,6 @@
 
     on_change_file: function (event) {
       this.file = event.target.files[0];
-      console.log(this.file);
       this.$.request.send(this.file);
     }
 

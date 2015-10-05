@@ -201,11 +201,6 @@ module.exports = function(Image) {
           base_url: path.join(storage, container, image_id)
         };
 
-        // var id_product = payload.container.split('/')[1];
-        // Image.app.models.Product.findById(id_product, function (err, model) {
-        //   console.log(model.images.build(image));
-        // });
-
         if (payload.check !== secret || expired) {
           var msg = 'Error: media_token expired or not valid';
           console.log(msg);
@@ -236,4 +231,3 @@ module.exports = function(Image) {
       }
   );
 };
-

@@ -185,7 +185,7 @@
       this.get_model({
         collection: 'products',
         modelId: model_id,
-        include: ['collections', 'product_type', 'vendor']
+        include: ['collections', 'product_type', 'vendor', 'images']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';

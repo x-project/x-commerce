@@ -7,7 +7,9 @@
   <template>
     <style include="style-page"></style>
 
-    <api-model-find id="find" collection="products" response="{{products}}"></api-model-find>
+    <api-model-find id="find" collection="products" response="{{products}}"
+      include=["images"]>
+    </api-model-find>
 
     <layout-client>
       <part-jumbotron class="jumbotron">

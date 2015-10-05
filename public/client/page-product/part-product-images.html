@@ -1,14 +1,19 @@
+<link rel="import" href="../image-view/image-view.html">
 <dom-module id="part-product-images">
   <template>
     <style>
       :host {
         display: block;
       }
+      .image{
+        width: 200px;
+      }
     </style>
 
     <div class="images">
-      <h3>Images</h3>
-      <div>No images yet</div>
+      <template id="images" is="dom-repeat" items="{{product.images}}" as="image">
+        <image-view class="image" image="{{image}}" size="contain"></image-view>
+      </template>
     </div>
 
   </template>
@@ -20,7 +25,8 @@
 
     properties: {
       product: {
-        type: Object
+        type: Object,
+        value: function () { return {}; }
       }
     }
 
