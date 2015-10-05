@@ -2,6 +2,7 @@ var request = require('superagent');
 var faker = require('faker');
 var async = require('async');
 var casual = require('casual');// random tags array
+var fs = require('fs');
 
 var vendors = [];
 var product_types = [];
@@ -10,6 +11,7 @@ var collections = [];
 var orders = [];
 var customers = [];
 var store = [];
+var images = [];
 
 function random_boolean () {
   return Math.random() > 0.5;
@@ -42,11 +44,63 @@ function data_faker (callback) {
     function (next) {
       create_orders(100, orders, next);
     }
+
+    // function (next) {
+    //   create_images(images, 'products', next);
+    // }
   ], callback);
 }
 
+function create_images (models, collection, callback) {
+  async.each(products,
+    function (product, done) {
+      create_image(collection, product.id, function (err, model) {
+        if (err) {
+          done(err);
+          return;
+        }
+        console.log(model);
+        var obj = { product_id: product.id, image_id: model.id };
+        models.push(obj);
+        done(null);
+      });
+    },
+    function (err) {
+      if (err) {
+        console.log("err in image")
+        callback();
+        return;
+      }
+      callback();
+    }
+  );
+}
 
-function create_stores (n, models, callback) {
+function create_image (collection, model_id, callback) {
+  var url = '/api/' + collection + '/' + model_id + '/images'
+
+  request
+    .post('http://localhost:3000' + url)
+    .send({
+      name: "product1.jpg",
+      type: "image/jpeg"
+    })
+    .type('image/jpeg')
+    .set('X-API-Key', 'foobar')
+    .set('Accept', 'application/json')
+    .end(function (err, res) {
+      if (err) {
+        callback(err);
+        return;
+      }
+      var model = res.body;
+      callback(null, model);
+    });
+}
+
+/*====================================================*/
+
+function create_vendors (n, models, callback) {
   var count = 0;
   async.whilst(
     function () {
@@ -54,7 +108,7 @@ function create_stores (n, models, callback) {
     },
     function (done) {
       count++;
-      create_store(function (err, model) {
+      create_vendor(function (err, model) {
         if (err) {
           done(err)
           return;
@@ -67,14 +121,12 @@ function create_stores (n, models, callback) {
   );
 }
 
-function create_store (callback) {
+function create_vendor (callback) {
   request
-    .post('http://localhost:3000/api/stores')
+    .post('http://localhost:3000/api/vendors')
     .send({
-      description: casual.text,
-      phone: casual.phone,
-      email: casual.email,
-      policy: casual.text
+      name: casual.username,
+      description: faker.name.jobDescriptor()
     })
     .type('json')
     .set('X-API-Key', 'foobar')
@@ -88,6 +140,8 @@ function create_store (callback) {
       callback(null, model);
     });
 }
+
+/*====================================================*/
 
 function create_product_types (n, models, callback) {
   var count = 0;
@@ -131,8 +185,9 @@ function create_product_type (callback) {
     });
 }
 
+/*====================================================*/
 
-function create_vendors (n, models, callback) {
+function create_collections (n, models, callback) {
   var count = 0;
   async.whilst(
     function () {
@@ -140,9 +195,9 @@ function create_vendors (n, models, callback) {
     },
     function (done) {
       count++;
-      create_vendor(function (err, model) {
+      create_collection(function (err, model) {
         if (err) {
-          done(err)
+          done(err);
           return;
         }
         models.push(model);
@@ -153,12 +208,14 @@ function create_vendors (n, models, callback) {
   );
 }
 
-function create_vendor (callback) {
+function create_collection (callback) {
   request
-    .post('http://localhost:3000/api/vendors')
+    .post('http://localhost:3000/api/collections')
     .send({
-      name: casual.username,
-      description: faker.name.jobDescriptor()
+      title: casual.first_name,
+      description: faker.commerce.productName(),
+      is_published: random_boolean(),
+      published_at: casual.unix_time
     })
     .type('json')
     .set('X-API-Key', 'foobar')
@@ -172,6 +229,8 @@ function create_vendor (callback) {
       callback(null, model);
     });
 }
+
+/*====================================================*/
 
 function create_products (n, models, callback) {
   var count = 0;
@@ -230,7 +289,9 @@ function create_product (callback) {
     });
 }
 
-function create_collections (n, models, callback) {
+/*====================================================*/
+
+function create_stores (n, models, callback) {
   var count = 0;
   async.whilst(
     function () {
@@ -238,9 +299,9 @@ function create_collections (n, models, callback) {
     },
     function (done) {
       count++;
-      create_collection(function (err, model) {
+      create_store(function (err, model) {
         if (err) {
-          done(err);
+          done(err)
           return;
         }
         models.push(model);
@@ -251,14 +312,14 @@ function create_collections (n, models, callback) {
   );
 }
 
-function create_collection (callback) {
+function create_store (callback) {
   request
-    .post('http://localhost:3000/api/collections')
+    .post('http://localhost:3000/api/stores')
     .send({
-      title: casual.first_name,
-      description: faker.commerce.productName(),
-      is_published: random_boolean(),
-      published_at: casual.unix_time
+      description: casual.text,
+      phone: casual.phone,
+      email: casual.email,
+      policy: casual.text
     })
     .type('json')
     .set('X-API-Key', 'foobar')
@@ -273,6 +334,7 @@ function create_collection (callback) {
     });
 }
 
+/*====================================================*/
 
 function create_customers (n, models, callback) {
   var count = 0;
@@ -294,6 +356,7 @@ function create_customers (n, models, callback) {
     callback
   );
 }
+
 
 function create_customer (callback) {
   request
@@ -323,6 +386,8 @@ function create_customer (callback) {
     callback(null, model);
   });
 }
+
+/*====================================================*/
 
 function create_orders (n, models, callback) {
   var count = 0;
@@ -371,10 +436,14 @@ function create_order (callback) {
 }
 
 
+/*====================================================*/
+/*====================================================*/
+/*====================================================*/
+/*====================================================*/
 data_faker(function (err) {
   if (err) {
     console.log(err);
     return;
   }
-  console.log('yeah');
+  console.log('finish');
 });
