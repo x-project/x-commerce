@@ -23,9 +23,9 @@
       "model": "Customer",
       "foreignKey": "author_id"
     },
-    "messages": {
+    "replies": {
       "type": "hasMany",
-      "model": "Message",
+      "model": "CommentReply",
       "foreignKey": "topic_id"
     }
   },

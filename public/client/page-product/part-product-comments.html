@@ -7,9 +7,15 @@
       }
     </style>
 
+    <iron-ajax id="ajax_get_comments" method="GET" last-response="{{comments}}"
+      handle-as="json" on-response="on_response" on-error="on_error">
+    </iron-ajax>
+
     <div>
       <h3>Comments</h3>
-      <part-comments product="{{product}}"></part-comments>
+      <part-comments comments="{{comments}}" product="{{product}}"
+        on-change-discussion="on_change_discussion">
+      </part-comments>
     </div>
 
   </template>
@@ -23,8 +29,33 @@
       product: {
         type: Object,
         value: function () { return {}; }
+      },
+      comments: {
+        type: Array,
+        value: function () { return []; }
       }
-    }
+    },
+
+    attached: function () {
+      this.$.ajax_get_comments.url = '/api/products/' + this.product.id + '/comments';
+      this.$.ajax_get_comments.params.filter = JSON.stringify({ include: [{"replies":"author"},"author"]});
+      this.$.ajax_get_comments.generateRequest();
+    },
+
+    on_response: function (event, details) {
+      event.stopPropagation();
+      // console.log(details.response);
+    },
+
+    on_change_discussion: function (event) {
+      event.stopPropagation();
+      this.attached();
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    },
 
   });
 </script>

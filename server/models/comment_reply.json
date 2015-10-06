@@ -17,7 +17,8 @@
   "relations": {
     "author": {
       "type": "belongsTo",
-      "model": "Customer"
+      "model": "Customer",
+      "foreignKey": "author_id"
     }
   },
   "acls": [],

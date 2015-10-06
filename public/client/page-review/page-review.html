@@ -1,0 +1,26 @@
+<link rel="import" href="../part-reviews/part-reviews.html">
+<dom-module id="page-review">
+  <template>
+
+    <part-reviews reviews="{{reviews}}" product="{{product}}"></part-reviews>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-review',
+
+    properties: {
+      reviews: {
+        type: Array,
+        value: function () { return []; }
+      },
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
