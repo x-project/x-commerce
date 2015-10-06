@@ -8,7 +8,7 @@ var DEFAULT_ADMIN = {
   isMainAdmin: true,
   role: 'admin',
   password: '123',
-  email: 'admin@x-journal.com'
+  email: 'admin@x-commerce.com'
 };
 
 module.exports = function (server, done) {
