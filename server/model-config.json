@@ -17,22 +17,21 @@
     "dataSource": "db"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "mongo",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "mongo",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "mongo",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "mongo",
     "public": false
   },
-
   "Address": {
     "dataSource": "mongo"
   },
@@ -54,10 +53,23 @@
   "Customer": {
     "dataSource": "mongo"
   },
+  "Email": {
+    "dataSource": "email",
+    "public": false
+  },
+  "Invite": {
+    "dataSource": "mongo"
+  },
+  "InvitableUser": {
+    "dataSource": "mongo"
+  },
   "Image": {
     "dataSource": "mongo"
   },
   "Invoice": {
+    "dataSource": "mongo"
+  },
+  "Member": {
     "dataSource": "mongo"
   },
   "Order": {

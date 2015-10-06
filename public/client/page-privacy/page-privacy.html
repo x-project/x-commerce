@@ -5,19 +5,16 @@
   <template>
     <style include="style-page"></style>
 
+    <iron-ajax id="ajax_get_store" method="GET" on-error="on_error"
+      url="/api/stores/findOne" last-response="{{store}}">
+    </iron-ajax>
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Privacy policy</h1>
       </part-jumbotron>
       <div class="container">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <p>{{store.policy}}</p>
       </div>
     </layout-client>
 
@@ -26,7 +23,23 @@
 <script>
   Polymer({
 
-    is: 'page-privacy'
+    is: 'page-privacy',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.$.ajax_get_store.generateRequest();
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
 
   });
 </script>

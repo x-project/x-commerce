@@ -231,4 +231,3 @@ module.exports = function(Image) {
       }
   );
 };
-

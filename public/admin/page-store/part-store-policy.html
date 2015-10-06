@@ -1,0 +1,27 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<dom-module id="part-store-policy">
+  <template>
+    <style include="style-page"></style>
+
+    <h2>Policy</h2>
+
+    <iron-autogrow-textarea is="iron-input" bind-value="{{store.policy}}" rows="5"
+      placeholder="policy for my store">
+    </iron-autogrow-textarea>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-store-policy',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

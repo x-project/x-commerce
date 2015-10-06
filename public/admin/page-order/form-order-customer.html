@@ -1,26 +1,19 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-order-customer">
   <template>
    <style include="style-form"></style>
 
-    <iron-ajax id="ajax_get_customers" method="GET" url="/api/Customers"
-      handle-as="json" last-response="{{customers}}">
-    </iron-ajax>
+    <api-model-find id="find" collection="customers" response="{{customers}}"></api-model-find>
 
-    <iron-ajax id="ajax_get_customer" method="GET" url="{{url_customer}}"
-      handle-as="json" last-response="{{customer}}">
-    </iron-ajax>
-
-    <iron-ajax id="put_order_customer" method="PUT" url="{{url_put_order_customer}}"
-      content-type="application/json" handleAs="json" on-response="on_put_response">
-    </iron-ajax>
+    <api-model-update id="update" collection="orders" model-id="{{order.id}}"></api-model-update>
 
     <form id="form" role="form">
       <div class="field">
         <label class="label">customer</label>
         <input class="input" id="input" type="text" is="iron-input" bind-value="{{customer.first_name}}"
-          on-keypress="on_customer" on-focus="on_customer">
+          on-keypress="on_search_customer" on-focus="on_search_customer">
       </div>
     </form>
 
@@ -53,13 +46,12 @@
     },
 
     attached: function () {
-      this.url_customer = '/api/Orders/' + this.order.id + '/customer'
-      this.$.ajax_get_customer.generateRequest();
+      this.set('customer', this.order.customer);
     },
 
-    on_customer:  function (event) {
+    on_search_customer:  function (event) {
       event.stopPropagation();
-      this.$.ajax_get_customers.generateRequest();
+      this.$.find.send();
     },
 
     filter_customer: function(customer) {
@@ -74,13 +66,13 @@
     },
 
     try_save: function (customer) {
-      this.url_put_order_customer = '/api/Orders/' + this.order.id;
-      this.$.put_order_customer.body = {customerId: customer.id}
-      this.$.put_order_customer.generateRequest();
+      this.$.update.data = { customer_id: customer.id };
+      this.$.update.send();
     },
 
     on_put_response: function (event, details) {
       event.stopPropagation();
+      this.set('customers', []);
     }
 
   });

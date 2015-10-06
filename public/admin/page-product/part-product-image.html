@@ -1,3 +1,4 @@
+<link rel="import" href="../image-view/image-view.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-product-image.html">
 <dom-module id="part-product-image">
@@ -7,6 +8,12 @@
     <div class="panel">
       <h2 class="title">Images</h2>
       <form-product-image product="{{product}}"></form-product-image>
+    </div>
+
+    <div class="images">
+      <template id="images" is="dom-repeat" items="{{product.images}}" as="image">
+        <image-view image="{{image}}" size="contain"></image-view>
+      </template>
     </div>
 
   </template>

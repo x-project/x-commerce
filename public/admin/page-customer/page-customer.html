@@ -1,6 +1,5 @@
-<link rel="import" href="/components/api-model-get/api-model-get.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-customer-address.html">
 <link rel="import" href="part-customer-delete.html">
 <link rel="import" href="part-customer-header.html">
@@ -10,31 +9,25 @@
 <link rel="import" href="part-customer-tag.html">
 <dom-module id="page-customer">
   <template>
-    <style include="style-page"></style>
 
-    <iron-ajax id="ajax_post" method="PUT" handleAs="json"
-      content-type="application/json">
-    </iron-ajax>
+    <api-model-update id="ajax_delete" collection="customers"
+      data="{{customer}}" model-id="{{customer.id}}">
+    </api-model-update>
 
-    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
-      on-response="on_response_delete">
-    </iron-ajax>
+    <api-model-delete id="ajax_delete" collection="customers"
+      model-id="{{customer.id}}" on-response="on_response_delete">
+    </api-model-delete>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Customers</h1>
-          <part-customer-header customer="{{customer}}"></part-customer-header>
-          <part-customer-save on-try-save="on_try_save"></part-customer-save>
-          <part-customer-delete on-try-delete="on_try_delete"></part-customer-delete>
-          <part-customer-overview customer="{{customer}}"></part-customer-overview>
-          <part-customer-address customer="{{customer}}"></part-customer-address>
-          <part-customer-note customer="{{customer}}"></part-customer-note>
-          <part-customer-tag customer="{{customer}}"></part-customer-tag>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Customers</h1>
+      <part-customer-header customer="{{customer}}"></part-customer-header>
+      <part-customer-save on-try-save="on_try_save"></part-customer-save>
+      <part-customer-delete on-try-delete="on_try_delete"></part-customer-delete>
+      <part-customer-overview customer="{{customer}}"></part-customer-overview>
+      <part-customer-address customer="{{customer}}"></part-customer-address>
+      <part-customer-note customer="{{customer}}"></part-customer-note>
+      <part-customer-tag customer="{{customer}}"></part-customer-tag>
+    </layout-admin>
 
   </template>
 </dom-module>
@@ -55,17 +48,13 @@
     },
 
     on_try_save: function (event) {
-      console.log('ciao');
       this.convert_tags_to_array();
-      this.$.ajax_post.url = '/api/customers/'+this.customer.id;
-      this.$.ajax_post.body = JSON.stringify(this.customer);
-      this.$.ajax_post.generateRequest();
+      this.$.ajax_delete.send();
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete.url = '/api/customers/'+this.customer.id;
-      this.$.ajax_delete.generateRequest();
+      this.$.ajax_delete.send();
     },
 
     on_response_delete: function (event) {

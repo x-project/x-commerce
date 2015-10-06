@@ -1,3 +1,4 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-collection-info">
   <template>
@@ -10,7 +11,10 @@
       </div>
       <div class="field">
         <label class="label">Description</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{collection.description}}">
+        <div class="detail">
+          <iron-autogrow-textarea is="iron-input" bind-value="{{collection.description}}" rows="4">
+          </iron-autogrow-textarea>
+        </div>
       </div>
     </form>
   </template>

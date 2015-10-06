@@ -8,7 +8,7 @@
 <dom-module id="page-products">
   <template>
 
-    <api-model-find id="request" collection="products"
+    <api-model-find id="find" collection="products"
       response="{{products}}">
     </api-model-find>
 
@@ -36,7 +36,7 @@
     },
 
     attached: function () {
-      this.$.request.send();
+      this.$.find.send();
     }
 
   });

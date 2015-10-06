@@ -1,15 +1,14 @@
+<link rel="import" href="../../components/api-model/api-model.html">
 <dom-module id="part-product-type">
   <template>
 
-    <iron-ajax id="ajax_prod_types" method="GET" url="/api/product_types"
-      handle-as="json" last-response="{{product_types}}" on-error="on_error">
-    </iron-ajax>
+    <api-model-find id="find" collection="product_types"
+      response="{{product_types}}" on-error="on_error">
+    </api-model-find>
 
-    <iron-ajax id="ajax_product" method="PUT" url="{{url_product}}"
-      content-type="application/json" handle-as="json"
-      on-response="on_response_product" on-error="on_error">
-    </iron-ajax>
-
+    <api-model-update id="update" collection="products" model-id="{{product.id}}"
+      on-error="on_error" on-response="on_response_update">
+    </api-model-update>
 
     <div class="panel">
       <h2>Product type</h2>
@@ -61,24 +60,28 @@
 
     on_search_prod_type: function (event) {
       event.stopPropagation();
-      this.$.ajax_prod_types.generateRequest();
+      this.$.find.send();
     },
 
     on_click_product_type: function (event) {
       event.stopPropagation();
       var product_type = this.$.product_types.itemForElement(event.target);
       this.set('search', product_type.name);
-      this.url_product = '/api/products/' + this.product.id;
-      this.$.ajax_product.body = JSON.stringify({ productTypeId: product_type.id });
-      this.$.ajax_product.generateRequest();
+      this.$.update.data = { product_type_id: product_type.id };
+      this.$.update.send();
     },
 
-    on_response_product: function (event) {
+    on_response_update: function (event) {
       this.set('product_types', []);
     },
 
     filter_product_types: function (product_type) {
       return product_type.name.search(this.search) >= 0;
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

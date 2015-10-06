@@ -1,0 +1,108 @@
+<link rel="import" href="/components/app-link/app-link.html">
+<dom-module id="item-invite">
+  <script src="/components/superagent/superagent.js"></script>
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .item {
+        margin: 20px 20px 20px 20px;
+      }
+    </style>
+
+    <div class="item">
+      <section>
+        <div>Invite for <strong>{{item.email}}</strong> as <strong>{{item.role}}</strong></div>
+        <div>issued by <strong>{{item.sender.fullname}}</strong></div>
+        <div>status: <strong>{{item.status}}</strong></div>
+      </section>
+      <template is="dom-if" if="{{is_pending(item.status)}}">
+        <section>
+          <button on-click="on_resend" disabled?="{{resent}}">{{resend_text}}</button>
+          <button on-click="on_revoke" disabled?="{{revoked}}">{{revoke_text}}</button>
+        </section>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'item-invite',
+
+    properties: {
+      item: {
+        type: Object
+      },
+      revoked: {
+        type: Boolean,
+        value: false
+      },
+      resent: {
+        type: Boolean,
+        value: false
+      },
+      resend_text: {
+        type: String,
+        value: 'resend'
+      },
+      revoke_text: {
+        type: String,
+        value: 'revoke'
+      },
+      error_occurs: Boolean
+    },
+
+    is_pending: function (status) {
+      return status === 'pending';
+    },
+
+    on_resend: function (event) {
+      var url = '/api/invites/' + this.item.id + '/resend';
+      var that = this;
+
+      that.resent = true;
+
+      superagent
+        .post(url)
+        .set('Authorization', this.route.session.accessToken)
+        .set('Accept', 'application/json')
+        .end(function(err, res){
+          if (err) {
+            that.error_occurs = true;
+            that.resent = false;
+            that.resend_text = 'error occured, try again :(';
+            return;
+          }
+
+          that.resend_text = 'invite resent';
+        });
+    },
+
+    on_revoke: function (event) {
+      var url = '/api/invites/' + this.item.id + '/revoke';
+      var that = this;
+
+      that.revoked = true;
+
+      superagent
+        .post(url)
+        .set('Authorization', this.$.session.get('access_token'))
+        .set('Accept', 'application/json')
+        .end(function (err, res) {
+          if (err) {
+            that.error_occurs = true;
+            that.revoked = false;
+            that.revoke_text = 'error occured, try again :(';
+            return;
+          }
+
+          that.revoke_text = 'invite revoked';
+        });
+    }
+
+  });
+</script>

@@ -6,28 +6,21 @@
 <link rel="import" href="part-customers-pages.html">
 <link rel="import" href="part-customers-search.html">
 <link rel="import" href="part-customers-stats.html">
-
 <dom-module id="page-customers">
   <template>
-    <style include="style-page"></style>
 
     <api-model-find id="request" collection="customers"
       response="{{customers}}">
     </api-model-find>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Customers</h1>
-          <part-customers-create></part-customers-create>
-          <part-customers-search></part-customers-search>
-          <part-customers-stats></part-customers-stats>
-          <part-customers-items customers="{{customers}}"></part-customers-items>
-          <part-customers-pages></part-customers-pages>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Customers</h1>
+      <part-customers-create></part-customers-create>
+      <part-customers-search></part-customers-search>
+      <part-customers-stats></part-customers-stats>
+      <part-customers-items customers="{{customers}}"></part-customers-items>
+      <part-customers-pages></part-customers-pages>
+    </layout-admin>
 
   </template>
 </dom-module>

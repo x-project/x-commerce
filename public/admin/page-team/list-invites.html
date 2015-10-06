@@ -1,0 +1,31 @@
+<link rel="import" href="item-invite.html">
+<dom-module id="list-invites">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <div class="list">
+      <template is="dom-repeat" items="{{items}}">
+        <item-invite item="{{item}}"></item-invite>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'list-invites',
+
+    properties: {
+      items: {
+        type: Array
+      }
+    }
+
+  });
+</script>

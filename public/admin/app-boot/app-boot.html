@@ -19,6 +19,12 @@
 <link rel="import" href="../page-variants/page-variants.html">
 <link rel="import" href="../page-variant/page-variant.html">
 
+<link rel="import" href="../page-invite/page-invite.html">
+<link rel="import" href="../page-login/page-login.html">
+<link rel="import" href="../page-member/page-member.html">
+<link rel="import" href="../page-signup/page-signup.html">
+<link rel="import" href="../page-team/page-team.html">
+
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -34,33 +40,32 @@
 
     <app-routes id="routes" on-route="on_route">
 
-      <app-route path="/admin" page="page-home"></app-route>
-      <app-route path="/admin/" page="page-home"></app-route>
+      <app-route path="/admin" page="page-login"></app-route>
+      <app-route path="/admin/" page="page-login"></app-route>
+
       <app-route path="/admin/store" page="page-store"
         on-route="/admin/store"></app-route>
       <app-route path="/admin/collections" page="page-collections"></app-route>
-      <!-- <app-route path="/admin/collections/new" page="page-collection"></app-route> -->
+      <app-route path="/admin/collections/new" page="page-collection"
+        on-route="/admin/collections/new">
+      </app-route>
       <app-route path="/admin/collections/:collection_id" page="page-collection"
         on-route="/admin/collections/:collection_id"></app-route>
 
-      <app-route path="/admin/orders" page="page-orders"
-        on-route="/admin/orders">
+      <app-route path="/admin/orders" page="page-orders"></app-route>
+      <app-route path="/admin/orders/new" page="page-order"
+        on-route="/admin/orders/new">
       </app-route>
-      <!-- <app-route path="/admin/orders/new" page="page-order"></app-route> -->
       <app-route path="/admin/orders/:order_id" page="page-order"
         on-route="/admin/orders/:order_id"></app-route>
 
-      <app-route path="/admin/products" page="page-products"
-        on-route="/admin/products">
-        </app-route>
+      <app-route path="/admin/products" page="page-products"></app-route>
       <app-route path="/admin/products/new" page="page-product"
         on-route="/admin/products/new">
       </app-route>
       <app-route path="/admin/products/:product_id" page="page-product"
         on-route="/admin/products/:product_id"></app-route>
-      <app-route path="/admin/customers" page="page-customers"
-        on-route="/admin/customers">
-      </app-route>
+      <app-route path="/admin/customers" page="page-customers"></app-route>
       <app-route path="/admin/customers/new" page="page-customer"
         on-route='/admin/customers/new'></app-route>
       <app-route path="/admin/customers/:customer_id" page="page-customer"
@@ -73,6 +78,14 @@
       <app-route path="/admin/products/:product_id/variants/:variant_id" page="page-variant"
         on-route="/admin/products/:product_id/variants/:variant_id">
       </app-route>
+
+
+
+      <app-route path="/admin/invite/new" page="page-invite"></app-route>
+      <app-route path="/admin/login" page="page-login"></app-route>
+      <app-route path="/admin/members/:member_id" page="page-member"></app-route>
+      <app-route path="/admin/signup" page="page-signup"></app-route>
+      <app-route path="/admin/team" page="page-team"></app-route>
 
       <app-route path="/admin/test" page="page-test"></app-route>
     </app-routes>
@@ -92,16 +105,37 @@
       }
     },
 
-    on_route: function (event) {
+    attached: function (event) {
       this.user = this.$.session.get('user');
+      this.isAdmin = this.user ? this.user.role === 'admin' : false;
+      this.accessToken = this.$.session.get('access_token');
+    },
+
+   on_route: function (event) {
+      event.detail.session = {
+        accessToken: this.accessToken,
+        isAdmin: this.isAdmin,
+        user: this.user,
+      };
     },
 
     on_login: function (event) {
+      this.$.session.set('access_token', event.detail.id);
+      this.$.session.set('user_id', event.detail.userId);
       this.$.session.set('user', event.detail.user);
+      this.user = event.detail.user;
+      this.accessToken = event.detail.id;
+      this.isAdmin = this.user.role === 'admin';
+      page('/admin/team');
     },
 
     on_logout: function (event) {
+      this.$.session.unset('access_token');
+      this.$.session.unset('user_id');
       this.$.session.unset('user');
+      delete this.accessToken;
+      delete this.isAdmin;
+      delete this.user;
     },
 
     '/login': function (event) {
@@ -115,6 +149,13 @@
     '/admin/store': function () {
       event.stopPropagation();
       var routes = this.$.routes;
+      routes.fire('route', event.detail);
+    },
+
+    '/admin/collections/new': function (event) {
+      event.stopPropagation();
+      var routes = this.$.routes;
+      event.detail.data = { collection: {} };
       routes.fire('route', event.detail);
     },
 
@@ -134,12 +175,6 @@
         }
         routes.fire('route', event.detail);
       });
-    },
-
-    '/admin/customers': function (event) {
-      event.stopPropagation();
-      var routes = this.$.routes;
-      routes.fire('route', event.detail);
     },
 
     '/admin/customers/new': function (event) {
@@ -186,7 +221,7 @@
       this.get_model({
         collection: 'products',
         modelId: model_id,
-        include: ['collections', 'product_type', 'vendor']
+        include: ['collections', 'product_type', 'vendor', 'images']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';
@@ -234,9 +269,10 @@
       });
     },
 
-    '/admin/orders': function (event) {
+    '/admin/orders/new': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
+      event.detail.data = { order: {} };
       routes.fire('route', event.detail);
     },
 

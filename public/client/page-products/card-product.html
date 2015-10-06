@@ -1,9 +1,11 @@
 <link rel="import" href="../style-card/style-card.html">
+<link rel="import" href="part-products-images.html">
 <dom-module id="card-product">
   <template>
     <style include="style-card"></style>
 
     <div class="card">
+      <part-products-images product="{{product}}"></part-products-images>
       <div>{{product.title}}</div>
       <div>{{product.description}}</div>
       <div>{{product.price}}</div>

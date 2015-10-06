@@ -1,3 +1,5 @@
+<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-collection-add-products.html">
@@ -10,33 +12,27 @@
 <link rel="import" href="part-collection-visibility.html">
 <dom-module id="page-collection">
   <template>
-    <style include="style-page"></style>
 
-    <iron-ajax id="ajax_post" method="PUT" content-type="application/json"
-      handleAs="json" on-response="on_response_put">
-    </iron-ajax>
+    <api-model-update id="ajax_update" collection="collections"
+      data="{{collection}}" model-id="{{collection.id}}">
+    </api-model-update>
 
-    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
-      on-response="on_response_delete">
-    </iron-ajax>
+    <api-model-delete id="ajax_delete" collection="collections"
+      model-id="{{collection.id}}" on-response="on_response_delete">
+    </api-model-delete>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h1>Collections</h1>
-          <part-collection-header collection="{{collection}}"></part-collection-header>
-          <part-collection-save on-try-save="on_try_save"></part-collection-save>
-          <part-collection-delete on-try-delete="on_try_delete"></part-collection-delete>
-          <part-collection-info collection="{{collection}}"></part-collection-info>
-          <part-collection-visibility collection="{{collection}}"></part-collection-visibility>
-          <part-collection-image collection="{{collection}}"></part-collection-image>
-          <part-collection-add-products collection="{{collection}}"
-            products="{{products}}">
-          </part-collection-add-products>
-        </div>
-      </div>
-    </div>
+    <layout-admin>
+      <h1>Collections</h1>
+      <part-collection-header collection="{{collection}}"></part-collection-header>
+      <part-collection-save on-try-save="on_try_save"></part-collection-save>
+      <part-collection-delete on-try-delete="on_try_delete"></part-collection-delete>
+      <part-collection-info collection="{{collection}}"></part-collection-info>
+      <part-collection-visibility collection="{{collection}}"></part-collection-visibility>
+      <part-collection-image collection="{{collection}}"></part-collection-image>
+      <part-collection-add-products collection="{{collection}}"
+        products="{{products}}">
+      </part-collection-add-products>
+    </layout-admin>
 
   </template>
 </dom-module>
@@ -62,9 +58,7 @@
     },
 
     on_try_save: function (event) {
-      this.$.ajax_post.url = '/api/collections/' + this.collection.id;
-      this.$.ajax_post.body = JSON.stringify(this.collection);
-      this.$.ajax_post.generateRequest();
+      this.$.ajax_update.send();
     },
 
     on_response_put: function (event, details) {
@@ -73,8 +67,7 @@
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete.url = '/api/collections/' + this.collection.id;
-      this.$.ajax_delete.generateRequest();
+      this.$.ajax_delete.send();
     },
 
     on_response_delete: function (event) {

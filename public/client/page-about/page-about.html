@@ -6,6 +6,10 @@
   <template>
     <style include="style-page"></style>
 
+    <iron-ajax id="ajax_get_store" method="GET" on-error="on_error"
+      url="/api/stores/findOne" last-response="{{store}}">
+    </iron-ajax>
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>About</h1>
@@ -14,8 +18,8 @@
         <p>{{store.description}}</p>
       </div>
     </layout-client>
-
   </template>
+
 </dom-module>
 <script>
   Polymer({
@@ -27,6 +31,15 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      this.$.ajax_get_store.generateRequest();
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

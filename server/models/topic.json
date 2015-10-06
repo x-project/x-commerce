@@ -1,0 +1,17 @@
+{
+  "name": "Topic",
+  "plural": "topics",
+  "mongodb": {
+    "collection": "topics"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "topic": {
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

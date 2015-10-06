@@ -1,3 +1,4 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
@@ -10,6 +11,14 @@
 <dom-module id="page-order">
   <template>
 
+    <api-model-update id="update" collection="orders"
+      model-id="{{order.id}}">
+    </api-model-update>
+
+    <api-model-delete id="delete_model" collection="orders"
+      model-id="{{order.id}}" on-response="on_response_delete">
+    </api-model-delete>
+
     <layout-admin>
       <h1>Orders</h1>
         <part-order-header order="{{order}}"></part-order-header>
@@ -17,7 +26,7 @@
         <part-order-save order="{{order}}" on-try-save="on_try_save"></part-order-save>
         <part-order-status order="{{order}}"></part-order-status>
         <part-order-customer order="{{order}}"></part-order-customer>
-        <part-order-items id="items" order="{{order}}"></part-order-items>
+        <part-order-items id="items" order="{{order}}" ></part-order-items>
         <part-order-create-order-item order="{{order}}"
           on-try-save-order-item="on_try_save_order_item">
         </part-order-create-order-item>
@@ -54,11 +63,31 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      console.log(this.order);
+      this.$.update.data = this.get_order();
+      this.$.update.send();
+    },
+
+    get_order:  function () {
+      return {
+        status: this.order.status,
+        discount: this.order.discount,
+        shipping_cost: this.order.shipping_cost,
+        taxes: this.order.taxes,
+        total: this.order.total,
+        notes: this.order.notes,
+        feedback: this.order.feedback,
+        customer_id: this.order.customer_id
+      };
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
+      this.$.delete_model.send();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+      page('/admin/orders');
     }
 
   });

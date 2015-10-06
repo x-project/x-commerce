@@ -1,0 +1,46 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/iron-input/iron-input.html">
+<dom-module id="form-signup">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <form id="form" on-submit="on_submit">
+      <div class="field">
+        <label>email</label>
+        <input is="iron-input" type="text" disabled="true" placeholder="{{credentials.email}}">
+      </div>
+      <div class="field">
+        <label>password</label>
+        <input is="iron-input" type="password" placeholder="password" bind-value="{{credentials.password}}">
+      </div>
+      <input type="submit" value="signup" />
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-signup',
+
+    properties: {
+      credentials: {
+        type: Object,
+        value: function () { return {}; },
+        notify: true
+      },
+      test: String
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.fire('submit', this.credentials);
+    }
+
+  });
+</script>

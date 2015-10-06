@@ -1,3 +1,4 @@
+<link rel="import" href="../image-view/image-view.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-collection-image.html">
 <dom-module id="part-collection-image">
@@ -8,6 +9,13 @@
       <h3 class="title">Collection Images</h3>
       <form-collection-image collection="{{collection}}"></form-collection-image>
     </div>
+
+    <div class="images">
+      <template id="images" is="dom-repeat" items="{{collection.images}}" as="image">
+        <image-view image="{{image}}" size="contain"></image-view>
+      </template>
+    </div>
+
   </template>
 </dom-module>
 <script>
