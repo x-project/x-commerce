@@ -64,7 +64,8 @@
     },
     "comments": {
       "type": "hasMany",
-      "model": "Comment"
+      "model": "Comment",
+      "foreignKey": "product_id"
     },
     "images": {
       "type": "hasMany",

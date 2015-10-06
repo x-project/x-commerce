@@ -8,11 +8,13 @@
       }
     </style>
 
-    <template is="dom-repeat" items="{{comments}}" as="comment">
+    <iron-ajax id="ajax_post_comment" method="POST" on-response="on_response" on-error="on_error"></iron-ajax>
+
+    <template is="dom-repeat" items="{{product.comments}}" as="comment">
       <part-comment comment="{{comment}}"></part-comment>
     </template>
 
-    <form-comment comment="{{comment}}"></form-comment>
+    <form-comment comment="{{comment}}" on-try-save="on_try_save"></form-comment>
 
   </template>
 </dom-module>
@@ -22,10 +24,34 @@
     is: 'part-comments',
 
     properties: {
-      comments: {
-        type: Array,
-        value: function () { return []; }
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      comment: {
+        type: Object,
+        value: function () { return {}; }
       }
+    },
+
+    on_try_save: function  (event) {
+      event.stopPropagation();
+      // todo customer id
+      console.log(this.comment);
+      var com = { title: this.comment.title, text: this.comment.text, product_id: this.product.id };
+      this.$.ajax_post_comment.body = JSON.stringify(com);
+      this.$.ajax_post_comment.url = '/api/products/' + this.product.id + '/comments'
+      this.$.ajax_post_comment.generateRequest();
+    },
+
+    on_response: function  (event, details) {
+      event.stopPropagation();
+      console.log(details.response);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });
