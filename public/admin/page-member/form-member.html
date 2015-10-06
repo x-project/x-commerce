@@ -1,0 +1,47 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="/components/iron-input/iron-input.html">
+<link rel="import" href="/components/api-model-update/api-model-update.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-member">
+  <template>
+    <style include="style-form"></style>
+
+    <api-model-update id="update" access-token="{{token}}"
+      collection="members" model-id="{{member.id}}" data="{{member}}">
+    </api-model-update>
+
+    <form class="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">fullname</label>
+        <input class="input" is="iron-input" type="text" bind-value="{{member.fullname}}">
+      </div>
+      <div class="field">
+        <input type="submit" class="button" value="update">
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'form-member',
+
+    properties: {
+      member: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      token: {
+        type: String
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      this.$.update.send();
+    }
+
+  });
+</script>

@@ -1,0 +1,78 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="/components/api-user-signup/api-user-signup.html">
+
+<link rel="import" href="form-invite.html">
+<dom-module id="page-invite">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #panel {
+      margin-top: 50px;
+    }
+    #panel a {
+      text-decoration: none;
+    }
+  </style>
+  <template>
+
+    <api-model-create id="create" collection="invites" access-token="{{route.session.accessToken}}"
+      response="{{response}}" error="{{error}}" data="{{data}}"
+      on-response="on_response" on-error="on_error">
+    </api-model-create>
+
+    <div id="panel" class="container">
+      <a is="app-link" href="/admin/team">&larr;</a>
+      <h3>Invite new team member</h3>
+      <form-invite id="form" on-response="on_response" on-submit="on_submit"></form-invite>
+      <template is="dom-if" if="{{error_occurs}}">
+      <div class="error-box">Error! <span>{{response.message}}</span></div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-invite',
+
+    properties: {
+      token: {
+        type: String
+      },
+      response: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error_occurs: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      console.log(this.route);
+    },
+
+    on_submit: function (event) {
+      this.data = event.detail;
+      this.$.create.send();
+    },
+
+    on_response: function (event) {
+      page('/admin/team');
+    },
+
+    on_error: function (event) {
+      this.error_occurs = true;
+    }
+
+  });
+</script>

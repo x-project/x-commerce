@@ -1,0 +1,86 @@
+{
+  "name": "InvitableUser",
+  "plural": "invitable_users",
+  "base": "User",
+  "mongodb": {
+    "collection": "invitable_users"
+  },
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "editor",
+        "author"
+      ]
+    },
+    "fullname": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "is_main_admin": {
+      "type": "Boolean",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "articles": {
+      "type": "hasMany",
+      "model": "Article"
+    }
+  },
+  "mixins": {
+    "TimeStamp" : true
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "accessType": "READ",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "principalType": "ROLE",
+      "accessType": "READ",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "findById"
+    },
+    {
+      "principalType": "ROLE",
+      "accessType": "READ",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "findById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__articles"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "__create__articles"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "updateAttributes"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "updateAttributes"
+    }
+  ],
+  "methods": {}
+}

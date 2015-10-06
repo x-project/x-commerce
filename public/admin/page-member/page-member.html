@@ -1,0 +1,48 @@
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="../part-sidebar/part-sidebar.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="form-member.html">
+
+<dom-module id="page-member">
+  <template>
+    <style include="style-page"></style>
+
+    <api-model-get id="get" access-token="{{route.session.accessToken}}"
+      collection="members" model-id="{{member_id}}"
+      response="{{member}}">
+    </api-model-get>
+
+    <div class="page">
+      <part-sidebar class="sidebar"></part-sidebar>
+      <div class="main">
+        <div class="container">
+          <h2>edit member</h2>
+          <form-member member="{{member}}" token="{{route.session.accessToken}}"></form-member>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'page-member',
+
+    properties: {
+      member: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.set('member_id', this.route.params.member_id);
+      this.async(function () {
+        this.$.get.send();
+      });
+    }
+
+  });
+</script>

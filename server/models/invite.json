@@ -1,0 +1,110 @@
+{
+  "name": "Invite",
+  "plural": "invites",
+  "base": "PersistedModel",
+  "mongodb": {
+    "collection": "invites"
+  },
+  "properties": {
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "editor",
+        "author"
+      ],
+      "required": true,
+      "default": "author"
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "pending",
+        "accepted",
+        "revoked"
+      ],
+      "default": "pending"
+    },
+    "expiresIn": {
+      "type": "number",
+      "required": true,
+      "default": 7
+    },
+    "token": {
+      "type": "string",
+      "required": false
+    },
+    "url": {
+      "type": "string",
+      "required": false
+    },
+    "expiresAt": {
+      "type": "date",
+      "required": false
+    },
+    "acceptedAt": {
+       "type": "date",
+      "required": false
+    }
+  },
+  "mixins": {
+    "TimeStamp" : true
+  },
+  "validations": [],
+  "relations": {
+    "sender": {
+      "type": "belongsTo",
+      "model": "Member"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "accessType": "EXECUTE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "accessType": "EXECUTE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "accessType": "EXECUTE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "revoke"
+    },
+    {
+      "principalType": "ROLE",
+      "accessType": "EXECUTE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "revoke"
+    },
+   {
+      "principalType": "ROLE",
+      "accessType": "EXECUTE",
+      "principalId": "$everyone",
+      "permission": "DENY",
+      "property": "resend"
+    },
+    {
+      "principalType": "ROLE",
+      "accessType": "EXECUTE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "resend"
+    }
+  ],
+  "methods": {}
+}

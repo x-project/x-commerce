@@ -1,0 +1,37 @@
+<link rel="import" href="item-member.html">
+
+<dom-module id="list-members">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <div class="list">
+      <template is="dom-repeat" items="{{items}}" filter="filter">
+        <item-member item="{{item}}"></item-member>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'list-members',
+
+    properties: {
+      items: {
+        type: Array
+      }
+    },
+
+    filter: function (item) {
+      item.editlink = '/admin/members/' + item.id;
+      return true;
+    }
+
+  });
+</script>

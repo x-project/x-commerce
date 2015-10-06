@@ -1,0 +1,65 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/iron-input/iron-input.html">
+<link rel="import" href="/components/iron-selector/iron-selector.html">
+
+<dom-module id="form-invite">
+  <style>
+    :host {
+      display: block;
+    }
+
+    iron-selector {
+      font-size: 12px;
+    }
+
+    .iron-selected {
+      background: #eee;
+    }
+  </style>
+  <template>
+
+    <form id="form" on-submit="on_submit">
+      <div class="field">
+        <label>email</label>
+        <input is="iron-input" type="text" bind-value="{{data.email}}">
+      </div>
+      <div class="field">
+        <label>role</label>
+        <iron-selector attr-for-selected="name" selected="{{data.role}}">
+          <div name="author">author</div>
+          <div name="editor">editor</div>
+          <div name="admin">admin</div>
+        </iron-selector>
+      </div>
+      <div class="field">
+        <label>expires in (days)</label>
+        <input is="iron-input" type="number" bind-value="{{data.expiresIn}}">
+      </div>
+      <input type="submit" value="invite">
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-invite',
+
+    properties: {
+      data: Object
+    },
+
+    attached: function () {
+      this.set('data', {
+        role: 'author',
+        expiresIn: 7});
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.fire('submit', this.data);
+    }
+
+  });
+</script>

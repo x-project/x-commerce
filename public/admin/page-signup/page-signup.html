@@ -1,0 +1,83 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="/components/api-user-signup/api-user-signup.html">
+<link rel="import" href="form-signup.html">
+<dom-module id="page-signup">
+  <style>
+    :host {
+      display: block;
+    }
+
+    #panel {
+      margin-top: 50px;
+    }
+    #panel a {
+      text-decoration: none;
+    }
+  </style>
+  <template>
+
+    <api-user-signup id="signup" credentials="{{credentials}}" collection="members"
+      response="{{response}}" error="{{error}}"
+      on-signup="on_signup" on-error="on_error">
+    </api-user-signup>
+
+    <div id="panel" class="container">
+      <a is="app-link" href="/">&larr;</a>
+      <h3>Signup</h3>
+      <form-signup id="form" on-submit="on_submit"></form-signup>
+      <template is="dom-if" if="{{error_occurs}}">
+      <div class="error-box">Error! <span>{{response.message}}</span></div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-signup',
+
+    properties: {
+      email: String,
+      token: String,
+      response: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error_occurs: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      var query = this.route.query;
+      this.email = query.email;
+      this.token = query.token;
+
+      this.$.form.credentials = {
+        email: this.email,
+        token: this.token
+      };
+    },
+
+    on_submit: function (event) {
+      this.credentials = event.detail;
+      this.$.signup.send();
+    },
+
+    on_signup: function (event) {
+      page('/admin/team');
+    },
+
+    on_error: function (event) {
+      this.error_occurs = true;
+    }
+
+  });
+</script>
