@@ -3,6 +3,7 @@ var async = require('async');
 var faker = require('faker');
 var casual = require('casual');
 var fs = require('fs');
+var retry = require('retry');
 
 var collections = {};
 
@@ -155,7 +156,6 @@ function populate_image (name) {
   return function (item, next) {
 
     var image = random_model_from(images);
-    console.log(image);
 
     function signed_url (next) {
       request
@@ -177,18 +177,25 @@ function populate_image (name) {
     }
 
     function upload_image (data, next) {
-      console.log('data', data);
       request
         .post('http://localhost:3000' + data.signed_url)
         .attach('file', __dirname + '/images/' + data.filename)
         .end(next);
     }
 
-    async.waterfall([
-      signed_url,
-      upload_image
-    ], next);
-
+    var operation = retry.operation();
+    operation.attempt(function () {
+      async.waterfall([
+        signed_url,
+        upload_image
+      ], function (err) {
+        console.log(err);
+        if (operation.retry(err)) {
+          return;
+        }
+        setImmediate(next, err ? operation.mainError() : null);
+      });
+    });
   };
 }
 
