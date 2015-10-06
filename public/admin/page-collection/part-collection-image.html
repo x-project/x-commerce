@@ -3,11 +3,7 @@
 <link rel="import" href="form-collection-image.html">
 <dom-module id="part-collection-image">
   <template>
-    <style include="style-panel">
-    .image {
-      width: 100px;
-    }
-    </style>
+    <style include="style-panel"></style>
 
     <div class="panel">
       <h3 class="title">Collection Images</h3>
@@ -16,7 +12,7 @@
 
     <div class="images">
       <template id="images" is="dom-repeat" items="{{collection.images}}" as="image">
-        <image-view class="image" image="{{image}}" size="contain"></image-view>
+        <image-view image="{{image}}" size="contain"></image-view>
       </template>
     </div>
 

@@ -1,3 +1,4 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <dom-module id="input-search-product">
   <template>
     <style>
@@ -12,10 +13,9 @@
       }
     </style>
 
-
-    <iron-ajax id="ajax_get_products" method="GET" handle-as="json"
-      last-response="{{products}}" on-response="on_response">
-    </iron-ajax>
+    <api-model-find id="find" collection="products" response="{{products}}"
+      include=["variants"]>
+    </api-model-find>
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
@@ -73,12 +73,7 @@
     on_search_product: function (event) {
       event.stopPropagation();
       this.show_products();
-      this.$.ajax_get_products.url = '/api/products?filter=%7B%22include%22%3A%22variants%22%7D';
-      this.$.ajax_get_products.generateRequest();
-    },
-
-    on_response: function (event) {
-      event.stopPropagation();
+      this.$.find.send();
     },
 
     on_click_select: function (event) {

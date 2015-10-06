@@ -5,14 +5,11 @@
       :host {
         display: block;
       }
-      .image{
-        width: 200px;
-      }
     </style>
 
     <div class="images">
       <template id="images" is="dom-repeat" items="{{product.images}}" as="image">
-        <image-view class="image" image="{{image}}" size="contain"></image-view>
+        <image-view image="{{image}}" size="contain"></image-view>
       </template>
     </div>
 

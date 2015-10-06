@@ -19,6 +19,12 @@
 <link rel="import" href="../page-variants/page-variants.html">
 <link rel="import" href="../page-variant/page-variant.html">
 
+<link rel="import" href="../page-invite/page-invite.html">
+<link rel="import" href="../page-login/page-login.html">
+<link rel="import" href="../page-member/page-member.html">
+<link rel="import" href="../page-signup/page-signup.html">
+<link rel="import" href="../page-team/page-team.html">
+
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -34,8 +40,9 @@
 
     <app-routes id="routes" on-route="on_route">
 
-      <app-route path="/admin" page="page-home"></app-route>
-      <app-route path="/admin/" page="page-home"></app-route>
+      <app-route path="/admin" page="page-login"></app-route>
+      <app-route path="/admin/" page="page-login"></app-route>
+
       <app-route path="/admin/store" page="page-store"
         on-route="/admin/store"></app-route>
       <app-route path="/admin/collections" page="page-collections"></app-route>
@@ -72,6 +79,14 @@
         on-route="/admin/products/:product_id/variants/:variant_id">
       </app-route>
 
+
+
+      <app-route path="/admin/invite/new" page="page-invite"></app-route>
+      <app-route path="/admin/login" page="page-login"></app-route>
+      <app-route path="/admin/members/:member_id" page="page-member"></app-route>
+      <app-route path="/admin/signup" page="page-signup"></app-route>
+      <app-route path="/admin/team" page="page-team"></app-route>
+
       <app-route path="/admin/test" page="page-test"></app-route>
     </app-routes>
 
@@ -90,16 +105,37 @@
       }
     },
 
-    on_route: function (event) {
+    attached: function (event) {
       this.user = this.$.session.get('user');
+      this.isAdmin = this.user ? this.user.role === 'admin' : false;
+      this.accessToken = this.$.session.get('access_token');
+    },
+
+   on_route: function (event) {
+      event.detail.session = {
+        accessToken: this.accessToken,
+        isAdmin: this.isAdmin,
+        user: this.user,
+      };
     },
 
     on_login: function (event) {
+      this.$.session.set('access_token', event.detail.id);
+      this.$.session.set('user_id', event.detail.userId);
       this.$.session.set('user', event.detail.user);
+      this.user = event.detail.user;
+      this.accessToken = event.detail.id;
+      this.isAdmin = this.user.role === 'admin';
+      page('/admin/team');
     },
 
     on_logout: function (event) {
+      this.$.session.unset('access_token');
+      this.$.session.unset('user_id');
       this.$.session.unset('user');
+      delete this.accessToken;
+      delete this.isAdmin;
+      delete this.user;
     },
 
     '/login': function (event) {

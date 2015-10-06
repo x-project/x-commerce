@@ -14,6 +14,7 @@ var customers = [];
 var store = [];
 var images = [];
 var images_name = [];
+var images_filenames = [];
 
 function random_boolean () {
   return Math.random() > 0.5;
@@ -136,9 +137,16 @@ var each = function (type) {
   };
 };
 
-var get_images = function (next) {
-  var images_filenames = ...;
-
+var get_images_files_name = function (next) {
+  fs.readdir(path, function (err, files) {
+    if (err) {
+      images_filenames = [];
+      callback(err, null);
+      return;
+    }
+    images_filenames = files;
+    callback(null, files);
+  });
   setImmediate(next, err);
 };
 
@@ -152,86 +160,83 @@ var store_images = function (next) {
 
 
 
+// function upload_images (callback) {
+//   async.eachSeries(images,
+//     function (data_upload, done) {
+//       upload_image(data_upload, function (err, model) {
+//         if (err) {
+//           done(err);
+//           return;
+//         }
+//         done(null);
+//       });
+//     },
+//     function (err) {
+//       if (err) {
+//         callback();
+//         return;
+//       }
+//       setImmediate(callback);
+//     }
+//   );
+// }
 
+// function upload_image (data_upload, callback) {
+//   request.post('http://localhost:3000' + data_upload.signed_url)
+//     .attach('file', __dirname + '/imageTest/' + data_upload.filename)
+//     .end(function(err, res) {
+//       if (err) {
+//         callback(err, null);
+//         return;
+//       }
+//       var model = res.body;
+//       callback(null, model);
+//    });
+// }
 
+// function create_images (models, collection, callback) {
+//   async.each(products,
+//     function (product, done) {
+//       create_image(collection, product.id, function (err, model) {
+//         if (err) {
+//           done(err);
+//           return;
+//         }
+//         models.push(model);
+//         done(null);
+//       });
+//     },
+//     function (err) {
+//       if (err) {
+//         callback();
+//         return;
+//       }
+//       callback();
+//     }
+//   );
+// }
 
-function upload_images (callback) {
-  async.eachSeries(images,
-    function (data_upload, done) {
-      upload_image(data_upload, function (err, model) {
-        if (err) {
-          done(err);
-          return;
-        }
-        done(null);
-      });
-    },
-    function (err) {
-      if (err) {
-        callback();
-        return;
-      }
-      setImmediate(callback);
-    }
-  );
-}
-
-function upload_image (data_upload, callback) {
-  request.post('http://localhost:3000' + data_upload.signed_url)
-    .attach('file', __dirname + '/imageTest/' + data_upload.filename)
-    .end(function(err, res) {
-      if (err) {
-        callback(err, null);
-        return;
-      }
-      var model = res.body;
-      callback(null, model);
-   });
-}
-
-function create_images (models, collection, callback) {
-  async.each(products,
-    function (product, done) {
-      create_image(collection, product.id, function (err, model) {
-        if (err) {
-          done(err);
-          return;
-        }
-        models.push(model);
-        done(null);
-      });
-    },
-    function (err) {
-      if (err) {
-        callback();
-        return;
-      }
-      callback();
-    }
-  );
-}
-
-function create_image (collection, model_id, callback) {
-  var url = '/api/' + collection + '/' + model_id + '/images';
-  request
-    .post('http://localhost:3000' + url)
-    .send({
-      filename: images_name[0, getRandomInt(0, images_name.length)],
-      filetype: "image/jpeg",
-      container: collection + '/' + model_id + '/images'
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(function (err, res) {
-      if (err) {
-        callback(err);
-        return;
-      }
-      var model = res.body;
-      callback(null, model);
-    });
-}
+// function create_image (collection, model_id, callback) {
+//   var url = '/api/' + collection + '/' + model_id + '/images';
+//   request
+//     .post('http://localhost:3000' + url)
+//     .send({
+//       filename: images_name[0, getRandomInt(0, images_name.length)],
+//       filetype: "image/jpeg",
+//       container: collection + '/' + model_id + '/images'
+//     })
+//     .type('json')
+//     .set('X-API-Key', 'foobar')
+//     .set('Accept', 'application/json')
+//     .end(function (err, res) {
+//       if (err) {
+//         callback(err);
+//         return;
+//       }
+//       var model = res.body;
+//       callback(null, model);
+//     });
+// }
 
 /*====================================================*/
 

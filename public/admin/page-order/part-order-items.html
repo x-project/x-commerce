@@ -16,8 +16,8 @@
       }
     </style>
 
-    <api-model-find id="find" collection="orders" response="{{order_items}}"
-      model-id="{{order.id}}"></api-model-find>
+<!--     <api-model-find id="find" collection="orders" response="{{order_items}}"
+      model-id="{{order.id}}" include=["product", "product_variant"]></api-model-find> -->
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
       last-response="{{order_items}}">
