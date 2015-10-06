@@ -14,7 +14,7 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "mongo"
   },
   "AccessToken": {
     "dataSource": "mongo",
@@ -31,6 +31,10 @@
   "Role": {
     "dataSource": "mongo",
     "public": false
+  },
+  "Manager": {
+    "dataSource": "mongo",
+    "public": true
   },
   "Address": {
     "dataSource": "mongo"
@@ -67,9 +71,6 @@
     "dataSource": "mongo"
   },
   "Invoice": {
-    "dataSource": "mongo"
-  },
-  "Member": {
     "dataSource": "mongo"
   },
   "Order": {

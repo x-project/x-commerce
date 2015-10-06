@@ -1,25 +1,28 @@
 var async = require('async');
 var if_async = require('if-async');
 
-var ROLES = ['admin', 'editor', 'author'];
+var ROLES = ['owner', 'admin', 'operator'];
 
 var DEFAULT_ADMIN = {
   fullname: 'Main Admin',
   isMainAdmin: true,
   role: 'admin',
   password: '123',
-  email: 'admin@x-journal.com'
+  email: 'admin@x-commerce.com'
 };
+
+var model = 'Manager';
 
 module.exports = function (server, done) {
 
   var Role = server.models.Role;
   var RoleMapping = server.models.RoleMapping;
-  var Member = server.models.Member;
+  var InvitableUser = server.models[model];
 
   var create_role = function (name, next) {
     // add role only if it not exists
     Role.findOne({where: {name: name}}, function (err, role) {
+      console.log('role:', role);
       if (err || role) {
         setImmediate(next, err);
         return;
@@ -30,8 +33,8 @@ module.exports = function (server, done) {
   };
 
   var have_admin = function (cb) {
-    Member.findOne({where: {isMainAdmin: true}}, function (err, member) {
-      return cb(null, !!member);
+    InvitableUser.findOne({where: {isMainAdmin: true}}, function (err, user) {
+      return cb(null, !!user);
     });
   };
 
@@ -43,10 +46,10 @@ module.exports = function (server, done) {
   };
 
   var create_admin = function (x_data, done) {
-    var member = DEFAULT_ADMIN;
+    var user = DEFAULT_ADMIN;
 
-    Member.create(member, function (err, member) {
-      x_data.member = member;
+    InvitableUser.create(user, function (err, user) {
+      x_data.user = user;
       setImmediate(done, err, x_data);
     });
   };
@@ -54,7 +57,7 @@ module.exports = function (server, done) {
   var assign_role = function (x_data, done) {
     x_data.role.principals.create({
       principalType: RoleMapping.USER,
-      principalId: x_data.member.id
+      principalId: x_data.user.id
     }, function (err) {
       setImmediate(done, err, x_data);
     });
@@ -73,7 +76,7 @@ module.exports = function (server, done) {
 
   // create roles
   async.waterfall([
-    function (next) { async.eachSeries(create_role, next); },
+    function (next) { async.eachSeries(ROLES, create_role, next); },
     if_async.not(have_admin).then(generate_admin)
   ], done);
 
