@@ -20,7 +20,8 @@
   "relations": {
     "author": {
       "type": "belongsTo",
-      "model": "Customer"
+      "model": "Customer",
+      "foreignKey": "author_id"
     },
     "messages": {
       "type": "hasMany",

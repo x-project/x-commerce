@@ -27,7 +27,14 @@
 <script>
   Polymer({
 
-    is: 'page-product'
+    is: 'page-product',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

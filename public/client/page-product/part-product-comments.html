@@ -9,7 +9,7 @@
 
     <div>
       <h3>Comments</h3>
-      <part-comments discussion="{{product.comments}}"></part-comments>
+      <part-comments product="{{product}}"></part-comments>
     </div>
 
   </template>
@@ -21,7 +21,8 @@
 
     properties: {
       product: {
-        type: Object
+        type: Object,
+        value: function () { return {}; }
       }
     }
 
