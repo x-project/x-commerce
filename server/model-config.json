@@ -84,9 +84,6 @@
   "Tax": {
     "dataSource": "mongo"
   },
-  "Topic": {
-    "dataSource": "mongo"
-  },
   "Store": {
     "dataSource": "mongo"
   },

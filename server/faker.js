@@ -1,312 +1,229 @@
 var request = require('superagent');
-var faker = require('faker');
 var async = require('async');
-var casual = require('casual');// random tags array
+var faker = require('faker');
+var casual = require('casual');
+var fs = require('fs');
 
-var vendors = [];
-var product_types = [];
-var products = [];
-var collections = [];
-var orders = [];
-var customers = [];
+var collections = {};
+
+collections['vendors'] = [];
+collections['product_types'] = [];
+collections['products'] = [];
+collections['collections'] = [];
+collections['orders'] = [];
+collections['customers'] = [];
+
+var images = [];
+
+var fakers = {};
 
 function random_boolean () {
-  return Math.random()>0.5;
+  return true;
 }
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+fakers['product_types'] = function () {
+  return {
+    name: faker.commerce.department(),
+    description: faker.commerce.productName()
+  };
+};
+
+fakers['vendors'] = function () {
+  return {
+    name: faker.name.firstName() + ' ' + faker.name.lastName(),
+    description: faker.name.jobDescriptor()
+  };
+};
+
+fakers['products'] = function () {
+  return {
+    title: faker.commerce.product(),
+    description: faker.commerce.productName(),
+    price: casual.integer(0, 10000),
+    compare_at_price: casual.integer(0, 100000),
+    is_charge_taxes: random_boolean(),
+    sku: casual.rgb_hex,
+    barcode: casual.word,
+    track_quantity: random_boolean(),
+    quantity: casual.integer(0, 10000),
+    sell_after_purchase: random_boolean(),
+    unit_measure_weight: 'kg',
+    weight: casual.integer(0, 10),
+    require_shipping: random_boolean(),
+    is_published: random_boolean(),
+    published_at: casual.unix_time,
+    tags: casual.array_of_words(10),
+    vendor_id: random_id_from('vendors'),
+    product_type_id: random_id_from('product_types')
+  };
+};
+
+fakers['collections'] = function () {
+  return {
+    title: faker.name.firstName(),
+    description: casual.last_name,
+    is_published: random_boolean(),
+    published_at: casual.unix_time
+  };
+};
+
+fakers['orders'] = function () {
+  return {
+    discount: casual.integer(0, 50),
+    shipping_cost: casual.integer(0, 10),
+    taxes: casual.integer(0, 10),
+    total: casual.integer(100, 1000),
+    notes: casual.address,
+    feedback: random_boolean()
+  };
+};
+
+fakers['customers'] = function () {
+  return {
+    first_name: casual.first_name,
+    last_name: casual.last_name,
+    email: casual.email,
+    marketing: random_boolean(),
+    taxes_exempt: random_boolean(),
+    location: casual.address1,
+    location_number: casual.integer(1, 10000),
+    address_details: casual.address,
+    phone: casual.phone,
+    notes: casual.short_description,
+    tags: casual.array_of_words(10)
+  };
+};
+
+function random_model_from (models) {
+  var index = faker.random.number({ min: 0, max: models.length - 1 });
+  var model = models[index];
+  return model;
 }
 
-// generate random customers
-create_customers(100, function (err) {
-  if (err) {
-    console.log(err);
-    return;
-  }
-});
+function random_id_from (models) {
+  var model = random_model_from(models);
+  var id = model.id;
+  return id;
+}
 
+function till (n, iterate) {
+  return function (next) {
+    var count = 0;
 
-// generate random orders
-create_orders(100, function (err) {
-  if (err) {
-    console.log(err);
-    return;
-  }
-});
-
-function data_faker (callback) {
-  async.waterfall([
-    function (next) {
-      create_vendors(100, vendors, next);
-    },
-    function (next) {
-      create_product_types(100, product_types, next);
-    },
-    function (next) {
-      create_collections(100, collections, next);
-    },
-    function (next) {
-      create_products(100, products, next)
+    function test () {
+      return count < n;
     }
-  ], callback);
-}
 
-function create_product_types (n, models, callback) {
-  var count = 0;
-  async.whilst(
-    function () {
-      return count < n;
-    },
-    function (done) {
-      count++;
-      create_product_type(function (err, model) {
-        if (err) {
-          done(err)
-          return;
-        }
-        models.push(model);
-        done(null);
-      });
-    },
-    callback
-  );
-}
+    function step (done) {
+      count += 1;
+      iterate(done);
+    }
 
-
-function create_product_type (callback) {
-  request
-    .post('http://localhost:3000/api/product_types')
-    .send({
-      name: faker.commerce.department(),
-      description: faker.commerce.productName()
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(function (err, res) {
-      if (err) {
-        callback(err);
-        return;
-      }
-      var model = res.body;
-      callback(null, model);
-    });
-}
-
-
-function create_vendors (n, models, callback) {
-  var count = 0;
-  async.whilst(
-    function () {
-      return count < n;
-    },
-    function (done) {
-      count++;
-      create_vendor(function (err, model) {
-        if (err) {
-          done(err)
-          return;
-        }
-        models.push(model);
-        done(null);
-      });
-    },
-    callback
-  );
-}
-
-function create_vendor (callback) {
-  request
-    .post('http://localhost:3000/api/vendors')
-    .send({
-      name: casual.username,
-      description: faker.name.jobDescriptor()
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(function (err, res) {
-      if (err) {
-        callback(err);
-        return;
-      }
-      var model = res.body;
-      callback(null, model);
-    });
-}
-
-function create_products (n, models, callback) {
-  var count = 0;
-  async.whilst(
-    function () {
-      return count < n;
-    },
-    function (done) {
-      count++;
-      create_product(function (err, model) {
-        if (err) {
-          done(err);
-          return;
-        }
-        models.push(model);
-        done(null);
-      });
-    },
-    callback
-  );
-}
-
-function create_product (callback) {
-  request
-    .post('http://localhost:3000/api/products')
-    .send({
-      title: faker.commerce.product(),
-      description: faker.commerce.productName(),
-      price: casual.integer(from = 0, to = 10000),
-      compare_at_price: casual.integer(from = 0, to = 100000),
-      is_charge_taxes: random_boolean(),
-      sku: casual.rgb_hex,
-      barcode: casual.word,
-      track_quantity: random_boolean(),
-      quantity: casual.integer(from = 0, to = 10000),
-      sell_after_purchase: random_boolean(),
-      unit_measure_weight: 'kg',
-      weight: casual.integer(from = 0, to = 10),
-      require_shipping: random_boolean(),
-      is_published: random_boolean(),
-      published_at: casual.unix_time,
-      tags: casual.array_of_words(10),
-      vendor_id: vendors[getRandomInt(0, vendors.length)].id,
-      product_type_id: product_types[getRandomInt(0, product_types.length)].id
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(function (err, res) {
-      if (err) {
-        callback(err);
-        return;
-      }
-      var model = res.body;
-      callback(null, model);
-    });
-}
-
-function create_collections (n, models, callback) {
-  var count = 0;
-  async.whilst(
-    function () {
-      return count < n;
-    },
-    function (done) {
-      count++;
-      create_collection(function (err, model) {
-        if (err) {
-          done(err);
-          return;
-        }
-        models.push(model);
-        done(null);
-      });
-    },
-    callback
-  );
-}
-
-function create_collection (callback) {
-  request
-    .post('http://localhost:3000/api/collections')
-    .send({
-      title: casual.first_name,
-      description: casual.last_name,
-      is_published: random_boolean(),
-      published_at: casual.unix_time
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(function (err, res) {
-      if (err) {
-        callback(err);
-        return;
-      }
-      var model = res.body;
-      callback(null, model);
-    });
-}
-
-function create_orders (n, callback) {
-  var count = 0;
-  async.whilst(
-    function () {
-      return count < n;
-    },
-    function (done) {
-      count++;
-      create_order(done);
-    },
-    callback
-  );
-}
-
-function create_order (callback) {
-  request
-    .post('http://localhost:3000/api/orders')
-    .send({
-      discount: casual.integer(from = 0, to = 50),
-      shipping_cost: casual.integer(from = 0, to = 10),
-      taxes: casual.integer(from = 0, to = 10),
-      total: casual.integer(from = 100, to = 1000),
-      notes: casual.address,
-      feedback: random_boolean()
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(callback);
-}
-
-function create_customers (n, callback) {
-  var count = 0;
-  async.whilst(
-    function () {
-      return count < n;
-    },
-    function (done) {
-      count++;
-      create_customer(done);
-    },
-    callback
-  );
-}
-
-function create_customer (callback) {
-  request
-    .post('http://localhost:3000/api/customers')
-    .send({
-      first_name: casual.first_name,
-      last_name: casual.last_name,
-      email: casual.email,
-      marketing: random_boolean(),
-      taxes_exempt: random_boolean(),
-      location: casual.address1,
-      location_number: casual.integer(from = 1, to = 10000),
-      address_details: casual.address,
-      phone: casual.phone,
-      notes: casual.short_description,
-      tags: casual.array_of_words(10)
-    })
-    .type('json')
-    .set('X-API-Key', 'foobar')
-    .set('Accept', 'application/json')
-    .end(callback);
-}
-
-data_faker(function (err) {
-  if (err) {
-    console.log(err);
-    return;
+    async.whilst(test, step, next);
   }
-  console.log('yeah');
-});
+}
+
+function populate (name) {
+  return function (next) {
+    var data = fakers[name]();
+    var api = 'http://localhost:3000/api/' + name;
+    var collection = collections[name];
+    request
+      .post(api)
+      .send(data)
+      .type('json')
+      .set('Accept', 'application/json')
+      .end(function (err, res) {
+        if (err) {
+          next(err);
+          return;
+        }
+        var model = res.body;
+        collections[name].push(model);
+        next(null);
+      });
+  };
+}
+
+function each (models, iterate) {
+  return function (next) {
+    async.eachSeries(models, iterate, next);
+  };
+};
+
+function populate_image (name) {
+  return function (item, next) {
+
+    var image = random_model_from(images);
+    console.log(image);
+
+    function signed_url (next) {
+      request
+        .post('http://localhost:3000' + '/api/' + name + '/' + item.id + '/images')
+        .send({
+          filename: image,
+          filetype: "image/jpeg",
+          container: name + '/' + item.id + '/images'
+        })
+        .type('json')
+        .set('Accept', 'application/json')
+        .end(function (err, res) {
+          if (err) {
+            next(err);
+            return;
+          }
+          next(null, res.body);
+        });
+    }
+
+    function upload_image (data, next) {
+      console.log('data', data);
+      request
+        .post('http://localhost:3000' + data.signed_url)
+        .attach('file', __dirname + '/images/' + data.filename)
+        .end(next);
+    }
+
+    async.waterfall([
+      signed_url,
+      upload_image
+    ], next);
+
+  };
+}
+
+function load_images (path) {
+  return function (next) {
+    fs.readdir(path, function (err, files) {
+      if (err) {
+        images = [];
+        next(err);
+        return;
+      }
+      images = files;
+      console.log(images);
+      next(null);
+    });
+  };
+}
+
+function start () {
+  async.waterfall([
+    // till(3, populate('product_types')),
+    // till(3, populate('customers')),
+    // till(3, populate('vendors')),
+    till(3, populate('collections')),
+    // till(30, populate('products')),
+    load_images(__dirname + '/images'),
+    // each(collections['products'], populate_image('products')),
+    each(collections['collections'], populate_image('collections'))
+  ], function (err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log('yeah');
+  });
+}
+
+start();
