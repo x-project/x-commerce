@@ -15,6 +15,7 @@
       </part-jumbotron>
       <div class="container">
         <a is="app-link" href="/products">Back to products</a>
+        <a is="app-link" href="{{review}}">feedback</a>
         <part-product-info product="{{data.product}}"></part-product-info>
         <part-product-images product="{{data.product}}"></part-product-images>
         <part-product-details product="{{data.product}}"></part-product-details>
@@ -34,6 +35,10 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      this.review = '/products/' + this.data.product.id + '/review'
     }
 
   });
