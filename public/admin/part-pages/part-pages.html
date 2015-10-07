@@ -1,0 +1,51 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<dom-module id="part-pages">
+  <style>
+    :host {
+      display: block;
+      margin: 4px;
+    }
+  </style>
+  <template>
+
+    <template id="items" is="dom-repeat" items="{{pages}}">
+      <button class="btn btn-xs btn-default" on-click="on_click">{{item}}</button>
+    </template>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-pages',
+
+    properties: {
+      perpage: {
+        type: Number,
+        notify: true,
+        value: 3
+      },
+      current: {
+        type: Number,
+        notify: true,
+        value: 0
+      },
+      count: {
+        type: Number,
+        value: 0,
+        observer: 'countChanged'
+      }
+    },
+
+    countChanged: function () {
+      this.total = Math.ceil(this.count / this.perpage);
+      this.pages = Array.apply(null, Array(this.total)).map(function (_, i) { return i; });
+    },
+
+    on_click: function (event) {
+      this.current = this.$.items.itemForElement(event.target);
+      this.fire('change-page', { current: this.current });
+    }
+
+  });
+</script>
