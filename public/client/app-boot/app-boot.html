@@ -17,10 +17,10 @@
 <link rel="import" href="../page-products/page-products.html">
 <link rel="import" href="../page-reset/page-reset.html">
 <link rel="import" href="../page-review/page-review.html">
+<link rel="import" href="../page-reviews/page-reviews.html">
 <link rel="import" href="../page-settings/page-settings.html">
 <link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-test/page-test.html">
-
 <dom-module id="app-boot">
   <template>
     <style>
@@ -165,6 +165,29 @@
       this.open_static_page(context);
     },
 
+    '/reviews': function (context) {
+      context.page_name = 'page-reviews';
+      this.open_static_page(context);
+    },
+
+    '/reviews/:review_id': function (context) {
+      this.get_model({
+        collection: 'reviews',
+        modelId: context.params.review_id,
+        include: ['customer', 'product']
+      })
+      .then(function (model) {
+        context.page_name = 'page-review';
+        context.data = {};
+        context.data.review = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (err) {
+        context.page_name = 'page-404';
+        this.open_page(context);
+      });
+    },
+
     '/products/:product_id': function (context) {
       this.get_model({
         collection: 'products',
@@ -174,25 +197,6 @@
       .then(function (model) {
         context.page_name = 'page-product';
         context.data = {};
-        context.data.product = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (err) {
-        context.page_name = 'page-404';
-        this.open_page(context);
-      });
-    },
-
-    '/products/:product_id/review': function (context) {
-      this.get_model({
-        collection: 'products',
-        modelId: context.params.product_id,
-        include: ['images', 'product_type', 'variants', 'vendor']
-      })
-      .then(function (model) {
-        context.page_name = 'page-review';
-        context.data = {};
-        console.log(model);
         context.data.product = model;
         this.open_page(context);
       }.bind(this))

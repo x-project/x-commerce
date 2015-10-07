@@ -78,7 +78,7 @@ module.exports = function (Customer) {
         callback(new Error('invalid password'), null);
         return;
       }
-      user.updateAttribute('password', new_password, );
+      user.updateAttribute('password', new_password, on_update_password);
     };
 
     var on_update_password = function (err, user) {
@@ -107,6 +107,8 @@ module.exports = function (Customer) {
     // console.log(info.email); // the email of the requested user
     // console.log(info.accessToken); // the temp access token to allow password reset
     // TODO: send email to user
+
+
   });
 
 };

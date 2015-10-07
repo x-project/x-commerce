@@ -9,7 +9,7 @@
   <template>
 
     <api-model-find id="find" collection="orders" response="{{orders}}"
-      order="title" perpage="{{perpage}}" page="{{page}}">
+      order="total" perpage="{{perpage}}" page="{{page}}" include=["customer"]>
     </api-model-find>
 
     <api-model-count id="count" collection="orders" response="{{count}}">

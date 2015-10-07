@@ -6,18 +6,25 @@
   },
   "base": "PersistedModel",
   "properties": {
-    "rating": {
-      "type": "Number"
+   "title": {
+      "type": "String"
     },
     "text": {
       "type": "String"
+    },
+    "rating": {
+      "type": "Number"
+    },
+    "closed": {
+      "type": "Boolean",
+      "default": false
     }
   },
   "relations": {
     "product": {
-      "type": "hasAndBelongsToMany",
+      "type": "belongsTo",
       "model": "Product",
-      "through": "ReviewProduct"
+      "foreignKey": "product_id"
     },
     "customer": {
       "type": "belongsTo",
