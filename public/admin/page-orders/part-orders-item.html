@@ -3,10 +3,12 @@
   <template>
   <style include="style-item"></style>
 
-    <label class="label">subtotal: </label>
-    <span>{{order.subtotal}}</span>
+    <label class="label">total: </label>
+    <span>{{order.total}}</span>
     <label class="label">shipping_cost: </label>
     <span>{{order.shipping_cost}}</span>
+    <label class="label">customer: </label>
+    <span>{{order.customer.first_name}}</span>
     <a is="app-link" href="{{edit_url}}">edit</a>
 
   </template>
