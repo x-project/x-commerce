@@ -81,11 +81,6 @@
       "model": "ProductType",
       "foreignKey": "product_type_id"
     },
-    "reviews": {
-      "type": "hasAndBelongsToMany",
-      "model": "Review",
-      "through": "ReviewProduct"
-    },
     "variants": {
       "type": "hasMany",
       "model": "ProductVariant",

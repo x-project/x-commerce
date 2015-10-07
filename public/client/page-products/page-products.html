@@ -2,14 +2,18 @@
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-products-pages.html">
 <link rel="import" href="deck-products.html">
 <dom-module id="page-products">
   <template>
     <style include="style-page"></style>
 
     <api-model-find id="find" collection="products" response="{{products}}"
-      include=["images"]>
+      order="title" perpage="{{perpage}}" page="{{page}}" include=["images"]>
     </api-model-find>
+
+    <api-model-count id="count" collection="products" response="{{count}}">
+    </api-model-count>
 
     <layout-client>
       <part-jumbotron class="jumbotron">
@@ -17,6 +21,9 @@
       </part-jumbotron>
       <div class="container">
         <deck-products products="{{products}}"></deck-products>
+        <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-products-pages>
       </div>
     </layout-client>
 
@@ -35,6 +42,12 @@
     },
 
     attached: function () {
+      this.$.count.send();
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 4;
+      this.page = event.detail.current - 1;
       this.$.find.send();
     }
 

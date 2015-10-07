@@ -94,9 +94,6 @@
   "Review": {
     "dataSource": "mongo"
   },
-  "ReviewProduct": {
-    "dataSource": "mongo"
-  },
   "Store": {
     "dataSource": "mongo"
   },
