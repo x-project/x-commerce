@@ -1,8 +1,8 @@
 <link rel="import" href="../../components/api-user-reset/api-user-reset.html">
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
-<link rel="import" href="form-reset.html">
-<dom-module id="page-reset">
+<link rel="import" href="form-forgot.html">
+<dom-module id="page-forgot">
   <template>
     <style include="layout-empty"></style>
 
@@ -14,8 +14,11 @@
       <div class="center">
         <div id="panel" class="container">
           <a is="app-link" href="/">&larr;</a>
-          <h3>Reset password</h3>
-          <form-reset on-submit="on_submit"></form-reset>
+          <h3>Forgot password</h3>
+          <form-forgot on-submit="on_submit"></form-forgot>
+          <div>
+            <a is="app-link" href="/signup">not registered?</a>
+          </div>
         </div>
       </div>
     </layout-empty>
@@ -25,17 +28,10 @@
 <script>
   Polymer({
 
-    is: 'page-reset',
-
-    properties: {
-      email: {
-        type: String
-      }
-    },
+    is: 'page-forgot',
 
     on_submit: function (event) {
-      this.email = event.detail;
-      console.log(event.detail, this.email);
+      this.set('email', event.detail);
       this.$.reset.send();
     },
 

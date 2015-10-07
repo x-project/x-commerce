@@ -9,6 +9,7 @@
 <link rel="import" href="../page-about/page-about.html">
 <link rel="import" href="../page-cart/page-cart.html">
 <link rel="import" href="../page-contact/page-contact.html">
+<link rel="import" href="../page-forgot/page-forgot.html">
 <link rel="import" href="../page-home/page-home.html">
 <link rel="import" href="../page-login/page-login.html">
 <link rel="import" href="../page-privacy/page-privacy.html">
@@ -208,6 +209,11 @@
 
     '/signup': function (context) {
       context.page_name = 'page-signup';
+      this.open_static_page(context);
+    },
+
+    '/forgot': function (context) {
+      context.page_name = 'page-forgot';
       this.open_static_page(context);
     },
 
