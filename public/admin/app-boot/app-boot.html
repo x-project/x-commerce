@@ -80,7 +80,6 @@
       </app-route>
 
 
-
       <app-route path="/admin/invite/new" page="page-invite"></app-route>
       <app-route path="/admin/login" page="page-login"></app-route>
       <app-route path="/admin/members/:member_id" page="page-member"></app-route>
@@ -232,7 +231,6 @@
       });
     },
 
-
     '/admin/products/:product_id/variants': function (event) {
       event.stopPropagation();
       var routes = this.$.routes;
@@ -283,7 +281,7 @@
       this.get_model({
         collection: 'orders',
         modelId: model_id,
-        include: ['order_items', 'customer']
+        include: [{'order_items': ['product','product_variant']}, 'customer']
       }, function (err, model) {
         if (err) {
           event.detail.page_name = '404';

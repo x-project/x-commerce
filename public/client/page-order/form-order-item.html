@@ -1,0 +1,108 @@
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="input-search-product.html">
+<link rel="import" href="input-search-product-variant.html">
+
+<dom-module id="form-order-item">
+  <template>
+    <style include="style-form">
+      .input_variants {
+        display: none;
+      }
+      .input_variants[visible] {
+        display: block;
+      }
+    </style>
+
+    <input-search-product id="search_product" id_selected="{{order_item.product_id}}"
+      selected="{{product_selected}}" on-change="on_change_product_id">
+    </input-search-product>
+
+    <input-search-product-variant id="search_product_variant" class="input_variants"
+      visible$="{{visible}}" id_selected_variant="{{order_item.variant_id}}"
+      variants="{{product_selected.variants}}" selected="{{variant_selected}}">
+    </input-search-product-variant>
+
+    <div class="field">
+      <label>quantity</label>
+      <input is="iron-input" class="input" type="number" bind-value="{{order_item.quantity}}">
+    </div>
+
+    <div class="field">
+      <input type="submit" value="save" on-click="on_click_save">
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-order-item',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      order_item: {
+        type: Object,
+        value: function () { return { quantity: 1 }; },
+      },
+      visible: {
+        type: Boolean,
+        value: false
+      },
+      product_selected: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variant_selected: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    show_input_variant: function () {
+      this.set('visible', true);
+    },
+
+    hide_input_variant: function () {
+      this.set('visible', false);
+    },
+
+    on_change_product_id: function (event) {
+      event.stopPropagation();
+      this.order_item.variant_id = '';
+      if(this.product_selected.hasOwnProperty('variants')){
+        this.set('visible', this.product_selected.variants.length > 0);
+        return;
+      }
+    },
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.order_item.product = this.product_selected;
+      if (this.visible) {
+        this.order_item.variant = this.variant_selected;
+      }
+      this.fire('try-save-order-item', { data: this.order_item });
+      this.clear();
+      this.hide_input_variant();
+    },
+
+    clear: function () {
+      this.$.search_product.clear();
+      this.$.search_product_variant.clear();
+      this.clear_quantity();
+    },
+
+    clear_quantity: function () {
+      this.set('order_item.quantity', 1);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

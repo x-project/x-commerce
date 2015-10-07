@@ -3,7 +3,7 @@
   <template>
 
     <api-model-find id="find" collection="vendors"
-      response="{{vendors}}" on-error="on_error">
+      response="{{vendors}}">
     </api-model-find>
 
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
@@ -15,7 +15,7 @@
       <div class="field">
         <label class="label">Vendor</label>
         <input class="input" type="text" is="iron-input" bind-value="{{search}}"
-          on-keypress="on_search_vendor">
+          on-keypress="on_search_vendor" on-focus="on_search_vendor">
       </div>
     </div>
 

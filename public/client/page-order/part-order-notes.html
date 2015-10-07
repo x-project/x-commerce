@@ -1,0 +1,31 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="part-order-notes">
+  <template>
+    <style include="style-form"></style>
+
+    <h2 class="title">Detail</h2>
+    <div class="field">
+    <label class="label">notes</label>
+      <div class="detail">
+        <iron-autogrow-textarea is="iron-input" bind-value="{{order.notes}}" rows="4">
+        </iron-autogrow-textarea>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-notes',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

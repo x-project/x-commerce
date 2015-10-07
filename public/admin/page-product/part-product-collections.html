@@ -68,7 +68,7 @@
         type: Array,
         value: function () { return []; }
       },
-      selected:{
+      selected: {
         type: Array,
         value: function () { return []; }
       },
@@ -83,7 +83,7 @@
     },
 
     attached: function () {
-      this.selected = this.product.collections;
+      this.selected = this.product.collections || [];
     },
 
     on_edit_collection: function (event) {
@@ -92,6 +92,7 @@
     },
 
     on_click_select: function (event) {
+      console.log(this.selected);
       event.stopPropagation();
       var collection = this.$.collections.itemForElement(event.target);
       if (!this.is_contain(collection)) {

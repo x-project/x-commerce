@@ -1,0 +1,59 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="input-rating.html">
+<dom-module id="form-feedback">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Rating</label>
+        <input-rating review="{{review}}"></input-rating>
+      </div>
+      <div class="field">
+        <label class="label">Title</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{review.title}}">
+      </div>
+      <div class="field">
+        <label class="label">Text</label>
+        <iron-autogrow-textarea is="iron-input" bind-value="{{review.text}}" rows="4"></iron-autogrow-textarea>
+      </div>
+      <input id="submit" disabled="{{disable}}" type="submit" value="submit"/>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-feedback',
+
+    properties: {
+      review: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      if (this.review.closed) {
+        this.disable_submit();
+      }
+    },
+
+    disable_submit: function  () {
+      this.set('disable',true);
+    },
+
+    able_sumit: function  () {
+      this.set('disable',false);
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.fire('try-save');
+    }
+
+  });
+</script>

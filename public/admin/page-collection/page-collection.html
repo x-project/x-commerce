@@ -54,7 +54,7 @@
 
     attached: function () {
       this.collection = this.route.data.collection;
-      this.products = this.collection.products;
+      this.products = this.collection.products || [];
     },
 
     on_try_save: function (event) {

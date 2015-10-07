@@ -1,0 +1,24 @@
+<dom-module id="part-order-save">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <button class="button" on-click="on_click">save</button>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-save',
+
+    on_click: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
+    }
+
+  });
+</script>

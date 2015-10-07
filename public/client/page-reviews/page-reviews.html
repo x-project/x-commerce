@@ -1,0 +1,31 @@
+<link rel="import" href="part-reviews.html">
+<dom-module id="page-reviews">
+  <template>
+    <style include="style-page"></style>
+
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Reviews</h1>
+      </part-jumbotron>
+        <div class="container">
+          <part-reviews customer="{{customer}}"></part-reviews>
+        </div>
+    </layout-client>
+
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-reviews',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function  () { return {id: '5612ab0087eb96dc542a4b1b'}; }
+      }
+    }
+
+  });
+</script>

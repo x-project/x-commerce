@@ -12,6 +12,7 @@
 <link rel="import" href="../page-forgot/page-forgot.html">
 <link rel="import" href="../page-home/page-home.html">
 <link rel="import" href="../page-login/page-login.html">
+<link rel="import" href="../page-order/page-order.html">
 <link rel="import" href="../page-privacy/page-privacy.html">
 <link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-products/page-products.html">
@@ -167,6 +168,11 @@
 
     '/reviews': function (context) {
       context.page_name = 'page-reviews';
+      this.open_static_page(context);
+    },
+
+    '/orders': function (context) {
+      context.page_name = 'page-order';
       this.open_static_page(context);
     },
 
