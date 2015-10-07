@@ -1,21 +1,22 @@
-<link rel="import" href="/components/api-model/api-model.html">
-<link rel="import" href="/components/app-routes/app-routes.html">
-<link rel="import" href="/components/app-route/app-route.html">
-<link rel="import" href="/components/app-container/app-container.html">
-<link rel="import" href="/components/app-link/app-link.html">
-<link rel="import" href="/components/app-session/app-session.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/app-container/app-container.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/app-route/app-route.html">
+<link rel="import" href="../../components/app-routes/app-routes.html">
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../app-theme/app-theme.html">
+<link rel="import" href="../page-404/page-404.html">
+<link rel="import" href="../page-about/page-about.html">
+<link rel="import" href="../page-cart/page-cart.html">
+<link rel="import" href="../page-contact/page-contact.html">
 <link rel="import" href="../page-home/page-home.html">
 <link rel="import" href="../page-login/page-login.html">
-<link rel="import" href="../page-signup/page-signup.html">
-<link rel="import" href="../page-reset/page-reset.html">
-<link rel="import" href="../page-about/page-about.html">
-<link rel="import" href="../page-contact/page-contact.html">
 <link rel="import" href="../page-privacy/page-privacy.html">
-<link rel="import" href="../page-cart/page-cart.html">
 <link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-products/page-products.html">
-<link rel="import" href="../page-404/page-404.html">
+<link rel="import" href="../page-reset/page-reset.html">
+<link rel="import" href="../page-settings/page-settings.html">
+<link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -191,6 +192,11 @@
 
     '/reset': function (context) {
       context.page_name = 'page-reset';
+      this.open_static_page(context);
+    },
+
+    '/settings': function (context) {
+      context.page_name = 'page-settings';
       this.open_static_page(context);
     },
 
