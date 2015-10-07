@@ -8,9 +8,12 @@
 <dom-module id="page-orders">
   <template>
 
-    <api-model-find id="request" collection="orders"
-      response="{{orders}}">
+    <api-model-find id="find" collection="orders" response="{{orders}}"
+      order="title" perpage="{{perpage}}" page="{{page}}">
     </api-model-find>
+
+    <api-model-count id="count" collection="orders" response="{{count}}">
+    </api-model-count>
 
     <layout-admin>
       <h1>Orders</h1>
@@ -18,7 +21,9 @@
       <part-orders-search></part-orders-search>
       <part-orders-stats></part-orders-stats>
       <part-orders-items orders="{{orders}}"></part-orders-items>
-      <part-orders-pages></part-orders-pages>
+      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
+        count="{{count}}">
+      </part-products-pages>
     </layout-admin>
 
   </template>
@@ -36,7 +41,13 @@
     },
 
     attached: function () {
-      this.$.request.send();
+      this.$.count.send();
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 4;
+      this.page = event.detail.current - 1;
+      this.$.find.send();
     }
 
   });

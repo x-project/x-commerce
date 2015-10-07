@@ -1,3 +1,4 @@
+<link rel="import" href="../part-pages/part-pages.html">
 <dom-module id="part-products-pages">
   <template>
     <style>
@@ -6,14 +7,24 @@
       }
     </style>
 
-    <div></div>
+    <div>
+      <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page"></part-pages>
+    </div>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-products-pages'
+    is: 'part-products-pages',
+
+    properties: {},
+
+    on_change_page: function  (event) {
+      //lascio passare l evento per aggiornare la lista dei prodotti
+      // event.stopPropagation();
+      // console.log(event.detail.current);
+    }
 
   });
 </script>
