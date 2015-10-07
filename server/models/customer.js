@@ -107,6 +107,8 @@ module.exports = function (Customer) {
     // console.log(info.email); // the email of the requested user
     // console.log(info.accessToken); // the temp access token to allow password reset
     // TODO: send email to user
+
+
   });
 
 };

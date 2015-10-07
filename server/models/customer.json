@@ -4,7 +4,7 @@
   "mongodb": {
     "collection": "customers"
   },
-  "base": "PersistedModel",
+  "base": "User",
   "properties": {
     "first_name": {
       "type": "String"
