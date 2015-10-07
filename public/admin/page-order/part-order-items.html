@@ -19,9 +19,9 @@
 <!--     <api-model-find id="find" collection="orders" response="{{order_items}}"
       model-id="{{order.id}}" include=["product", "product_variant"]></api-model-find> -->
 
-    <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
+<!--     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
       last-response="{{order_items}}">
-    </iron-ajax>
+    </iron-ajax> -->
 
     <iron-ajax id="ajax_put_order_item" method="PUT" content-type="application/json"
       on-error="on_error">
@@ -73,7 +73,7 @@
     },
 
     attached: function () {
-      this.update_order_items();
+      // this.update_order_items();
     },
 
     show_saved: function () {
@@ -124,7 +124,7 @@
     on_response_post: function (event) {
       event.stopPropagation();
       this.hide_pending();
-      this.update_order_items();
+      // this.update_order_items();
     },
 
     on_click_delete: function () {
