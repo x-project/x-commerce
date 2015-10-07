@@ -1,4 +1,3 @@
-<link rel="import" href="/components/polymer/polymer.html">
 <dom-module id="part-pages">
   <style>
     :host {
@@ -37,9 +36,13 @@
       }
     },
 
+    attached: function () {
+      this.fire('change-page', { current: this.current + 1});
+    },
+
     countChanged: function () {
       this.total = Math.ceil(this.count / this.perpage);
-      this.pages = Array.apply(null, Array(this.total)).map(function (_, i) { return i; });
+      this.pages = Array.apply(null, Array(this.total)).map(function (_, i) { return i + 1; });
     },
 
     on_click: function (event) {

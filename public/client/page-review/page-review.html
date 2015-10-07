@@ -1,8 +1,18 @@
-<link rel="import" href="../part-reviews/part-reviews.html">
+<link rel="import" href="../../components/app-link/app-link.html">
 <dom-module id="page-review">
   <template>
+    <style include="style-page"></style>
 
-    <part-reviews reviews="{{reviews}}" product="{{product}}"></part-reviews>
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Feedback for <span>Product</span> <span>{{data.product.title}}</span></h1>
+        <h1>Review</h1>
+      </part-jumbotron>
+        <div class="container">
+          <a is="app-link" href="{{back_to_product}}">Back to product</a>
+        </div>
+    </layout-client>
+
 
   </template>
 </dom-module>
@@ -12,14 +22,15 @@
     is: 'page-review',
 
     properties: {
-      reviews: {
-        type: Array,
-        value: function () { return []; }
-      },
-      product: {
+
+      data: {
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function  () {
+      this.back_to_product = '/products/' + this.data.product.id;
     }
 
   });
