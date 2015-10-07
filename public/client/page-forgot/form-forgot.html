@@ -1,0 +1,42 @@
+<link rel="import" href="../../components/iron-input/iron-input.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-forgot">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" name="reset" on-submit="on_submit">
+      <div class="field" name="email">
+        <label class="label">email</label>
+        <input class="input" is="iron-input" type="text" bind-value="{{email}}">
+      </div>
+      <div class="field">
+        <input class="button" type="submit" value="reset">
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-forgot',
+
+    properties: {
+      email: {
+        type: String,
+        notify: true
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.fire('submit', this.email);
+    },
+
+    clear: function () {
+      this.email = '';
+    }
+
+  });
+</script>

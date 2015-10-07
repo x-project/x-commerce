@@ -1,33 +1,28 @@
-<link rel="import" href="/components/app-link/app-link.html">
-<link rel="import" href="/components/api-user-signup/api-user-signup.html">
-<link rel="import" href="../form-signup/form-signup.html">
+<link rel="import" href="../../components/api-user-signup/api-user-signup.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../layout-empty/layout-empty.html">
+<link rel="import" href="form-signup.html">
 <dom-module id="page-signup">
-  <style>
-    :host {
-      display: block;
-    }
-
-    #panel {
-      margin-top: 50px;
-    }
-    #panel a {
-      text-decoration: none;
-    }
-  </style>
   <template>
+    <style include="layout-empty"></style>
 
     <api-user-signup id="signup" credentials="{{credentials}}"
       on-signup="on_signup" on-error="on_error">
     </api-user-signup>
 
-    <div id="panel" class="container">
-      <a is="app-link" href="/">&larr;</a>
-      <h3>Signup</h3>
-      <form-signup id="form" on-submit="on_submit"></form-signup>
-      <div>
-        <a is="app-link" href="/login">already registered?</a>
+    <layout-empty>
+      <div class="center">
+        <div class="panel">
+          <a is="app-link" href="/">&larr;</a>
+          <h3>Signup</h3>
+          <form-signup id="form" on-submit="on_submit"></form-signup>
+          <div>
+            <a is="app-link" href="/login">already registered?</a><br>
+          </div>
+        </div>
       </div>
-    </div>
+    </layout-empty>
 
   </template>
 </dom-module>
