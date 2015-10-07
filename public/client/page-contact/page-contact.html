@@ -7,18 +7,13 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get_store" method="GET" on-error="on_error"
-      url="/api/stores/findOne" last-response="{{store}}">
-    </iron-ajax>
-
-
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Contact</h1>
       </part-jumbotron>
       <div class="container">
-        <a href="{{store.email}}">{{store.email}}</a>
-        <p>{{store.phone}}</p>
+        <a href="{{mailto}}">{{data.store.email}}</a>
+        <p>{{data.store.phone}}</p>
       </div>
     </layout-client>
 
@@ -29,20 +24,12 @@
 
     is: 'page-contact',
 
-    properties: {
-      store: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    },
+    observer: [
+      'update(data.store.email)'
+    ],
 
-    attached: function () {
-      this.$.ajax_get_store.generateRequest();
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
+    update: function () {
+      this.set('mailto', 'mailto:' + this.data.store.email);
     }
 
   });

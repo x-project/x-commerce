@@ -13,14 +13,22 @@ collections['products'] = [];
 collections['collections'] = [];
 collections['orders'] = [];
 collections['customers'] = [];
+collections['stores'] = [];
 
 var images = [];
 
 var fakers = {};
 
 function random_boolean () {
-  return true;
+  return Math.random() > 0.5;
 }
+
+fakers['stores'] = function () {
+  return {
+    name: faker.commerce.department(),
+    description: faker.commerce.productName()
+  };
+};
 
 fakers['product_types'] = function () {
   return {
@@ -216,14 +224,15 @@ function load_images (path) {
 
 function start () {
   async.waterfall([
-    // till(3, populate('product_types')),
-    // till(3, populate('customers')),
-    // till(3, populate('vendors')),
-    till(3, populate('collections')),
-    // till(30, populate('products')),
-    load_images(__dirname + '/images'),
+    till(1, populate('stores')),
+    till(5, populate('product_types')),
+    till(10, populate('customers')),
+    till(5, populate('vendors')),
+    till(4, populate('collections')),
+    till(30, populate('products')),
+    // load_images(__dirname + '/images'),
     // each(collections['products'], populate_image('products')),
-    each(collections['collections'], populate_image('collections'))
+    // each(collections['collections'], populate_image('collections'))
   ], function (err) {
     if (err) {
       console.log(err);

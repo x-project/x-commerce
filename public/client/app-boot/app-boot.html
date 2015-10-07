@@ -1,11 +1,14 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="/components/app-routes/app-routes.html">
 <link rel="import" href="/components/app-route/app-route.html">
 <link rel="import" href="/components/app-container/app-container.html">
 <link rel="import" href="/components/app-link/app-link.html">
 <link rel="import" href="/components/app-session/app-session.html">
-<link rel="import" href="/components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../app-theme/app-theme.html">
 <link rel="import" href="../page-home/page-home.html">
+<link rel="import" href="../page-login/page-login.html">
+<link rel="import" href="../page-signup/page-signup.html">
+<link rel="import" href="../page-reset/page-reset.html">
 <link rel="import" href="../page-about/page-about.html">
 <link rel="import" href="../page-contact/page-contact.html">
 <link rel="import" href="../page-privacy/page-privacy.html">
@@ -52,6 +55,24 @@
       page();
     },
 
+    find_models: function (params) {
+      var request = document.createElement('api-model-find');
+      request.collection = params.collection;
+      request.modelId = params.modelId;
+      request.include = params.include || [];
+      request.one = params.one;
+
+      return new Promise(function (resolve, reject) {
+        request.addEventListener('response', function (event) {
+          resolve(request.response);
+        });
+        request.addEventListener('error', function (event) {
+          reject(request.error);
+        });
+        request.send();
+      });
+    },
+
     get_model: function (params) {
       var request = document.createElement('api-model-get');
       request.collection = params.collection;
@@ -61,10 +82,10 @@
       return new Promise(function (resolve, reject) {
         request.addEventListener('response', function (event) {
           resolve(request.response);
-        }, true);
+        });
         request.addEventListener('error', function (event) {
           reject(request.error);
-        }, true);
+        });
         request.send();
       });
     },
@@ -76,9 +97,35 @@
       this.$.app.open(element);
     },
 
+    init: function (context) {
+      context.data = context.data || {};
+      return new Promise(function (resolve, reject) {
+        resolve();
+      })
+    },
+
+    open_static_page: function (context) {
+      this.init(context)
+        .then(function (context) {
+          return this.find_models({
+            collection: 'stores',
+            one: true
+          });
+        }.bind(this))
+        .then(function (store) {
+          context.data.store = store;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        })
+    },
+
     '/': function (context) {
       context.page_name = 'page-home';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/test': function (context) {
@@ -88,32 +135,32 @@
 
     '/home': function (context) {
       context.page_name = 'page-home';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/about': function (context) {
       context.page_name = 'page-about';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/contact': function (context) {
       context.page_name = 'page-contact';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/privacy': function (context) {
       context.page_name = 'page-privacy';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/cart': function (context) {
       context.page_name = 'page-cart';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/products': function (context) {
       context.page_name = 'page-products';
-      this.open_page(context);
+      this.open_static_page(context);
     },
 
     '/products/:product_id': function (context) {
@@ -151,6 +198,20 @@
         context.page_name = 'page-404';
         this.open_page(context);
       });
+
+    '/login': function (context) {
+      context.page_name = 'page-login';
+      this.open_static_page(context);
+    },
+
+    '/signup': function (context) {
+      context.page_name = 'page-signup';
+      this.open_static_page(context);
+    },
+
+    '/reset': function (context) {
+      context.page_name = 'page-reset';
+      this.open_static_page(context);
     },
 
     '/*': function (context) {
