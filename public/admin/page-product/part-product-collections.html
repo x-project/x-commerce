@@ -1,60 +1,23 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="search-product-collections.html">
 <dom-module id="part-product-collections">
   <template>
     <style>
       :host {
         display: block;
        }
-       .pill {
-        padding: 4px 8px;
-        border-radius: 2px;
-        display: inline-block;
-        background-color: #eee;
-       }
-       .pill .delete {
-        padding-left: 8px;
-        opacity: .4;
-       }
-       .pill .delete:hover {
-        opacity: 1;
-        cursor: pointer;
-       }
     </style>
-
-    <api-model-find id="find" collection="collections" response="{{collections}}"></api-model-find>
 
     <iron-ajax id="ajax_put" method="PUT" on-error="on_error" on-response="on_response_put"></iron-ajax>
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
-    <h2>Collections</h2>
+    <api-model-create id="create" collection="products" on-response="on_response_create">
+    </api-model-create>
 
-    <div class="panel">
-      <div class="field ">
-        <label class="label">Collections</label>
-        <input class="input" type="text" on-keypress="on_edit_collection"
-          on-focus="on_edit_collection" is="iron-input" bind-value="{{title}}">
-      </div>
-    </div>
-
-
-    <div class="selected items">
-      <template id="selected" is="dom-repeat" items="{{selected}}">
-        <div class="pill">
-          <span>{{item.title}}</span>
-          <span on-click="on_click_selected" class="delete">x</span>
-        <div>
-      </template>
-    </div>
-
-    <div class="items">
-      <template id="collections" is="dom-repeat" items="{{collections}}" filter="filter_collection">
-          <div class="item" on-click="on_click_select">
-            <span>{{item.title}}</span>
-          </div>
-        <div>
-      </template>
-    </div>
+    <search-product-collections id="search" product="{{product}}"
+      on-try-save-collection="on_try_save_collection" on-try-delete-collection="on_try_delete_collection">
+    </search-product-collections>
 
   </template>
 </dom-module>
@@ -64,79 +27,52 @@
     is: 'part-product-collections',
 
     properties: {
-      collections: {
-        type: Array,
-        value: function () { return []; }
-      },
-      selected: {
-        type: Array,
-        value: function () { return []; }
-      },
       product: {
         type: Object,
         value: function () { return {}; }
       },
-      title: {
-        type: String,
-        value: function () { return ''; }
+      collection: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
-    attached: function () {
-      this.selected = this.product.collections || [];
+    on_try_save_collection: function (event) {
+      event.stopPropagation();
+      this.collection = event.detail.collection;
+      this.save_prod_type();
     },
 
-    on_edit_collection: function (event) {
-      event.stopPropagation();
-      this.$.find.send();
-    },
-
-    on_click_select: function (event) {
-      console.log(this.selected);
-      event.stopPropagation();
-      var collection = this.$.collections.itemForElement(event.target);
-      if (!this.is_contain(collection)) {
-        this.add_collection_product(collection);
+    save_prod_type: function () {
+      if (this.product.id) {
+        this.$.ajax_put.url = '/api/products/' + this.product.id + '/collections/rel/' + this.collection.id;
+        this.$.ajax_put.generateRequest();
+        return;
       }
-    },
-
-    add_collection_product: function (collection) {
-      this.push('selected', collection);
-      this.$.ajax_put.url = '/api/products/' + this.product.id + '/collections/rel/' + collection.id;
-      this.$.ajax_put.generateRequest();
+      this.create_product_new();
     },
 
     on_response_put: function (event, details) {
       event.stopPropagation();
-      this.set('collections', []);
+      page('/admin/products/' + this.product.id);
     },
 
-    on_click_selected: function (event) {
+    create_product_new: function () {
       event.stopPropagation();
-      var collection = this.$.selected.itemForElement(event.target);
-      this.remove_collection_product(collection);
+      this.$.create.data = this.product;
+      this.$.create.send();
     },
 
-    remove_collection_product: function (collection) {
-      var index = this.selected.indexOf(collection);
-      this.splice('selected', index, 1);
+    on_response_create: function (event) {
+      event.stopPropagation();
+      this.product = event.detail;
+      this.save_prod_type();
+    },
+
+    on_try_delete_collection: function (event) {
+      var collection = event.detail.collection;
       this.$.ajax_delete.url = '/api/products/' + this.product.id + '/collections/rel/' + collection.id;
       this.$.ajax_delete.generateRequest();
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
-    },
-
-    is_contain: function (collection) {
-      return this.selected.some(function (element) {
-        return element.id === collection.id;
-      });
-    },
-
-    filter_collection: function (item) {
-      return item.title.search(this.title) >= 0;
     }
 
   });
