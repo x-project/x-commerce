@@ -34,9 +34,6 @@
     },
     "base_url": {
       "type": "string"
-    },
-    "thumbnails": {
-      "type": ["String"]
     }
   },
   "validations": [],

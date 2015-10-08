@@ -1,5 +1,5 @@
 var QUALITY = 80; //[0,100]
-var gm = require('gm');
+var graphicsmagick = require('gm');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var jwt = require('json-web-token');
@@ -8,132 +8,198 @@ var path = require('path');
 
 var secret = "TOOOPPVIPPP"; // TODO: read from .env
 var token_ttl = 1000 * 120; // TODO: read from .env
-var sides = [100, 400, 800];  // TODO: read from .env
+var sides = [50, 80, 120, 400, 800];  // TODO: read from .env
 var storage = 'storage';  // TODO: read from .env
-var skip_size = [];
+
 /**
- * resize_image
- * Resize image from the `buffer`
+ * check
  *
- * @param {Object} options
- *   @param {Buffer} options.buffer
- *   @param {Number} options.side
- *   @param {String} options.filename
- * @param {Function} callback (err, resized_image_buffer)
  */
 
-var resize_image = function (options, callback) {
-  var buffer = options.buffer;
-  var filename = options.filename;
-  var side = options.side;
-  callback = callback || function () {};
-
-  if (buffer === undefined) {
-    throw new Error('resize_image: `buffer` needed.');
-  }
-
-  if (side === undefined) {
-    throw new Error('resize_image: `side` needed.');
-  }
-
-  gm(buffer, filename)
-    .size(function(err, size) {
-      if (err) {
-        callback(err);
-        return;
-      }
-
-      if (size.width < side && size.height < side) {
-        skip_size.push(side);
-        callback(null);
-        return;
-      }
-
-      this.resize(side, side);
-      this.compress('jpeg');
-      this.quality(QUALITY);
-      this.toBuffer('jpg', callback);
-    });
+var check = function (x_data) {
+  return function (done) {
+    var err = null
+    if (x_data.image_buffer === undefined) {
+      err = new Error('`image_buffer` is mandatory.');
+    };
+    setImmediate(done, err);
+  };
 };
+
+/**
+ * gm
+ *
+ */
+
+var gm = function (side, x_data) {
+  return function (done) {
+    var data_side = x_data[side] = {};
+    data_side.gm = graphicsmagick(x_data.image_buffer, x_data.filename);
+    setImmediate(done);
+  };
+};
+
+/**
+ * if_size
+ *
+ */
+
+var if_size = function (side, x_data) {
+  return function (done) {
+    var data_side = x_data[side];
+    var gm = data_side.gm;
+    data_side.skipped = false;
+    gm.size(function(err, size) {
+      if (size && size.width < side && size.height < side) {
+        data_side.skipped = true;
+      }
+      setImmediate(done, err);
+    });
+  };
+};
+
+/**
+ * resize
+ *
+ */
+
+var resize = function (side, x_data) {
+  return function (done) {
+    var data_side = x_data[side];
+    var gm = data_side.gm;
+
+    if(data_side.skipped) {
+      setImmediate(done);
+      return;
+    }
+
+    gm.resize(side, side);
+    gm.compress('jpeg');
+    gm.quality(QUALITY);
+    gm.toBuffer('jpg', function (err, resized_buffer) {
+      data_side.buffer = resized_buffer;
+      setImmediate(done, err);
+    });
+  };
+};
+
+
+/**
+ * save
+ *
+ */
+
+var save = function (side, x_data) {
+  return function (done) {
+    var data_side = x_data[side];
+    var gm = data_side.gm;
+    var file = path.join(x_data.folder_path, 'thumb-' + side + '.jpg');
+
+    if(data_side.skipped) {
+      setImmediate(done);
+      return;
+    }
+
+    fs.writeFile(file, data_side.buffer, 'binary', done);
+  };
+};
+
+/**
+ * add
+ *
+ */
+
+var add = function (side, x_data) {
+  return function (done) {
+    var data_side = x_data[side];
+
+    if(!data_side.skipped) {
+      x_data.thumbs.push(side);
+    }
+
+    setImmediate(done);
+  };
+};
+
+/**
+ * clean
+ *
+ */
+
+var clear = function (side, x_data) {
+  return function (done) {
+    delete x_data[side];
+    setImmediate(done);
+  };
+}
+
 
 /**
  * create_folder
  *
  */
 
-var create_folder = function (folder_path) {
+var create_folder = function (x_data) {
   return function (done) {
-    mkdirp(folder_path, done);
+    mkdirp(x_data.folder_path, function (err, res) {
+      setImmediate(done, err);
+    });
   };
 };
 
+/**
+ * thumbnail
+ * Generate and save one thumbnail for the given size.
+ *
+ */
+
+var thumbnail = function (x_data) {
+  return function (side, next) {
+    async.waterfall([
+      gm(side, x_data),
+      if_size(side, x_data),
+      resize(side, x_data),
+      save(side, x_data),
+      add(side, x_data),
+      clear(side, x_data),
+    ], next);
+  };
+};
+
+/**
+ * thumbnails
+ * Generate and save all the thumbnails for the given size.
+ *
+ */
+
+var thumbnails = function (x_data) {
+  return function (done) {
+    async.eachLimit(x_data.sides, 8, thumbnail(x_data), done);
+  };
+};
 
 /**
  * save_buffer
  *
  */
 
-var save_buffer = function (file_path, buffer) {
+var save_buffer = function (x_data) {
   return function (done) {
-    fs.writeFile(file_path, buffer, 'binary', done);
+    fs.writeFile(x_data.file_path, x_data.image_buffer, 'binary', done);
   };
 };
 
+
 /**
- * generate_thumbnail
+ * update_image
  *
  */
 
-var generate_thumbnail = function (buffer, filename) {
-  return function (side, next, done) {
-    var options = {
-      buffer: buffer,
-      filename: filename,
-      side: side
-    };
-    resize_image(options, function (err, resized_buffer) {
-      next(err, resized_buffer, side, done);
-    });
-  };
-};
-
-/**
- * save_resized_buffer
- *
- */
-
-var save_resized_buffer = function (folder_path) {
-  return function (buffer, side, err, done) {
-    var file_name = path.join(folder_path, 'thumb-' + side + '.jpg');
-    if (skip_size.indexOf(side) < 0) {
-      fs.writeFile(file_name, buffer, 'binary', done);
-    }
-  };
-};
-
-/**
- * generate_and_save_thumbnails
- *
- */
-
-var generate_and_save_thumbnails = function (buffer, sides, filename, folder_path) {
+var update_image = function (x_data) {
   return function (done) {
-    async.each(sides, async.seq(
-      generate_thumbnail(buffer, filename),
-      save_resized_buffer(folder_path)
-    ), done);
-  };
-};
-
-
-/**
- * update_db
- *
- */
-
-var update_db = function (Image, image, sides) {
-  return function (done) {
-    Image.upsert(image, done);
+    var image = x_data.image;
+    image.thumbs = x_data.thumbs;
+    x_data.Image.upsert(image, done);
   };
 };
 
@@ -201,6 +267,18 @@ module.exports = function(Image) {
           base_url: path.join(storage, container, image_id)
         };
 
+        var x_data = {
+          image_buffer: image_buffer,
+          folder_path: folder_path,
+          file_path: file_path,
+          filename: filename,
+          skipped_sizes: [],
+          sides: sides,
+          image: image,
+          Image: Image,
+          thumbs: []
+        };
+
         if (payload.check !== secret || expired) {
           var msg = 'Error: media_token expired or not valid';
           console.log(msg);
@@ -208,13 +286,14 @@ module.exports = function(Image) {
           return;
         }
 
-        async.series([
-          create_folder(folder_path),
-          save_buffer(file_path, image_buffer),
-          generate_and_save_thumbnails(image_buffer, sides, filename, folder_path),
-          update_db(Image, image, sides)
-        ], function (err, results) {
-          setImmediate(done, err, results[3]);
+        async.waterfall([
+          check(x_data),
+          create_folder(x_data),
+          save_buffer(x_data),
+          thumbnails(x_data),
+          update_image(x_data)
+        ], function (err, result) {
+          setImmediate(done, err, result);
         });
     });
   };

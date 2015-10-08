@@ -22,7 +22,6 @@ module.exports = function (server, done) {
   var create_role = function (name, next) {
     // add role only if it not exists
     Role.findOne({where: {name: name}}, function (err, role) {
-      console.log('role:', role);
       if (err || role) {
         setImmediate(next, err);
         return;

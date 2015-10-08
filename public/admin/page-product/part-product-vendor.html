@@ -3,11 +3,17 @@
 <dom-module id="part-product-vendor">
   <template>
 
-  <api-model-exists id="exist" model-id="{{product.id}}" collection="products"
-    response="{{is_exist}}">
-  </api-model-exists>
+    <api-model-update id="update" collection="products" model-id="{{product.id}}"
+      on-error="on_error" on-response="on_response_update">
+    </api-model-update>
 
-    <search-product-vendor product="{{product}}" on-try-save="on_try_save"></search-product-vendor>
+    <api-model-create id="create" collection="products"
+      on-response="on_response_create">
+    </api-model-create>
+
+    <search-product-vendor id="search" product="{{product}}"
+      on-try-save-vendor="on_try_save_vendor">
+    </search-product-vendor>
 
   </template>
 </dom-module>
@@ -20,13 +26,44 @@
       product: {
         type: Object,
         value: function () { return {}; }
+      },
+      vendor: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
-    on_try_save: function (event) {
+    on_try_save_vendor: function (event) {
       event.stopPropagation();
-      console.log(event.detail.vendor);
+      this.vendor = event.detail.vendor;
+      this.save_vendor();
+    },
 
+    save_vendor: function () {
+      if (this.product.id) {
+        this.$.update.data = { vendor_id: this.vendor.id };
+        this.$.update.send();
+        return;
+      }
+      this.create_product_new();
+    },
+
+    on_response_update: function (event) {
+      event.stopPropagation();
+      this.$.search.updated(this.vendor);
+      page('/admin/products/' + this.product.id);
+    },
+
+    create_product_new: function () {
+      event.stopPropagation();
+      this.$.create.data = this.product;
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      this.product = event.detail;
+      this.save_vendor();
     }
 
   });

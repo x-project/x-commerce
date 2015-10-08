@@ -2,6 +2,13 @@ var async = require('async');
 
 module.exports = function (Product) {
 
+  var delete_collections = function (product, collections, callback) {
+    async.each(collections,
+      function(collection, done) {
+        product.collections.remove(collection, done);
+      },callback);
+  };
+
   Product.observe('before delete', function(ctx, callback) {
     var product;
 
@@ -20,8 +27,22 @@ module.exports = function (Product) {
       },
 
       function (result, next) {
+        //todo delete images in /storage in image.js
         product.images.destroyAll(next);
-      }
+      },
+
+      function (result, next) {
+        product.collections(next)
+      },
+
+      function (result, next) {
+        delete_collections(product, result, next);
+      },
+
+      function (result, next) {
+        delete_collections(product, result, next);
+      },
+
     ],
 
     function (err) {

@@ -6,10 +6,6 @@
       response="{{vendors}}">
     </api-model-find>
 
-    <api-model-update id="update" collection="products" model-id="{{product.id}}"
-      on-response="on_response_update" on-error="on_error">
-    </api-model-update>
-
     <div class="panel">
       <h2>Vendor</h2>
       <div class="field">
@@ -64,21 +60,19 @@
       this.$.find.send();
     },
 
-    filter_vendors: function (vendor) {
-      return vendor.name.search(this.search) >= 0;
-    },
-
     on_click_vendor: function (event) {
       event.stopPropagation();
       var vendor = this.$.vendors.itemForElement(event.target);
-      this.set('search', vendor.name);
-      this.fire('try-save', {vendor: vendor});
-      // this.$.update.data = { vendor_id: vendor.id };
-      // this.$.update.send();
+      this.set('vendors', []);
+      this.fire('try-save-vendor', { vendor: vendor });
     },
 
-    on_response_update: function (event) {
-      this.set('vendors', []);
+    updated: function (vendor) {
+      this.set('search', vendor.name);
+    },
+
+    filter_vendors: function (vendor) {
+      return vendor.name.search(this.search) >= 0;
     },
 
     on_error: function (event) {
