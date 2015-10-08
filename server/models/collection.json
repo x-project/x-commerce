@@ -30,11 +30,6 @@
       "type": "hasAndBelongsToMany",
       "model": "Product",
       "through": "CollectionProduct"
-    },
-    "collection_filters": {
-      "type": "hasMany",
-      "model": "CollectionFilter",
-      "foreignKey": "collection_id"
     }
   },
   "acls": [],
