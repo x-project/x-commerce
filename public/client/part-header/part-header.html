@@ -45,10 +45,6 @@
   </style>
   <template>
 
-    <iron-ajax id="ajax_get_store" method="GET" on-error="on_error"
-      url="/api/stores/findOne" last-response="{{store}}">
-    </iron-ajax>
-
     <div id="header" class="container">
       <div id="brand">
         <a is="app-link" class="link" href="/">{{store.name}}</a>
@@ -57,6 +53,11 @@
         <ul class="links">
           <li><a is="app-link" class="link" href="/products">catalog</a></li>
           <li><a is="app-link" class="link" href="/cart">cart</a></li>
+          <li><a is="app-link" class="link" href="/reviews">reviews</a></li>
+          <li><a is="app-link" class="link" href="/settings">settings</a></li>
+          <li><a is="app-link" class="link" href="/orders">orders</a></li>
+          <li><a is="app-link" class="link" href="/login">login</a></li>
+          <li><a is="app-link" class="link" href="/signup">signup</a></li>
         </ul>
       </nav>
     </div>
@@ -75,18 +76,7 @@
       },
       links: {
         type: Array
-      },
-      user: {
-        type: Object
-      },
-      store: {
-        type: Object,
-        value: function () { return {}; }
       }
-    },
-
-    attached: function () {
-      this.$.ajax_get_store.generateRequest();
     }
 
   });

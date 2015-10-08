@@ -4,7 +4,7 @@
   "mongodb": {
     "collection": "customers"
   },
-  "base": "PersistedModel",
+  "base": "User",
   "properties": {
     "first_name": {
       "type": "String"
@@ -48,7 +48,20 @@
       "model": "Address"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "change_email"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "change_password"
+    }
+  ],
   "validations": [],
   "methods": []
 }

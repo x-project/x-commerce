@@ -1,0 +1,32 @@
+<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="form-feedback.html">
+<dom-module id="part-feedback">
+  <template>
+
+    <api-model-update id="update" collection="reviews" data="{{review}}"
+      model-id="{{review.id}}">
+    </api-model-update>
+
+    <form-feedback review="{{review}}" on-try-save="on_try_save"></form-feedback>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-feedback',
+
+    properties: {
+      review: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_try_save: function  (event) {
+      event.stopPropagation();
+      this.$.update.send();
+    }
+
+  });
+</script>

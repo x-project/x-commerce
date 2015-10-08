@@ -1,0 +1,38 @@
+{
+  "name": "Review",
+  "plural": "reviews",
+  "mongodb": {
+    "collection": "reviews"
+  },
+  "base": "PersistedModel",
+  "properties": {
+   "title": {
+      "type": "String"
+    },
+    "text": {
+      "type": "String"
+    },
+    "rating": {
+      "type": "Number"
+    },
+    "closed": {
+      "type": "Boolean",
+      "default": false
+    }
+  },
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id"
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "customer_id"
+    }
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

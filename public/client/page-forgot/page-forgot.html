@@ -1,0 +1,43 @@
+<link rel="import" href="../../components/api-user-reset/api-user-reset.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../layout-empty/layout-empty.html">
+<link rel="import" href="form-forgot.html">
+<dom-module id="page-forgot">
+  <template>
+    <style include="layout-empty"></style>
+
+    <api-user-reset id="reset" email="{{email}}"
+      response="{{response}}" on-response="{{on_response}}">
+    </api-user-reset>
+
+    <layout-empty>
+      <div class="center">
+        <div id="panel" class="container">
+          <a is="app-link" href="/">&larr;</a>
+          <h3>Forgot password</h3>
+          <form-forgot on-submit="on_submit"></form-forgot>
+          <div>
+            <a is="app-link" href="/signup">not registered?</a>
+          </div>
+        </div>
+      </div>
+    </layout-empty>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-forgot',
+
+    on_submit: function (event) {
+      this.set('email', event.detail);
+      this.$.reset.send();
+    },
+
+    on_response: function (event) {
+      page('/login');
+    }
+
+  });
+</script>

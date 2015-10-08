@@ -6,16 +6,12 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get_store" method="GET" on-error="on_error"
-      url="/api/stores/findOne" last-response="{{store}}">
-    </iron-ajax>
-
     <layout-client>
       <part-jumbotron class="jumbotron">
-        <h1>{{store.name}}</h1>
+        <h1>{{data.store.name}}</h1>
       </part-jumbotron>
       <div class="container">
-        <h2>Catalag</h2>
+        <h2>Catalog</h2>
         <part-home-products products="{{products}}"></part-home-products>
       </div>
     </layout-client>
@@ -25,22 +21,7 @@
 <script>
   Polymer({
 
-    is: 'page-home',
-
-    properties: {
-      products: {
-        type: Array,
-        value: function () { return []; }
-      },
-      store: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    },
-
-    attached: function () {
-      this.$.ajax_get_store.generateRequest();
-    }
+    is: 'page-home'
 
   });
 </script>

@@ -1,0 +1,48 @@
+<link rel="import" href="../../components/api-user-signup/api-user-signup.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../layout-empty/layout-empty.html">
+<link rel="import" href="form-signup.html">
+<dom-module id="page-signup">
+  <template>
+    <style include="layout-empty"></style>
+
+    <api-user-signup id="signup" credentials="{{credentials}}"
+      on-signup="on_signup" on-error="on_error">
+    </api-user-signup>
+
+    <layout-empty>
+      <div class="center">
+        <div class="panel">
+          <a is="app-link" href="/">&larr;</a>
+          <h3>Signup</h3>
+          <form-signup id="form" on-submit="on_submit"></form-signup>
+          <div>
+            <a is="app-link" href="/login">already registered?</a><br>
+          </div>
+        </div>
+      </div>
+    </layout-empty>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-signup',
+
+    on_submit: function (event) {
+      this.credentials = event.detail;
+      this.$.signup.send();
+    },
+
+    on_signup: function (event) {
+      page('/settings');
+    },
+
+    on_error: function (event) {
+      console.warn(event);
+    }
+
+  });
+</script>

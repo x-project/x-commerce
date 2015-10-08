@@ -18,6 +18,10 @@
       model-id="{{customer.id}}" on-response="on_response_delete">
     </api-model-delete>
 
+    <api-model-create id="create" collection="customers" data="{{customer}}"
+      response="{{customer}}" on-response="on_response_create">
+    </api-model-create>
+
     <layout-admin>
       <h1>Customers</h1>
       <part-customer-header customer="{{customer}}"></part-customer-header>
@@ -48,8 +52,17 @@
     },
 
     on_try_save: function (event) {
-      this.convert_tags_to_array();
-      this.$.ajax_delete.send();
+      if (this.customer.id) {
+        this.convert_tags_to_array();
+        this.$.ajax_delete.send();
+        return;
+      }
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      page('/admin/customers/' + this.customer.id);
     },
 
     on_try_delete: function (event) {
@@ -63,7 +76,7 @@
     },
 
     convert_tags_to_array: function () {
-      this.customer.tags = [this.customer.tags];
+      this.customer.tags = [this.customer.tags] || [];
     },
 
     on_error: function (event) {

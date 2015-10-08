@@ -16,9 +16,6 @@
       }
     </style>
 
-<!--     <api-model-find id="find" collection="orders" response="{{order_items}}"
-      model-id="{{order.id}}" include=["product", "product_variant"]></api-model-find> -->
-
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
       last-response="{{order_items}}">
     </iron-ajax>
@@ -35,6 +32,10 @@
       on-response="on_response_delete">
     </iron-ajax>
 
+    <api-model-create id="create" collection="orders" on-error="on_error"
+      on-response="on_response_create">
+    </api-model-create>
+
     <h2>Order items</h2>
 
     <div class="items">
@@ -46,6 +47,7 @@
         <part-order-item class="pending" data="{{order_item_pending}}"
           pending$="{{pending}}"></part-order-item>
     </div>
+
   </template>
 </dom-module>
 <script>
@@ -58,10 +60,6 @@
         type: Object,
         value: function () { return {}; }
       },
-      last_order_item_saving: {
-        type: Boolean,
-        value: false
-      },
       order_item_pending: {
         type: Object,
         value: function () { return {}; }
@@ -73,7 +71,7 @@
     },
 
     attached: function () {
-      this.update_order_items();
+      this.order_items = this.order.order_items;
     },
 
     show_saved: function () {
@@ -93,7 +91,9 @@
     },
 
     update_order_items: function () {
-      this.$.ajax_get_order_items.url = '/api/orders/'+ this.order.id + '/order_items?filter=%7B%22include%22%3A%5B%22product%22%2C%22product_variant%22%5D%7D'
+      this.$.ajax_get_order_items.url = '/api/orders/'+ this.order.id + '/order_items';
+      var include = { include: ['product','product_variant'] };
+      this.$.ajax_get_order_items.params.filter = JSON.stringify(include);
       this.$.ajax_get_order_items.generateRequest();
       this.set('order_item_pending', {});
     },
@@ -105,24 +105,36 @@
     },
 
     request_post: function (order_data) {
-      this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
-      this.$.ajax_post_order_item.body = JSON.stringify(this.get_order_item(order_data));
-      this.async(function () {
-        this.$.ajax_post_order_item.generateRequest();
-      }, 3000);
+      if (this.order.id) {
+        this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
+        this.$.ajax_post_order_item.body = JSON.stringify({
+            quantity: order_data.quantity,
+            order_id: this.order.id,
+            product_id: order_data.product_id,
+            product_variant_id: order_data.variant_id
+        });
+        this.async(function () {
+          this.$.ajax_post_order_item.generateRequest();
+        }, 2000);
+        return;
+      }
+      this.create_order_new();
     },
 
-    get_order_item: function (order_data) {
-      return {
-        quantity: order_data.quantity,
-        order_id: this.order.id,
-        product_id: order_data.product_id,
-        product_variant_id: order_data.variant_id
-      };
+    create_order_new: function () {
+      this.$.create.data = this.order;
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      this.order = event.detail;
+      this.request_post(this.order_item_pending);
     },
 
     on_response_post: function (event) {
       event.stopPropagation();
+      page('/admin/orders/' + this.order.id);
       this.hide_pending();
       this.update_order_items();
     },

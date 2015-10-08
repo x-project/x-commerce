@@ -1,4 +1,4 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-customers-create.html">
@@ -9,9 +9,12 @@
 <dom-module id="page-customers">
   <template>
 
-    <api-model-find id="request" collection="customers"
-      response="{{customers}}">
+    <api-model-find id="find" collection="customers" response="{{customers}}"
+      order="first_name" perpage="{{perpage}}" page="{{page}}">
     </api-model-find>
+
+    <api-model-count id="count" collection="customers" response="{{count}}">
+    </api-model-count>
 
     <layout-admin>
       <h1>Customers</h1>
@@ -19,7 +22,9 @@
       <part-customers-search></part-customers-search>
       <part-customers-stats></part-customers-stats>
       <part-customers-items customers="{{customers}}"></part-customers-items>
-      <part-customers-pages></part-customers-pages>
+      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
+        count="{{count}}">
+      </part-products-pages>
     </layout-admin>
 
   </template>
@@ -37,7 +42,13 @@
     },
 
     attached: function () {
-      this.$.request.send();
+      this.$.count.send();
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 4;
+      this.page = event.detail.current - 1;
+      this.$.find.send();
     }
 
   });

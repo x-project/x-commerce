@@ -1,0 +1,50 @@
+<link rel="import" href="../../components/api-user-login/api-user-login.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../layout-empty/layout-empty.html">
+<link rel="import" href="form-login.html">
+<dom-module id="page-login">
+  <template>
+    <style include="layout-empty"></style>
+
+    <api-user-login id="login" credentials="{{credentials}}"
+      response="{{response}}" on-response="on_login" on-error="on_error">
+    </api-user-login>
+
+    <layout-empty>
+      <div class="center">
+        <div id="panel" class="container">
+          <a is="app-link" href="/">&larr;</a>
+          <h3>Login</h3>
+          <form-login id="form" on-submit="on_submit"></form-login>
+          <div>
+            <a is="app-link" href="/signup">not registered?</a>
+          </div>
+          <div>
+            <a is="app-link" href="/forgot">forgot password?</a>
+          </div>
+        </div>
+      </div>
+    </layout-empty>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-login',
+
+    on_submit: function (event) {
+      this.credentials = event.detail;
+      this.$.login.send();
+    },
+
+    on_login: function (event) {
+      page('/settings');
+    },
+
+    on_error: function (event) {
+      console.warn(event);
+    }
+
+  });
+</script>

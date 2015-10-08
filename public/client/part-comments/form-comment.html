@@ -19,7 +19,7 @@
         <iron-autogrow-textarea class="textarea" bind-value="{{comment.text}}"></iron-autogrow-textarea>
       </div>
       <div class="field">
-        <input class="button" type="submit" value="create" on-click="on_submit"/>
+        <input class="button" type="submit" value="create"/>
       </div>
     </form>
 
@@ -41,7 +41,7 @@
       event.preventDefault();
       event.stopPropagation();
       //TODO: inject author.id
-      this.fire('try-save');
+      this.fire('try-save-comment');
     }
 
   });

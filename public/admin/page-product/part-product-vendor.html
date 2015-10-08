@@ -1,32 +1,19 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="search-product-vendor.html">
 <dom-module id="part-product-vendor">
   <template>
 
-    <api-model-find id="find" collection="vendors"
-      response="{{vendors}}" on-error="on_error">
-    </api-model-find>
-
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
-      on-response="on_response_update" on-error="on_error">
+      on-error="on_error" on-response="on_response_update">
     </api-model-update>
 
-    <div class="panel">
-      <h2>Vendor</h2>
-      <div class="field">
-        <label class="label">Vendor</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{search}}"
-          on-keypress="on_search_vendor">
-      </div>
-    </div>
+    <api-model-create id="create" collection="products"
+      on-response="on_response_create">
+    </api-model-create>
 
-    <div class="items">
-      <template id="vendors" is="dom-repeat" items="{{vendors}}" filter="filter_vendors">
-        <div class="item" on-click="on_click_vendor">
-          <span>{{item.name}}</span>
-          <span>{{index}}</span>
-        <div>
-      </template>
-    </div>
+    <search-product-vendor id="search" product="{{product}}"
+      on-try-save-vendor="on_try_save_vendor">
+    </search-product-vendor>
 
   </template>
 </dom-module>
@@ -40,49 +27,43 @@
         type: Object,
         value: function () { return {}; }
       },
-      vendors: {
-        type: Array,
-        value: function () { return []; }
-      },
       vendor: {
         type: Object,
-        value: function () { return {}; }
-      },
-      search: {
-        type: String,
-        value: ''
+        value: function () { return {}; }
       }
     },
 
-    attached: function () {
-      if(this.product.hasOwnProperty('vendor'))
-        this.search = this.product.vendor.name;
-    },
-
-    on_search_vendor: function (event) {
+    on_try_save_vendor: function (event) {
       event.stopPropagation();
-      this.$.find.send();
+      this.vendor = event.detail.vendor;
+      this.save_vendor();
     },
 
-    filter_vendors: function (vendor) {
-      return vendor.name.search(this.search) >= 0;
+    save_vendor: function () {
+      if (this.product.id) {
+        this.$.update.data = { vendor_id: this.vendor.id };
+        this.$.update.send();
+        return;
+      }
+      this.create_product_new();
     },
 
-    on_click_vendor: function (event) {
+    on_response_update: function (event) {
       event.stopPropagation();
-      var vendor = this.$.vendors.itemForElement(event.target);
-      this.set('search', vendor.name);
-      this.$.update.data = { vendor_id: vendor.id };
-      this.$.update.send();
+      this.$.search.updated(this.vendor);
+      page('/admin/products/' + this.product.id);
     },
 
-    on_response_update: function (event) {
-      this.set('vendors', []);
-    },
-
-    on_error: function (event) {
+    create_product_new: function () {
       event.stopPropagation();
-      console.log(event);
+      this.$.create.data = this.product;
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      this.product = event.detail;
+      this.save_vendor();
     }
 
   });

@@ -1,0 +1,90 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/iron-input/iron-input.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-settings-email">
+  <template>
+    <style include="style-form"></style>
+
+    <iron-ajax id="ajax" method="POST" url="/api/Customers/change_email"
+      content-type="application/json" handle-as="json"
+      last-response="{{response}}" on-response="on_response"
+      last-error="{{error}}" on-error="on_error">
+    </iron-ajax>
+
+    <template is="dom-if" if="{{error.diversity}}">
+      <div class="alert error">email not confirmed</div>
+    </template>
+
+    <template is="dom-if" if="{{error.error}}">
+      <div class="alert error">something went wrong...</div>
+    </template>
+
+    <template is="dom-if" if="{{model}}">
+      <div class="alert success">email changed successfully!</div>
+    </template>
+
+    <form id="form" on-submit="on_submit" on-keyup="on_keyup">
+      <div class="field">
+        <label class="label">new email</label>
+        <input class="input" is="iron-input" type="email" bind-value="{{input.email}}">
+      </div>
+      <div class="field">
+        <label class="label">confirm email</label>
+        <input class="input" is="iron-input" type="email" bind-value="{{input.confirm}}">
+      </div>
+      <div class="field">
+        <label class="label">password</label>
+        <input class="input" is="iron-input" type="password" bind-value="{{input.password}}">
+      </div>
+      <div class="field">
+        <input class="button" type="submit" value="change" />
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-settings-email',
+
+    attached: function () {
+      this.set('input', {});
+    },
+
+    on_keyup: function (event) {
+      if (event.keyCode == 13) {
+        return;
+      }
+      this.error = {};
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      if (this.input.email !== this.input.confirm) {
+        this.set('error.diversity', true);
+        return;
+      }
+      this.update();
+    },
+
+    update: function () {
+      var ajax = this.$.ajax;
+      ajax.headers = { Authorization: this.session.token };
+      ajax.body = JSON.stringify(this.input);
+      ajax.generateRequest();
+    },
+
+    on_response: function (event) {
+      console.log(event);
+      this.set('input', {});
+    },
+
+    on_error: function (event) {
+      console.warn(event);
+      this.set('input', {});
+    }
+
+  });
+</script>

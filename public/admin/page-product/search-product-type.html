@@ -1,0 +1,79 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<dom-module id="search-product-type">
+  <template>
+
+    <api-model-find id="find" collection="product_types"
+      response="{{product_types}}" on-error="on_error">
+    </api-model-find>
+
+    <div class="panel">
+      <h2>Product type</h2>
+      <div class="field">
+        <label class="label">product type</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{search}}"
+          on-keypress="on_search_prod_type" on-focus="on_search_prod_type">
+      </div>
+    </div>
+
+    <div class="items">
+      <template id="product_types" is="dom-repeat" items="{{product_types}}" filter="filter_product_types">
+        <div class="item" on-click="on_click_product_type">
+          <span>{{item.name}}</span>
+        <div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'search-product-type',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      product_types: {
+        type: Array,
+        value: function () { return []; }
+      },
+      search: {
+        type: String,
+        value: ''
+      }
+    },
+
+    attached: function () {
+      if(this.product.hasOwnProperty('product_type'))
+        this.search = this.product.product_type.name;
+    },
+
+    on_search_prod_type: function (event) {
+      event.stopPropagation();
+      this.$.find.send();
+    },
+
+    on_click_product_type: function (event) {
+      event.stopPropagation();
+      var product_type = this.$.product_types.itemForElement(event.target);
+      this.set('product_types', []);
+      this.fire('try-save-prod-type', { product_type: product_type });
+    },
+
+    updated: function (product_type) {
+      this.set('search', product_type.name);
+    },
+
+    filter_product_types: function (product_type) {
+      return product_type.name.search(this.search) >= 0;
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

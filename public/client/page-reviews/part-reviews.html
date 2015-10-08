@@ -1,0 +1,51 @@
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="part-review.html">
+<dom-module id="part-reviews">
+  <template>
+
+    <style>
+      .review {
+        margin-top: 20px;
+      }
+    </style>
+
+    <api-model-find id="find" collection="reviews" response="{{reviews}}"
+      include=["customer","product"] on-response="on_response">
+    </api-model-find>
+
+    <div class="list">
+      <template is="dom-repeat" items="{{reviews}}" as="review">
+        <part-review class="review" review="{{review}}"></part-review>
+      </template>
+    </div>
+
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-reviews',
+
+    properties: {
+      reviews: {
+        type: Array,
+        value: function () { return []; }
+      },
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function  () {
+      this.$.find.where = { customer_id: this.customer.id };
+      this.$.find.send();
+    },
+
+    on_response: function  (argument) {
+      // console.log(this.reviews);
+    }
+
+  });
+</script>

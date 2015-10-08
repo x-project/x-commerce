@@ -12,7 +12,7 @@
 <link rel="import" href="part-product-create-variant.html">
 <link rel="import" href="part-product-shipping.html">
 <link rel="import" href="part-product-type.html">
-<link rel="import" href="part-product-tag.html">
+<link rel="import" href="part-product-tags.html">
 <link rel="import" href="part-product-variants.html">
 <link rel="import" href="part-product-vendor.html">
 <link rel="import" href="part-product-visibility.html">
@@ -26,6 +26,10 @@
     <api-model-delete id="delete_model" collection="products"
       model-id="{{product.id}}" on-response="on_response_delete">
     </api-model-delete>
+
+    <api-model-create id="create" collection="products" data="{{product}}"
+      response="{{product}}" on-response="on_response_create">
+    </api-model-create>
 
     <layout-admin>
       <h1>Products</h1>
@@ -41,7 +45,7 @@
       <part-product-collections product="{{product}}"></part-product-collections>
       <part-product-vendor product="{{product}}"></part-product-vendor>
       <part-product-type product="{{product}}"></part-product-type>
-      <part-product-tag product="{{product}}"></part-product-tag>
+      <part-product-tags product="{{product}}"></part-product-tags>
       <part-product-create-variant product="{{product}}"></part-product-create-variant>
     </layout-admin>
 
@@ -68,11 +72,16 @@
     },
 
     on_try_save: function (event) {
-      this.$.update.send();
+      if(this.product.id){
+        this.$.update.send();
+        return;
+      }
+      this.$.create.send();
     },
 
-    on_response_put: function (event, details) {
-      var response = details.response;
+    on_response_create: function (event) {
+      event.stopPropagation();
+      page('/admin/products/' + this.product.id);
     },
 
     on_try_delete: function (event) {

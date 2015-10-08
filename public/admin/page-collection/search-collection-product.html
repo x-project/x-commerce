@@ -1,0 +1,127 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../style-panel/style-panel.html">
+<dom-module id="search-collection-product">
+  <template>
+    <style include="style-panel">
+       .pill {
+        padding: 4px 8px;
+        border-radius: 2px;
+        display: inline-block;
+        margin: 8px 4px;
+        background-color: #eee;
+       }
+       .pill .delete {
+        padding-left: 8px;
+        opacity: .4;
+       }
+       .pill .delete:hover {
+        opacity: 1;
+        cursor: pointer;
+       }
+    </style>
+
+    <api-model-find id="find" collection="products" response="{{new_products}}"
+      on-erro="on_error">
+    </api-model-find>
+
+    <div class="panel">
+      <h3 class="title">Add product in Collection </h3>
+      <div class="field">
+        <label class="label">Search product</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{title}}"
+          on-keypress="on_search_product" on-focus="on_search_product">
+      </div>
+    </div>
+
+    <div class="selected items">
+      <template id="selected" is="dom-repeat" items="{{selected}}">
+        <div class="pill">
+          <span>{{item.title}}</span>
+          <span on-click="on_click_selected" class="delete">x</span>
+        <div>
+      </template>
+    </div>
+    <div class="items">
+      <template id="products" is="dom-repeat" items="{{new_products}}" filter="filter_products">
+        <div class="item" on-click="on_click_select">
+          <span>{{item.title}}</span>
+          <span>{{item.price}}</span>
+          <span>{{item.quantity}}</span>
+        </div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'search-collection-product',
+
+    properties: {
+      collection: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      title: {
+        type: String,
+        value: ''
+      },
+      selected: {
+        type: Array,
+        value: function () { return []; }
+      },
+      products: {
+        type: Array,
+        value: function () { return []; }
+      },
+      new_products: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      this.selected = this.collection.products || [];
+    },
+
+    on_search_product: function (event) {
+      event.stopPropagation();
+      this.$.find.send();
+    },
+
+    on_click_select: function (event) {
+      event.stopPropagation();
+      var product = this.$.products.itemForElement(event.target);
+      if (!this.check_exists_selected_product(product)) {
+        this.push('selected', product);
+        this.set('new_products', []);
+        this.fire('try-save-product', { product: product });
+      }
+    },
+
+    check_exists_selected_product: function (product) {
+      return this.selected.some(function (element) {
+        return element.id === product.id;
+      });
+    },
+
+    on_click_selected: function (event) {
+      event.stopPropagation();
+      var collection = this.$.selected.itemForElement(event.target);
+      var index = this.selected.indexOf(collection);
+      this.splice('selected', index, 1);
+      this.fire('try-delete-product', {product: product});
+    },
+
+    filter_products: function (collection) {
+      return collection.title.search(this.title) >= 0;
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

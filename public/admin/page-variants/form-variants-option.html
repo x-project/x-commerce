@@ -69,25 +69,6 @@
       }
     },
 
-    clear: function () {
-      this.set('value', '');
-      this.option.values = this.options;
-    },
-
-    add_option: function (value) {
-      if (!this.is_exists(value)){
-        this.push('options', value);
-      }
-      this.clear();
-    },
-
-    is_exists: function (value_a) {
-      return this.options.some(function (value_b) {
-        if (value_a === value_b)
-          return true;
-      });
-    },
-
     on_edit_option: function (event) {
       event.stopPropagation();
       if (event.keyCode === 13) {
@@ -106,9 +87,28 @@
       }
     },
 
+    add_option: function (value) {
+      if (!this.is_exists(value)){
+        this.push('options', value);
+      }
+      this.clear();
+    },
+
+    is_exists: function (value_a) {
+      return this.options.some(function (value_b) {
+        if (value_a === value_b)
+          return true;
+      });
+    },
+
+    clear: function () {
+      this.set('value', '');
+      this.option.values = this.options;
+    },
+
     on_click_delete: function (event) {
       event.stopPropagation();
-      var tag = this.$.options.itemForElement(event.target);
+      var option = this.$.options.itemForElement(event.target);
       var index = this.$.options.indexForElement(event.target);
       this.splice('options', index, 1);
     },

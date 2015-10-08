@@ -1,0 +1,68 @@
+<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="part-order-items.html">
+<dom-module id="page-order">
+  <template>
+
+    <style include="style-page"></style>
+
+    <api-model-update id="update" collection="orders"
+      model-id="{{order.id}}">
+    </api-model-update>
+
+    <api-model-delete id="delete_model" collection="orders"
+      model-id="{{order.id}}" on-response="on_response_delete">
+    </api-model-delete>
+
+    <api-model-find id="find" collection="orders" response="{{orders}}"
+      on-response="on_response">
+    </api-model-find>
+
+    <api-model-find id="find1" collection="orders" response="{{order_items}}"
+      on-response="on_response1">
+    </api-model-find>
+
+
+      <layout-client>
+        <part-jumbotron class="jumbotron">
+          <h1>My Orders</h1>
+        </part-jumbotron>
+        <div class="container">
+          <part-order-items></part-order-items>
+        </div>
+    </layout-client>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-order',
+
+    properties: {
+      orders: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      this.$.find.where = { customer_id: '5612ab0087eb96dc542a4b20' };
+      this.$.find.send();
+    },
+
+    on_response: function  (event) {
+      //TODO get order item for each order and include all properties
+      console.log(this.orders);
+      this.$.find1.relation = 'order_items';
+      this.$.find1.modelId = this.orders[0].id;
+      this.$.find1.include = ['product','product_variant'];
+      this.$.find1.send();
+    },
+
+    on_response1: function (event) {
+      console.log(this.order_items);
+    }
+
+  });
+</script>

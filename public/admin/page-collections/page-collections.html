@@ -9,9 +9,12 @@
 <dom-module id="page-collections">
   <template>
 
-    <api-model-find id="request" collection="collections"
-      response="{{collections}}">
+    <api-model-find id="find" collection="collections" response="{{collections}}"
+      order="name" perpage="{{perpage}}" page="{{page}}">
     </api-model-find>
+
+    <api-model-count id="count" collection="collections" response="{{count}}">
+    </api-model-count>
 
     <layout-admin>
       <h1>Collections</h1>
@@ -19,7 +22,9 @@
       <part-collections-search></part-collections-search>
       <part-collections-stats></part-collections-stats>
       <part-collections-items collections="{{collections}}"></part-collections-items>
-      <part-collections-pages></part-collections-pages>
+      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
+        count="{{count}}">
+      </part-products-pages>
     </layout-admin>
 
   </template>
@@ -37,7 +42,13 @@
     },
 
     attached: function () {
-      this.$.request.send();
+      this.$.count.send();
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 4;
+      this.page = event.detail.current - 1;
+      this.$.find.send();
     }
 
   });

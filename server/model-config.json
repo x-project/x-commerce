@@ -91,6 +91,9 @@
   "ProductVariant": {
     "dataSource": "mongo"
   },
+  "Review": {
+    "dataSource": "mongo"
+  },
   "Store": {
     "dataSource": "mongo"
   },

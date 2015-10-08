@@ -21,6 +21,10 @@
       model-id="{{collection.id}}" on-response="on_response_delete">
     </api-model-delete>
 
+    <api-model-create id="create" collection="collections" data="{{collection}}"
+      response="{{collection}}" on-response="on_response_create">
+    </api-model-create>
+
     <layout-admin>
       <h1>Collections</h1>
       <part-collection-header collection="{{collection}}"></part-collection-header>
@@ -54,15 +58,20 @@
 
     attached: function () {
       this.collection = this.route.data.collection;
-      this.products = this.collection.products;
+      this.products = this.collection.products || [];
     },
 
     on_try_save: function (event) {
-      this.$.ajax_update.send();
+      if (this.collection.id) {
+        this.$.ajax_update.send();
+        return;
+      }
+      this.$.create.send();
     },
 
-    on_response_put: function (event, details) {
-      var response  =  details.response;
+    on_response_create: function (event) {
+      event.stopPropagation();
+      page('/admin/collections/' + this.collection.id);
     },
 
     on_try_delete: function (event) {
