@@ -19,6 +19,10 @@
       model-id="{{order.id}}" on-response="on_response_delete">
     </api-model-delete>
 
+   <api-model-create id="create" collection="orders" data="{{order}}"
+      response="{{order}}" on-response="on_response_create">
+    </api-model-create>
+
     <layout-admin>
       <h1>Orders</h1>
         <part-order-header order="{{order}}"></part-order-header>
@@ -63,8 +67,17 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      this.$.update.data = this.get_order();
-      this.$.update.send();
+      if (this.order.id) {
+        this.$.update.data = this.get_order();
+        this.$.update.send();
+        return;
+      }
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      page('/admin/orders/' + this.order.id);
     },
 
     get_order:  function () {
