@@ -1,48 +1,18 @@
 <link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="part-order-item.html">
-<link rel="import" href="input-search-product.html">
-<link rel="import" href="input-search-product-variant.html">
 <dom-module id="part-order-items">
   <template>
     <style>
       :host {
         display: block;
       }
-      .items .pending {
-        display: none;
-      }
-      .items .pending[pending] {
-        display: block;
-      }
     </style>
 
-    <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
-      last-response="{{order_items}}">
-    </iron-ajax>
-
-    <iron-ajax id="ajax_put_order_item" method="PUT" content-type="application/json"
-      on-error="on_error">
-    </iron-ajax>
-
-    <iron-ajax id="ajax_post_order_item" method="POST" handle-as="json"
-      content-type="application/json" on-response="on_response_post" on-error="on_error">
-    </iron-ajax>
-
-    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"
-      on-response="on_response_delete">
-    </iron-ajax>
-
-    <h2>Order items</h2>
 
     <div class="items">
-      <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
-        <part-order-item data="{{order_item}}" on-click-delete="on_click_delete"
-          on-edit-order-item="on_edit_order_item">
-        </part-order-item>
-      </template>
-        <part-order-item class="pending" data="{{order_item_pending}}"
-          pending$="{{pending}}"></part-order-item>
+    <part-order-item></part-order-item>
     </div>
+
   </template>
 </dom-module>
 <script>
@@ -50,107 +20,7 @@
 
     is: 'part-order-items',
 
-    properties: {
-      order: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      order_item_pending: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      pending: {
-        type: Boolean,
-        value: false
-      }
-    },
-
-    // attached: function () {
-    //   this.order_items = this.order.order_items;
-    // },
-
-    show_saved: function () {
-      this.set('saved', true);
-    },
-
-    hide_saved: function () {
-      this.set('saved', false);
-    },
-
-    show_pending: function () {
-      this.set('pending', true);
-    },
-
-    hide_pending: function () {
-      this.set('pending', false);
-    },
-
-    update_order_items: function () {
-      this.$.ajax_get_order_items.url = '/api/orders/'+ this.order.id + '/order_items';
-      var include = { include: ['product','product_variant'] };
-      this.$.ajax_get_order_items.params.filter = JSON.stringify(include);
-      this.$.ajax_get_order_items.generateRequest();
-      this.set('order_item_pending', {});
-    },
-
-    selected_pending: function (order_data) {
-      this.show_pending();
-      this.order_item_pending = order_data;
-      this.request_post(order_data);
-    },
-
-    request_post: function (order_data) {
-      this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
-      this.$.ajax_post_order_item.body = JSON.stringify(this.get_order_item(order_data));
-      this.async(function () {
-        this.$.ajax_post_order_item.generateRequest();
-      }, 1000);
-    },
-
-    get_order_item: function (order_data) {
-      return {
-        quantity: order_data.quantity,
-        order_id: this.order.id,
-        product_id: order_data.product_id,
-        product_variant_id: order_data.variant_id
-      };
-    },
-
-    on_response_post: function (event) {
-      event.stopPropagation();
-      this.hide_pending();
-      this.update_order_items();
-    },
-
-    on_click_delete: function () {
-      var order_item = this.$.order_items.itemForElement(event.target);
-      this.$.ajax_delete.url = '/api/orders/' + order_item.order_id + '/order_items/' + order_item.id;
-      this.$.ajax_delete.generateRequest();
-    },
-
-    on_response_delete: function (event) {
-      event.stopPropagation();
-      this.update_order_items();
-    },
-
-    on_edit_order_item: function (event) {
-      event.stopPropagation();
-      var data = this.$.order_items.itemForElement(event.target);
-      this.$.ajax_put_order_item.url = '/api/orders/' + data.orderId + '/order_items/' + data.id;
-      var order_item = {
-        quantity: data.quantity,
-        orderId: data.orderId,
-        product_id: data.product_id,
-        product_variant_id: data.product_variant_id
-      };
-      this.$.ajax_put_order_item.body = JSON.stringify(this.order_item);
-      this.$.ajax_put_order_item.generateRequest();
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
-    }
+    properties: {}
 
   });
 </script>
