@@ -2,7 +2,7 @@ var async = require('async');
 
 module.exports = function (Product) {
 
-  var delete_collections = function (product, collections, callback) {
+  var remove_collections = function (product, collections, callback) {
     async.each(collections,
       function(collection, done) {
         product.collections.remove(collection, done);
@@ -36,15 +36,9 @@ module.exports = function (Product) {
       },
 
       function (result, next) {
-        delete_collections(product, result, next);
-      },
-
-      function (result, next) {
-        delete_collections(product, result, next);
-      },
-
+        remove_collections(product, result, next);
+      }
     ],
-
     function (err) {
       if (err) {
         callback(err, null);
@@ -54,7 +48,6 @@ module.exports = function (Product) {
     });
 
   });
-
 
   var cartesian = function (args) {
     return args.reduce(function (values_a, values_b) {
