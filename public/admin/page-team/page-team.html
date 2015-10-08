@@ -1,6 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="list-members.html">
 <link rel="import" href="list-invites.html">
 
@@ -13,23 +12,25 @@
     }
     </style>
 
-    <api-model-find id="find_members" collection="members" response="{{members}}" access-token="{{route.session.accessToken}}"></api-model-find>
-    <api-model-find id="find_invites" collection="invites" response="{{invites}}" include='["sender"]' access-token="{{route.session.accessToken}}"></api-model-find>
+    <api-model-find id="find_members"
+      collection="members" access-token="{{route.session.accessToken}}"
+      response="{{members}}">
+    </api-model-find>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h2>Team</h2>
-          <list-members items="{{members}}"></list-members>
-        </div>
-        <div class="container">
-          <h2>Invites</h2>
-          <a is="app-link" class="btn" href="/admin/invite/new" hidden$="{{!isAdmin}}">invite new team member</a>
-          <list-invites items="{{invites}}"></list-invites>
-        </div>
+    <api-model-find id="find_invites"
+      collection="invites" include='["sender"]' access-token="{{route.session.accessToken}}"
+      response="{{invites}}">
+    </api-model-find>
+
+    <layout-admin>
+      <div class="container">
+        <h2>Team</h2>
+        <list-members items="{{members}}"></list-members>
+        <h2>Invites</h2>
+        <a is="app-link" class="btn" href="/admin/invites/new" hidden$="{{!isAdmin}}">invite new team member</a>
+        <list-invites items="{{invites}}"></list-invites>
       </div>
-    </div>
+    </layout-admin>
 
   </template>
 </dom-module>
@@ -41,10 +42,12 @@
 
     properties: {
       members: {
-        type: Array
+        type: Array,
+        value: function () { return []; }
       },
       invites: {
-        type: Array
+        type: Array,
+        value: function () { return []; }
       }
     },
 

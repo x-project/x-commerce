@@ -1,0 +1,74 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<script src="../../components/page/page.js"></script>
+<script>
+
+  Polymer.RouterBehaviour = {
+
+    attached: function () {
+      this.register();
+    },
+
+    register: function () {
+      var app = this;
+      Object.keys(app.constructor.prototype)
+        .filter(function (method) {
+          return method.indexOf('/') == 0;
+        })
+        .forEach(function (method) {
+          var handler = app[method].bind(this);
+          page(method, handler);
+        }, this);
+      page();
+    },
+
+    find_models: function (params) {
+      var request = document.createElement('api-model-find');
+      request.collection = params.collection;
+      request.modelId = params.modelId;
+      request.include = params.include || [];
+      request.one = params.one;
+
+      return new Promise(function (resolve, reject) {
+        request.addEventListener('response', function (event) {
+          resolve(request.response);
+        });
+        request.addEventListener('error', function (event) {
+          reject(request.error);
+        });
+        request.send();
+      });
+    },
+
+    get_model: function (params) {
+      var request = document.createElement('api-model-get');
+      request.collection = params.collection;
+      request.modelId = params.modelId;
+      request.include = params.include || [];
+
+      return new Promise(function (resolve, reject) {
+        request.addEventListener('response', function (event) {
+          resolve(request.response);
+        });
+        request.addEventListener('error', function (event) {
+          reject(request.error);
+        });
+        request.send();
+      });
+    },
+
+    open_page: function (context) {
+      var element = document.createElement(context.page_name);
+      element.params = context.params;
+      element.data = context.data;
+      this.$.app.open(element);
+    },
+
+    init: function (context) {
+      context.data = context.data || {};
+      return new Promise(function (resolve, reject) {
+        resolve(context);
+      });
+    }
+
+  };
+</script>
