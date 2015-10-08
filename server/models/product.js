@@ -46,7 +46,6 @@ module.exports = function (Product) {
       }
       callback(null, null);
     });
-
   });
 
   var cartesian = function (args) {
