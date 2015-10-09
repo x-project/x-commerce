@@ -8,7 +8,7 @@ var path = require('path');
 
 var secret = "TOOOPPVIPPP"; // TODO: read from .env
 var token_ttl = 1000 * 120; // TODO: read from .env
-var sides = [50]; //, 80, 120, 400, 800];  // TODO: read from .env
+var sides = [50, 80, 120, 400, 800];  // TODO: read from .env
 var storage = 'storage';  // TODO: read from .env
 
 /**
@@ -174,8 +174,7 @@ var thumbnail = function (x_data) {
 
 var thumbnails = function (x_data) {
   return function (done) {
-    // async.eachLimit(x_data.sides, 2, thumbnail(x_data), done);
-    async.eachSeries(x_data.sides, thumbnail(x_data), done)
+    async.eachLimit(x_data.sides, 4, thumbnail(x_data), done)
   };
 };
 

@@ -206,17 +206,16 @@ var load_images = function (path) {
 
 function start () {
   async.waterfall([
-    // till(1, populate('stores')),
-    till(40, populate('product_types')),
-    // till(10, populate('customers')),
-    till(20, populate('vendors')),
-    till(20, populate('collections')),
-    till(100, populate('products')),
-    till(100, populate('orders'))
-
-    // load_images(__dirname + '/images'),
-    // each(collections['products'], populate_image('products')),
-    // each(collections['collections'], populate_image('collections'))
+    till(1, populate('stores')),
+    till(5, populate('product_types')),
+    till(10, populate('customers')),
+    till(10, populate('vendors')),
+    till(5, populate('collections')),
+    till(10, populate('products')),
+    till(5, populate('orders')),
+    load_images(__dirname + '/images'),
+    each(collections['products'], populate_image('products')),
+    each(collections['collections'], populate_image('collections'))
   ], function (err) {
     if (err) {
       console.log(err);
