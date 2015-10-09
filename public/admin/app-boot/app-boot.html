@@ -130,7 +130,7 @@
           return this.get_model({
             collection: 'collections',
             modelId: context.params.collection_id,
-            include: ['products']
+            include: ['products', 'images']
           });
         }.bind(this))
         .then(function (model) {
@@ -196,7 +196,7 @@
     },
 
     '/admin/products/new': function (context) {
-      context.page_name = 'page-products';
+      context.page_name = 'page-product';
       context.data = { product: {} };
       this.open_page(context);
     },
@@ -254,7 +254,7 @@
         }.bind(this))
         .then(function (model) {
           context.page_name = 'page-variant';
-          context.data.product = model;
+          context.data.variant = model;
           this.open_page(context);
         }.bind(this))
         .catch(function (error) {
@@ -286,7 +286,7 @@
         }.bind(this))
         .then(function (model) {
           context.page_name = 'page-order';
-          context.data.product = model;
+          context.data.order = model;
           this.open_page(context);
         }.bind(this))
         .catch(function (error) {

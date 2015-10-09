@@ -56,9 +56,7 @@
     },
 
     attached: function () {
-      this.order = this.route.data.order;
-      // console.log(this.order);
-      this.orders = this.order.order_items;
+      this.order = this.data.order;
     },
 
     on_try_save_order_item: function (event) {

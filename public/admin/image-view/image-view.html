@@ -8,12 +8,12 @@
     }
     .image {
       width: 100%;
-      height: 150px;
+      height: 300px;
       background-position: center center;
       background-repeat: no-repeat;
     }
     .image:hover {
-      background-size: 70% 70%;
+      /*background-size: 70% 70%;*/
     }
   </style>
 
@@ -31,19 +31,40 @@
       image: {
         type: Object,
         value: function () { return {}; }
-      },
-      size: {
-        type: String
       }
     },
 
     attached: function (event) {
-      var url = '/storage/' + this.image.container + '/' + this.image.id + '/thumb-100.jpg';
+      var size = this.get_size();
+      var image_name = this.create_image_name(size);
+      var host = 'http://localhost:3000';
+      var url = host + '/storage/' + this.image.container + '/' + this.image.id + '/' + image_name + '.jpg';
       var rules = [
         'background-image: url("' + url + '")',
-        'background-size: ' + this.size
+        'background-size: ' + size
       ];
       this.style = rules.join(';');
-    }
+    },
+
+    get_size: function () {
+      if (this.image.thumbs.indexOf(400) >= 0 )
+        return this.image.thumbs[this.image.thumbs.indexOf(400)];
+      if (this.image.thumbs.indexOf(120) >= 0 )
+        return this.image.thumbs[this.image.thumbs.indexOf(120)];
+      if (this.image.thumbs.indexOf(80) >= 0 )
+        return this.image.thumbs[this.image.thumbs.indexOf(80)];
+      if (this.image.thumbs.indexOf(50) >= 0 )
+        return this.image.thumbs[this.image.thumbs.indexOf(50)];
+      return -1;
+    },
+
+    create_image_name: function (size) {
+      var prefix = 'thumb-';
+      if (size <= 0) {
+        return 'original';
+      }
+      return prefix + size;
+    },
+
   });
 </script>

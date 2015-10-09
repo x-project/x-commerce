@@ -46,7 +46,7 @@
     },
 
     attached: function () {
-      this.set('customer', this.order.customer);
+      this.customer = this.order.customer || [];
     },
 
     on_search_customer:  function (event) {
@@ -62,6 +62,7 @@
       event.stopPropagation();
       var customer = this.$.customers.itemForElement(event.target);
       this.$.input.value = customer.first_name;
+      this.customers = [];
       this.try_save(customer);
     },
 

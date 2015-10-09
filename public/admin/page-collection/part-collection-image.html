@@ -6,7 +6,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h3 class="title">Collection Images</h3>
+      <h2 class="title">Images</h2>
       <form-collection-image collection="{{collection}}"></form-collection-image>
     </div>
 
@@ -28,6 +28,9 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+    attached: function () {
+      // console.log(this.collection);
     }
 
   });

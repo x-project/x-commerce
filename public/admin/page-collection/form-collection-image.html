@@ -1,12 +1,13 @@
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../input-image/input-image.html">
 <dom-module id="form-collection-image">
   <template>
     <style include="style-form"></style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Images</label>
-        <input class="input" type="file" bind-value="{{collection.images}}">
+        <label class="label">image</label>
+        <input-image collection="collections" model-id="{{collection.id}}" folder="images"></input-image>
       </div>
     </form>
 
@@ -20,13 +21,13 @@
     properties: {
       collection: {
         type: Object,
-        value: function () { return {}; }
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
-      event.stopPropagation();
       event.preventDefault();
+      event.stopPropagation();
     }
 
   });
