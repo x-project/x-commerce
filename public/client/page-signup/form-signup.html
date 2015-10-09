@@ -7,14 +7,16 @@
 
     <form id="form" on-submit="on_submit">
       <div class="field">
-        <label>email</label>
-        <input is="iron-input" type="text" placeholder="email" bind-value="{{credentials.email}}">
+        <label class="label">email</label>
+        <input class="input" is="iron-input" type="text" placeholder="email"
+          bind-value="{{credentials.email}}">
       </div>
       <div class="field">
-        <label>password</label>
-        <input is="iron-input" type="password" placeholder="password" bind-value="{{credentials.password}}">
+        <label class="label">password</label>
+        <input class="input" is="iron-input" type="password" placeholder="password"
+          bind-value="{{credentials.password}}">
       </div>
-      <input type="submit" value="signup" />
+      <input type="submit" class="button" value="signup" />
     </form>
 
   </template>

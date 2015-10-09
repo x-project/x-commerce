@@ -33,8 +33,6 @@
       }
     </style>
 
-    <app-session id="session"></app-session>
-
     <app-container id="app" on-login="on_login" on-logout="on_logout"></app-container>
 
   </template>
@@ -55,47 +53,40 @@
       Polymer.RouterBehaviour
     ],
 
-    attached: function (event) {
-      this.user = this.$.session.get('user');
-      this.isAdmin = this.user ? this.user.role === 'admin' : false;
-      this.accessToken = this.$.session.get('access_token');
-    },
-
-    on_route: function (event) {
-      event.detail.session = {
-        accessToken: this.accessToken,
-        isAdmin: this.isAdmin,
-        user: this.user,
-      };
-    },
-
     on_login: function (event) {
-      this.$.session.set('access_token', event.detail.id);
-      this.$.session.set('user_id', event.detail.userId);
+      this.$.session.set('token', event.detail.id);
       this.$.session.set('user', event.detail.user);
-      this.user = event.detail.user;
-      this.accessToken = event.detail.id;
-      this.isAdmin = this.user.role === 'admin';
-      page('/admin/team');
+      page('/admin');
     },
 
     on_logout: function (event) {
-      this.$.session.unset('access_token');
-      this.$.session.unset('user_id');
+      this.$.session.unset('token');
       this.$.session.unset('user');
-      delete this.accessToken;
-      delete this.isAdmin;
-      delete this.user;
+    },
+
+    auth: function (context) {
+      return true; //context.token;
     },
 
     '/admin': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-home';
       this.open_page(context);
     },
 
     '/admin/store': function (context) {
-      this.init(context)
-        .then(function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
+        .then(function () {
           return this.find_models({
             collection: 'stores',
             one: true
@@ -113,18 +104,34 @@
     },
 
     '/admin/collections': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-collections';
       this.open_page(context);
     },
 
     '/admin/collections/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-collection';
       context.data = { collection: {} };
       this.open_page(context);
     },
 
     '/admin/collections/:collection_id': function (context) {
-      this.init(context)
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
         .then(function (context) {
           return this.get_model({
             collection: 'collections',
@@ -144,18 +151,34 @@
     },
 
     '/admin/customers': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-customers';
       this.open_page(context);
     },
 
     '/admin/customers/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-customer';
       context.data = { customer: {} };
       this.open_page(context);
     },
 
     '/admin/customers/:customer_id': function (context) {
-      this.init(context)
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
         .then(function (context) {
           return this.get_model({
             collection: 'customers',
@@ -175,33 +198,64 @@
     },
 
     '/admin/invites/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-invite';
       this.open_page(context);
     },
 
     '/admin/login': function (context) {
+      this.init(context);
+      if (this.auth(context)) {
+        page('/admin');
+        return;
+      }
       context.page_name = 'page-login';
       this.open_page(context);
     },
 
     '/admin/members/:member_id': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-member';
       this.open_page(context);
     },
 
     '/admin/products': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-products';
       this.open_page(context);
     },
 
     '/admin/products/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-product';
       context.data = { product: {} };
       this.open_page(context);
     },
 
     '/admin/products/:product_id': function (context) {
-      this.init(context)
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
         .then(function (context) {
           return this.get_model({
             collection: 'products',
@@ -222,7 +276,13 @@
     },
 
     '/admin/products/:product_id/variants': function (context) {
-      this.init(context)
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
         .then(function (context) {
           return this.get_model({
             collection: 'products',
@@ -243,7 +303,13 @@
     },
 
     '/admin/products/:product_id/variants/:variant_id': function (context) {
-      this.init(context)
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
         .then(function (context) {
           return this.get_model({
             collection: 'product_variants',
@@ -264,18 +330,34 @@
     },
 
     '/admin/orders': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-orders';
       this.open_page(context);
     },
 
     '/admin/orders/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-order';
       context.data = { order: {} };
       this.open_page(context);
     },
 
     '/admin/orders/:order_id': function (context) {
-      this.init(context)
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
         .then(function (context) {
           return this.get_model({
             collection: 'orders',
@@ -296,16 +378,27 @@
     },
 
     '/admin/signup': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-signup';
       this.open_page(context);
     },
 
     '/admin/team': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-team';
       this.open_page(context);
     },
 
     '/admin/test': function (context) {
+      this.init(context);
       context.page_name = 'page-test';
       this.open_page(context);
     }

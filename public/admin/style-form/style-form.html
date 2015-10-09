@@ -17,8 +17,10 @@
       .form .field .input {
         height: 24px;
         padding: 4px;
-        font-family: sans-serif;
-        font-size: 14px;
+        font-family: inherit;
+        font-size: inherit;
+        border: 1px solid #eee;
+        border-radius: 2px;
       }
       .form .field .input:focus {
         outline: none;
@@ -29,7 +31,13 @@
         border-radius: 2px;
         background-color: #eee;
         padding: .5em 1em;
+        font-family: inherit;
+        font-size: inherit;
         text-decoration: none;
+      }
+
+      .button:hover {
+        cursor: pointer;
       }
     </style>
   </template>

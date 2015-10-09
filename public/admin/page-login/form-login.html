@@ -1,11 +1,10 @@
 <link rel="import" href="/components/iron-input/iron-input.html">
 <link rel="import" href="../style-form/style-form.html">
-
 <dom-module id="form-login">
   <template>
    <style include="style-form"></style>
 
-    <form id="form" role="form" name="login" on-submit="on_submit">
+    <form class="form" on-submit="on_submit">
       <div class="field" name="email">
         <label class="label">[[label_email]]</label>
         <input class="input" is="iron-input" type="text" bind-value="{{credentials.email}}">
@@ -21,7 +20,6 @@
 
   </template>
 </dom-module>
-
 <script>
   Polymer({
 
@@ -42,7 +40,12 @@
       },
       credentials: {
         type: Object,
-        value: function () { return {}; },
+        value: function () {
+          return {
+            email: 'admin@x.com',
+            password: '123'
+          };
+        },
         notify: true
       }
     },

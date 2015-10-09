@@ -31,7 +31,7 @@
 
     <h1>test</h1>
 
-    <input-search items="{{items}}"></input-search>
+    <input-search on-change="on_change" items="{{items}}"></input-search>
 
   </template>
 </dom-module>
@@ -45,6 +45,12 @@
         type: Array,
         value: function () { return ['a', 'b', 'c', 'd', 'e']; }
       }
+    },
+
+    on_change: function (event) {
+      find({ text: event.detail }, function (result) {
+        this.items = result;
+      })
     }
 
   });
