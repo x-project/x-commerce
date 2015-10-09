@@ -1,4 +1,4 @@
-<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
@@ -12,22 +12,18 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get_store" method="GET" last-response="{{store}}"
-      url="/api/stores/findOne" handleAs="json">
-     </iron-ajax>
-
-    <iron-ajax id="ajax_post_store_update" method="POST"
-      content-type="application/json" handleAs="json">
-     </iron-ajax>
+    <api-model-update id="update"
+      collection="stores" model-id="{{data.store.id}}" data="{{data.store}}">
+    </api-model-update>
 
     <layout-admin>
       <h1>Store</h1>
-      <part-store-header store="{{store}}"></part-store-header>
+      <part-store-header store="{{data.store}}"></part-store-header>
       <part-store-save on-try-save="on_try_save"></part-store-save>
       <part-store-edit on-try-save="on_try_edit"></part-store-edit>
-      <part-store-info store="{{store}}"></part-store-info>
-      <part-store-contact store="{{store}}"></part-store-contact>
-      <part-store-policy store="{{store}}"></part-store-policy>
+      <part-store-info store="{{data.store}}"></part-store-info>
+      <part-store-contact store="{{data.store}}"></part-store-contact>
+      <part-store-policy store="{{data.store}}"></part-store-policy>
     </layout-admin>
 
   </template>
@@ -37,23 +33,9 @@
 
     is: 'page-store',
 
-    properties: {
-      store: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    },
-
-    attached: function () {
-      this.$.ajax_get_store.generateRequest();
-    },
-
     on_try_save: function (event) {
       event.stopPropagation();
-      this.$.ajax_post_store_update.url = '/api/stores/update';
-      this.$.ajax_post_store_update.params.where = JSON.stringify({});
-      this.$.ajax_post_store_update.body = JSON.stringify(this.store);
-      this.$.ajax_post_store_update.generateRequest();
+      this.$.update.send();
     },
 
     on_try_edit: function (event) {
