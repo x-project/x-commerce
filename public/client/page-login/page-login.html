@@ -6,8 +6,8 @@
   <template>
     <style include="layout-empty"></style>
 
-    <api-user-login id="login" credentials="{{credentials}}"
-      response="{{response}}" on-response="on_login" on-error="on_error">
+    <api-user-login id="login" collection="customers" credentials="{{credentials}}"
+      response="{{response}}" on-response="on_response" on-error="on_error">
     </api-user-login>
 
     <layout-empty>
@@ -35,11 +35,12 @@
 
     on_submit: function (event) {
       this.credentials = event.detail;
+      console.log(this.credentials);
       this.$.login.send();
     },
 
-    on_login: function (event) {
-      page('/settings');
+    on_response: function (event) {
+      this.fire('login', event.detail);
     },
 
     on_error: function (event) {

@@ -1,4 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/app-session/app-session.html">
 <script src="../../components/page/page.js"></script>
 <script>
 
@@ -6,6 +7,7 @@
 
     attached: function () {
       this.register();
+      this.session = document.createElement('app-session');
     },
 
     register: function () {
@@ -64,6 +66,8 @@
     },
 
     init: function (context) {
+      context.user = this.session.get('user');
+      context.token = this.session.get('token');
       context.data = context.data || {};
       return new Promise(function (resolve, reject) {
         resolve(context);

@@ -3,7 +3,7 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/app-route/app-route.html">
 <link rel="import" href="../../components/app-routes/app-routes.html">
-<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../elements/router-behaviour/router-behaviour.html">
 <link rel="import" href="../app-theme/app-theme.html">
 <link rel="import" href="../page-404/page-404.html">
 <link rel="import" href="../page-about/page-about.html">
@@ -30,9 +30,7 @@
       }
     </style>
 
-    <app-session id="session"></app-session>
-
-    <app-container id="app"></app-container>
+    <app-container id="app" on-login="on_login"></app-container>
 
   </template>
 </dom-module>
@@ -41,70 +39,13 @@
 
     is: 'app-boot',
 
-    ready: function () {
-      this.register();
-    },
+    behaviors: [
+      Polymer.RouterBehaviour
+    ],
 
-    register: function () {
-      var app = this;
-      Object.keys(app.constructor.prototype)
-        .filter(function (method) {
-          return method.indexOf('/') == 0;
-        })
-        .forEach(function (method) {
-          var handler = app[method].bind(this);
-          page(method, handler);
-        }, this);
-      page();
-    },
-
-    find_models: function (params) {
-      var request = document.createElement('api-model-find');
-      request.collection = params.collection;
-      request.modelId = params.modelId;
-      request.include = params.include || [];
-      request.one = params.one;
-
-      return new Promise(function (resolve, reject) {
-        request.addEventListener('response', function (event) {
-          resolve(request.response);
-        });
-        request.addEventListener('error', function (event) {
-          reject(request.error);
-        });
-        request.send();
-      });
-    },
-
-    get_model: function (params) {
-      var request = document.createElement('api-model-get');
-      request.collection = params.collection;
-      request.modelId = params.modelId;
-      request.include = params.include || [];
-
-      return new Promise(function (resolve, reject) {
-        request.addEventListener('response', function (event) {
-          resolve(request.response);
-        });
-        request.addEventListener('error', function (event) {
-          reject(request.error);
-        });
-        request.send();
-      });
-    },
-
-    open_page: function (context) {
-      var element = document.createElement(context.page_name);
-      element.params = context.params;
-      element.data = context.data;
-      this.$.app.open(element);
-    },
-
-    init: function (context) {
-      context.data = context.data || {};
-      return new Promise(function (resolve, reject) {
-        resolve();
-      })
+    on_login: function (event) {
+      this.session.set('user', event.detail.user);
+      this.session.set('token', event.detail.id);
     },
 
     open_static_page: function (context) {
@@ -177,21 +118,26 @@
     },
 
     '/reviews/:review_id': function (context) {
-      this.get_model({
-        collection: 'reviews',
-        modelId: context.params.review_id,
-        include: ['customer', 'product']
-      })
-      .then(function (model) {
-        context.page_name = 'page-review';
-        context.data = {};
-        context.data.review = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (err) {
-        context.page_name = 'page-404';
-        this.open_page(context);
-      });
+      var promise = this.init(context)
+
+
+      promise.then(function () {
+          return this.get_model({
+            collection: 'reviews',
+            modelId: context.params.review_id,
+            include: ['customer', 'product']
+          };
+        }.bind(this))
+        .then(function (model) {
+          context.page_name = 'page-review';
+          context.data = {};
+          context.data.review = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (err) {
+          context.page_name = 'page-404';
+          this.open_page(context);
+        });
     },
 
     '/products/:product_id': function (context) {
