@@ -4,6 +4,7 @@ var faker = require('faker');
 var casual = require('casual');
 var fs = require('fs');
 var retry = require('retry');
+var mongoose = require('mongoose');
 
 var collections = {};
 
@@ -204,8 +205,17 @@ var load_images = function (path) {
   };
 }
 
+var drop_db = function (next) {
+  mongoose.connect('mongodb://localhost/x-commerce', function (err) {
+    mongoose.connection.db.dropDatabase();
+    next();
+  });
+};
+
+
 function start () {
   async.waterfall([
+    drop_db,
     till(1, populate('stores')),
     till(5, populate('product_types')),
     till(10, populate('customers')),

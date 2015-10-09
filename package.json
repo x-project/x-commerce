@@ -29,6 +29,7 @@
     "minstache": "^1.2.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.10.6",
+    "mongoose": "^4.1.10",
     "multer": "^0.1.8",
     "node-env-file": "^0.1.7",
     "retry": "^0.8.0",
