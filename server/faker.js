@@ -89,6 +89,7 @@ fakers['orders'] = function () {
 
 fakers['customers'] = function () {
   return {
+    password: '123',
     first_name: casual.first_name,
     last_name: casual.last_name,
     email: casual.email,
