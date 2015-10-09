@@ -3,7 +3,8 @@ var async = require('async');
 var faker = require('faker');
 var casual = require('casual');
 var fs = require('fs');
-var retry = require('retry');
+var retry = require('retry')
+var mongoose = require('mongoose');
 // var loopback = require('loopback');
 
 var collections = {};
@@ -205,11 +206,16 @@ var load_images = function (path) {
   };
 }
 
+var drop_db = function (next) {
+  mongoose.connect('mongodb://localhost/x-commerce', function (err) {
+    mongoose.connection.db.dropDatabase();
+    next();
+  });
+};
+
 function start () {
   async.waterfall([
-
-    each(collections['products'], destroy('products'))
-
+    drop_db,
     till(1, populate('stores')),
     till(5, populate('product_types')),
     till(10, populate('customers')),
