@@ -30,7 +30,7 @@
       }
     </style>
 
-    <app-container id="app" on-login="on_login"></app-container>
+    <app-container id="app" on-login="on_login" on-logout="on_logout"></app-container>
 
   </template>
 </dom-module>
@@ -46,87 +46,83 @@
     on_login: function (event) {
       this.session.set('user', event.detail.user);
       this.session.set('token', event.detail.id);
+      page('/settings');
     },
 
-    open_static_page: function (context) {
-      this.init(context)
-        .then(function (context) {
-          return this.find_models({
-            collection: 'stores',
-            one: true
-          });
-        }.bind(this))
-        .then(function (store) {
-          context.data.store = store;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (error) {
-          context.page_name = 'page-404';
-          context.data.error = error;
-          this.open_page(context);
-        })
+    on_logout: function () {
+      this.session.unset('user');
+      this.session.unset('token');
+      page('/');
     },
 
     '/': function (context) {
+      this.init(context);
       context.page_name = 'page-home';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/test': function (context) {
+      this.init(context);
       context.page_name = 'page-test';
       this.open_page(context);
     },
 
     '/home': function (context) {
+      this.init(context);
       context.page_name = 'page-home';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/about': function (context) {
+      this.init(context)
       context.page_name = 'page-about';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/contact': function (context) {
+      this.init(context);
       context.page_name = 'page-contact';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/privacy': function (context) {
+      this.init(context);
       context.page_name = 'page-privacy';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/cart': function (context) {
+      this.init(context);
       context.page_name = 'page-cart';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/products': function (context) {
+      this.init(context);
       context.page_name = 'page-products';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/reviews': function (context) {
+      this.init(context);
       context.page_name = 'page-reviews';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/orders': function (context) {
+      this.init(context);
       context.page_name = 'page-order';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/reviews/:review_id': function (context) {
-      var promise = this.init(context)
-
-
-      promise.then(function () {
+      this.init(context)
+        .then(function (context) {
           return this.get_model({
             collection: 'reviews',
             modelId: context.params.review_id,
             include: ['customer', 'product']
-          };
+          });
         }.bind(this))
         .then(function (model) {
           context.page_name = 'page-review';
@@ -141,6 +137,7 @@
     },
 
     '/products/:product_id': function (context) {
+      this.init(context);
       this.get_model({
         collection: 'products',
         modelId: context.params.product_id,
@@ -159,28 +156,37 @@
     },
 
     '/login': function (context) {
+      this.init(context);
       context.page_name = 'page-login';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/signup': function (context) {
+      this.init(context);
       context.page_name = 'page-signup';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/forgot': function (context) {
+      this.init(context);
       context.page_name = 'page-forgot';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/reset': function (context) {
+      this.init(context);
       context.page_name = 'page-reset';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/settings': function (context) {
+      this.init(context);
+      if (!context.session.token) {
+        page('/login');
+        return;
+      }
       context.page_name = 'page-settings';
-      this.open_static_page(context);
+      this.open_page(context);
     },
 
     '/*': function (context) {

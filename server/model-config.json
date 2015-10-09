@@ -18,7 +18,6 @@
   },
   "AccessToken": {
     "dataSource": "mongo",
-    "public": false
   },
   "ACL": {
     "dataSource": "mongo",
@@ -34,7 +33,6 @@
   },
   "Manager": {
     "dataSource": "mongo",
-    "public": true
   },
   "Address": {
     "dataSource": "mongo"

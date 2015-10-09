@@ -6,8 +6,22 @@
   Polymer.RouterBehaviour = {
 
     attached: function () {
+      this.setup();
       this.register();
+    },
+
+    setup: function () {
       this.session = document.createElement('app-session');
+      this.find_models({
+        collection: 'stores',
+        one: true
+      })
+      .then(function (store) {
+        this.store = store;
+      }.bind(this))
+      .catch(function (error) {
+        console.warn(error);
+      });
     },
 
     register: function () {
@@ -60,15 +74,19 @@
 
     open_page: function (context) {
       var element = document.createElement(context.page_name);
-      element.params = context.params;
-      element.data = context.data;
+      var property;
+      for (property in context) {
+        element[property] = context[property];
+      }
       this.$.app.open(element);
     },
 
     init: function (context) {
-      context.user = this.session.get('user');
-      context.token = this.session.get('token');
+      context.session = {};
+      context.session.user = this.session.get('user');
+      context.session.token = this.session.get('token');
       context.data = context.data || {};
+      context.data.store = this.store;
       return new Promise(function (resolve, reject) {
         resolve(context);
       });

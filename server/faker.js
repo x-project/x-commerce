@@ -4,6 +4,7 @@ var faker = require('faker');
 var casual = require('casual');
 var fs = require('fs');
 var retry = require('retry');
+// var loopback = require('loopback');
 
 var collections = {};
 
@@ -206,6 +207,9 @@ var load_images = function (path) {
 
 function start () {
   async.waterfall([
+
+    each(collections['products'], destroy('products'))
+
     till(1, populate('stores')),
     till(5, populate('product_types')),
     till(10, populate('customers')),
@@ -213,9 +217,9 @@ function start () {
     till(5, populate('collections')),
     till(10, populate('products')),
     till(5, populate('orders')),
-    load_images(__dirname + '/images'),
-    each(collections['products'], populate_image('products')),
-    each(collections['collections'], populate_image('collections'))
+    // load_images(__dirname + '/images'),
+    // each(collections['products'], populate_image('products')),
+    // each(collections['collections'], populate_image('collections'))
   ], function (err) {
     if (err) {
       console.log(err);

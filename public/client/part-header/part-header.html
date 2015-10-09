@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/api-user/api-user.html">
 <link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="/components/layout-grid/layout-grid.html">
 <dom-module id="part-header">
@@ -45,9 +46,15 @@
   </style>
   <template>
 
+    <app-session id="session"></app-session>
+
+    <api-user-logout id="logout" collection="customers" access-token="{{token}}"
+      on-response="on_logout" on-error="on_error">
+    </api-user-logout>
+
     <div id="header" class="container">
       <div id="brand">
-        <a is="app-link" class="link" href="/">{{store.name}}</a>
+        <a is="app-link" class="link" href="/">{{data.store.name}}</a>
       </div>
       <nav id="navbar">
         <ul class="links">
@@ -58,6 +65,7 @@
           <li><a is="app-link" class="link" href="/orders">orders</a></li>
           <li><a is="app-link" class="link" href="/login">login</a></li>
           <li><a is="app-link" class="link" href="/signup">signup</a></li>
+          <li><a class="link" href="#" on-click="on_click_logout">logout</a></li>
         </ul>
       </nav>
     </div>
@@ -70,13 +78,26 @@
     is: 'part-header',
 
     properties: {
-      brand: {
-        type: String,
-        value: 'home'
-      },
       links: {
         type: Array
       }
+    },
+
+    on_click_logout: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.$.logout.accessToken = this.$.session.get('token');
+      console.log(this.$.logout.accessToken);
+      this.$.logout.send();
+    },
+
+    on_logout: function (event) {
+      event.stopPropagation();
+      this.fire('logout');
+    },
+
+    on_error: function (event) {
+      console.warn(event);
     }
 
   });
