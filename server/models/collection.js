@@ -16,15 +16,15 @@ module.exports = function (Collection) {
   };
 
   Collection.observe('before delete', function(ctx, callback) {
-    var collection;
+    var collection = ctx.instance;
+
+    if (!collection) {
+      callback(null);
+      return;
+    }
 
     async.waterfall([
       function (next) {
-        Collection.findById(ctx.where.id, next);
-      },
-
-      function (result, next) {
-        collection = result;
         collection.images.destroyAll(next);
       },
 
@@ -42,10 +42,10 @@ module.exports = function (Collection) {
     ],
     function (err) {
       if (err) {
-        callback(err, null);
+        callback(err);
         return;
       }
-      callback(null, null);
+      callback(null);
     });
   });
 

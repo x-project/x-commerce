@@ -156,6 +156,37 @@ var add_image = function (model) {
   return defer.promise;
 };
 
+var upto = function (n, iterator) {
+  var defer = Promise.defer();
+  var promise = defer.promise;
+
+  var completed = 0;
+
+  var complete = function () {
+    completed += 1;
+    if (completed >= n) {
+      defer.resolve();
+      return;
+    }
+    iterate();
+  };
+
+  var iterate = function () {
+    iterator(completed)
+      .then(complete)
+      .catch(defer.reject);
+  };
+
+  if (n === 0) {
+    defer.resolve();
+    return promise;
+  }
+
+  iterate();
+
+  return promise;
+};
+
 var fake = function (model_name) {
   var defer = Promise.defer();
   var data = faker.model[model_name]();
@@ -175,20 +206,14 @@ var fake = function (model_name) {
 };
 
 var fake_all = function (n, model_name) {
-  var defer = Promise.defer();
-  var i = 0;
+  return function () {
 
-  var iterator = function () {
-    if (++i < n) {
-      fake(model_name).then(iterator).catch(defer.reject);
-    } else {
-      defer.resolve();
-    }
+    var iterator = function (i) {
+      return fake(model_name);
+    };
+
+    return upto(n, iterator);
   };
-
-  iterator();
-
-  return defer.promise;
 };
 
 var init = function () {
@@ -200,17 +225,19 @@ var init = function () {
 };
 
 var clear_all = function (model_name) {
-  var defer = Promise.defer();
+  return function () {
+    var defer = Promise.defer();
 
-  models[model_name].destroyAll(function (err, info) {
-    if (err) {
-      defer.reject(err);
-      return;
-    }
-    defer.resolve(info);
-  });
+    models[model_name].destroyAll(function (err, info) {
+      if (err) {
+        defer.reject(err);
+        return;
+      }
+      defer.resolve(info);
+    });
 
-  return defer.promise;
+    return defer.promise;
+  };
 };
 
 function start () {
@@ -232,8 +259,9 @@ function start () {
     .then(function () {
       console.log('yeah!');
     })
-    .catch(function () {
-      console.log('oops!')
+    .catch(function (err) {
+      console.log('oops!');
+      console.warn(err);
     });
 }
 

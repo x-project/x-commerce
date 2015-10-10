@@ -17,15 +17,15 @@ module.exports = function (Product) {
   };
 
   Product.observe('before delete', function(ctx, callback) {
-    var product;
+    var product = ctx.instance;
+
+    if (!product) {
+      callback(null);
+      return;
+    }
 
     async.waterfall([
       function (next) {
-        Product.findById(ctx.where.id, next);
-      },
-
-      function (result, next) {
-        product = result;
         product.options.destroyAll(next);
       },
 
@@ -51,10 +51,10 @@ module.exports = function (Product) {
     ],
     function (err) {
       if (err) {
-        callback(err, null);
+        callback(err);
         return;
       }
-      callback(null, null);
+      callback(null);
     });
   });
 
