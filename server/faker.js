@@ -5,6 +5,8 @@ var casual = require('casual');
 var fs = require('fs');
 var retry = require('retry')
 var mongoose = require('mongoose');
+var rmdir = require('rimraf');
+var path = require('path');
 // var loopback = require('loopback');
 
 var collections = {};
@@ -206,10 +208,11 @@ var load_images = function (path) {
   };
 }
 
-var drop_db = function (next) {
+var drop_db = function (done) {
   mongoose.connect('mongodb://localhost/x-commerce', function (err) {
     mongoose.connection.db.dropDatabase();
-    next();
+    var folder_path = path.join(__dirname, 'storage');
+    rmdir(folder_path, done);
   });
 };
 
@@ -223,9 +226,9 @@ function start () {
     till(5, populate('collections')),
     till(10, populate('products')),
     till(5, populate('orders')),
-    // load_images(__dirname + '/images'),
-    // each(collections['products'], populate_image('products')),
-    // each(collections['collections'], populate_image('collections'))
+    load_images(__dirname + '/images'),
+    each(collections['products'], populate_image('products')),
+    each(collections['collections'], populate_image('collections'))
   ], function (err) {
     if (err) {
       console.log(err);

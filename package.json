@@ -32,7 +32,9 @@
     "mongoose": "^4.1.10",
     "multer": "^0.1.8",
     "node-env-file": "^0.1.7",
+    "path": "^0.12.7",
     "retry": "^0.8.0",
+    "rimraf": "^2.4.3",
     "serve-favicon": "^2.0.1",
     "superagent": "^1.4.0"
   },

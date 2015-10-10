@@ -1,4 +1,6 @@
 var async = require('async');
+var path = require('path');
+var rmdir = require('rimraf');
 
 module.exports = function (Product) {
 
@@ -7,6 +9,11 @@ module.exports = function (Product) {
       function(collection, done) {
         product.collections.remove(collection, done);
       },callback);
+  };
+
+  var delete_product_image_folder = function (collection, collection_id, done) {
+    var folder_path = path.join(__dirname, '..', 'storage', collection, collection_id);
+    rmdir(folder_path, done);
   };
 
   Product.observe('before delete', function(ctx, callback) {
@@ -27,11 +34,14 @@ module.exports = function (Product) {
       },
 
       function (result, next) {
-        //todo delete images in /storage in image.js
         product.images.destroyAll(next);
       },
 
       function (result, next) {
+        delete_product_image_folder('products', product.id , next);
+      },
+
+      function (next) {
         product.collections(next)
       },
 
