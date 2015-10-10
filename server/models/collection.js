@@ -1,4 +1,5 @@
 var async = require('async');
+var rmdir = require('rimraf');
 
 module.exports = function (Collection) {
 

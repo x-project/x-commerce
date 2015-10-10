@@ -122,7 +122,7 @@
           collection: 'reviews',
           modelId: context.params.review_id,
           include: ['customer', 'product']
-        });
+        })
         .then(function (model) {
           context.page_name = 'page-review';
           context.data = {};

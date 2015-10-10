@@ -90,7 +90,7 @@
       this.find_models({
           collection: 'stores',
           one: true
-        });
+        })
         .then(function (model) {
           context.page_name = 'page-store';
           context.data.store = model;
