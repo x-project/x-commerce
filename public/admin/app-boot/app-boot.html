@@ -24,6 +24,8 @@
 <link rel="import" href="../page-member/page-member.html">
 <link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-team/page-team.html">
+<link rel="import" href="../page-vendor/page-vendor.html">
+<link rel="import" href="../page-vendors/page-vendors.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -192,44 +194,6 @@
           this.open_page(context);
         }.bind(this));
     },
-
-
-
-//       Promise.resolve()
-//         .then(function (context) {
-//           return this.get_model({
-//             collection: 'customers',
-//             modelId: context.params.customer_id
-//           });
-//         }.bind(this))
-//         .then(function (model) {
-//           context.data.customer = model;
-//           context.page_name = 'page-customer';
-//           this.open_page(context);
-//         }.bind(this))
-//         .catch(function (error) {
-//           context.data.error = error;
-//           context.page_name = 'page-404';
-//           this.open_page(context);
-//         }.bind(this));
-// ​
-// // to
-// ​
-
-//         .then(function (model) {
-//           context.data.customer = model;
-//           context.page_name = 'page-customer';
-//           this.open_page(context);
-//         }.bind(this))
-//         .catch(function (error) {
-//           context.data.error = error;
-//           context.page_name = 'page-404';
-//           this.open_page(context);
-//         }.bind(this));
-
-
-
-
 
     '/admin/invites/new': function (context) {
       this.init(context);
@@ -426,6 +390,51 @@
       this.init(context);
       context.page_name = 'page-test';
       this.open_page(context);
+    },
+
+    '/admin/vendors': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-vendors';
+      this.open_page(context);
+    },
+
+    '/admin/vendors/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-vendor';
+      context.data = { vendor: {} };
+      this.open_page(context);
+    },
+
+    '/admin/vendors/:vendor_id': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      Promise.resolve()
+        this.get_model({
+          collection: 'vendors',
+          modelId: context.params.vendor_id
+        })
+        .then(function (model) {
+          context.page_name = 'page-vendor';
+          context.data.vendor = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
     }
 
   });

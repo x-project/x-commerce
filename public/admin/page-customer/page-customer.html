@@ -10,7 +10,7 @@
 <dom-module id="page-customer">
   <template>
 
-    <api-model-update id="ajax_delete" collection="customers"
+    <api-model-update id="ajax_update" collection="customers"
       data="{{customer}}" model-id="{{customer.id}}">
     </api-model-update>
 
@@ -54,7 +54,7 @@
     on_try_save: function (event) {
       if (this.customer.id) {
         this.convert_tags_to_array();
-        this.$.ajax_delete.send();
+        this.$.ajax_update.send();
         return;
       }
       this.$.create.send();

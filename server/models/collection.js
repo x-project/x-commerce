@@ -10,7 +10,7 @@ module.exports = function (Collection) {
   };
 
   var delete_collection_image_folder = function (collection, collection_id, done) {
-    var folder_path = path.join(__dirname, '..', 'storage', collection, collection_id);
+    var folder_path = path.join(__dirname, '..', 'storage', collection, '' + collection_id);
     rmdir(folder_path, done);
   };
 
