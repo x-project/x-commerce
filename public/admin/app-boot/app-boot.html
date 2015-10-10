@@ -263,10 +263,8 @@
           });
         }.bind(this))
         .then(function (model) {
-
           context.page_name = 'page-product';
           context.data.product = model;
-          console.log(model);
           this.open_page(context);
         }.bind(this))
         .catch(function (error) {

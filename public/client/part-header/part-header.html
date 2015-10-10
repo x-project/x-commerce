@@ -87,7 +87,6 @@
       event.stopPropagation();
       event.preventDefault();
       this.$.logout.accessToken = this.$.session.get('token');
-      console.log(this.$.logout.accessToken);
       this.$.logout.send();
     },
 
