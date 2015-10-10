@@ -8,7 +8,7 @@
     </style>
 
     <div>
-      <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page"></part-pages>
+      <part-pages perpage="{{perpage}}" count="{{count}}"></part-pages>
     </div>
 
   </template>
@@ -18,13 +18,7 @@
 
     is: 'part-products-pages',
 
-    properties: {},
-
-    on_change_page: function  (event) {
-      //lascio passare l evento per aggiornare la lista dei prodotti
-      // event.stopPropagation();
-      // console.log(event.detail.current);
-    }
+    properties: {}
 
   });
 </script>

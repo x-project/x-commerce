@@ -24,6 +24,8 @@
 <link rel="import" href="../page-member/page-member.html">
 <link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-team/page-team.html">
+<link rel="import" href="../page-vendor/page-vendor.html">
+<link rel="import" href="../page-vendors/page-vendors.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -86,18 +88,18 @@
       }
 
       this.find_models({
-        collection: 'stores',
-        one: true
-      });
-      .then(function (model) {
-        context.page_name = 'page-store';
-        context.data.store = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (error) {
-        context.page_name = 'page-404';
-        context.data.error = error;
-      });
+          collection: 'stores',
+          one: true
+        });
+        .then(function (model) {
+          context.page_name = 'page-store';
+          context.data.store = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+        });
     },
 
     '/admin/collections': function (context) {
@@ -127,24 +129,21 @@
         page('/admin/login');
         return;
       }
-      var i = 0;
-      console.log(i++)
+
       this.get_model({
-        collection: 'collections',
-        modelId: context.params.collection_id,
-        include: ['products', 'images']
-      })
-      .then(function (model) {
-        console.log(i++)
-        context.page_name = 'page-collection';
-        context.data.collection = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (error) {
-        console.log(i++)
-        context.page_name = 'page-404';
-        context.data.error = error;
-      });
+          collection: 'collections',
+          modelId: context.params.collection_id,
+          include: ['products', 'images']
+        })
+        .then(function (model) {
+          context.page_name = 'page-collection';
+          context.data.collection = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+        });
     },
 
     '/admin/customers': function (context) {
@@ -175,13 +174,10 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function (context) {
-          return this.get_model({
-            collection: 'customers',
-            modelId: context.params.customer_id
-          });
-        }.bind(this))
+      this.get_model({
+          collection: 'customers',
+          modelId: context.params.customer_id
+        })
         .then(function (model) {
           context.data.customer = model;
           context.page_name = 'page-customer';
@@ -252,14 +248,11 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function (context) {
-          return this.get_model({
-            collection: 'products',
-            modelId: context.params.product_id,
-            include: ['collections', 'product_type', 'vendor', 'images']
-          });
-        }.bind(this))
+      this.get_model({
+          collection: 'products',
+          modelId: context.params.product_id,
+          include: ['collections', 'product_type', 'vendor', 'images']
+        })
         .then(function (model) {
           context.page_name = 'page-product';
           context.data.product = model;
@@ -279,14 +272,11 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function (context) {
-          return this.get_model({
-            collection: 'products',
-            modelId: context.params.product_id,
-            include: ['options', 'variants']
-          });
-        }.bind(this))
+      this.get_model({
+          collection: 'products',
+          modelId: context.params.product_id,
+          include: ['options', 'variants']
+        })
         .then(function (model) {
           context.page_name = 'page-variants';
           context.data.product = model;
@@ -306,14 +296,11 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function (context) {
-          return this.get_model({
-            collection: 'product_variants',
+      this.get_model({
+          collection: 'product_variants',
             modelId: context.params.variant_id,
-            include: ['product']
-          });
-        }.bind(this))
+          include: ['product']
+        })
         .then(function (model) {
           context.page_name = 'page-variant';
           context.data.variant = model;
@@ -354,14 +341,11 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function (context) {
-          return this.get_model({
-            collection: 'orders',
-            modelId: context.params.order_id,
-            include: [{'order_items': ['product','product_variant']}, 'customer']
-          });
-        }.bind(this))
+      this.get_model({
+          collection: 'orders',
+          modelId: context.params.order_id,
+          include: [{'order_items': ['product','product_variant']}, 'customer']
+        })
         .then(function (model) {
           context.page_name = 'page-order';
           context.data.order = model;
@@ -398,6 +382,50 @@
       this.init(context);
       context.page_name = 'page-test';
       this.open_page(context);
+    },
+
+    '/admin/vendors': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-vendors';
+      this.open_page(context);
+    },
+
+    '/admin/vendors/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-vendor';
+      context.data = { vendor: {} };
+      this.open_page(context);
+    },
+
+    '/admin/vendors/:vendor_id': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.get_model({
+          collection: 'vendors',
+          modelId: context.params.vendor_id
+        })
+        .then(function (model) {
+          context.page_name = 'page-vendor';
+          context.data.vendor = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
     }
 
   });
