@@ -85,22 +85,19 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function () {
-          return this.find_models({
-            collection: 'stores',
-            one: true
-          });
-        }.bind(this))
-        .then(function (model) {
-          context.page_name = 'page-store';
-          context.data.store = model;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (error) {
-          context.page_name = 'page-404';
-          context.data.error = error;
-        });
+      this.find_models({
+        collection: 'stores',
+        one: true
+      });
+      .then(function (model) {
+        context.page_name = 'page-store';
+        context.data.store = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (error) {
+        context.page_name = 'page-404';
+        context.data.error = error;
+      });
     },
 
     '/admin/collections': function (context) {
@@ -130,24 +127,24 @@
         page('/admin/login');
         return;
       }
-
-      Promise.resolve()
-        .then(function (context) {
-          return this.get_model({
-            collection: 'collections',
-            modelId: context.params.collection_id,
-            include: ['products', 'images']
-          });
-        }.bind(this))
-        .then(function (model) {
-          context.page_name = 'page-collection';
-          context.data.collection = model;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (error) {
-          context.page_name = 'page-404';
-          context.data.error = error;
-        });
+      var i = 0;
+      console.log(i++)
+      this.get_model({
+        collection: 'collections',
+        modelId: context.params.collection_id,
+        include: ['products', 'images']
+      })
+      .then(function (model) {
+        console.log(i++)
+        context.page_name = 'page-collection';
+        context.data.collection = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (error) {
+        console.log(i++)
+        context.page_name = 'page-404';
+        context.data.error = error;
+      });
     },
 
     '/admin/customers': function (context) {

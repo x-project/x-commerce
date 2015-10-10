@@ -17,7 +17,7 @@
     "dataSource": "mongo"
   },
   "AccessToken": {
-    "dataSource": "mongo",
+    "dataSource": "mongo"
   },
   "ACL": {
     "dataSource": "mongo",
@@ -31,9 +31,7 @@
     "dataSource": "mongo",
     "public": false
   },
-  "Manager": {
-    "dataSource": "mongo",
-  },
+
   "Address": {
     "dataSource": "mongo"
   },
@@ -71,6 +69,9 @@
   "Invoice": {
     "dataSource": "mongo"
   },
+  "Manager": {
+    "dataSource": "mongo"
+  },
   "Order": {
     "dataSource": "mongo"
   },
@@ -96,9 +97,6 @@
     "dataSource": "mongo"
   },
   "Tax": {
-    "dataSource": "mongo"
-  },
-  "Store": {
     "dataSource": "mongo"
   },
   "Vendor": {

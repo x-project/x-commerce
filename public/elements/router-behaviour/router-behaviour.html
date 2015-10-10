@@ -56,16 +56,22 @@
     },
 
     get_model: function (params) {
+      console.log('ooo');
+
       var request = document.createElement('api-model-get');
       request.collection = params.collection;
       request.modelId = params.modelId;
       request.include = params.include || [];
 
+      console.log(request)
+
       return new Promise(function (resolve, reject) {
         request.addEventListener('response', function (event) {
+          console.log(request.response)
           resolve(request.response);
         });
         request.addEventListener('error', function (event) {
+          console.log(request.error)
           reject(request.error);
         });
         request.send();

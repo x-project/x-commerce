@@ -8,6 +8,10 @@ module.exports = function (Order) {
     async.waterfall([
       function (next) {
         Order.findById(ctx.where.id, function(err, model) {
+          if (err) {
+            next(err);
+            return;
+          }
           order = model;
           next();
         });

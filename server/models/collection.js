@@ -3,31 +3,35 @@ var async = require('async');
 module.exports = function (Collection) {
 
   var remove_products = function (collection, products, callback) {
-    async.each(products,
-      function(product, done) {
-        collection.products.remove(product, done);
-      },callback);
+    var remove_product = function (product, done) {
+      collection.products.remove(product, done);
+    };
+    async.each(products, remove_product, callback);
   };
 
   Collection.observe('before delete', function(ctx, callback) {
-    var collection;
+    var instance;
 
     async.waterfall([
       function (next) {
         Collection.findById(ctx.where.id, function(err, model) {
-          collection = model;
+          if (err) {
+            next(err);
+            return;
+          }
+          instance = model;
           next();
         });
       },
       function (next) {
         //todo delete images in /storage in image.js
-        collection.images.destroyAll(next);
+        instance.images.destroyAll(next);
       },
       function (result, next) {
-        collection.products(next);
+        instance.products(next);
       },
       function (result, next) {
-        remove_products(collection, result, next);
+        remove_products(instance, result, next);
       }
     ],
     function (err) {
