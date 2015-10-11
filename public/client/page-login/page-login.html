@@ -1,5 +1,6 @@
 <link rel="import" href="../../components/api-user-login/api-user-login.html">
 <link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/button-connect-google/button-connect-google.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
 <link rel="import" href="form-login.html">
 <dom-module id="page-login">
@@ -15,6 +16,10 @@
         <div id="panel" class="container">
           <a is="app-link" href="/">&larr;</a>
           <h3>Login</h3>
+          <button-connect-google client_id="{{clientId}}"></button-connect-google>
+          <div>
+            or
+          </div>
           <form-login id="form" on-submit="on_submit"></form-login>
           <div>
             <a is="app-link" href="/signup">not registered?</a>
@@ -32,6 +37,13 @@
   Polymer({
 
     is: 'page-login',
+
+    properties: {
+      clientId: {
+        type: String,
+        value: '989154659952-r3lfvshi4s0fcbesie408bm5iip1occg.apps.googleusercontent.com'
+      }
+    },
 
     on_submit: function (event) {
       this.credentials = event.detail;
