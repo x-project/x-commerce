@@ -1,13 +1,19 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="part-product-cart.html">
 <link rel="import" href="part-product-comments.html">
 <link rel="import" href="part-product-info.html">
 <link rel="import" href="part-product-images.html">
 <link rel="import" href="part-product-details.html">
+<link rel="import" href="part-product-options.html">
+<link rel="import" href="part-product-type.html">
+<link rel="import" href="part-product-vendor.html">
 <dom-module id="page-product">
   <template>
     <style include="style-page"></style>
+
+    <app-session id="session"></app-session>
 
     <layout-client>
       <part-jumbotron class="jumbotron">
@@ -17,8 +23,13 @@
         <a is="app-link" href="/products">Back to products</a>
         <a is="app-link" href="{{review}}">feedback</a>
         <part-product-info product="{{data.product}}"></part-product-info>
+        <part-product-type product="{{data.product}}"></part-product-type>
+        <part-product-options product="{{data.product}}" on-add-variant="on_add_variant">
+          </part-product-options>
+        <part-product-vendor product="{{data.product}}"></part-product-vendor>
         <part-product-images product="{{data.product}}"></part-product-images>
         <part-product-details product="{{data.product}}"></part-product-details>
+        <part-product-cart on-try-add-cart="on_try_add_cart"></part-product-cart>
         <part-product-comments product="{{data.product}}"></part-product-comments>
       </div>
     </layout-client>
@@ -34,11 +45,70 @@
       data: {
         type: Object,
         value: function () { return {}; }
+      },
+      variant: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
     attached: function () {
-      this.review = '/products/' + this.data.product.id + '/review'
+      console.log(this.data.product);
+      this.review = '/products/' + this.data.product.id + '/review';
+      if (this.data.product.variants.length > 0) {
+        this.get_default_combo();
+      }
+    },
+
+    on_add_variant: function (event) {
+      event.stopPropagation();
+      console.log(event.detail);
+      this.my_options = [];
+
+
+    },
+
+    on_try_add_cart: function (event) {
+      event.stopPropagation();
+      var my_products = JSON.parse(this.$.session.get('my_cart'));
+      if (!this.exists_product(my_products, this.data.product) && this.data.product.variants.length == 0){
+        my_products.push( {products: this.data.product, my_options: []});
+        this.$.session.set('my_cart', JSON.stringify(my_products));
+        return;
+      }
+      if (this.data.product.variants.length > 0) {
+        my_products.push({ products: this.data.product, my_options: this.my_options});
+        this.$.session.set('my_cart', JSON.stringify(my_products));
+        this.my_options = [];
+        return;
+      }
+
+      // console.log(JSON.parse(this.$.session.get('my_cart')));
+      // console.log(JSON.parse(this.$.session.get('my_cart')));
+      // my_products = [];
+      // this.$.session.set('my_cart', JSON.stringify(my_products));
+      // console.log(JSON.parse(this.$.session.get('my_cart')));
+
+    },
+
+
+    exists_product: function (items, item) {
+      return items.some(function (elem) {
+        if(elem.id === item.id)
+          return true;
+      });
+    },
+
+    get_default_combo: function () {
+      // console.log(this.my_options);
+      var list_option = [];
+      this.data.product.options.forEach( function (option_item) {
+        var option = {};
+        option.name = option_item.name;
+        option.value = option_item.values[0];
+        list_option.push(option);
+      });
+      this.variant = list_option;
     }
 
   });

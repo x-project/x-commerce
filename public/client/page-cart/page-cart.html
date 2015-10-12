@@ -7,12 +7,14 @@
   <template>
     <style include="style-page"></style>
 
+    <app-session id="session"></app-session>
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Cart</h1>
       </part-jumbotron>
       <div class="container">
-        <part-cart-orders></part-cart-orders>
+        <part-cart-orders orders="{{orders}}"></part-cart-orders>
       </div>
     </layout-client>
 
@@ -23,8 +25,11 @@
 
     is: 'page-cart',
 
-    properties: {
+    properties: {},
 
+    attached: function () {
+      var my_products = JSON.parse(this.$.session.get('my_cart'));
+      this.orders = my_products;
     }
 
   });

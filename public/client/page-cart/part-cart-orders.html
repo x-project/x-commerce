@@ -6,7 +6,7 @@
 
     <div class="list">
       <template is="dom-repeat" items="{{orders}}" as="order">
-        <part-cart-order order="{{order}}"></part-cart-order>
+        <part-cart-order order="{{order}}" on-remove-order-item="on_remove_order_item"></part-cart-order>
       </template>
     </div>
 
@@ -22,6 +22,11 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_remove_order_item: function (event) {
+      event.stopPropagation();
+      //TODO REMOVE PRODUCT ON CART
     }
 
   });

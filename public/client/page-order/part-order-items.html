@@ -1,4 +1,3 @@
-<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="part-order-item.html">
 <dom-module id="part-order-items">
   <template>
@@ -8,9 +7,10 @@
       }
     </style>
 
-
     <div class="items">
-    <part-order-item></part-order-item>
+      <template id="orders" is="dom-repeat" items="{{orders}}" as="order">
+        <part-order-item order="{{order}}"></part-order-item>
+      </template>
     </div>
 
   </template>
@@ -20,7 +20,12 @@
 
     is: 'part-order-items',
 
-    properties: {}
+    properties: {
+      orders: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
 
   });
 </script>

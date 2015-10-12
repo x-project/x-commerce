@@ -43,6 +43,7 @@
       Polymer.RouterBehaviour
     ],
 
+
     on_login: function (event) {
       this.session.set('user', event.detail.user);
       this.session.set('token', event.detail.id);
@@ -103,6 +104,25 @@
       this.open_page(context);
     },
 
+    '/products/:product_id': function (context) {
+      this.init(context);
+      this.get_model({
+        collection: 'products',
+        modelId: context.params.product_id,
+        include: ['images', 'options', 'product_type', 'variants', 'vendor']
+      })
+      .then(function (model) {
+        context.page_name = 'page-product';
+        context.data = {};
+        context.data.product = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (err) {
+        context.page_name = 'page-404';
+        this.open_page(context);
+      });
+    },
+
     '/reviews': function (context) {
       this.init(context);
       context.page_name = 'page-reviews';
@@ -134,25 +154,6 @@
           context.page_name = 'page-404';
           this.open_page(context);
         });
-    },
-
-    '/products/:product_id': function (context) {
-      this.init(context);
-      this.get_model({
-        collection: 'products',
-        modelId: context.params.product_id,
-        include: ['images', 'product_type', 'variants', 'vendor']
-      })
-      .then(function (model) {
-        context.page_name = 'page-product';
-        context.data = {};
-        context.data.product = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (err) {
-        context.page_name = 'page-404';
-        this.open_page(context);
-      });
     },
 
     '/login': function (context) {
