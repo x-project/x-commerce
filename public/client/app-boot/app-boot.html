@@ -114,7 +114,6 @@
         .then(function (model) {
           context.page_name = 'page-review';
           context.data = {};
-          console.log(model);
           context.data.review = model;
           this.open_page(context);
         }.bind(this))

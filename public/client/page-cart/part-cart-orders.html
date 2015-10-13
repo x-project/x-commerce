@@ -5,8 +5,8 @@
     <style include="style-list"></style>
 
     <div class="list">
-      <template is="dom-repeat" items="{{orders}}" as="order">
-        <part-cart-order order="{{order}}" on-remove-order-item="on_remove_order_item"></part-cart-order>
+      <template is="dom-repeat" items="{{products}}" as="product">
+        <part-cart-order product="{{product}}" on-remove-product="on_remove_product"></part-cart-order>
       </template>
     </div>
 
@@ -18,13 +18,13 @@
     is: 'part-cart-orders',
 
     properties: {
-      orders: {
+      products: {
         type: Array,
         value: function () { return []; }
       }
     },
 
-    on_remove_order_item: function (event) {
+    on_remove_product: function (event) {
       event.stopPropagation();
       //TODO REMOVE PRODUCT ON CART
     }
