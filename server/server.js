@@ -15,19 +15,18 @@ boot(app, __dirname, function(err) {
   if (err) throw err;
 
   app.use(loopback.static(path.resolve(__dirname, '../public')));
-  app.use('/storage', loopback.static(path.resolve(__dirname, './storage'), { index: false }));
 
-  // var admin_index_path = path.resolve(__dirname, '../public/build/admin.html');
-  // app.get('/admin/*', function (req, res) { res.sendFile(admin_index_path); });
+  app.use(loopback.static(path.resolve(__dirname, './storage'), { index: false }));
 
-  // var client_index_path = path.resolve(__dirname, '../public/build/index.html');
-  // app.get('/*', function (req, res) { res.sendFile(client_index_path); });
+  app.get('/admin/*', function (req, res) {
+    res.sendFile(path.resolve(__dirname, '../public/admin.html'));
+  });
 
-  var admin_index_path = path.resolve(__dirname, '../public/admin.html');
-  app.get('/admin/*', function (req, res) { res.sendFile(admin_index_path); });
+  app.get('/*', function (req, res) {
+    res.sendFile(path.resolve(__dirname, '../public/index.html'));
+  });
 
-  var client_index_path = path.resolve(__dirname, '../public/index.html');
-  app.get('/*', function (req, res) { res.sendFile(client_index_path); });
-  if (require.main === module)
+  if (require.main === module) {
     app.start();
+  }
 });

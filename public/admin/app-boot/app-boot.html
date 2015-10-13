@@ -87,13 +87,10 @@
         return;
       }
 
-      Promise.resolve()
-        .then(function () {
-          return this.find_models({
-            collection: 'stores',
-            one: true
-          });
-        }.bind(this))
+      this.find_models({
+          collection: 'stores',
+          one: true
+        })
         .then(function (model) {
           context.page_name = 'page-store';
           context.data.store = model;
@@ -133,8 +130,7 @@
         return;
       }
 
-      Promise.resolve()
-        this.get_model({
+      this.get_model({
           collection: 'collections',
           modelId: context.params.collection_id,
           include: ['products', 'images']
@@ -178,8 +174,7 @@
         return;
       }
 
-      Promise.resolve()
-        this.get_model({
+      this.get_model({
           collection: 'customers',
           modelId: context.params.customer_id
         })
@@ -252,8 +247,8 @@
         page('/admin/login');
         return;
       }
-      Promise.resolve()
-        this.get_model({
+
+      this.get_model({
           collection: 'products',
           modelId: context.params.product_id,
           include: ['collections', 'product_type', 'vendor', 'images']
@@ -277,8 +272,7 @@
         return;
       }
 
-      Promise.resolve()
-        this.get_model({
+      this.get_model({
           collection: 'products',
           modelId: context.params.product_id,
           include: ['options', 'variants']
@@ -302,8 +296,7 @@
         return;
       }
 
-      Promise.resolve()
-        this.get_model({
+      this.get_model({
           collection: 'product_variants',
             modelId: context.params.variant_id,
           include: ['product']
@@ -348,8 +341,7 @@
         return;
       }
 
-      Promise.resolve()
-        this.get_model({
+      this.get_model({
           collection: 'orders',
           modelId: context.params.order_id,
           include: [{'order_items': ['product','product_variant']}, 'customer']
@@ -420,8 +412,7 @@
         return;
       }
 
-      Promise.resolve()
-        this.get_model({
+      this.get_model({
           collection: 'vendors',
           modelId: context.params.vendor_id
         })

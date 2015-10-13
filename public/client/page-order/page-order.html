@@ -43,7 +43,7 @@
     attached: function () {
       this.$.find.where = { customer_id: this.session.user.id };
       this.$.find.one = false;
-      this.$.find.include = [ "customer", {"order_items":["product", "product_variant"]}];
+      this.$.find.include = [ "customer", {"order_items":["product","product_variant"]}];
       this.$.find.send();
     },
 

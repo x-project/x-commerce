@@ -3,16 +3,14 @@ var async = require('async');
 module.exports = function (Order) {
 
   Order.observe('before delete', function(ctx, callback) {
-    var order;
+    var order = ctx.instance;
+
+    if (!order) {
+      callback(null);
+      return;
+    }
 
     async.waterfall([
-      function (next) {
-        Order.findById(ctx.where.id, function(err, model) {
-          order = model;
-          next();
-        });
-      },
-
       function (next) {
         order.order_items.destroyAll(next);
       },
@@ -23,10 +21,10 @@ module.exports = function (Order) {
     ],
     function (err) {
       if (err) {
-        callback(err, null);
+        callback(err);
         return;
       }
-      callback(null, null);
+      callback(null);
     });
   });
 

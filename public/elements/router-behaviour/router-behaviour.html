@@ -60,12 +60,12 @@
       request.collection = params.collection;
       request.modelId = params.modelId;
       request.include = params.include || [];
-
       return new Promise(function (resolve, reject) {
         request.addEventListener('response', function (event) {
           resolve(request.response);
         });
         request.addEventListener('error', function (event) {
+          console.log(request.error)
           reject(request.error);
         });
         request.send();

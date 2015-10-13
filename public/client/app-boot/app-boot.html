@@ -62,21 +62,15 @@
       this.open_page(context);
     },
 
-    '/test': function (context) {
-      this.init(context);
-      context.page_name = 'page-test';
-      this.open_page(context);
-    },
-
-    '/home': function (context) {
-      this.init(context);
-      context.page_name = 'page-home';
-      this.open_page(context);
-    },
-
     '/about': function (context) {
       this.init(context)
       context.page_name = 'page-about';
+      this.open_page(context);
+    },
+
+    '/cart': function (context) {
+      this.init(context);
+      context.page_name = 'page-cart';
       this.open_page(context);
     },
 
@@ -86,15 +80,53 @@
       this.open_page(context);
     },
 
-    '/privacy': function (context) {
+    '/forgot': function (context) {
       this.init(context);
-      context.page_name = 'page-privacy';
+      context.page_name = 'page-forgot';
       this.open_page(context);
     },
 
-    '/cart': function (context) {
+    '/home': function (context) {
       this.init(context);
-      context.page_name = 'page-cart';
+      context.page_name = 'page-home';
+      this.open_page(context);
+    },
+
+    '/login': function (context) {
+      this.init(context);
+      context.page_name = 'page-login';
+      this.open_page(context);
+    },
+
+    '/orders': function (context) {
+      this.init(context);
+      context.page_name = 'page-order';
+      this.open_page(context);
+    },
+
+    '/orderItem/:order_item_id': function (context) {
+      this.init(context);
+      this.get_model({
+          collection: 'order_items',
+          modelId: context.params.order_item_id,
+          include: ['product', 'product_variant']
+        })
+        .then(function (model) {
+          context.page_name = 'page-review';
+          context.data = {};
+          console.log(model);
+          context.data.review = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (err) {
+          context.page_name = 'page-404';
+          this.open_page(context);
+        });
+    },
+
+    '/privacy': function (context) {
+      this.init(context);
+      context.page_name = 'page-privacy';
       this.open_page(context);
     },
 
@@ -123,42 +155,45 @@
       });
     },
 
-    '/reviews': function (context) {
+    '/reset': function (context) {
       this.init(context);
-      context.page_name = 'page-reviews';
+      context.page_name = 'page-reset';
       this.open_page(context);
     },
 
-    '/orders': function (context) {
-      this.init(context);
-      context.page_name = 'page-order';
-      this.open_page(context);
-    },
+    // '/reviews': function (context) {
+    //   this.init(context);
+    //   context.page_name = 'page-reviews';
+    //   this.open_page(context);
+    // },
 
-    '/reviews/:review_id': function (context) {
-      this.init(context)
-        .then(function (context) {
-          return this.get_model({
-            collection: 'reviews',
-            modelId: context.params.review_id,
-            include: ['customer', 'product']
-          });
-        }.bind(this))
-        .then(function (model) {
-          context.page_name = 'page-review';
-          context.data = {};
-          context.data.review = model;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (err) {
-          context.page_name = 'page-404';
-          this.open_page(context);
-        });
-    },
+    // '/reviews/:review_id': function (context) {
+    //   this.init(context);
+    //   this.get_model({
+    //       collection: 'reviews',
+    //       modelId: context.params.review_id,
+    //       include: ['customer', 'product']
+    //     })
+    //     .then(function (model) {
+    //       context.page_name = 'page-review';
+    //       context.data = {};
+    //       context.data.review = model;
+    //       this.open_page(context);
+    //     }.bind(this))
+    //     .catch(function (err) {
+    //       context.page_name = 'page-404';
+    //       this.open_page(context);
+    //     });
+    // },
 
-    '/login': function (context) {
+
+    '/settings': function (context) {
       this.init(context);
-      context.page_name = 'page-login';
+      if (!context.session.token) {
+        page('/login');
+        return;
+      }
+      context.page_name = 'page-settings';
       this.open_page(context);
     },
 
@@ -168,25 +203,9 @@
       this.open_page(context);
     },
 
-    '/forgot': function (context) {
+    '/test': function (context) {
       this.init(context);
-      context.page_name = 'page-forgot';
-      this.open_page(context);
-    },
-
-    '/reset': function (context) {
-      this.init(context);
-      context.page_name = 'page-reset';
-      this.open_page(context);
-    },
-
-    '/settings': function (context) {
-      this.init(context);
-      if (!context.session.token) {
-        page('/login');
-        return;
-      }
-      context.page_name = 'page-settings';
+      context.page_name = 'page-test';
       this.open_page(context);
     },
 

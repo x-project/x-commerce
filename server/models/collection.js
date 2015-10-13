@@ -1,4 +1,5 @@
 var async = require('async');
+var rmdir = require('rimraf');
 
 module.exports = function (Collection) {
 
@@ -9,21 +10,21 @@ module.exports = function (Collection) {
       },callback);
   };
 
-  var delete_collection_image_folder = function (collection, collection_id, done) {
+  var delete_collection_image_folder = function (collection, collection_id, done) {
     var folder_path = path.join(__dirname, '..', 'storage', collection, '' + collection_id);
     rmdir(folder_path, done);
   };
 
   Collection.observe('before delete', function(ctx, callback) {
-    var collection;
+    var collection = ctx.instance;
+
+    if (!collection) {
+      callback(null);
+      return;
+    }
 
     async.waterfall([
       function (next) {
-        Collection.findById(ctx.where.id, next);
-      },
-
-      function (result, next) {
-        collection = result;
         collection.images.destroyAll(next);
       },
 
@@ -41,10 +42,10 @@ module.exports = function (Collection) {
     ],
     function (err) {
       if (err) {
-        callback(err, null);
+        callback(err);
         return;
       }
-      callback(null, null);
+      callback(null);
     });
   });
 
