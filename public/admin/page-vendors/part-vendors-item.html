@@ -1,0 +1,32 @@
+<link rel="import" href="../style-item/style-item.html">
+<dom-module id="part-vendors-item">
+  <style include="style-item"></style>
+
+  <template>
+    <div class="item">
+      <label class="label">name: </label>
+      <span>{{vendor.name}}</span>
+      <label class="label">description: </label>
+      <span>{{vendor.description}}</span>
+      <a is="app-link" href="{{edit_url}}">edit</a>
+     </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-vendors-item',
+
+    properties: {
+      vendor: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.edit_url = '/admin/vendors/' + this.vendor.id;
+    }
+
+  });
+</script>

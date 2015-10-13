@@ -1,0 +1,36 @@
+<dom-module id="part-order-item-variant">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h3 {
+        display: inline;
+      }
+    </style>
+    <h3>Variant info: </h3>
+    <div class="filed">
+      <label class="label">name</label>
+      <span>{{variant.name}}</span>
+      <label class="label">price</label>
+      <span>{{variant.price}}</span>
+      <label class="label">weight</label>
+      <span>{{variant.weight}}</span>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-item-variant',
+
+    properties: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

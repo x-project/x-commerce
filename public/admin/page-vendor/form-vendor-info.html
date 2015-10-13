@@ -1,0 +1,37 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-vendor-info">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Name</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{vendor.name}}">
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{vendor.description}}">
+      </div>
+    </form>
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-vendor-info',
+
+    properties: {
+      vendor: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>

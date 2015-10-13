@@ -1,0 +1,34 @@
+<dom-module id="part-product-cart">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+      <h3>Cart</h3>
+      <form role="form" on-submit="on_submit">
+        <input type="submit" value="add cart">
+      </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-cart',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.fire('try-add-cart');
+    }
+
+  });
+</script>
