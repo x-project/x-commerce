@@ -1,0 +1,48 @@
+<link rel="import" href="choose-product-options.html">
+<dom-module id="part-product-options">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .variant{
+        display: none;
+      }
+      .variant[show] {
+        display: block;
+      }
+
+    </style>
+
+    <div class="variant" show$="{{show}}">
+      <h3>Variants</h3>
+      <choose-product-options options="{{product.options}}"></choose-product-options>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-options',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      if (this.product.options.length > 0) {
+        this.set('show', true);
+        return;
+      }
+    }
+
+  });
+</script>

@@ -58,7 +58,13 @@
       </div>
       <nav id="navbar">
         <ul class="links">
-          <li><a is="app-link" class="link" href="/products">catalog</a></li>
+          <li>
+            <a is="app-link" class="link" href="/">
+              <span>Welcome </span>
+              <span>{{user_name}}</span>
+            </a>
+          </li>
+          <li><a is="app-link" class="link" href="/products">Catalog</a></li>
           <li><a is="app-link" class="link" href="/cart">cart</a></li>
           <li><a is="app-link" class="link" href="/reviews">reviews</a></li>
           <li><a is="app-link" class="link" href="/settings">settings</a></li>
@@ -80,6 +86,18 @@
     properties: {
       links: {
         type: Array
+      },
+      user_name: {
+        type: String,
+        value: ''
+      }
+    },
+
+    attached: function () {
+      var user = this.$.session.get('user');
+      if (user){
+        this.user_name = user.first_name;
+        return;
       }
     },
 

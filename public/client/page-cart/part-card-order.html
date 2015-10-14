@@ -6,7 +6,14 @@
       }
     </style>
 
-    <div class="item"></div>
+    <div class="item">
+      <label class="label">title</label>
+      <span>{{product.title}}</span>
+      <label class="label">description</label>
+      <span>{{product.description}}</span>
+      <input type="number" min="1" max="{{product.quantity}}" value="1">
+      <button on-click="on_click_remove">remove</button>
+    </div>
 
   </template>
 </dom-module>
@@ -16,10 +23,15 @@
     is: 'part-cart-order',
 
     properties: {
-      order: {
+      product: {
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_click_remove: function () {
+      event.stopPropagation();
+      this.fire('remove-product');
     }
 
   });

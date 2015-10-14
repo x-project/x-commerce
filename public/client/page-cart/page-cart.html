@@ -7,12 +7,16 @@
   <template>
     <style include="style-page"></style>
 
+    <iron-ajax id="ajax_delete" on-error="on_error" url="/api/person/6"></iron-ajax>
+
+    <app-session id="session"></app-session>
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Cart</h1>
       </part-jumbotron>
       <div class="container">
-        <part-cart-orders></part-cart-orders>
+        <part-cart-orders products="{{products}}"></part-cart-orders>
       </div>
     </layout-client>
 
@@ -23,8 +27,12 @@
 
     is: 'page-cart',
 
-    properties: {
+    properties: {},
 
+    attached: function () {
+      var my_products = JSON.parse(this.$.session.get('my_cart'));
+      this.products = my_products;
+      console.log(my_products);
     }
 
   });

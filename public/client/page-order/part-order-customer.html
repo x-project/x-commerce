@@ -1,0 +1,36 @@
+<dom-module id="part-order-customer">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h3 {
+        display: inline;
+      }
+    </style>
+
+    <h3>customer</h3>
+    <div class="filed">
+      <label class="label">full name</label>
+      <span>{{customer.first_name}}</span>
+      <span>{{customer.last_name}}</span>
+      <label class="label">location</label>
+      <span>{{customer.location}}</span>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-customer',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

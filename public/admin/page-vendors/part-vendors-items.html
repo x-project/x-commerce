@@ -1,0 +1,27 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-vendors-item.html">
+<dom-module id="part-vendors-items">
+  <template>
+
+    <div class="items">
+      <template id="vendors" is="dom-repeat" items="{{vendors}}" as="vendor">
+        <part-vendors-item vendor="{{vendor}}"></part-vendors-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-vendors-items',
+
+    properties: {
+      vendors: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

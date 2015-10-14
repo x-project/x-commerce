@@ -1,0 +1,27 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-vendor-info.html">
+<dom-module id="part-vendor-info">
+  <template>
+    <style include="style-panel"></style>
+
+    <div>
+      <h2>Overview</h2>
+      <form-vendor-info vendor="{{vendor}}"></form-vendor-info>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-vendor-info',
+
+    properties: {
+      vendor: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

@@ -1,0 +1,27 @@
+<link rel="import" href="select-option.html">
+<dom-module id="choose-product-options">
+  <template>
+    <div class="panel">
+
+    <div class="items">
+      <template id="variants" is="dom-repeat" items="{{options}}" as="option">
+        <select-option option="{{option}}"></select-option>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'choose-product-options',
+
+    properties: {
+      options: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

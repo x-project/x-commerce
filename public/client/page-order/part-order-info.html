@@ -1,0 +1,35 @@
+<dom-module id="part-order-info">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h3 {
+        display: inline;
+      }
+    </style>
+
+    <h3>Order details: </h3>
+    <div class="filed">
+      <label class="label">total</label>
+      <span>{{order.total}}</span>
+      <label class="label">notes</label>
+      <span>{{order.notes}}</span>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-info',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

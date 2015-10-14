@@ -1,0 +1,82 @@
+<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-vendor-header.html">
+<link rel="import" href="part-vendor-save.html">
+<link rel="import" href="part-vendor-delete.html">
+<link rel="import" href="part-vendor-info.html">
+
+<dom-module id="page-vendor">
+  <template>
+
+    <api-model-update id="ajax_update" collection="vendors"
+      data="{{vendor}}" model-id="{{vendor.id}}">
+    </api-model-update>
+
+    <api-model-delete id="ajax_delete" collection="vendors"
+      model-id="{{vendor.id}}" on-response="on_response_delete">
+    </api-model-delete>
+
+    <api-model-create id="create" collection="vendors" data="{{vendor}}"
+      response="{{vendor}}" on-response="on_response_create">
+    </api-model-create>
+
+    <layout-admin>
+      <h1>Vendor</h1>
+        <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
+        <part-vendor-save on-try-save="on_try_save"></part-vendor-save>
+        <part-vendor-delete on-try-delete="on_try_delete"></part-vendor-delete>
+        <part-vendor-info vendor="{{vendor}}"></part-vendor-info>
+    </layout-admin>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-vendor',
+
+    properties: {
+      vendor: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      console.log(this.data.vendor);
+      this.vendor = this.data.vendor;
+    },
+
+    on_try_save: function (event) {
+      if (this.vendor.id) {
+      console.log("update");
+
+        this.$.ajax_update.send();
+        return;
+      }
+      console.log("create");
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      page('/admin/vendors');
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      console.log(this.vendor);
+      this.$.ajax_delete.send();
+    },
+
+    on_response_delete: function (event) {
+      event.stopPropagation();
+      page('/admin/vendors');
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

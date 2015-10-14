@@ -1,0 +1,26 @@
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="part-vendor-save">
+	<template>
+	  <style include="style-form"></style>
+
+    <div>
+      <input type="submit" value="save" on-click="on_click_save">
+    </div>
+
+	</template>
+</dom-module>
+<script>
+	Polymer({
+
+		is: 'part-vendor-save',
+
+    properties: {},
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
+    }
+
+	});
+</script>

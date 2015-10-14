@@ -1,0 +1,36 @@
+<dom-module id="select-option">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+      <span>{{option.name}}</span>
+      <select id="select" on-change="on_change">
+        <template id="values" is="dom-repeat" items="{{option.values}}" as="value">
+          <option value="{{value}}">{{value}}</option>
+        </template>
+      </select>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'select-option',
+
+    properties: {
+      option: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_change: function (event) {
+      var value = this.$.select.value;
+      this.fire('add-variant', { name: this.option.name, value: value });
+    }
+
+
+  });
+</script>

@@ -1,6 +1,6 @@
 <link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="part-order-items.html">
+<link rel="import" href="list-order.html">
 <dom-module id="page-order">
   <template>
 
@@ -14,21 +14,15 @@
       model-id="{{order.id}}" on-response="on_response_delete">
     </api-model-delete>
 
-    <api-model-find id="find" collection="orders" response="{{orders}}"
-      on-response="on_response">
+    <api-model-find id="find" collection="orders" response="{{orders}}">
     </api-model-find>
-
-    <api-model-find id="find1" collection="orders" response="{{order_items}}"
-      on-response="on_response1">
-    </api-model-find>
-
 
       <layout-client>
         <part-jumbotron class="jumbotron">
           <h1>My Orders</h1>
         </part-jumbotron>
         <div class="container">
-          <part-order-items></part-order-items>
+          <list-order orders="{{orders}}"></list-order>
         </div>
     </layout-client>
 
@@ -47,21 +41,10 @@
     },
 
     attached: function () {
-      this.$.find.where = { customer_id: '5612ab0087eb96dc542a4b20' };
+      this.$.find.where = { customer_id: this.session.user.id };
+      this.$.find.one = false;
+      this.$.find.include = [ "customer", {"order_items":["product","product_variant"]}];
       this.$.find.send();
-    },
-
-    on_response: function  (event) {
-      //TODO get order item for each order and include all properties
-      console.log(this.orders);
-      this.$.find1.relation = 'order_items';
-      this.$.find1.modelId = this.orders[0].id;
-      this.$.find1.include = ['product','product_variant'];
-      this.$.find1.send();
-    },
-
-    on_response1: function (event) {
-      console.log(this.order_items);
     }
 
   });
