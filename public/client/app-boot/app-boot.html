@@ -43,6 +43,9 @@
       Polymer.RouterBehaviour
     ],
 
+    attached: function () {
+      this.session.set('cart', []);
+    },
 
     on_login: function (event) {
       this.session.set('user', event.detail.user);

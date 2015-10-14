@@ -16,7 +16,7 @@
 
     <div class="variant" show$="{{show}}">
       <h3>Variants</h3>
-      <choose-product-options options="{{product.options}}"></choose-product-options>
+      <choose-product-options options="{{product.options}}" variant></choose-product-options>
     </div>
 
   </template>
@@ -34,6 +34,11 @@
       show: {
         type: Boolean,
         value: false
+      },
+      variant: {
+        type: Object,
+        notify: true,
+        value: function () { return {}; }
       }
     },
 

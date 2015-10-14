@@ -4,12 +4,25 @@
       :host {
         display: block;
       }
+      .cart_view {
+        display: none;
+      }
+      .cart_view[show] {
+        display: block;
+      }
+
     </style>
       <h3>Cart</h3>
-      <form role="form" on-submit="on_submit">
-        <input type="submit" value="add cart">
-      </form>
 
+      <input id="quantity" type="number" min="1" max="{{product.quantity}}"
+        value="1" on-change="on_change_quantity">
+
+      <button id="cart" on-click="on_click_add_cart">add cart</button>
+
+      <div class="cart_view" show$="{{show}}">
+        <button on-click="on_click_view_cart">view cart</button>
+        <button on-click="on_click_continue_shop">continue shopping</button>
+      <div>
   </template>
 </dom-module>
 <script>
@@ -21,13 +34,42 @@
       product: {
         type: Object,
         value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
       }
     },
 
-    on_submit: function (event) {
+    on_click_add_cart: function (event) {
       event.stopPropagation();
-      event.preventDefault();
-      this.fire('try-add-cart');
+      this.disable_add_cart();
+      this.fire('try-add-cart', { quantity: this.$.quantity.value });
+    },
+
+    disable_add_cart: function () {
+      this.set('show', true);
+      this.$.cart.disabled = true;
+    },
+
+    on_change_quantity: function (event) {
+      event.stopPropagation();
+      this.able_add_cart();
+    },
+
+    able_add_cart: function () {
+      this.$.cart.disabled = false;
+      this.set('show', false);
+    },
+
+    on_click_continue_shop: function (event) {
+      event.stopPropagation();
+      page('/products');
+    },
+
+    on_click_view_cart: function (event) {
+      event.stopPropagation();
+      page('/cart');
     }
 
   });

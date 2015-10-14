@@ -3,11 +3,10 @@
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-cart-orders.html">
+
 <dom-module id="page-cart">
   <template>
     <style include="style-page"></style>
-
-    <iron-ajax id="ajax_delete" on-error="on_error" url="/api/person/6"></iron-ajax>
 
     <app-session id="session"></app-session>
 
@@ -30,7 +29,7 @@
     properties: {},
 
     attached: function () {
-      var my_products = JSON.parse(this.$.session.get('my_cart'));
+      var my_products = JSON.parse(this.$.session.get('cart'));
       this.products = my_products;
       console.log(my_products);
     }
