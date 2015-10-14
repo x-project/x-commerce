@@ -1,4 +1,14 @@
 
+  function create_token (user) {
+    var payload = {
+      sub: user.id,
+      iat: moment().unix(),
+      exp: moment().add(14, 'days').unix()
+    };
+    var token = jwt.encode(payload, token_secret);
+    return token;
+  }
+
 // FACEBOOK
 app.post('/auth/facebook',
   // Step 1. Exchange authorization code for access token.

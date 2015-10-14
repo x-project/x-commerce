@@ -1,129 +1,162 @@
+var request = require('request');
 
-// GOOGLE
+module.exports = function (app) {
 
-app.post('/auth/google',
+  var User = app.models.User;
 
-  // Step 1. Exchange authorization code for access token.
-  function(req, res, next) {
-    var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
-    var params = {
-      code: req.body.code,
-      client_id: req.body.clientId,
-      client_secret: config.GOOGLE_SECRET,
-      redirect_uri: req.body.redirectUri,
-      grant_type: 'authorization_code'
+  var token_secret = process.env.TOKEN_SECRET_GOOGLE;
+
+  var access_token_endpoint = 'https://accounts.google.com/o/oauth2/token';
+
+  var api_endpoint = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
+
+  function fetch_token (params) {
+    var defer = Promise.defer();
+
+    var options = {
+      url: access_token_endpoint,
+      form: params,
+      json: true
     };
 
-    request.post(accessTokenUrl, { json: true, form: params }, function(err, response, token) {
-      if (response.statusCode !== 200) {
-        res.status(500).send(err);
+    request.post(options, function (err, res, token) {
+      if (err) {
+        defer.reject(err);
         return;
       }
-      var accessToken = token.access_token;
-      req.accessToken = accessToken;
-      next();
-    });
-  },
-
-  // Step 2. Retrieve profile information about the current user.
-  function (req, res, next) {
-    var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
-    var accessToken = req.accessToken;
-    var headers = { Authorization: 'Bearer ' + accessToken };
-    request.get({ url: peopleApiUrl, headers: headers, json: true }, function(err, response, profile) {
-      if (response.statusCode !== 200) {
-        res.status(500).send(err);
+      if (res.statusCode !== 200) {
+        defer.reject(res.body);
         return;
       }
-      req.profile = profile;
-      next();
+      defer.resolve(token.access_token);
     });
-  },
 
-  // Step 3a. Link user accounts.
-  function (req, res, next) {
-    if (!req.headers[authHeader]) {
-      next();
-      return;
-    }
-    var profile = req.profile;
-    User.find({ where: { google: profile.sub } }, function(err, users) {
-      var user = users[0];
-      if (user) {
-        res.status(409).send({ message: 'There is already a Google account that belongs to you' });
+    return defer.promise;
+  }
+
+  function fetch_profile (token) {
+    var defer = Promise.defer();
+
+    var options = {
+      url: api_endpoint,
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+      json: true
+    };
+
+    request.get(options, function (err, res, profile) {
+      if (err) {
+        defer.reject(err);
         return;
       }
-
-      var token = req.headers[authHeader].split(' ')[1];
-      var payload = jwt.decode(token, config.TOKEN_SECRET);
-      User.findById(payload.sub, function(err, user) {
-        if (!user) {
-          res.status(400).send({ message: 'User not found' });
-          return;
-        }
-        user.google = profile.sub;
-        user.displayName = user.displayName || profile.name;
-        user.save(function() {
-          res.send({
-            // token: createToken(user),
-            user: user
-          });
-        });
-      });
+      if (res.statusCode !== 200) {
+        defer.reject(res.body);
+        return;
+      }
+      defer.resolve(profile);
     });
-  },
 
-  // Step 3b. Create a new user account or return an existing one.
-  function (req, res, next) {
-    var profile = req.profile;
-    var filter = { or: [{ google: profile.sub }, { email: profile.email }] };
+    return defer.promise;
+  }
 
-    User.find({ where: filter }, function(err, users) {
-      var user = users[0];
+  function find_user (profile) {
+    var defer = Promise.defer();
+    var query = { where: { or: [{ google: profile.sub }, { email: profile.email }] } };
 
-      if (user) {
-        if (!user.google) {
-          user.google = profile.sub;
-          user.displayName = user.displayName || profile.name;
-          user.save(function() {
-            req.user = user;
-            next();
-          });
-          return;
-        }
+    User.findOne(query, function (err, user) {
+      if (err) {
+        defer.reject(err);
+        return;
+      }
+      if (!user) {
+        return create_user(profile);
+      }
 
-        req.user = user;
-        next();
+      user.google = profile.sub;
+      user.profile_name = user.profile_name || profile.name;
+      defer.resolve(user);
+    });
+
+    return defer.promise;
+  }
+
+  function create_user (profile) {
+    var defer = Promise.defer();
+
+    User.create({
+      profile_name: profile.name,
+      google: profile.sub,
+      email: profile.email,
+      password: profile.sub
+    }, function (err, user) {
+      if (err) {
+        defer.reject(err);
         return;
       }
 
-      User.create({
-        displayName: profile.name,
-        google: profile.sub,
-        email: profile.email,
-        password: profile.sub
-      }, function (err, user) {
-        if (err) {
-          res.status(500).send(err);
-          return;
-        }
-        req.user = user;
-        next();
-      });
-
+      user.google = profile.sub;
+      user.profile_name = user.profile_name || profile.name;
+      defer.resolve(user);
     });
-  },
 
-  function sendAccessToken (req, res) {
-    var user = req.user;
+    return defer.promise;
+  }
+
+  function update_user (user) {
+    var defer = Promise.defer();
+
+    user.save(function() {
+      defer.resolve(user);
+    });
+
+    return defer.promise;
+  }
+
+  function create_token (user) {
+    var defer = Promise.defer();
 
     user.createAccessToken(User.settings.ttl, function (err, token) {
       if (err) {
-        res.send(err);
+        defer.reject(err);
         return;
       }
-      token.token = createToken(user);
-      res.send(token);
+      defer.resolve(token);
     });
+
+    return defer.promise;
+  }
+
+  function auth (params) {
+    var defer = Promise.defer();
+
+    fetch_token(params)
+      .then(fetch_profile)
+      .then(find_user)
+      .then(update_user)
+      .then(create_token)
+      .then(defer.resolve)
+      .catch(defer.reject);
+
+    return defer.promise;
+  }
+
+  app.post('/auth/google', function (req, res, next) {
+    var params = {
+      client_id: req.body.client_id,
+      code: req.body.code,
+      redirect_uri: req.body.redirect_uri,
+      client_secret: token_secret,
+      grant_type: 'authorization_code'
+    };
+
+    auth(params)
+      .then(function (token) {
+        res.send(token);
+      })
+      .catch(function (err) {
+        res.status(500).send(err);
+      });
   });
 
+};
