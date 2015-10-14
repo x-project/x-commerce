@@ -1,0 +1,27 @@
+
+<dom-module id="part-cart-checkout">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <button on-click="on_click_checkout">checkout</button>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-cart-checkout',
+
+    properties: {},
+
+    on_click_checkout: function (event) {
+      event.stopPropagation();
+      this.fire('try-create-order');
+    }
+
+  });
+</script>

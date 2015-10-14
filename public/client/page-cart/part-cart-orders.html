@@ -5,8 +5,9 @@
     <style include="style-list"></style>
 
     <div class="list">
-      <template is="dom-repeat" items="{{cart}}" as="order_item">
-        <part-cart-order order-item="{{order_item}}" on-remove-product="on_remove_product"></part-cart-order>
+      <template id="order_item" is="dom-repeat" items="{{cart}}" as="order_item">
+        <part-cart-order order-item="{{order_item}}"
+          on-remove-product="on_remove_product"></part-cart-order>
       </template>
     </div>
 
@@ -26,7 +27,10 @@
 
     on_remove_product: function (event) {
       event.stopPropagation();
-      //TODO REMOVE PRODUCT ON CART
+      var index = this.$.order_item.indexForElement(event.target);
+      var product = this.$.order_item.itemForElement(event.target);
+      this.splice('cart',product, 1)
+      this.fire('remove-cart');
     }
 
   });
