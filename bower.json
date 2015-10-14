@@ -2,6 +2,7 @@
   "name": "x-commerce",
   "version": "0.0.5",
   "dependencies": {
+    "async": "~1.4.2",
     "iron-ajax": "PolymerElements/iron-ajax#^1.0",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.0",
     "iron-input": "PolymerElements/iron-input#^1.0",

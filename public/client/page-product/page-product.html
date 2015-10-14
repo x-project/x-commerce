@@ -1,21 +1,17 @@
 <link rel="import" href="../../components/app-link/app-link.html">
-<link rel="import" href="../../components/iron-signals/iron-signals.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-product-cart.html">
 <link rel="import" href="part-product-comments.html">
-<link rel="import" href="part-product-info.html">
-<link rel="import" href="part-product-images.html">
 <link rel="import" href="part-product-details.html">
+<link rel="import" href="part-product-images.html">
+<link rel="import" href="part-product-info.html">
 <link rel="import" href="part-product-options.html">
 <link rel="import" href="part-product-type.html">
 <link rel="import" href="part-product-vendor.html">
-
 <dom-module id="page-product">
   <template>
     <style include="style-page"></style>
-
-    <app-session id="session"></app-session>
 
     <layout-client>
       <part-jumbotron class="jumbotron">
@@ -25,13 +21,12 @@
         <a is="app-link" href="/products">Back to products</a>
         <part-product-info product="{{data.product}}"></part-product-info>
         <part-product-type product="{{data.product}}"></part-product-type>
-        <part-product-options product="{{data.product}}" variant="{{variant}}" on-add-variant="on_change_variant">
-          </part-product-options>
+        <part-product-options product="{{data.product}}" variant="{{variant}}"
+          on-change="on_change"></part-product-options>
         <part-product-vendor product="{{data.product}}"></part-product-vendor>
         <part-product-images product="{{data.product}}"></part-product-images>
+        <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}"></part-product-cart>
         <part-product-details product="{{data.product}}"></part-product-details>
-        <part-product-cart id="cart" on-try-add-cart="on_try_add_cart">
-        </part-product-cart>
         <part-product-comments product="{{data.product}}"></part-product-comments>
       </div>
     </layout-client>
@@ -48,190 +43,16 @@
         type: Object,
         value: function () { return {}; }
       },
-      options_variant: {
-        type: Array,
-        value: function () { return []; }
+      variant: {
+        type: Object,
+        notify: true,
+        value: function () { return {}; }
       }
     },
 
-    on_update_cart: function () {
-      console.log("ciao");
-    },
+    on_change: function () {
+      this.$.cart.update();
+    }
 
-    attached: function () {
-      if (this.data.product.variants.length > 0) {
-        this.get_default_variant();
-      }
-    },
-
-    get_default_variant: function () {
-      var list_option = [];
-      this.data.product.options.forEach( function (option_item) {
-        var option = {};
-        option.name = option_item.name;
-        option.value = option_item.values[0];
-        list_option.push(option);
-      });
-      this.options_variant = list_option;
-    },
-
-    on_try_add_cart: function (event) {
-      this.fire('iron-signal', {name: 'cart', data: "hello"});
-      var quantity = event.detail.quantity;
-      var my_products = this.get_products_cart();
-      console.log(my_products);
-      var curr_prod = this.data.product;
-      if (curr_prod.variants.length == 0) {
-        this.add_to_cart(my_products, curr_prod, null, quantity);
-        // this.fire('cart-changed', { product: curr_prod, quantity: quantity });
-      }
-      else{
-        var product_variant = this.get_variant();
-        this.add_to_cart(my_products, curr_prod, product_variant, quantity);
-        // this.fire('cart-changed', { product: curr_prod, product_variant: product_variant, quantity: quantity });
-      }
-      this.set_products_cart(my_products);
-    },
-
-    add_to_cart: function (my_products, product, product_variant, quantity) {
-      my_products.push({
-        product: product,
-        product_variant: product_variant,
-        quantity: quantity
-      });
-    },
-
-    get_products_cart: function () {
-      return this.$.session.get('cart');
-    },
-
-    set_products_cart: function (my_products) {
-      this.$.session.set('my_cart', JSON.stringify(my_products));
-    },
-
-    on_change_variant: function (event) {
-      event.stopPropagation();
-      this.$.cart.able_add_cart();
-      var new_option = event.detail;
-      this.update_variant(new_option);
-    },
-
-    update_variant: function (new_option) {
-      var test= false;
-      for(var i = 0; i<this.options_variant.length && !test; i++) {
-        if (this.options_variant[i].name === new_option.name) {
-          this.options_variant[i].value = new_option.value;
-          test = true;
-        }
-      }
-    },
-
-    get_variant: function () {
-      var test= false;
-      var variant;
-      var variant_name = this.get_variant_name_from_option();
-      for(var i = 0; i<this.data.product.variants.length && !test; i++) {
-        if (this.data.product.variants[i].name === variant_name) {
-          variant = this.data.product.variants[i];
-          test = true;
-        }
-      }
-      return variant;
-    },
-
-    get_variant_name_from_option: function () {
-      var options = [];
-      this.options_variant.forEach(function (option) {
-        options.push(option.value);
-      });
-      return options.join('-');
-    },
-
-
-    // on_try_add_cart: function (event) {
-    //   event.stopPropagation();
-    //   var my_products = JSON.parse(this.$.session.get('my_cart'));
-    //   if (this.data.product.variants.length == 0) {
-    //     if (this.exists(my_products, this.data.product, null))
-    //       this.update_quantity (my_products, this.data.product, null);
-    //     else
-    //       my_products.push({ product: this.data.product, quantity: 1 });
-    //     this.$.session.set('my_cart', JSON.stringify(my_products));
-    //     console.log(JSON.parse(this.$.session.get('my_cart')));
-    //     return;
-    //   }
-    //   if (this.data.product.variants.length > 0) {
-    //     var variant = this.get_variant();
-    //     if (this.exists(my_products, this.data.product, variant))
-    //       this.update_quantity(my_products, this.data.product, variant);
-    //     else
-    //       my_products.push({ product: this.data.product, variant: variant, quantity: 1 });
-    //     this.$.session.set('my_cart', JSON.stringify(my_products));
-    //     console.log(JSON.parse(this.$.session.get('my_cart')));
-    //     return;
-    //   }
-
-    //   // console.log(JSON.parse(this.$.session.get('my_cart')));
-    //   // my_products = [];
-    //   // this.$.session.set('my_cart', JSON.stringify(my_products));
-    //   // console.log(JSON.parse(this.$.session.get('my_cart')));
-
-    // },
-
-    // update_quantity: function (my_products, product, variant) {
-    //   var test= false;
-    //   if (variant == null) {
-    //     for(var i = 0; i < my_products.length && !test; i++) {
-    //       if (my_products[i].product.id == product.id) {
-    //         my_products[i].quantity++;
-    //         test = true;
-    //       }
-    //     }
-    //     return;
-    //   }
-    //   var check = false;
-    //   for(var i = 0; i < my_products.length && !check; i++) {
-    //     if (my_products[i].product.id == product.id && my_products[i].variant.id == variant.id) {
-    //       my_products[i].quantity++;
-    //       check = true;
-    //     }
-    //   }
-    // },
-
-
-
-    // get_quantity: function (my_products, variant) {
-    //   var count = 0;
-    //   var curr_prod = this.data.product;
-    //   if(variant == null) {
-    //     my_products.forEach(function (obj_product) {
-    //       if (obj_product.product.id === curr_prod.id) {
-    //         count++;
-    //       }
-    //     });
-    //     return count;
-    //   }
-    //   //variant count
-    //   my_products.forEach(function (obj_product_variant) {
-    //     if(obj_product_variant.hasOwnProperty('variant'))
-    //       if (obj_product_variant.variant.name === variant.name) {
-    //         count++;
-    //       }
-    //   });
-    //   return count;
-    // },
-
-    // exists: function (my_products, product, variant) {
-    //   if (variant == null) {
-    //     return my_products.some(function (obj_product_variant) {
-    //       if(obj_product_variant.product.id == product.id)
-    //         return true;
-    //     });
-    //   }
-    //   return my_products.some(function (obj_product_variant) {
-    //     if(obj_product_variant.product.id == product.id && obj_product_variant.variant.id == variant)
-    //       return true;
-    //   });
-    // }
   });
 </script>

@@ -5,7 +5,7 @@
 
     <div class="items">
       <template id="variants" is="dom-repeat" items="{{options}}" as="option">
-        <select-option option="{{option}}"></select-option>
+        <select-option option="{{option}}" on-change="on_change"></select-option>
       </template>
     </div>
 
@@ -20,7 +20,25 @@
       options: {
         type: Array,
         value: function () { return []; }
+      },
+      result: {
+        type: Array,
+        notify: true,
+        value: function () { return []; }
       }
+    },
+
+    attached: function () {
+      this.result = this.options.map(function (option) {
+        return option.values[0];
+      });
+    },
+
+    on_change: function (event) {
+      event.stopPropagation();
+      var index = this.$.variants.indexForElement(event.target);
+      this.result[index] = event.detail;
+      this.fire('change', this.result);
     }
 
   });

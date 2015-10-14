@@ -5,12 +5,13 @@
         display: block;
       }
     </style>
-      <span>{{option.name}}</span>
-      <select id="select" on-change="on_change">
-        <template id="values" is="dom-repeat" items="{{option.values}}" as="value">
-          <option value="{{value}}">{{value}}</option>
-        </template>
-      </select>
+
+    <label>{{option.name}}</label>
+    <select id="select" on-change="on_change">
+      <template id="values" is="dom-repeat" items="{{option.values}}" as="value">
+        <option value="{{value}}">{{value}}</option>
+      </template>
+    </select>
 
   </template>
 </dom-module>
@@ -27,10 +28,10 @@
     },
 
     on_change: function (event) {
+      event.stopPropagation();
       var value = this.$.select.value;
-      this.fire('add-variant', { name: this.option.name, value: value });
+      this.fire('change', value);
     }
-
 
   });
 </script>

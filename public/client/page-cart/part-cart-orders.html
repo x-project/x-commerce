@@ -5,8 +5,8 @@
     <style include="style-list"></style>
 
     <div class="list">
-      <template is="dom-repeat" items="{{products}}" as="product">
-        <part-cart-order product="{{product}}" on-remove-product="on_remove_product"></part-cart-order>
+      <template is="dom-repeat" items="{{cart}}" as="order_item">
+        <part-cart-order order-item="{{order_item}}" on-remove-product="on_remove_product"></part-cart-order>
       </template>
     </div>
 
@@ -18,7 +18,7 @@
     is: 'part-cart-orders',
 
     properties: {
-      products: {
+      cart: {
         type: Array,
         value: function () { return []; }
       }

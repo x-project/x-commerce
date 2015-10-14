@@ -1,3 +1,4 @@
+<link rel="import" href="/components/api-model/api-model.html">
 <dom-module id="part-cart-order">
   <template>
     <style>
@@ -5,6 +6,10 @@
         display: block;
       }
     </style>
+
+    <api-model-get id="ajax_get" collection="products" include=["variants"]
+      response="{{product}}" on-response="on_response">
+    </api-model-get>
 
     <div class="item">
       <label class="label">title</label>
@@ -23,10 +28,20 @@
     is: 'part-cart-order',
 
     properties: {
-      product: {
+      orderItem: {
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      this.$.ajax_get.modelId = this.orderItem.product_id;
+      this.$.ajax_get.send();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      console.log(this.product);
     },
 
     on_click_remove: function () {

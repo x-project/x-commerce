@@ -5,18 +5,13 @@
       :host {
         display: block;
       }
-      .variant{
-        display: none;
-      }
-      .variant[show] {
-        display: block;
-      }
-
     </style>
 
-    <div class="variant" show$="{{show}}">
+    <div class="variant">
       <h3>Variants</h3>
-      <choose-product-options options="{{product.options}}" variant></choose-product-options>
+      <choose-product-options options="{{product.options}}"
+        on-change="on_change">
+      </choose-product-options>
     </div>
 
   </template>
@@ -31,10 +26,6 @@
         type: Object,
         value: function () { return {}; }
       },
-      show: {
-        type: Boolean,
-        value: false
-      },
       variant: {
         type: Object,
         notify: true,
@@ -43,10 +34,23 @@
     },
 
     attached: function () {
-      if (this.product.options.length > 0) {
-        this.set('show', true);
-        return;
-      }
+      var values = this.product.options.map( function (option) {
+        return option.values[0];
+      });
+      this.update_variant(values);
+    },
+
+    on_change: function (event) {
+      var values = event.detail;
+      this.update_variant(values);
+    },
+
+    update_variant: function (values) {
+      var name = values.join('-');
+      var variant = this.product.variants.filter(function (variant) {
+        return variant.name == name;
+      })[0];
+      this.variant = variant;
     }
 
   });

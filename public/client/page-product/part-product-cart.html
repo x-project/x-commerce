@@ -4,25 +4,25 @@
       :host {
         display: block;
       }
-      .cart_view {
+
+      .button {
         display: none;
       }
-      .cart_view[show] {
+      .button[display] {
         display: block;
       }
-
     </style>
-      <h3>Cart</h3>
 
-      <input id="quantity" type="number" min="1" max="{{product.quantity}}"
-        value="1" on-change="on_change_quantity">
+    <h3>Cart</h3>
 
-      <button id="cart" on-click="on_click_add_cart">add cart</button>
+    <app-session id="session"></app-session>
 
-      <div class="cart_view" show$="{{show}}">
-        <button on-click="on_click_view_cart">view cart</button>
-        <button on-click="on_click_continue_shop">continue shopping</button>
-      <div>
+    <input id="quantity" type="number" min="1" max="{{product.quantity}}" value="1">
+
+    <button id="add" class="button" display$="{{!incart}}" on-click="on_click_add">add cart</button>
+
+    <button id="update" class="button"  display$="{{incart}}" on-click="on_click_update">update cart</button>
+
   </template>
 </dom-module>
 <script>
@@ -35,42 +35,68 @@
         type: Object,
         value: function () { return {}; }
       },
-      show: {
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      incart: {
         type: Boolean,
         value: false
       }
     },
 
-    on_click_add_cart: function (event) {
+    attached: function () {
+      this.update();
+    },
+
+    on_click_add: function (event) {
       event.stopPropagation();
-      this.disable_add_cart();
-      this.fire('try-add-cart', { quantity: this.$.quantity.value });
+      this.add_to_cart(this.product, this.variant, this.$.quantity.value);
     },
 
-    disable_add_cart: function () {
-      this.set('show', true);
-      this.$.cart.disabled = true;
-    },
-
-    on_change_quantity: function (event) {
+    on_click_update: function (event) {
       event.stopPropagation();
-      this.able_add_cart();
+      this.update_cart(this.product, this.variant, this.$.quantity.value);
     },
 
-    able_add_cart: function () {
-      this.$.cart.disabled = false;
-      this.set('show', false);
+    add_to_cart: function (product, variant, quantity) {
+      console.log(variant);
+      var cart = this.$.session.get('cart');
+      cart.push({
+        product_id: product.id,
+        product_variant_id: (variant) ? variant.id : '',
+        quantity: quantity
+      });
+      this.$.session.set('cart', cart);
+      this.set('incart', true);
     },
 
-    on_click_continue_shop: function (event) {
-      event.stopPropagation();
-      page('/products');
+    update_cart: function (product, variant, quantity) {
+      var cart = this.$.session.get('cart');
+      var item = this.get_order_item(cart, product, variant);
+      item.quantity = quantity;
+      this.$.session.set('cart', cart);
     },
 
-    on_click_view_cart: function (event) {
-      event.stopPropagation();
-      page('/cart');
+    get_order_item: function (cart, product, variant) {
+      var item = cart.filter(function (item) {
+        return item.product_id == product.id && item.product_variant_id == ((variant) ? variant.id : '');
+      })[0];
+      return item;
+    },
+
+    update: function () {
+      var cart = this.$.session.get('cart');
+      var item = this.get_order_item(cart, this.product, this.variant);
+      if (item) {
+        this.$.quantity.value = item.quantity;
+        this.set('incart', true);
+        return;
+      }
+      this.$.quantity.value = 1;
+      this.set('incart', false);
     }
+
 
   });
 </script>

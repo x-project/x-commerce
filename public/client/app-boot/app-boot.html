@@ -44,7 +44,10 @@
     ],
 
     attached: function () {
-      this.session.set('cart', []);
+      var cart = this.session.get('cart');
+      if (!cart) {
+        this.session.set('cart', []);
+      }
     },
 
     on_login: function (event) {

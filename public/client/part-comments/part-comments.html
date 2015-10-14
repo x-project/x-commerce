@@ -48,7 +48,6 @@
       event.stopPropagation();
       // TODO author_id
       this.$.ajax_post_comment.body = JSON.stringify(this.get_data());
-      console.log(this.$.ajax_post_comment.body);
       this.$.ajax_post_comment.url = '/api/products/' + this.product.id + '/comments'
       this.$.ajax_post_comment.generateRequest();
     },

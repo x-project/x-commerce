@@ -15,7 +15,7 @@
         <h1>Cart</h1>
       </part-jumbotron>
       <div class="container">
-        <part-cart-orders products="{{products}}"></part-cart-orders>
+        <part-cart-orders cart="{{cart}}"></part-cart-orders>
       </div>
     </layout-client>
 
@@ -29,9 +29,9 @@
     properties: {},
 
     attached: function () {
-      var my_products = JSON.parse(this.$.session.get('cart'));
-      this.products = my_products;
-      console.log(my_products);
+      var cart = this.$.session.get('cart');
+      this.cart = cart;
+      console.log(cart);
     }
 
   });
