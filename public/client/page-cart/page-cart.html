@@ -3,7 +3,7 @@
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-cart-orders.html">
-
+<link rel="import" href="part-cart-checkout.html">
 <dom-module id="page-cart">
   <template>
     <style include="style-page"></style>
@@ -15,7 +15,10 @@
         <h1>Cart</h1>
       </part-jumbotron>
       <div class="container">
-        <part-cart-orders cart="{{cart}}"></part-cart-orders>
+        <part-cart-orders cart="{{cart}}" on-remove-cart="on_remove_cart"
+          on-update-cart="on_update_cart">
+        </part-cart-orders>
+        <part-cart-checkout on-try-create-order="on_try_create_order"></part-cart-checkout>
       </div>
     </layout-client>
 
@@ -26,12 +29,29 @@
 
     is: 'page-cart',
 
-    properties: {},
+    properties: {
+      total: {
+        type: Number,
+        value: 1
+      }
+    },
 
     attached: function () {
       var cart = this.$.session.get('cart');
       this.cart = cart;
-      console.log(cart);
+    },
+
+    on_remove_cart: function () {
+      this.$.session.set('cart', this.cart);
+    },
+
+    on_try_create_order: function (event) {
+      // todo create order
+    },
+
+    on_update_cart: function (event) {
+      event.stopPropagation();
+      this.$.session.set('cart', this.cart);
     }
 
   });

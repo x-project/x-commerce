@@ -14,9 +14,16 @@
     <div class="item">
       <label class="label">title</label>
       <span>{{product.title}}</span>
-      <label class="label">description</label>
-      <span>{{product.description}}</span>
-      <input type="number" min="1" max="{{product.quantity}}" value="1">
+      <label class="label">price</label>
+      <span>{{product.price}}</span>
+
+      <label class="label">variant</label>
+      <span>{{variant.name}}</span>
+      <label class="label"></label>
+      <span>{{variant.price}}</span>
+
+      <input id="quantity" on-change="on_change_quantity" type="number"
+        min="1" max="{{product.quantity}}" value="1">
       <button on-click="on_click_remove">remove</button>
     </div>
 
@@ -41,12 +48,28 @@
 
     on_response: function (event) {
       event.stopPropagation();
-      console.log(this.product);
+      var variant = null;
+      if(this.orderItem.product_variant_id != "") {
+        var id_variant = this.orderItem.product_variant_id;
+        variant = this.product.variants.filter( function (curr_variant) {
+          if(curr_variant.id == id_variant)
+            return curr_variant;
+        })[0];
+      }
+      this.variant = variant;
+      this.$.quantity.value = this.orderItem.quantity;
     },
 
-    on_click_remove: function () {
+    on_click_remove: function (event) {
       event.stopPropagation();
       this.fire('remove-product');
+    },
+
+    on_change_quantity: function (event) {
+      event.stopPropagation();
+      this.orderItem.quantity = this.$.quantity.value;
+      this.fire('update-cart');
+
     }
 
   });
