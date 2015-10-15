@@ -3,6 +3,9 @@
   "version": "0.0.5",
   "dependencies": {
     "async": "~1.4.2",
+    "gold-cc-cvc-input": "PolymerElements/gold-cc-cvc-input#^1.0.0",
+    "gold-cc-expiration-input": "PolymerElements/gold-cc-expiration-input#^1.0.0",
+    "gold-cc-input": "PolymerElements/gold-cc-input#^1.0.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.0",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.0",
     "iron-input": "PolymerElements/iron-input#^1.0",

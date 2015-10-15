@@ -36,7 +36,7 @@
 
     on_try_payment: function (event) {
       event.stopPropagation();
-      page('/payment/');
+      page('/payment/'+ this.data.order.id);
     }
 
   });
