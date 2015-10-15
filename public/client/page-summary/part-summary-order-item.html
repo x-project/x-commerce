@@ -1,0 +1,72 @@
+<dom-module id="part-summary-order-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .product_price {
+        display: none;
+      }
+      .product_price[price_product] {
+        display: inline-block;
+      }
+      .variant{
+        display: none;
+      }
+      .variant[visibile_variant] {
+        display: inline-block;
+      }
+
+    </style>
+
+    <div class="item">
+
+      <label class="label">title</label>
+      <span>{{item.product.title}}</span>
+      <span class="product_price" price_product$="{{price_product}}">
+        <label class="label">price</label>
+        <span>{{item.product.price}}</span>
+      </span>
+
+      <span class="variant" visibile_variant$="{{visibile_variant}}">
+        <label class="label">variant</label>
+        <span>{{item.product_variant.name}}</span>
+        <label class="label">price</label>
+        <span>{{item.product_variant.price}}</span>
+      </span>
+      <span> X </span><span>{{item.quantity}}</span>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-order-item',
+
+    properties: {
+      item: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      price_product: {
+        type: Boolean,
+        value: true
+      },
+      visibile_variant: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      console.log(this.item);
+      this.quantity = this.item.quantity;
+      if (this.item.product_variant) {
+        this.set('visibile_variant', true);
+        this.set('price_product', false);
+      }
+    }
+
+  });
+</script>

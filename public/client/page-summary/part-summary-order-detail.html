@@ -1,0 +1,27 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-summary-amount.html">
+<link rel="import" href="part-summary-customer.html">
+<link rel="import" href="part-summary-order-items.html">
+<dom-module id="part-summary-order-detail">
+  <template>
+    <style include="style-list"></style>
+
+    <part-summary-customer customer="{{order.customer}}"></part-summary-customer>
+    <part-summary-order-items order-items="{{order.order_items}}"></part-summary-order-items>
+    <part-summary-amount order-items="{{order.order_items}}"></part-summary-amount>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-order-detail',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

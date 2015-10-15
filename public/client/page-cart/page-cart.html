@@ -18,9 +18,13 @@
       on-response="on_response_find_variants">
     </api-model-find>
 
-    <api-model-create id="create_order" collection="orders" on-response="on_response_create_order"
-      on-error="on_error">
-    </api-model-create>
+    <iron-ajax id="create_order" method="PUT" handle-as="json" url="/api/orders"
+      content-type="application/json" on-response="on_response_create_order" on-error="on_error">
+    </iron-ajax>
+
+    <iron-ajax id="create_order_items" method="POST" handle-as="json" content-type="application/json"
+      on-response="on_response_create_order_items" on-error="on_error">
+    </iron-ajax>
 
     <layout-client>
       <part-jumbotron class="jumbotron">
@@ -43,16 +47,16 @@
     is: 'page-cart',
 
     properties: {
-      total: {
-        type: Number,
-        value: 1
-      },
       products: {
         type: Array,
         value: function () { return {}; }
       },
       variants: {
         type: Array,
+        value: function () { return {}; }
+      },
+      order: {
+        type: Object,
         value: function () { return {}; }
       }
     },
@@ -117,11 +121,45 @@
 
     on_try_create_order: function (event) {
       if (this.$.session.get('user')) {
-        // console.log(this.$.session.get('user'));
+        this.try_create_order();
       }
       else {
         page('/signup');
       }
+    },
+
+    try_create_order: function () {
+      var customer_id = this.$.session.get('user').id;
+      this.$.create_order.body = JSON.stringify({ customer_id: customer_id });
+      this.$.create_order.generateRequest();
+    },
+
+    on_response_create_order: function (event) {
+      event.stopPropagation();
+      this.order = event.detail.response;
+      this.$.create_order_items.url = '/api/orders/' + this.order.id + '/order_items';
+      this.$.create_order_items.body = this.get_order_items();
+      this.$.create_order_items.generateRequest();
+    },
+
+    get_order_items: function () {
+      var order_items = [];
+      var cart = this.$.session.get('cart');
+      var temp;
+      cart.forEach( function (item) {
+        temp = {};
+        temp.order_id = this.order.id;
+        temp.product_id = item.product_id;
+        temp.product_variant_id = item.product_variant_id;
+        temp.quantity = item.quantity;
+        order_items.push(temp);
+      }, this);
+      return JSON.stringify(order_items);
+    },
+
+    on_response_create_order_items: function (event) {
+      event.stopPropagation();
+      page('/cart/orders/'+ this.order.id);
     },
 
     on_update_cart: function (event) {

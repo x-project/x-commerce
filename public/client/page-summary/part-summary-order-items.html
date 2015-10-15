@@ -1,0 +1,32 @@
+<link rel="import" href="part-summary-order-item.html">
+<dom-module id="part-summary-order-items">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h3>order items</h3>
+    <div class="list">
+      <template id="order_items" is="dom-repeat" items="{{orderItems}}" as="order_item">
+        <part-summary-order-item item="{{order_item}}"></part-summary-order-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-order-items',
+
+    properties: {
+      orderItems: {
+        type: Array,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

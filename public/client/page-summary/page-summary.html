@@ -1,0 +1,47 @@
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="../part-date/part-date.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="part-summary-order-detail.html">
+<link rel="import" href="part-summary-payment.html">
+<dom-module id="page-summary">
+  <template>
+    <style include="style-page"></style>
+
+    <app-session id="session"></app-session>
+
+
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Cart Summary</h1>
+      </part-jumbotron>
+      <div class="container">
+        <part-summary-order-detail order="{{data.order}}"></part-summary-order-detail>
+        <part-summary-payment on-try-payment="on_try_payment"></part-summary-payment>
+      </div>
+    </layout-client>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-summary',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      // console.log(this.data.order);
+    },
+
+    on_try_payment: function (event) {
+      event.stopPropagation();
+      // TODO PAYMENT
+    }
+
+  });
+</script>

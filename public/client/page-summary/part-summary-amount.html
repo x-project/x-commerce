@@ -1,0 +1,53 @@
+<link rel="import" href="part-summary-order-item.html">
+<dom-module id="part-summary-amount">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h3>Subtotal</h3>
+    <label class="label">Amount: </label>
+    <span>{{subtotal}}</span>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-amount',
+
+    properties: {
+      orderItems: {
+        type: Array,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.update_subtotal();
+    },
+
+    update_subtotal: function () {
+      var sub_tot = 0;
+      this.orderItems.forEach( function (item) {
+        if(item.hasOwnProperty('product_variant')) {
+          sub_tot += this.calculate_subtotal_variant(item);
+          return;
+        }
+        sub_tot += this.calculate_subtotal_product(item);
+      }, this);
+      this.set('subtotal', sub_tot);
+    },
+
+    calculate_subtotal_variant: function (item) {
+      return item.quantity * item.product_variant.price;
+    },
+
+    calculate_subtotal_product: function (item) {
+      return item.quantity * item.product.price;
+    }
+
+  });
+</script>

@@ -21,6 +21,7 @@
 <link rel="import" href="../page-reviews/page-reviews.html">
 <link rel="import" href="../page-settings/page-settings.html">
 <link rel="import" href="../page-signup/page-signup.html">
+<link rel="import" href="../page-summary/page-summary.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -84,6 +85,25 @@
       this.init(context);
       context.page_name = 'page-contact';
       this.open_page(context);
+    },
+
+    '/cart/orders/:order_id': function (context) {
+      this.init(context);
+      this.get_model({
+          collection: 'orders',
+          modelId: context.params.order_id,
+          include: [{'order_items': ['product','product_variant']}, 'customer']
+        })
+        .then(function (model) {
+          context.page_name = 'page-summary';
+          context.data.order = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
     },
 
     '/forgot': function (context) {

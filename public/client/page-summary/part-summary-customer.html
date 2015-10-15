@@ -1,0 +1,37 @@
+<link rel="import" href="../style-list/style-list.html">
+<dom-module id="part-summary-customer">
+  <template>
+    <style include="style-list">
+    span {
+      display: block;
+      margin-left: 20px;
+    }
+    </style>
+
+    <h3>Customer</h3>
+    <label class="label">full name:</label>
+    <span>{{customer.first_name}}</span> <span>{{customer.last_name}}</span>
+    <label class="label">Email:</label>
+    <span>{{customer.email}}</span>
+    <label class="label">Location:</label>
+    <span>{{customer.location}}</span>
+    <label class="label">Location number:</label>
+    <span>{{customer.location_number}}</span>
+    <label class="label">phone:</label>
+    <span>{{customer.phone}}</span>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-customer',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
