@@ -1,0 +1,83 @@
+<dom-module id="part-cart-order-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .product_price {
+        display: none;
+      }
+      .product_price[price_product] {
+        display: inline-block;
+      }
+      .variant{
+        display: none;
+      }
+      .variant[visibile_variant] {
+        display: inline-block;
+      }
+
+    </style>
+
+    <div class="item">
+
+      <label class="label">title</label>
+      <span>{{orderItem.product.title}}</span>
+      <span class="product_price" price_product$="{{price_product}}">
+        <label class="label">price</label>
+        <span>{{orderItem.product.price}}</span>
+      </span>
+
+      <span class="variant" visibile_variant$="{{visibile_variant}}">
+        <label class="label">variant</label>
+        <span>{{orderItem.variant.name}}</span>
+        <label class="label">price</label>
+        <span>{{orderItem.variant.price}}</span>
+      </span>
+
+      <input id="quantity" on-change="on_change_quantity" type="number"
+        min="1" max="{{orderItem.product.quantity}}" value="{{quantity}}">
+      <button on-click="on_click_remove">remove</button>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-cart-order-item',
+
+    properties: {
+      orderItem: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      price_product: {
+        type: Boolean,
+        value: true
+      },
+      visibile_variant: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      this.quantity = this.orderItem.quantity;
+      if (this.orderItem.variant) {
+        this.set('visibile_variant', true);
+        this.set('price_product', false);
+      }
+    },
+
+    on_change_quantity: function () {
+      this.fire('change-quantity', this.$.quantity.value);
+    },
+
+    on_click_remove: function (event) {
+      event.stopPropagation();
+      this.fire('remove-product');
+    }
+
+  });
+</script>

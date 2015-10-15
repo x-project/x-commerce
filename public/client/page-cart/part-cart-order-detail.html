@@ -1,0 +1,63 @@
+<dom-module id="part-cart-order-detail">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <app-session id="session"></app-session>
+
+    <label class="label">Subtotal</label>
+    <span>{{subtotal}}</span>
+
+    <div>
+      <button on-click="on_click_checkout">checkout</button>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-cart-order-detail',
+
+    properties: {
+      subtotal: {
+        type: Number
+      }
+    },
+
+    attached: function () {
+      var cart = this.$.session.get('cart');
+      this.update_subtotal();
+    },
+
+    update_subtotal: function () {
+      var sub_tot = 0;
+      var cart = this.$.session.get('cart');
+      cart.forEach( function (item) {
+        if(item.hasOwnProperty('variant')) {
+          sub_tot += this.calculate_subtotal_variant(item);
+          return;
+        }
+        sub_tot += this.calculate_subtotal_product(item);
+      }, this);
+      this.set('subtotal', sub_tot);
+    },
+
+    calculate_subtotal_variant: function (item) {
+      return item.quantity * item.variant.price;
+    },
+
+    calculate_subtotal_product: function (item) {
+      return item.quantity * item.product.price;
+    },
+
+    on_click_checkout: function (event) {
+      event.stopPropagation();
+      this.fire('try-create-order');
+    }
+
+
+  });
+</script>

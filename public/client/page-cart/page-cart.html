@@ -2,23 +2,36 @@
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-cart-orders.html">
-<link rel="import" href="part-cart-checkout.html">
+<link rel="import" href="part-cart-order-items.html">
+<link rel="import" href="part-cart-order-detail.html">
 <dom-module id="page-cart">
   <template>
     <style include="style-page"></style>
 
     <app-session id="session"></app-session>
 
+    <api-model-find id="find_products" collection="products" response="{{products}}"
+      on-response="on_response_find_products">
+    </api-model-find>
+
+    <api-model-find id="find_variants" collection="product_variants" response="{{variants}}"
+      on-response="on_response_find_variants">
+    </api-model-find>
+
+    <api-model-create id="create_order" collection="orders" on-response="on_response_create_order"
+      on-error="on_error">
+    </api-model-create>
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Cart</h1>
       </part-jumbotron>
       <div class="container">
-        <part-cart-orders cart="{{cart}}" on-remove-cart="on_remove_cart"
-          on-update-cart="on_update_cart">
-        </part-cart-orders>
-        <part-cart-checkout on-try-create-order="on_try_create_order"></part-cart-checkout>
+        <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart"></part-cart-order-items>
+        <part-cart-order-detail id="order_detail" cart="{{cart}}"
+          on-try-create-order="on_try_create_order">
+        </part-cart-order-detail>
+        <!-- <part-cart-checkout ></part-cart-checkout> -->
       </div>
     </layout-client>
 
@@ -33,12 +46,69 @@
       total: {
         type: Number,
         value: 1
+      },
+      products: {
+        type: Array,
+        value: function () { return {}; }
+      },
+      variants: {
+        type: Array,
+        value: function () { return {}; }
       }
     },
 
     attached: function () {
+      this.find_products();
+    },
+
+    find_products: function () {
       var cart = this.$.session.get('cart');
-      this.cart = cart;
+      var ids = this.pluck(cart, 'product_id');
+      this.$.find_products.where = {'id': {'inq': ids }};
+      this.$.find_products.send();
+    },
+
+    on_response_find_products: function (event) {
+      event.stopPropagation();
+      this.find_variants();
+    },
+
+    find_variants: function () {
+      var cart = this.$.session.get('cart');
+      var ids = this.pluck(cart, 'product_variant_id');
+      this.$.find_variants.where = {'id': {'inq': ids }};
+      this.$.find_variants.send();
+    },
+
+    on_response_find_variants: function (event) {
+      event.stopPropagation();
+      this.populate_cart();
+    },
+
+    populate_cart: function () {
+      var cart = this.$.session.get('cart');
+      cart.forEach(function (item) {
+        this.products.forEach( function (product) {
+          if (product.id === item.product_id) {
+            item.product = product;
+          }
+        });
+        this.variants.forEach(function (variant) {
+          if (variant.id === item.product_variant_id) {
+            item.variant = variant;
+          }
+        });
+      }, this);
+      this.$.session.set('cart', cart);
+      this.cart =  cart;
+    },
+
+    pluck: function (array, key) {
+      return array.filter(function (item) {
+        return item[key] !== '';
+      }).map(function (item) {
+        return item[key];
+      });
     },
 
     on_remove_cart: function () {
@@ -46,12 +116,23 @@
     },
 
     on_try_create_order: function (event) {
-      // todo create order
+      if (this.$.session.get('user')) {
+        // console.log(this.$.session.get('user'));
+      }
+      else {
+        page('/signup');
+      }
     },
 
     on_update_cart: function (event) {
       event.stopPropagation();
       this.$.session.set('cart', this.cart);
+      this.$.order_detail.update_subtotal();
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

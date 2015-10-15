@@ -60,7 +60,6 @@
     },
 
     add_to_cart: function (product, variant, quantity) {
-      console.log(variant);
       var cart = this.$.session.get('cart');
       cart.push({
         product_id: product.id,

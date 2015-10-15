@@ -1,0 +1,43 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-card-order-item.html">
+<dom-module id="part-cart-order-items">
+  <template>
+    <style include="style-list"></style>
+
+    <div class="list">
+      <template id="order_item" is="dom-repeat" items="{{cart}}" as="order_item">
+        <part-cart-order-item order-item="{{order_item}}" on-remove-product="on_remove_product"
+          on-change-quantity="on_change_quantity"></part-cart-order-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-cart-order-items',
+
+    properties: {
+      cart: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    on_remove_product: function (event) {
+      event.stopPropagation();
+      var order_item = this.$.order_item.itemForElement(event.target);
+      this.splice('cart', order_item, 1)
+      this.fire('update-cart');
+    },
+
+    on_change_quantity: function (event) {
+      event.stopPropagation();
+      var order_item = this.$.order_item.itemForElement(event.target);
+      order_item.quantity = event.detail;
+      this.fire('update-cart');
+    }
+
+  });
+</script>

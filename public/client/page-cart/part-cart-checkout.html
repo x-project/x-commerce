@@ -7,7 +7,6 @@
       }
     </style>
 
-    <button on-click="on_click_checkout">checkout</button>
 
   </template>
 </dom-module>
@@ -18,10 +17,7 @@
 
     properties: {},
 
-    on_click_checkout: function (event) {
-      event.stopPropagation();
-      this.fire('try-create-order');
-    }
+
 
   });
 </script>
