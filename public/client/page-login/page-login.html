@@ -16,7 +16,9 @@
         <div id="panel" class="container">
           <a is="app-link" href="/">&larr;</a>
           <h3>Login</h3>
-          <button-connect-google client_id="{{clientId}}"></button-connect-google>
+          <button-connect-google client_id="{{clientId}}"
+            on-response="on_connect" on-error="on_error">
+          </button-connect-google>
           <div>
             or
           </div>
@@ -56,6 +58,10 @@
 
     on_error: function (event) {
       console.warn(event);
+    },
+
+    on_connect: function () {
+      this.fire('login', event.detail);
     }
 
   });

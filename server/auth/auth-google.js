@@ -60,7 +60,7 @@ module.exports = function (app) {
     return defer.promise;
   }
 
-  function find_user (profile) {
+  function fetch_user (profile) {
     var defer = Promise.defer();
     var query = { where: { or: [{ google: profile.sub }, { email: profile.email }] } };
 
@@ -72,9 +72,13 @@ module.exports = function (app) {
       if (!user) {
         return create_user(profile);
       }
-
-      user.google = profile.sub;
-      user.profile_name = user.profile_name || profile.name;
+      if (user.google == undefined) {
+        return update_user(profile, user);
+      }
+      if (user.google !== profile.sub) {
+        defer.reject(new Error('user just connected via another Google account'));
+        return;
+      }
       defer.resolve(user);
     });
 
@@ -95,18 +99,23 @@ module.exports = function (app) {
         return;
       }
 
-      user.google = profile.sub;
-      user.profile_name = user.profile_name || profile.name;
       defer.resolve(user);
     });
 
     return defer.promise;
   }
 
-  function update_user (user) {
+  function update_user (profile, user) {
     var defer = Promise.defer();
 
-    user.save(function() {
+    user.google = profile.sub;
+    user.profile_name = user.profile_name || profile.name;
+
+    user.save(function (err) {
+      if (err) {
+        defer.reject(err);
+        return;
+      }
       defer.resolve(user);
     });
 
@@ -121,7 +130,14 @@ module.exports = function (app) {
         defer.reject(err);
         return;
       }
-      defer.resolve(token);
+
+      var _token = JSON.parse(JSON.stringify(token));
+      var _user = JSON.parse(JSON.stringify(user));
+      delete _user.password;
+      _user.id = _token.userId;
+      _token.user = _user;
+
+      defer.resolve(_token);
     });
 
     return defer.promise;
@@ -132,8 +148,7 @@ module.exports = function (app) {
 
     fetch_token(params)
       .then(fetch_profile)
-      .then(find_user)
-      .then(update_user)
+      .then(fetch_user)
       .then(create_token)
       .then(defer.resolve)
       .catch(defer.reject);
