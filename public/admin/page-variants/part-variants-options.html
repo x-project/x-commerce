@@ -45,7 +45,7 @@
 
     <iron-ajax id="ajax_product_variants" method="GET" url="/api/Products/generate"
       handle-as="json" last-response="{{response_variants}}" on-error="on_error"
-      on-response="on_response_variants" params="{{params_product_variant}}">
+      on-response="on_response_variants">
     </iron-ajax>
 
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
@@ -219,7 +219,7 @@
     },
 
     generate_variant: function () {
-      this.params_product_variant = { product_id: this.product.id };
+      this.$.ajax_product_variants.params = { product_id: this.product.id };
       this.$.ajax_product_variants.generateRequest();
     },
 
