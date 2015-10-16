@@ -63,28 +63,45 @@ module.exports = function (Order) {
     });
   };
 
-  var get_amount = function (order_items, callback) {
+  var get_amount = function (order_items) {
     var amount = order_items.reduce(function (amount, item) {
       var price = item.product_variant ? item.product_variant.price : item.product.price;
       return amount + item.quantity * price;
     }, 0);
-    callback(null, amount);
+    return amount;
   };
 
-  var checkout = function (nonce, amount, callback) {
-    var data = { paymentMethodNonce: nonce, amount: amount};
-    var transaction = gateway.transaction;
+  // var checkout = function (nonce, amount, callback) {
+  //   var data = { paymentMethodNonce: nonce, amount: amount};
+  //   var transaction = gateway.transaction;
 
-    transaction.sale(data, function (err, result) {
+  //   transaction.sale(data, function (err, result) {
+  //     if (err) {
+  //       callback(err);
+  //       return;
+  //     }
+
+  //     transaction.submitForSettlement(result, function (err, complete) {
+  //       if (err) {
+  //         callback(err, null);
+  //         return;
+  //       }
+  //       callback(null, complete);
+  //     });
+  //   });
+  // };
+
+  var checkout = function ( nonce, amount, callback) {
+    var transaction = gateway.transaction;
+    var data = { paymentMethodNonce: nonce, amount: amount };
+    transaction.sale(data, function (err, data_autorization) {
       if (err) {
-        callback(err);
+        callback(err, null);
         return;
       }
-
-      transaction.submitForSettlement(result, function (err, complete) {
+      transaction.submitForSettlement(data_autorization.transaction.id, function (err, complete) {
         if (err) {
           callback(err, null);
-          return;
         }
         callback(null, complete);
       });
@@ -120,7 +137,7 @@ module.exports = function (Order) {
     });
   };
 
-  var create_model_order = function (customer, amount, done) {
+  var create_order = function (customer, amount, done) {
     var order = {
       customer_id: customer.id,
       total: amount
@@ -129,25 +146,43 @@ module.exports = function (Order) {
   };
 
   var create_order_item = function (order, cart, done) {
-    cart.forEach(function (item) {
+    var cart_clone = cart.slice(0);
+    cart_clone.forEach(function (item) {
       delete item.variant;
       delete item.product;
     });
     order.order_items.create(cart, done);
   };
 
-  var create_order = function (customer, cart, callback) {
+  var create_reviews = function (customer, cart, done) {
+    var reviews = [];
+    var review;
+    cart.forEach( function (item) {
+      review = {};
+      review.customer_id = customer.id;
+      review.product_id = item.product_id;
+      review.closed = false;
+      review.title = '';
+      review.text = '';
+      review.rating = 0;
+      reviews.push(review);
+    });
+    Order.app.models.Review.create(reviews, done);
+  };
+
+  /* create order & order_item - create empty review for client*/
+  var prepare_order = function (customer, cart, amount, callback) {
     async.waterfall([
       function (next) {
-        get_amount(cart, next);
-      },
-
-      function (amount, next) {
-        create_model_order(customer, amount, next);
+        create_order(customer, amount, next);
       },
 
       function (order, next) {
         create_order_item(order, cart, next);
+      },
+
+      function (result, next) {
+        create_reviews(customer, cart, next);
       }
     ],
 
@@ -161,7 +196,7 @@ module.exports = function (Order) {
   };
 
   Order.checkout = function (cart, payment_method_nonce, token, callback) {
-    var order, curr_customer;
+    var order;
     var amount = 0;
     async.waterfall([
       function (next) {
@@ -170,20 +205,17 @@ module.exports = function (Order) {
 
       function (customer, next) {
         curr_customer = customer;
-        create_order(customer, cart, next);
+        amount = get_amount(cart);
+        prepare_order(customer, cart, amount, next);
+      },
+
+      function (result, next) {
+        checkout(payment_method_nonce, amount, next);
       }
 
       // function (result, next) {
-      //   get_amount(cart, next);
-      // },
-
-      // function (result, next) {
-      //   checkout(payment_method_nonce, 10, next);
-      // },
-
-      // function (result, next) {
       //   create_payment(order, result, next);
-      // }
+      // },
     ],
 
     function (err, result) {
