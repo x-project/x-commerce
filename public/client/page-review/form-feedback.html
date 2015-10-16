@@ -3,9 +3,15 @@
 <link rel="import" href="input-rating.html">
 <dom-module id="form-feedback">
   <template>
-    <style include="style-form"></style>
+    <style include="style-form">
+      form[read]{
+        pointer-events: none;
+      }
+    </style>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <a is="app-link" href="/reviews">Back to reviews</a>
+
+    <form id="form" role="form" read$="{{read}}"on-submit="on_submit">
       <div class="field">
         <label class="label">Rating</label>
         <input-rating review="{{review}}"></input-rating>
@@ -18,7 +24,7 @@
         <label class="label">Text</label>
         <iron-autogrow-textarea is="iron-input" bind-value="{{review.text}}" rows="4"></iron-autogrow-textarea>
       </div>
-      <input id="submit" disabled="{{disable}}" type="submit" value="submit"/>
+      <input id="submit" type="submit" value="submit"/>
     </form>
 
   </template>
@@ -32,21 +38,22 @@
       review: {
         type: Object,
         value: function () { return {}; }
+      },
+      read: {
+        type: Boolean,
+        value: false
       }
     },
 
     attached: function () {
       if (this.review.closed) {
-        this.disable_submit();
+        this.feedback_completed();
       }
     },
 
-    disable_submit: function  () {
-      this.set('disable',true);
-    },
-
-    able_sumit: function  () {
-      this.set('disable',false);
+    feedback_completed: function () {
+      this.$.submit.hidden = true;
+      this.set('read', true);
     },
 
     on_submit: function (event) {

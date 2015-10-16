@@ -4,10 +4,10 @@
   <template>
 
     <api-model-update id="update" collection="reviews" data="{{review}}"
-      model-id="{{review.id}}">
+      model-id="{{review.id}}" on-response="on_response">
     </api-model-update>
 
-    <form-feedback review="{{review}}" on-try-save="on_try_save"></form-feedback>
+    <form-feedback id="form_feedback" review="{{review}}" on-try-save="on_try_save"></form-feedback>
 
   </template>
 </dom-module>
@@ -19,13 +19,21 @@
     properties: {
       review: {
         type: Object,
+        notify: true,
         value: function () { return {}; }
       }
     },
 
     on_try_save: function  (event) {
       event.stopPropagation();
+      this.review.closed = true;
       this.$.update.send();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      this.$.form_feedback.feedback_completed();
+      page('/reviews');
     }
 
   });

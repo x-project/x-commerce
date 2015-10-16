@@ -21,7 +21,7 @@
       <span>{{review.rating}}</span>
       <label class="label">closed</label>
       <span>{{review.closed}}</span>
-      <a is="app-link" href="{{edit_url}}">edit</a>
+      <a is="app-link" href="{{edit_url}}">{{edit}}</a>
     </div>
 
   </template>
@@ -40,6 +40,7 @@
 
     attached: function () {
       this.edit_url = '/reviews/' + this.review.id;
+      (this.review.closed) ? this.edit = 'view' : this.edit = 'edit';
     }
 
   });
