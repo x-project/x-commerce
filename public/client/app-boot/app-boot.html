@@ -88,25 +88,6 @@
       this.open_page(context);
     },
 
-    '/cart/orders/:order_id': function (context) {
-      this.init(context);
-      this.get_model({
-        collection: 'orders',
-        modelId: context.params.order_id,
-        include: [{'order_items': ['product','product_variant']}, 'customer']
-      })
-      .then(function (model) {
-        context.page_name = 'page-summary';
-        context.data.order = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (error) {
-        context.page_name = 'page-404';
-        context.data.error = error;
-        this.open_page(context);
-      }.bind(this));
-    },
-
     '/forgot': function (context) {
       this.init(context);
       context.page_name = 'page-forgot';
@@ -212,7 +193,6 @@
     //     });
     // },
 
-
     '/settings': function (context) {
       this.init(context);
       if (!context.session.token) {
@@ -229,23 +209,16 @@
       this.open_page(context);
     },
 
-    '/payment/:order_id': function (context) {
+    '/summary': function (context) {
       this.init(context);
-      this.get_model({
-        collection: 'orders',
-        modelId: context.params.order_id,
-        include: [{'order_items': ['product','product_variant']}, 'customer']
-      })
-      .then(function (model) {
-        context.page_name = 'page-payment';
-        context.data.order = model;
-        this.open_page(context);
-      }.bind(this))
-      .catch(function (error) {
-        context.page_name = 'page-404';
-        context.data.error = error;
-        this.open_page(context);
-      }.bind(this));
+      context.page_name = 'page-summary';
+      this.open_page(context);
+    },
+
+    '/payment': function (context) {
+      this.init(context);
+      context.page_name = 'page-payment';
+      this.open_page(context);
     },
 
     '/test': function (context) {

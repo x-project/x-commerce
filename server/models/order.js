@@ -2,6 +2,7 @@ var express = require('express');
 var body_parser = require('body-parser');
 var braintree = require('braintree');
 var async = require('async');
+var loopback = require('loopback');
 
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
@@ -50,69 +51,103 @@ module.exports = function (Order) {
         callback(err, null);
         return;
       }
-      gateway.clientToken.generate({
-        customerId: customer_id
-      },
-        function (err, response) {
-          if (err) {
-            callback(err, null);
-            return;
-          }
-          callback(null, response);
-        }
-      );
-    });
-  };
 
-  var get_amount = function (order_items, callback) {
-    var amount = 0;
-    order_items.forEach( function (item) {
-      if (item.product_variant()) {
-        amount += item.quantity * item.product_variant().price;
-      }
-      else {
-        amount += item.quantity * item.product().price;
-      }
-    });
-    callback(null, amount);
-  };
-
-  function  try_close_transation(sale_result, callback) {
-    console.log(sale_result);
-    gateway.transaction.submitForSettlement(sale_result.transaction.id, callback);
-  };
-
-  var try_checkout_cart = function ( nonce, amount, callback) {
-    var data = { paymentMethodNonce: nonce, amount: amount};
-    gateway.transaction.sale(data, function (err, sale_result) {
-      try_close_transation(sale_result, function (err, trans_complete) {
+      gateway.clientToken.generate({ customerId: customer_id }, function (err, response) {
         if (err) {
           callback(err, null);
+          return;
         }
-        callback(null, trans_complete);
+
+        callback(null, response);
       });
     });
   };
 
+  var get_amount = function (order_items, callback) {
+    var amount = order_items.reduce(function (amount, item) {
+      var price = item.product_variant ? item.product_variant.price : item.product.price;
+      return amount + item.quantity * price;
+    }, 0);
+    callback(null, amount);
+  };
 
+  var checkout = function (nonce, amount, callback) {
+    var data = { paymentMethodNonce: nonce, amount: amount};
+    var transaction = gateway.transaction;
 
-  Order.checkout = function (order_id, payment_method_nonce, callback) {
-    var order;
-    var amount = 0;
+    transaction.sale(data, function (err, result) {
+      if (err) {
+        callback(err);
+        return;
+      }
+
+      transaction.submitForSettlement(result, function (err, complete) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+        callback(null, complete);
+      });
+    });
+  };
+
+  var create_payment =  function (order, checkout, callback) {
+    // var payment = Order.app.models.Payment;
+    // var payment_model = {
+    //   tras_id: trasition_status.id,
+    //   order_id: order.id,
+    //   amount: trasition_status.amount,
+    //   cardType: trasition_status.cardType,
+    //   success: trasition_status.success
+    // };
+    // payment.create(payment_model, fun);
+    callback(null, {});
+  };
+
+  var get_customer =  function (token, callback) {
+    Order.app.models.Customer.relations.accessTokens.modelTo.findById(token, function (err, token) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      Order.app.models.Customer.findById(token.userId, function (err, user) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+        callback(null, user);
+      });
+    });
+  };
+
+  var create_model_order = function (customer, amount, done) {
+    var order = {
+      customer_id: customer.id,
+      total: amount
+    };
+    Order.create(order, done);
+  };
+
+  var create_order_item = function (order, cart, done) {
+    cart.forEach(function (item) {
+      delete item.variant;
+      delete item.product;
+    });
+    order.order_items.create(cart, done);
+  };
+
+  var create_order = function (customer, cart, callback) {
     async.waterfall([
       function (next) {
-        Order.findById(order_id, {include: [{order_items: ['product', 'product_variant']}, 'customer']}, next);
-      },
-
-      function (order, next) {
-        order = order;
-        get_amount(order.order_items(), next);
+        get_amount(cart, next);
       },
 
       function (amount, next) {
-        amount = amount;
-        console.log(amount);
-        try_checkout_cart(payment_method_nonce, amount, next);
+        create_model_order(customer, amount, next);
+      },
+
+      function (order, next) {
+        create_order_item(order, cart, next);
       }
     ],
 
@@ -123,9 +158,42 @@ module.exports = function (Order) {
       }
       callback(null, result);
     });
-
   };
 
+  Order.checkout = function (cart, payment_method_nonce, token, callback) {
+    var order, curr_customer;
+    var amount = 0;
+    async.waterfall([
+      function (next) {
+        get_customer(token, next);
+      },
+
+      function (customer, next) {
+        curr_customer = customer;
+        create_order(customer, cart, next);
+      }
+
+      // function (result, next) {
+      //   get_amount(cart, next);
+      // },
+
+      // function (result, next) {
+      //   checkout(payment_method_nonce, 10, next);
+      // },
+
+      // function (result, next) {
+      //   create_payment(order, result, next);
+      // }
+    ],
+
+    function (err, result) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
+  };
 
   Order.remoteMethod('get_client_token', {
     accepts: { arg: 'customer_id', type: 'string', required: true },
@@ -134,9 +202,13 @@ module.exports = function (Order) {
   });
 
   Order.remoteMethod('checkout', {
-    accepts: [ { arg: 'order_id', type: 'string' }, { arg: 'payment_method_nonce', type: 'string' }],
-    returns: { arg: 'status', type: 'object' },
-    http: { verb: 'post', path:'/:order_id/checkout' }
+    accepts: [
+      { arg: 'cart', type: 'array' },
+      { arg: 'payment_method_nonce', type: 'string' },
+      { arg: 'token', type: 'string' }
+    ],
+    returns: { arg: 'result', type: 'object' },
+    http: { verb: 'post', path:'/checkout' }
   });
 
 };

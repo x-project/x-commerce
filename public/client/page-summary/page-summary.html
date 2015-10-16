@@ -1,22 +1,23 @@
+<link rel="import" href="/components/form-braintree/form-braintree.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-summary-order-detail.html">
-<link rel="import" href="part-summary-payment.html">
 <dom-module id="page-summary">
   <template>
     <style include="style-page"></style>
 
     <app-session id="session"></app-session>
 
-
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Cart Summary</h1>
       </part-jumbotron>
       <div class="container">
-        <part-summary-order-detail order="{{data.order}}"></part-summary-order-detail>
-        <part-summary-payment on-try-payment="on_try_payment"></part-summary-payment>
+        <part-summary-order-detail order-items="{{order_items}}"
+          customer="{{customer}}">
+        </part-summary-order-detail>
+        <form-braintree></form-braintree>
       </div>
     </layout-client>
 
@@ -34,9 +35,9 @@
       }
     },
 
-    on_try_payment: function (event) {
-      event.stopPropagation();
-      page('/payment/'+ this.data.order.id);
+    attached: function () {
+      this.order_items = this.$.session.get('cart');
+      this.customer = this.$.session.get('user');
     }
 
   });

@@ -101,5 +101,8 @@
   },
   "Vendor": {
     "dataSource": "mongo"
+  },
+  "Payment": {
+    "dataSource": "mongo"
   }
 }

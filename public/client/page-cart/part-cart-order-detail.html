@@ -28,8 +28,8 @@
     },
 
     attached: function () {
-      var cart = this.$.session.get('cart');
-      this.update_subtotal();
+      if (this.$.session.get('cart').length > 0)
+        this.update_subtotal();
     },
 
     update_subtotal: function () {
@@ -55,7 +55,7 @@
 
     on_click_checkout: function (event) {
       event.stopPropagation();
-      this.fire('try-create-order');
+      this.fire('try-create-checkout');
     }
 
 

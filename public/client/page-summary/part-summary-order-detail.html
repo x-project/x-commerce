@@ -6,9 +6,10 @@
   <template>
     <style include="style-list"></style>
 
-    <part-summary-customer customer="{{order.customer}}"></part-summary-customer>
-    <part-summary-order-items order-items="{{order.order_items}}"></part-summary-order-items>
-    <part-summary-amount order-items="{{order.order_items}}"></part-summary-amount>
+    <part-summary-customer customer="{{customer}}"></part-summary-customer>
+    <part-summary-order-items order-items="{{orderItems}}"></part-summary-order-items>
+    <part-summary-amount order-items="{{orderItems}}"></part-summary-amount>
+
   </template>
 </dom-module>
 <script>
@@ -17,10 +18,15 @@
     is: 'part-summary-order-detail',
 
     properties: {
-      order: {
+      orderItems: {
+        type: Array,
+        value: function () { return []; }
+      },
+      customer: {
         type: Object,
         value: function () { return {}; }
-      }
+      },
+
     }
 
   });

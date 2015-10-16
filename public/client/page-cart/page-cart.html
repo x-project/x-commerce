@@ -33,7 +33,7 @@
       <div class="container">
         <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart"></part-cart-order-items>
         <part-cart-order-detail id="order_detail" cart="{{cart}}"
-          on-try-create-order="on_try_create_order">
+          on-try-create-checkout="on_try_checkout">
         </part-cart-order-detail>
         <!-- <part-cart-checkout ></part-cart-checkout> -->
       </div>
@@ -119,48 +119,48 @@
       this.$.session.set('cart', this.cart);
     },
 
-    on_try_create_order: function (event) {
+    on_try_checkout: function (event) {
       if (this.$.session.get('user')) {
-        this.try_create_order();
+        page('/summary');
       }
       else {
         page('/signup');
       }
     },
 
-    try_create_order: function () {
-      var customer_id = this.$.session.get('user').id;
-      this.$.create_order.body = JSON.stringify({ customer_id: customer_id });
-      this.$.create_order.generateRequest();
-    },
+    // try_create_order: function () {
+    //   var customer_id = this.$.session.get('user').id;
+    //   this.$.create_order.body = JSON.stringify({ customer_id: customer_id });
+    //   this.$.create_order.generateRequest();
+    // },
 
-    on_response_create_order: function (event) {
-      event.stopPropagation();
-      this.order = event.detail.response;
-      this.$.create_order_items.url = '/api/orders/' + this.order.id + '/order_items';
-      this.$.create_order_items.body = this.get_order_items();
-      this.$.create_order_items.generateRequest();
-    },
+    // on_response_create_order: function (event) {
+    //   event.stopPropagation();
+    //   this.order = event.detail.response;
+    //   this.$.create_order_items.url = '/api/orders/' + this.order.id + '/order_items';
+    //   this.$.create_order_items.body = this.get_order_items();
+    //   this.$.create_order_items.generateRequest();
+    // },
 
-    get_order_items: function () {
-      var order_items = [];
-      var cart = this.$.session.get('cart');
-      var temp;
-      cart.forEach( function (item) {
-        temp = {};
-        temp.order_id = this.order.id;
-        temp.product_id = item.product_id;
-        temp.product_variant_id = item.product_variant_id;
-        temp.quantity = item.quantity;
-        order_items.push(temp);
-      }, this);
-      return JSON.stringify(order_items);
-    },
+    // get_order_items: function () {
+    //   var order_items = [];
+    //   var cart = this.$.session.get('cart');
+    //   var temp;
+    //   cart.forEach( function (item) {
+    //     temp = {};
+    //     temp.order_id = this.order.id;
+    //     temp.product_id = item.product_id;
+    //     temp.product_variant_id = item.product_variant_id;
+    //     temp.quantity = item.quantity;
+    //     order_items.push(temp);
+    //   }, this);
+    //   return JSON.stringify(order_items);
+    // },
 
-    on_response_create_order_items: function (event) {
-      event.stopPropagation();
-      page('/cart/orders/'+ this.order.id);
-    },
+    // on_response_create_order_items: function (event) {
+    //   event.stopPropagation();
+    //   page('/cart/orders/'+ this.order.id);
+    // },
 
     on_update_cart: function (event) {
       event.stopPropagation();
