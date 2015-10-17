@@ -7,6 +7,8 @@
 <link rel="import" href="../app-theme/app-theme.html">
 <link rel="import" href="../page-404/page-404.html">
 <link rel="import" href="../page-about/page-about.html">
+<link rel="import" href="../page-article/page-article.html">
+<link rel="import" href="../page-articles/page-articles.html">
 <link rel="import" href="../page-cart/page-cart.html">
 <link rel="import" href="../page-contact/page-contact.html">
 <link rel="import" href="../page-forgot/page-forgot.html">
@@ -73,6 +75,18 @@
     '/about': function (context) {
       this.init(context)
       context.page_name = 'page-about';
+      this.open_page(context);
+    },
+
+    '/articles': function (context) {
+      this.init(context)
+      context.page_name = 'page-articles';
+      this.open_page(context);
+    },
+
+    '/articles/:article_id': function (context) {
+      this.init(context)
+      context.page_name = 'page-article';
       this.open_page(context);
     },
 
