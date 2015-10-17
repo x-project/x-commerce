@@ -1,47 +1,26 @@
-<link rel="import" href="../part-footer/part-footer.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../part-header/part-header.html">
-<link rel="import" href="../style-page/style-page.html">
-
+<link rel="import" href="../layout-client/layout-client.html">
 <dom-module id="page-article">
 	<template>
-		<style include="style-page"></style>
 
-    <div class="page">
-      <part-header class="header"></part-header>
-      <div class="main">
-        <part-jumbotron class="jumbotron">
-          <h1>Article</h1>
-        </part-jumbotron>
-        <div class="container">
-          <h3>{{article.summary}}</h3>
-          <p>{{article.content}}</p>
-          <h5 class="published">
-            <span>published</span>
-            <part-date date="{{article.published_at}}"></part-date>
-            <span>in</span>
-            <span>{{article.category.name}}</span>
-          </h5>
-        </div>
+    <layout-client>
+      <div class="container">
+        <h3>{{data.article.summary}}</h3>
+        <p>{{data.article.content}}</p>
+        <h5 class="published">
+          <span>published</span>
+          <part-date date="{{data.article.published_at}}"></part-date>
+          <span>in</span>
+          <span>{{data.article.category.name}}</span>
+        </h5>
       </div>
-      <div class="space"></div>
-      <part-footer class="footer"></part-footer>
-    </div>
+    </layout-client>
 
 	</template>
 </dom-module>
-
 <script>
 	Polymer({
 
-		is: 'page-article',
-
-    properties: {
-      article: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    }
+		is: 'page-article'
 
 	});
 </script>
