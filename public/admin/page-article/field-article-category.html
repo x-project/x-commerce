@@ -1,0 +1,49 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/api-model-find/api-model-find.html">
+<dom-module id="field-article-category">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+      }
+    </style>
+
+    <select id="select" on-change="on_value_change">
+      <option disabled></option>
+      <template is="dom-repeat" items="{{items}}">
+        <option value="{{item.id}}">{{item.name}}</option>
+      </template>
+    </select>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'field-article-category',
+
+    properties: {
+      bindValue: {
+        type: String,
+        observer: 'on_bind_value_change',
+        notify: true
+      },
+      items: {
+        type: Array
+      }
+    },
+
+    ready: function () {
+      // this.$.find.send();
+    },
+
+    on_bind_value_change: function () {
+      this.$.select.value = !this.bindValue ? '' : this.bindValue;
+    },
+
+    on_value_change: function () {
+      this.bindValue = this.$.select.value;
+    }
+
+  });
+</script>

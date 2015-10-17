@@ -1,0 +1,35 @@
+<link rel="import" href="/components/polymer/polymer.html">
+<link rel="import" href="/components/api-model-find/api-model-find.html">
+<!-- <link rel="import" href="../part-image-upload/part-image-upload.html"> -->
+<dom-module id="field-article-image">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <part-image-upload
+      path="Articles/${id}/image" path-params="{{article}}"
+      image="{{image}}">
+    </part-image-upload>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'field-article-image',
+
+    properties: {
+      article: {
+        type: Object
+      },
+      image: {
+        type: Object,
+        notify: true
+      }
+    }
+
+  });
+</script>

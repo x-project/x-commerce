@@ -1,0 +1,68 @@
+<link rel="import" href="/components/api-model-delete/api-model-delete.html">
+<link rel="import" href="/components/api-model-get/api-model-get.html">
+<link rel="import" href="../part-sidebar/part-sidebar.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="form-article.html">
+
+<dom-module id="page-article">
+  <template>
+    <style include="style-page"></style>
+
+<!--
+    <api-model-get id="get"
+      path="Articles/${article_id}" path-params="{{pathParams}}"
+      model="{{article}}">
+    </api-model-get>
+
+    <api-model-delete id="delete"
+      path="Articles/${article_id}" path-params="{{pathParams}}"
+      on-response="on_delete">
+    </api-model-delete>
+-->
+
+    <div class="page">
+      <part-sidebar class="sidebar"></part-sidebar>
+      <div class="main">
+        <div class="container">
+          <h2>edit article</h2>
+          <form-article article="{{article}}"></form-article>
+          <br>
+          <button class="btn" on-click="on_click_delete">delete</button>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'page-article',
+
+    properties: {
+      article: {
+        type: Object
+      }
+    },
+
+    ready: function () {
+      this.async(function () {
+        // this.$.get.send();
+      });
+    },
+
+    delete: function () {
+      this.$.delete.send();
+    },
+
+    on_click_delete: function (event) {
+      this.delete();
+    },
+
+    on_delete: function (event) {
+      page('/admin/articles');
+    }
+
+  });
+</script>
