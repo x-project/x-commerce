@@ -1,4 +1,4 @@
-<link rel="import" href="part-order-item-product.html">
+<link rel="import" href="part-order-item-info.html">
 <dom-module id="list-order-item">
   <template>
     <style>
@@ -9,8 +9,7 @@
 
     <div class="items">
       <template id="order_items" is="dom-repeat" items="{{items}}" as="order_item">
-        <part-order-item-product order-item="{{order_item}}">
-        </part-order-item-product>
+        <part-order-item-info order-item="{{order_item}}"></part-order-item-info>
       </template>
     </div>
 
