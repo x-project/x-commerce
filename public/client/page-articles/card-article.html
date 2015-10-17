@@ -1,0 +1,32 @@
+<link rel="import" href="../style-card/style-card.html">
+
+<dom-module id="card-article">
+  <template>
+
+    <div class="card">
+      <header class="header">
+        <h2>{{data.title}}</h2>
+        <h3>{{data.subtitle}}</h3>
+        <h4><span>by </span><em>{{data.author.fullname}}</em></h4>
+      </header>
+      <section class="section">
+
+      </section>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'card-article',
+
+    properties: {
+      data: {
+        type: Object
+      }
+    }
+
+  });
+</script>

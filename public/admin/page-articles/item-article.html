@@ -1,0 +1,40 @@
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../part-date/part-date.html">
+<dom-module id="item-article">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <div class="item">
+      <section>
+        <strong>{{item.title}}</strong>
+      </section>
+      <section>
+        <div><span>by </span><em>{{item.author.fullname}}</em></div>
+        <div><span>published </span><part-date date="{{item.published_at}}"></part-date></div>
+        <div><span>in </span><span>{{item.category.name}}</span></div>
+      </section>
+      <section>
+        <a is="app-link" href="{{item.viewlink}}">view</a>
+        <a is="app-link" href="{{item.editlink}}">edit</a>
+      </section>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'item-article',
+
+    properties: {
+      item: {
+        type: Object
+      }
+    }
+
+  });
+</script>

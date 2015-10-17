@@ -1,0 +1,27 @@
+<link rel="import" href="../style-deck/style-deck.html">
+<link rel="import" href="card-article.html">
+<dom-module id="deck-articles">
+  <template>
+
+    <div class="deck">
+      <template is="dom-repeat" items="{{items}}">
+        <card-article data="{{item}}"></card-article>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'deck-articles',
+
+    properties: {
+      items: {
+        type: Array
+      }
+    }
+
+  });
+</script>

@@ -1,0 +1,32 @@
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="deck-articles.html">
+<dom-module id="page-articles">
+  <template>
+    <style include="style-page"></style>
+
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Articles</h1>
+      </part-jumbotron>
+      <div class="container">
+        <deck-articles items="{{articles}}"></deck-articles>
+      </div>
+    </layout-client>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'page-articles',
+
+    properties: {
+      articles: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

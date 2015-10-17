@@ -1,0 +1,41 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="list-categories.html">
+<dom-module id="page-categories">
+  <template>
+
+    <api-model-find id="find" collection="categories"
+      response="{{items}}">
+    </api-model-find>
+
+    <layout-admin>
+      <div class="main">
+        <div class="container">
+          <h2>Categories</h2>
+          <a is="app-link" class="button" href="/admin/categories/new">create category</a>
+          <list-categories items="{{items}}"></list-categories>
+        </div>
+      </div>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'page-categories',
+
+    properties: {
+      items: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    ready: function () {
+      // this.$.find.send();
+    }
+
+  });
+</script>

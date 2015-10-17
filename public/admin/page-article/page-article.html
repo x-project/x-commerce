@@ -1,0 +1,36 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="form-article.html">
+<dom-module id="page-article">
+  <template>
+
+    <layout-admin>
+      <div class="container">
+        <h2>edit article</h2>
+        <form-article article="{{data.article}}"></form-article>
+        <button class="btn" on-click="on_click_delete">delete</button>
+      </div>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'page-article',
+
+    delete: function () {
+      // this.$.delete.send();
+    },
+
+    on_click_delete: function (event) {
+      this.delete();
+    },
+
+    on_delete: function (event) {
+      page('/admin/articles');
+    }
+
+  });
+</script>

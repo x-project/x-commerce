@@ -1,0 +1,55 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<dom-module id="page-articles">
+  <template>
+
+    <api-model-find id="find" collection="articles"
+      count="{{count}}" perpage="{{perpage}}" page="{{params.page}}"
+      include="{{include}}" response="{{articles}}">
+    </api-model-find>
+
+    <layout-admin>
+      <div class="container">
+        <h2>Articles</h2>
+        <a is="app-link" class="button" href="/admin/articles/new">create article</a>
+        <list-articles items="{{articles}}"></list-articles>
+        <part-pages count="{{count}}" perpage="{{perpage}}" current="{{params.page}}"
+          on-select="on_select_page"></part-pages>
+      </div>
+    </layout-admin>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-articles',
+
+    properties: {
+      articles: {
+        type: Array
+      },
+      include: {
+        type: Array,
+        value: ['category', 'author']
+      },
+      count: {
+        type: Number
+      },
+      perpage: {
+        type: Number,
+        value: 9
+      }
+    },
+
+    attached: function () {
+      // this.$.find.send();
+    },
+
+    on_select_page: function (event, detail) {
+      page('/admin/articles/page/' + detail.page);
+    }
+
+  });
+</script>

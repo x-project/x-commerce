@@ -1,0 +1,34 @@
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="form-category.html">
+<dom-module id="page-category">
+  <template>
+
+    <api-model-delete id="delete" collection="categories" model-id="{{data.category.id}}"
+      on-response="on_delete">
+    </api-model-delete>
+
+    <layout-admin>
+      <div class="container">
+        <h2>Edit category</h2>
+        <form-category category="{{category}}"></form-category>
+      </div>
+    </layout-admin>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-category',
+
+    on_click_delete: function (event) {
+      // this.$.delete.send();
+    },
+
+    on_delete: function (event) {
+      page('/admin/categories');
+    }
+
+  });
+</script>

@@ -35,6 +35,12 @@
   "Address": {
     "dataSource": "mongo"
   },
+  "Article": {
+    "dataSource": "mongo"
+  },
+  "Category": {
+    "dataSource": "mongo"
+  },
   "Collection": {
     "dataSource": "mongo"
   },

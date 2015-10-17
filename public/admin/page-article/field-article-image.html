@@ -1,0 +1,26 @@
+<link rel="import" href="../input-image/input-image.html">
+<dom-module id="field-article-image">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <input-image></input-image>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'field-article-image',
+
+    properties: {
+      article: {
+        type: Object
+      }
+    }
+
+  });
+</script>

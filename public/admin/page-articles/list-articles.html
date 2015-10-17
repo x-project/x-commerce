@@ -1,0 +1,33 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="item-article.html">
+<dom-module id="list-articles">
+  <template>
+    <style include="style-list"></style>
+
+    <div class="list">
+      <template is="dom-repeat" items="{{items}}" filter="filter">
+        <item-article class="item" item="{{item}}"></item-article>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'list-articles',
+
+    properties: {
+      items: {
+        type: Array
+      }
+    },
+
+    filter: function (item) {
+      item.viewlink = '/articles/' + item.id;
+      item.editlink = '/admin/articles/' + item.id;
+      return true;
+    }
+
+  });
+</script>

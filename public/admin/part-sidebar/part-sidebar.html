@@ -13,6 +13,11 @@
         margin-top: 0;
       }
 
+      .links {
+        list-style: none;
+        padding: 0;
+      }
+
       .links .link {
         text-decoration: none;
       }
@@ -21,17 +26,25 @@
     <nav role="navigation">
       <h3 class="title"><a href="/admin">x-commerce</a></h3>
       <ul class="links">
-        <li><a is="app-link" class="link" href="/admin/products">Products</a></li>
-        <li><a is="app-link" class="link" href="/admin/collections">Collections</a></li>
-        <li><a is="app-link" class="link" href="/admin/orders">Orders</a></li>
-        <li><a is="app-link" class="link" href="/admin/customers">Customers</a></li>
-        <li><a is="app-link" class="link" href="/admin/vendors">Vendors</a></li>
         <li><a is="app-link" class="link" href="/admin/store">Store</a></li>
         <li><a is="app-link" class="link" href="/admin/team">Team</a></li>
       </ul>
-      <div>
-        <a is="app-link" class="link" href="/">&larr; Home</a>
-      </div>
+      <ul class="links">
+        <li><a is="app-link" class="link" href="/admin/products">Products</a></li>
+        <li><a is="app-link" class="link" href="/admin/collections">Collections</a></li>
+        <li><a is="app-link" class="link" href="/admin/vendors">Vendors</a></li>
+      </ul>
+      <ul class="links">
+        <li><a is="app-link" class="link" href="/admin/customers">Customers</a></li>
+        <li><a is="app-link" class="link" href="/admin/orders">Orders</a></li>
+      </ul>
+      <ul class="links">
+        <li><a is="app-link" class="link" href="/admin/articles">Articles</a></li>
+        <li><a is="app-link" class="link" href="/admin/categories">Categories</a></li>
+      </ul>
+      <ul class="links">
+        <li><a is="app-link" class="link" href="/">&larr; Home</a></li>
+      </ul>
     </nav>
 
   </template>
