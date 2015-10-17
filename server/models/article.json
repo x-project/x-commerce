@@ -1,0 +1,53 @@
+{
+  "name": "Article",
+  "plural": "articles",
+  "base": "PersistedModel",
+  "mongodb": {
+    "collection": "articles"
+  },
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "date"
+    },
+    "updated_at": {
+      "type": "date"
+    },
+    "published_at": {
+      "type": "date"
+    },
+    "tags": {
+      "type": [
+        "string"
+      ]
+    }
+  },
+  "validations": [],
+  "relations": {
+    "author": {
+      "type": "belongsTo",
+      "model": "Manager"
+    },
+    "category": {
+      "type": "belongsTo",
+      "model": "Category"
+    },
+    "images": {
+      "type": "hasMany",
+      "model": "Image"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
