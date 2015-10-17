@@ -23,6 +23,7 @@
 <link rel="import" href="../page-reviews/page-reviews.html">
 <link rel="import" href="../page-settings/page-settings.html">
 <link rel="import" href="../page-signup/page-signup.html">
+<link rel="import" href="../page-success/page-success.html">
 <link rel="import" href="../page-summary/page-summary.html">
 <link rel="import" href="../page-payment/page-payment.html">
 <link rel="import" href="../page-test/page-test.html">
@@ -124,17 +125,17 @@
       this.open_page(context);
     },
 
-    '/orderItem/:order_item_id': function (context) {
+    '/order/:order_id': function (context) {
       this.init(context);
       this.get_model({
-        collection: 'order_items',
-        modelId: context.params.order_item_id,
-        include: ['product', 'product_variant']
+        collection: 'orders',
+        modelId: context.params.order_id,
+        include: [{'order_items': ['product','product_variant']}, 'customer']
       })
       .then(function (model) {
-        context.page_name = 'page-review';
+        context.page_name = 'page-success';
         context.data = {};
-        context.data.review = model;
+        context.data.order = model;
         this.open_page(context);
       }.bind(this))
       .catch(function (err) {
@@ -224,6 +225,12 @@
     '/summary': function (context) {
       this.init(context);
       context.page_name = 'page-summary';
+      this.open_page(context);
+    },
+
+    '/success': function (context) {
+      this.init(context);
+      context.page_name = 'page-success';
       this.open_page(context);
     },
 

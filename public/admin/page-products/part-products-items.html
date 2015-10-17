@@ -5,7 +5,7 @@
     <style include="style-list"></style>
 
     <div class="items">
-      <template is="dom-repeat" items="{{products}}" as="product">
+      <template id="products" is="dom-repeat" items="{{products}}" as="product">
         <part-products-item product="{{product}}"></part-products-item>
       </template>
     </div>
@@ -17,8 +17,18 @@
 
     is: 'part-products-items',
 
-    properties: {}
-
+    properties: {
+      perpage: {
+        type: Number
+      },
+      page: {
+        type: Number
+      },
+      products: {
+        type: Array,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

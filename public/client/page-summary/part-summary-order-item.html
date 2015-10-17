@@ -30,9 +30,9 @@
 
       <span class="variant" visibile_variant$="{{visibile_variant}}">
         <label class="label">variant</label>
-        <span>{{item.product_variant.name}}</span>
+        <span>{{item.variant.name}}</span>
         <label class="label">price</label>
-        <span>{{item.product_variant.price}}</span>
+        <span>{{item.variant.price}}</span>
       </span>
       <span> X </span><span>{{item.quantity}}</span>
     </div>
@@ -61,7 +61,7 @@
 
     attached: function () {
       this.quantity = this.item.quantity;
-      if (this.item.product_variant) {
+      if (this.item.variant) {
         this.set('visibile_variant', true);
         this.set('price_product', false);
       }

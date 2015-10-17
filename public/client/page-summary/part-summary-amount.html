@@ -26,13 +26,14 @@
     },
 
     attached: function () {
+      console.log(this.orderItems);
       this.update_subtotal();
     },
 
     update_subtotal: function () {
       var sub_tot = 0;
       this.orderItems.forEach( function (item) {
-        if(item.hasOwnProperty('product_variant')) {
+        if(item.hasOwnProperty('variant')) {
           sub_tot += this.calculate_subtotal_variant(item);
           return;
         }
@@ -42,7 +43,7 @@
     },
 
     calculate_subtotal_variant: function (item) {
-      return item.quantity * item.product_variant.price;
+      return item.quantity * item.variant.price;
     },
 
     calculate_subtotal_product: function (item) {

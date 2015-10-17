@@ -154,7 +154,7 @@ module.exports = function (Order) {
     order.order_items.create(cart, done);
   };
 
-  var create_reviews = function (customer, cart, done) {
+  var prepare_order_review = function (customer, cart, done) {
     var reviews = [];
     var review;
     cart.forEach( function (item) {
@@ -172,17 +172,19 @@ module.exports = function (Order) {
 
   /* create order & order_item - create empty review for client*/
   var prepare_order = function (customer, cart, amount, callback) {
+    var new_order;
     async.waterfall([
       function (next) {
         create_order(customer, amount, next);
       },
 
       function (order, next) {
+        new_order = order;
         create_order_item(order, cart, next);
       },
 
       function (result, next) {
-        create_reviews(customer, cart, next);
+        next(null, new_order);
       }
     ],
 
@@ -195,8 +197,13 @@ module.exports = function (Order) {
     });
   };
 
+  var mark_closed_order =  function (order, done) {
+    order.status = 'closed';
+      Order.upsert(order, done);
+  };
+
   Order.checkout = function (cart, payment_method_nonce, token, callback) {
-    var order;
+    var new_order, tras_completed;
     var amount = 0;
     async.waterfall([
       function (next) {
@@ -209,8 +216,22 @@ module.exports = function (Order) {
         prepare_order(customer, cart, amount, next);
       },
 
+      function (order, next) {
+        new_order = order;
+        prepare_order_review(curr_customer, cart, next);
+      },
+
       function (result, next) {
         checkout(payment_method_nonce, amount, next);
+      },
+      function (complete, next) {
+        tras_completed = complete;
+        mark_closed_order(new_order, next);
+      },
+
+      function (order_closed, next) {
+        new_order = order_closed;
+        next(null, {complete: tras_completed, order: new_order});
       }
 
       // function (result, next) {
