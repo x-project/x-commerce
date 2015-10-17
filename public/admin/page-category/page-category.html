@@ -1,0 +1,57 @@
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="../part-sidebar/part-sidebar.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="form-category.html">
+
+<dom-module id="page-category">
+  <template>
+    <style include="style-page"></style>
+
+    <api-model-get id="get" path="Categories/${category_id}" path-params="{{pathParams}}"
+      model="{{category}}">
+    </api-model-get>
+
+    <api-model-delete id="delete" path="Categories/${category_id}" path-params="{{pathParams}}"
+      on-response="on_delete">
+    </api-model-delete>
+
+    <div class="page">
+      <part-sidebar class="sidebar"></part-sidebar>
+      <div class="main">
+        <div class="container">
+          <h2>Edit category</h2>
+          <form-category category="{{category}}"></form-category>
+        </div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'page-category',
+
+    properties: {
+      category: {
+        type: Object
+      }
+    },
+
+    ready: function () {
+      this.async(function () {
+        this.$.get.send();
+      });
+    },
+
+    on_click_delete: function (event) {
+      this.$.delete.send();
+    },
+
+    on_delete: function (event) {
+      page('/admin/categories');
+    }
+
+  });
+</script>
