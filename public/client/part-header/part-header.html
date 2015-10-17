@@ -54,25 +54,29 @@
 
     <div id="header" class="container">
       <div id="brand">
-        <a is="app-link" class="link" href="/">{{data.store.name}}</a>
+        <a is="app-link" class="link" href="/">{{store.name}}</a>
       </div>
       <nav id="navbar">
-        <ul class="links">
-          <li>
-            <a is="app-link" class="link" href="/">
-              <span>Welcome </span>
-              <span>{{user_name}}</span>
-            </a>
-          </li>
-          <li><a is="app-link" class="link" href="/products">Catalog</a></li>
-          <li><a is="app-link" class="link" href="/cart">cart</a></li>
-          <li><a is="app-link" class="link" href="/reviews">reviews</a></li>
-          <li><a is="app-link" class="link" href="/settings">settings</a></li>
-          <li><a is="app-link" class="link" href="/orders">orders</a></li>
-          <li><a is="app-link" class="link" href="/login">login</a></li>
-          <li><a is="app-link" class="link" href="/signup">signup</a></li>
-          <li><a class="link" href="#" on-click="on_click_logout">logout</a></li>
-        </ul>
+        <template is="dom-if" if="{{!token}}">
+          <ul class="links">
+            <li><a is="app-link" class="link" href="/products">products</a></li>
+            <li><a is="app-link" class="link" href="/articles">articles</a></li>
+            <li><a is="app-link" class="link" href="/cart">cart</a></li>
+            <li><a is="app-link" class="link" href="/login">login</a></li>
+            <li><a is="app-link" class="link" href="/signup">signup</a></li>
+          </ul>
+        </template>
+        <template is="dom-if" if="{{token}}">
+          <ul class="links">
+            <li><a is="app-link" class="link" href="/products">products</a></li>
+            <li><a is="app-link" class="link" href="/articles">articles</a></li>
+            <li><a is="app-link" class="link" href="/cart">cart</a></li>
+            <li><a is="app-link" class="link" href="/settings">settings</a></li>
+            <li><a is="app-link" class="link" href="/reviews">reviews</a></li>
+            <li><a is="app-link" class="link" href="/orders">orders</a></li>
+            <li><a class="link" on-click="on_click_logout">logout</a></li>
+          </ul>
+        </template>
       </nav>
     </div>
 
@@ -83,28 +87,15 @@
 
     is: 'part-header',
 
-    properties: {
-      links: {
-        type: Array
-      },
-      user_name: {
-        type: String,
-        value: ''
-      }
-    },
-
     attached: function () {
-      var user = this.$.session.get('user');
-      if (user){
-        this.user_name = user.first_name;
-        return;
-      }
+      this.store = this.$.session.get('store');
+      this.token = this.$.session.get('token');
+      this.user = this.$.session.get('user');
     },
 
     on_click_logout: function (event) {
       event.stopPropagation();
       event.preventDefault();
-      this.$.logout.accessToken = this.$.session.get('token');
       this.$.logout.send();
     },
 

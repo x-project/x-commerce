@@ -48,10 +48,8 @@
     ],
 
     attached: function () {
-      var cart = this.session.get('cart');
-      if (!cart) {
-        this.session.set('cart', []);
-      }
+      this.session.set('cart', this.session.get('cart') || []);
+      this.session.set('store', { name: 'x-commerce' });
     },
 
     on_login: function (event) {
