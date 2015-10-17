@@ -1,12 +1,8 @@
+<link rel="import" href="../style-list/style-list.html">
 <link rel="import" href="item-category.html">
-
 <dom-module id="list-categories">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
+    <style include="style-list"></style>
 
     <div class="list">
       <template is="dom-repeat" items="{{items}}" filter="filter">
@@ -16,7 +12,6 @@
 
   </template>
 </dom-module>
-
 <script>
   Polymer({
 
@@ -24,7 +19,8 @@
 
     properties: {
       items: {
-        type: Array
+        type: Array,
+        value: function () { return []; }
       }
     },
 
