@@ -4,7 +4,7 @@ var fs = require('fs');
 
 module.exports = function (server) {
 
-var START = false;
+var START = true;
 
 var models = {};
 
@@ -14,6 +14,27 @@ server.models().forEach(function (model) {
 });
 
 faker.model = {};
+
+faker.model.Article = function () {
+  return {
+    title: faker.lorem.sentence(),
+    subtitle: faker.lorem.sentence(),
+    summary: faker.lorem.paragraph(),
+    content: faker.lorem.paragraphs(),
+    created_at: faker.date.past(),
+    updated_at: faker.date.past(),
+    published_at: faker.date.past(),
+    tags: faker.lorem.words(),
+    category_id: faker.random.model('Category')
+  };
+};
+
+faker.model.Category = function () {
+  return {
+    name: faker.commerce.department(),
+    description: faker.lorem.paragraph()
+  };
+};
 
 faker.model.Collection = function () {
   return {
@@ -187,35 +208,6 @@ var upto = function (n, iterator) {
   return promise;
 };
 
-var fake = function (model_name) {
-  var defer = Promise.defer();
-  var data = faker.model[model_name]();
-
-  faker.random[model_name] = faker.random[model_name] || [];
-
-  var res = models[model_name].create(data, function (err, model) {
-    if (err) {
-      defer.reject(err);
-      return;
-    }
-    faker.random[model_name].push(model);
-    defer.resolve(model);
-  });
-
-  return defer.promise;
-};
-
-var fake_all = function (n, model_name) {
-  return function () {
-
-    var iterator = function (i) {
-      return fake(model_name);
-    };
-
-    return upto(n, iterator);
-  };
-};
-
 var init = function () {
   var defer = Promise.defer();
 
@@ -224,7 +216,7 @@ var init = function () {
   return defer.promise;
 };
 
-var clear_all = function (model_name) {
+var destroy = function (model_name) {
   return function () {
     var defer = Promise.defer();
 
@@ -240,22 +232,53 @@ var clear_all = function (model_name) {
   };
 };
 
+var fake = function (model_name, n) {
+
+  var iterator = function (i) {
+    // console.log('fake', model_name, i);
+
+    var defer = Promise.defer();
+    var data = faker.model[model_name]();
+
+    faker.random[model_name] = faker.random[model_name] || [];
+
+    var res = models[model_name].create(data, function (err, model) {
+      if (err) {
+        defer.reject(err);
+        return;
+      }
+      faker.random[model_name].push(model);
+      defer.resolve(model);
+    });
+
+    return defer.promise;
+  };
+
+  return function () {
+    return upto(n, iterator);
+  }
+};
+
 function start () {
   init()
-    .then(clear_all('Store'))
-    .then(clear_all('ProductType'))
-    .then(clear_all('Customer'))
-    .then(clear_all('Vendor'))
-    .then(clear_all('Collection'))
-    .then(clear_all('Product'))
-    .then(clear_all('Order'))
-    .then(fake_all(1, 'Store'))
-    .then(fake_all(10, 'ProductType'))
-    .then(fake_all(10, 'Customer'))
-    .then(fake_all(10, 'Vendor'))
-    .then(fake_all(10, 'Collection'))
-    .then(fake_all(10, 'Product'))
-    .then(fake_all(10, 'Order'))
+    .then(destroy('Category'))
+    .then(destroy('Article'))
+    .then(destroy('Store'))
+    .then(destroy('ProductType'))
+    .then(destroy('Customer'))
+    .then(destroy('Vendor'))
+    .then(destroy('Collection'))
+    .then(destroy('Product'))
+    .then(destroy('Order'))
+    .then(fake('Store', 1))
+    .then(fake('Category', 4))
+    .then(fake('Article', 16))
+    .then(fake('ProductType', 4))
+    .then(fake('Customer', 16))
+    .then(fake('Vendor', 4))
+    .then(fake('Collection', 4))
+    .then(fake('Product', 16))
+    .then(fake('Order', 4))
     .then(function () {
       console.log('yeah!');
     })
