@@ -90,6 +90,12 @@
       this.open_page(context);
     },
 
+    '/admin/articles/new': function (context) {
+      this.init(context);
+      context.page_name = 'page-article';
+      this.open_page(context);
+    },
+
     '/admin/articles/:article_id': function (context) {
       this.init(context);
 
@@ -112,26 +118,37 @@
       this.open_page(context);
     },
 
-    '/admin/store': function (context) {
+    '/admin/categories': function (context) {
       this.init(context);
-      if (!this.auth(context)) {
-        page('/admin/login');
-        return;
-      }
+      context.page_name = 'page-categories';
+      this.open_page(context);
+    },
 
-      this.find_models({
-          collection: 'stores',
-          one: true
-        })
-        .then(function (model) {
-          context.page_name = 'page-store';
-          context.data.store = model;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (error) {
-          context.page_name = 'page-404';
-          context.data.error = error;
-        });
+    '/admin/categories/new': function (context) {
+      this.init(context);
+      context.page_name = 'page-category';
+      this.open_page(context);
+    },
+
+    '/admin/categories/:category_id': function (context) {
+      this.init(context);
+
+      // this.get_model({
+      //     collection: 'articles',
+      //     modelId: context.params.category_id
+      //   })
+      //   .then(function (model) {
+      //     context.page_name = 'page-category';
+      //     context.data.article = model;
+      //     this.open_page(context);
+      //   }.bind(this))
+      //   .catch(function (error) {
+      //     context.page_name = 'page-404';
+      //     context.data.error = error;
+      //   });
+
+      context.page_name = 'page-category';
+      this.open_page(context);
     },
 
     '/admin/collections': function (context) {
@@ -252,6 +269,51 @@
       this.open_page(context);
     },
 
+    '/admin/orders': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-orders';
+      this.open_page(context);
+    },
+
+    '/admin/orders/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-order';
+      context.data = { order: {} };
+      this.open_page(context);
+    },
+
+    '/admin/orders/:order_id': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.get_model({
+          collection: 'orders',
+          modelId: context.params.order_id,
+          include: [{'order_items': ['product','product_variant']}, 'customer']
+        })
+        .then(function (model) {
+          context.page_name = 'page-order';
+          context.data.order = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
+    },
+
     '/admin/products': function (context) {
       this.init(context);
       if (!this.auth(context)) {
@@ -345,51 +407,6 @@
         }.bind(this));
     },
 
-    '/admin/orders': function (context) {
-      this.init(context);
-      if (!this.auth(context)) {
-        page('/admin/login');
-        return;
-      }
-      context.page_name = 'page-orders';
-      this.open_page(context);
-    },
-
-    '/admin/orders/new': function (context) {
-      this.init(context);
-      if (!this.auth(context)) {
-        page('/admin/login');
-        return;
-      }
-      context.page_name = 'page-order';
-      context.data = { order: {} };
-      this.open_page(context);
-    },
-
-    '/admin/orders/:order_id': function (context) {
-      this.init(context);
-      if (!this.auth(context)) {
-        page('/admin/login');
-        return;
-      }
-
-      this.get_model({
-          collection: 'orders',
-          modelId: context.params.order_id,
-          include: [{'order_items': ['product','product_variant']}, 'customer']
-        })
-        .then(function (model) {
-          context.page_name = 'page-order';
-          context.data.order = model;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (error) {
-          context.page_name = 'page-404';
-          context.data.error = error;
-          this.open_page(context);
-        }.bind(this));
-    },
-
     '/admin/signup': function (context) {
       this.init(context);
       if (!this.auth(context)) {
@@ -398,6 +415,28 @@
       }
       context.page_name = 'page-signup';
       this.open_page(context);
+    },
+
+    '/admin/store': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.find_models({
+          collection: 'stores',
+          one: true
+        })
+        .then(function (model) {
+          context.page_name = 'page-store';
+          context.data.store = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+        });
     },
 
     '/admin/team': function (context) {
