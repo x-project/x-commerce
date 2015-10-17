@@ -17,7 +17,8 @@
     "dataSource": "mongo"
   },
   "AccessToken": {
-    "dataSource": "mongo"
+    "dataSource": "mongo",
+    "public": false
   },
   "ACL": {
     "dataSource": "mongo",
