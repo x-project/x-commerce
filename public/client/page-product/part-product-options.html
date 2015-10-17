@@ -7,12 +7,14 @@
       }
     </style>
 
-    <div class="variant">
-      <h3>Variants</h3>
-      <choose-product-options options="{{product.options}}"
-        on-change="on_change">
-      </choose-product-options>
-    </div>
+    <template is="dom-if" if="{{product.variants.length}}">
+      <div class="variant">
+        <h3>Variants</h3>
+        <choose-product-options options="{{product.options}}"
+          on-change="on_change">
+        </choose-product-options>
+      </div>
+    </template>
 
   </template>
 </dom-module>

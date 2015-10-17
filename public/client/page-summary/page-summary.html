@@ -14,10 +14,9 @@
         <h1>Cart Summary</h1>
       </part-jumbotron>
       <div class="container">
-        <part-summary-order-detail order-items="{{order_items}}"
-          customer="{{customer}}">
+        <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}">
         </part-summary-order-detail>
-        <form-braintree></form-braintree>
+        <form-braintree on-success="on_success_pay"></form-braintree>
       </div>
     </layout-client>
 
@@ -38,6 +37,15 @@
     attached: function () {
       this.order_items = this.$.session.get('cart');
       this.customer = this.$.session.get('user');
+    },
+
+    on_success_pay: function (event) {
+      event.stopPropagation();
+      console.log(event.detail);
+      if (event.detail.result.complete.success) {
+        this.$.session.set('cart', []);
+        page('/order/' + event.detail.result.order.id);
+      }
     }
 
   });

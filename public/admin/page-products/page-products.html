@@ -46,7 +46,6 @@
 
     on_change_page: function (event) {
       this.perpage = 5;
-      // this.$.find.params = event.detail.current - 1;
       this.page = event.detail.current - 1;
       this.$.find.send();
     }
