@@ -1,25 +1,20 @@
-<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="/components/iron-input/iron-input.html">
-<link rel="import" href="/components/api-model-update/api-model-update.html">
-<link rel="import" href="/components/input-datetime/input-datetime.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/input-datetime/input-datetime.html">
+<link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../components/iron-input/iron-input.html">
 <link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="field-article-author.html">
 <link rel="import" href="field-article-category.html">
-<link rel="import" href="field-article-tags.html">
 <link rel="import" href="field-article-image.html">
+<link rel="import" href="field-article-tags.html">
 <dom-module id="form-article">
   <template>
     <style include="style-form"></style>
-    <style>
-      #test {
-        border: 2px solid red;
-      }
-    </style>
 
-<!--     <api-model-update id="update" path="Articles/${id}" path-params="{{article}}"
+    <api-model-update id="update" collection="articles" model-id="{{article.id}}"
       data="{{article}}" on-response="on_response">
     </api-model-update>
- -->
+
     <form class="form" on-submit="on_submit">
       <div class="field">
         <label class="label">title</label>
@@ -51,12 +46,10 @@
         <label class="label">category</label>
         <field-article-category class="input" bind-value="{{article.categoryId}}"></field-article-category>
       </div>
-<!--
       <div>
         <label>tags</label>
         <field-article-tags bind-value="{{article.tags}}"></field-article-tags>
       </div>
--->
       <div class="field">
         <label class="label">published at</label>
         <input-datetime class="input" value="{{article.published_at}}"></input-datetime>
@@ -76,29 +69,12 @@
     properties: {
       article: {
         type: Object
-      },
-      image: {
-        type: Object,
-        observer: 'on_image'
       }
-    },
-
-    on_image: function (image) {
-      this.article.image = image.id;
     },
 
     on_submit: function (event) {
       event.preventDefault();
       this.$.update.send();
-    },
-
-    on_response: function (event) {
-      page('/admin/articles');
-    },
-
-    on_click_now: function (event) {
-      event.preventDefault();
-      this.article.published_at = new Date();
     }
 
   });
