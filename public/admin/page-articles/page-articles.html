@@ -1,28 +1,23 @@
-<link rel="import" href="/components/api-model-find/api-model-find.html">
-<link rel="import" href="/components/app-link/app-link.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <dom-module id="page-articles">
   <template>
-    <style include="style-page"></style>
 
-    <api-model-find id="find" path="Articles"
-      count="{{count}}" perpage="{{perpage}}" page="{{context.params.page}}"
+    <api-model-find id="find" collection="articles"
+      count="{{count}}" perpage="{{perpage}}" page="{{params.page}}"
       include="{{include}}" response="{{articles}}">
     </api-model-find>
 
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h2>Articles</h2>
-          <a is="app-link" class="button" href="/admin/articles/new">create article</a>
-          <list-articles items="{{articles}}"></list-articles>
-          <part-pages count="{{count}}" perpage="{{perpage}}" current="{{context.params.page}}"
-            on-select="on_select_page"></part-pages>
-        </div>
+    <layout-admin>
+      <div class="container">
+        <h2>Articles</h2>
+        <a is="app-link" class="button" href="/admin/articles/new">create article</a>
+        <list-articles items="{{articles}}"></list-articles>
+        <part-pages count="{{count}}" perpage="{{perpage}}" current="{{params.page}}"
+          on-select="on_select_page"></part-pages>
       </div>
-    </div>
+    </layout-admin>
 
   </template>
 </dom-module>
@@ -48,12 +43,8 @@
       }
     },
 
-    observers: [
-      'on_change_params(context.params.*)'
-    ],
-
-    on_change_params: function () {
-      this.$.find.send();
+    attached: function () {
+      // this.$.find.send();
     },
 
     on_select_page: function (event, detail) {
