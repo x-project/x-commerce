@@ -6,15 +6,12 @@
 
     <style include="style-page"></style>
 
-    <api-model-update id="update" collection="orders"
-      model-id="{{order.id}}">
-    </api-model-update>
+    <api-model-find id="find_orders" collection="orders" response="{{orders}}"
+      on-response="on_response_orders">
+    </api-model-find>
 
-    <api-model-delete id="delete_model" collection="orders"
-      model-id="{{order.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-find id="find" collection="orders" response="{{orders}}">
+    <api-model-find id="find_reviews" collection="reviews" response="{{reviews}}"
+      on-response="on_response_reviews">
     </api-model-find>
 
       <layout-client>
@@ -22,7 +19,7 @@
           <h1>My Orders</h1>
         </part-jumbotron>
         <div class="container">
-          <list-order orders="{{orders}}"></list-order>
+          <list-order orders="{{orders_complete}}"></list-order>
         </div>
     </layout-client>
 
@@ -41,10 +38,35 @@
     },
 
     attached: function () {
-      this.$.find.where = { customer_id: this.session.user.id };
-      this.$.find.one = false;
-      this.$.find.include = [ "customer", {"order_items":["product","product_variant"]}];
-      this.$.find.send();
+      this.$.find_orders.where = { customer_id: this.session.user.id };
+      this.$.find_orders.one = false;
+      this.$.find_orders.include = [ "customer", {"order_items":["product","product_variant"]}];
+      this.$.find_orders.send();
+    },
+
+    on_response_orders: function (event) {
+      event.stopPropagation();
+      this.$.find_reviews.one = false;
+      this.$.find_reviews.where = {customer_id: this.session.user.id}
+      this.$.find_reviews.send();
+    },
+
+    on_response_reviews: function (event) {
+      event.stopPropagation();
+      this.populate_order_from_reviews();
+    },
+
+    populate_order_from_reviews: function () {
+      this.orders.forEach( function (order) {
+        order.order_items.forEach( function (item) {
+          this.reviews.forEach( function (review) {
+            if (item.product.id === review.product_id) {
+              item.review = review;
+            }
+          });
+        }, this);
+      }, this);
+      this.orders_complete = this.orders;
     }
 
   });

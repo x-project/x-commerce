@@ -8,29 +8,22 @@
         display: inline;
         margin: 0;
       }
-      .variant {
-        display: none;
-      }
-      .variant[show] {
-        display: block;
-        display: inline;
-      }
     </style>
     <h3>Product info: </h3>
-    <div class="filed">
+    <div class="item">
       <label class="label">title</label>
       <span>{{orderItem.product.title}}</span>
       <label class="label">price</label>
       <span class="price">{{orderItem.product.price}}</span>
 
-      <div class="variant" show$="{{show}}">
+      <template is="dom-if" if="{{orderItem.product_variant}}">
         <h3>variant</h3>
         <label class="label">name</label>
         <span>{{orderItem.product_variant.name}}</span>
         <label class="label">price</label>
         <span>{{orderItem.product_variant.price}}</span>
-      </div>
-      <a is="app-link" href="{{leave_feedback}}">feedfack</a>
+      </template>
+      <a is="app-link" href="{{url_review}}">{{edit}}</a>
     </div>
 
   </template>
@@ -44,18 +37,13 @@
       orderItem: {
         type: Object,
         value: function () { return {}; }
-      },
-      show: {
-        type: Boolean,
-        value: false
       }
     },
 
     attached: function () {
-      if (this.orderItem.product_variant) {
-        this.set('show', true);
-      }
-      this.leave_feedback = '/orderItem/' + this.orderItem.id;
+      this.url_review = '/reviews/' + this.orderItem.review.id;
+      (this.orderItem.review.closed) ? this.edit = '' : this.edit = 'edit feeedback';
+
     }
 
   });

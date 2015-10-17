@@ -2,7 +2,6 @@
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-info.html">
 <link rel="import" href="list-order-item.html">
-<link rel="import" href="part-rating.html">
 <dom-module id="list-order">
   <template>
     <style>
@@ -16,15 +15,11 @@
 
     <div class="items">
       <template id="orders" is="dom-repeat" items="{{orders}}" as="order">
-      <div class="order">
-        <!-- <part-order-details orders="{{orders}}"></part-order-details> -->
-        <part-order-info order="{{order}}"></part-order-info>
-        <part-order-customer customer="{{order.customer}}"></part-order-customer>
-        <list-order-item items="{{order.order_items}}"></list-order-item>
-        <!-- <a is="app-link" href="{{leave_feedback}}">leave feedfack</a> -->
-        <!-- <part-rating order="{{order}}"></part-rating> -->
-      </div>
-
+        <div class="order">
+          <part-order-info order="{{order}}"></part-order-info>
+          <part-order-customer customer="{{order.customer}}"></part-order-customer>
+          <list-order-item items="{{order.order_items}}"></list-order-item>
+        </div>
       </template>
     </div>
 

@@ -1,0 +1,32 @@
+<link rel="import" href="/components/form-braintree/form-braintree.html">
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="../part-date/part-date.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
+
+<dom-module id="page-payment">
+  <template>
+    <style include="style-page"></style>
+
+    <app-session id="session"></app-session>
+
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>payment</h1>
+      </part-jumbotron>
+      <div class="container">
+        <form-braintree order="{{data.order}}"></form-braintree>
+      </div>
+    </layout-client>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-payment',
+
+    properties: {}
+
+  });
+</script>
