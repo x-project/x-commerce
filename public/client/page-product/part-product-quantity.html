@@ -1,0 +1,41 @@
+<dom-module id="part-product-quantity">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>
+      <h3>Available</h3>
+      <p>{{quantity}}</p>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-quantity',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.update_max_quantity();
+    },
+
+    update_max_quantity: function () {
+      this.quantity = (this.variant) ? this.variant.quantity : this.product.quantity;
+    }
+
+  });
+</script>

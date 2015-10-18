@@ -1,0 +1,26 @@
+{
+  "name": "ReviewReply",
+  "plural": "review_replies",
+  "mongodb": {
+    "collection": "review_replies"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "author": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "author_id"
+    }
+  },
+  "acls": [],
+  "methods": []
+}

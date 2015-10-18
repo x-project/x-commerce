@@ -99,6 +99,9 @@
   "Review": {
     "dataSource": "mongo"
   },
+  "ReviewReply": {
+    "dataSource": "mongo"
+  },
   "Store": {
     "dataSource": "mongo"
   },

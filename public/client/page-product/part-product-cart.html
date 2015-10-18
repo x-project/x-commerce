@@ -17,7 +17,7 @@
 
     <app-session id="session"></app-session>
 
-    <input id="quantity" type="number" min="1" max="{{product.quantity}}" value="1">
+    <input id="quantity" type="number" min="1" max="{{quantity}}" value="1">
 
     <button id="add" class="button" display$="{{!incart}}" on-click="on_click_add">add cart</button>
 
@@ -47,6 +47,11 @@
 
     attached: function () {
       this.update();
+      this.update_max_quantity();
+    },
+
+    update_max_quantity: function () {
+      this.quantity = (this.variant) ? this.variant.quantity : this.product.quantity;
     },
 
     on_click_add: function (event) {

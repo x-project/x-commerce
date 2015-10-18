@@ -1,6 +1,6 @@
 <link rel="import" href="../../components/app-link/app-link.html">
-<link rel="import" href="part-review.html">
-<dom-module id="part-reviews">
+<link rel="import" href="part-reviews-item.html">
+<dom-module id="part-reviews-items">
   <template>
 
     <style>
@@ -15,7 +15,7 @@
 
     <div class="list">
       <template is="dom-repeat" items="{{reviews}}" as="review">
-        <part-review class="review" review="{{review}}"></part-review>
+        <part-reviews-item class="review" review="{{review}}"></part-reviews-item>
       </template>
     </div>
 
@@ -25,7 +25,7 @@
 <script>
   Polymer({
 
-    is: 'part-reviews',
+    is: 'part-reviews-items',
 
     properties: {
       reviews: {
@@ -44,7 +44,7 @@
     },
 
     on_response: function  (argument) {
-      // console.log(this.reviews);
+      console.log(this.reviews);
     }
 
   });

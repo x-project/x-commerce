@@ -1,0 +1,99 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="part-review-reply.html">
+<link rel="import" href="form-review-reply.html">
+<dom-module id="part-review">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .comment {
+        margin-top: 10px;
+      }
+
+      form-comment-reply {
+        margin-top: 20px;
+      }
+    </style>
+
+
+    <api-model-create id="create_reply" data="{{data_replay}}" on-response="on_response"
+      last-response="replay_new" on-error="on_error">
+    </api-model-create>
+
+    <app-session id="session"></app-session>
+
+    <div class="comment">
+      <div class="rating">
+        <label class="label">rating</label>
+        <span class="title">{{review.rating}}</span>
+      </div>
+      <div class="rating">
+        <label class="label">title</label>
+        <span class="title">{{review.title}}</span>
+       </div>
+      <div class="rating">
+        <label class="label">text</label>
+        <span>{{review.text}}</span>
+       </div>
+      <div class="author">
+        <label class="label">by</label>
+        <em>{{review.customer.first_name}}</em>
+      </div>
+    </div>
+
+    <template is="dom-repeat" items="{{review.replies}}" as="review_reply">
+      <part-review-reply review-reply="{{review_reply}}"></part-review-reply>
+    </template>
+
+    <form-review-reply reply="{{reply}}" on-try-save-reply="on_try_save_replay"></part-review-reply>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-review',
+
+    properties: {
+      review: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      reply: {
+        type: Object,
+        value: function () { return {}; }
+      }
+
+    },
+
+    on_try_save_replay: function  (event) {
+      event.stopPropagation();
+      this.$.create_reply.data = this.get_data();
+      this.$.create_reply.url = '/api/reviews/' + this.review.id + '/replies'
+      this.$.create_reply.send();
+    },
+
+    get_data: function () {
+      return {
+        text: this.reply.text,
+        author_id: this.$.session.get('user').id,
+        review_id: this.review.id
+      };
+    },
+
+    on_response: function  (event, details) {
+      event.stopPropagation();
+      this.set('reply.text', '');
+      this.fire('change-discussion');
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+
+  });
+</script>
