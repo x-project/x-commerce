@@ -1,0 +1,72 @@
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="form-change-shipping-address.html">
+<dom-module id="part-summary-shipping-address">
+  <template>
+  <style>
+    :host {
+      display: block;
+    }
+    .address {
+      display: none;
+    }
+    .address[show] {
+      display: block;
+    }
+  </style>
+
+    <app-session id="session"></app-session>
+
+    <h3>Shipping Address</h3>
+    <span>{{address}}</span>
+    <span>{{note}}</span>
+
+    <button id="button" class="button" on-click="on_click">change</button>
+    <form-change-shipping-address class="address" show$="{{show}}"
+      customer="{{customer}}" on-change-shipping-address="on_change_shipping_address">
+    </form-change-shipping-address>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-shipping-address',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      this.address = this.customer.location + ' ' + this.customer.location_number;
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      this.set('show', true);
+      this.$.button.disabled = true;
+    },
+
+    on_change_shipping_address: function (event) {
+      event.stopPropagation();
+      var new_address = event.detail;
+      this.address = this.get_address(new_address) + ' - ' + new_address.note;
+      var cart = this.$.session.set('shipping_address_id', new_address.id);
+      this.set('show', false);
+      this.$.button.disabled = false;
+      console.log(new_address.id);
+      this.fire('change-address');
+    },
+
+    get_address: function (address) {
+      return address.formatted_address + ' ' + address.vicinity
+      + ', ' + address.region + ', ' + address.country;
+    }
+
+  });
+</script>

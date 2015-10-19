@@ -28,7 +28,9 @@
     },
 
     attached: function () {
-      this.customer = this.session.user;
+      if(this.session.user != null) {
+        this.customer = this.session.user;
+      }
     }
 
   });

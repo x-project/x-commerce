@@ -4,7 +4,7 @@ var fs = require('fs');
 
 module.exports = function (server) {
 
-var START = true;
+var START = false;
 
 var models = {};
 

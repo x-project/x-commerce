@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/app-link/app-link.html">
 <dom-module id="part-reviews-item">
   <template>
     <style>
@@ -6,22 +7,12 @@
       }
     </style>
 
-    <div class="review">
-      <div class="product">
+    <div class="product">
         <label class="label">item</label>
         <span>{{review.product.title}}</span>
         <label class="label">price</label>
         <span>{{review.product.price}}</span>
-      </div>
-      <label class="label">title</label>
-      <span>{{review.title}}</span>
-      <label class="label">text</label>
-      <span>{{review.text}}</span>
-      <label class="label">rating</label>
-      <span>{{review.rating}}</span>
-      <label class="label">closed</label>
-      <span>{{review.closed}}</span>
-      <a is="app-link" href="{{edit_url}}">{{edit}}</a>
+        <a is="app-link" href="{{edit_url}}">{{edit}}</a>
     </div>
 
   </template>
@@ -40,7 +31,7 @@
 
     attached: function () {
       this.edit_url = '/reviews/' + this.review.id;
-      (this.review.closed) ? this.edit = 'view' : this.edit = 'edit';
+      (this.review.closed) ? this.edit = 'view feedback' : this.edit = 'leave feedback';
     }
 
   });

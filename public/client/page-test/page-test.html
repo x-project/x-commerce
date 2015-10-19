@@ -1,8 +1,19 @@
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../layout-client/layout-client.html">
+
+<link rel="import" href="../form-stripe/form-stripe.html">
 <dom-module id="page-test">
   <template>
     <style include="style-page"></style>
 
-    <h1>test</h1>
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Test</h1>
+      </part-jumbotron>
+        <div class="container">
+          <form-stripe></form-stripe>
+        </div>
+    </layout-client>
 
   </template>
 </dom-module>

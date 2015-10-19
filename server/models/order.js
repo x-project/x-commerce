@@ -71,25 +71,6 @@ module.exports = function (Order) {
     return amount;
   };
 
-  // var checkout = function (nonce, amount, callback) {
-  //   var data = { paymentMethodNonce: nonce, amount: amount};
-  //   var transaction = gateway.transaction;
-
-  //   transaction.sale(data, function (err, result) {
-  //     if (err) {
-  //       callback(err);
-  //       return;
-  //     }
-
-  //     transaction.submitForSettlement(result, function (err, complete) {
-  //       if (err) {
-  //         callback(err, null);
-  //         return;
-  //       }
-  //       callback(null, complete);
-  //     });
-  //   });
-  // };
 
   var checkout = function ( nonce, amount, callback) {
     var transaction = gateway.transaction;
@@ -108,17 +89,36 @@ module.exports = function (Order) {
     });
   };
 
-  var create_payment =  function (order, checkout, callback) {
-    // var payment = Order.app.models.Payment;
-    // var payment_model = {
-    //   tras_id: trasition_status.id,
-    //   order_id: order.id,
-    //   amount: trasition_status.amount,
-    //   cardType: trasition_status.cardType,
-    //   success: trasition_status.success
-    // };
-    // payment.create(payment_model, fun);
-    callback(null, {});
+  //obj = {complete: complete_trasition, order: new_order}
+  var create_payment =  function (obj, done) {
+    var payment = Order.app.models.Payment;
+    var payment_model = {
+      success: obj.complete.transaction.success,
+      tras_id: obj.complete.transaction.id,
+      status: obj.complete.transaction.status,
+      amount: obj.complete.transaction.amount,
+      bin: obj.complete.transaction.creditCard.bin,
+      cardType: obj.complete.transaction.creditCard.cardType,
+      customerLocation: obj.complete.transaction.creditCard.customerLocation,
+      debit: obj.complete.transaction.creditCard.debit,
+      expirationDate: obj.complete.transaction.creditCard.expirationDate,
+      expirationMonth: obj.complete.transaction.creditCard.expirationMonth,
+      expirationYear: obj.complete.transaction.creditCard.expirationYear,
+      maskedNumber: obj.complete.transaction.creditCard.maskedNumber,
+      last4: obj.complete.transaction.creditCard.last4,
+      issuingBank: obj.complete.transaction.creditCard.issuingBank,
+      createdAt: obj.complete.transaction.createdAt,
+      merchantAccountId: obj.complete.transaction.merchantAccountId,
+      paymentInstrumentType: obj.complete.transaction.paymentInstrumentType,
+      processorAuthorizationCode: obj.complete.transaction.processorAuthorizationCode,
+      processorResponseCode: obj.complete.transaction.processorResponseCode,
+      processorResponseText: obj.complete.transaction.processorResponseText,
+      updatedAt: obj.complete.transaction.updatedAt,
+      type: obj.complete.transaction.type,
+      statusHistory: obj.complete.transaction.statusHistory,
+      order_id: obj.order.id
+    };
+    payment.create(payment_model, done);
   };
 
   var get_customer =  function (token, callback) {
@@ -170,7 +170,6 @@ module.exports = function (Order) {
     Order.app.models.Review.create(reviews, done);
   };
 
-  /* create order & order_item - create empty review for client*/
   var prepare_order = function (customer, cart, amount, callback) {
     var new_order;
     async.waterfall([
@@ -222,7 +221,7 @@ module.exports = function (Order) {
       },
 
       function (result, next) {
-        checkout(payment_method_nonce, amount, next);
+        checkout(payment_method_nonce, 1, next);
       },
       function (complete, next) {
         tras_completed = complete;
@@ -232,11 +231,13 @@ module.exports = function (Order) {
       function (order_closed, next) {
         new_order = order_closed;
         next(null, {complete: tras_completed, order: new_order});
-      }
+      },
 
-      // function (result, next) {
-      //   create_payment(order, result, next);
-      // },
+      function (output, next) {
+        create_payment(output, function (err, result) {
+          next(null, output);
+        });
+      },
     ],
 
     function (err, result) {

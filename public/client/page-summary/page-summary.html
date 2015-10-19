@@ -3,6 +3,8 @@
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-summary-order-detail.html">
+<link rel="import" href="part-summary-order-detail.html">
+
 <dom-module id="page-summary">
   <template>
     <style include="style-page"></style>
@@ -14,9 +16,10 @@
         <h1>Cart Summary</h1>
       </part-jumbotron>
       <div class="container">
-        <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}">
+        <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
+          on-change-address="on_change_address">
         </part-summary-order-detail>
-        <form-braintree on-success="on_success_pay"></form-braintree>
+        <form-braintree id="braintree" on-success="on_success_pay"></form-braintree>
       </div>
     </layout-client>
 
@@ -46,6 +49,11 @@
         this.$.session.set('cart', []);
         page('/order/' + event.detail.result.order.id);
       }
+    },
+
+    on_change_address: function (event) {
+      event.stopPropagation();
+      this.$.braintree.attached();
     }
 
   });
