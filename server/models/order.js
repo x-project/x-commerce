@@ -4,6 +4,8 @@ var braintree = require('braintree');
 var async = require('async');
 var loopback = require('loopback');
 
+var stripe = require("stripe")("sk_test_ENMLLUg5aqhmW9HAg5xzaHN2");
+
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
   merchantId: "f6mgcbwps775kfdx",
@@ -201,12 +203,12 @@ module.exports = function (Order) {
       Order.upsert(order, done);
   };
 
-  Order.checkout = function (cart, payment_method_nonce, token, callback) {
+  Order.checkout = function (cart, payment_method_nonce, customer_token, callback) {
     var new_order, tras_completed;
     var amount = 0;
     async.waterfall([
       function (next) {
-        get_customer(token, next);
+        get_customer(customer_token, next);
       },
 
       function (customer, next) {
@@ -249,6 +251,23 @@ module.exports = function (Order) {
     });
   };
 
+
+
+  Order.stripe = function (token, callback) {
+    var charge = stripe.charges.create({
+      amount: 100,//cents
+      currency: "eur",
+      source: token,
+      description: "my first faker payment"
+    }, function(err, charge) {
+      if (err && err.type === 'StripeCardError') {
+        console.log("err", err);
+        callback(err, null);
+      }
+    callback(null, charge);
+    });
+  };
+
   Order.remoteMethod('get_client_token', {
     accepts: { arg: 'customer_id', type: 'string', required: true },
     returns: { arg: 'token', type: 'object' },
@@ -259,10 +278,17 @@ module.exports = function (Order) {
     accepts: [
       { arg: 'cart', type: 'array' },
       { arg: 'payment_method_nonce', type: 'string' },
-      { arg: 'token', type: 'string' }
+      { arg: 'customer_token', type: 'string' }
     ],
     returns: { arg: 'result', type: 'object' },
     http: { verb: 'post', path:'/checkout' }
   });
 
+  Order.remoteMethod('stripe', {
+    accepts: [
+      { arg: 'token', type: 'string' }
+    ],
+    returns: { arg: 'result', type: 'object' },
+    http: { verb: 'post', path:'/stripe' }
+  });
 };

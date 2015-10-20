@@ -2,12 +2,18 @@
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../form-stripe/form-stripe.html">
 <link rel="import" href="part-summary-order-detail.html">
 <link rel="import" href="part-summary-order-detail.html">
 
 <dom-module id="page-summary">
   <template>
-    <style include="style-page"></style>
+    <style include="style-page">
+      #stripe {
+        display: inline-block;
+        margin-top: 50px;
+      }
+    </style>
 
     <app-session id="session"></app-session>
 
@@ -20,6 +26,7 @@
           on-change-address="on_change_address">
         </part-summary-order-detail>
         <form-braintree id="braintree" on-success="on_success_pay"></form-braintree>
+        <form-stripe id="stripe"></form-stripe>
       </div>
     </layout-client>
 
