@@ -195,13 +195,12 @@ module.exports = function (Customer) {
   };
 
   var create_new_user = function (email, done) {
-    Customer.create({email: email}, function (err, model) {
+    Customer.create({email: email, password: '123'}, function (err, model) {
+      console.log(model);
       if (err) {
         done(err, null);
       }
-      get_user_for_email(email, function (err, user) {
-        try_send_mail(email,model, done);
-      });
+      try_send_mail(email, model, done);
     });
   };
 

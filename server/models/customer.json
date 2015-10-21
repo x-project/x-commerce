@@ -94,8 +94,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "enter"
+    },
+    {
+      "principalType": "USER",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "create"
     }
-
   ],
   "validations": [],
   "methods": []
