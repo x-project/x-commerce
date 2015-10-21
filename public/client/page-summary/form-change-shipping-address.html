@@ -69,8 +69,8 @@
     },
 
     save_address: function () {
-      // this.$.ajax_post.url = '/api/customers/' + this.customer.id + '/shipping_addresses'
-      this.$.ajax_post.url = '/api/addresses'
+      // this.$.ajax_post.url = '/api/customers/' + this.customer.id + '/shipping_addresses';
+      this.$.ajax_post.url = '/api/addresses';
       this.$.ajax_post.body = JSON.stringify(this.address);
       this.$.ajax_post.generateRequest();
     },

@@ -4,13 +4,13 @@ var braintree = require('braintree');
 var async = require('async');
 var loopback = require('loopback');
 
-var stripe = require("stripe")("sk_test_ENMLLUg5aqhmW9HAg5xzaHN2");
+var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
-  merchantId: "f6mgcbwps775kfdx",
-  publicKey: "fxqtdy3ssyj7548r",
-  privateKey: "76b8e18f6f1a276b79604230fd232d96"
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.TOKEN_SECRET_BRAINTREE
 });
 
 
@@ -71,24 +71,6 @@ module.exports = function (Order) {
       return amount + item.quantity * price;
     }, 0);
     return amount;
-  };
-
-
-  var checkout = function ( nonce, amount, callback) {
-    var transaction = gateway.transaction;
-    var data = { paymentMethodNonce: nonce, amount: amount };
-    transaction.sale(data, function (err, data_autorization) {
-      if (err) {
-        callback(err, null);
-        return;
-      }
-      transaction.submitForSettlement(data_autorization.transaction.id, function (err, complete) {
-        if (err) {
-          callback(err, null);
-        }
-        callback(null, complete);
-      });
-    });
   };
 
   //obj = {complete: complete_trasition, order: new_order}
@@ -203,7 +185,26 @@ module.exports = function (Order) {
       Order.upsert(order, done);
   };
 
-  Order.checkout = function (cart, payment_method_nonce, customer_token, callback) {
+
+  var checkout_braintree = function ( nonce, amount, callback) {
+    var transaction = gateway.transaction;
+    var data = { paymentMethodNonce: nonce, amount: amount };
+    transaction.sale(data, function (err, data_autorization) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      transaction.submitForSettlement(data_autorization.transaction.id, function (err, complete) {
+        if (err) {
+          callback(err, null);
+        }
+        callback(null, complete);
+      });
+    });
+  };
+
+
+  Order.checkout_braintree = function (cart, payment_method_nonce, customer_token, callback) {
     var new_order, tras_completed;
     var amount = 0;
     async.waterfall([
@@ -223,7 +224,7 @@ module.exports = function (Order) {
       },
 
       function (result, next) {
-        checkout(payment_method_nonce, 1, next);
+        checkout_braintree(payment_method_nonce, 1, next);
       },
       function (complete, next) {
         tras_completed = complete;
@@ -251,22 +252,62 @@ module.exports = function (Order) {
     });
   };
 
-
-
-  Order.stripe = function (token, callback) {
+  var checkout_stripe = function ( token, amount, callback) {
     var charge = stripe.charges.create({
-      amount: 100,//cents
+      amount: amount*100,//cents
       currency: "eur",
       source: token,
       description: "my first faker payment"
     }, function(err, charge) {
       if (err && err.type === 'StripeCardError') {
-        console.log("err", err);
         callback(err, null);
       }
     callback(null, charge);
     });
   };
+
+  Order.checkout_stripe = function (cart, token, customer_token, callback) {
+    var new_order, tras_completed;
+    var amount = 0;
+    async.waterfall([
+      function (next) {
+        get_customer(customer_token, next);
+      },
+
+      function (customer, next) {
+        curr_customer = customer;
+        amount = get_amount(cart);
+        prepare_order(customer, cart, amount, next);
+      },
+
+      function (order, next) {
+        new_order = order;
+        prepare_order_review(curr_customer, cart, next);
+      },
+
+      function (result, next) {
+        checkout_stripe(token, 1, next);
+      },
+      function (complete, next) {
+        tras_completed = complete;
+        mark_closed_order(new_order, next);
+      },
+
+      function (order_closed, next) {
+        new_order = order_closed;
+        next(null, {complete: tras_completed, order: new_order});
+      }
+    ],
+
+    function (err, result) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
+  };
+
 
   Order.remoteMethod('get_client_token', {
     accepts: { arg: 'customer_id', type: 'string', required: true },
@@ -274,7 +315,7 @@ module.exports = function (Order) {
     http: { verb: 'get', path:'/client_token' }
   });
 
-  Order.remoteMethod('checkout', {
+  Order.remoteMethod('checkout_braintree', {
     accepts: [
       { arg: 'cart', type: 'array' },
       { arg: 'payment_method_nonce', type: 'string' },
@@ -284,9 +325,11 @@ module.exports = function (Order) {
     http: { verb: 'post', path:'/checkout' }
   });
 
-  Order.remoteMethod('stripe', {
+  Order.remoteMethod('checkout_stripe', {
     accepts: [
-      { arg: 'token', type: 'string' }
+      { arg: 'cart', type: 'array' },
+      { arg: 'token', type: 'string' },
+      { arg: 'customer_token', type: 'string' }
     ],
     returns: { arg: 'result', type: 'object' },
     http: { verb: 'post', path:'/stripe' }

@@ -26,6 +26,8 @@
 
   <h3>payment with stripe</h3>
 
+  <app-session id="session"></app-session>
+
   <iframe id="iframe" name="form_sending_stripe" on-load="on_checkout_stripe"></iframe>
 
   <form action="/api/orders/stripe" method="POST" id="payment-form" target="form_sending_stripe">
@@ -51,7 +53,9 @@
       <input type="text" size="4" data-stripe="exp-year" value="18"/>
     </div>
 
+    <input type="hidden" name="cart" value="{{cart}}">
     <input type="hidden" name="token" value="{{token}}">
+    <input type="hidden" name="customer_token" value="{{customer_token}}">
 
     <input id="pay" disabled type="submit" value="Pay" />
   </form>
@@ -75,8 +79,11 @@
     },
 
     attached: function () {
+      this.customer_token = this.$.session.get('token');
+      this.cart = JSON.stringify(this.$.session.get('cart'));
       var context = this;
       var stripe_response = function (status, response) {
+        console.log(response);
         context.token = response.id;
         context.$.pay.disabled = false;
         context.$.pay.style.background = 'gray';

@@ -40,7 +40,11 @@
     },
     "tags": {
       "type": ["String"]
+    },
+    "last_enter_token": {
+      "type": "String"
     }
+
   },
   "relations": {
     "shipping_addresses": {
@@ -78,7 +82,20 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "count"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter_token"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter"
     }
+
   ],
   "validations": [],
   "methods": []
