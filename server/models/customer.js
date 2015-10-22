@@ -1,11 +1,11 @@
 var loopback = require('loopback');
 var email_verify = require('email-verify');
 var validator = require('validator');
-var nodemailer = require('nodemailer');
 var async = require('async');
 var moment = require('moment');
 var jwt = require('jwt-simple');
-
+var mandrill = require('mandrill-api/mandrill');
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_TEST_KEY);
 
 module.exports = function (Customer) {
 
@@ -143,14 +143,23 @@ module.exports = function (Customer) {
     var host = 'http://localhost:3000/';
     var link = host + 'enter?token=' + enter_token;
     var signed_url = '<a href="' + link + '">' + link + '</a>';
-    var mail = {
-      from: '<' + process.env.MY_EMAIL + '>',
-      to: destination_email,
-      subject: 'enter token',
-      html: signed_url,
-      text: '<b>click on link to sign in</b>'
+    var message = {
+      "html": signed_url,
+      "text": "click from url for sign in",
+      "subject": "signed url",
+      "from_email": process.env.MY_EMAIL,
+      "from_name": "x-commerce",
+      "to": [{
+              "email": destination_email,
+              "name": "x-commerce",
+              "type": "to"
+          }],
+      "headers": {
+          "Reply-To": process.env.MY_EMAIL
+      },
+      "subaccount": "123",
     };
-    return mail;
+    return message;
   };
 
   var get_user_for_email = function (email, done) {
@@ -177,14 +186,15 @@ module.exports = function (Customer) {
         Customer.upsert(user, next);
       },
       function (user, next) {
-        var transporter = create_trasport();
-        var mail = prepare_mail(email, enter_token);
-        transporter.sendMail(mail, function (err, info) {
-          next(err, info);
+        var message = prepare_mail(email, enter_token);
+        // var send_at = "2015-10-22 13:00:10"; // add on production version
+        mandrill_client.messages.send({"message": message}, function(result) {
+          next(null, result);
+        }, function(err) {
+          callback(err, null);
         });
       }
     ],
-
     function (err, result) {
       if (err) {
         done(err, null);
