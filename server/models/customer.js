@@ -172,13 +172,18 @@ module.exports = function (Customer) {
     Customer.findOne(query, done);
   };
 
-  var create_token = function  (user) {
+  var get_user_for_phone = function (phone, done) {
+    var query = { where: {phone: phone} };
+    Customer.findOne(query, done);
+  };
+
+  var create_token = function  (code, secret) {
     var payload = {
-      sub: user.id,
+      sub: code,
       iat: moment().unix(),
       exp: moment().add(1, 'days').unix()
     };
-    var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER);
+    var token = jwt.encode(payload, secret);
     return token;
   };
 
@@ -186,7 +191,7 @@ module.exports = function (Customer) {
     var enter_token;
     async.waterfall([
       function (next) {
-        enter_token = create_token(user);
+        enter_token = create_token(user.id, process.env.TOKEN_SECRET_ENTER);
         user.last_enter_token = enter_token;
         Customer.upsert(user, next);
       },
@@ -244,23 +249,82 @@ module.exports = function (Customer) {
     });
   };
 
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 
-  Customer.sendme_password_sms = function (telephone_number, callback) {
-    var params = {
-        'src': process.env.PHONE_SRC, // Sender's phone number with country code
-        'dst' : process.env.PHONE_DST, // Receiver's phone Number with country code
-        'text' : "Hi, text from Plivo", // Your SMS Text Message - English
+
+  var prepare_sms = function (code) {
+    var msg = {
+        'src': process.env.PHONE_SRC,
+        'dst' : process.env.PHONE_DST,
+        'text' : 'you can use this code for login: ' + code,
         'url' : "http://example.com/report/", // The URL to which with the status of the message is sent
         'method' : "GET" // The method used to call the url
     };
-    // Prints the complete response
-    plivio_client.send_message(params, function (status, response) {
-        console.log('Status: ', status);
-        console.log('API Response:\n', response);
-        console.log('Message UUID:\n', response['message_uuid']);
-        console.log('Api ID:\n', response['api_id']);
-    });
+    return msg;
+  };
 
+  var try_send_sms = function (user, phone, code, token_sms, done) {
+    async.waterfall([
+      function (next) {
+        user.last_sms_token = token_sms;
+        user.last_phone = phone;
+        Customer.upsert(user, next);
+      },
+
+      function (user, next) {
+        var message = prepare_sms(code);
+        plivio_client.send_message(message, function (status, response) {
+          next(null, response);
+        });
+      }
+    ],
+
+    function (err, result) {
+      if (err) {
+        done(err, null);
+        return;
+      }
+      done(null, result);
+    });
+  };
+
+  var create_new_user_phone = function (phone, code, token, done) {
+    Customer.create({last_phone: phone, password: '123', email: 'ciao@email.com'}, function (err, user) {
+      if (err) {
+        console.log('err', err);
+        done(err, null);
+      }
+      console.log(user);
+      try_send_sms(user, phone, code, token, done);
+    });
+  };
+
+  Customer.phone_token = function (phone, callback) {
+    async.waterfall([
+      function (next) {
+        get_user_for_phone(phone, next);
+      },
+
+      function (user, next) {
+        var code = getRandomInt(1000, 100000);
+        var token = create_token(code, process.env.TOKEN_SECRET_ENTER_SMS);
+        if (user != null) {
+          try_send_sms(user, phone, code, token, next);
+        }
+        else{
+          create_new_user_phone(phone, code, token, next);
+        }
+      }
+    ],
+    function (err, result) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
   };
 
   var create_access_token = function (user, callback) {
@@ -273,6 +337,7 @@ module.exports = function (Customer) {
       var _user = JSON.parse(JSON.stringify(user));
       delete _user.password;
       delete _user.last_enter_token;
+      delete _user.last_sms_token;
       _user.id = _token.userId;
       _token.user = _user;
       callback(null, _token);
@@ -294,6 +359,28 @@ module.exports = function (Customer) {
     });
   };
 
+
+  Customer.enter_code = function (phone, code, callback) {
+    // var payload = jwt.decode(code, process.env.TOKEN_SECRET_ENTER_SMS);
+    Customer.findOne({ where: {last_phone: phone} }, function (err, user) {
+      if (!user) {
+        callback({error: 'user not found'}, null);
+      }
+      var payload = jwt.decode(user.last_sms_token, process.env.TOKEN_SECRET_ENTER_SMS);
+      if (payload.sub == code) {
+        create_access_token(user, function (err, user_profile) {
+          if (err) {
+            callback(err, null);
+          }
+          callback(null, user_profile);
+        });
+      }
+      else{
+        callback({error: 'invalid code'}, null);
+      }
+    });
+  };
+
   // passwordless for email
   Customer.remoteMethod('enter_token', {
     accepts: { arg: 'email', type: 'string', required: true },
@@ -301,10 +388,10 @@ module.exports = function (Customer) {
     http: { path: '/enter_token', verb: 'get' }
   });
 
-  Customer.remoteMethod('sendme_password_sms', {
-    accepts: { arg: 'telephone_number', type: 'number', required: true },
+  Customer.remoteMethod('phone_token', {
+    accepts: { arg: 'phone', type: 'number', required: true },
     returns: { arg: 'result', type: 'object' },
-    http: { path: '/sendme_password_sms', verb: 'get' }
+    http: { path: '/sendme_password_sms', verb: 'post' }
   });
 
   Customer.remoteMethod('enter', {
@@ -312,5 +399,15 @@ module.exports = function (Customer) {
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'get' }
   });
+
+  Customer.remoteMethod('enter_code', {
+    accepts: [
+      { arg: 'phone', type: 'number', required: true },
+      { arg: 'code', type: 'number', required: true }
+    ],
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/enter_code', verb: 'post' }
+  });
+
 
 };

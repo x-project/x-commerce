@@ -13,9 +13,7 @@
       "type": "String"
     },
     "email": {
-      "type": "String",
-      "length": 64,
-      "required": true
+      "type": "String"
     },
     "marketing": {
       "type": "Boolean"
@@ -43,8 +41,13 @@
     },
     "last_enter_token": {
       "type": "String"
+    },
+    "last_sms_token": {
+      "type": "String"
+    },
+    "last_phone": {
+      "type": "String"
     }
-
   },
   "relations": {
     "shipping_addresses": {
@@ -105,8 +108,15 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "sendme_password_sms"
+      "property": "phone_token"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter_code"
     }
+
   ],
   "validations": [],
   "methods": []
