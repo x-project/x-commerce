@@ -384,7 +384,7 @@ module.exports = function (Customer) {
   Customer.remoteMethod('enter_token', {
     accepts: { arg: 'email', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
-    http: { path: '/enter_token', verb: 'get' }
+    http: { path: '/enter_token', verb: 'post' }
   });
 
   Customer.remoteMethod('phone_token', {
@@ -396,7 +396,7 @@ module.exports = function (Customer) {
   Customer.remoteMethod('enter', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
-    http: { path: '/enter', verb: 'get' }
+    http: { path: '/enter', verb: 'post' }
   });
 
   Customer.remoteMethod('enter_code', {

@@ -104,10 +104,12 @@
 
     '/enter': function (context) {
       var ajax = document.createElement('iron-ajax');
-      var enter_token = context.querystring.split('=')[1];
-      ajax.params = {enter_token: enter_token};
+      var token = context.querystring.split('=')[1];
+      ajax.body = JSON.stringify({enter_token: token});
+      ajax.handleAs = 'json';
+      ajax.contentType= "application/json";
       ajax.url = '/api/customers/enter';
-      ajax.method = 'GET';
+      ajax.method = 'POST';
       var on_response = function (event) {
         event.stopPropagation();
         var response = ajax.lastResponse.result;
