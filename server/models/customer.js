@@ -240,7 +240,7 @@ module.exports = function (Customer) {
   };
 
 
-  Customer.sendme_password_sms = function (telephone_number, callback) {
+  Customer.enter_token_sms = function (telephone_number, callback) {
     client.sms.messages.create({
       body: "Jenny please?! I love you <3",
       to: process.env.MY_TELEPHONE_NUM,
@@ -270,7 +270,7 @@ module.exports = function (Customer) {
     });
   };
 
-  Customer.enter = function (enter_token, callback) {
+  Customer.try_enter = function (enter_token, callback) {
     var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER);
     Customer.findById(payload.sub, function(err, user) {
       if (!user) {
@@ -292,16 +292,16 @@ module.exports = function (Customer) {
     http: { path: '/enter_token', verb: 'get' }
   });
 
-  Customer.remoteMethod('sendme_password_sms', {
-    accepts: { arg: 'telephone_number', type: 'number', required: true },
-    returns: { arg: 'result', type: 'object' },
-    http: { path: '/sendme_password_sms', verb: 'get' }
-  });
-
-  Customer.remoteMethod('enter', {
+  Customer.remoteMethod('try_enter', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'get' }
+  });
+
+  Customer.remoteMethod('enter_token_sms', {
+    accepts: { arg: 'telephone_number', type: 'number', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/sendme_password_sms', verb: 'get' }
   });
 
 };
