@@ -232,9 +232,9 @@ module.exports = function (Customer) {
 
   Customer.sendme_password_sms = function (telephone_number, callback) {
     client.sms.messages.create({
-        body: "Jenny please?! I love you <3",
-        to: process.env.MY_TELEPHONE_NUM,
-        from: process.env.TWILIO_TELE_NUM
+      body: "Jenny please?! I love you <3",
+      to: process.env.MY_TELEPHONE_NUM,
+      from: process.env.TWILIO_TELE_NUM
     },
     function(err, sms) {
       if(err) {
@@ -243,22 +243,6 @@ module.exports = function (Customer) {
       callback(null, sms);
     });
   };
-
-  // passwordless foremail
-  Customer.remoteMethod('enter_token', {
-    accepts: { arg: 'email', type: 'string', required: true },
-    returns: { arg: 'result', type: 'object' },
-    http: { path: '/enter_token', verb: 'get' }
-  });
-
-  Customer.remoteMethod('sendme_password_sms', {
-    accepts: { arg: 'telephone_number', type: 'number', required: true },
-    returns: { arg: 'result', type: 'object' },
-    http: { path: '/sendme_password_sms', verb: 'get' }
-  });
-
-/*==========================================================*/
-/*==========================================================*/
 
   var create_access_token = function (user, callback) {
     user.createAccessToken(Customer.settings.ttl, function (err, token) {
@@ -291,7 +275,18 @@ module.exports = function (Customer) {
     });
   };
 
+  // passwordless for email
+  Customer.remoteMethod('enter_token', {
+    accepts: { arg: 'email', type: 'string', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/enter_token', verb: 'get' }
+  });
 
+  Customer.remoteMethod('sendme_password_sms', {
+    accepts: { arg: 'telephone_number', type: 'number', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/sendme_password_sms', verb: 'get' }
+  });
 
   Customer.remoteMethod('enter', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
