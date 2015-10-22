@@ -254,11 +254,11 @@ module.exports = function (Customer) {
   }
 
 
-  var prepare_sms = function (code) {
+  var prepare_sms = function (code, phone) {
     var msg = {
         'src': process.env.PHONE_SRC,
-        'dst' : process.env.PHONE_DST,
-        'text' : 'you can use this code for login: ' + code,
+        'dst' : phone,
+        'text' : 'you code is here ' + code,
         'url' : "http://example.com/report/", // The URL to which with the status of the message is sent
         'method' : "GET" // The method used to call the url
     };
@@ -274,7 +274,7 @@ module.exports = function (Customer) {
       },
 
       function (user, next) {
-        var message = prepare_sms(code);
+        var message = prepare_sms(code, phone);
         plivio_client.send_message(message, function (status, response) {
           next(null, response);
         });
@@ -291,12 +291,11 @@ module.exports = function (Customer) {
   };
 
   var create_new_user_phone = function (phone, code, token, done) {
-    Customer.create({last_phone: phone, password: '123', email: 'ciao@email.com'}, function (err, user) {
+    Customer.create({last_phone: phone, password: '123', email: 'ciao20@email'+code+'.com'}, function (err, user) {
       if (err) {
         console.log('err', err);
         done(err, null);
       }
-      console.log(user);
       try_send_sms(user, phone, code, token, done);
     });
   };
