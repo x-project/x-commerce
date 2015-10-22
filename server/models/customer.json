@@ -100,6 +100,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "create"
+    },
+   {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "sendme_password_sms"
     }
   ],
   "validations": [],

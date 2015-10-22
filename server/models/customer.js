@@ -5,7 +5,12 @@ var async = require('async');
 var moment = require('moment');
 var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_TEST_KEY);
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
+var plivo = require('plivo');
+var plivio_client = plivo.RestAPI({
+  authId: process.env.PLIVIO_AUTH_ID_KEY,
+  authToken: process.env.PLIVIO_AUTH_TOKEN
+});
 
 module.exports = function (Customer) {
 
@@ -241,17 +246,21 @@ module.exports = function (Customer) {
 
 
   Customer.sendme_password_sms = function (telephone_number, callback) {
-    client.sms.messages.create({
-      body: "Jenny please?! I love you <3",
-      to: process.env.MY_TELEPHONE_NUM,
-      from: process.env.TWILIO_TELE_NUM
-    },
-    function(err, sms) {
-      if(err) {
-        callback(err, null);
-      }
-      callback(null, sms);
+    var params = {
+        'src': process.env.PHONE_SRC, // Sender's phone number with country code
+        'dst' : process.env.PHONE_DST, // Receiver's phone Number with country code
+        'text' : "Hi, text from Plivo", // Your SMS Text Message - English
+        'url' : "http://example.com/report/", // The URL to which with the status of the message is sent
+        'method' : "GET" // The method used to call the url
+    };
+    // Prints the complete response
+    plivio_client.send_message(params, function (status, response) {
+        console.log('Status: ', status);
+        console.log('API Response:\n', response);
+        console.log('Message UUID:\n', response['message_uuid']);
+        console.log('Api ID:\n', response['api_id']);
     });
+
   };
 
   var create_access_token = function (user, callback) {
