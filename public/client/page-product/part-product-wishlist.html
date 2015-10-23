@@ -1,0 +1,59 @@
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<dom-module id="part-product-wishlist">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <iron-ajax id="ajax_post" method="POST" handle-as="json" content-type="application/json"
+      on-response="on_response" last-response="response" on-error="on_error">
+    </iron-ajax>
+
+    <h3>Favourite</h3>
+    <div>
+      <button class="button" on-click="on_click_favourite">add to favourite</button>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-wishlist',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_click_favourite: function (event) {
+      event.stopPropagation();
+      this.$.ajax_post.url = '/api/customers/' + this.product.id + '/wishlists';
+      this.$.ajax_post.body = JSON.stringify({
+        product_id: this.product.id,
+        product_variant_id: this.variant.id
+      });
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      console.log(this.response);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+
+    }
+
+  });
+</script>
