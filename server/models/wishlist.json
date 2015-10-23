@@ -1,0 +1,34 @@
+{
+  "name": "Wishlist",
+  "plural": "wishlists",
+  "mongodb": {
+    "collection": "wishlists"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "product_id": {
+      "type": "String"
+    },
+    "product_variant_id": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    }
+  },
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "product_id"
+    },
+    "product_variant": {
+      "type": "belongsTo",
+      "model": "ProductVariant",
+      "foreignKey": "product_variant_id"
+    }
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

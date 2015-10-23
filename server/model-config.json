@@ -115,5 +115,8 @@
   },
   "Payment": {
     "dataSource": "mongo"
+  },
+  "Wishlist": {
+    "dataSource": "mongo"
   }
 }

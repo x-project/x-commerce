@@ -53,6 +53,10 @@
     "shipping_addresses": {
       "type": "hasMany",
       "model": "Address"
+    },
+    "wishlists": {
+      "type": "hasMany",
+      "model": "Wishlist"
     }
   },
   "acls": [
@@ -115,8 +119,13 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "enter_code"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "wishlists"
     }
-
   ],
   "validations": [],
   "methods": []
