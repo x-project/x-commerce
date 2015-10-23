@@ -50,6 +50,11 @@
     "shipping_addresses": {
       "type": "hasMany",
       "model": "Address"
+    },
+    "wishlists": {
+      "type": "hasMany",
+      "model": "Wishlist",
+      "foreignKey": "customer_id"
     }
   },
   "acls": [
