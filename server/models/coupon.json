@@ -1,0 +1,29 @@
+{
+  "name": "Coupon",
+  "plural": "coupons",
+  "mongodb": {
+    "collection": "coupons"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    },
+    "discount": {
+      "type": "Number"
+    },
+    "date_from": {
+      "type": "Date"
+    },
+    "date_to": {
+      "type": "Date"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

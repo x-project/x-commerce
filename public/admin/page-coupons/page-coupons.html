@@ -1,12 +1,24 @@
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-coupons-pages.html">
+<link rel="import" href="part-coupons-items.html">
 <link rel="import" href="part-coupons-create.html">
 <dom-module id="page-coupons">
   <template>
 
+    <api-model-find id="find" collection="coupons" response="{{coupons}}"
+      order="name" perpage="{{perpage}}" page="{{page}}">
+    </api-model-find>
+
+    <api-model-count id="count" collection="coupons" response="{{count}}">
+    </api-model-count>
 
     <layout-admin>
       <h1>Coupons</h1>
       <part-coupons-create></part-coupons-create>
+      <part-coupons-items coupons="{{coupons}}"></part-coupons-items>
+      <part-coupons-pages on-change-page="on_change_page" perpage="{{perpage}}"
+        count="{{count}}">
+      </part-coupons-pages>
     </layout-admin>
 
   </template>
@@ -16,7 +28,17 @@
 
     is: 'page-coupons',
 
-    properties: {}
+    properties: {},
+
+    attached: function () {
+      this.$.count.send();
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 4;
+      this.page = event.detail.current - 1;
+      this.$.find.send();
+    }
 
   });
 </script>

@@ -183,19 +183,19 @@
       }
 
       this.get_model({
-          collection: 'collections',
-          modelId: context.params.collection_id,
-          include: ['products', 'images']
-        })
-        .then(function (model) {
-          context.page_name = 'page-collection';
-          context.data.collection = model;
-          this.open_page(context);
-        }.bind(this))
-        .catch(function (error) {
-          context.page_name = 'page-404';
-          context.data.error = error;
-        });
+        collection: 'collections',
+        modelId: context.params.collection_id,
+        include: ['products', 'images']
+      })
+      .then(function (model) {
+        context.page_name = 'page-collection';
+        context.data.collection = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (error) {
+        context.page_name = 'page-404';
+        context.data.error = error;
+      });
     },
 
     '/admin/customers': function (context) {
@@ -258,6 +258,29 @@
       context.data = { coupon: {} };
       this.open_page(context);
     },
+
+    '/admin/coupons/:coupon_id': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.get_model({
+        collection: 'coupons',
+        modelId: context.params.coupon_id
+      })
+      .then(function (model) {
+        context.page_name = 'page-coupon';
+        context.data.coupon = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (error) {
+        context.page_name = 'page-404';
+        context.data.error = error;
+      });
+    },
+
 
     '/admin/invites/new': function (context) {
       this.init(context);

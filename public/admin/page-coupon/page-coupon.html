@@ -1,15 +1,32 @@
+<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-coupon-header.html">
 <link rel="import" href="part-coupon-save.html">
 <link rel="import" href="part-coupon-delete.html">
+<link rel="import" href="part-coupon-info.html">
+<link rel="import" href="part-coupon-discount.html">
+<link rel="import" href="part-coupon-period.html">
+<link rel="import" href="part-coupon-status.html">
 <dom-module id="page-coupon">
   <template>
+
+    <api-model-create id="create" collection="coupons" data="{{coupon}}"
+      response="{{coupon}}" on-response="on_response_create">
+    </api-model-create>
+
+    <api-model-update id="update" collection="coupons"
+      data="{{coupon}}" model-id="{{coupon.id}}">
+    </api-model-update>
 
     <layout-admin>
       <h1>Coupons</h1>
       <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
       <part-coupon-save on-try-save="on_try_save"></part-coupon-save>
       <part-coupon-delete on-try-delete="on_try_delete"></part-coupon-delete>
+      <part-coupon-status coupon="{{coupon}}"></part-coupon-status>
+      <part-coupon-info coupon="{{coupon}}"></part-coupon-info>
+      <part-coupon-discount coupon="{{coupon}}"></part-coupon-discount>
+      <part-coupon-period coupon="{{coupon}}"></part-coupon-period>
     </layout-admin>
 
   </template>
@@ -26,8 +43,22 @@
       }
     },
 
+    attached: function () {
+      this.coupon = this.data.coupon;
+    },
+
     on_try_save: function (event) {
       event.stopPropagation();
+      if(this.coupon.id){
+        this.$.update.send();
+        return;
+      }
+      this.$.create.send();
+    },
+
+    on_response_create: function (event) {
+      event.stopPropagation();
+      page('/admin/coupons/' + this.coupon.id);
     },
 
     on_try_delete: function (event) {

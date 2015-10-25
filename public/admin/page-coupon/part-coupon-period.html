@@ -1,0 +1,27 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-coupon-period.html">
+<dom-module id="part-coupon-period">
+  <template>
+    <style include="style-panel"></style>
+
+    <div>
+      <h2>Period</h2>
+      <form-coupon-period coupon="{{coupon}}"></form-coupon-period>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-coupon-period',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

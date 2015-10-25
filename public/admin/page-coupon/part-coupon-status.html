@@ -1,0 +1,27 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-coupon-status.html">
+<dom-module id="part-coupon-status">
+  <template>
+    <style include="style-panel"></style>
+
+    <div>
+      <h2>Status</h2>
+      <form-coupon-status coupon="{{coupon}}"></form-coupon-status>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-coupon-status',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

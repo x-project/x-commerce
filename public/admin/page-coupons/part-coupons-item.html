@@ -1,0 +1,34 @@
+<link rel="import" href="../style-item/style-item.html">
+<dom-module id="part-coupons-item">
+  <style include="style-item"></style>
+
+  <template>
+    <div class="item">
+      <label class="label">name: </label>
+      <span>{{coupon.name}}</span>
+      <label class="label">description: </label>
+      <span>{{coupon.description}}</span>
+      <label class="label">discount: </label>
+      <span>{{customer.discount}}</span>
+      <a is="app-link" href="{{edit_url}}">edit</a>
+     </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-coupons-item',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.edit_url = '/admin/coupons/' + this.coupon.id;
+    }
+
+  });
+</script>

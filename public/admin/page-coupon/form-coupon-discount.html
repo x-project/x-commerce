@@ -1,0 +1,38 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-coupon-discount">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Discount</label>
+        <input class="input" type="Number" is="iron-input" bind-value="{{coupon.discount}}">
+      </div>
+      <div class="field">
+        <label class="label">Code</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{coupon.code}}">
+      </div>
+    </form>
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-coupon-discount',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>
