@@ -56,7 +56,8 @@
     },
     "wishlists": {
       "type": "hasMany",
-      "model": "Wishlist"
+      "model": "Wishlist",
+      "foreignKey": "customer_id"
     }
   },
   "acls": [

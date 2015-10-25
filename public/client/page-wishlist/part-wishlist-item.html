@@ -6,10 +6,16 @@
       }
     </style>
 
-      <div>{{favourite.product.title}}</div>
+
+      <div class="title">
+        <span>{{favourite.product.title}}</span>
+        <template is="dom-if" if="{{favourite.product_variant}}">
+          ( <span>{{favourite.product_variant.name}}</span> )
+        </template>
+      </div>
       <div>{{favourite.product.description}}</div>
-      <div>{{favourite.product.price}}</div>
-      <div><a href="{{favourite.url}}">view</a></div>
+      <div>{{price}}</div>
+      <a href="{{favourite.url}}">view</a>
       <button on-click="on_click">remove</button>
 
   </template>
@@ -27,6 +33,11 @@
     },
 
     attached: function () {
+      if (this.favourite.product_variant) {
+        this.price = this.favourite.product_variant.price;
+        return
+      }
+      this.price = this.favourite.product.price;
     },
 
     on_click: function (event) {
