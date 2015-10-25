@@ -1,0 +1,49 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<dom-module id="part-wishlist-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+
+      <div class="title">
+        <span>{{favourite.product.title}}</span>
+        <template is="dom-if" if="{{favourite.product_variant}}">
+          ( <span>{{favourite.product_variant.name}}</span> )
+        </template>
+      </div>
+      <div>{{favourite.product.description}}</div>
+      <div>{{price}}</div>
+      <a href="{{favourite.url}}">view</a>
+      <button on-click="on_click_remove">remove</button>
+    </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-wishlist-item',
+
+    properties: {
+      favourite: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      if (this.favourite.product_variant) {
+        this.price = this.favourite.product_variant.price;
+        return
+      }
+      this.price = this.favourite.product.price;
+    },
+
+    on_click_remove: function (event) {
+      event.stopPropagation();
+      this.fire('try-remove-favourite', this.favourite);
+    }
+
+  });
+</script>

@@ -13,9 +13,7 @@
       "type": "String"
     },
     "email": {
-      "type": "String",
-      "length": 64,
-      "required": true
+      "type": "String"
     },
     "marketing": {
       "type": "Boolean"
@@ -43,13 +41,24 @@
     },
     "last_enter_token": {
       "type": "String"
+    },
+    "last_sms_token": {
+      "type": "String"
+    },
+    "last_phone": {
+      "type": "String"
     }
-
   },
   "relations": {
     "shipping_addresses": {
       "type": "hasMany",
-      "model": "Address"
+      "model": "Address",
+      "foreignKey": "customer_id"
+    },
+    "wishlists": {
+      "type": "hasMany",
+      "model": "Wishlist",
+      "foreignKey": "customer_id"
     }
   },
   "acls": [
@@ -100,6 +109,54 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "phone_token"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter_code"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__create__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__destroyById__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__create__shipping_addresses"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__shipping_addresses"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__destroyById__shipping_addresses"
     }
   ],
   "validations": [],

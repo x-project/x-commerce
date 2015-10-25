@@ -11,6 +11,7 @@
 <link rel="import" href="part-product-quantity.html">
 <link rel="import" href="part-product-reviews.html">
 <link rel="import" href="part-product-vendor.html">
+<link rel="import" href="part-product-wishlist.html">
 <dom-module id="page-product">
   <template>
     <style include="style-page"></style>
@@ -31,9 +32,9 @@
         </part-product-quantity>
         <part-product-vendor product="{{data.product}}"></part-product-vendor>
         <part-product-images product="{{data.product}}"></part-product-images>
-        <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}">
-        </part-product-cart>
+        <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}"></part-product-cart>
         <part-product-details product="{{data.product}}"></part-product-details>
+        <part-product-wishlist product="{{data.product}}" variant="{{variant}}"></part-product-wishlist>
         <part-product-reviews product="{{data.product}}"></part-product-reviews>
       </div>
     </layout-client>

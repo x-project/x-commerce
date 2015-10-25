@@ -83,7 +83,6 @@
       this.cart = JSON.stringify(this.$.session.get('cart'));
       var context = this;
       var stripe_response = function (status, response) {
-        console.log(response);
         context.token = response.id;
         context.$.pay.disabled = false;
         context.$.pay.style.background = 'gray';
