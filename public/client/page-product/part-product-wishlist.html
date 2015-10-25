@@ -60,12 +60,10 @@
 
     on_response_exists: function (event) {
       event.stopPropagation();
-      if (this.response_exist.length > 0) {
-        //item exixts in whislist
-        console.log("item exixts in whislist");
+      if (this.response_exist.length <= 0) {
+        this.add_to_wishlist();
         return;
       }
-      this.add_to_wishlist();
     },
 
     add_to_wishlist: function () {
