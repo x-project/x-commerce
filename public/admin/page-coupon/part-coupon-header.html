@@ -1,0 +1,28 @@
+<dom-module id="part-coupon-header">
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+  <template>
+
+    <div>
+      <h2 class="title"><span>Coupon</span> / <span>{{coupon.name}}</span></h2>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-coupon-header',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

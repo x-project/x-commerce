@@ -1,0 +1,38 @@
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-coupon-header.html">
+<link rel="import" href="part-coupon-save.html">
+<link rel="import" href="part-coupon-delete.html">
+<dom-module id="page-coupon">
+  <template>
+
+    <layout-admin>
+      <h1>Coupons</h1>
+      <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
+      <part-coupon-save on-try-save="on_try_save"></part-coupon-save>
+      <part-coupon-delete on-try-delete="on_try_delete"></part-coupon-delete>
+    </layout-admin>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-coupon',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_try_save: function (event) {
+      event.stopPropagation();
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+    }
+
+  });
+</script>

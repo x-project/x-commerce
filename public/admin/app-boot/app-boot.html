@@ -14,6 +14,8 @@
 <link rel="import" href="../page-category/page-category.html">
 <link rel="import" href="../page-collections/page-collections.html">
 <link rel="import" href="../page-collection/page-collection.html">
+<link rel="import" href="../page-coupons/page-coupons.html">
+<link rel="import" href="../page-coupon/page-coupon.html">
 <link rel="import" href="../page-orders/page-orders.html">
 <link rel="import" href="../page-order/page-order.html">
 <link rel="import" href="../page-products/page-products.html">
@@ -30,6 +32,7 @@
 <link rel="import" href="../page-team/page-team.html">
 <link rel="import" href="../page-vendor/page-vendor.html">
 <link rel="import" href="../page-vendors/page-vendors.html">
+
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -237,6 +240,23 @@
           context.page_name = 'page-404';
           this.open_page(context);
         }.bind(this));
+    },
+
+    '/admin/coupons': function (context) {
+      this.init(context);
+      context.page_name = 'page-coupons';
+      this.open_page(context);
+    },
+
+    '/admin/coupons/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-coupon';
+      context.data = { coupon: {} };
+      this.open_page(context);
     },
 
     '/admin/invites/new': function (context) {
