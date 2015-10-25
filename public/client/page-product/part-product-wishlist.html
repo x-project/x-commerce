@@ -11,6 +11,8 @@
       on-response="on_response" last-response="response" on-error="on_error">
     </iron-ajax>
 
+    <app-session id="session"></app-session>
+
     <h3>Favourite</h3>
     <div>
       <button class="button" on-click="on_click_favourite">add to favourite</button>
@@ -36,17 +38,18 @@
 
     on_click_favourite: function (event) {
       event.stopPropagation();
-      this.$.ajax_post.url = '/api/customers/' + this.product.id + '/wishlists';
+      var token = this.$.session.get('token');
+      var user = this.$.session.get('user');
+      this.$.ajax_post.url = '/api/customers/' + user.id + '/wishlists';
       this.$.ajax_post.body = JSON.stringify({
         product_id: this.product.id,
-        product_variant_id: this.variant.id
+        product_variant_id: (this.variant) ? this.variant.id : ''
       });
       this.$.ajax_post.generateRequest();
     },
 
     on_response: function (event) {
       event.stopPropagation();
-      console.log(this.response);
     },
 
     on_error: function (event) {

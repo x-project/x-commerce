@@ -26,6 +26,7 @@
 <link rel="import" href="../page-success/page-success.html">
 <link rel="import" href="../page-summary/page-summary.html">
 <link rel="import" href="../page-payment/page-payment.html">
+<link rel="import" href="../page-wishlist/page-wishlist.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -54,7 +55,6 @@
     },
 
     on_login: function (event) {
-      console.log("login");
       this.session.set('user', event.detail.user);
       this.session.set('token', event.detail.id);
       page('/settings');
@@ -253,6 +253,12 @@
     '/payment': function (context) {
       this.init(context);
       context.page_name = 'page-payment';
+      this.open_page(context);
+    },
+
+    '/wishlist': function (context) {
+      this.init(context);
+      context.page_name = 'page-wishlist';
       this.open_page(context);
     },
 
