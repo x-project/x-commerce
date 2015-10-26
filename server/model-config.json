@@ -110,6 +110,9 @@
   "Store": {
     "dataSource": "mongo"
   },
+  "Task": {
+    "dataSource": "mongo"
+  },
   "Tax": {
     "dataSource": "mongo"
   },

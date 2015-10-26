@@ -65,13 +65,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "order": {
-      "type": "belongsTo",
-      "model": "Order",
-      "foreignKey": "order_id"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": []
 }

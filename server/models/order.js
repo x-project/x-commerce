@@ -98,8 +98,8 @@ module.exports = function (Order) {
       processorResponseText: obj.complete.transaction.processorResponseText,
       updatedAt: obj.complete.transaction.updatedAt,
       type: obj.complete.transaction.type,
-      statusHistory: obj.complete.transaction.statusHistory,
-      order_id: obj.order.id
+      statusHistory: obj.complete.transaction.statusHistory
+      // order_id: obj.order.id
     };
     payment.create(payment_model, done);
   };

@@ -33,15 +33,20 @@
   },
   "validations": [],
   "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "customer_id"
+    },
     "order_items": {
       "type": "hasMany",
       "model": "OrderItem",
       "foreignKey": "order_id"
     },
-    "customer": {
-      "type": "belongsTo",
-      "model": "Customer",
-      "foreignKey": "customer_id"
+    "payments": {
+      "type": "hasMany",
+      "model": "Payment",
+      "foreignKey": "order_id"
     },
     "taxes": {
       "type": "hasMany",

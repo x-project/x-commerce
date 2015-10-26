@@ -1,0 +1,28 @@
+{
+  "name": "Task",
+  "plural": "tasks",
+  "mongodb": {
+    "collection": "tasks"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "params": {
+      "type": "Object"
+    },
+    "handler": {
+      "type": "String"
+    },
+    "created_at": {
+      "type": "Date"
+    },
+    "priority": {
+      "type": "String",
+      "default": "low",
+      "enum": ["low", "medium", "high"]
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

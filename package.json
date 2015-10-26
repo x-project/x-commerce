@@ -13,6 +13,7 @@
     "braintree": "^1.29.0",
     "compression": "^1.4.4",
     "cors": "^2.5.2",
+    "cron": "^1.0.9",
     "email-verify": "0.0.15",
     "emailjs": "^1.0.0",
     "errorhandler": "^1.1.1",
