@@ -53,7 +53,6 @@ module.exports = function (Order) {
         callback(err, null);
         return;
       }
-
       gateway.clientToken.generate({ customerId: customer_id }, function (err, response) {
         if (err) {
           callback(err, null);
@@ -252,9 +251,9 @@ module.exports = function (Order) {
     });
   };
 
-  var checkout_stripe = function ( token, amount, callback) {
+  var stripe_checkout = function ( token, amount, callback) {
     var charge = stripe.charges.create({
-      amount: amount*100,//cents
+      amount: amount * 100,//cents
       currency: "eur",
       source: token,
       description: "my first faker payment"
@@ -286,7 +285,7 @@ module.exports = function (Order) {
       },
 
       function (result, next) {
-        checkout_stripe(token, 1, next);
+        stripe_checkout(token, 1, next);
       },
       function (complete, next) {
         tras_completed = complete;

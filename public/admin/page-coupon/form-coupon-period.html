@@ -1,0 +1,41 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="/components/input-datetime/input-datetime.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-coupon-period">
+  <template>
+    <style include="style-form">
+      input-datetime {
+        display: inline-block;
+      }
+    </style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">From</label>
+        <input-datetime class="input" value="{{coupon.date_from}}"></input-datetime>
+        <label class="label">To</label>
+        <input-datetime class="input" value="{{coupon.date_to}}"></input-datetime>
+      </div>
+    </form>
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-coupon-period',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>

@@ -1,0 +1,27 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-coupons-item.html">
+<dom-module id="part-coupons-items">
+  <template>
+
+    <div class="items">
+      <template id="customers" is="dom-repeat" items="{{coupons}}" as="coupon">
+        <part-coupons-item coupon="{{coupon}}"></part-coupons-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-coupons-items',
+
+    properties: {
+      coupons: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

@@ -1,0 +1,47 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<dom-module id="form-wishlist-description">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+    </style>
+
+    <form role="form" id="form" on-submit="on_submit">
+      <label class="label">Description</label>
+      <div class="field">
+        <iron-autogrow-textarea is="iron-input" bind-value="{{description}}" rows="4">
+        </iron-autogrow-textarea>
+      </div>
+      <input type="submit" value="submit">
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-wishlist-description',
+
+    properties: {
+      favourite: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.description = this.favourite.description;
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      var cpy_descrition = this.description;
+      this.set('description', '');
+      this.fire('add-description', {description: cpy_descrition, model: this.favourite });
+    }
+
+  });
+</script>

@@ -1,15 +1,35 @@
 <link rel="import" href="part-summary-order-item.html">
+<link rel="import" href="part-summary-coupon.html">
 <dom-module id="part-summary-amount">
   <template>
     <style>
       :host {
         display: block;
       }
+      .coupon {
+        display: none;
+      }
+      .coupon[show] {
+        display: block;
+      }
     </style>
 
+    <app-session id="session"></app-session>
+
+    <iron-ajax id="ajax_get" method="GET" on-response="on_response"
+      last-response="{{coupon}}" on-error="on_error">
+    </iron-ajax>
+
     <h3>Subtotal</h3>
-    <label class="label">Amount: </label>
-    <span>{{subtotal}}</span>
+    <div class="amount">
+      <label class="label">Amount: </label>
+      <span id="sub">{{subtotal}}</span>
+      <span id="new_sub">{{new_sub}}</span>
+    </div>
+
+    <button id="button" on-click="on_click_coupon">coupon</button>
+
+    <part-summary-coupon class="coupon" show$="{{show}}" on-submit="on_submit"></part-summary-coupon>
 
   </template>
 </dom-module>
@@ -22,6 +42,10 @@
       orderItems: {
         type: Array,
         value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
       }
     },
 
@@ -47,6 +71,45 @@
 
     calculate_subtotal_product: function (item) {
       return item.quantity * item.product.price;
+    },
+
+    on_click_coupon: function (event) {
+      event.stopPropagation();
+      this.set('show', true);
+      this.$.button.disabled = true;
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      this.set('show', false);
+      this.$.button.disabled = false;
+      var code = event.detail;
+      this.$.ajax_get.url = '/api/coupons/findOne';
+      this.$.ajax_get.params.filter = JSON.stringify({where: {code: code}});
+      this.$.ajax_get.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      // var date_to = this.coupon.date_to;
+      // this.is_valid_date(date_to);
+      this.$.sub.style.textDecoration = 'line-through';
+      this.new_sub = this.subtotal - (this.subtotal * this.coupon.discount / 100);
+      this.$.session.set('coupon', this.coupon.id);
+      this.$.button.disabled = true;
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    },
+
+    is_valid_date: function (date) {
+      var splitted = date.split('T');
+      var date = splitted[0];
+      var time = splitted[1];
+      //TODO CURRENT TIME
+      return true;
     }
 
   });

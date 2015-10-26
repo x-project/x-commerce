@@ -1,0 +1,38 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-coupon-status">
+  <template>
+    <style include="style-form">
+      input-datetime {
+        display: inline-block;
+      }
+    </style>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Avaiable</label>
+        <paper-checkbox is="iron-input" checked="{{coupon.status}}"></paper-checkbox>
+      </div>
+    </form>
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-coupon-status',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>
