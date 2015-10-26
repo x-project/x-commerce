@@ -1,24 +1,38 @@
-<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="form-wishlist-description.html">
 <dom-module id="part-wishlist-item">
   <template>
     <style>
       :host {
         display: block;
       }
+      .whislist_description {
+        display: none;
+      }
+      .whislist_description[visible] {
+        display: block;
+      }
     </style>
 
+    <div class="title">
+      <span>{{favourite.product.title}}</span>
+      <template is="dom-if" if="{{favourite.product_variant}}">
+        ( <span>{{favourite.product_variant.name}}</span> )
+      </template>
+    </div>
 
-      <div class="title">
-        <span>{{favourite.product.title}}</span>
-        <template is="dom-if" if="{{favourite.product_variant}}">
-          ( <span>{{favourite.product_variant.name}}</span> )
-        </template>
-      </div>
-      <div>{{favourite.product.description}}</div>
-      <div>{{price}}</div>
-      <a href="{{favourite.url}}">view</a>
-      <button on-click="on_click_remove">remove</button>
-    </template>
+    <div>{{favourite.product.description}}</div>
+    <div>{{price}}</div>
+    <div>{{favourite.description}}</div>
+
+    <a href="{{favourite.url}}">view</a>
+    <button on-click="on_click_description">add description</button>
+    <button on-click="on_click_remove">remove</button>
+
+    <form-wishlist-description class="whislist_description" visible$="{{visible}}"
+      favourite="{{favourite}}" on-add-description="on_add_description">
+    </form-wishlist-description>
+
+  </template>
 </dom-module>
 <script>
   Polymer({
@@ -29,6 +43,10 @@
       favourite: {
         type: Object,
         value: function () { return {}; }
+      },
+      visible: {
+        type: Boolean,
+        value: false
       }
     },
 
@@ -43,6 +61,16 @@
     on_click_remove: function (event) {
       event.stopPropagation();
       this.fire('try-remove-favourite', this.favourite);
+    },
+
+    on_click_description: function (event) {
+      event.stopPropagation();
+      this.set('visible', true);
+    },
+
+    on_add_description: function (event) {
+      //bubble up - for add description
+      this.set('visible', false);
     }
 
   });

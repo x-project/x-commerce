@@ -10,11 +10,15 @@
     <app-session id="session"></app-session>
 
     <api-model-find id="find" collection="customers" response="{{favourites}}"
-      relation="wishlists"
-      on-response="on_response" on-error="on_error">
+      relation="wishlists" on-response="on_response" on-error="on_error">
     </api-model-find>
 
-    <iron-ajax id="ajax_delete" method="DELETE" on-response="on_response_delete" on-error="on_error">
+    <iron-ajax id="ajax_update" method="PUT" handle-as="json" content-type="application/json"
+      on-response="on_response_update" on-error="on_error">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_delete" method="DELETE" on-response="on_response_delete"
+      on-error="on_error">
     </iron-ajax>
 
     <layout-client>
@@ -22,7 +26,8 @@
         <h1>Wishlist</h1>
       </part-jumbotron>
       <div class="container">
-        <part-wishlist-items favourites="{{favourites}}" on-try-remove-favourite="on_try_remove_favourite">
+        <part-wishlist-items favourites="{{favourites}}" on-add-description="on_add_description"
+          on-try-remove-favourite="on_try_remove_favourite">
         </part-wishlist-items>
       </div>
     </layout-client>
@@ -39,6 +44,7 @@
     attached: function () {
       var user = this.$.session.get('user');
       this.$.find.modelId = user.id;
+      this.$.find.one = false;
       this.$.find.include = ["product", "product_variant"];
       this.$.find.send();
     },
@@ -46,7 +52,6 @@
     on_try_remove_favourite: function (event) {
       event.stopPropagation();
       var user = this.$.session.get('user');
-      var token = this.$.session.get('token');
       this.$.ajax_delete.url = '/api/customers/' + user.id + '/wishlists/' + event.detail.id;
       this.$.ajax_delete.generateRequest();
     },
@@ -56,16 +61,29 @@
       this.attached();
     },
 
+    on_add_description: function (event) {
+      event.stopPropagation();
+      var description = event.detail.description;
+      var fav_model = event.detail.model;
+      var customer = this.$.session.get('user');
+      this.$.ajax_update.url = '/api/customers/' + customer.id + '/wishlists/' + fav_model.id;
+      this.$.ajax_update.body = JSON.stringify({ description: description });
+      this.$.ajax_update.generateRequest();
+    },
+
+    on_response_update: function (event) {
+      event.stopPropagation();
+      this.attached();
+    },
+
     on_response: function (event) {
       event.stopPropagation();
-
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
     }
-
 
   });
 </script>
