@@ -38,6 +38,11 @@ boot(app, __dirname, function(err) {
 
   var running = false;
 
+  var run_hundler = function (task, callback) {
+    console.log(task);
+    callback();
+  };
+
   var execute_task = function (counter, callback) {
     running = true;
     async.whilst(
@@ -45,14 +50,15 @@ boot(app, __dirname, function(err) {
         return counter > 0;
       },
       function (done) {
-        app.models.Task.find(function (err, model_list) {
+        app.models.Task.findOne(function (err, model) {
           if (err) {
             done(err);
           }
-          if (model_list.length > 0) {
-            counter --;
-            var curr_task = model_list[counter];
-            console.log(curr_task);
+          if (model) {
+            run_hundler(model, function (err, result) {
+              counter--;
+              done();
+            });
           }
         });
       },
@@ -61,6 +67,7 @@ boot(app, __dirname, function(err) {
       }
     );
   };
+
   var prepare_tasks =  function (counter, callback) {
     // if (counter == 0 || running === true) {
     //   //nulla da fare o cron gia avviato
