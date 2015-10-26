@@ -20,11 +20,6 @@
       "type": "belongsTo",
       "model": "ProductVariant",
       "foreignKey": "product_variant_id"
-    },
-    "coupon": {
-      "type": "belongsTo",
-      "model": "Coupon",
-      "foreignKey": "coupon_id"
     }
   },
   "acls": [],
