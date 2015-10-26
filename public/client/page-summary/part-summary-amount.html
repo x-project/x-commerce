@@ -14,6 +14,8 @@
       }
     </style>
 
+    <app-session id="session"></app-session>
+
     <iron-ajax id="ajax_get" method="GET" on-response="on_response"
       last-response="{{coupon}}" on-error="on_error">
     </iron-ajax>
@@ -89,15 +91,26 @@
 
     on_response: function (event) {
       event.stopPropagation();
-      console.log(this.coupon);
+      // var date_to = this.coupon.date_to;
+      // this.is_valid_date(date_to);
       this.$.sub.style.textDecoration = 'line-through';
-      this.new_sub = this.subtotal - (this.subtotal * this.coupon.discount /100);
+      this.new_sub = this.subtotal - (this.subtotal * this.coupon.discount / 100);
+      this.$.session.set('coupon', this.coupon.id);
+      this.$.button.disabled = true;
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
     },
+
+    is_valid_date: function (date) {
+      var splitted = date.split('T');
+      var date = splitted[0];
+      var time = splitted[1];
+      //TODO CURRENT TIME
+      return true;
+    }
 
   });
 </script>
