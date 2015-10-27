@@ -6,7 +6,7 @@
   },
   "base": "PersistedModel",
   "properties": {
-    "params": {
+    "data": {
       "type": "Object"
     },
     "handler": {
@@ -19,6 +19,18 @@
       "type": "String",
       "default": "low",
       "enum": ["low", "medium", "high"]
+    },
+    "last_retry_at": {
+      "type": "Date"
+    },
+    "retry_count": {
+      "type": "Number"
+    },
+    "done_at": {
+      "type": "Date"
+    },
+    "done": {
+      "type": "Boolean"
     }
   },
   "relations": {},

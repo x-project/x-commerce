@@ -24,8 +24,8 @@
         <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
           on-change-address="on_change_address">
         </part-summary-order-detail>
-        <part-summary-buy-policy></part-summary-buy-policy>
-        <!-- <form-braintree id="braintree" on-success="on_success_pay"></form-braintree> -->
+        <!-- <part-summary-buy-policy></part-summary-buy-policy> -->
+        <form-braintree id="braintree" on-success="on_success_pay"></form-braintree>
         <!-- <form-stripe id="stripe"></form-stripe> -->
       </div>
     </layout-client>

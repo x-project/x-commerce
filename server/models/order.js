@@ -184,24 +184,59 @@ module.exports = function (Order) {
       Order.upsert(order, done);
   };
 
+  var create_fail_task = function (order, payment, callback) {
+    var data_payment = {
+      success: transaction.success,
+      tras_id: transaction.id,
+      status: transaction.status,
+      amount: transaction.amount,
+      bin: transaction.creditCard.bin,
+      cardType: transaction.creditCard.cardType,
+      customerLocation: transaction.creditCard.customerLocation,
+      debit: transaction.creditCard.debit,
+      expirationDate: transaction.creditCard.expirationDate,
+      expirationMonth: transaction.creditCard.expirationMonth,
+      expirationYear: transaction.creditCard.expirationYear,
+      maskedNumber: transaction.creditCard.maskedNumber,
+      last4: transaction.creditCard.last4,
+      issuingBank: transaction.creditCard.issuingBank,
+      createdAt: transaction.createdAt,
+      merchantAccountId: transaction.merchantAccountId,
+      paymentInstrumentType: transaction.paymentInstrumentType,
+      processorAuthorizationCode: transaction.processorAuthorizationCode,
+      processorResponseCode: transaction.processorResponseCode,
+      processorResponseText: transaction.processorResponseText,
+      updatedAt: transaction.updatedAt,
+      type: transaction.type,
+      statusHistory: transaction.statusHistory
+    };
+    order.payments.create(data_payment, callback);
+  };
 
-  var checkout_braintree = function ( nonce, amount, callback) {
+
+  var checkout_braintree = function (order, nonce, amount, callback) {
     var transaction = gateway.transaction;
     var data = { paymentMethodNonce: nonce, amount: amount };
-    transaction.sale(data, function (err, data_autorization) {
+    transaction.sale(data, function (err, response) {
       if (err) {
         callback(err, null);
         return;
       }
-      transaction.submitForSettlement(data_autorization.transaction.id, function (err, complete) {
+      if (!response.success) {
+        callback(response, null);
+        return;
+      }
+      transaction.submitForSettlement(response.params.transaction.id, function (err, complete) {
         if (err) {
+          create_fail_task(order, tras_completed);
           callback(err, null);
+          return;
         }
         callback(null, complete);
+        return;
       });
     });
   };
-
 
   Order.checkout_braintree = function (cart, payment_method_nonce, customer_token, callback) {
     var new_order, tras_completed;
@@ -223,23 +258,28 @@ module.exports = function (Order) {
       },
 
       function (result, next) {
-        checkout_braintree(payment_method_nonce, 1, next);
+        checkout_braintree(new_order, payment_method_nonce, -1, next);
       },
+
       function (complete, next) {
-        tras_completed = complete;
-        mark_closed_order(new_order, next);
+        if (complete.success) {
+          tras_completed = complete;
+          mark_closed_order(new_order, next);
+          return;
+        }
+        next(null, new_order);
       },
 
       function (order_closed, next) {
         new_order = order_closed;
         next(null, {complete: tras_completed, order: new_order});
-      },
+      }
 
-      function (output, next) {
-        create_payment(output, function (err, result) {
-          next(null, output);
-        });
-      },
+      // function (output, next) {
+      //   create_payment(output, function (err, result) {
+      //     next(null, output);
+      //   });
+      // },
     ],
 
     function (err, result) {

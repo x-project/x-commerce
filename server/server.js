@@ -6,6 +6,13 @@ var env = require('node-env-file');
 var auth = require('./auth/auth');
 var app = module.exports = loopback();
 var CronJob = require('cron').CronJob;
+var dateFormat = require('dateformat');
+
+
+ // var now = new Date();
+ // var date = dateFormat(now, "isoDateTime");
+ // var date = date.replace('+','Z+');
+ // console.log(date);
 
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env');
@@ -20,11 +27,8 @@ app.start = function() {
 
 boot(app, __dirname, function(err) {
   if (err) throw err;
-
   app.use(loopback.static(path.resolve(__dirname, '../public')));
-
   app.use(loopback.static(path.resolve(__dirname, './storage'), { index: false }));
-
   auth(app);
 
   app.get('/admin/*', function (req, res) {
@@ -35,79 +39,76 @@ boot(app, __dirname, function(err) {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
   });
 
-
-  function my_function () {
-    console.log("ciao");
-  }
   var running = false;
 
-  var run_handler = function (task, callback) {
+  app.retry_payment = function (task, done) {
+    // console.log(task);
+    // TODO RETRY PAYMENT
     console.log(task);
-    callback();
+    app.models.Task.destroyById(task.id, function (err) {
+      if(err) {
+        callback(err);
+        return;
+      }
+      done(null, null);
+    });
   };
 
-  var execute_task = function (counter, callback) {
+  var run_handler = function (task, callback) {
+    task.retry_count++;
+    // app.models.Task.upsert(task, function (err, model) {
+    // });
+    if (task.handler === 'retry_payment') {
+      app.retry_payment(task, function (err, result) {
+        if(err) {
+          callback(err);
+          return;
+        }
+        callback(null);
+      });
+    }
+  };
+
+  var loop_task = function (callback) {
     running = true;
-    async.whilst(
-      function () {
-        return counter > 0;
-      },
-      function (done) {
+    var task;
+    async.during(
+      function (callback) {
+        var filter_where = { where: {done: false} };
         app.models.Task.findOne(function (err, model) {
-          if (err) {
-            done(err);
-          }
-          if (model) {
-            run_handler(model, function (err, result) {
-              counter--;
-              done();
-            });
-          }
+          task = model;
+          setImmediate(callback, err, !!model);
         });
       },
+
+      function (callback) {
+        run_handler(task, function (err, result) {
+          callback();
+        });
+      },
+
       function (err) {
         callback();
       }
     );
   };
 
-  var prepare_tasks =  function (counter, callback) {
-    // if (counter == 0 || running === true) {
-    //   //nulla da fare o cron gia avviato
-    //   return;
-    // }
-    // if (counter == 0 && running === false) {
-    //   // nulla fa fare
-    //   return;
-    // }
-    // if (counter > 0 && running === true) {
-    //   // cron e' gia avviato
-    //   return;
-    // }
-    if (counter > 0 && running === false) {
-      //c'è da fare e nessuno sta lavorando
-      execute_task(counter, callback);
+  var start = function (callback) {
+    if (running === false) {
+      loop_task(callback);
     }
     else {
-      callback();
+      callback(null);
     }
-  };
-
-  var start = function  () {
-    app.models.Task.count( function (err, counter) {
-      if (err) {
-        return;
-      }
-      prepare_tasks(counter, function () {
-        console.log("finsih");
-        return;
-      });
-    });
   };
 
   var job = new CronJob({
     cronTime: '* * * * * *',//Each minute
-    onTick: start(),
+    onTick: start(function (err) {
+      if (err) {
+        running = false;
+      }
+    }),
     start: true,
     timeZone: 'America/Los_Angeles'
   });
