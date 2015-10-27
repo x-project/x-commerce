@@ -36,6 +36,7 @@
     "moment": "^2.10.6",
     "multer": "^0.1.8",
     "node-env-file": "^0.1.7",
+    "node-schedule": "^0.2.9",
     "path": "^0.12.7",
     "request": "^2.65.0",
     "retry": "^0.8.0",

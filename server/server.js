@@ -5,6 +5,7 @@ var path = require('path');
 var env = require('node-env-file');
 var auth = require('./auth/auth');
 var app = module.exports = loopback();
+var CronJob = require('cron').CronJob;
 
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env');
@@ -35,10 +36,12 @@ boot(app, __dirname, function(err) {
   });
 
 
-
+  function my_function () {
+    console.log("ciao");
+  }
   var running = false;
 
-  var run_hundler = function (task, callback) {
+  var run_handler = function (task, callback) {
     console.log(task);
     callback();
   };
@@ -55,7 +58,7 @@ boot(app, __dirname, function(err) {
             done(err);
           }
           if (model) {
-            run_hundler(model, function (err, result) {
+            run_handler(model, function (err, result) {
               counter--;
               done();
             });
@@ -97,19 +100,18 @@ boot(app, __dirname, function(err) {
       }
       prepare_tasks(counter, function () {
         console.log("finsih");
+        return;
       });
     });
   };
 
-  start();
-
-
-
-
-
-
-
-
+  var job = new CronJob({
+    cronTime: '* * * * * *',//Each minute
+    onTick: start(),
+    start: true,
+    timeZone: 'America/Los_Angeles'
+  });
+  job.start();
 
   if (require.main === module) {
     app.start();
