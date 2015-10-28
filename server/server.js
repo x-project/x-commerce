@@ -43,7 +43,8 @@ boot(app, __dirname, function(err) {
 
   app.retry_payment = function (task, done) {
     app.models.Order.findById(task.data.order_id, function (err, order) {
-      app.models.Order.braintre_complete_transation('j74bfy', 1, function(err, res) {
+      var amount = 1;//order.total
+      app.models.Order.braintre_complete_transation(task.data.transaction_id, amount, function(err, res) {
         task.done = true;
         task.retry_count = task.retry_count+1;
         app.models.Task.upsert(task, function (err, model) {
@@ -58,6 +59,7 @@ boot(app, __dirname, function(err) {
                 done(err, null);
                 return;
               }
+              done(null, null);
             });
           }
         });
@@ -67,8 +69,6 @@ boot(app, __dirname, function(err) {
 
   var run_handler = function (task, callback) {
     task.retry_count++;
-    // app.models.Task.upsert(task, function (err, model) {
-    // });
     if (task.handler === 'braintre_complete_transation') {
       app.retry_payment(task, function (err, result) {
         if(err) {
@@ -86,7 +86,7 @@ boot(app, __dirname, function(err) {
     async.during(
       function (callback) {
         var filter_where = { where: {done: false} };
-        app.models.Task.findOne(function (err, model) {
+        app.models.Task.findOne(filter_where, function (err, model) {
           task = model;
           setImmediate(callback, err, !!model);
         });
@@ -94,26 +94,25 @@ boot(app, __dirname, function(err) {
 
       function (callback) {
         run_handler(task, function (err, result) {
-          callback();
+          callback(null);
         });
       },
 
       function (err) {
-        callback();
+        callback(null);
       }
     );
   };
 
   var start = function () {
     if (running === false) {
-      loop_task(callback);
-    }
-    else {
-      callback(null);
+      loop_task(function (err) {
+        running = false
+      });
     }
   };
 
-  var job = new CronJob('1 * * * * *',
+  var job = new CronJob('* * * * * *',
     function() {
       start();
     }, null, true, 'Europe/London');

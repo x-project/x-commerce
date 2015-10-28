@@ -191,7 +191,6 @@ module.exports = function (Order) {
     };
   };
 
-
   var save_payment = function (data) {
     return function (next) {
       var prefix = data.payment_status;
@@ -225,6 +224,7 @@ module.exports = function (Order) {
           setImmediate(next, err);
           return;
         });
+        return;
       }
       next();
     };
@@ -268,7 +268,6 @@ module.exports = function (Order) {
 
   var create_fail_task = function (data) {
     return function (next) {
-      console.log(data.payment_status);
       if (data.payment_status) {
         if (data.payment_status.success) {
           var task = {
@@ -321,7 +320,8 @@ module.exports = function (Order) {
           });
         }
       }
-      next();
+      else
+        next();
     };
   };
 
