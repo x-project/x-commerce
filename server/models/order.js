@@ -16,22 +16,28 @@ var gateway = braintree.connect({
 
 module.exports = function (Order) {
 
+  var destroy_order_items = function (order) {
+    return function (next) {
+      order.order_items.destroyAll(next);
+    };
+  };
+
+  var destroy_taxes = function (order) {
+    return function (next) {
+      order.taxes.destroyAll(next);
+    };
+  };
+
   Order.observe('before delete', function(ctx, callback) {
     var order = ctx.instance;
-
     if (!order) {
       callback(null);
       return;
     }
 
     async.waterfall([
-      function (next) {
-        order.order_items.destroyAll(next);
-      },
-
-      function (next) {
-        order.taxes.destroyAll(next);
-      }
+      destroy_order_items(order),
+      destroy_taxes(order)
     ],
     function (err) {
       if (err) {
@@ -104,190 +110,239 @@ module.exports = function (Order) {
     payment.create(payment_model, done);
   };
 
-  var get_customer =  function (token, callback) {
-    Order.app.models.Customer.relations.accessTokens.modelTo.findById(token, function (err, token) {
-      if (err) {
-        callback(err, null);
-        return;
+  var get_customer = function (data) {
+    return function (next) {
+      Order.app.models.Customer.findById(data.token, function (err, user) {
+        data.customer = user;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var get_access_token_customer =  function (data) {
+    return function (next) {
+      var accessTokens = Order.app.models.Customer.relations.accessTokens;
+      Order.app.models.Customer.relations.accessTokens.modelTo.findById(data.customer_token, function (err, token) {
+        data.token = token.userId;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var create_order = function (data) {
+    return function (done) {
+      var amount = get_amount(data.cart);
+      data.amount = amount;
+      var order = {
+        customer_id: data.customer.id,
+        total: amount
+      };
+      Order.create(order, function (err, model) {
+        data.new_order = model;
+        setImmediate(done, err);
+      });
+    };
+  };
+
+  var create_order_item = function (data, cart) {
+    return function (done) {
+      var cart = data.cart;
+      var cart_clone = data.cart.slice(0);
+      cart_clone.forEach(function (item) {
+        delete item.variant;
+        delete item.product;
+      });
+      data.new_order.order_items.create(cart, function (err, models) {
+        setImmediate(done, err);
+      });
+    }
+  };
+
+  var prepare_order_review = function (data) {
+    return function (next) {
+      var reviews = [];
+      var review;
+      data.cart.forEach( function (item) {
+        review = {};
+        review.customer_id = data.customer.id;
+        review.product_id = item.product_id;
+        review.closed = false;
+        review.title = '';
+        review.text = '';
+        review.rating = 0;
+        reviews.push(review);
+      });
+      Order.app.models.Review.create(reviews, function (err, model) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var prepare_order = function (data) {
+    return function (next) {
+      var new_order;
+      async.waterfall([
+        create_order(data),
+        create_order_item(data),
+      ],
+      function (err) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var try_sign_order_close =  function (data) {
+    return function (next) {
+      if(data.payment_status.success) {
+        data.new_order.status = 'closed';
+        Order.upsert(data.new_order, function (err, model) {
+          data.new_order = model;
+          setImmediate(next, err);
+        });
       }
-      Order.app.models.Customer.findById(token.userId, function (err, user) {
-        if (err) {
-          callback(err, null);
+      else
+        next();
+    };
+  };
+
+  var save_payment = function (data) {
+    return function (next) {
+      var prefix = data.payment_status;
+      if (prefix.success) {
+        var data_payment = {
+          success: prefix.success,
+          tras_id: prefix.transaction.id,
+          status: prefix.transaction.status,
+          amount: prefix.transaction.amount,
+          bin: prefix.transaction.creditCard.bin,
+          cardType: prefix.transaction.creditCard.cardType,
+          customerLocation: prefix.transaction.creditCard.customerLocation,
+          debit: prefix.transaction.creditCard.debit,
+          expirationDate: prefix.transaction.creditCard.expirationDate,
+          expirationMonth: prefix.transaction.creditCard.expirationMonth,
+          expirationYear: prefix.transaction.creditCard.expirationYear,
+          maskedNumber: prefix.transaction.creditCard.maskedNumber,
+          last4: prefix.transaction.creditCard.last4,
+          issuingBank: prefix.transaction.creditCard.issuingBank,
+          createdAt: prefix.transaction.createdAt,
+          merchantAccountId: prefix.transaction.merchantAccountId,
+          paymentInstrumentType: prefix.transaction.paymentInstrumentType,
+          processorAuthorizationCode: prefix.transaction.processorAuthorizationCode,
+          processorResponseCode: prefix.transaction.processorResponseCode,
+          processorResponseText: prefix.transaction.processorResponseText,
+          updatedAt: prefix.transaction.updatedAt,
+          type: prefix.transaction.type,
+          statusHistory: prefix.transaction.statusHistory
+        };
+        data.new_order.payments.create(data_payment, function (err, model) {
+          setImmediate(next, err);
+          return;
+        });
+      }
+      next();
+    };
+  };
+
+  var braintree_checkout = function (data) {
+    return function (next) {
+      var transaction = gateway.transaction;
+      var sale_data = {
+        amount: 1,//data.amount
+        paymentMethodNonce: data.nonce,
+        options: {
+          submitForSettlement: true
+        }
+      };
+      transaction.sale(sale_data, function (err, res) {
+        if (res.errors !== undefined) {
+          data.authorizatoin_error = res.params;
+          next();
           return;
         }
-        callback(null, user);
+        data.payment_status = res;
+        setImmediate(next, err);
       });
-    });
-  };
-
-  var create_order = function (customer, amount, done) {
-    var order = {
-      customer_id: customer.id,
-      total: amount
     };
-    Order.create(order, done);
   };
 
-  var create_order_item = function (order, cart, done) {
-    var cart_clone = cart.slice(0);
-    cart_clone.forEach(function (item) {
-      delete item.variant;
-      delete item.product;
-    });
-    order.order_items.create(cart, done);
-  };
-
-  var prepare_order_review = function (customer, cart, done) {
-    var reviews = [];
-    var review;
-    cart.forEach( function (item) {
-      review = {};
-      review.customer_id = customer.id;
-      review.product_id = item.product_id;
-      review.closed = false;
-      review.title = '';
-      review.text = '';
-      review.rating = 0;
-      reviews.push(review);
-    });
-    Order.app.models.Review.create(reviews, done);
-  };
-
-  var prepare_order = function (customer, cart, amount, callback) {
-    var new_order;
-    async.waterfall([
-      function (next) {
-        create_order(customer, amount, next);
-      },
-
-      function (order, next) {
-        new_order = order;
-        create_order_item(order, cart, next);
-      },
-
-      function (result, next) {
-        next(null, new_order);
-      }
-    ],
-
-    function (err, result) {
-      if (err) {
-        callback(err, null);
-        return;
-      }
-      callback(null, result);
-    });
-  };
-
-  var mark_closed_order =  function (order, done) {
-    order.status = 'closed';
-      Order.upsert(order, done);
-  };
-
-  var create_fail_task = function (order, payment, callback) {
-    var data_payment = {
-      success: transaction.success,
-      tras_id: transaction.id,
-      status: transaction.status,
-      amount: transaction.amount,
-      bin: transaction.creditCard.bin,
-      cardType: transaction.creditCard.cardType,
-      customerLocation: transaction.creditCard.customerLocation,
-      debit: transaction.creditCard.debit,
-      expirationDate: transaction.creditCard.expirationDate,
-      expirationMonth: transaction.creditCard.expirationMonth,
-      expirationYear: transaction.creditCard.expirationYear,
-      maskedNumber: transaction.creditCard.maskedNumber,
-      last4: transaction.creditCard.last4,
-      issuingBank: transaction.creditCard.issuingBank,
-      createdAt: transaction.createdAt,
-      merchantAccountId: transaction.merchantAccountId,
-      paymentInstrumentType: transaction.paymentInstrumentType,
-      processorAuthorizationCode: transaction.processorAuthorizationCode,
-      processorResponseCode: transaction.processorResponseCode,
-      processorResponseText: transaction.processorResponseText,
-      updatedAt: transaction.updatedAt,
-      type: transaction.type,
-      statusHistory: transaction.statusHistory
-    };
-    order.payments.create(data_payment, callback);
-  };
-
-
-  var checkout_braintree = function (order, nonce, amount, callback) {
+  var braintre_complete_transation = function (tras_id, amount, callback) {
     var transaction = gateway.transaction;
-    var data = { paymentMethodNonce: nonce, amount: amount };
-    transaction.sale(data, function (err, response) {
-      if (err) {
-        callback(err, null);
+    transaction.submitForSettlement(tras_id, amount, callback);
+  };
+
+  var create_fail_task = function (data) {
+    return function (next) {
+      if (!data.payment_status.success) {
+        var task = {
+          data: { order_id: data.new_order.id, error: data.payment_status},
+          handler: 'braintre_complete_transation'
+        };
+        Order.app.models.Task.create(task, function (err, model) {
+          setImmediate(next, err);
+        });
+      }
+      else
+        next();
+    };
+  };
+
+  var prepare_response = function (data) {
+    return function (next) {
+      if (data.payment_status.success) {
+        data.client.complete = data.payment_status;
+        data.client.order = data.new_order;
+        next();
         return;
       }
-      if (!response.success) {
-        callback(response, null);
+      if (data.authorizatoin_error) {
+        data.client.error = data.authorizatoin_error;
+        next();
         return;
       }
-      transaction.submitForSettlement(response.params.transaction.id, function (err, complete) {
-        if (err) {
-          create_fail_task(order, tras_completed);
-          callback(err, null);
-          return;
-        }
-        callback(null, complete);
-        return;
-      });
-    });
+      next();
+    };
   };
 
   Order.checkout_braintree = function (cart, payment_method_nonce, customer_token, callback) {
-    var new_order, tras_completed;
     var amount = 0;
+    var data = {
+      cart: cart,
+      nonce: payment_method_nonce,
+      customer_token: customer_token,
+      client: {}
+    };
+
     async.waterfall([
-      function (next) {
-        get_customer(customer_token, next);
-      },
-
-      function (customer, next) {
-        curr_customer = customer;
-        amount = get_amount(cart);
-        prepare_order(customer, cart, amount, next);
-      },
-
-      function (order, next) {
-        new_order = order;
-        prepare_order_review(curr_customer, cart, next);
-      },
-
-      function (result, next) {
-        checkout_braintree(new_order, payment_method_nonce, -1, next);
-      },
-
-      function (complete, next) {
-        if (complete.success) {
-          tras_completed = complete;
-          mark_closed_order(new_order, next);
-          return;
-        }
-        next(null, new_order);
-      },
-
-      function (order_closed, next) {
-        new_order = order_closed;
-        next(null, {complete: tras_completed, order: new_order});
-      }
-
-      // function (output, next) {
-      //   create_payment(output, function (err, result) {
-      //     next(null, output);
-      //   });
+      get_access_token_customer(data),
+      get_customer(data),
+      prepare_order(data),
+      prepare_order_review(data),
+      braintree_checkout(data),
+      try_sign_order_close(data),
+      save_payment(data),
+      create_fail_task(data),
+      prepare_response(data)
+      // function (complete, next) {
+      //   if (complete.success) {
+      //     tras_completed = complete;
+      //     mark_closed_order(new_order, next);
+      //     return;
+      //   }
+      //   next(null, new_order);
       // },
+
+      // function (order_closed, next) {
+      //   new_order = order_closed;
+      //   next(null, {complete: tras_completed, order: new_order});
+      // }
     ],
 
-    function (err, result) {
+    function (err) {
       if (err) {
         callback(err, null);
         return;
       }
-      callback(null, result);
+      callback(null, {response: data.client});
     });
   };
 
