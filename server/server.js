@@ -42,15 +42,26 @@ boot(app, __dirname, function(err) {
   var running = false;
 
   app.retry_payment = function (task, done) {
-    // console.log(task);
-    // TODO RETRY PAYMENT
-    console.log(task);
-    app.models.Task.destroyById(task.id, function (err) {
-      if(err) {
-        callback(err);
-        return;
-      }
-      done(null, null);
+    app.models.Order.findById(task.data.order_id, function (err, order) {
+      app.models.Order.braintre_complete_transation('j74bfy', 1, function(err, res) {
+        task.done = true;
+        task.retry_count = task.retry_count+1;
+        app.models.Task.upsert(task, function (err, model) {
+          if (err) {
+            done(err, null);
+            return;
+          }
+          if (res.success) {
+            order.status = 'closed';
+            app.models.Order.upsert(order, function (err, model) {
+              if (err) {
+                done(err, null);
+                return;
+              }
+            });
+          }
+        });
+      });
     });
   };
 
@@ -58,7 +69,7 @@ boot(app, __dirname, function(err) {
     task.retry_count++;
     // app.models.Task.upsert(task, function (err, model) {
     // });
-    if (task.handler === 'retry_payment') {
+    if (task.handler === 'braintre_complete_transation') {
       app.retry_payment(task, function (err, result) {
         if(err) {
           callback(err);
@@ -93,7 +104,7 @@ boot(app, __dirname, function(err) {
     );
   };
 
-  var start = function (callback) {
+  var start = function () {
     if (running === false) {
       loop_task(callback);
     }
@@ -102,17 +113,10 @@ boot(app, __dirname, function(err) {
     }
   };
 
-  var job = new CronJob({
-    cronTime: '* * * * * *',//Each minute
-    onTick: start(function (err) {
-      if (err) {
-        running = false;
-      }
-    }),
-    start: true,
-    timeZone: 'America/Los_Angeles'
-  });
-  job.start();
+  var job = new CronJob('1 * * * * *',
+    function() {
+      start();
+    }, null, true, 'Europe/London');
 
   if (require.main === module) {
     app.start();

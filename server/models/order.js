@@ -191,24 +191,11 @@ module.exports = function (Order) {
     };
   };
 
-  var try_sign_order_close =  function (data) {
-    return function (next) {
-      if(data.payment_status.success) {
-        data.new_order.status = 'closed';
-        Order.upsert(data.new_order, function (err, model) {
-          data.new_order = model;
-          setImmediate(next, err);
-        });
-      }
-      else
-        next();
-    };
-  };
 
   var save_payment = function (data) {
     return function (next) {
       var prefix = data.payment_status;
-      if (prefix.success) {
+      if (prefix) {
         var data_payment = {
           success: prefix.success,
           tras_id: prefix.transaction.id,
@@ -250,13 +237,18 @@ module.exports = function (Order) {
         amount: 1,//data.amount
         paymentMethodNonce: data.nonce,
         options: {
-          submitForSettlement: true
+          submitForSettlement: false
         }
       };
       transaction.sale(sale_data, function (err, res) {
         if (res.errors !== undefined) {
-          data.authorizatoin_error = res.params;
-          next();
+          var err_detail = {
+            params: res.params,
+            success: res.success,
+            message: res.message
+          };
+          data.authorizatoin_error = err_detail;
+          setImmediate(next, null);
           return;
         }
         data.payment_status = res;
@@ -265,39 +257,69 @@ module.exports = function (Order) {
     };
   };
 
-  var braintre_complete_transation = function (tras_id, amount, callback) {
+  Order.braintre_complete_transation = function (tras_id, amount, callback) {
     var transaction = gateway.transaction;
-    transaction.submitForSettlement(tras_id, amount, callback);
+    transaction.find(tras_id, function (err, tras_status) {
+      if (tras_status.status !== 'submitted_for_settlement') {
+        transaction.submitForSettlement(tras_id, amount, callback);
+      }
+    });
   };
 
   var create_fail_task = function (data) {
     return function (next) {
-      if (!data.payment_status.success) {
-        var task = {
-          data: { order_id: data.new_order.id, error: data.payment_status},
-          handler: 'braintre_complete_transation'
-        };
-        Order.app.models.Task.create(task, function (err, model) {
-          setImmediate(next, err);
-        });
+      console.log(data.payment_status);
+      if (data.payment_status) {
+        if (data.payment_status.success) {
+          var task = {
+            data: {
+              order_id: data.new_order.id,
+              transaction_id: data.payment_status.transaction.id,
+              error: 'data.payment_status'
+            },
+            handler: 'braintre_complete_transation',
+            done: false,
+            retry_count: 0,
+          };
+          Order.app.models.Task.create(task, function (err, model) {
+            setImmediate(next, err);
+            return;
+          });
+        }
       }
-      else
-        next();
+      next();
     };
   };
 
   var prepare_response = function (data) {
     return function (next) {
-      if (data.payment_status.success) {
-        data.client.complete = data.payment_status;
-        data.client.order = data.new_order;
+      if (data.payment_status) {
+        if (data.payment_status.success) {
+          data.data_client_response.complete = data.payment_status;
+          data.data_client_response.order = data.new_order;
+          next();
+          return;
+        }
+      }
+      if (data.authorizatoin_error) {
+        data.data_client_response.error = data.authorizatoin_error;
         next();
         return;
       }
-      if (data.authorizatoin_error) {
-        data.client.error = data.authorizatoin_error;
-        next();
-        return;
+    };
+  };
+
+  var try_close_order =  function (data) {
+    return function (next) {
+      if(data.payment_status) {
+        if(data.payment_status.success) {
+          data.new_order.status = 'closed';
+          Order.upsert(data.new_order, function (err, model) {
+            data.new_order = model;
+            setImmediate(next, err);
+            return;
+          });
+        }
       }
       next();
     };
@@ -309,32 +331,18 @@ module.exports = function (Order) {
       cart: cart,
       nonce: payment_method_nonce,
       customer_token: customer_token,
-      client: {}
+      data_client_response: {}
     };
-
     async.waterfall([
       get_access_token_customer(data),
       get_customer(data),
       prepare_order(data),
       prepare_order_review(data),
       braintree_checkout(data),
-      try_sign_order_close(data),
+      try_close_order(data),
       save_payment(data),
       create_fail_task(data),
       prepare_response(data)
-      // function (complete, next) {
-      //   if (complete.success) {
-      //     tras_completed = complete;
-      //     mark_closed_order(new_order, next);
-      //     return;
-      //   }
-      //   next(null, new_order);
-      // },
-
-      // function (order_closed, next) {
-      //   new_order = order_closed;
-      //   next(null, {complete: tras_completed, order: new_order});
-      // }
     ],
 
     function (err) {
@@ -342,7 +350,11 @@ module.exports = function (Order) {
         callback(err, null);
         return;
       }
-      callback(null, {response: data.client});
+      callback(null, {
+        err: data.data_client_response.error,
+        order: data.data_client_response.order,
+        complete: data.data_client_response.complete
+      });
     });
   };
 

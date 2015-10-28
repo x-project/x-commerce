@@ -45,12 +45,12 @@
     },
 
     on_success_pay: function (event) {
-      event.stopPropagation();
+      // event.stopPropagation();
       console.log(event.detail);
-      if (event.detail.result.complete.success) {
-        this.$.session.set('cart', []);
-        page('/order/' + event.detail.result.order.id);
-      }
+      // if (event.detail.result.complete.success) {
+      //   this.$.session.set('cart', []);
+      //   page('/order/' + event.detail.result.order.id);
+      // }
     },
 
     on_change_address: function (event) {
