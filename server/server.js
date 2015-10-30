@@ -5,8 +5,6 @@ var env = require('node-env-file');
 var auth = require('./auth/auth');
 var app = module.exports = loopback();
 var moment = require('moment');
-var duration = require('moment-duration-format');
-var date_now = moment().format().split('+')[0] + 'Z';
 
 if (process.env.NODE_ENV !== 'production') {
   env(__dirname + '/.env');
@@ -35,7 +33,6 @@ boot(app, __dirname, function(err) {
   });
 
   require('./tasks/cron')(app);
-
 
   app.run_handler = function (task, callback) {
     if (!(task.handler in app.tasks)) {

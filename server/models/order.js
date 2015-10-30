@@ -13,8 +13,6 @@ var gateway = braintree.connect({
   privateKey: process.env.TOKEN_SECRET_BRAINTREE
 });
 
-var date_now = moment().format().split('+')[0] + 'Z';
-
 module.exports = function (Order) {
 
   var destroy_order_items = function (order) {
@@ -254,29 +252,31 @@ module.exports = function (Order) {
 
   var create_fail_task = function (data) {
     return function (next) {
-      if (data.payment_status) {
-        if (data.payment_status.success) {
-          var task = {
-            data: {
-              order_id: data.order.id,
-              transaction_id: data.payment_status.transaction.id,
-              customer_id: data.customer.id,
-              error: 'data.payment_status'
-            },
-            handler: 'retry_payment',
-            created_at: date_now,
-            priority: 'medium',
-            last_retry_at: date_now,
-            retry_count: 1,
-            done: true
-          };
-          Order.app.models.Task.create(task, function (err, model) {
-            setImmediate(next, err);
-            return;
-          });
-        }
+      if (!data.payment_status) {
+        next();
+        return;
       }
-      next();
+      if (data.payment_status.success) {
+        var date_now = moment().format().split('+')[0] + 'Z';
+        var task = {
+          data: {
+            order_id: data.order.id,
+            transaction_id: data.payment_status.transaction.id,
+            customer_id: data.customer.id,
+            error: 'data.payment_status'
+          },
+          handler: 'retry_payment',
+          created_at: date_now,
+          priority: 'medium',
+          last_retry_at: date_now,
+          retry_count: 1,
+          done: true
+        };
+        Order.app.models.Task.create(task, function (err, model) {
+          setImmediate(next, err);
+          return;
+        });
+      }
     };
   };
 
@@ -300,6 +300,10 @@ module.exports = function (Order) {
 
   Order.try_close_order =  function (data) {
     return function (next) {
+      if(data.payment_status.status !== 'submitted_for_settlement'){
+        next();
+        return;
+      }
       if(data.payment_status.status === 'submitted_for_settlement') {
         data.order.status = 'closed';
         Order.upsert(data.order, function (err, model) {
@@ -308,8 +312,6 @@ module.exports = function (Order) {
           return;
         });
       }
-      else
-        next();
     };
   };
 
