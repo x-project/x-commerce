@@ -1,9 +1,9 @@
-var express = require('express');
+var async = require('async');
 var body_parser = require('body-parser');
 var braintree = require('braintree');
-var async = require('async');
+var express = require('express');
+var moment = require('moment');
 var loopback = require('loopback');
-
 var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 var gateway = braintree.connect({
@@ -13,6 +13,7 @@ var gateway = braintree.connect({
   privateKey: process.env.TOKEN_SECRET_BRAINTREE
 });
 
+var date_now = moment().format().split('+')[0] + 'Z';
 
 module.exports = function (Order) {
 
@@ -28,17 +29,24 @@ module.exports = function (Order) {
     };
   };
 
+  var destroy_payment = function (order) {
+    return function (next) {
+      order.payments.destroyAll(next);
+    };
+  };
+
   Order.observe('before delete', function(ctx, callback) {
     var order = ctx.instance;
     if (!order) {
       callback(null);
       return;
     }
-
     async.waterfall([
       destroy_order_items(order),
+      destroy_payment(order),
       destroy_taxes(order)
     ],
+
     function (err) {
       if (err) {
         callback(err);
@@ -48,6 +56,11 @@ module.exports = function (Order) {
     });
   });
 
+  //use in server.js
+  Order.get_order_by_id = function (order_id, callback) {
+    var include_filter = {include: ['customer']};
+    Order.findById(order_id, include_filter, callback);
+  };
 
   /*BRAINTREE*/
   /*
@@ -64,7 +77,6 @@ module.exports = function (Order) {
           callback(err, null);
           return;
         }
-
         callback(null, response);
       });
     });
@@ -76,38 +88,6 @@ module.exports = function (Order) {
       return amount + item.quantity * price;
     }, 0);
     return amount;
-  };
-
-  //obj = {complete: complete_trasition, order: new_order}
-  var create_payment =  function (obj, done) {
-    var payment = Order.app.models.Payment;
-    var payment_model = {
-      success: obj.complete.transaction.success,
-      tras_id: obj.complete.transaction.id,
-      status: obj.complete.transaction.status,
-      amount: obj.complete.transaction.amount,
-      bin: obj.complete.transaction.creditCard.bin,
-      cardType: obj.complete.transaction.creditCard.cardType,
-      customerLocation: obj.complete.transaction.creditCard.customerLocation,
-      debit: obj.complete.transaction.creditCard.debit,
-      expirationDate: obj.complete.transaction.creditCard.expirationDate,
-      expirationMonth: obj.complete.transaction.creditCard.expirationMonth,
-      expirationYear: obj.complete.transaction.creditCard.expirationYear,
-      maskedNumber: obj.complete.transaction.creditCard.maskedNumber,
-      last4: obj.complete.transaction.creditCard.last4,
-      issuingBank: obj.complete.transaction.creditCard.issuingBank,
-      createdAt: obj.complete.transaction.createdAt,
-      merchantAccountId: obj.complete.transaction.merchantAccountId,
-      paymentInstrumentType: obj.complete.transaction.paymentInstrumentType,
-      processorAuthorizationCode: obj.complete.transaction.processorAuthorizationCode,
-      processorResponseCode: obj.complete.transaction.processorResponseCode,
-      processorResponseText: obj.complete.transaction.processorResponseText,
-      updatedAt: obj.complete.transaction.updatedAt,
-      type: obj.complete.transaction.type,
-      statusHistory: obj.complete.transaction.statusHistory
-      // order_id: obj.order.id
-    };
-    payment.create(payment_model, done);
   };
 
   var get_customer = function (data) {
@@ -138,7 +118,7 @@ module.exports = function (Order) {
         total: amount
       };
       Order.create(order, function (err, model) {
-        data.new_order = model;
+        data.order = model;
         setImmediate(done, err);
       });
     };
@@ -152,35 +132,38 @@ module.exports = function (Order) {
         delete item.variant;
         delete item.product;
       });
-      data.new_order.order_items.create(cart, function (err, models) {
+      data.order.order_items.create(cart, function (err, models) {
         setImmediate(done, err);
       });
     }
   };
 
-  var prepare_order_review = function (data) {
+  Order.prepare_order_review = function (data) {
     return function (next) {
-      var reviews = [];
-      var review;
-      data.cart.forEach( function (item) {
-        review = {};
-        review.customer_id = data.customer.id;
-        review.product_id = item.product_id;
-        review.closed = false;
-        review.title = '';
-        review.text = '';
-        review.rating = 0;
-        reviews.push(review);
-      });
-      Order.app.models.Review.create(reviews, function (err, model) {
-        setImmediate(next, err);
-      });
+      if(data.payment_status.status === 'submitted_for_settlement') {
+        var reviews = [];
+        var review;
+        data.cart.forEach( function (item) {
+          review = {};
+          review.customer_id = data.customer.id;
+          review.product_id = item.product_id;
+          review.closed = false;
+          review.title = '';
+          review.text = '';
+          review.rating = 0;
+          reviews.push(review);
+        });
+        Order.app.models.Review.create(reviews, function (err, model) {
+          setImmediate(next, err);
+        });
+        return;
+      }
+      next();
     };
   };
 
   var prepare_order = function (data) {
     return function (next) {
-      var new_order;
       async.waterfall([
         create_order(data),
         create_order_item(data),
@@ -191,7 +174,7 @@ module.exports = function (Order) {
     };
   };
 
-  var save_payment = function (data) {
+  Order.save_payment = function (data) {
     return function (next) {
       var prefix = data.payment_status;
       if (prefix) {
@@ -220,13 +203,14 @@ module.exports = function (Order) {
           type: prefix.transaction.type,
           statusHistory: prefix.transaction.statusHistory
         };
-        data.new_order.payments.create(data_payment, function (err, model) {
+        data.order.payments.create(data_payment, function (err, model) {
           setImmediate(next, err);
           return;
         });
-        return;
       }
-      next();
+      else{
+        next();
+      }
     };
   };
 
@@ -237,7 +221,7 @@ module.exports = function (Order) {
         amount: 1,//data.amount
         paymentMethodNonce: data.nonce,
         options: {
-          submitForSettlement: false
+          submitForSettlement: true
         }
       };
       transaction.sale(sale_data, function (err, res) {
@@ -262,7 +246,9 @@ module.exports = function (Order) {
     transaction.find(tras_id, function (err, tras_status) {
       if (tras_status.status !== 'submitted_for_settlement') {
         transaction.submitForSettlement(tras_id, amount, callback);
+        return;
       }
+      callback(err, tras_status);
     });
   };
 
@@ -272,13 +258,17 @@ module.exports = function (Order) {
         if (data.payment_status.success) {
           var task = {
             data: {
-              order_id: data.new_order.id,
+              order_id: data.order.id,
               transaction_id: data.payment_status.transaction.id,
+              customer_id: data.customer.id,
               error: 'data.payment_status'
             },
-            handler: 'braintre_complete_transation',
-            done: false,
-            retry_count: 0,
+            handler: 'retry_payment',
+            created_at: date_now,
+            priority: 'medium',
+            last_retry_at: date_now,
+            retry_count: 1,
+            done: true
           };
           Order.app.models.Task.create(task, function (err, model) {
             setImmediate(next, err);
@@ -295,7 +285,7 @@ module.exports = function (Order) {
       if (data.payment_status) {
         if (data.payment_status.success) {
           data.data_client_response.complete = data.payment_status;
-          data.data_client_response.order = data.new_order;
+          data.data_client_response.order = data.order;
           next();
           return;
         }
@@ -308,17 +298,15 @@ module.exports = function (Order) {
     };
   };
 
-  var try_close_order =  function (data) {
+  Order.try_close_order =  function (data) {
     return function (next) {
-      if(data.payment_status) {
-        if(data.payment_status.success) {
-          data.new_order.status = 'closed';
-          Order.upsert(data.new_order, function (err, model) {
-            data.new_order = model;
-            setImmediate(next, err);
-            return;
-          });
-        }
+      if(data.payment_status.status === 'submitted_for_settlement') {
+        data.order.status = 'closed';
+        Order.upsert(data.order, function (err, model) {
+          data.order = model;
+          setImmediate(next, err);
+          return;
+        });
       }
       else
         next();
@@ -327,20 +315,20 @@ module.exports = function (Order) {
 
   Order.checkout_braintree = function (cart, payment_method_nonce, customer_token, callback) {
     var amount = 0;
-    var data = {
-      cart: cart,
-      nonce: payment_method_nonce,
-      customer_token: customer_token,
-      data_client_response: {}
-    };
+    var data = {};
+    data.cart = cart
+    data.nonce = payment_method_nonce,
+    data.customer_token = customer_token,
+    data.data_client_response = {}
+
     async.waterfall([
       get_access_token_customer(data),
       get_customer(data),
       prepare_order(data),
-      prepare_order_review(data),
       braintree_checkout(data),
-      try_close_order(data),
-      save_payment(data),
+      Order.prepare_order_review(data),
+      Order.try_close_order(data),
+      Order.save_payment(data),
       create_fail_task(data),
       prepare_response(data)
     ],

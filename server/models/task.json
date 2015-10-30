@@ -31,9 +31,6 @@
     },
     "done": {
       "type": "Boolean"
-    },
-    "transaction_id": {
-      "type": "String"
     }
   },
   "relations": {},
