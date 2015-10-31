@@ -35,6 +35,7 @@ module.exports = function (Order) {
 
   Order.observe('before delete', function(ctx, callback) {
     var order = ctx.instance;
+    console.log(order);
     if (!order) {
       callback(null);
       return;
@@ -138,7 +139,15 @@ module.exports = function (Order) {
 
   Order.prepare_order_review = function (data) {
     return function (next) {
-      if(data.payment_status.status === 'submitted_for_settlement') {
+      if (!data.payment_status) {
+        next();
+        return;
+      }
+      if (data.payment_status.transaction.status !== 'submitted_for_settlement') {
+        next();
+        return;
+      }
+      if(data.payment_status.transaction.status === 'submitted_for_settlement') {
         var reviews = [];
         var review;
         data.cart.forEach( function (item) {
@@ -153,10 +162,9 @@ module.exports = function (Order) {
         });
         Order.app.models.Review.create(reviews, function (err, model) {
           setImmediate(next, err);
+          return;
         });
-        return;
       }
-      next();
     };
   };
 
@@ -175,7 +183,15 @@ module.exports = function (Order) {
   Order.save_payment = function (data) {
     return function (next) {
       var prefix = data.payment_status;
-      if (prefix) {
+      if (!prefix) {
+        next();
+        return;
+      }
+      if (prefix.transaction.status !== 'submitted_for_settlement') {
+        next();
+        return;
+      }
+      if (prefix.transaction.status === 'submitted_for_settlement') {
         var data_payment = {
           success: prefix.success,
           tras_id: prefix.transaction.id,
@@ -205,9 +221,6 @@ module.exports = function (Order) {
           setImmediate(next, err);
           return;
         });
-      }
-      else{
-        next();
       }
     };
   };
@@ -257,6 +270,10 @@ module.exports = function (Order) {
         return;
       }
       if (data.payment_status.success) {
+        next();
+        return;
+      }
+      if (!data.payment_status.success) {
         var date_now = moment().format().split('+')[0] + 'Z';
         var task = {
           data: {
@@ -300,11 +317,15 @@ module.exports = function (Order) {
 
   Order.try_close_order =  function (data) {
     return function (next) {
-      if(data.payment_status.status !== 'submitted_for_settlement'){
+      if(!data.payment_status) {
         next();
         return;
       }
-      if(data.payment_status.status === 'submitted_for_settlement') {
+      if(data.payment_status.transaction.status !== 'submitted_for_settlement'){
+        next();
+        return;
+      }
+      if(data.payment_status.transaction.status === 'submitted_for_settlement') {
         data.order.status = 'closed';
         Order.upsert(data.order, function (err, model) {
           data.order = model;
