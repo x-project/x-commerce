@@ -31,9 +31,9 @@ module.exports = function (Task) {
   };
 
   Task.observe('before delete', function(ctx, callback) {
-    var task = ctx.where.id;
+    var task_id = ctx.where.id;
     var data = {};
-    data.task_id = task;
+    data.task_id = task_id;
 
     if (!task) {
       callback(null);

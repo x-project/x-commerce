@@ -50,7 +50,8 @@
     },
     "taxes": {
       "type": "hasMany",
-      "model": "Tax"
+      "model": "Tax",
+      "foreignKey": "order_id"
     }
   },
   "acls": [],

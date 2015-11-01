@@ -4,7 +4,6 @@
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../form-stripe/form-stripe.html">
 <link rel="import" href="part-summary-order-detail.html">
-<link rel="import" href="part-summary-buy-policy.html">
 <dom-module id="page-summary">
   <template>
     <style include="style-page">
@@ -24,7 +23,6 @@
         <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
           on-change-address="on_change_address">
         </part-summary-order-detail>
-        <!-- <part-summary-buy-policy></part-summary-buy-policy> -->
         <form-braintree id="braintree" on-success="on_success_pay"></form-braintree>
         <!-- <form-stripe id="stripe"></form-stripe> -->
       </div>

@@ -15,35 +15,49 @@ var gateway = braintree.connect({
 
 module.exports = function (Order) {
 
-  var destroy_order_items = function (order) {
+  var destroy_order_items = function (data) {
     return function (next) {
-      order.order_items.destroyAll(next);
+      data.order.order_items.destroyAll( function (err, res) {
+        setImmediate(next, err);
+      });
     };
   };
 
-  var destroy_taxes = function (order) {
+  var destroy_taxes = function (data) {
     return function (next) {
-      order.taxes.destroyAll(next);
+      data.order.taxes.destroyAll( function (err, res) {
+        setImmediate(next, err);
+      });
     };
   };
 
-  var destroy_payment = function (order) {
+  var destroy_payment = function (data) {
     return function (next) {
-      order.payments.destroyAll(next);
+      data.order.payments.destroyAll( function (err, res) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var get_order = function (data) {
+    return function (next) {
+      Order.findById(data.order_id, function (err, model) {
+        data.order = model;
+        setImmediate(next, err);
+      });
     };
   };
 
   Order.observe('before delete', function(ctx, callback) {
-    var order = ctx.instance;
-    console.log(order);
-    if (!order) {
-      callback(null);
-      return;
-    }
+    var order_id = ctx.where.id;
+    data = {};
+    data.order_id = order_id;
+
     async.waterfall([
-      destroy_order_items(order),
-      destroy_payment(order),
-      destroy_taxes(order)
+      get_order(data),
+      destroy_order_items(data),
+      destroy_payment(data),
+      destroy_taxes(data)
     ],
 
     function (err) {
@@ -61,10 +75,6 @@ module.exports = function (Order) {
     Order.findById(order_id, include_filter, callback);
   };
 
-  /*BRAINTREE*/
-  /*
-    * 1 get client token
-  */
   Order.get_client_token = function (customer_id, callback) {
     gateway.customer.find(customer_id, function (err, customer) {
       if (err) {
@@ -108,35 +118,6 @@ module.exports = function (Order) {
     };
   };
 
-  var create_order = function (data) {
-    return function (done) {
-      var amount = get_amount(data.cart);
-      data.amount = amount;
-      var order = {
-        customer_id: data.customer.id,
-        total: amount
-      };
-      Order.create(order, function (err, model) {
-        data.order = model;
-        setImmediate(done, err);
-      });
-    };
-  };
-
-  var create_order_item = function (data, cart) {
-    return function (done) {
-      var cart = data.cart;
-      var cart_clone = data.cart.slice(0);
-      cart_clone.forEach(function (item) {
-        delete item.variant;
-        delete item.product;
-      });
-      data.order.order_items.create(cart, function (err, models) {
-        setImmediate(done, err);
-      });
-    }
-  };
-
   Order.prepare_order_review = function (data) {
     return function (next) {
       if (!data.payment_status) {
@@ -168,11 +149,78 @@ module.exports = function (Order) {
     };
   };
 
+  var create_order = function (data) {
+    return function (next) {
+      var amount = get_amount(data.cart);
+      data.amount = amount;
+      var order = {};
+      var discount = 0;
+      if (data.coupon) {
+        var date_now = new Date(moment().format().split('+')[0] + 'Z');
+        var coupon_from_date = new Date(data.coupon.date_to);
+        if (coupon_from_date - date_now > 0) {
+          discount = data.coupon.discount;
+          data.amount = amount - (amount * data.coupon.discount)/100;
+        }
+      }
+      order.customer_id = data.customer.id;
+      order.total = amount;
+      order.discount = discount;
+      Order.create(order, function (err, model) {
+        data.order = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var create_order_item = function (data, cart) {
+    return function (next) {
+      var cart = data.cart;
+      var cart_clone = data.cart.slice(0);
+      cart_clone.forEach(function (item) {
+        delete item.variant;
+        delete item.product;
+      });
+      data.order.order_items.create(cart, function (err, models) {
+        setImmediate(next, err);
+      });
+    }
+  };
+
+  var get_coupon = function (data) {
+    return function (next) {
+      if (!data.coupon) {
+        next();
+        return;
+      }
+      Order.app.models.Coupon.findById(data.coupon, function (err, model) {
+        data.coupon = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var update_coupon = function (data) {
+    return function (next) {
+      if (!data.coupon) {
+        next();
+        return;
+      }
+      var coupon = data.coupon;
+      coupon.order_id = data.order.id;
+      Order.app.models.Coupon.upsert(coupon, function (err, res) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
   var prepare_order = function (data) {
     return function (next) {
       async.waterfall([
+        get_coupon(data),
         create_order(data),
         create_order_item(data),
+        update_coupon(data)
       ],
       function (err) {
         setImmediate(next, err);
@@ -227,10 +275,11 @@ module.exports = function (Order) {
 
   var braintree_checkout = function (data) {
     return function (next) {
+      console.log(data.amount);
       var transaction = gateway.transaction;
       var sale_data = {
         amount: 1,//data.amount
-        paymentMethodNonce: data.nonce,
+        paymentMethodNonce: data.payment_method_nonce,
         options: {
           submitForSettlement: true
         }
@@ -287,25 +336,30 @@ module.exports = function (Order) {
           priority: 'medium',
           last_retry_at: date_now,
           retry_count: 1,
-          done: true
+          done: false
         };
         Order.app.models.Task.create(task, function (err, model) {
           setImmediate(next, err);
           return;
         });
+        return;
       }
+      else
+      next();
     };
   };
 
   var prepare_response = function (data) {
     return function (next) {
-      if (data.payment_status) {
-        if (data.payment_status.success) {
-          data.data_client_response.complete = data.payment_status;
-          data.data_client_response.order = data.order;
-          next();
-          return;
-        }
+      if (!data.payment_status) {
+        next();
+        return;
+      }
+      if (data.payment_status.success) {
+        data.data_client_response.complete = data.payment_status;
+        data.data_client_response.order = data.order;
+        next();
+        return;
       }
       if (data.authorizatoin_error) {
         data.data_client_response.error = data.authorizatoin_error;
@@ -336,13 +390,32 @@ module.exports = function (Order) {
     };
   };
 
-  Order.checkout_braintree = function (cart, payment_method_nonce, customer_token, callback) {
-    var amount = 0;
+  var create_invoice = function (data) {
+    return function (next) {
+      //TODO INVOICE
+      next();
+    };
+  };
+
+  var check_pre_condition = function (data) {
+    return (data.cart.length <= 0 || data.payment_method_nonce === null ||
+      data.payment_method_nonce === undefined ||data. payment_method_nonce.length <= 0 ||
+      data.customer_token === null || data.customer_token === undefined || data.customer_token.length <= 0);
+  };
+
+  Order.checkout_braintree = function (payment_method_nonce, input_data, callback) {
     var data = {};
-    data.cart = cart
-    data.nonce = payment_method_nonce,
-    data.customer_token = customer_token,
-    data.data_client_response = {}
+    data.cart = JSON.parse(input_data.cart);
+    data.payment_method_nonce = payment_method_nonce;
+    data.coupon = input_data.coupon;
+    data.customer_token = input_data.customer_token;
+    data.data_client_response = {};
+
+    if (check_pre_condition (data)) {
+      data.data_client_response.error = 'invalid input'
+      callback(null, {err: data.data_client_response.error});
+      return;
+    }
 
     async.waterfall([
       get_access_token_customer(data),
@@ -352,6 +425,7 @@ module.exports = function (Order) {
       Order.prepare_order_review(data),
       Order.try_close_order(data),
       Order.save_payment(data),
+      create_invoice(data),
       create_fail_task(data),
       prepare_response(data)
     ],
@@ -434,9 +508,8 @@ module.exports = function (Order) {
 
   Order.remoteMethod('checkout_braintree', {
     accepts: [
-      { arg: 'cart', type: 'array' },
       { arg: 'payment_method_nonce', type: 'string' },
-      { arg: 'customer_token', type: 'string' }
+      { arg: 'data', type: 'object' }
     ],
     returns: { arg: 'result', type: 'object' },
     http: { verb: 'post', path:'/checkout' }
