@@ -5,14 +5,11 @@ var moment = require('moment');
 
 module.exports = function (Product) {
 
-
-
-  Product.validate('published_at', validate_published_at_future, { message: 'errore A' });
+  Product.validate('published_at', validate_published_at_future, { message: 'invalid past date' });
 
   function validate_published_at_future (err) {
     var product = this;
     var published_at = new Date(product.published_at);
-
     var date_now = Date.now();
     var diff =  published_at - date_now;
     if (diff < 0) {

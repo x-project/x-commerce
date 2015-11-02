@@ -1,5 +1,7 @@
 <link rel="import" href="/components/input-datetime/input-datetime.html">
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../input-errors/input-errors.html">
+
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-product-visibility">
   <template>
@@ -13,11 +15,8 @@
       <div class="field">
         <label class="label">Publish this product on</label>
         <input-datetime class="input" value="{{product.published_at}}"></input-datetime>
-        <!-- <input-errors property="published_at"></input-errors> -->
-        <template is="dom-repeat" items="{{error.details.messages.published_at}}">
-          <div class="warning">{{item}}</div>
-        </template>
         <div>
+        <input-errors property="published_at" error="{{error.details}}"></input-errors>
       </div>
     </form>
   </template>
@@ -34,13 +33,8 @@
       },
       error: {
         type: Object,
-        value: function () { return {}; },
-        observer: 'on_error'
+        value: function () { return {}; }
       }
-    },
-
-    on_error: function () {
-      console.log(this.error);
     },
 
     on_submit: function (event) {
