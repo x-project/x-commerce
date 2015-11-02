@@ -41,7 +41,7 @@
 
     save_vendor: function () {
       if (this.product.id) {
-        this.$.update.data = { vendor_id: this.vendor.id };
+        this.$.update.data = { vendor_id: this.vendor.id, published_at: this.product.published_at };
         this.$.update.send();
         return;
       }
