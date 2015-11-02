@@ -13,6 +13,11 @@
       <div class="field">
         <label class="label">Publish this product on</label>
         <input-datetime class="input" value="{{product.published_at}}"></input-datetime>
+        <!-- <input-errors property="published_at"></input-errors> -->
+        <template is="dom-repeat" items="{{error.details.messages.published_at}}">
+          <div class="warning">{{item}}</div>
+        </template>
+        <div>
       </div>
     </form>
   </template>
@@ -26,7 +31,16 @@
       product: {
         type: Object,
         value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; },
+        observer: 'on_error'
       }
+    },
+
+    on_error: function () {
+      console.log(this.error);
     },
 
     on_submit: function (event) {

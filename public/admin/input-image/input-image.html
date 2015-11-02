@@ -1,4 +1,6 @@
 <link rel="import" href="../api-image-upload/api-image-upload.html">
+<link rel="import" href="../iron-signals/iron-signals.html">
+
 <dom-module id="input-image">
   <template>
     <style>
@@ -6,6 +8,8 @@
         display: block;
       }
     </style>
+
+    <iron-signals on-iron-signal-save="on_save"></iron-signals>
 
     <api-image-upload id="request"
       collection="{{collection}}" model-id="{{modelId}}" folder="{{folder}}">
@@ -37,8 +41,20 @@
     },
 
     on_change_file: function (event) {
+      event.stopPropagation();
       this.file = event.target.files[0];
+      if (!this.modelId) {
+        this.fire('try-save');
+        return;
+      }
       this.$.request.send(this.file);
+    },
+
+    on_save: function (event) {
+      event.stopPropagation();
+      if (this.file.name) {
+        this.$.request.send(this.file);
+      }
     }
 
   });

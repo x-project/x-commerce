@@ -76,7 +76,9 @@
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete.send();
+      if (this.collection.id) {
+        this.$.ajax_delete.send();
+      }
     },
 
     on_response_delete: function (event) {

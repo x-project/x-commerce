@@ -4,11 +4,20 @@
 <dom-module id="form-product-info">
   <template>
     <style include="style-form"></style>
+    <style>
+      .warning {
+        display: none;
+      }
+      .warning[visible] {
+        display: block;
+      }
+    </style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Title</label>
         <input class="input" type="text" is="iron-input" bind-value="{{product.title}}">
+        <div class="warning" visible$="{{error.details.codes.title}}">title {{error.details.messages.title.0}}</div>
       </div>
       <div class="field">
         <label class="label">Description</label>
@@ -28,6 +37,10 @@
 
     properties: {
       product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }
