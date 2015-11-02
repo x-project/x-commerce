@@ -231,7 +231,7 @@ module.exports = function (Order) {
   Order.save_payment = function (data) {
     return function (next) {
       var prefix = data.payment_status;
-      if (!prefix) {
+      if (!prefix) {
         next();
         return;
       }
@@ -275,7 +275,6 @@ module.exports = function (Order) {
 
   var braintree_checkout = function (data) {
     return function (next) {
-      console.log(data.amount);
       var transaction = gateway.transaction;
       var sale_data = {
         amount: 1,//data.amount
@@ -299,17 +298,6 @@ module.exports = function (Order) {
         setImmediate(next, err);
       });
     };
-  };
-
-  Order.braintre_complete_transation = function (tras_id, amount, callback) {
-    var transaction = gateway.transaction;
-    transaction.find(tras_id, function (err, tras_status) {
-      if (tras_status.status !== 'submitted_for_settlement') {
-        transaction.submitForSettlement(tras_id, amount, callback);
-        return;
-      }
-      callback(err, tras_status);
-    });
   };
 
   var create_fail_task = function (data) {
@@ -336,17 +324,25 @@ module.exports = function (Order) {
           priority: 'medium',
           last_retry_at: date_now,
           retry_count: 1,
-          done: false
+          done: true
         };
         Order.app.models.Task.create(task, function (err, model) {
           setImmediate(next, err);
           return;
         });
+      }
+    };
+  };
+
+  Order.braintre_complete_transation = function (tras_id, amount, callback) {
+    var transaction = gateway.transaction;
+    transaction.find(tras_id, function (err, tras_status) {
+      if (tras_status.status !== 'submitted_for_settlement') {
+        transaction.submitForSettlement(tras_id, amount, callback);
         return;
       }
-      else
-      next();
-    };
+      callback(err, tras_status);
+    });
   };
 
   var prepare_response = function (data) {
@@ -411,12 +407,11 @@ module.exports = function (Order) {
     data.customer_token = input_data.customer_token;
     data.data_client_response = {};
 
-    if (check_pre_condition (data)) {
+    if (check_pre_condition(data)) {
       data.data_client_response.error = 'invalid input'
       callback(null, {err: data.data_client_response.error});
       return;
     }
-
     async.waterfall([
       get_access_token_customer(data),
       get_customer(data),
