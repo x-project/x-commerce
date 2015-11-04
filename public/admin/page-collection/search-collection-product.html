@@ -108,8 +108,8 @@
 
     on_click_selected: function (event) {
       event.stopPropagation();
-      var collection = this.$.selected.itemForElement(event.target);
-      var index = this.selected.indexOf(collection);
+      var product = this.$.selected.itemForElement(event.target);
+      var index = this.selected.indexOf(product);
       this.splice('selected', index, 1);
       this.fire('try-delete-product', {product: product});
     },

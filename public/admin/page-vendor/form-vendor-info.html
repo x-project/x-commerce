@@ -3,10 +3,11 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <form id="form" role="form" on-submit="on_submit" on-keyup="on_change_info">
       <div class="field">
         <label class="label">Name</label>
         <input class="input" type="text" is="iron-input" bind-value="{{vendor.name}}">
+        <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Description</label>
@@ -31,6 +32,11 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
+    },
+
+    on_change_info: function (event) {
+      event.stopPropagation();
+      this.fire('change-info');
     }
 
   });

@@ -9,6 +9,9 @@ module.exports = function (Product) {
 
   function validate_published_at_future (err) {
     var product = this;
+    if (!product.published_at) {
+      return;
+    }
     var published_at = new Date(product.published_at);
     var date_now = Date.now();
     var diff =  published_at - date_now;

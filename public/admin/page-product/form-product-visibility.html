@@ -5,19 +5,24 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-product-visibility">
   <template>
-    <style include="style-form"></style>
+    <style include="style-form">
+      .invalid_date{
+        display: none;
+      }
+      .invalid_date[show] {
+        display: block;
+      }
+    </style>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <form id="form" role="form" on-submit="on_submit" on-change-date="on_change_visibility">
       <div class="field">
         <label class="label">Online Store</label>
         <paper-checkbox is="iron-input" checked="{{product.is_published}}"></paper-checkbox>
       </div>
-      <div class="field">
+      <div class="field date">
         <label class="label">Publish this product on</label>
         <input-datetime class="input" value="{{product.published_at}}"></input-datetime>
-        <div>
         <input-errors property="published_at" error="{{error.details}}"></input-errors>
-      </div>
     </form>
   </template>
 </dom-module>
@@ -37,9 +42,21 @@
       }
     },
 
+    attached: function () {
+      if (!this.product.hasOwnProperty('is_published')) {
+        this.set('product.is_published', true);
+        return;
+      }
+    },
+
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.fire('change-visibility');
     }
 
   });

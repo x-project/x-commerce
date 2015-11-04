@@ -6,10 +6,10 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <form id="form" role="form" on-submit="on_submit" on-keyup="on_change_info">
       <div class="field">
         <label class="label">Title</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.title}}">
+        <input class="input" id="title" type="text" is="iron-input" bind-value="{{product.title}}">
         <input-errors property="title" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
@@ -43,6 +43,11 @@
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
+    },
+
+    on_change_info: function (event) {
+      event.stopPropagation();
+      this.fire('change-info');
     }
 
   });

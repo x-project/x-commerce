@@ -25,10 +25,15 @@
         <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
         <part-vendor-save on-try-save="on_try_save"></part-vendor-save>
         <part-vendor-delete on-try-delete="on_try_delete"></part-vendor-delete>
-        <part-vendor-info vendor="{{vendor}}"></part-vendor-info>
+        <part-vendor-info vendor="{{vendor}}" error="{{error}}"
+          on-change-info="on_change_info">
+        </part-vendor-info>
     </layout-admin>
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -42,29 +47,33 @@
     },
 
     attached: function () {
-      console.log(this.data.vendor);
       this.vendor = this.data.vendor;
     },
 
     on_try_save: function (event) {
       if (this.vendor.id) {
-      console.log("update");
-
         this.$.ajax_update.send();
         return;
       }
-      console.log("create");
-      this.$.create.send();
+      if (!this.validate_model()) {
+        return;
+      }
+      Model.create('/api/vendors', this.vendor)
+        .then(function (data) {
+          this.vendor = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
+    response_create: function () {
       page('/admin/vendors');
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      console.log(this.vendor);
       this.$.ajax_delete.send();
     },
 
@@ -76,6 +85,33 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var mess_errors = {};
+      mess_errors.name = [];
+      if (this.vendor.name === undefined || this.vendor.name.length == 0) {
+        mess_errors.name.push('can\'t be blank');
+        check = false;
+      }
+      var error = this.create_custom_err();
+      error.details.messages = mess_errors;
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      return error;
+    },
+
+    on_change_info: function (event) {
+      event.stopPropagation();
+      this.validate_model();
     }
 
   });

@@ -36,8 +36,12 @@
       <part-product-header product="{{product}}"></part-product-header>
       <part-product-save on-try-save="on_try_save"></part-product-save>
       <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
-      <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
-      <part-product-visibility product="{{product}}" error="{{error}}"></part-product-visibility>
+      <part-product-info product="{{product}}" error="{{error}}"
+        on-change-info="on_change_info">
+      </part-product-info>
+      <part-product-visibility product="{{product}}" error="{{error}}"
+        on-change-visibility="on_change_visibility">
+      </part-product-visibility>
       <part-product-image product="{{product}}" on-try-save="on_try_save"></part-product-image>
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
@@ -46,11 +50,14 @@
       <part-product-vendor product="{{product}}"></part-product-vendor>
       <part-product-type product="{{product}}"></part-product-type>
       <part-product-tags product="{{product}}"></part-product-tags>
-      <part-product-create-variant product="{{product}}"></part-product-create-variant>
+      <part-product-create-variant id="variants" product="{{product}}" on-try-save="on_try_save"></part-product-create-variant>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -68,7 +75,7 @@
       variants: {
         type: Array,
         value: function () { return []; }
-      },
+      }
     },
 
     attached: function () {
@@ -81,44 +88,23 @@
         this.$.update.send();
         return;
       }
-      //this.$.create.send();
-      function status (response) {
-        return new Promise(function (resolve, reject) {
-          if (response.ok) {
-            return response.json().then(resolve);
-          }
-          return response.json().then(function (response) {
-            reject(response.error);
-          });
-        });
+      if (!this.validate_model()) {
+        return;
       }
-
-      var Model = {};
-
-      Model.create = function (url, data) {
-        return fetch(url, {
-            method: 'post',
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
-          .then(status);
-      }
-
       Model.create('/api/products', this.product)
         .then(function (data) {
-          console.log(data);
-        })
+          this.product = data;
+          this.response_create();
+        }.bind(this))
         .catch(function (error) {
           this.error = error;
         }.bind(this));
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
+    response_create: function () {
       page('/admin/products/' + this.product.id);
-      this.fire('iron-signal', {name: 'save'});
+      this.fire('iron-signal', {name: 'save'});//form image registered from iron-signal
+      this.$.variants.go_to_variants();
     },
 
     on_try_delete: function (event) {
@@ -138,6 +124,52 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var mess_errors = {};
+      mess_errors.title = [];
+      mess_errors.published_at = [];
+      if (this.product.title === undefined || this.product.title.length == 0) {
+        mess_errors.title.push('can\'t be blank');
+        check = false;
+      }
+      var future_date = new Date(this.product.published_at);
+      if (future_date == "Invalid Date" && this.product.published_at != undefined) {
+        mess_errors.published_at.push('invalid date');
+        check = false;
+      }
+      var date_now = Date.now();
+      var diff = future_date - date_now;
+      if (diff < 0) {
+        mess_errors.published_at.push('invalid past date');
+        this.set('validate', false);
+        check = false
+      }
+      var error = this.create_custom_err();
+      error.details.messages = mess_errors;
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      return error;
+    },
+
+    // error management
+    on_change_info: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.validate_model();
     }
 
   });

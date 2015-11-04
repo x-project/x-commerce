@@ -30,16 +30,24 @@
       <part-collection-header collection="{{collection}}"></part-collection-header>
       <part-collection-save on-try-save="on_try_save"></part-collection-save>
       <part-collection-delete on-try-delete="on_try_delete"></part-collection-delete>
-      <part-collection-info collection="{{collection}}"></part-collection-info>
-      <part-collection-visibility collection="{{collection}}"></part-collection-visibility>
-      <part-collection-image collection="{{collection}}"></part-collection-image>
-      <part-collection-add-products collection="{{collection}}"
-        products="{{products}}">
+      <part-collection-info collection="{{collection}}" error="{{error}}"
+        on-change-info="on_change_info">
+      </part-collection-info>
+      <part-collection-visibility collection="{{collection}}" error="{{error}}"
+        on-change-visibility="on_change_visibility">
+      </part-collection-visibility>
+      <part-collection-image collection="{{collection}}" on-try-save="on_try_save">
+      </part-collection-image>
+      <part-collection-add-products id="products" collection="{{collection}}"
+        products="{{products}}" on-try-save="on_try_save">
       </part-collection-add-products>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -66,12 +74,23 @@
         this.$.ajax_update.send();
         return;
       }
-      this.$.create.send();
+      if (!this.validate_model()) {
+        return;
+      }
+      Model.create('/api/collections', this.collection)
+        .then(function (data) {
+          this.collection = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
+    response_create: function () {
       page('/admin/collections/' + this.collection.id);
+      this.fire('iron-signal', {name: 'save'});//form image registered from iron-signal
+      this.$.products.save_collection();
     },
 
     on_try_delete: function (event) {
@@ -84,6 +103,51 @@
     on_response_delete: function (event) {
       event.stopPropagation();
       page('/admin/collections');
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var mess_errors = {};
+      mess_errors.title = [];
+      mess_errors.published_at = [];
+      if (this.collection.title === undefined || this.collection.title.length == 0) {
+        mess_errors.title.push('can\'t be blank');
+        check = false;
+      }
+      var future_date = new Date(this.collection.published_at);
+      if (future_date == "Invalid Date" && this.collection.published_at != undefined) {
+        mess_errors.published_at.push('invalid date');
+        check = false;
+      }
+      var date_now = Date.now();
+      var diff = future_date - date_now;
+      if (diff < 0) {
+        mess_errors.published_at.push('invalid past date');
+        this.set('validate', false);
+        check = false
+      }
+      var error = this.create_custom_err();
+      error.details.messages = mess_errors;
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      return error;
+    },
+
+    on_change_info: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.validate_model();
     }
 
   });

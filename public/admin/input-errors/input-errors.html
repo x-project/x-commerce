@@ -5,6 +5,7 @@
         display: block;
       }
     </style>
+
     <template is="dom-repeat" items="{{messages}}">
       <div class="warning">{{property}} {{item}}</div>
     </template>
@@ -28,6 +29,11 @@
     },
 
     on_error: function () {
+      this.error = this.error || {};
+      if (Object.keys(this.error).length == 0) {
+        this.messages = [];
+        return;
+      }
       this.messages = this.error.messages[this.property];
     }
 
