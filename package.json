@@ -28,7 +28,7 @@
     "jwt-simple": "0.3.1",
     "loopback": "2.18",
     "loopback-boot": "2.8",
-    "loopback-connector-mongodb": "1.10.0",
+    "loopback-connector-mongodb": "1.13.0",
     "loopback-datasource-juggler": "2.19.0",
     "mandrill-api": "1.0.45",
     "minstache": "1.2.0",

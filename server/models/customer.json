@@ -113,7 +113,6 @@
       "permission": "ALLOW",
       "property": "create"
     },
-<<<<<<< HEAD
     {
       "principalType": "ROLE",
       "principalId": "$everyone",
@@ -127,9 +126,6 @@
       "property": "deleteById"
     },
     {
-=======
-   {
->>>>>>> plivio
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
@@ -145,7 +141,6 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-<<<<<<< HEAD
       "property": "__create__wishlists"
     },
     {
@@ -183,9 +178,6 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "__destroyById__shipping_addresses"
-=======
-      "property": "wishlists"
->>>>>>> plivio
     }
   ],
   "validations": [],
