@@ -1,18 +1,12 @@
 var loopback = require('loopback');
-var email_verify = require('email-verify');
-var validator = require('validator');
 var async = require('async');
 var moment = require('moment');
 var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
+
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_TEST_KEY);
 
 module.exports = function (Customer) {
-
-  var authToken = process.env.TWILIO_AUTH_TOKEN;
-  var accountSid = process.env.TWILIO_ACCOUNT_SID;
-  var client = require('twilio')(accountSid, authToken);
-
 
   function getCurrentUserId() {
     var ctx = loopback.getCurrentContext();
