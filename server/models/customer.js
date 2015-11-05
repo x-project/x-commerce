@@ -286,7 +286,11 @@ module.exports = function (Customer) {
     });
   };
 
-  // passwordless for email
+
+
+  /*
+    * passwordless by email
+  */
   // enter_token = client da la richiesta e il server invia una signed url con token
   Customer.remoteMethod('enter_token', {
     accepts: [
@@ -297,12 +301,17 @@ module.exports = function (Customer) {
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter_token', verb: 'post' }
   });
-
+  // all click sull link inviato per email, il client da una post e verifico
+  //che il token della richiesta sia corretto e rispondo con il profilo dell utente
   Customer.remoteMethod('try_enter', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'post' }
   });
+
+  /*
+    * passwordless by sms
+  */
 
   // Customer.remoteMethod('enter_token_sms', {
   //   accepts: { arg: 'telephone_number', type: 'number', required: true },
