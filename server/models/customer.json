@@ -105,7 +105,7 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "enter"
+      "property": "try_enter"
     },
     {
       "principalType": "USER",

@@ -4,7 +4,7 @@ var moment = require('moment');
 var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
 
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_TEST_KEY);
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
 
 module.exports = function (Customer) {
 
@@ -156,80 +156,87 @@ module.exports = function (Customer) {
     return message;
   };
 
-  var get_user_for_email = function (email, done) {
-    var query = { where: {email: email} };
-    Customer.findOne(query, done);
-  };
 
-  var create_token = function  (user) {
-    var payload = {
-      sub: user.id,
-      iat: moment().unix(),
-      exp: moment().add(1, 'days').unix()
-    };
-    var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER);
-    return token;
-  };
-
-  var try_send_mail = function (email, user, done) {
-    var enter_token;
-    async.waterfall([
-      function (next) {
-        enter_token = create_token(user);
-        user.last_enter_token = enter_token;
-        Customer.upsert(user, next);
-      },
-      function (user, next) {
-        var message = prepare_mail(email, enter_token);
-        // var send_at = "2015-10-22 13:00:10"; // add on production version
-        mandrill_client.messages.send({"message": message}, function(result) {
-          next(null, result);
-        }, function(err) {
-          callback(err, null);
-        });
-      }
-    ],
-    function (err, result) {
-      if (err) {
-        done(err, null);
+  var create_new_customer = function (data) {
+    return function (next) {
+      if (data.customer != null) {
+        next();
         return;
       }
-      done(null, result);
-    });
+      var model_new = {
+        first_name: 'unknown',
+        last_name: 'unknown',
+        email: data.email,
+        password: '123'
+      };
+      Customer.create(model_new, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
+    };
   };
 
-  var create_new_user = function (email, done) {
-    Customer.create({email: email, password: '123'}, function (err, model) {
-      console.log(model);
-      if (err) {
-        done(err, null);
-      }
-      try_send_mail(email, model, done);
-    });
+  var get_customer_by_email = function (data) {
+    return function (next) {
+      var query = { where: {email: data.email} };
+      Customer.findOne(query, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var create_token = function (data) {
+    return function (next) {
+      var payload = {
+        sub: data.customer.id,
+        iat: moment().unix(),
+        exp: moment().add(1, 'days').unix()
+      };
+      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER);
+      data.token =  token;
+      data.customer.last_enter_token = token;
+      Customer.upsert(data.customer, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var send_signed_url_by_email = function (data) {
+    return function (next) {
+      var message = prepare_mail(data.email, data.token);
+      mandrill_client.messages.send({"message": message},
+        function (res) {
+          data.email_result = res;
+          setImmediate(next, null);
+        },
+        function (err) {
+          setImmediate(next, err);
+        }
+      );
+    };
   };
 
   // passwordless for email
-  Customer.enter_token = function (email, callback) {
-    async.waterfall([
-      function (next) {
-        get_user_for_email(email, next);
-      },
+  Customer.enter_token = function (email, first_name, last_name, callback) {
+    var data = {};
+    data.email = email;
+    data.first_name = first_name;
+    data.last_name = last_name;
 
-      function (user, next) {
-        if (user != null) {
-          try_send_mail(email, user, next);
-        }
-        else{
-          create_new_user(email, next);
-        }
-      }
+    async.waterfall([
+      get_customer_by_email(data),
+      create_new_customer(data),
+      create_token(data),
+      send_signed_url_by_email(data)
     ],
-    function (err, result) {
+    function (err) {
       if (err) {
         callback(err, null);
         return;
       }
-      callback(null, result);
+      callback(null, data.email_result);
     });
   };
 
@@ -280,22 +287,27 @@ module.exports = function (Customer) {
   };
 
   // passwordless for email
+  // enter_token = client da la richiesta e il server invia una signed url con token
   Customer.remoteMethod('enter_token', {
-    accepts: { arg: 'email', type: 'string', required: true },
+    accepts: [
+      { arg: 'email', type: 'string', required: true },
+      { arg: 'first_name', type: 'string', required: true },
+      { arg: 'last_name', type: 'string', required: true }
+    ],
     returns: { arg: 'result', type: 'object' },
-    http: { path: '/enter_token', verb: 'get' }
+    http: { path: '/enter_token', verb: 'post' }
   });
 
   Customer.remoteMethod('try_enter', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
-    http: { path: '/enter', verb: 'get' }
+    http: { path: '/enter', verb: 'post' }
   });
 
-  Customer.remoteMethod('enter_token_sms', {
-    accepts: { arg: 'telephone_number', type: 'number', required: true },
-    returns: { arg: 'result', type: 'object' },
-    http: { path: '/sendme_password_sms', verb: 'get' }
-  });
+  // Customer.remoteMethod('enter_token_sms', {
+  //   accepts: { arg: 'telephone_number', type: 'number', required: true },
+  //   returns: { arg: 'result', type: 'object' },
+  //   http: { path: '/sendme_password_sms', verb: 'post' }
+  // });
 
 };
