@@ -5,12 +5,12 @@
     <style include="style-panel"></style>
 
     <api-user-reset id="reset" email="{{email}}"
-      response="{{response}}" on-response="{{on_response}}">
+      response="{{response}}">
     </api-user-reset>
 
     <div>
       <h2>Send email</h2>
-      <button id="button" class="button" on-click="on_click">send email</button>
+      <button id="button" class="button" disabled on-click="on_click">send email</button>
     </div>
 
   </template>
@@ -28,18 +28,10 @@
     },
 
     attached: function () {
-      if (!this.validate_email())
-        this.$.button.disabled = true;
-    },
-
-    validate_email: function () {
-      var regex_email = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-      if (!regex_email.test(this.customer.email)) {
-        this.$.button.disabled = true;
-        return false;
+      if(this.customer.id) {
+        this.$.button.disabled = false;
+        return
       }
-      this.$.button.disabled = false;
-      return true;
     },
 
     on_click: function (event) {
@@ -47,12 +39,8 @@
       if (!this.validate_email()) {
         return;
       }
-      this.set('email', this.customer.email);
+      this.email = this.customer.email;
       this.$.reset.send();
-    },
-
-    on_response: function (event) {
-      page('/login');
     }
 
   });
