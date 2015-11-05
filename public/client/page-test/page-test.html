@@ -7,12 +7,6 @@
   <template>
     <style include="style-page"></style>
 
-    <iron-ajax id="ajax_get" method="GET" handle-as="json"
-      content-type="application/json" handle-as="json"
-      last-response="{{response}}" on-error="on_error"
-      on-response="on_response_email">
-    </iron-ajax>
-
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>Test</h1>
@@ -30,31 +24,7 @@
 
     is: 'page-test',
 
-    properties: {},
-
-    on_login_email: function (event) {
-      event.stopPropagation();
-      this.$.ajax_get.url = '/api/customers/enter_token';
-      this.$.ajax_get.params = event.detail;
-      this.$.ajax_get.generateRequest();
-    },
-
-    on_response_email: function (event) {
-      console.log(this.response);
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
-    },
-
-    on_login_sms: function () {
-       event.stopPropagation();
-      console.log(event.detail);
-      this.$.ajax_get.url = '/api/customers/sendme_password_sms';
-      this.$.ajax_get.params = event.detail;
-      this.$.ajax_get.generateRequest();
-    }
+    properties: {}
 
   });
 </script>

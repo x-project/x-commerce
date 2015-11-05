@@ -222,7 +222,7 @@ module.exports = function (Customer) {
       },
 
       function (user, next) {
-        if (user != null) {
+        if (user != null) {
           try_send_mail(email, user, next);
         }
         else{
@@ -277,7 +277,7 @@ module.exports = function (Customer) {
         callback({error: 'user not found'}, null);
       }
       create_access_token(user, function (err, user_profile) {
-        if (err) {
+        if (err) {
           callback(err, null);
         }
         callback(null, user_profile);

@@ -11,13 +11,6 @@
       on-response="on_response" last-response="response" on-error="on_error">
     </iron-ajax>
 
-    <iron-ajax id="ajax_exists" method="GET" handle-as="json"
-      on-response="on_response_exists" last-response="{{response_exist}}" on-error="on_error">
-    </iron-ajax>
-
-
-    <app-session id="session"></app-session>
-
     <h3>Favourite</h3>
     <div>
       <button class="button" on-click="on_click_favourite">add to favourite</button>
@@ -41,44 +34,19 @@
       }
     },
 
-
-
     on_click_favourite: function (event) {
       event.stopPropagation();
-      var customer = this.$.session.get('user');
-      var get_where_condition = function () {
-        return [
-          { product_id: this.product.id },
-          { product_variant_id: (this.variant) ? this.variant.id : ''},
-          { customer_id: customer.id }
-        ];
-      }.bind(this);
-      this.$.ajax_exists.url = '/api/customers/' + customer.id + '/wishlists';
-      this.$.ajax_exists.params.filter = JSON.stringify({where: {and: get_where_condition()}});
-      this.$.ajax_exists.generateRequest();
-    },
-
-    on_response_exists: function (event) {
-      event.stopPropagation();
-      if (this.response_exist.length <= 0) {
-        this.add_to_wishlist();
-        return;
-      }
-    },
-
-    add_to_wishlist: function () {
-      var token = this.$.session.get('token');
-      var customer = this.$.session.get('user');
-      this.$.ajax_post.url = '/api/customers/' + customer.id + '/wishlists';
+      this.$.ajax_post.url = '/api/customers/' + this.product.id + '/wishlists';
       this.$.ajax_post.body = JSON.stringify({
         product_id: this.product.id,
-        product_variant_id: (this.variant) ? this.variant.id : ''
+        product_variant_id: this.variant.id
       });
       this.$.ajax_post.generateRequest();
     },
 
     on_response: function (event) {
       event.stopPropagation();
+      console.log(this.response);
     },
 
     on_error: function (event) {

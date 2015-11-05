@@ -6,6 +6,12 @@
   },
   "base": "PersistedModel",
   "properties": {
+    "product_id": {
+      "type": "String"
+    },
+    "product_variant_id": {
+      "type": "String"
+    },
     "description": {
       "type": "String"
     }
