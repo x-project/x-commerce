@@ -1,4 +1,3 @@
-<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-tags/part-tags.html">
 <link rel="import" href="part-customer-address.html">
@@ -11,29 +10,14 @@
 <dom-module id="page-customer">
   <template>
 
-    <api-model-update id="ajax_update" collection="customers"
-      data="{{customer}}" model-id="{{customer.id}}">
-    </api-model-update>
-
-    <api-model-delete id="ajax_delete" collection="customers"
-      model-id="{{customer.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-create id="create" collection="customers" data="{{customer}}"
-      response="{{customer}}" on-response="on_response_create">
-    </api-model-create>
-
     <layout-admin>
       <h1>Customers</h1>
       <part-customer-header customer="{{customer}}"></part-customer-header>
       <part-customer-save on-try-save="on_try_save"></part-customer-save>
       <part-customer-delete on-try-delete="on_try_delete"></part-customer-delete>
-      <part-customer-overview customer="{{customer}}" error="{{error}}"
-        on-change-overview="on_change_overview">
-      </part-customer-overview>
+      <part-customer-overview customer="{{customer}}" error="{{error}}"></part-customer-overview>
       <part-customer-address customer="{{customer}}"></part-customer-address>
-      <part-customer-send-email id="send_email" customer="{{customer}}">
-      </part-customer-send-email>
+      <part-customer-send-emailcustomer="{{customer}}"></part-customer-send-email>
       <part-customer-note customer="{{customer}}"></part-customer-note>
       <part-tags model="{{customer}}"></part-tags>
     </layout-admin>
@@ -64,23 +48,49 @@
     },
 
     on_try_save: function (event) {
-      if (this.customer.id) {
-        this.convert_tags_to_array();
-        this.$.ajax_update.send();
-        return;
-      }
+      event.stopPropagation();
       if (!this.validate_model()) {
         return;
       }
+      if (this.customer.id) {
+        this.update_model();
+        return;
+      }
+      this.create_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/customers', this.customer.id, this.customer)
+      .then(function (data) {
+        this.customer = data;
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
       this.customer.password = "123";
       Model.create('/api/customers', this.customer)
-        .then(function (data) {
-          this.customer = data;
-          this.response_create();
-        }.bind(this))
-        .catch(function (error) {
-          this.error = error;
-        }.bind(this));
+      .then(function (data) {
+        this.customer = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/customers', this.customer.id)
+      .then(function (data) {
+        this.customer = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
     },
 
     validate_model: function () {
@@ -127,26 +137,16 @@
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete.send();
+      this.delete_model();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/customers');
-    },
-
-    convert_tags_to_array: function () {
-      this.customer.tags = [this.customer.tags] || [];
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
-    },
-
-    on_change_overview: function (event) {
-      event.stopPropagation();
-      this.validate_model();
     }
 
   });

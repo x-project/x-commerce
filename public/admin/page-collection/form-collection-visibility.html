@@ -31,6 +31,13 @@
       }
     },
 
+    attached: function () {
+      if (!this.collection.hasOwnProperty('is_published')) {
+        this.set('collection.is_published', true);
+        return;
+      }
+    },
+
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();

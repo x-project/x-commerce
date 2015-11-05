@@ -4,7 +4,7 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form" on-submit="on_submit" on-keyup="on_change_discount">
+    <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Discount</label>
         <input class="input" type="Number" is="iron-input" bind-value="{{coupon.discount}}">
@@ -38,11 +38,6 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
-    },
-
-    on_change_discount: function (event) {
-      event.stopPropagation();
-      this.fire('change-discount');
     }
 
   });

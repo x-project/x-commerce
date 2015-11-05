@@ -1,4 +1,3 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-coupon-header.html">
 <link rel="import" href="part-coupon-save.html">
@@ -9,24 +8,13 @@
 <dom-module id="page-coupon">
   <template>
 
-    <api-model-create id="create" collection="coupons" data="{{coupon}}"
-      response="{{coupon}}" on-response="on_response_create">
-    </api-model-create>
-
-    <api-model-update id="update" collection="coupons"
-      data="{{coupon}}" model-id="{{coupon.id}}">
-    </api-model-update>
-
     <layout-admin>
       <h1>Coupons</h1>
       <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
       <part-coupon-save on-try-save="on_try_save"></part-coupon-save>
       <part-coupon-delete on-try-delete="on_try_delete"></part-coupon-delete>
-      <part-coupon-info coupon="{{coupon}}" error="{{error}}" on-change-info="on_change_info">
-      </part-coupon-info>
-      <part-coupon-discount coupon="{{coupon}}" error="{{error}}"
-        on-change-discount="on_change_discount">
-      </part-coupon-discount>
+      <part-coupon-info coupon="{{coupon}}" error="{{error}}"></part-coupon-info>
+      <part-coupon-discount coupon="{{coupon}}" error="{{error}}"></part-coupon-discount>
       <part-coupon-period coupon="{{coupon}}" error="{{error}}"
         on-change-date="on_change_date">
       </part-coupon-period>
@@ -59,30 +47,60 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      if(this.coupon.id){
-        this.$.update.send();
-        return;
-      }
       if (!this.validate_model()) {
         return;
       }
-      Model.create('/api/collections', this.collection)
-        .then(function (data) {
-          this.collection = data;
-          this.response_create();
-        }.bind(this))
-        .catch(function (error) {
-          this.error = error;
-        }.bind(this));
+      if(this.coupon.id){
+        this.update_model();
+        return;
+      }
+      this.create_model();
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
+    update_model: function () {
+      Model.update('/api/coupons', this.coupon.id, this.coupon)
+      .then(function (data) {
+        this.coupon = data;
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/coupons', this.coupon)
+      .then(function (data) {
+        this.coupon = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/coupons', this.coupon.id)
+      .then(function (data) {
+        this.coupon = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_create: function () {
       page('/admin/coupons/' + this.coupon.id);
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
+      this.delete_model();
+    },
+
+    response_delete: function () {
+      page('/admin/coupons');
     },
 
     validate_model: function () {
@@ -145,16 +163,6 @@
       error.details.messages.date_from = [];
       error.details.messages.date_to = [];
       return error;
-    },
-
-    on_change_info: function (event) {
-      event.stopPropagation();
-      this.validate_model();
-    },
-
-    on_change_discount: function (event) {
-      event.stopPropagation();
-      this.validate_model();
     },
 
     on_change_date: function (event) {

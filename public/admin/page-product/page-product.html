@@ -19,26 +19,12 @@
 <dom-module id="page-product">
   <template>
 
-    <api-model-update id="update" collection="products"
-      data="{{product}}" model-id="{{product.id}}">
-    </api-model-update>
-
-    <api-model-delete id="delete_model" collection="products"
-      model-id="{{product.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-create id="create" collection="products" data="{{product}}"
-      response="{{product}}" on-response="on_response_create" on-error="on_error_create">
-    </api-model-create>
-
     <layout-admin>
       <h1>Products</h1>
       <part-product-header product="{{product}}"></part-product-header>
       <part-product-save on-try-save="on_try_save"></part-product-save>
       <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
-      <part-product-info product="{{product}}" error="{{error}}"
-        on-change-info="on_change_info">
-      </part-product-info>
+      <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
       <part-product-visibility product="{{product}}" error="{{error}}"
         on-change-visibility="on_change_visibility">
       </part-product-visibility>
@@ -87,21 +73,46 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      if(this.product.id){
-        this.$.update.send();
-        return;
-      }
       if (!this.validate_model()) {
         return;
       }
+      if(this.product.id){
+        this.update_model();
+        return;
+      }
+      this.create_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/products', this.product.id, this.product)
+      .then(function (data) {
+        this.product = data;
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
       Model.create('/api/products', this.product)
-        .then(function (data) {
-          this.product = data;
-          this.response_create();
-        }.bind(this))
-        .catch(function (error) {
-          this.error = error;
-        }.bind(this));
+      .then(function (data) {
+        this.product = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/products', this.product.id)
+      .then(function (data) {
+        this.product = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
     },
 
     response_create: function () {
@@ -110,12 +121,11 @@
       this.$.variants.go_to_variants();
     },
 
-    on_try_delete: function (event) {
-      this.$.delete_model.send();
+    on_try_delete: function () {
+      this.delete_model();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/products');
     },
 
@@ -170,12 +180,6 @@
         return false;
       }
       return true;
-    },
-
-    // error management
-    on_change_info: function (event) {
-      event.stopPropagation();
-      this.validate_model();
     },
 
     on_change_visibility: function (event) {

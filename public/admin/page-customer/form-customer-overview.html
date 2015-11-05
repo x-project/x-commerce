@@ -4,7 +4,7 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form" on-submit="on_submit" on-keyup="on_change_overview">
+    <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">First Name</label>
         <input class="input" type="text" is="iron-input" bind-value="{{customer.first_name}}">
@@ -54,11 +54,6 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
-    },
-
-    on_change_overview: function (event) {
-      event.stopPropagation();
-      this.fire('change-overview');
     }
 
   });

@@ -21,3 +21,22 @@ Model.create = function (url, data) {
   })
   .then(status);
 }
+
+Model.update = function (url, model_id, data) {
+  url = url + '/' + model_id;
+  return fetch(url, {
+    method: 'put',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(status);
+}
+
+Model.delete = function (url, model_id) {
+  url = url + '/' + model_id;
+  return fetch(url, {
+    method: 'delete'
+  })
+}

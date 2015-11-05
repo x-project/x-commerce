@@ -6,7 +6,7 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" role="form" on-submit="on_submit" on-keyup="on_change_info">
+    <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Title</label>
         <input class="input" id="title" type="text" is="iron-input" bind-value="{{product.title}}">
@@ -43,11 +43,6 @@
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
-    },
-
-    on_change_info: function (event) {
-      event.stopPropagation();
-      this.fire('change-info');
     }
 
   });
