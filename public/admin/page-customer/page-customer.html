@@ -1,40 +1,32 @@
-<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="../part-tags/part-tags.html">
 <link rel="import" href="part-customer-address.html">
 <link rel="import" href="part-customer-delete.html">
 <link rel="import" href="part-customer-header.html">
 <link rel="import" href="part-customer-note.html">
 <link rel="import" href="part-customer-overview.html">
 <link rel="import" href="part-customer-save.html">
-<link rel="import" href="part-customer-tag.html">
+<link rel="import" href="part-customer-send-email.html">
 <dom-module id="page-customer">
   <template>
-
-    <api-model-update id="ajax_update" collection="customers"
-      data="{{customer}}" model-id="{{customer.id}}">
-    </api-model-update>
-
-    <api-model-delete id="ajax_delete" collection="customers"
-      model-id="{{customer.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-create id="create" collection="customers" data="{{customer}}"
-      response="{{customer}}" on-response="on_response_create">
-    </api-model-create>
 
     <layout-admin>
       <h1>Customers</h1>
       <part-customer-header customer="{{customer}}"></part-customer-header>
       <part-customer-save on-try-save="on_try_save"></part-customer-save>
       <part-customer-delete on-try-delete="on_try_delete"></part-customer-delete>
-      <part-customer-overview customer="{{customer}}"></part-customer-overview>
+      <part-customer-overview customer="{{customer}}" error="{{error}}"></part-customer-overview>
       <part-customer-address customer="{{customer}}"></part-customer-address>
+      <part-customer-send-emailcustomer="{{customer}}"></part-customer-send-email>
       <part-customer-note customer="{{customer}}"></part-customer-note>
-      <part-customer-tag customer="{{customer}}"></part-customer-tag>
+      <part-tags model="{{customer}}"></part-tags>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -42,6 +34,10 @@
 
     properties: {
       customer: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }
@@ -52,31 +48,100 @@
     },
 
     on_try_save: function (event) {
-      if (this.customer.id) {
-        this.convert_tags_to_array();
-        this.$.ajax_update.send();
+      event.stopPropagation();
+      if (!this.validate_model()) {
         return;
       }
-      this.$.create.send();
+      if (this.customer.id) {
+        this.update_model();
+        return;
+      }
+      this.create_model();
     },
 
-    on_response_create: function (event) {
+    update_model: function () {
+      Model.update('/api/customers', this.customer.id, this.customer)
+      .then(function (data) {
+        this.customer = data;
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      this.customer.password = "123";
+      Model.create('/api/customers', this.customer)
+      .then(function (data) {
+        this.customer = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/customers', this.customer.id)
+      .then(function (data) {
+        this.customer = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    validate_model: function () {
       event.stopPropagation();
+      var error = this.create_custom_err();
+      var check = true;
+      check = check & this.check_field('first_name', error, 'can\'t be blank');
+      check = check & this.check_field('last_name', error, 'can\'t be blank');
+      check = check & this.check_email(error, 'invalid email');
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.first_name = [];
+      error.details.messages.last_name = [];
+      error.details.messages.email = [];
+      return error;
+    },
+
+    check_email: function (error, message) {
+      var regex_email = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (!regex_email.test(this.customer.email)) {
+        error.details.messages.email.push(message);
+        return false;
+      }
+      return true;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.customer[property] === undefined || this.customer[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    response_create: function () {
       page('/admin/customers/' + this.customer.id);
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete.send();
+      this.delete_model();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/customers');
-    },
-
-    convert_tags_to_array: function () {
-      this.customer.tags = [this.customer.tags] || [];
     },
 
     on_error: function (event) {

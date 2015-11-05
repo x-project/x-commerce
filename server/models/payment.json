@@ -21,6 +21,12 @@
     "expirationDate": {
       "type": "String"
     },
+    "expirationMonth": {
+      "type": "String"
+    },
+    "expirationYear": {
+      "type": "String"
+    },
     "maskedNumber": {
       "type": "String"
     },
@@ -36,20 +42,26 @@
     "processorAuthorizationCode": {
       "type": "String"
     },
+    "processorResponseText": {
+      "type": "String"
+    },
+    "processorResponseCode":{
+      "type": "String"
+    },
     "status": {
       "type": "String"
     },
     "success": {
       "type": "Boolean"
     },
-    "processorResponseText": {
-      "type": "String"
-    },
     "updatedAt": {
       "type": "Date"
     },
-    "order_id": {
+    "type": {
       "type": "String"
+    },
+    "statusHistory": {
+      "type": ["object"]
     }
   },
   "validations": [],

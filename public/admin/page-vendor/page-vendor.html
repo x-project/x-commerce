@@ -1,34 +1,25 @@
-<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-vendor-header.html">
 <link rel="import" href="part-vendor-save.html">
 <link rel="import" href="part-vendor-delete.html">
 <link rel="import" href="part-vendor-info.html">
-
 <dom-module id="page-vendor">
   <template>
 
-    <api-model-update id="ajax_update" collection="vendors"
-      data="{{vendor}}" model-id="{{vendor.id}}">
-    </api-model-update>
-
-    <api-model-delete id="ajax_delete" collection="vendors"
-      model-id="{{vendor.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-create id="create" collection="vendors" data="{{vendor}}"
-      response="{{vendor}}" on-response="on_response_create">
-    </api-model-create>
-
     <layout-admin>
       <h1>Vendor</h1>
-        <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
-        <part-vendor-save on-try-save="on_try_save"></part-vendor-save>
-        <part-vendor-delete on-try-delete="on_try_delete"></part-vendor-delete>
-        <part-vendor-info vendor="{{vendor}}"></part-vendor-info>
+      <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
+      <part-vendor-save on-try-save="on_try_save"></part-vendor-save>
+      <part-vendor-delete on-try-delete="on_try_delete"></part-vendor-delete>
+      <part-vendor-info vendor="{{vendor}}" error="{{error}}">
+      </part-vendor-info>
     </layout-admin>
+
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -38,44 +29,103 @@
       vendor: {
         type: Object,
         value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
     attached: function () {
-      console.log(this.data.vendor);
       this.vendor = this.data.vendor;
     },
 
     on_try_save: function (event) {
-      if (this.vendor.id) {
-      console.log("update");
-
-        this.$.ajax_update.send();
+      event.stopPropagation();
+      if (!this.validate_model()) {
         return;
       }
-      console.log("create");
-      this.$.create.send();
+      if (this.vendor.id) {
+        this.update_model();
+        return;
+      }
+     this.create_model();
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
-      page('/admin/vendors');
+    update_model: function () {
+      Model.update('/api/vendors', this.vendor.id, this.vendor)
+      .then(function (data) {
+        this.vendor = data;
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/vendors', this.vendor)
+      .then(function (data) {
+        this.vendor = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/vendors', this.vendor.id)
+      .then(function (data) {
+        this.vendor = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_create: function () {
+      page('/admin/vendors/' + this.vendor.id);
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      console.log(this.vendor);
-      this.$.ajax_delete.send();
+      this.delete_model();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/vendors');
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var error = this.create_custom_err();
+      check = check & this.check_field('name', error, 'can\'t be blank');
+      this.set('error', error);
+      return check;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.vendor[property] === undefined || this.vendor[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.name = [];
+      return error;
     }
 
   });

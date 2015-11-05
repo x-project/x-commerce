@@ -1,0 +1,40 @@
+{
+  "name": "Task",
+  "plural": "tasks",
+  "mongodb": {
+    "collection": "tasks"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "data": {
+      "type": "Object"
+    },
+    "handler": {
+      "type": "String"
+    },
+    "created_at": {
+      "type": "Date"
+    },
+    "priority": {
+      "type": "String",
+      "default": "low",
+      "enum": ["low", "medium", "high"]
+    },
+    "last_retry_at": {
+      "type": "Date"
+    },
+    "retry_count": {
+      "type": "Number"
+    },
+    "done_at": {
+      "type": "Date"
+    },
+    "done": {
+      "type": "Boolean"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

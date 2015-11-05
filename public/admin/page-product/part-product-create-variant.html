@@ -6,7 +6,7 @@
 
     <div class="panel">
       <h2 class="title">Variants</h2>
-      <a is="app-link" href="{{edit_url}}">variants</a>
+      <a is="app-link" href="{{edit_url}}" on-click="on_click">variants</a>
 
     </div>
   </template>
@@ -20,11 +20,30 @@
       product: {
         type: Object,
         value: function () { return {}; }
+      },
+      clicked: {
+        type: Boolean,
+        value: false
       }
     },
 
     attached: function () {
-      this.edit_url = '/admin/products/' + this.product.id + '/variants'
+      this.edit_url = '/admin/products/' + this.product.id + '/variants';
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      if (!this.product.id) {
+        this.clicked = true;
+        event.preventDefault();
+        this.fire('try-save');
+      }
+    },
+
+    go_to_variants: function () {
+      if (this.clicked) {
+        page('/admin/products/' + this.product.id + '/variants');
+      }
     }
 
   });

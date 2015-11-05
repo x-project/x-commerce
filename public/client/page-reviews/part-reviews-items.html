@@ -1,6 +1,6 @@
 <link rel="import" href="../../components/app-link/app-link.html">
-<link rel="import" href="part-review.html">
-<dom-module id="part-reviews">
+<link rel="import" href="part-reviews-item.html">
+<dom-module id="part-reviews-items">
   <template>
 
     <style>
@@ -10,22 +10,21 @@
     </style>
 
     <api-model-find id="find" collection="reviews" response="{{reviews}}"
-      include=["customer","product"] on-response="on_response">
+      include=["customer","product"] on-response="on_response" on-error="on_error">
     </api-model-find>
 
     <div class="list">
       <template is="dom-repeat" items="{{reviews}}" as="review">
-        <part-review class="review" review="{{review}}"></part-review>
+        <part-reviews-item class="review" review="{{review}}"></part-reviews-item>
       </template>
     </div>
-
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-reviews',
+    is: 'part-reviews-items',
 
     properties: {
       reviews: {
@@ -39,12 +38,20 @@
     },
 
     attached: function  () {
-      this.$.find.where = { customer_id: this.customer.id };
-      this.$.find.send();
+      if(Object.keys(this.customer).length > 0){
+        this.$.find.where = { customer_id: this.customer.id };
+        this.$.find.send();
+      }
     },
 
-    on_response: function  (argument) {
+    on_response: function  (event) {
+      event.stopPropagation();
       // console.log(this.reviews);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

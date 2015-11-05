@@ -8,14 +8,17 @@
       <div class="field">
         <label class="label">First Name</label>
         <input class="input" type="text" is="iron-input" bind-value="{{customer.first_name}}">
+        <input-errors property="first_name" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Last Name</label>
         <input class="input" type="text" is="iron-input" bind-value="{{customer.last_name}}">
+        <input-errors property="last_name" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Email</label>
         <input class="input" type="text" is="iron-input" bind-value="{{customer.email}}">
+        <input-errors property="email" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Customer accepts marketing</label>
@@ -38,6 +41,13 @@
       customer: {
         type: Object,
         value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      if (!this.customer.hasOwnProperty('marketing')) {
+        this.set('customer.marketing', true);
+        return;
       }
     },
 

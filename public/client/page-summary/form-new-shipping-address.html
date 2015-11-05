@@ -1,0 +1,88 @@
+<link rel="import" href="/components/input-location/input-location.html">
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<dom-module id="form-new-shipping-address">
+
+  <template>
+
+  <iron-ajax id="ajax_post" method="POST" handle-as="json" content-type="application/json"
+    on-response="on_response" on-error="on_error" last-response="{{address_created}}">
+  </iron-ajax>
+
+  <form role="form" on-submit="on_submit">
+    <div class="address">
+      <label class="label">Address</label>
+      <input-location class="input" options="{{option}}" value="{{address.formatted_address}}"
+        place="{{place}}">
+      </input-location>
+    </div>
+      <label class="label">note</label>
+    <div class="note">
+      <iron-autogrow-textarea is="iron-input" bind-value="{{address.note}}"
+        rows="3"></iron-autogrow-textarea>
+    </div>
+    <input type="submit" value="submit">
+  </form>
+
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-new-shipping-address',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      address: {
+        type: Object,
+        value: function () { return {formatted_address: '', note: ''}; }
+      },
+      option: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      place: {
+        type: Object,
+        observer: 'on_change_place'
+      }
+    },
+
+    attached: function () {
+      this.option  = { 'types': ['address'] };
+    },
+
+    on_change_place: function (place) {
+      // console.log(place);
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.address.vicinity = this.place.vicinity;
+      this.address.region = this.place.address_components[3].long_name;
+      this.address.country = this.place.address_components[4].long_name;
+      this.address.place = this.place;
+      this.save_address();
+    },
+
+    save_address: function () {
+      this.$.ajax_post.url = '/api/customers/' + this.customer.id + '/shipping_addresses';
+      this.$.ajax_post.body = JSON.stringify(this.address);
+      this.$.ajax_post.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      this.fire('change-shipping-address', this.address_created);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

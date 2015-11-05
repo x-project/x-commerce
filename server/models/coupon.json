@@ -1,0 +1,41 @@
+{
+  "name": "Coupon",
+  "plural": "coupons",
+  "mongodb": {
+    "collection": "coupons"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "name": {
+      "type": "String",
+      "required": true
+    },
+    "description": {
+      "type": "String"
+    },
+    "discount": {
+      "type": "Number",
+      "required": true
+    },
+    "code": {
+      "type": "String",
+      "required": true
+    },
+    "date_from": {
+      "type": "Date"
+    },
+    "date_to": {
+      "type": "Date"
+    }
+  },
+  "relations": {
+    "order": {
+      "type": "belongsTo",
+      "model": "Order",
+      "foreignKey": "order_id"
+    }
+  },
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

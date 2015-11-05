@@ -1,8 +1,21 @@
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="form-login-passwordless-email.html">
+<link rel="import" href="form-login-passwordless-sms.html">
+
 <dom-module id="page-test">
   <template>
     <style include="style-page"></style>
 
-    <h1>test</h1>
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Test</h1>
+      </part-jumbotron>
+        <div class="container">
+          <form-login-passwordless-email on-submit-email="on_login_email"></form-login-passwordless-email>
+          <!-- <form-login-passwordless-sms on-submit-sms="on_login_sms"></form-login-passwordless-sms> -->
+        </div>
+    </layout-client>
 
   </template>
 </dom-module>

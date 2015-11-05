@@ -30,6 +30,11 @@
       "type": "belongsTo",
       "model": "Customer",
       "foreignKey": "customer_id"
+    },
+    "replies": {
+      "type": "hasMany",
+      "model": "ReviewReply",
+      "foreignKey": "review_id"
     }
   },
   "acls": [],

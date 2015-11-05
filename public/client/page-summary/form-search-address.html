@@ -1,0 +1,90 @@
+<dom-module id="form-search-address">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .delete:hover{
+        opacity: .5;
+      }
+    </style>
+
+    <iron-ajax id="ajax_get" method="GET" on-response="on_response"
+      last-response="{{addresses}}" on-error="on_error">
+    </iron-ajax>
+
+    <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error">
+    </iron-ajax>
+
+    <input type="text" placeholder="edit address" is="iron-input"
+      bind-value="{{search}}"on-focus="on_focus_search_address"/>
+
+    <div class="addresses">
+      <template id="addresses" is="dom-repeat" items="{{addresses}}"
+        as="address" filter="filter_address">
+        <span class="address" on-click="on_click_address">
+          <span>{{address.formatted_address}}</span>
+          <span>{{address.note}}</span>
+        <span>
+        <span class="delete" on-click="on_click_delete">x</span>
+      </template>
+    </div>
+
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-search-address',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+    },
+
+    on_focus_search_address: function (event) {
+      event.stopPropagation();
+      this.$.ajax_get.url = '/api/customers/' + this.customer.id + '/shipping_addresses';
+      this.$.ajax_get.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      if (this.addresses.length == 0) {
+        this.fire('empty');
+      }
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+    },
+
+    on_click_address: function (event) {
+      event.stopPropagation();
+      var address = this.$.addresses.itemForElement(event.target);
+      this.set('addresses', []);
+      this.fire('select-address', address);
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      var index = this.$.addresses.indexForElement(event.target);
+      var address = this.$.addresses.itemForElement(event.target);
+      this.splice('addresses', address, 1);
+      this.$.ajax_delete.url =  '/api/customers/' + this.customer.id
+        + '/shipping_addresses/' + address.id;
+      this.$.ajax_delete.generateRequest();
+    },
+
+    filter_address: function (address) {
+      return address.formatted_address.search(this.search) >= 0;
+    }
+
+  });
+</script>

@@ -6,16 +6,10 @@
   },
   "base": "PersistedModel",
   "properties": {
-    "route": {
+    "formatted_address": {
       "type": "String"
     },
-    "street_number": {
-      "type": "String"
-    },
-    "locality": {
-      "type": "String"
-    },
-    "province": {
+    "vicinity": {
       "type": "String"
     },
     "region": {
@@ -24,14 +18,8 @@
     "country": {
       "type": "String"
     },
-    "postal_code": {
-      "type": "String"
-    },
-    "formatted_address": {
-      "type": "String"
-    },
-    "vicinity": {
-      "type": "String"
+    "place": {
+      "type": "Object"
     },
     "notes": {
       "type": "String"

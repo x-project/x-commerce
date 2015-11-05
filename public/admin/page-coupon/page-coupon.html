@@ -1,0 +1,174 @@
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-coupon-header.html">
+<link rel="import" href="part-coupon-save.html">
+<link rel="import" href="part-coupon-delete.html">
+<link rel="import" href="part-coupon-info.html">
+<link rel="import" href="part-coupon-discount.html">
+<link rel="import" href="part-coupon-period.html">
+<dom-module id="page-coupon">
+  <template>
+
+    <layout-admin>
+      <h1>Coupons</h1>
+      <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
+      <part-coupon-save on-try-save="on_try_save"></part-coupon-save>
+      <part-coupon-delete on-try-delete="on_try_delete"></part-coupon-delete>
+      <part-coupon-info coupon="{{coupon}}" error="{{error}}"></part-coupon-info>
+      <part-coupon-discount coupon="{{coupon}}" error="{{error}}"></part-coupon-discount>
+      <part-coupon-period coupon="{{coupon}}" error="{{error}}"
+        on-change-date="on_change_date">
+      </part-coupon-period>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'page-coupon',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.coupon = this.data.coupon;
+    },
+
+    on_try_save: function (event) {
+      event.stopPropagation();
+      if (!this.validate_model()) {
+        return;
+      }
+      if(this.coupon.id){
+        this.update_model();
+        return;
+      }
+      this.create_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/coupons', this.coupon.id, this.coupon)
+      .then(function (data) {
+        this.coupon = data;
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/coupons', this.coupon)
+      .then(function (data) {
+        this.coupon = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/coupons', this.coupon.id)
+      .then(function (data) {
+        this.coupon = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_create: function () {
+      page('/admin/coupons/' + this.coupon.id);
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.delete_model();
+    },
+
+    response_delete: function () {
+      page('/admin/coupons');
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var error = this.create_custom_err();
+      var check = true;
+      check = check & this.check_field('name', error, 'can\'t be blank');
+      check = check & this.check_field('discount', error, 'can\'t be blank');
+      check = check & this.check_field('code', error, 'can\'t be blank');
+      check = check & this.check_date('date_from', error);
+      check = check & this.check_date('date_to', error);
+      if (!this.compare_date(this.coupon.date_from, this.coupon.date_to)) {
+        error.details.messages.date_to.push('insert the correct date');
+        check = false;
+      }
+      this.set('error', error);
+      return check;
+    },
+
+    compare_date: function (date_from, date_to) {
+      var from = new Date(date_from);
+      var to = new Date(date_to);
+      if (to - from < 0) {
+        return false;
+      }
+      return true;
+    },
+
+    check_date: function (property, error) {
+      var test = true;
+      var date = new Date(this.coupon[property]);
+      if (date == "Invalid Date" && this.coupon[property] != undefined) {
+        error.details.messages[property].push('invalid date');
+        test = false;
+      }
+      var date_now = Date.now();
+      var diff = date - date_now;
+      if (diff < 0) {
+        error.details.messages[property].push('invalid past date');
+        test = false;
+      }
+      return test;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.coupon[property] === undefined || this.coupon[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.name = [];
+      error.details.messages.discount = [];
+      error.details.messages.code = [];
+      error.details.messages.date_from = [];
+      error.details.messages.date_to = [];
+      return error;
+    },
+
+    on_change_date: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+    }
+
+  });
+</script>

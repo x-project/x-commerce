@@ -33,7 +33,7 @@
       <div class="container">
         <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart"></part-cart-order-items>
         <part-cart-order-detail id="order_detail" cart="{{cart}}"
-          on-try-create-checkout="on_try_checkout">
+          on-try-checkout="on_try_checkout">
         </part-cart-order-detail>
       </div>
     </layout-client>
@@ -103,7 +103,7 @@
         });
       }, this);
       this.$.session.set('cart', cart);
-      this.cart =  this.$.session.get('cart');
+      this.cart = this.$.session.get('cart');
     },
 
     pluck: function (array, key) {

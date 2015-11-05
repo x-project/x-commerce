@@ -1,0 +1,34 @@
+<dom-module id="part-review-reply">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .reply {
+        margin-top: 20px;
+      }
+    </style>
+
+    <div class="reply">
+      <div>{{reviewReply.text}}</div>
+      <div class="author">
+        <span>by</span> <em>{{reviewReply.author.first_name}}</em>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-review-reply',
+
+    properties: {
+      reviewReply: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

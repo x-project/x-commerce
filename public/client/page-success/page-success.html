@@ -1,0 +1,39 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-success-order-info.html">
+<dom-module id="page-success">
+  <template>
+    <style include="style-page"></style>
+
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>Success <span>{{}}</span></h1>
+      </part-jumbotron>
+        <div class="container">
+          <a is="app-link" href="/orders">my orders</a>
+          <part-success-order-info order="{{data.order}}"></part-success-order-info>
+        </div>
+    </layout-client>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'page-success',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      // console.log(this.data.order);
+    }
+
+  });
+</script>

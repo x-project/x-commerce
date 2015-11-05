@@ -1,0 +1,108 @@
+
+<dom-module id="form-stripe">
+
+  <template>
+  <style>
+    :host {
+      display: block;
+    }
+    #iframe {
+      display: none;
+    }
+    #pay{
+      width: 200px;
+      height: 80px;
+      margin-top:30px;
+      margin-left: 20px;
+    }
+    form{
+      width: 250px;
+    }
+    input#pay {
+      border: 1px solid black;
+      padding: 10px;
+    }
+  </style>
+
+  <h3>payment with stripe</h3>
+
+  <app-session id="session"></app-session>
+
+  <iframe id="iframe" name="form_sending_stripe" on-load="on_checkout_stripe"></iframe>
+
+  <form action="/api/orders/stripe" method="POST" id="payment-form" target="form_sending_stripe">
+    <span class="payment-errors"></span>
+    <div class="form-row">
+      <label>
+        <span>Card Number</span>
+        <input type="text" size="20" data-stripe="number" name="number" value="4242424242424242"/>
+      </label>
+    </div>
+    <div class="form-row">
+      <label>
+        <span>CVC</span>
+        <input type="text" size="4" data-stripe="cvc" name="cvc" value="123"/>
+      </label>
+    </div>
+    <div class="form-row">
+      <label>
+        <span>Expiration (MM/YYYY)</span>
+        <input type="text" size="2" data-stripe="exp-month" value="12"/>
+      </label>
+      <span> / </span>
+      <input type="text" size="4" data-stripe="exp-year" value="18"/>
+    </div>
+
+    <input type="hidden" name="cart" value="{{cart}}">
+    <input type="hidden" name="token" value="{{token}}">
+    <input type="hidden" name="customer_token" value="{{customer_token}}">
+
+    <input id="pay" disabled type="submit" value="Pay" />
+  </form>
+
+
+  </template>
+</dom-module>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">Stripe.setPublishableKey('pk_test_zlKy2mz3BnnxoRwR8rUCGlzi');</script>
+
+<script>
+  Polymer({
+
+    is: 'form-stripe',
+
+    properties: {},
+
+    ready: function () {
+      this.$.pay.disabled = true;
+    },
+
+    attached: function () {
+      this.customer_token = this.$.session.get('token');
+      this.cart = JSON.stringify(this.$.session.get('cart'));
+      var context = this;
+      var stripe_response = function (status, response) {
+        context.token = response.id;
+        context.$.pay.disabled = false;
+        context.$.pay.style.background = 'gray';
+
+      };
+      Stripe.card.createToken(document.getElementById("payment-form"), stripe_response);
+    },
+
+    on_checkout_stripe: function (event) {
+      var text = this.$.iframe.contentDocument.body.innerText || '{}';
+      var checkout;
+      try {
+        checkout = JSON.parse(text);
+      } catch (e) {
+        checkout = null;
+        console.warn(e);
+      }
+      this.checkout = checkout;
+      console.log(this.checkout);
+    }
+
+  });
+</script>

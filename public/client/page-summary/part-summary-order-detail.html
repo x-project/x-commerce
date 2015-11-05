@@ -2,11 +2,13 @@
 <link rel="import" href="part-summary-amount.html">
 <link rel="import" href="part-summary-customer.html">
 <link rel="import" href="part-summary-order-items.html">
+<link rel="import" href="part-summary-shipping-address.html">
 <dom-module id="part-summary-order-detail">
   <template>
     <style include="style-list"></style>
 
     <part-summary-customer customer="{{customer}}"></part-summary-customer>
+    <part-summary-shipping-address customer="{{customer}}"></part-summary-shipping-address>
     <part-summary-order-items order-items="{{orderItems}}"></part-summary-order-items>
     <part-summary-amount order-items="{{orderItems}}"></part-summary-amount>
 

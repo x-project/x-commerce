@@ -1,9 +1,7 @@
-<dom-module id="part-product-tags">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-tags">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
+   <style include="style-form">
       .tag {
         display: inline-block;
         padding: 4px 8px;
@@ -18,32 +16,34 @@
         opacity: 1;
         cursor: pointer;
       }
-    </style>
+   </style>
 
-    <div class="field">
-      <label class="label">Tags</label>
-      <input class="input" type="text" is="iron-input" bind-value="{{tag}}"
-        on-keyup="on_edit_tag">
-    </div>
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Tags</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{tag}}"
+          on-keyup="on_edit_tag">
+      </div>
 
-    <div class="items">
-      <template id="tags" is="dom-repeat" items="{{tags}}">
-        <div class="tag">
-          <span>{{item}}</span>
-          <span on-click="on_click_delete" class="delete">x</span>
-        <div>
-      </template>
-    </div>
-
+      <div class="items">
+        <template id="tags" is="dom-repeat" items="{{tags}}">
+          <div class="tag">
+            <span>{{item}}</span>
+            <span on-click="on_click_delete" class="delete">x</span>
+          <div>
+        </template>
+      </div>
+    </form>
   </template>
+
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-product-tags',
+    is: 'form-tags',
 
-    properties: {
-      product: {
+    properties: {
+      model: {
         type: Object,
         value: function () { return {}; }
       },
@@ -62,7 +62,12 @@
     },
 
     attached: function () {
-      this.tags = this.product.tags || [];
+      this.tags = this.model.tags || [];
+    },
+
+    on_submit: function (event) {
+      event.stopPropagaiton();
+      event.preventDefault();
     },
 
     on_edit_tag: function (event) {
@@ -99,7 +104,7 @@
 
     clear: function () {
       this.set('tag', '');
-      this.product.tags = this.tags;
+      this.model.tags = this.tags;
     },
 
     on_click_delete: function (event) {

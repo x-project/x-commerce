@@ -1,0 +1,131 @@
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="form-new-shipping-address.html">
+<link rel="import" href="form-search-address.html">
+<dom-module id="part-summary-shipping-address">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .new_address{
+        display: none;
+      }
+      .new_address[form_new_address] {
+        display: block;
+      }
+      .search_address{
+        display: none;
+      }
+      .search_address[form_search_address] {
+        display: block;
+      }
+    </style>
+
+    <app-session id="session"></app-session>
+
+    <h3>Shipping Address</h3>
+    <span>{{address}}</span>
+    <span>{{note}}</span>
+
+    <button id="button_new" class="button" on-click="on_click_new_address">add new address</button>
+    <button id="button_search" class="button" on-click="on_click_search">search</button>
+
+
+    <form-new-shipping-address class="new_address" form_new_address$="{{form_new_address}}"
+      customer="{{customer}}" on-change-shipping-address="on_change_shipping_address">
+    </form-new-shipping-address>
+
+    <form-search-address class="search_address" form_search_address$="{{form_search_address}}"
+      on-select-address="on_select_address" customer="{{customer}}" on-empty="on_empty">
+    </form-search-address>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-summary-shipping-address',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      form_new_address: {
+        type: Boolean,
+        value: false
+      },
+      form_search_address: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      this.address = this.customer.location + ' ' + this.customer.location_number;
+    },
+
+    show_form_new_address: function () {
+      this.set('form_new_address', true);
+    },
+
+    hide_form_new_address: function () {
+      this.set('form_new_address', false);
+    },
+
+    show_form_search_address: function () {
+      this.set('form_search_address', true);
+    },
+
+    hide_form_search_address: function () {
+      this.set('form_search_address', false);
+    },
+
+    on_click_new_address: function (event) {
+      event.stopPropagation();
+      this.show_form_new_address();
+      this.hide_form_search_address();
+      this.$.button_new.disabled = true;
+      this.$.button_search.disabled = false;
+    },
+
+    on_change_shipping_address: function (event) {
+      event.stopPropagation();
+      var new_address = event.detail;
+      this.address = this.get_address(new_address) + ' - ' + new_address.note;
+      var cart = this.$.session.set('shipping_address_id', new_address.id);
+      this.hide_form_new_address();
+      this.$.button_new.disabled = false;
+      this.fire('change-address');
+    },
+
+    get_address: function (address) {
+      return address.formatted_address + ' ' + address.vicinity
+      + ', ' + address.region + ', ' + address.country;
+    },
+
+    on_click_search: function (event) {
+      event.stopPropagation();
+      this.$.button_search.disabled = true;
+      this.$.button_new.disabled = false;
+      this.hide_form_new_address();
+      this.show_form_search_address();
+    },
+
+    on_select_address: function (event) {
+      event.stopPropagation();
+      var complete_address = event.detail;
+      this.address = this.get_address(complete_address);
+      var cart = this.$.session.set('shipping_address_id', complete_address.id);
+      this.hide_form_search_address();
+      this.$.button_search.disabled = false;
+      this.fire('change-address');
+    },
+
+    on_empty: function (event) {
+      event.stopPropagation();
+      this.hide_form_search_address();
+      this.show_form_new_address();
+    }
+  });
+</script>

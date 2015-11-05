@@ -1,0 +1,23 @@
+<dom-module id="part-success-order-info">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <span>{{order.id}}</span>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-success-order-info',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+  });
+</script>

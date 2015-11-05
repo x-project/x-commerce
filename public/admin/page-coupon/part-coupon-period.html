@@ -1,12 +1,12 @@
 <link rel="import" href="../style-panel/style-panel.html">
-<link rel="import" href="form-customer-tags.html">
-<dom-module id="part-customer-tag">
+<link rel="import" href="form-coupon-period.html">
+<dom-module id="part-coupon-period">
   <template>
     <style include="style-panel"></style>
 
     <div>
-      <h2>Tags</h2>
-      <form-customer-tags customer="{{customer}}"></form-customer-tags>
+      <h2>Period</h2>
+      <form-coupon-period coupon="{{coupon}}" error="{{error}}"></form-coupon-period>
     </div>
 
   </template>
@@ -14,10 +14,10 @@
 <script>
   Polymer({
 
-    is: 'part-customer-tag',
+    is: 'part-coupon-period',
 
     properties: {
-      customer: {
+      coupon: {
         type: Object,
         value: function () { return {}; }
       }

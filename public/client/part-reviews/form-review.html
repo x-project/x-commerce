@@ -1,0 +1,48 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../components/iron-input/iron-input.html">
+<dom-module id="form-review">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <form id="form" class="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">title</label>
+        <input class="input" is="iron-input" type="text" bind-value="{{comment.title}}">
+      </div>
+      <div class="field">
+        <label class="label">message</label>
+        <iron-autogrow-textarea class="textarea" bind-value="{{comment.text}}"></iron-autogrow-textarea>
+      </div>
+      <div class="field">
+        <input class="button" type="submit" value="create"/>
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-review',
+
+    properties: {
+      comment: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      //TODO: inject author.id
+      this.fire('try-save-comment');
+    }
+
+  });
+</script>

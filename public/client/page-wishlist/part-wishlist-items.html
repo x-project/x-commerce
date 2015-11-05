@@ -1,0 +1,40 @@
+<link rel="import" href="part-wishlist-item.html">
+<dom-module id="part-wishlist-items">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      part-wishlist-item {
+        margin-top: 20px;
+      }
+    </style>
+
+    <div class="items">
+      <template id="favourites" is="dom-repeat" items="{{favourites}}" as="favourite" filter="filter">
+        <part-wishlist-item favourite="{{favourite}}">
+        </part-wishlist-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-wishlist-items',
+
+    properties: {
+      favourites: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    filter: function (favourite) {
+      favourite.url = '/products/' + favourite.product_id;
+      return true;
+    }
+
+  });
+</script>

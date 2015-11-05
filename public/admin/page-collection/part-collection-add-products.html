@@ -8,16 +8,11 @@
 
     <iron-ajax id="ajax_put" method="PUT" on-error="on_error" on-response="on_response_put"></iron-ajax>
 
-    <api-model-create id="create" collection="collections" on-response="on_response_create"
-      on-error="on_error">
-    </api-model-create>
-
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
     <search-collection-product collection="{{collection}}"
       on-try-save-product="on_try_save_product" on-try-delete-product="on_try_delete_product">
     </search-collection-product>
-
 
   </template>
 </dom-module>
@@ -45,28 +40,18 @@
 
     save_collection: function () {
       if (this.collection.id) {
-        this.$.ajax_put.url = '/api/collections/' + this.collection.id + '/products/rel/' + this.product.id;
+        this.$.ajax_put.url = '/api/collections/' + this.collection.id
+        + '/products/rel/' + this.product.id;
         this.$.ajax_put.generateRequest();
         return;
       }
-      this.create_collection_new();
-    },
-
-    create_collection_new: function () {
-      event.stopPropagation();
-      this.$.create.data = this.collection;
-      this.$.create.send();
-    },
-
-    on_response_create: function (event) {
-      event.stopPropagation();
-      this.collection = event.detail;
-      this.save_collection();
+      this.fire('try-save');
     },
 
     on_try_delete_product: function (event) {
-      var collection = event.detail.collection;
-      this.$.ajax_delete.url = '/api/collections/' + this.collection.id + '/products/rel/' + this.product.id;
+      var product = event.detail.product;
+      console.log(product);
+      this.$.ajax_delete.url = '/api/collections/' + this.collection.id + '/products/rel/' + product.id;
       this.$.ajax_delete.generateRequest();
     },
 

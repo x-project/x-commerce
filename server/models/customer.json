@@ -7,14 +7,15 @@
   "base": "User",
   "properties": {
     "first_name": {
-      "type": "String"
+      "type": "String",
+      "required": true
     },
     "last_name": {
-      "type": "String"
+      "type": "String",
+      "required": true
     },
     "email": {
       "type": "String",
-      "length": 64,
       "required": true
     },
     "marketing": {
@@ -40,12 +41,27 @@
     },
     "tags": {
       "type": ["String"]
+    },
+    "last_enter_token": {
+      "type": "String"
+    },
+    "last_sms_token": {
+      "type": "String"
+    },
+    "last_phone": {
+      "type": "String"
     }
   },
   "relations": {
     "shipping_addresses": {
       "type": "hasMany",
-      "model": "Address"
+      "model": "Address",
+      "foreignKey": "customer_id"
+    },
+    "wishlists": {
+      "type": "hasMany",
+      "model": "Wishlist",
+      "foreignKey": "customer_id"
     }
   },
   "acls": [
@@ -78,6 +94,90 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "count"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter_token"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter"
+    },
+    {
+      "principalType": "USER",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "updateAttributes"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "deleteById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "phone_token"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "enter_code"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__create__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__destroyById__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__updateById__wishlists"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__create__shipping_addresses"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__shipping_addresses"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__destroyById__shipping_addresses"
     }
   ],
   "validations": [],

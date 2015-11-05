@@ -1,4 +1,5 @@
 <link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-collection-info">
   <template>
@@ -7,7 +8,8 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Title</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{collection.title}}">
+        <input class="input" id="title" type="text" is="iron-input" bind-value="{{collection.title}}">
+        <input-errors property="title" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Description</label>
@@ -26,6 +28,10 @@
 
     properties: {
       collection: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

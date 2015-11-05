@@ -1,4 +1,10 @@
 var loopback = require('loopback');
+var async = require('async');
+var moment = require('moment');
+var jwt = require('jwt-simple');
+var mandrill = require('mandrill-api/mandrill');
+
+var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_TEST_KEY);
 
 module.exports = function (Customer) {
 
@@ -102,13 +108,194 @@ module.exports = function (Customer) {
     returns: { arg: 'changed', type: 'boolean' }
   });
 
+
+
   Customer.on('resetPasswordRequest', function (info) {
     // console.log(info.user); // the requested user
     // console.log(info.email); // the email of the requested user
     // console.log(info.accessToken); // the temp access token to allow password reset
     // TODO: send email to user
+  });
+
+/*
+* init passwordless with email
+*/
 
 
+  var create_trasport = function () {
+    var transporter = nodemailer.createTransport({
+      service: process.env.EMAIL_SERVICE,
+      auth: {
+        user: process.env.MY_EMAIL,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+    return transporter;
+  };
+
+  var prepare_mail = function (destination_email, enter_token) {
+    var host = 'http://localhost:3000/';
+    var link = host + 'enter?token=' + enter_token;
+    var signed_url = '<a href="' + link + '">' + link + '</a>';
+    var message = {
+      "html": signed_url,
+      "text": "click from url for sign in",
+      "subject": "signed url",
+      "from_email": process.env.MY_EMAIL,
+      "from_name": "x-commerce",
+      "to": [{
+              "email": destination_email,
+              "name": "x-commerce",
+              "type": "to"
+          }],
+      "headers": {
+          "Reply-To": process.env.MY_EMAIL
+      },
+      "subaccount": "123",
+    };
+    return message;
+  };
+
+  var get_user_for_email = function (email, done) {
+    var query = { where: {email: email} };
+    Customer.findOne(query, done);
+  };
+
+  var create_token = function  (user) {
+    var payload = {
+      sub: user.id,
+      iat: moment().unix(),
+      exp: moment().add(1, 'days').unix()
+    };
+    var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER);
+    return token;
+  };
+
+  var try_send_mail = function (email, user, done) {
+    var enter_token;
+    async.waterfall([
+      function (next) {
+        enter_token = create_token(user);
+        user.last_enter_token = enter_token;
+        Customer.upsert(user, next);
+      },
+      function (user, next) {
+        var message = prepare_mail(email, enter_token);
+        // var send_at = "2015-10-22 13:00:10"; // add on production version
+        mandrill_client.messages.send({"message": message}, function(result) {
+          next(null, result);
+        }, function(err) {
+          callback(err, null);
+        });
+      }
+    ],
+    function (err, result) {
+      if (err) {
+        done(err, null);
+        return;
+      }
+      done(null, result);
+    });
+  };
+
+  var create_new_user = function (email, done) {
+    Customer.create({email: email, password: '123'}, function (err, model) {
+      console.log(model);
+      if (err) {
+        done(err, null);
+      }
+      try_send_mail(email, model, done);
+    });
+  };
+
+  // passwordless for email
+  Customer.enter_token = function (email, callback) {
+    async.waterfall([
+      function (next) {
+        get_user_for_email(email, next);
+      },
+
+      function (user, next) {
+        if (user != null) {
+          try_send_mail(email, user, next);
+        }
+        else{
+          create_new_user(email, next);
+        }
+      }
+    ],
+    function (err, result) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, result);
+    });
+  };
+
+
+  Customer.enter_token_sms = function (telephone_number, callback) {
+    client.sms.messages.create({
+      body: "Jenny please?! I love you <3",
+      to: process.env.MY_TELEPHONE_NUM,
+      from: process.env.TWILIO_TELE_NUM
+    },
+    function(err, sms) {
+      if(err) {
+        callback(err, null);
+      }
+      callback(null, sms);
+    });
+  };
+
+  var create_access_token = function (user, callback) {
+    user.createAccessToken(Customer.settings.ttl, function (err, token) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      var _token = JSON.parse(JSON.stringify(token));
+      var _user = JSON.parse(JSON.stringify(user));
+      delete _user.password;
+      delete _user.last_enter_token;
+      _user.id = _token.userId;
+      _token.user = _user;
+      callback(null, _token);
+    });
+  };
+
+  Customer.try_enter = function (enter_token, callback) {
+    var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER);
+    Customer.findById(payload.sub, function(err, user) {
+      if (!user) {
+        callback({error: 'user not found'}, null);
+      }
+      create_access_token(user, function (err, user_profile) {
+        if (err) {
+          callback(err, null);
+        }
+        callback(null, user_profile);
+      });
+    });
+  };
+
+  // passwordless for email
+  Customer.remoteMethod('enter_token', {
+    accepts: { arg: 'email', type: 'string', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/enter_token', verb: 'get' }
+  });
+
+  Customer.remoteMethod('try_enter', {
+    accepts: { arg: 'enter_token', type: 'string', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/enter', verb: 'get' }
+  });
+
+  Customer.remoteMethod('enter_token_sms', {
+    accepts: { arg: 'telephone_number', type: 'number', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/sendme_password_sms', verb: 'get' }
   });
 
 };

@@ -1,4 +1,3 @@
-<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
@@ -13,33 +12,28 @@
 <dom-module id="page-collection">
   <template>
 
-    <api-model-update id="ajax_update" collection="collections"
-      data="{{collection}}" model-id="{{collection.id}}">
-    </api-model-update>
-
-    <api-model-delete id="ajax_delete" collection="collections"
-      model-id="{{collection.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-create id="create" collection="collections" data="{{collection}}"
-      response="{{collection}}" on-response="on_response_create">
-    </api-model-create>
-
     <layout-admin>
       <h1>Collections</h1>
       <part-collection-header collection="{{collection}}"></part-collection-header>
       <part-collection-save on-try-save="on_try_save"></part-collection-save>
       <part-collection-delete on-try-delete="on_try_delete"></part-collection-delete>
-      <part-collection-info collection="{{collection}}"></part-collection-info>
-      <part-collection-visibility collection="{{collection}}"></part-collection-visibility>
-      <part-collection-image collection="{{collection}}"></part-collection-image>
-      <part-collection-add-products collection="{{collection}}"
-        products="{{products}}">
+      <part-collection-info collection="{{collection}}" error="{{error}}">
+      </part-collection-info>
+      <part-collection-visibility collection="{{collection}}" error="{{error}}"
+        on-change-visibility="on_change_visibility">
+      </part-collection-visibility>
+      <part-collection-image collection="{{collection}}" on-try-save="on_try_save">
+      </part-collection-image>
+      <part-collection-add-products id="products" collection="{{collection}}"
+        products="{{products}}" on-try-save="on_try_save">
       </part-collection-add-products>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -53,6 +47,10 @@
       products: {
         type: Array,
         value: function () { return []; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
@@ -62,26 +60,109 @@
     },
 
     on_try_save: function (event) {
-      if (this.collection.id) {
-        this.$.ajax_update.send();
+      if (!this.validate_model()) {
         return;
       }
-      this.$.create.send();
+      if (this.collection.id) {
+        this.update_model();
+        return;
+      }
+      this.create_model();
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
+    update_model: function () {
+      Model.update('/api/collections', this.collection.id, this.collection)
+      .then(function (data) {
+        this.collection = data;
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/collections', this.collection)
+      .then(function (data) {
+        this.collection = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/collections', this.collection.id)
+      .then(function (data) {
+        this.customer = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_create: function () {
       page('/admin/collections/' + this.collection.id);
+      this.fire('iron-signal', {name: 'save'});//form image registered from iron-signal
+      this.$.products.save_collection();
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.ajax_delete.send();
+      this.delete_model();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/collections');
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var error = this.create_custom_err();
+      check = check & this.check_field('title', error, 'can\'t be blank');
+      check = check & this.check_date('published_at', error);
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.title = [];
+      error.details.messages.published_at = [];
+      return error;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.collection[property] === undefined || this.collection[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    check_date: function (property, error) {
+      var test = true;
+      var date = new Date(this.collection[property]);
+      if (date == "Invalid Date" && this.collection[property] != undefined) {
+        error.details.messages[property].push('invalid date');
+        test = false;
+      }
+      var date_now = Date.now();
+      var diff = date - date_now;
+      if (diff < 0) {
+        error.details.messages[property].push('invalid past date');
+        test = false;
+      }
+      return test;
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.validate_model();
     }
 
   });

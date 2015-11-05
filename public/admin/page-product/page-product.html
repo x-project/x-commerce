@@ -1,5 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="../part-tags/part-tags.html">
 <link rel="import" href="part-product-collections.html">
 <link rel="import" href="part-product-save.html">
 <link rel="import" href="part-product-delete.html">
@@ -12,45 +13,40 @@
 <link rel="import" href="part-product-create-variant.html">
 <link rel="import" href="part-product-shipping.html">
 <link rel="import" href="part-product-type.html">
-<link rel="import" href="part-product-tags.html">
 <link rel="import" href="part-product-variants.html">
 <link rel="import" href="part-product-vendor.html">
 <link rel="import" href="part-product-visibility.html">
 <dom-module id="page-product">
   <template>
 
-    <api-model-update id="update" collection="products"
-      data="{{product}}" model-id="{{product.id}}">
-    </api-model-update>
-
-    <api-model-delete id="delete_model" collection="products"
-      model-id="{{product.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-    <api-model-create id="create" collection="products" data="{{product}}"
-      response="{{product}}" on-response="on_response_create">
-    </api-model-create>
-
     <layout-admin>
       <h1>Products</h1>
       <part-product-header product="{{product}}"></part-product-header>
       <part-product-save on-try-save="on_try_save"></part-product-save>
       <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
-      <part-product-info product="{{product}}"></part-product-info>
-      <part-product-visibility product="{{product}}"></part-product-visibility>
-      <part-product-image product="{{product}}"></part-product-image>
+      <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
+      <part-product-visibility product="{{product}}" error="{{error}}"
+        on-change-visibility="on_change_visibility">
+      </part-product-visibility>
+      <part-product-image product="{{product}}" on-try-save="on_try_save">
+      </part-product-image>
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
       <part-product-collections product="{{product}}"></part-product-collections>
       <part-product-vendor product="{{product}}"></part-product-vendor>
       <part-product-type product="{{product}}"></part-product-type>
-      <part-product-tags product="{{product}}"></part-product-tags>
-      <part-product-create-variant product="{{product}}"></part-product-create-variant>
+      <part-tags model="{{product}}"></part-tags>
+      <part-product-create-variant id="variants" product="{{product}}"
+        on-try-save="on_try_save">
+      </part-product-create-variant>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -65,6 +61,10 @@
         type: Array,
         value: function () { return []; }
       },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
     },
 
     attached: function () {
@@ -72,30 +72,119 @@
     },
 
     on_try_save: function (event) {
-      if(this.product.id){
-        this.$.update.send();
+      event.stopPropagation();
+      if (!this.validate_model()) {
         return;
       }
-      this.$.create.send();
+      if(this.product.id){
+        this.update_model();
+        return;
+      }
+      this.create_model();
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
+    update_model: function () {
+      Model.update('/api/products', this.product.id, this.product)
+      .then(function (data) {
+        this.product = data;
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/products', this.product)
+      .then(function (data) {
+        this.product = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/products', this.product.id)
+      .then(function (data) {
+        this.product = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_create: function () {
       page('/admin/products/' + this.product.id);
+      this.fire('iron-signal', {name: 'save'});//form image registered from iron-signal
+      this.$.variants.go_to_variants();
     },
 
-    on_try_delete: function (event) {
-      this.$.delete_model.send();
+    on_try_delete: function () {
+      this.delete_model();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/products');
+    },
+
+    on_error_create: function (event) {
+      event.stopPropagation();
+      console.log(event.detail.request.xhr.response);
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var error = this.create_custom_err();
+      check = check & this.check_field('title', error, 'can\'t be blank');
+      check = check & this.check_date('published_at', error);
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.title = [];
+      error.details.messages.published_at = [];
+      return error;
+    },
+
+    check_date: function (property, error) {
+      var test = true;
+      var date = new Date(this.product[property]);
+      if (date == "Invalid Date" && this.product[property] != undefined) {
+        error.details.messages[property].push('invalid date');
+        test = false;
+      }
+      var date_now = Date.now();
+      var diff = date - date_now;
+      if (diff < 0) {
+        error.details.messages[property].push('invalid past date');
+        test = false;
+      }
+      return test;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.product[property] === undefined || this.product[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.validate_model();
     }
 
   });

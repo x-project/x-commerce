@@ -1,0 +1,62 @@
+<dom-module id="part-order-item-info">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      h3 {
+        display: inline;
+        margin: 0;
+      }
+    </style>
+    <h3>Product info: </h3>
+    <div class="item">
+      <label class="label">title</label>
+      <span>{{orderItem.product.title}}</span>
+      <label class="label">price</label>
+      <span class="price">{{orderItem.product.price}}</span>
+
+      <template is="dom-if" if="{{orderItem.product_variant}}">
+        <h3>variant</h3>
+        <label class="label">name</label>
+        <span>{{orderItem.product_variant.name}}</span>
+        <label class="label">price</label>
+        <span>{{orderItem.product_variant.price}}</span>
+      </template>
+      <label class="label"> X </label>
+      <span class="price">{{orderItem.quantity}}</span>
+      <label class="label"> amount </label>
+      <span class="price">{{total}}</span>
+      <a is="app-link" href="{{url_review}}">{{edit}}</a>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-order-item-info',
+
+    properties: {
+      orderItem: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.url_review = '/reviews/' + this.orderItem.review.id;
+      this.edit  =(this.orderItem.review.closed) ? this.edit = '' : this.edit = 'leave feeedback';
+      this.calculate_total();
+    },
+
+    calculate_total: function () {
+      if (this.orderItem.product_variant) {
+        this.total = this.orderItem.product_variant.price * this.orderItem.quantity;
+        return;
+      }
+      this.total = this.orderItem.product.price * this.orderItem.quantity;
+    }
+
+  });
+</script>
