@@ -3,9 +3,7 @@
   <template>
     <style include="style-form"></style>
 
-    <h2 class="title">Coding</h2>
-
-    <form id="form" role="form" on-submit="on_submit">
+    <form id="form" class="form" on-submit="on_submit">
       <div class="field">
         <label class="label">SKU</label>
         <input class="input" type="text" is="iron-input" bind-value="{{product.sku}}">
@@ -14,8 +12,8 @@
         <label class="label">Barcode</label>
         <input class="input" type="text" is="iron-input" bind-value="{{product.barcode}}">
       </div>
-
     </form>
+
   </template>
 </dom-module>
 <script>

@@ -12,11 +12,9 @@
       }
     </style>
 
-    <h2 class="title">Policy</h2>
-
-    <form id="form" role="form" on-submit="on_submit">
+    <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">track quantity</label>
+        <label>track quantity</label>
         <paper-checkbox is="iron-input" checked="{{product.track_quantity}}"
          on-click="on_click_track">
         </paper-checkbox>
@@ -25,6 +23,7 @@
         product="{{product}}">
       </part-product-quantity>
     </form>
+
   </template>
 </dom-module>
 <script>
