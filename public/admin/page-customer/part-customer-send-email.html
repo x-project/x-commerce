@@ -1,7 +1,12 @@
+<link rel="import" href="../../components/api-user-reset/api-user-reset.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="part-customer-send-email">
   <template>
     <style include="style-panel"></style>
+
+    <api-user-reset id="reset" email="{{email}}"
+      response="{{response}}" on-response="{{on_response}}">
+    </api-user-reset>
 
     <div>
       <h2>Send email</h2>
@@ -39,7 +44,15 @@
 
     on_click: function (event) {
       event.stopPropagation();
-      //TODO RESET PASSWORD
+      if (!this.validate_email()) {
+        return;
+      }
+      this.set('email', this.customer.email);
+      this.$.reset.send();
+    },
+
+    on_response: function (event) {
+      page('/login');
     }
 
   });
