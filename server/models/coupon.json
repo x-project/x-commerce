@@ -7,13 +7,19 @@
   "base": "PersistedModel",
   "properties": {
     "name": {
-      "type": "String"
+      "type": "String",
+      "required": true
     },
     "description": {
       "type": "String"
     },
     "discount": {
-      "type": "Number"
+      "type": "Number",
+      "required": true
+    },
+    "code": {
+      "type": "String",
+      "required": true
     },
     "date_from": {
       "type": "Date"

@@ -31,7 +31,7 @@
         <part-order-status order="{{order}}"></part-order-status>
         <part-order-customer order="{{order}}"></part-order-customer>
         <part-order-items id="items" order="{{order}}"></part-order-items>
-        <part-order-create-order-item order="{{order}}"
+        <part-order-create-order-item order="{{order}}" error="{{error}}"
           on-try-save-order-item="on_try_save_order_item">
         </part-order-create-order-item>
         <part-order-notes order="{{order}}"></part-order-notes>
@@ -53,6 +53,10 @@
         type: Array,
         value: function () { return []; }
       },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
     },
 
     attached: function () {
@@ -71,11 +75,40 @@
         this.$.update.send();
         return;
       }
-      this.$.create.send();
+      // if (!this.validate_model()) {
+      //   return;
+      // }
+      Model.create('/api/order', this.order)
+        .then(function (data) {
+          this.order = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
-    on_response_create: function (event) {
+    validate_model: function () {
       event.stopPropagation();
+      var error = this.create_custom_err();
+      var check = true;
+      // check = check & this.check_field('first_name', error, 'can\'t be blank');
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var mess_errors = {};
+      mess_errors.first_name = [];
+
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages = mess_errors;
+      return error;
+    },
+
+    response_create: function () {
       page('/admin/orders/' + this.order.id);
     },
 

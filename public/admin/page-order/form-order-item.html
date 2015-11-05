@@ -19,12 +19,14 @@
 
     <input-search-product-variant id="search_product_variant" class="input_variants"
       visible$="{{visible}}" id_selected_variant="{{order_item.variant_id}}"
-      variants="{{product_selected.variants}}" selected="{{variant_selected}}">
+      variants="{{product_selected.variants}}" selected="{{variant_selected}}"
+      on-selected-variant="on_selected_variant">
     </input-search-product-variant>
 
     <div class="field">
       <label>quantity</label>
-      <input is="iron-input" class="input" type="number" bind-value="{{order_item.quantity}}">
+      <input is="iron-input" class="input" type="number" min="1"
+        max="{{max}}" bind-value="{{order_item.quantity}}">
     </div>
 
     <div class="field">
@@ -71,11 +73,22 @@
 
     on_change_product_id: function (event) {
       event.stopPropagation();
+      console.log(this.product_selected);
       this.order_item.variant_id = '';
-      if(this.product_selected.hasOwnProperty('variants')){
+      if (this.product_selected.hasOwnProperty('variants')){
         this.set('visible', this.product_selected.variants.length > 0);
         return;
       }
+      this.max = this.product_selected.quantity;
+    },
+
+    on_selected_variant: function (event) {
+      event.stopPropagation();
+      if (this.order_item.quantity > this.max) {
+        this.order_item.quantity = this.variant_selected.quantity;
+        return;
+      }
+      this.max = this.variant_selected.quantity;
     },
 
     on_click_save: function (event) {

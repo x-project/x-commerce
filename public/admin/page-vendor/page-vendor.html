@@ -43,6 +43,10 @@
       vendor: {
         type: Object,
         value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
@@ -90,22 +94,25 @@
     validate_model: function () {
       event.stopPropagation();
       var check = true;
-      var mess_errors = {};
-      mess_errors.name = [];
-      if (this.vendor.name === undefined || this.vendor.name.length == 0) {
-        mess_errors.name.push('can\'t be blank');
-        check = false;
-      }
       var error = this.create_custom_err();
-      error.details.messages = mess_errors;
+      check = check & this.check_field('name', error, 'can\'t be blank');
       this.set('error', error);
       return check;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.vendor[property] === undefined || this.vendor[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
     },
 
     create_custom_err: function () {
       var error = {};
       error.details = {};
       error.details.messages = {};
+      error.details.messages.name = [];
       return error;
     },
 

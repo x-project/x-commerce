@@ -7,13 +7,16 @@
   "base": "User",
   "properties": {
     "first_name": {
-      "type": "String"
+      "type": "String",
+      "required": true
     },
     "last_name": {
-      "type": "String"
+      "type": "String",
+      "required": true
     },
     "email": {
-      "type": "String"
+      "type": "String",
+      "required": true
     },
     "marketing": {
       "type": "Boolean"

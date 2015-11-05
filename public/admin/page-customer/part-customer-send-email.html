@@ -1,0 +1,46 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<dom-module id="part-customer-send-email">
+  <template>
+    <style include="style-panel"></style>
+
+    <div>
+      <h2>Send email</h2>
+      <button id="button" class="button" on-click="on_click">send email</button>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-customer-send-email',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      if (!this.validate_email())
+        this.$.button.disabled = true;
+    },
+
+    validate_email: function () {
+      var regex_email = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (!regex_email.test(this.customer.email)) {
+        this.$.button.disabled = true;
+        return false;
+      }
+      this.$.button.disabled = false;
+      return true;
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      //TODO RESET PASSWORD
+    }
+
+  });
+</script>

@@ -1,12 +1,13 @@
 <link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="../part-tags/part-tags.html">
 <link rel="import" href="part-customer-address.html">
 <link rel="import" href="part-customer-delete.html">
 <link rel="import" href="part-customer-header.html">
 <link rel="import" href="part-customer-note.html">
 <link rel="import" href="part-customer-overview.html">
 <link rel="import" href="part-customer-save.html">
-<link rel="import" href="part-customer-tag.html">
+<link rel="import" href="part-customer-send-email.html">
 <dom-module id="page-customer">
   <template>
 
@@ -27,14 +28,21 @@
       <part-customer-header customer="{{customer}}"></part-customer-header>
       <part-customer-save on-try-save="on_try_save"></part-customer-save>
       <part-customer-delete on-try-delete="on_try_delete"></part-customer-delete>
-      <part-customer-overview customer="{{customer}}"></part-customer-overview>
+      <part-customer-overview customer="{{customer}}" error="{{error}}"
+        on-change-overview="on_change_overview">
+      </part-customer-overview>
       <part-customer-address customer="{{customer}}"></part-customer-address>
+      <part-customer-send-email id="send_email" customer="{{customer}}">
+      </part-customer-send-email>
       <part-customer-note customer="{{customer}}"></part-customer-note>
-      <part-customer-tag customer="{{customer}}"></part-customer-tag>
+      <part-tags model="{{customer}}"></part-tags>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -42,6 +50,10 @@
 
     properties: {
       customer: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }
@@ -57,11 +69,59 @@
         this.$.ajax_update.send();
         return;
       }
-      this.$.create.send();
+      if (!this.validate_model()) {
+        return;
+      }
+      this.customer.password = "123";
+      Model.create('/api/customers', this.customer)
+        .then(function (data) {
+          this.customer = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
-    on_response_create: function (event) {
+    validate_model: function () {
       event.stopPropagation();
+      var error = this.create_custom_err();
+      var check = true;
+      check = check & this.check_field('first_name', error, 'can\'t be blank');
+      check = check & this.check_field('last_name', error, 'can\'t be blank');
+      check = check & this.check_email(error, 'invalid email');
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.first_name = [];
+      error.details.messages.last_name = [];
+      error.details.messages.email = [];
+      return error;
+    },
+
+    check_email: function (error, message) {
+      var regex_email = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (!regex_email.test(this.customer.email)) {
+        error.details.messages.email.push(message);
+        return false;
+      }
+      return true;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.customer[property] === undefined || this.customer[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    response_create: function () {
       page('/admin/customers/' + this.customer.id);
     },
 
@@ -82,6 +142,12 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    on_change_overview: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+      this.$.send_email.validate_email();
     }
 
   });

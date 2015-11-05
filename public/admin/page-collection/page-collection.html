@@ -61,6 +61,10 @@
       products: {
         type: Array,
         value: function () { return []; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
@@ -74,6 +78,7 @@
         this.$.ajax_update.send();
         return;
       }
+      console.log(this.validate_model());
       if (!this.validate_model()) {
         return;
       }
@@ -108,27 +113,9 @@
     validate_model: function () {
       event.stopPropagation();
       var check = true;
-      var mess_errors = {};
-      mess_errors.title = [];
-      mess_errors.published_at = [];
-      if (this.collection.title === undefined || this.collection.title.length == 0) {
-        mess_errors.title.push('can\'t be blank');
-        check = false;
-      }
-      var future_date = new Date(this.collection.published_at);
-      if (future_date == "Invalid Date" && this.collection.published_at != undefined) {
-        mess_errors.published_at.push('invalid date');
-        check = false;
-      }
-      var date_now = Date.now();
-      var diff = future_date - date_now;
-      if (diff < 0) {
-        mess_errors.published_at.push('invalid past date');
-        this.set('validate', false);
-        check = false
-      }
       var error = this.create_custom_err();
-      error.details.messages = mess_errors;
+      check = check & this.check_field('title', error, 'can\'t be blank');
+      check = check & this.check_date('published_at', error);
       this.set('error', error);
       return check;
     },
@@ -137,7 +124,33 @@
       var error = {};
       error.details = {};
       error.details.messages = {};
+      error.details.messages.title = [];
+      error.details.messages.published_at = [];
       return error;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.collection[property] === undefined || this.collection[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    check_date: function (property, error) {
+      var test = true;
+      var date = new Date(this.collection[property]);
+      if (date == "Invalid Date" && this.collection[property] != undefined) {
+        error.details.messages[property].push('invalid date');
+        test = false;
+      }
+      var date_now = Date.now();
+      var diff = date - date_now;
+      if (diff < 0) {
+        error.details.messages[property].push('invalid past date');
+        test = false;
+      }
+      return test;
     },
 
     on_change_info: function (event) {

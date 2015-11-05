@@ -83,6 +83,7 @@
       this.id_selected_variant = variant.id;
       this.selected = variant;
       this.name = variant.name;
+      this.fire('selected-variant');
     },
 
     filter_variant: function (variant) {
