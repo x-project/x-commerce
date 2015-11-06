@@ -1,0 +1,41 @@
+<dom-module id="input-errors">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <template is="dom-repeat" items="{{messages}}">
+      <div class="warning">{{property}} {{item}}</div>
+    </template>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'input-errors',
+
+    properties: {
+      property: {
+        type: String
+      },
+      error: {
+        type: Object,
+        observer: 'on_error'
+      }
+    },
+
+    on_error: function () {
+      this.error = this.error || {};
+      if (Object.keys(this.error).length == 0) {
+        this.messages = [];
+        return;
+      }
+      this.messages = this.error.messages[this.property];
+    }
+
+  });
+</script>

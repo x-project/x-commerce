@@ -275,10 +275,6 @@ module.exports = function (Customer) {
 
 
 
-
-
-
-
   var get_customer_by_phone = function (data) {
     return function (next) {
       var query = { where: {phone: data.phone} };
@@ -317,7 +313,7 @@ module.exports = function (Customer) {
     return function (next) {
       var params = {
         'src': process.env.PHONE_SRC,
-        'dst' : process.env.PHONE_DST,
+        'dst' : data.phone,
         'text' : "Your code for login is: " + data.code,
         'url' : "http://example.com/report/",
         'method' : "GET"
@@ -335,7 +331,7 @@ module.exports = function (Customer) {
     data.new_customer = {
       first_name: 'unknown',
       last_name: 'unknown',
-      email: 'unknown_customer@unknown_customer.com',
+      email: 'unknown32089' + getRandomInt(1, 10000000000000)+ '@email.com',
       password: '3208932443232987832932',
       last_phone: data.phone
     };
@@ -371,7 +367,6 @@ module.exports = function (Customer) {
         callback(null, {invalid_input: 'customer not found'});
         return;
       }
-
       var payload = jwt.decode(customer.last_sms_token, process.env.TOKEN_SECRET_ENTER_SMS);
       if (payload.sub !== customer.id + '' + code) {
         callback(null, {invalid_input: 'invalid code'});

@@ -27,6 +27,8 @@
 <link rel="import" href="../page-summary/page-summary.html">
 <link rel="import" href="../page-payment/page-payment.html">
 <link rel="import" href="../page-wishlist/page-wishlist.html">
+<link rel="import" href="../page-passwordless-phone/page-passwordless-phone.html">
+<link rel="import" href="../page-passwordless-email/page-passwordless-email.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
   <template>
@@ -250,6 +252,18 @@
     '/success': function (context) {
       this.init(context);
       context.page_name = 'page-success';
+      this.open_page(context);
+    },
+
+    '/passwordless_phone': function (context) {
+      this.init(context);
+      context.page_name = 'page-passwordless-phone';
+      this.open_page(context);
+    },
+
+    '/passwordless_email': function (context) {
+      this.init(context);
+      context.page_name = 'page-passwordless-email';
       this.open_page(context);
     },
 
