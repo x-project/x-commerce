@@ -11,7 +11,7 @@
     <form id="form" on-submit="on_submit">
       <div class="field">
         <label>email</label>
-        <input is="iron-input" type="text" disabled="true" placeholder="{{credentials.email}}">
+        <input is="iron-input" type="text" placeholder="email" bind-value="{{credentials.email}}">
       </div>
       <div class="field">
         <label>password</label>
@@ -32,13 +32,13 @@
         type: Object,
         value: function () { return {}; },
         notify: true
-      },
-      test: String
+      }
     },
 
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
+      console.log(this.credentials)
       this.fire('submit', this.credentials);
     }
 
