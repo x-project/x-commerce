@@ -219,7 +219,7 @@ module.exports = function (Customer) {
   };
 
   // passwordless for email
-  Customer.enter_token = function (email, first_name, last_name, callback) {
+  Customer.enter_token_email = function (email, first_name, last_name, callback) {
     var data = {};
     data.email = email;
     data.first_name = first_name;
@@ -271,7 +271,7 @@ module.exports = function (Customer) {
     });
   };
 
-  Customer.try_enter = function (enter_token, callback) {
+  Customer.try_enter_email = function (enter_token, callback) {
     var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER);
     Customer.findById(payload.sub, function(err, user) {
       if (!user) {
@@ -292,7 +292,7 @@ module.exports = function (Customer) {
     * passwordless by email
   */
   // enter_token = client da la richiesta e il server invia una signed url con token
-  Customer.remoteMethod('enter_token', {
+  Customer.remoteMethod('enter_token_email', {
     accepts: [
       { arg: 'email', type: 'string', required: true },
       { arg: 'first_name', type: 'string', required: true },
@@ -303,7 +303,7 @@ module.exports = function (Customer) {
   });
   // all click sull link inviato per email, il client da una post e verifico
   //che il token della richiesta sia corretto e rispondo con il profilo dell utente
-  Customer.remoteMethod('try_enter', {
+  Customer.remoteMethod('try_enter_email', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'post' }
@@ -313,10 +313,10 @@ module.exports = function (Customer) {
     * passwordless by sms
   */
 
-  // Customer.remoteMethod('enter_token_sms', {
-  //   accepts: { arg: 'telephone_number', type: 'number', required: true },
-  //   returns: { arg: 'result', type: 'object' },
-  //   http: { path: '/sendme_password_sms', verb: 'post' }
-  // });
+  Customer.remoteMethod('enter_token_sms', {
+    accepts: { arg: 'telephone_number', type: 'number', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/sendme_password_sms', verb: 'post' }
+  });
 
 };

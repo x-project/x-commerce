@@ -99,13 +99,13 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "enter_token"
+      "property": "enter_token_email"
     },
     {
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "try_enter"
+      "property": "try_enter_email"
     },
     {
       "principalType": "USER",
