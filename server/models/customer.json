@@ -47,9 +47,6 @@
     },
     "last_sms_token": {
       "type": "String"
-    },
-    "last_phone": {
-      "type": "String"
     }
   },
   "relations": {
@@ -112,6 +109,12 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "get_token_sms"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "try_enter_sms"
     },
     {
       "principalType": "USER",

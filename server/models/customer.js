@@ -123,8 +123,6 @@ module.exports = function (Customer) {
 /*
 * init passwordless with email
 */
-
-
   var create_trasport = function () {
     var transporter = nodemailer.createTransport({
       service: process.env.EMAIL_SERVICE,
@@ -165,13 +163,7 @@ module.exports = function (Customer) {
         next();
         return;
       }
-      var model_new = {
-        first_name: 'unknown',
-        last_name: 'unknown',
-        email: data.email,
-        password: '123'
-      };
-      Customer.create(model_new, function (err, model) {
+      Customer.create(data.new_customer, function (err, model) {
         data.customer = model;
         setImmediate(next, err);
       });
@@ -195,7 +187,7 @@ module.exports = function (Customer) {
         iat: moment().unix(),
         exp: moment().add(1, 'days').unix()
       };
-      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER);
+      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER_EMAIL);
       data.token =  token;
       data.customer.last_enter_token = token;
       Customer.upsert(data.customer, function (err, model) {
@@ -226,6 +218,12 @@ module.exports = function (Customer) {
     data.email = email;
     data.first_name = first_name;
     data.last_name = last_name;
+    data.new_customer = {
+      first_name: 'unknown',
+      last_name: 'unknown',
+      email: data.email,
+      password: '3208932443232987832932'
+    };
 
     async.waterfall([
       get_customer_by_email(data),
@@ -259,7 +257,7 @@ module.exports = function (Customer) {
   };
 
   Customer.try_enter_email = function (enter_token, callback) {
-    var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER);
+    var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER_EMAIL);
     Customer.findById(payload.sub, function(err, user) {
       if (!user) {
         callback({error: 'user not found'}, null);
@@ -275,19 +273,117 @@ module.exports = function (Customer) {
 
 
 
-  Customer.get_token_sms = function (phone, callback) {
-    var params = {
-      'src': process.env.PHONE_SRC,
-      'dst' : process.env.PHONE_DST,
-      'text' : "Hello client",
-      'url' : "http://example.com/report/",
-      'method' : "GET"
+
+
+
+
+
+
+  var get_customer_by_phone = function (data) {
+    return function (next) {
+      var query = { where: {phone: data.phone} };
+      Customer.findOne(query, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
     };
-    plivo_client.send_message(params, function (status, response) {
-      console.log('Status: ', status);
-      console.log('API Response:\n', response);
-      console.log('Api ID:\n', response['api_id']);
-      callback(null, null);
+  };
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+
+  var create_sms_code = function (data) {
+    return function (next) {
+      var code = getRandomInt(10000, 1000000);
+      data.code = code;
+      var payload = {
+        sub: data.customer.id + '' + data.code,
+        iat: moment().unix(),
+        exp: moment().add(1, 'days').unix()
+      };
+      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER_SMS);
+      data.token =  token;
+      data.customer.last_sms_token = token;
+      Customer.upsert(data.customer, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var send_sms = function (data) {
+    return function (next) {
+      var params = {
+        'src': process.env.PHONE_SRC,
+        'dst' : process.env.PHONE_DST,
+        'text' : "Your code for login is: " + data.code,
+        'url' : "http://example.com/report/",
+        'method' : "GET"
+      };
+      plivo_client.send_message(params, function (status, response) {
+        data.response = { status: status, response: response };
+        setImmediate(next, null);
+      });
+    };
+  };
+
+  Customer.get_token_sms = function (phone, callback) {
+    var data = {};
+    data.phone = phone;
+    data.new_customer = {
+      first_name: 'unknown',
+      last_name: 'unknown',
+      email: 'unknown_customer@unknown_customer.com',
+      password: '3208932443232987832932',
+      last_phone: data.phone
+    };
+    async.waterfall([
+      get_customer_by_phone(data),
+      create_new_customer(data),
+      create_sms_code(data),
+      send_sms(data)
+    ],
+    function (err) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, data.response);
+    });
+  };
+
+  var try_auth_login = function (data) {
+    return function (next) {
+      if(data.customer == null) {
+        data.customer_not_found = 'user not found';
+        next();
+        return;
+      }
+    };
+  };
+
+  Customer.try_enter_sms = function (phone, code, callback) {
+    var query = { where: {phone: phone} };
+    Customer.findOne(query, function(err, customer) {
+      if (!customer) {
+        callback(null, {invalid_input: 'customer not found'});
+        return;
+      }
+
+      var payload = jwt.decode(customer.last_sms_token, process.env.TOKEN_SECRET_ENTER_SMS);
+      if (payload.sub !== customer.id + '' + code) {
+        callback(null, {invalid_input: 'invalid code'});
+        return;
+      }
+      create_access_token(customer, function (err, user_profile) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+        callback(null, user_profile);
+      });
     });
   };
 
@@ -311,6 +407,7 @@ module.exports = function (Customer) {
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'post' }
   });
+
   /*
     * passwordless by sms
   */
@@ -318,6 +415,15 @@ module.exports = function (Customer) {
     accepts: { arg: 'phone', type: 'number', required: true },
     returns: { arg: 'result', type: 'object' },
     http: { path: '/get_token_sms', verb: 'post' }
+  });
+
+  Customer.remoteMethod('try_enter_sms', {
+    accepts: [
+      { arg: 'phone', type: 'number', required: true },
+      { arg: 'code', type: 'string', required: true }
+    ],
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/enter_sms', verb: 'post' }
   });
 
 };
