@@ -99,7 +99,7 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "enter_token_email"
+      "property": "get_token_email"
     },
     {
       "principalType": "ROLE",
