@@ -1,0 +1,33 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-product-collections.html">
+<link rel="import" href="form-product-tags.html">
+<link rel="import" href="form-product-type.html">
+<link rel="import" href="form-product-vendor.html">
+<dom-module id="part-product-organization">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Organization</h2>
+      <form-product-collections product="{{product}}"></form-product-collections>
+      <form-product-vendor product="{{product}}"></form-product-vendor>
+      <form-product-type product="{{product}}"></form-product-type>
+      <form-product-tags product="{{product}}"></form-product-tags>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-organization',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

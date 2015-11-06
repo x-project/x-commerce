@@ -23,17 +23,11 @@
 
     <api-model-find id="find" collection="collections" response="{{collections}}"></api-model-find>
 
-
-    <h2>Collections</h2>
-
-    <div class="panel">
-      <div class="field ">
-        <label class="label">Collections</label>
-        <input class="input" type="text" on-keypress="on_edit_collection"
-          on-focus="on_edit_collection" is="iron-input" bind-value="{{title}}">
-      </div>
+    <div class="field ">
+      <label class="label">Collections</label>
+      <input class="input" type="text" on-keypress="on_edit_collection"
+        on-focus="on_edit_collection" is="iron-input" bind-value="{{title}}">
     </div>
-
 
     <div class="selected items">
       <template id="selected" is="dom-repeat" items="{{selected}}">

@@ -1,11 +1,14 @@
 <link rel="import" href="../style-panel/style-panel.html">
-<link rel="import" href="form-product-inventory.html">
+<link rel="import" href="form-product-coding.html">
+<link rel="import" href="form-product-track.html">
 <dom-module id="part-product-inventory">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <form-product-inventory product="{{product}}"></form-product-inventory>
+      <h2 class="title">Inventory</h2>
+      <form-product-coding product="{{product}}"></form-product-coding>
+      <form-product-track product="{{product}}"></form-product-track>
     </div>
   </template>
 </dom-module>

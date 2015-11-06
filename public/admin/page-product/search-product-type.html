@@ -6,13 +6,10 @@
       response="{{product_types}}" on-error="on_error">
     </api-model-find>
 
-    <div class="panel">
-      <h2>Product type</h2>
-      <div class="field">
-        <label class="label">product type</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{search}}"
-          on-keypress="on_search_prod_type" on-focus="on_search_prod_type">
-      </div>
+    <div class="field">
+      <label class="label">product type</label>
+      <input class="input" type="text" is="iron-input" bind-value="{{search}}"
+        on-keypress="on_search_prod_type" on-focus="on_search_prod_type">
     </div>
 
     <div class="items">

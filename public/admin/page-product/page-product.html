@@ -1,20 +1,17 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="../part-tags/part-tags.html">
-<link rel="import" href="part-product-collections.html">
-<link rel="import" href="part-product-save.html">
+<link rel="import" href="part-product-create-variant.html">
 <link rel="import" href="part-product-delete.html">
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
-<link rel="import" href="part-product-options.html">
 <link rel="import" href="part-product-inventory.html">
+<link rel="import" href="part-product-options.html">
+<link rel="import" href="part-product-organization.html">
 <link rel="import" href="part-product-pricing.html">
-<link rel="import" href="part-product-create-variant.html">
+<link rel="import" href="part-product-save.html">
 <link rel="import" href="part-product-shipping.html">
-<link rel="import" href="part-product-type.html">
 <link rel="import" href="part-product-variants.html">
-<link rel="import" href="part-product-vendor.html">
 <link rel="import" href="part-product-visibility.html">
 <dom-module id="page-product">
   <template>
@@ -26,27 +23,20 @@
       <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
       <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
       <part-product-visibility product="{{product}}" error="{{error}}"
-        on-change-visibility="on_change_visibility">
-      </part-product-visibility>
-      <part-product-image product="{{product}}" on-try-save="on_try_save">
-      </part-product-image>
+        on-change-visibility="on_change_visibility"></part-product-visibility>
+      <part-product-image product="{{product}}" on-try-save="on_try_save"></part-product-image>
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
-      <part-product-collections product="{{product}}"></part-product-collections>
-      <part-product-vendor product="{{product}}"></part-product-vendor>
-      <part-product-type product="{{product}}"></part-product-type>
-      <part-tags model="{{product}}"></part-tags>
+      <part-product-organization product="{{product}}"></part-product-organization>
       <part-product-create-variant id="variants" product="{{product}}"
-        on-try-save="on_try_save">
-      </part-product-create-variant>
+        on-try-save="on_try_save"></part-product-create-variant>
     </layout-admin>
 
   </template>
 </dom-module>
 
-<script src="/fetch/fetch.js"></script>
-
+<script src="../../scripts/fetch/fetch.js"></script>
 <script>
   Polymer({
 
@@ -85,34 +75,34 @@
 
     update_model: function () {
       Model.update('/api/products', this.product.id, this.product)
-      .then(function (data) {
-        this.product = data;
-      }.bind(this))
-      .catch(function (error) {
-        this.error = error;
-      }.bind(this));
+        .then(function (data) {
+          this.product = data;
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
     create_model: function () {
       Model.create('/api/products', this.product)
-      .then(function (data) {
-        this.product = data;
-        this.response_create();
-      }.bind(this))
-      .catch(function (error) {
-        this.error = error;
-      }.bind(this));
+        .then(function (data) {
+          this.product = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
     delete_model: function () {
       Model.delete('/api/products', this.product.id)
-      .then(function (data) {
-        this.product = data;
-        this.response_delete();
-      }.bind(this))
-      .catch(function (error) {
-        this.error = error;
-      }.bind(this));
+        .then(function (data) {
+          this.product = data;
+          this.response_delete();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
     },
 
     response_create: function () {

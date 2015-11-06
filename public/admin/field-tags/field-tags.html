@@ -1,7 +1,8 @@
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="form-tags">
+<dom-module id="field-tags">
   <template>
-   <style include="style-form">
+    <style include="style-form">
+    <style>
       .tag {
         display: inline-block;
         padding: 4px 8px;
@@ -16,7 +17,7 @@
         opacity: 1;
         cursor: pointer;
       }
-   </style>
+    </style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
@@ -40,7 +41,7 @@
 <script>
   Polymer({
 
-    is: 'form-tags',
+    is: 'field-tags',
 
     properties: {
       model: {
