@@ -1,0 +1,87 @@
+<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-product-inventory">
+  <template>
+    <style include="style-form"></style>
+    <style>
+      .hidden.field {
+        display: none;
+      }
+      .hidden.field[show] {
+        display: block;
+      }
+    </style>
+
+    <form id="form" class="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">SKU</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{product.sku}}">
+      </div>
+      <div class="field">
+        <label class="label">Barcode</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{product.barcode}}">
+      </div>
+      <div class="field">
+        <paper-checkbox is="iron-input" checked="{{product.track_quantity}}" on-click="on_click_track">
+          <label>track quantity</label>
+        </paper-checkbox>
+      </div>
+      <div class="hidden field" show$="{{show}}">
+        <label class="label">Quantity</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{product.quantity}}">
+      </div>
+      <div class="hidden field" show$="{{show}}">
+        <paper-checkbox is="iron-input" checked="{{product.sell_after_purchase}}">
+          <label class="label">Allow customers to purchase this product when it's out of stock</label>
+        </paper-checkbox>
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-product-inventory',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      }
+    },
+
+    attached: function () {
+      if(this.product.track_quantity){
+        this.show_quantity();
+        return;
+      }
+    },
+
+    on_click_track: function (event) {
+      if(this.product.track_quantity){
+        this.show_quantity();
+        return;
+      }
+      this.set('show', false);
+    },
+
+    show_quantity: function () {
+      this.set('show', true);
+    },
+
+    hide_quantity: function () {
+      this.set('show', false);
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+  });
+</script>
