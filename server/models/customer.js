@@ -364,12 +364,12 @@ module.exports = function (Customer) {
     var query = { where: {phone: phone} };
     Customer.findOne(query, function(err, customer) {
       if (!customer) {
-        callback(null, {invalid_input: 'customer not found'});
+        callback(null, {invalid_input: 'customer not found', success: false});
         return;
       }
       var payload = jwt.decode(customer.last_sms_token, process.env.TOKEN_SECRET_ENTER_SMS);
       if (payload.sub !== customer.id + '' + code) {
-        callback(null, {invalid_input: 'invalid code'});
+        callback(null, {invalid_input: 'invalid code',  success: false });
         return;
       }
       create_access_token(customer, function (err, user_profile) {
@@ -377,6 +377,7 @@ module.exports = function (Customer) {
           callback(err, null);
           return;
         }
+        user_profile.success = true;
         callback(null, user_profile);
       });
     });

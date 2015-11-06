@@ -56,6 +56,7 @@
     },
 
     attached: function () {
+      console.log(this.route);
       var query = this.route.query;
       this.email = query.email;
       this.token = query.token;
