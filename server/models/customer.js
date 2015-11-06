@@ -3,9 +3,12 @@ var async = require('async');
 var moment = require('moment');
 var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
-
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
-
+var plivo = require('plivo')
+var plivo_client = plivo.RestAPI({
+  authId: process.env.PLIVIO_AUTH_ID_KEY,
+  authToken: process.env.PLIVIO_AUTH_TOKEN
+});
 module.exports = function (Customer) {
 
   function getCurrentUserId() {
@@ -239,21 +242,6 @@ module.exports = function (Customer) {
     });
   };
 
-
-  Customer.enter_token_sms = function (telephone_number, callback) {
-    client.sms.messages.create({
-      body: "Jenny please?! I love you <3",
-      to: process.env.MY_TELEPHONE_NUM,
-      from: process.env.TWILIO_TELE_NUM
-    },
-    function(err, sms) {
-      if(err) {
-        callback(err, null);
-      }
-      callback(null, sms);
-    });
-  };
-
   var create_access_token = function (user, callback) {
     user.createAccessToken(Customer.settings.ttl, function (err, token) {
       if (err) {
@@ -287,6 +275,22 @@ module.exports = function (Customer) {
 
 
 
+  Customer.get_token_sms = function (phone, callback) {
+    var params = {
+      'src': process.env.PHONE_SRC,
+      'dst' : process.env.PHONE_DST,
+      'text' : "Hello client",
+      'url' : "http://example.com/report/",
+      'method' : "GET"
+    };
+    plivo_client.send_message(params, function (status, response) {
+      console.log('Status: ', status);
+      console.log('API Response:\n', response);
+      console.log('Api ID:\n', response['api_id']);
+      callback(null, null);
+    });
+  };
+
   /*
     * passwordless by email
   */
@@ -307,15 +311,13 @@ module.exports = function (Customer) {
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'post' }
   });
-
   /*
     * passwordless by sms
   */
-
   Customer.remoteMethod('get_token_sms', {
-    accepts: { arg: 'telephone_number', type: 'number', required: true },
+    accepts: { arg: 'phone', type: 'number', required: true },
     returns: { arg: 'result', type: 'object' },
-    http: { path: '/sendme_password_sms', verb: 'post' }
+    http: { path: '/get_token_sms', verb: 'post' }
   });
 
 };
