@@ -47,9 +47,6 @@
     },
     "last_sms_token": {
       "type": "String"
-    },
-    "last_phone": {
-      "type": "String"
     }
   },
   "relations": {
@@ -99,13 +96,25 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "enter_token"
+      "property": "get_token_email"
     },
     {
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "try_enter"
+      "property": "try_enter_email"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "get_token_sms"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "try_enter_sms"
     },
     {
       "principalType": "USER",

@@ -3,9 +3,12 @@ var async = require('async');
 var moment = require('moment');
 var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
-
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
-
+var plivo = require('plivo')
+var plivo_client = plivo.RestAPI({
+  authId: process.env.PLIVIO_AUTH_ID_KEY,
+  authToken: process.env.PLIVIO_AUTH_TOKEN
+});
 module.exports = function (Customer) {
 
   function getCurrentUserId() {
@@ -120,8 +123,6 @@ module.exports = function (Customer) {
 /*
 * init passwordless with email
 */
-
-
   var create_trasport = function () {
     var transporter = nodemailer.createTransport({
       service: process.env.EMAIL_SERVICE,
@@ -156,20 +157,13 @@ module.exports = function (Customer) {
     return message;
   };
 
-
   var create_new_customer = function (data) {
     return function (next) {
       if (data.customer != null) {
         next();
         return;
       }
-      var model_new = {
-        first_name: 'unknown',
-        last_name: 'unknown',
-        email: data.email,
-        password: '123'
-      };
-      Customer.create(model_new, function (err, model) {
+      Customer.create(data.new_customer, function (err, model) {
         data.customer = model;
         setImmediate(next, err);
       });
@@ -193,7 +187,7 @@ module.exports = function (Customer) {
         iat: moment().unix(),
         exp: moment().add(1, 'days').unix()
       };
-      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER);
+      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER_EMAIL);
       data.token =  token;
       data.customer.last_enter_token = token;
       Customer.upsert(data.customer, function (err, model) {
@@ -219,11 +213,17 @@ module.exports = function (Customer) {
   };
 
   // passwordless for email
-  Customer.enter_token = function (email, first_name, last_name, callback) {
+  Customer.get_token_email = function (email, first_name, last_name, callback) {
     var data = {};
     data.email = email;
     data.first_name = first_name;
     data.last_name = last_name;
+    data.new_customer = {
+      first_name: 'unknown',
+      last_name: 'unknown',
+      email: data.email,
+      password: '3208932443232987832932'
+    };
 
     async.waterfall([
       get_customer_by_email(data),
@@ -237,21 +237,6 @@ module.exports = function (Customer) {
         return;
       }
       callback(null, data.email_result);
-    });
-  };
-
-
-  Customer.enter_token_sms = function (telephone_number, callback) {
-    client.sms.messages.create({
-      body: "Jenny please?! I love you <3",
-      to: process.env.MY_TELEPHONE_NUM,
-      from: process.env.TWILIO_TELE_NUM
-    },
-    function(err, sms) {
-      if(err) {
-        callback(err, null);
-      }
-      callback(null, sms);
     });
   };
 
@@ -271,8 +256,8 @@ module.exports = function (Customer) {
     });
   };
 
-  Customer.try_enter = function (enter_token, callback) {
-    var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER);
+  Customer.try_enter_email = function (enter_token, callback) {
+    var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER_EMAIL);
     Customer.findById(payload.sub, function(err, user) {
       if (!user) {
         callback({error: 'user not found'}, null);
@@ -288,11 +273,120 @@ module.exports = function (Customer) {
 
 
 
+
+
+  var get_customer_by_phone = function (data) {
+    return function (next) {
+      var query = { where: {phone: data.phone} };
+      Customer.findOne(query, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+
+  var create_sms_code = function (data) {
+    return function (next) {
+      var code = getRandomInt(10000, 1000000);
+      data.code = code;
+      var payload = {
+        sub: data.customer.id + '' + data.code,
+        iat: moment().unix(),
+        exp: moment().add(1, 'days').unix()
+      };
+      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER_SMS);
+      data.token =  token;
+      data.customer.last_sms_token = token;
+      Customer.upsert(data.customer, function (err, model) {
+        data.customer = model;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var send_sms = function (data) {
+    return function (next) {
+      var params = {
+        'src': process.env.PHONE_SRC,
+        'dst' : data.phone,
+        'text' : "Your code for login is: " + data.code,
+        'url' : "http://example.com/report/",
+        'method' : "GET"
+      };
+      plivo_client.send_message(params, function (status, response) {
+        data.response = { status: status, response: response };
+        setImmediate(next, null);
+      });
+    };
+  };
+
+  Customer.get_token_sms = function (phone, callback) {
+    var data = {};
+    data.phone = phone;
+    data.new_customer = {
+      first_name: 'unknown',
+      last_name: 'unknown',
+      email: 'unknown32089' + getRandomInt(1, 10000000000000)+ '@email.com',
+      password: '3208932443232987832932',
+      last_phone: data.phone
+    };
+    async.waterfall([
+      get_customer_by_phone(data),
+      create_new_customer(data),
+      create_sms_code(data),
+      send_sms(data)
+    ],
+    function (err) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, data.response);
+    });
+  };
+
+  var try_auth_login = function (data) {
+    return function (next) {
+      if(data.customer == null) {
+        data.customer_not_found = 'user not found';
+        next();
+        return;
+      }
+    };
+  };
+
+  Customer.try_enter_sms = function (phone, code, callback) {
+    var query = { where: {phone: phone} };
+    Customer.findOne(query, function(err, customer) {
+      if (!customer) {
+        callback(null, {invalid_input: 'customer not found'});
+        return;
+      }
+      var payload = jwt.decode(customer.last_sms_token, process.env.TOKEN_SECRET_ENTER_SMS);
+      if (payload.sub !== customer.id + '' + code) {
+        callback(null, {invalid_input: 'invalid code'});
+        return;
+      }
+      create_access_token(customer, function (err, user_profile) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+        callback(null, user_profile);
+      });
+    });
+  };
+
   /*
     * passwordless by email
   */
   // enter_token = client da la richiesta e il server invia una signed url con token
-  Customer.remoteMethod('enter_token', {
+  Customer.remoteMethod('get_token_email', {
     accepts: [
       { arg: 'email', type: 'string', required: true },
       { arg: 'first_name', type: 'string', required: true },
@@ -303,7 +397,7 @@ module.exports = function (Customer) {
   });
   // all click sull link inviato per email, il client da una post e verifico
   //che il token della richiesta sia corretto e rispondo con il profilo dell utente
-  Customer.remoteMethod('try_enter', {
+  Customer.remoteMethod('try_enter_email', {
     accepts: { arg: 'enter_token', type: 'string', required: true },
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter', verb: 'post' }
@@ -312,11 +406,19 @@ module.exports = function (Customer) {
   /*
     * passwordless by sms
   */
+  Customer.remoteMethod('get_token_sms', {
+    accepts: { arg: 'phone', type: 'number', required: true },
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/get_token_sms', verb: 'post' }
+  });
 
-  // Customer.remoteMethod('enter_token_sms', {
-  //   accepts: { arg: 'telephone_number', type: 'number', required: true },
-  //   returns: { arg: 'result', type: 'object' },
-  //   http: { path: '/sendme_password_sms', verb: 'post' }
-  // });
+  Customer.remoteMethod('try_enter_sms', {
+    accepts: [
+      { arg: 'phone', type: 'number', required: true },
+      { arg: 'code', type: 'string', required: true }
+    ],
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/enter_sms', verb: 'post' }
+  });
 
 };
