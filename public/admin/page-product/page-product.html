@@ -1,20 +1,17 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="../part-tags/part-tags.html">
-<link rel="import" href="part-product-collections.html">
-<link rel="import" href="part-product-save.html">
+<link rel="import" href="part-product-create-variant.html">
 <link rel="import" href="part-product-delete.html">
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
-<link rel="import" href="part-product-options.html">
 <link rel="import" href="part-product-inventory.html">
+<link rel="import" href="part-product-options.html">
+<link rel="import" href="part-product-organization.html">
 <link rel="import" href="part-product-pricing.html">
-<link rel="import" href="part-product-create-variant.html">
+<link rel="import" href="part-product-save.html">
 <link rel="import" href="part-product-shipping.html">
-<link rel="import" href="part-product-type.html">
 <link rel="import" href="part-product-variants.html">
-<link rel="import" href="part-product-vendor.html">
 <link rel="import" href="part-product-visibility.html">
 <dom-module id="page-product">
   <template>
@@ -31,12 +28,7 @@
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
-
-      <part-product-collections product="{{product}}"></part-product-collections>
-      <part-product-vendor product="{{product}}"></part-product-vendor>
-      <part-product-type product="{{product}}"></part-product-type>
-      <part-tags model="{{product}}"></part-tags>
-
+      <part-product-organization product="{{product}}"></part-product-organization>
       <part-product-create-variant id="variants" product="{{product}}"
         on-try-save="on_try_save"></part-product-create-variant>
     </layout-admin>
@@ -44,8 +36,7 @@
   </template>
 </dom-module>
 
-<script src="/fetch/fetch.js"></script>
-
+<script src="../../scripts/fetch/fetch.js"></script>
 <script>
   Polymer({
 

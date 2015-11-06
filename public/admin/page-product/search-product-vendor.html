@@ -1,4 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="search-product-vendor">
   <template>
 
@@ -6,13 +7,10 @@
       response="{{vendors}}">
     </api-model-find>
 
-    <div class="panel">
-      <h2>Vendor</h2>
-      <div class="field">
-        <label class="label">Vendor</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{search}}"
-          on-keypress="on_search_vendor" on-focus="on_search_vendor">
-      </div>
+    <div class="field">
+      <label class="label">Vendor</label>
+      <input class="input" type="text" is="iron-input" bind-value="{{search}}"
+        on-keypress="on_search_vendor" on-focus="on_search_vendor">
     </div>
 
     <div class="items">
