@@ -1,7 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-product-create-variant.html">
-<link rel="import" href="part-product-delete.html">
+<link rel="import" href="part-product-actions.html">
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
@@ -9,28 +8,29 @@
 <link rel="import" href="part-product-options.html">
 <link rel="import" href="part-product-organization.html">
 <link rel="import" href="part-product-pricing.html">
-<link rel="import" href="part-product-save.html">
 <link rel="import" href="part-product-shipping.html">
 <link rel="import" href="part-product-variants.html">
 <link rel="import" href="part-product-visibility.html">
 <dom-module id="page-product">
   <template>
 
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Products</h1>
       <part-product-header product="{{product}}"></part-product-header>
-      <part-product-save on-try-save="on_try_save"></part-product-save>
-      <part-product-delete on-try-delete="on_try_delete"></part-product-delete>
+      <part-product-actions></part-product-actions>
       <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
+
       <part-product-visibility product="{{product}}" error="{{error}}"
         on-change-visibility="on_change_visibility"></part-product-visibility>
-      <part-product-image product="{{product}}" on-try-save="on_try_save"></part-product-image>
+
+      <part-product-image product="{{product}}"></part-product-image>
+
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
       <part-product-organization product="{{product}}"></part-product-organization>
-      <part-product-create-variant id="variants" product="{{product}}"
-        on-try-save="on_try_save"></part-product-create-variant>
+      <part-product-variants id="variants" product="{{product}}"></part-product-variants>
+      <part-product-actions></part-product-actions>
     </layout-admin>
 
   </template>
@@ -107,8 +107,7 @@
 
     response_create: function () {
       page('/admin/products/' + this.product.id);
-      this.fire('iron-signal', {name: 'save'});//form image registered from iron-signal
-      this.$.variants.go_to_variants();
+      this.fire('iron-signal', {name: 'save'});
     },
 
     on_try_delete: function () {
