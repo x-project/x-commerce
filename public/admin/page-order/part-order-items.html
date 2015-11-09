@@ -36,8 +36,6 @@
       on-response="on_response_create">
     </api-model-create>
 
-    <h2>Order items</h2>
-
     <div class="items">
       <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
         <part-order-item data="{{order_item}}" on-click-delete="on_click_delete"
@@ -108,10 +106,10 @@
       if (this.order.id) {
         this.$.ajax_post_order_item.url = '/api/orders/' + this.order.id + '/order_items';
         this.$.ajax_post_order_item.body = JSON.stringify({
-            quantity: order_data.quantity,
-            order_id: this.order.id,
-            product_id: order_data.product_id,
-            product_variant_id: order_data.variant_id
+          quantity: order_data.quantity,
+          order_id: this.order.id,
+          product_id: order_data.product_id,
+          product_variant_id: order_data.variant_id
         });
         this.async(function () {
           this.$.ajax_post_order_item.generateRequest();
@@ -119,6 +117,7 @@
         return;
       }
       this.create_order_new();
+      // this.fire('try-save');
     },
 
     create_order_new: function () {

@@ -9,7 +9,7 @@
     <span>{{order.shipping_cost}}</span>
     <label class="label">customer: </label>
     <span>{{order.customer.first_name}}</span>
-    <a is="app-link" href="{{edit_url}}">edit</a>
+    <a is="app-link" href="/admin/orders/{{order.id}}">edit</a>
 
   </template>
 </dom-module>
@@ -18,10 +18,11 @@
 
     is: 'part-orders-item',
 
-    properties: {},
-
-    attached: function () {
-      this.edit_url = '/admin/orders/' + this.order.id;
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
     }
 
   });

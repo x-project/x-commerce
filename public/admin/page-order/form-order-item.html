@@ -1,7 +1,6 @@
 <link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
-
 <dom-module id="form-order-item">
   <template>
     <style include="style-form">
@@ -28,10 +27,7 @@
       <input is="iron-input" class="input" type="number" min="1"
         max="{{max}}" bind-value="{{order_item.quantity}}">
     </div>
-
-    <div class="field">
-      <input type="submit" value="save" on-click="on_click_save">
-    </div>
+    <input type="button" value="save" on-click="on_click_save">
 
   </template>
 </dom-module>
@@ -73,7 +69,6 @@
 
     on_change_product_id: function (event) {
       event.stopPropagation();
-      console.log(this.product_selected);
       this.order_item.variant_id = '';
       if (this.product_selected.hasOwnProperty('variants')){
         this.set('visible', this.product_selected.variants.length > 0);
@@ -97,7 +92,7 @@
       if (this.visible) {
         this.order_item.variant = this.variant_selected;
       }
-      this.fire('try-save-order-item', { data: this.order_item });
+      this.fire('try-save-order-item', this.order_item);
       this.clear();
       this.hide_input_variant();
     },

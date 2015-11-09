@@ -10,7 +10,7 @@
       <span>{{coupon.description}}</span>
       <label class="label">discount: </label>
       <span>{{customer.discount}}</span>
-      <a is="app-link" href="{{edit_url}}">edit</a>
+      <a is="app-link" href="'/admin/coupons/{{coupon.id}}">edit</a>
      </div>
   </template>
 </dom-module>
@@ -24,10 +24,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    attached: function () {
-      this.edit_url = '/admin/coupons/' + this.coupon.id;
     }
 
   });

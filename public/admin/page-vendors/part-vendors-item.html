@@ -8,7 +8,7 @@
       <span>{{vendor.name}}</span>
       <label class="label">description: </label>
       <span>{{vendor.description}}</span>
-      <a is="app-link" href="{{edit_url}}">edit</a>
+      <a is="app-link" href="/admin/vendors/{{vendor.id}}">edit</a>
      </div>
   </template>
 </dom-module>
@@ -22,10 +22,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    attached: function () {
-      this.edit_url = '/admin/vendors/' + this.vendor.id;
     }
 
   });

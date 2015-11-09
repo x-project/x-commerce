@@ -1,16 +1,15 @@
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-vendor-header.html">
 <link rel="import" href="part-vendor-save.html">
-<link rel="import" href="part-vendor-delete.html">
+<link rel="import" href="part-vendor-actions.html">
 <link rel="import" href="part-vendor-info.html">
 <dom-module id="page-vendor">
   <template>
 
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Vendor</h1>
       <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
-      <part-vendor-save on-try-save="on_try_save"></part-vendor-save>
-      <part-vendor-delete on-try-delete="on_try_delete"></part-vendor-delete>
+      <part-vendor-actions></part-vendor-actions>
       <part-vendor-info vendor="{{vendor}}" error="{{error}}">
       </part-vendor-info>
     </layout-admin>
@@ -19,6 +18,7 @@
 </dom-module>
 
 <script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 

@@ -1,18 +1,16 @@
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-coupon-header.html">
-<link rel="import" href="part-coupon-save.html">
-<link rel="import" href="part-coupon-delete.html">
-<link rel="import" href="part-coupon-info.html">
+<link rel="import" href="part-coupon-actions.html">
 <link rel="import" href="part-coupon-discount.html">
+<link rel="import" href="part-coupon-info.html">
+<link rel="import" href="part-coupon-header.html">
 <link rel="import" href="part-coupon-period.html">
 <dom-module id="page-coupon">
   <template>
 
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Coupons</h1>
       <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
-      <part-coupon-save on-try-save="on_try_save"></part-coupon-save>
-      <part-coupon-delete on-try-delete="on_try_delete"></part-coupon-delete>
+      <part-coupon-actions></part-coupon-actions>
       <part-coupon-info coupon="{{coupon}}" error="{{error}}"></part-coupon-info>
       <part-coupon-discount coupon="{{coupon}}" error="{{error}}"></part-coupon-discount>
       <part-coupon-period coupon="{{coupon}}" error="{{error}}"

@@ -1,4 +1,5 @@
 <link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="form-order-item.html">
 <dom-module id="part-order-create-order-item">
   <template>
@@ -11,12 +12,17 @@
       }
     </style>
 
-    <button id="btn_add_order_item" class="button"
-      on-click="on_click_add_order_item">add order item</button>
-    <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
-      on-try-save-order-item="on_try_save_order_item">
-    </form-order-item>
-
+    <div class="panel">
+      <h2 class="title"> Order Items</h2>
+      <button id="btn_add_order_item" class="button"
+        on-click="on_click_add_order_item">add order item</button>
+      <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
+        on-try-save-order-item="on_try_save_order_item">
+      </form-order-item>
+      <input-errors property="product" error="{{error.details}}"></input-errors>
+      <input-errors property="variant" error="{{error.details}}"></input-errors>
+      <input-errors property="order_items" error="{{error.details}}"></input-errors>
+    </div>
   </template>
 </dom-module>
 <script>

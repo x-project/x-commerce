@@ -1,4 +1,5 @@
 <link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-order-customer">
@@ -9,12 +10,13 @@
 
     <api-model-update id="update" collection="orders" model-id="{{order.id}}"></api-model-update>
 
-    <form id="form" role="form">
+    <form id="form" class="form" role="form">
       <div class="field">
         <label class="label">customer</label>
         <input class="input" id="input" type="text" is="iron-input" bind-value="{{customer.first_name}}"
           on-keypress="on_search_customer" on-focus="on_search_customer">
       </div>
+      <input-errors property="customer_id" error="{{error.details}}"></input-errors>
     </form>
 
     <div class="item">
@@ -42,6 +44,10 @@
       customer: {
         type: Object,
         value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
@@ -63,7 +69,8 @@
       var customer = this.$.customers.itemForElement(event.target);
       this.$.input.value = customer.first_name;
       this.customers = [];
-      this.try_save(customer);
+      this.order.customer_id = customer.id;
+      this.fire('try-save');
     },
 
     try_save: function (customer) {

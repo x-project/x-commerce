@@ -2,21 +2,19 @@
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="part-collection-add-products.html">
-<link rel="import" href="part-collection-delete.html">
 <link rel="import" href="part-collection-header.html">
 <link rel="import" href="part-collection-image.html">
 <link rel="import" href="part-collection-info.html">
 <link rel="import" href="part-collection-products.html">
-<link rel="import" href="part-collection-save.html">
+<link rel="import" href="part-collection-actions.html">
 <link rel="import" href="part-collection-visibility.html">
 <dom-module id="page-collection">
   <template>
 
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Collections</h1>
       <part-collection-header collection="{{collection}}"></part-collection-header>
-      <part-collection-save on-try-save="on_try_save"></part-collection-save>
-      <part-collection-delete on-try-delete="on_try_delete"></part-collection-delete>
+      <part-collection-actions></part-collection-actions>
       <part-collection-info collection="{{collection}}" error="{{error}}">
       </part-collection-info>
       <part-collection-visibility collection="{{collection}}" error="{{error}}"

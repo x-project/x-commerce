@@ -1,7 +1,6 @@
 <link rel="import" href="/components/input-datetime/input-datetime.html">
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../input-errors/input-errors.html">
-
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-product-visibility">
   <template>
@@ -14,7 +13,8 @@
       }
     </style>
 
-    <form id="form" role="form" on-submit="on_submit" on-change-date="on_change_visibility">
+    <form id="form" class="form" role="form" on-submit="on_submit"
+      on-change-date="on_change_visibility">
       <div class="field">
         <label class="label">Online Store</label>
         <paper-checkbox is="iron-input" checked="{{product.is_published}}"></paper-checkbox>

@@ -10,7 +10,7 @@
       <span>{{collection.description}}</span>
       <label class="label">is_published: </label>
       <span>{{collection.is_published}}</span>
-      <a is="app-link" href="{{edit_url}}">edit</a>
+      <a is="app-link" href="/admin/collections/{{collection.id}}">edit</a>
     </div>
   </template>
 </dom-module>
@@ -19,11 +19,7 @@
 
     is: 'part-collections-item',
 
-    properties: {},
-
-    attached: function () {
-      this.edit_url = '/admin/collections/' + this.collection.id;
-    }
+    properties: {}
 
   });
 </script>

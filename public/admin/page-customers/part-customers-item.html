@@ -10,7 +10,7 @@
       <span>{{customer.last_name}}</span>
       <label class="label">email: </label>
       <span>{{customer.email}}</span>
-      <a is="app-link" href="{{edit_url}}">edit</a>
+      <a is="app-link" href="/admin/customers/{{customer.id}}">edit</a>
      </div>
   </template>
 </dom-module>
@@ -19,10 +19,11 @@
 
     is: 'part-customers-item',
 
-    properties: {},
-
-    attached: function () {
-      this.edit_url = '/admin/customers/' + this.customer.id;
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
     }
 
   });

@@ -8,8 +8,8 @@
       response="{{response}}">
     </api-user-reset>
 
-    <div>
-      <h2>Send email</h2>
+    <div class="panel">
+      <h2 class="title">Send email</h2>
       <button id="button" class="button" disabled on-click="on_click">send email</button>
     </div>
 
@@ -41,6 +41,14 @@
       }
       this.email = this.customer.email;
       this.$.reset.send();
+    },
+
+    validate_email: function () {
+      var regex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (regex.test(this.customer.email)) {
+        return true;
+      }
+      return false;
     }
 
   });

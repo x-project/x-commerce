@@ -19,12 +19,9 @@
       <part-product-header product="{{product}}"></part-product-header>
       <part-product-actions></part-product-actions>
       <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
-
       <part-product-visibility product="{{product}}" error="{{error}}"
         on-change-visibility="on_change_visibility"></part-product-visibility>
-
       <part-product-image product="{{product}}"></part-product-image>
-
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
@@ -98,7 +95,6 @@
     delete_model: function () {
       Model.delete('/api/products', this.product.id)
         .then(function (data) {
-          this.product = data;
           this.response_delete();
         }.bind(this))
         .catch(function (error) {

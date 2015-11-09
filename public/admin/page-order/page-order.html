@@ -1,37 +1,20 @@
-<link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
-<link rel="import" href="part-order-delete.html">
 <link rel="import" href="part-order-items.html">
 <link rel="import" href="part-order-notes.html">
 <link rel="import" href="part-order-header.html">
 <link rel="import" href="part-order-status.html">
-<link rel="import" href="part-order-save.html">
+<link rel="import" href="part-order-actions.html">
 <dom-module id="page-order">
   <template>
 
-    <api-model-update id="update" collection="orders"
-      model-id="{{order.id}}">
-    </api-model-update>
-
-    <api-model-delete id="delete_model" collection="orders"
-      model-id="{{order.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
-   <api-model-create id="create" collection="orders" data="{{order}}"
-      response="{{order}}" on-response="on_response_create">
-    </api-model-create>
-
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Orders</h1>
       <part-order-header order="{{order}}"></part-order-header>
-      <part-order-delete order="{{order}}" on-try-delete="on_try_delete">
-      </part-order-delete>
-      <part-order-save order="{{order}}" on-try-save="on_try_save">
-      </part-order-save>
+      <part-order-actions></part-order-actions>
       <part-order-status order="{{order}}"></part-order-status>
-      <part-order-customer order="{{order}}"></part-order-customer>
+      <part-order-customer order="{{order}}" error="{{error}}"></part-order-customer>
       <part-order-items id="items" order="{{order}}"></part-order-items>
       <part-order-create-order-item order="{{order}}" error="{{error}}"
         on-try-save-order-item="on_try_save_order_item">
@@ -41,6 +24,9 @@
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -67,20 +53,64 @@
 
     on_try_save_order_item: function (event) {
       event.stopPropagation();
-      this.$.items.selected_pending(event.detail.data);
+      if (!this.validate_order_item(event.detail)) {
+        return;
+      }
+      this.$.items.selected_pending(event.detail);
+    },
+
+    validate_order_item: function (order_item) {
+      var check = true;
+      var error = this.create_custom_err();
+      if (this.order)
+      if(Object.keys(order_item.product).length == 0) {
+        error.details.messages.product.push('select correct item');
+        check = false;
+      }
+      if (order_item.product.hasOwnProperty('variants')) {
+        if (order_item.product.variants.length > 0 && order_item.variant_id.length == 0) {
+          error.details.messages.variant.push('select correct item');
+          check = false;
+        }
+      }
+      if (this.order.hasOwnProperty('customer_id')) {
+        if (this.order.customer_id.length == 0) {
+          error.details.messages.customer_id.push('can\'t be blank');
+          check = false;
+        }
+      }
+      else {
+        error.details.messages.customer_id.push('can\'t be blank');
+        check = false;
+      }
+      this.set('error', error);
+      return check;
     },
 
     on_try_save: function (event) {
       event.stopPropagation();
-      if (this.order.id) {
-        this.$.update.data = this.get_order();
-        this.$.update.send();
+      if (!this.validate_model()) {
         return;
       }
-      // if (!this.validate_model()) {
-      //   return;
-      // }
-      Model.create('/api/order', this.order)
+      if (this.order.id) {
+        this.update_model();
+        return;
+      }
+      this.create_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/orders', this.order.id, this.get_order())
+        .then(function (data) {
+          //nothings
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/orders', this.get_order())
         .then(function (data) {
           this.order = data;
           this.response_create();
@@ -90,24 +120,62 @@
         }.bind(this));
     },
 
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.delete_model();
+    },
+
+    delete_model: function () {
+      Model.delete('/api/orders', this.order.id)
+        .then(function (data) {
+          this.response_delete();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
+    },
+
     validate_model: function () {
       event.stopPropagation();
-      var error = this.create_custom_err();
       var check = true;
-      // check = check & this.check_field('first_name', error, 'can\'t be blank');
+      var error = this.create_custom_err();
+      check = check & this.check_field('customer_id', error, 'can\'t be blank');
+      if (this.order.hasOwnProperty('order_items')) {
+        if (this.order.order_items.length == 0) {
+          error.details.messages.order_items.push('invalid input order items');
+          check = false;
+        }
+      }
+      else{
+        error.details.messages.order_items.push('invalid input order items');
+        check = false;
+      }
       this.set('error', error);
       return check;
     },
 
     create_custom_err: function () {
-      var mess_errors = {};
-      mess_errors.first_name = [];
-
       var error = {};
       error.details = {};
       error.details.messages = {};
-      error.details.messages = mess_errors;
+      error.details.messages.customer_id = [];
+      error.details.messages.product = [];
+      error.details.messages.variant = [];
+      error.details.messages.quantity = [];
+      error.details.messages.order_items = [];
       return error;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.order[property] === undefined || this.order[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    check_order_items: function () {
+
     },
 
     response_create: function () {
@@ -127,13 +195,7 @@
       };
     },
 
-    on_try_delete: function (event) {
-      event.stopPropagation();
-      this.$.delete_model.send();
-    },
-
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    response_delete: function () {
       page('/admin/orders');
     }
 

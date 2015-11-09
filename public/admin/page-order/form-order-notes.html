@@ -1,0 +1,30 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-order-notes">
+  <template>
+   <style include="style-form"></style>
+
+     <form id="form" class="form">
+      <div class="field">
+        <label class="label">notes</label>
+          <div class="detail">
+            <iron-autogrow-textarea is="iron-input" bind-value="{{order.notes}}" rows="4">
+            </iron-autogrow-textarea>
+          </div>
+        </div>
+     </form>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-order-notes',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
