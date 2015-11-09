@@ -53,13 +53,14 @@
       <input type="text" size="4" data-stripe="exp-year" value="18"/>
     </div>
 
-    <input type="hidden" name="cart" value="{{cart}}">
+    <input type="hidden" name="data" value="{{data}}">
     <input type="hidden" name="token" value="{{token}}">
-    <input type="hidden" name="customer_token" value="{{customer_token}}">
 
+<!--     <input type="hidden" name="cart" value="{{cart}}">
+    <input type="hidden" name="customer_token" value="{{customer_token}}">
+ -->
     <input id="pay" disabled type="submit" value="Pay" />
   </form>
-
 
   </template>
 </dom-module>
@@ -79,13 +80,16 @@
     },
 
     attached: function () {
-      this.customer_token = this.$.session.get('token');
-      this.cart = JSON.stringify(this.$.session.get('cart'));
-      var context = this;
+      var data = {};
+      data.coupon = this.$.session.get('coupon');
+      data.customer_token = this.$.session.get('token');
+      data.cart = JSON.stringify(this.$.session.get('cart'));
+      this.data = JSON.stringify(data);
+      var self = this;
       var stripe_response = function (status, response) {
-        context.token = response.id;
-        context.$.pay.disabled = false;
-        context.$.pay.style.background = 'gray';
+        self.token = response.id;
+        self.$.pay.disabled = false;
+        self.$.pay.style.background = 'gray';
 
       };
       Stripe.card.createToken(document.getElementById("payment-form"), stripe_response);

@@ -120,6 +120,7 @@ module.exports = function (Order) {
 
   Order.prepare_order_review = function (data) {
     return function (next) {
+      console.log(data);
       if (!data.payment_status) {
         next();
         return;
@@ -438,62 +439,56 @@ module.exports = function (Order) {
     });
   };
 
-  var stripe_checkout = function ( token, amount, callback) {
-    var charge = stripe.charges.create({
-      amount: amount * 100,//cents
-      currency: "eur",
-      source: token,
-      description: "my first faker payment"
-    }, function(err, charge) {
-      if (err && err.type === 'StripeCardError') {
-        callback(err, null);
-      }
-    callback(null, charge);
-    });
+  var stripe_checkout = function (data) {
+    return function (next) {
+      console.log(1*100);
+      var charge = stripe.charges.create({
+          amount: 1 * 100,//data.amount * 100
+          currency: "eur",
+          source: data.stripe_token,
+          description: "my first faker payment"
+        },
+        function(err, charge) {
+          // console.log(charge);
+          if (err && err.type === 'StripeCardError') {
+            next(err, null);
+          }
+          next(null, charge);
+        }
+      );
+    };
   };
 
-  Order.checkout_stripe = function (cart, token, customer_token, callback) {
-    var new_order, tras_completed;
-    var amount = 0;
+  Order.checkout_stripe = function (input_data, token, callback) {
+    var data = {};
+    data.cart = JSON.parse(input_data.cart);
+    data.coupon = input_data.coupon;
+    data.customer_token = input_data.customer_token;
+    data.stripe_token = token;
+    data.data_client_response = {};
+
     async.waterfall([
-      function (next) {
-        get_customer(customer_token, next);
-      },
-
-      function (customer, next) {
-        curr_customer = customer;
-        amount = get_amount(cart);
-        prepare_order(customer, cart, amount, next);
-      },
-
-      function (order, next) {
-        new_order = order;
-        prepare_order_review(curr_customer, cart, next);
-      },
-
-      function (result, next) {
-        stripe_checkout(token, 1, next);
-      },
-      function (complete, next) {
-        tras_completed = complete;
-        mark_closed_order(new_order, next);
-      },
-
-      function (order_closed, next) {
-        new_order = order_closed;
-        next(null, {complete: tras_completed, order: new_order});
-      }
+      get_access_token_customer(data),
+      get_customer(data),
+      prepare_order(data),
+      stripe_checkout(data),
+      Order.prepare_order_review(data)
+      // Order.try_close_order(data),
+      // Order.save_payment(data),
+      // create_invoice(data),
+      // create_fail_task(data),
+      // prepare_response(data)
     ],
 
-    function (err, result) {
+    function (err) {
       if (err) {
         callback(err, null);
         return;
       }
-      callback(null, result);
+      callback(null, {});
     });
-  };
 
+  };
 
   Order.remoteMethod('get_client_token', {
     accepts: { arg: 'customer_id', type: 'string', required: true },
@@ -512,9 +507,8 @@ module.exports = function (Order) {
 
   Order.remoteMethod('checkout_stripe', {
     accepts: [
-      { arg: 'cart', type: 'array' },
-      { arg: 'token', type: 'string' },
-      { arg: 'customer_token', type: 'string' }
+      { arg: 'data', type: 'object' },
+      { arg: 'token', type: 'string' }
     ],
     returns: { arg: 'result', type: 'object' },
     http: { verb: 'post', path:'/stripe' }
