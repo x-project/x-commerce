@@ -92,6 +92,7 @@
       if (this.visible) {
         this.order_item.variant = this.variant_selected;
       }
+      console.log(this.order_item);
       this.fire('try-save-order-item', this.order_item);
       this.clear();
       this.hide_input_variant();

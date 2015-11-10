@@ -1,7 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-variant-create.html">
-<link rel="import" href="part-variant-delete.html">
+<link rel="import" href="part-variant-actions.html">
 <link rel="import" href="part-variant-pricing.html">
 <link rel="import" href="part-variant-inventory.html">
 <link rel="import" href="part-variant-shipping.html">
@@ -18,11 +17,10 @@
       model-id="{{variant.id}}" on-response="on_response_delete">
     </api-model-delete>
 
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Variant</h1>
       <part-variant-header product="{{product}}"variant="{{variant}}"></part-variant-header>
-      <part-variant-create on-try-save="on_try_save"></part-variant-create>
-      <part-variant-delete on-try-delete="on_try_delete"></part-variant-delete>
+      <part-variant-actions></part-variant-actions>
       <part-variant-available variant="{{variant}}"></part-variant-available>
       <part-variant-pricing variant="{{variant}}"></part-variant-pricing>
       <part-variant-inventory variant="{{variant}}"></part-variant-inventory>

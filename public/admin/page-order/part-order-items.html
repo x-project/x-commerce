@@ -2,6 +2,8 @@
 <link rel="import" href="part-order-item.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
+<link rel="import" href="form-order-item.html">
+
 <dom-module id="part-order-items">
   <template>
     <style>
@@ -12,6 +14,12 @@
         display: none;
       }
       .items .pending[pending] {
+        display: block;
+      }
+      .form_search_product{
+        display: none;
+      }
+      .form_search_product[show] {
         display: block;
       }
     </style>
@@ -46,6 +54,10 @@
           pending$="{{pending}}"></part-order-item>
     </div>
 
+    <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
+      on-try-save-order-item="on_try_save_order_item">
+    </form-order-item>
+
   </template>
 </dom-module>
 <script>
@@ -65,11 +77,16 @@
       pending: {
         type: Boolean,
         value: false
+      },
+      show: {
+        type: Boolean,
+        value: false
       }
     },
 
     attached: function () {
       this.order_items = this.order.order_items;
+      console.log(this.order_items);
     },
 
     show_saved: function () {
@@ -117,7 +134,6 @@
         return;
       }
       this.create_order_new();
-      // this.fire('try-save');
     },
 
     create_order_new: function () {

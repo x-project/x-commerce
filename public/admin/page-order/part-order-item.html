@@ -20,15 +20,10 @@
     </style>
 
     <div class="item">
-      <span>{{data.product.title}}</span>
-      <span>{{data.product_variant.name}}</span>
-      <span> </span>
+      <span>{{data.product.title}} {{data.product_variant.name}}</span>
       <input id="quantity_edit" readonly$="{{editing}}" type="number" is="iron-input"
         min="1" bind-value="{{data.quantity}}" on-keyup="on_keyup" on-change="on_change">
-      <span>x $</span>
-      <span>{{data.product.price}}</span>
-      <span>= $</span>
-      <span>{{subtotal}}</span>
+      <span>x $ {{data.product.price}} = $ {{subtotal}}</span>
       <span class="edit" on-click="on_click_edit" class="edit">edit</span>
       <span class="delete" on-click="on_click_delete">x</span>
       <span class="pending" pending$="{{pending}}">saving........</span>
@@ -59,7 +54,7 @@
     },
 
     attached: function () {
-      if (this.data) {
+      if(!this.data) {
         return;
       }
       this.update_subtotal();
@@ -79,11 +74,14 @@
     },
 
     update_subtotal: function () {
-      if(this.data.hasOwnProperty('product_variant')) {
-        this.set('subtotal', this.calculate_subtotal_variant());
+      if(!this.data.product) {
         return;
       }
-      this.set('subtotal', this.calculate_subtotal_product());
+      if(this.data.hasOwnProperty('product_variant')) {
+        this.subtotal = this.calculate_subtotal_variant();
+        return;
+      }
+      this.subtotal = this.calculate_subtotal_product();
     },
 
     calculate_subtotal_variant: function () {
@@ -102,6 +100,7 @@
     on_click_edit: function (event) {
       event.stopPropagation();
       this.edit_quantity();
+
     },
 
     on_keyup: function (event) {

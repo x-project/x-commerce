@@ -34,6 +34,8 @@
 <link rel="import" href="../page-vendors/page-vendors.html">
 
 <link rel="import" href="../page-test/page-test.html">
+<link rel="import" href="../page-style-test/page-style-test.html">
+
 <dom-module id="app-boot">
   <template>
     <style>
@@ -480,6 +482,12 @@
           context.page_name = 'page-404';
           context.data.error = error;
         });
+    },
+
+    '/admin/style/test': function (context) {
+      this.init(context);
+      context.page_name = 'page-style-test';
+      this.open_page(context);
     },
 
     '/admin/team': function (context) {
