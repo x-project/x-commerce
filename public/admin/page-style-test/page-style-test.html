@@ -1,41 +1,98 @@
 <link rel="import" href="/components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-alert/style-alert.html">
+<link rel="import" href="../style-link/style-link.html">
+
 <dom-module id="page-style-test">
   <template>
-    <style>
-      :host {
-        display: block;
-        padding: 40px;
-      }
-      .container {
-        @apply(--layout-horizontal);
-      }
-      div {
-        background-color: white;
-        margin-left: 20px;
-      }
-      div.container {
-        margin: 0;
-        background-color: gray;
-        padding: 10px;
+    <style include="style-alert"></style>
+    <style include="style-button"></style>
+    <style include="style-form"></style>
+    <style include="style-link"></style>
 
-      }
-      .first_child {
-        @apply(--layout-flex-2);
-      }
-      .second_child {
-        @apply(--layout-flex);
-      }
-      .third_child {
-        @apply(--layout-flex-3);
+    <style>
+      .container {
+        padding: 5em 10em;
       }
     </style>
 
-    <h1>test</h1>
-
     <div class="container">
-      <div class="first_child">One</div>
-      <div class="second_child">Two</div>
-      <div class="third_child">Three</div>
+      <h1>Button</h1>
+      <button class="btn btn-default">default</button>
+      <button class="btn btn-primary">primary</button>
+      <button class="btn btn-success">success</button>
+      <button class="btn btn-info">info</button>
+      <button class="btn btn-warning">warning</button>
+      <button class="btn btn-danger">danger</button>
+      <button class="btn btn-link">link</button>
+
+      <h1>Form</h1>
+
+      <h3>Basic Form</h3>
+
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <p class="help-block">Example block-level help text here.</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
+      <h3>Inline form</h3>
+
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="exampleInputName2">Name</label>
+          <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail2">Email</label>
+          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+        </div>
+        <button type="submit" class="btn btn-default">Send invitation</button>
+      </form>
+
+
+      <h1>Alerts</h1>
+
+      <div class="alert alert-success" role="alert">
+        <strong>Well done!</strong> You successfully read this important alert message.
+      </div>
+      <div class="alert alert-info" role="alert">
+        <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+      </div>
+      <div class="alert alert-warning" role="alert">
+        <strong>Warning!</strong> Better check yourself, you're not looking too good.
+      </div>
+      <div class="alert alert-danger" role="alert">
+        <strong>Oh snap!</strong> Change a few things up and try submitting again.
+      </div>
+
+      <h3>Link color</h3>
+
+      <div class="alert alert-success" role="alert">
+        <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+      </div>
+      <div class="alert alert-info" role="alert">
+        <strong>Heads up!</strong> This <a href="#" class="alert-link">alert needs your attention</a>, but it's not super important.
+      </div>
+      <div class="alert alert-warning" role="alert">
+        <strong>Warning!</strong> Better check yourself, you're <a href="#" class="alert-link">not looking too good</a>.
+      </div>
+      <div class="alert alert-danger" role="alert">
+        <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
+      </div>
+
+
+
     </div>
 
   </template>

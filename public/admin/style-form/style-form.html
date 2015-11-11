@@ -2,8 +2,112 @@
 <dom-module id="style-form">
   <template>
     <style>
-
       :host {
+        display: block;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-control {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #55595c;
+        background-color: #fff;
+        background-image: none;
+        border: .0625rem solid #ccc;
+        border-radius: .25rem;
+      }
+      .form-control::-ms-expand {
+        background-color: transparent;
+        border: 0;
+      }
+      .help-block {
+        color: #d9534f;
+      }
+      .form-inline .form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+      }
+      .form-inline .form-control {
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+      }
+      .form-control:focus {
+        border-color: #66afe9;
+        outline: none;
+      }
+      .form-control::-webkit-input-placeholder {
+        color: #999;
+        opacity: 1;
+      }
+      .form-control::-moz-placeholder {
+        color: #999;
+        opacity: 1;
+      }
+      .form-control:-ms-input-placeholder {
+        color: #999;
+        opacity: 1;
+      }
+      .form-control::placeholder {
+        color: #999;
+        opacity: 1;
+      }
+      @media (min-width: 34em) {
+        .form-inline .form-group {
+          display: inline-block;
+          margin-bottom: 0;
+          vertical-align: middle;
+        }
+        .form-inline .form-control {
+          display: inline-block;
+          width: auto;
+          vertical-align: middle;
+        }
+        .form-inline .form-control-static {
+          display: inline-block;
+        }
+        .form-inline .input-group {
+          display: inline-table;
+          vertical-align: middle;
+        }
+        .form-inline .input-group .input-group-addon,
+        .form-inline .input-group .input-group-btn,
+        .form-inline .input-group .form-control {
+          width: auto;
+        }
+        .form-inline .input-group > .form-control {
+          width: 100%;
+        }
+        .form-inline .control-label {
+          margin-bottom: 0;
+          vertical-align: middle;
+        }
+        .form-inline .radio,
+        .form-inline .checkbox {
+          display: inline-block;
+          margin-top: 0;
+          margin-bottom: 0;
+          vertical-align: middle;
+        }
+        .form-inline .radio label,
+        .form-inline .checkbox label {
+          padding-left: 0;
+        }
+        .form-inline .radio input[type="radio"],
+        .form-inline .checkbox input[type="checkbox"] {
+          position: relative;
+          margin-left: 0;
+        }
+        .form-inline .has-feedback .form-control-feedback {
+          top: 0;
+        }
+      }
+/*      :host {
         display: block;
       }
 
@@ -46,7 +150,7 @@
 
       .button:hover {
         cursor: pointer;
-      }
+      }*/
     </style>
   </template>
 </dom-module>

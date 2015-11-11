@@ -1,0 +1,44 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="style-link">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      a {
+        background-color: transparent;
+      }
+      a:active {
+        outline: 0;
+      }
+      a:hover {
+        outline: 0;
+      }
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+      a {
+        color: #0275d8;
+        text-decoration: none;
+      }
+      a:focus,
+      a:hover {
+        color: #014c8c;
+        text-decoration: underline;
+      }
+      a:focus {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-link'
+
+  });
+</script>

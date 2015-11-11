@@ -55,7 +55,7 @@
     "invoice": {
       "type": "belongsTo",
       "model": "Order",
-      "foreignKey": "invoice_id"
+      "foreignKey": "order_id"
     }
   },
   "acls": [],
