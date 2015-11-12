@@ -1,0 +1,28 @@
+<link rel="import" href="../style-item/style-item.html">
+<dom-module id="part-prod-types-item">
+  <style include="style-item"></style>
+
+  <template>
+    <div class="item">
+      <label class="label">name: </label>
+      <span>{{prod_type.name}}</span>
+      <label class="label">description: </label>
+      <span>{{prod_type.description}}</span>
+      <a is="app-link" href="/admin/product_types/{{prod_type.id}}">edit</a>
+     </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-prod-types-item',
+
+    properties: {
+      prod_type: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
