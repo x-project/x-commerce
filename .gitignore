@@ -20,5 +20,5 @@ node_modules
 npm-debug.log
 public/build
 public/components
-server/storage
+server/public
 server/images
