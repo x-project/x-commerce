@@ -8,6 +8,7 @@
     "gold-cc-input": "PolymerElements/gold-cc-input#^1.0.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.0",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#^1.0.0",
+    "iron-icons": "PolymerElements/iron-icons#~1.0.4",
     "iron-input": "PolymerElements/iron-input#^1.0",
     "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.0",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.0.2",

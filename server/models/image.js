@@ -9,7 +9,7 @@ var path = require('path');
 var secret = "TOOOPPVIPPP"; // TODO: read from .env
 var token_ttl = 1000 * 120; // TODO: read from .env
 var sides = [50, 80, 120, 400, 800];  // TODO: read from .env
-var storage = 'storage';  // TODO: read from .env
+var storage = 'public/storage';  // TODO: read from .env
 
 /**
  * check
