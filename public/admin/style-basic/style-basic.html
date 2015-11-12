@@ -1,0 +1,125 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="style-basic">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: 0;
+        margin-bottom: .5rem;
+      }
+
+    .text-hide {
+      font: "0/0" a;
+      color: transparent;
+      text-shadow: none;
+      background-color: transparent;
+      border: 0;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-justify {
+      text-align: justify;
+    }
+
+    .text-nowrap {
+      white-space: nowrap;
+    }
+
+    .text-truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .text-lowercase {
+      text-transform: lowercase;
+    }
+
+    .text-uppercase {
+      text-transform: uppercase;
+    }
+
+    .text-capitalize {
+      text-transform: capitalize;
+    }
+
+    .text-muted {
+      color: #818a91;
+    }
+
+    .text-primary {
+      color: #0275d8;
+    }
+
+    .text-success {
+      color: #5cb85c;
+    }
+
+    .text-info {
+      color: #5bc0de;
+    }
+
+    .text-warning {
+      color: #f0ad4e;
+    }
+
+    .text-danger {
+      color: #d9534f;
+    }
+
+    .bg-inverse {
+      color: #eceeef;
+      background-color: #373a3c;
+    }
+
+    .bg-faded {
+      background-color: #f7f7f9;
+    }
+
+    .bg-primary {
+      color: #fff;
+      background-color: #0275d8;
+    }
+
+    .bg-warning {
+      color: #fff;
+      background-color: #f0ad4e;
+    }
+
+    .bg-info {
+      color: #fff;
+      background-color: #5bc0de;
+    }
+
+    .bg-success {
+      color: #fff;
+      background-color: #5cb85c;
+    }
+    .bg-danger {
+      color: #fff;
+      background-color: #d9534f;
+    }
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-basic'
+
+  });
+</script>
