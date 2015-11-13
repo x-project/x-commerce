@@ -1,27 +1,31 @@
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-label/style-label.html">
 <dom-module id="field-tags">
   <template>
-    <style include="style-form">
+    <style include="style-form"></style>
+    <style include="style-label"></style>
+
     <style>
       .tag {
         display: inline-block;
-        padding: 4px 8px;
+        padding: 3px 5px;
         border-radius: 4px;
-        background-color: #eee;
+        background-color: #0275d8;
       }
       .tag .delete {
         padding-left: 8px;
-        opacity: .4;
+        opacity: 1;
+        color: white;
       }
       .tag .delete:hover {
-        opacity: 1;
+        opacity: .4;
         cursor: pointer;
       }
     </style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Tags</label>
+        <label class="tags">Tags</label>
         <input class="input" type="text" is="iron-input" bind-value="{{tag}}"
           on-keyup="on_edit_tag">
       </div>
@@ -29,7 +33,7 @@
       <div class="items">
         <template id="tags" is="dom-repeat" items="{{tags}}">
           <div class="tag">
-            <span>{{item}}</span>
+            <span class="label label-primary">{{item}}</span>
             <span on-click="on_click_delete" class="delete">x</span>
           <div>
         </template>

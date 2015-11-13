@@ -1,0 +1,92 @@
+<link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="image-preview">
+  <template>
+  <style>
+    :host{
+      display: block
+    }
+    .image {
+      width: 100%;
+      height: 120px;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .image:hover {
+      background-size: 120%;
+    }
+  </style>
+
+  <div class="image" style$="{{style}}"></div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'image-preview',
+
+    properties: {
+      image: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      likeSize: {
+        type: Number
+      },
+      host_name: {
+        type: String,
+        value: 'http://localhost:3000/'
+      }
+    },
+
+    attached: function () {
+      var url = '';
+      if (this.exists_thumb()) {
+        this.view_one_image();
+        return;
+      }
+      // search small size
+      this.search_near_thumb_size();
+      this.view_one_image();
+    },
+
+    search_near_thumb_size: function () {
+      var little_size;
+      var check = false
+      var list_order = this.image[0].thumbs.sort(function (size_a, size_b) {
+        return size_b - size_a;
+      });
+      for (var i = 0; i < list_order.length && !check; i++) {
+        if (this.likeSize > list_order[i]) {
+          this.likeSize = list_order[i];
+          check = true;
+        }
+      }
+    },
+
+    exists_thumb: function () {
+      var test = false;
+      for (var i = 0; i < this.image[0].thumbs.length && !test; i++) {
+        if (this.image[0].thumbs[i] === this.likeSize) {
+          test = true;
+        }
+      }
+      return test;
+    },
+
+    view_one_image: function () {
+      url = this.get_url()
+      var rules = [
+        'background-image: url("' + url + '")'
+      ];
+      this.style = rules.join(';');
+    },
+
+    get_url: function () {
+      var tmp = this.image[0].base_url.replace('public/', '');
+      return this.host_name + tmp + '/thumb-' + this.likeSize + this.image[0].extension;
+    }
+
+  });
+</script>

@@ -20,50 +20,78 @@ module.exports = function (Product) {
     }
   }
 
-  var remove_collections = function (product, collections, callback) {
-    async.each(collections,
-      function(collection, done) {
-        product.collections.remove(collection, done);
-      },callback);
+  var get_product = function (data) {
+    return function (next) {
+      Product.findById(data.product_id, function (err, model) {
+        data.product = model;
+        setImmediate(next, err);
+      });
+    };
   };
 
-  var delete_product_image_folder = function (collection, collection_id, done) {
-    var folder_path = path.join(__dirname, '..', 'storage', collection, '' + collection_id);
-    rmdir(folder_path, done);
+  var destroy_options = function (data) {
+    return function (next) {
+      data.product.options.destroyAll(function (err, info, num) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var destroy_variants = function (data) {
+    return function (next) {
+      data.product.variants.destroyAll(function (err, info, num) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var destroy_images = function (data) {
+    return function (next) {
+      data.product.images.destroyAll(function (err, info, num) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var delete_product_thumbs_folder = function (data) {
+    return function (next) {
+      var folder_path = path.join(__dirname, '..', 'public', 'storage' ,'products', '' + data.product_id);
+      rmdir(folder_path, function (err) {
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var get_collections = function (data) {
+    return function (next) {
+      data.product.collections(function (err, collections) {
+        data.collections = collections;
+        setImmediate(next, err);
+      });
+    };
+  };
+
+  var remove_collections = function (data) {
+    return function (next) {
+      async.each(data.collections,
+        function(collection, done) {
+          data.product.collections.remove(collection, done);
+        }, next);
+    };
   };
 
   Product.observe('before delete', function(ctx, callback) {
-    var product = ctx.instance;
-
-    if (!product) {
-      callback(null);
-      return;
-    }
-
+    var product_id = ctx.where.id;
+    var data = {};
+    data.product_id = product_id;
     async.waterfall([
-      function (next) {
-        product.options.destroyAll(next);
-      },
-
-      function (result, next) {
-        product.variants.destroyAll(next);
-      },
-
-      function (result, next) {
-        product.images.destroyAll(next);
-      },
-
-      function (result, next) {
-        delete_product_image_folder('products', product.id , next);
-      },
-
-      function (next) {
-        product.collections(next)
-      },
-
-      function (result, next) {
-        remove_collections(product, result, next);
-      }
+      get_product(data),
+      destroy_options(data),
+      destroy_variants(data),
+      destroy_images(data),
+      delete_product_thumbs_folder(data),
+      get_collections(data),
+      remove_collections(data)
     ],
     function (err) {
       if (err) {

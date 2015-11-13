@@ -1,0 +1,35 @@
+<dom-module id="image-previews">
+  <template>
+  <style>
+    :host{
+      display: block
+    }
+    .image {
+      width: 100%;
+      height: 100px;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .image:hover {
+      background-size: 150% 150%;
+    }
+  </style>
+
+  <div class="image" style$="{{style}}"></div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'image-preview',
+
+    properties: {
+      image: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

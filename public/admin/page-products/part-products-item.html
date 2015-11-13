@@ -1,9 +1,6 @@
 <link rel="import" href="/components/app-link/app-link.html">
-<link rel="import" href="/components/iron-icons/maps-icons.html">
-<link rel="import" href="/components/iron-icons/iron-icons.html">
-
 <link rel="import" href="../style-strip/style-strip.html">
-<link rel="import" href="../image-view/image-view.html">
+<link rel="import" href="../image-preview/image-preview.html">
 <link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="../style-label/style-label.html">
 <dom-module id="part-products-item">
@@ -21,34 +18,38 @@
       .price {
         @apply(--layout-center);
       }
-      img {
-        width: 100%;
-        background-repeat: no-repeat;
-
+      .strip-tag {
+        display: inline-block;
       }
     </style>
 
     <div class="strip">
       <div class="strip-img">
-        <!-- <image-view image="{{product.images}}" size="[120]"></image-view> -->
-        <img src="{{image}}"></img>
+        <image-preview image="{{product.images}}" like-size="120"></image-preview>
       </div>
 
       <div class="strip-block">
-        <div class="strip-title">Title {{product.title}}</div>
+        <div class="block-title">{{product.title}}</div>
+        <div class="block-vendor">{{product.vendor.name}}</div>
 
-        <iron-icon icon="icons:perm-identity"></iron-icon>
-        <div class="strip-vendor">Vendor {{product.vendor.name}}</div>
+        <div>
+          <template is="dom-repeat" items="{{product.collections}}" as="collection">
+            <div class="block-collection label label-primary">{{collection.title}}</div>
+          </template>
+        </div>
 
-        <iron-icon icon="maps:local-mall"></iron-icon>
-        <template is="dom-repeat" items="{{product.collections}}" as="collection">
-          <div class="strip-collection label label-primary">{{collection.title}}</div>
-        </template>
+        <div>
+          <template is="dom-repeat" items="{{product.tags}}" as="tag">
+            <div class="block-tag label label-default">{{tag}}</div>
+          </template>
+        </div>
 
-        <iron-icon icon="maps:local-offer"></iron-icon>
-        <template is="dom-repeat" items="{{product.tags}}" as="tag">
-          <div class="strip-tag label label-default">{{tag}}</div>
-        </template>
+        <div class="variants">
+          <template is="dom-repeat" items="{{product.variants}}" as="variant">
+            <div class="label label-info">{{variant.name}}</div>
+          </template>
+        </div>
+        <text-view text="{{product.description}}"></text-view>
       </div>
 
       <div class="strip-links">
@@ -79,12 +80,7 @@
     },
 
     attached: function () {
-      console.log(this.product);
-      var host = 'http://localhost:3000/';
-      var tmp = this.product.images[0].base_url;
-      var url = tmp.replace('public/', '');
-      var base_url = host + url + '/thumb-120.jpg';
-      this.image = base_url;
+
     }
 
   });
