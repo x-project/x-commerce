@@ -1,11 +1,10 @@
-<link rel="import" href="../style-strip/style-strip.html">
 <link rel="import" href="../image-preview/image-preview.html">
+<link rel="import" href="../style-strip/style-strip.html">
 <link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="../style-label/style-label.html">
 <link rel="import" href="../text-view/text-view.html">
 
 <dom-module id="part-collections-item">
-
   <style include="style-strip"></style>
   <style include="style-button"></style>
   <style include="style-label"></style>
@@ -39,9 +38,6 @@
         </div>
       </div>
     </div>
-
-
-
   </template>
 </dom-module>
 <script>
@@ -54,10 +50,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    attached: function () {
-      console.log(this.collection);
     }
 
   });
