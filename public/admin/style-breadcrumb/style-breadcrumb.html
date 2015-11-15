@@ -1,0 +1,41 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="style-breadcrumb">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .breadcrumb {
+        padding: .75rem 1rem;
+        margin-bottom: 1rem;
+        list-style: none;
+        background-color: #eceeef;
+        border-radius: .25rem;
+      }
+
+      .breadcrumb > li {
+        display: inline-block;
+      }
+
+      .breadcrumb > li + li:before {
+        padding-right: .5rem;
+        padding-left: .5rem;
+        color: #818a91;
+        content: "/ ";
+      }
+
+      .breadcrumb > .active {
+        color: #818a91;
+      }
+
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-breadcrumb'
+
+  });
+</script>
