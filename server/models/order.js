@@ -13,6 +13,28 @@ var gateway = braintree.connect({
   privateKey: process.env.TOKEN_SECRET_BRAINTREE
 });
 
+/*=================Tax===================*/
+
+var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
+
+taxjar.taxForOrder({
+  'from_country': 'IT',
+  'to_country': 'IT',
+  'amount': 16.50,
+  'shipping': 1.5
+}).then(function(res) {
+  // res.tax; // Tax object
+  // res.tax.amount_to_collect; // Amount to collect
+  // console.log(res);
+});
+
+
+
+
+/*=======================================*/
+
+
+
 module.exports = function (Order) {
 
   var destroy_order_items = function (data) {

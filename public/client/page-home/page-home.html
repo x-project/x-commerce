@@ -6,6 +6,10 @@
   <template>
     <style include="style-page"></style>
 
+    <api-model-find id="find" collection="products" response="{{products}}"
+      on-response="on_response" on-error="on_error">
+    </api-model-find>
+
     <layout-client>
       <part-jumbotron class="jumbotron">
         <h1>{{data.store.name}}</h1>
@@ -18,10 +22,28 @@
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
-    is: 'page-home'
+    is: 'page-home',
+
+    attached: function () {
+      this.$.find.order = 'published_at DESC';
+      this.$.find.include = ['collections', 'vendor', 'images', 'product_type', 'variants'];
+      this.$.find.perpage = 10;
+      this.$.find.send();
+    },
+
+    on_error: function (event) {
+      console.log(event)
+    },
+
+    on_response: function (event) {
+      console.log(this.products);
+    }
 
   });
 </script>

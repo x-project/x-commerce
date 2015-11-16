@@ -1,0 +1,29 @@
+<dom-module id="text-view">
+  <template>
+    <div class="text">{{short_text}}</div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'text-view',
+
+    properties: {
+      text: {
+        type: String,
+        value: ''
+      },
+      limit: {
+        type: Number
+      }
+    },
+
+    attached: function () {
+      if (!this.text) {
+        return;
+      }
+      this.short_text = this.text.slice(0, this.limit) + '...';
+    }
+
+  });
+</script>

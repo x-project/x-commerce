@@ -1,0 +1,108 @@
+<link rel="import" href="/components/layout-grid/layout-grid.html">
+<dom-module id="style-link">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      a {
+        background-color: transparent;
+      }
+
+      a:active {
+        outline: 0;
+      }
+
+      a:hover {
+        outline: 0;
+      }
+
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+
+      a {
+        color: #0275d8;
+        text-decoration: none;
+      }
+
+      a:focus,
+      a:hover {
+        color: #014c8c;
+        text-decoration: underline;
+      }
+
+      a:focus {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+
+      a.label:focus,
+      a.label:hover {
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      a.bg-primary:focus,
+      a.bg-primary:hover {
+        background-color: #025aa5;
+      }
+
+      a.text-warning:focus,
+      a.text-warning:hover {
+        color: #ec971f;
+      }
+
+      a.text-primary:focus,
+      a.text-primary:hover {
+        color: #025aa5;
+      }
+
+      a.text-success:focus,
+      a.text-success:hover {
+        color: #449d44;
+      }
+
+      a.text-info:focus,
+      a.text-info:hover {
+        color: #31b0d5;
+      }
+
+      a.text-danger:focus,
+      a.text-danger:hover {
+        color: #c9302c;
+      }
+
+      a.bg-success:focus,
+      a.bg-success:hover {
+        background-color: #449d44;
+      }
+
+      a.bg-info:focus,
+      a.bg-info:hover {
+        background-color: #31b0d5;
+      }
+
+      a.bg-warning:focus,
+      a.bg-warning:hover {
+        background-color: #ec971f;
+      }
+
+      a.bg-danger:focus,
+      a.bg-danger:hover {
+        background-color: #c9302c;
+      }
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-link'
+
+  });
+</script>
