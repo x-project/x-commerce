@@ -1,4 +1,5 @@
 <link rel="import" href="/components/iron-input/iron-input.html">
+<link rel="import" href="/components/app-session/app-session.html">
 
 <dom-module id="part-settings-email">
   <style>
@@ -7,6 +8,8 @@
     }
   </style>
   <template>
+
+  <app-session id="session"></app-session>
 
     <form id="form" on-submit="on_submit">
       <div>

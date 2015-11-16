@@ -7,8 +7,7 @@
       display: block
     }
     .image {
-      width: 100%;
-      height: 120px;
+      margin: auto;
       background-position: center center;
       background-repeat: no-repeat;
       background-size: 100%;
@@ -42,6 +41,12 @@
       host_name: {
         type: String,
         value: 'http://localhost:3000/'
+      },
+      height: {
+        type: Number
+      },
+      width: {
+        type: Number
       }
     },
 
@@ -83,7 +88,9 @@
     view_one_image: function () {
       url = this.get_url()
       var rules = [
-        'background-image: url("' + url + '")'
+        'background-image: url("' + url + '")',
+        'height: '+ this.height + 'px',
+        'width: ' + this.width + '%'
       ];
       this.style = rules.join(';');
     },

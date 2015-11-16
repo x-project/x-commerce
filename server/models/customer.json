@@ -64,7 +64,7 @@
   "acls": [
     {
       "principalType": "ROLE",
-      "principalId": "$owner",
+      "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "change_email"
     },

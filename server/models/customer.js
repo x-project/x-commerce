@@ -18,20 +18,21 @@ module.exports = function (Customer) {
     return userId;
   }
 
-  Customer.change_email = function (new_email, confirm_email, password, callback) {
-    if (new_email !== confirm_email) {
-      cb(new Error('email not confirmed'), null);
+  Customer.change_email = function (email, confirm_email, password, callback) {
+    if (email !== confirm_email) {
+      callback(new Error('email not confirmed'), null);
       return;
     }
 
     var user;
     var user_id = getCurrentUserId();
 
-    var on_find_user = function (err, user) {
+    var on_find_user = function (err, res) {
       if (err) {
         callback(err, null);
         return;
       }
+      user = res;
       user.hasPassword(password, on_match_password);
     }
 
@@ -40,7 +41,7 @@ module.exports = function (Customer) {
         callback(new Error('invalid password'), null);
         return;
       }
-      user.updateAttribute('email', new_email, on_update_email);
+      user.updateAttribute('email', email, on_update_email);
     }
 
     var on_update_email = function (err, user) {
@@ -57,14 +58,14 @@ module.exports = function (Customer) {
   Customer.remoteMethod('change_email', {
     http: { path: '/change_email', verb: 'post' },
     accepts: [
-      { arg: 'new_email', type: 'string' },
-      { arg: 'confirm_email', type: 'string' },
+      { arg: 'email', type: 'string' },
+      { arg: 'confirm', type: 'string' },
       { arg: 'password', type: 'string' }
     ],
     returns: { arg: 'changed', type: 'boolean' }
   });
 
-  Customer.change_password = function (new_password, confirm_password, password, callback) {
+  Customer.change_password = function (new_password, confirm_password, old_password, callback) {
     if (new_password !== confirm_password) {
       callback(new Error('password not confirmed'), null);
       return;
@@ -79,7 +80,7 @@ module.exports = function (Customer) {
         return;
       }
       user = instance;
-      user.hasPassword(password, on_match_password);
+      user.hasPassword(old_password, on_match_password);
     };
 
     var on_match_password = function (err, match) {
@@ -106,7 +107,7 @@ module.exports = function (Customer) {
     accepts: [
       { arg: 'new_password', type: 'string' },
       { arg: 'confirm_password', type: 'string' },
-      { arg: 'password', type: 'string' }
+      { arg: 'old_password', type: 'string' }
     ],
     returns: { arg: 'changed', type: 'boolean' }
   });

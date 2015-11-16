@@ -1,7 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-products-create.html">
-<link rel="import" href="part-products-items.html">
+<link rel="import" href="part-products-actions.html">
+<link rel="import" href="part-products-view-options.html">
 <link rel="import" href="part-products-pages.html">
 <link rel="import" href="part-products-search.html">
 <link rel="import" href="part-products-stats.html">
@@ -15,12 +15,13 @@
     <api-model-count id="count" collection="products" response="{{count}}">
     </api-model-count>
 
-    <layout-admin>
+    <layout-admin on-strip-preview="on_strip_view" on-table-preview="on_table_view">
       <h1>Products</h1>
-      <part-products-create></part-products-create>
+      <part-products-actions></part-products-actions>
       <part-products-search></part-products-search>
       <part-products-stats></part-products-stats>
-      <part-products-items products="{{products}}"></part-products-items>
+      <part-products-view-options id="items" products="{{products}}">
+        </part-products-view-options>
       <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
         count="{{count}}">
       </part-products-pages>
@@ -45,10 +46,21 @@
     },
 
     on_change_page: function (event) {
-      this.perpage = 5;
+      this.perpage = 30;
       this.page = event.detail.current - 1;
       this.$.find.include = ['collections', 'vendor', 'images', 'product_type', 'variants'];
       this.$.find.send();
+    },
+
+    on_strip_view: function (event) {
+      event.stopPropagation();
+      this.$.items.table_preview();
+    },
+
+    on_table_view: function (event) {
+      event.stopPropagation();
+      this.$.items.strip_preview();
+
     }
 
   });
