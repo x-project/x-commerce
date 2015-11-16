@@ -1,0 +1,43 @@
+<link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="form-prod-type-info">
+  <template>
+    <style include="style-form"></style>
+
+    <form id="form" class="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">Name</label>
+        <input class="input" type="text" is="iron-input" bind-value="{{prod_type.name}}">
+        <input-errors property="name" error="{{error.details}}"></input-errors>
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <div class="detail">
+          <iron-autogrow-textarea is="iron-input" bind-value="{{prod_type.description}}" rows="4">
+          </iron-autogrow-textarea>
+        </div>
+      </div>
+    </form>
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-prod-type-info',
+
+    properties: {
+      prod_type: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>

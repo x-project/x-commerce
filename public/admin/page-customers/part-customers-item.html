@@ -1,17 +1,37 @@
-<link rel="import" href="../style-item/style-item.html">
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
+<link rel="import" href="../text-view/text-view.html">
 <dom-module id="part-customers-item">
-  <style include="style-item"></style>
-
+  <style include="style-strip"></style>
+  <style include="style-button"></style>
+  <style include="style-label"></style>
+  <style>
+    .strip-links{
+      @apply(--layout-vertical);
+      @apply(--layout-end-justified);
+      @apply(--layout-end);
+    }
+  </style>
   <template>
-    <div class="item">
-      <label class="label">first_name: </label>
-      <span>{{customer.first_name}}</span>
-      <label class="label">last_name: </label>
-      <span>{{customer.last_name}}</span>
-      <label class="label">email: </label>
-      <span>{{customer.email}}</span>
-      <a is="app-link" href="/admin/customers/{{customer.id}}">edit</a>
-     </div>
+    <div class="strip">
+      <div class="strip-block">
+        <div class="block-first_name">{{customer.first_name}}</div>
+        <div class="block-last_name">{{customer.last_name}}</div>
+        <div class="block-email">{{customer.email}}</div>
+        <div>
+          <template is="dom-repeat" items="{{customer.tags}}" as="tag">
+            <div class="block-tag label label-default">{{tag}}</div>
+          </template>
+        </div>
+        <text-view text="{{customer.note}}"></text-view>
+      </div>
+      <div class="strip-links">
+        <div class="strip-link">
+          <a is="app-link" class="btn btn-link" href="/admin/customers/{{customer.id}}">edit</a>
+        </div>
+      </div>
+    </div>
   </template>
 </dom-module>
 <script>

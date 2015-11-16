@@ -1,0 +1,42 @@
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
+<link rel="import" href="../text-view/text-view.html"><dom-module id="part-prod-types-item">
+  <style include="style-strip"></style>
+  <style include="style-button"></style>
+  <style include="style-label"></style>
+  <style>
+    .strip-links{
+      @apply(--layout-vertical);
+      @apply(--layout-end-justified);
+      @apply(--layout-end);
+    }
+  </style>
+  <template>
+    <div class="strip">
+      <div class="strip-block">
+        <div class="block-name">{{prod_type.name}}</div>
+        <text-view text="{{prod_type.description}}"></text-view>
+      </div>
+      <div class="strip-links">
+        <div class="strip-link">
+          <a is="app-link" class="btn btn-link" href="/admin/product_types/{{prod_type.id}}">edit</a>
+        </div>
+      </div>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-prod-types-item',
+
+    properties: {
+      prod_type: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

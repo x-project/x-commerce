@@ -32,6 +32,8 @@
 <link rel="import" href="../page-team/page-team.html">
 <link rel="import" href="../page-vendor/page-vendor.html">
 <link rel="import" href="../page-vendors/page-vendors.html">
+<link rel="import" href="../page-product_type/page-product_type.html">
+<link rel="import" href="../page-product_types/page-product_types.html">
 
 <link rel="import" href="../page-test/page-test.html">
 <link rel="import" href="../page-style-test/page-style-test.html">
@@ -443,6 +445,50 @@
         .then(function (model) {
           context.page_name = 'page-variant';
           context.data.variant = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
+    },
+
+    '/admin/product_types': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-product_types';
+      this.open_page(context);
+    },
+
+    '/admin/product_types/new': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+      context.page_name = 'page-product_type';
+      context.data = { prod_type: {} };
+      this.open_page(context);
+    },
+
+    '/admin/product_types/:prod_type': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.get_model({
+          collection: 'product_types',
+          modelId: context.params.prod_type
+        })
+        .then(function (model) {
+          context.page_name = 'page-product_type';
+          context.data.prod_type = model;
           this.open_page(context);
         }.bind(this))
         .catch(function (error) {

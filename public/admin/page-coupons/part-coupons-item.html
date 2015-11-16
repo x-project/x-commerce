@@ -1,17 +1,32 @@
-<link rel="import" href="../style-item/style-item.html">
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
 <dom-module id="part-coupons-item">
-  <style include="style-item"></style>
 
+  <style include="style-strip"></style>
+  <style include="style-button"></style>
+  <style include="style-label"></style>
+  <style>
+    .strip-links{
+      @apply(--layout-vertical);
+      @apply(--layout-end-justified);
+      @apply(--layout-end);
+    }
+  </style>
   <template>
-    <div class="item">
-      <label class="label">name: </label>
-      <span>{{coupon.name}}</span>
-      <label class="label">description: </label>
-      <span>{{coupon.description}}</span>
-      <label class="label">discount: </label>
-      <span>{{customer.discount}}</span>
-      <a is="app-link" href="'/admin/coupons/{{coupon.id}}">edit</a>
-     </div>
+    <div class="strip">
+      <div class="strip-block">
+        <div class="block-name">{{coupon.name}}</div>
+        <text-view text="{{coupon.description}}"></text-view>
+        <div class="block-discount">{{coupon.discount}}</div>
+        <div class="block-date">From {{coupon.date_from}} To {{coupon.date_to}}</div>
+      </div>
+      <div class="strip-links">
+        <div class="strip-link">
+          <a is="app-link" class="btn btn-link" href="/admin/coupons/{{coupon.id}}">edit</a>
+        </div>
+      </div>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -25,6 +40,5 @@
         value: function () { return {}; }
       }
     }
-
   });
 </script>

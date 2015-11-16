@@ -1,0 +1,27 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="part-prod-types-item.html">
+<dom-module id="part-prod-types-items">
+  <template>
+
+    <div class="items">
+      <template id="prod_types" is="dom-repeat" items="{{prod_types}}" as="prod_type">
+        <part-prod-types-item prod_type="{{prod_type}}"></part-prod-types-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-prod-types-items',
+
+    properties: {
+      prod_types: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

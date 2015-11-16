@@ -1,5 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/iron-input/iron-input.html">
+<link rel="import" href="../../components/app-session/app-session.html">
+
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-settings-email">
   <template>
@@ -10,6 +12,8 @@
       last-response="{{response}}" on-response="on_response"
       last-error="{{error}}" on-error="on_error">
     </iron-ajax>
+
+    <app-session id="session"></app-session>
 
     <template is="dom-if" if="{{error.diversity}}">
       <div class="alert error">email not confirmed</div>
@@ -71,7 +75,7 @@
 
     update: function () {
       var ajax = this.$.ajax;
-      ajax.headers = { Authorization: this.session.token };
+      ajax.headers = { Authorization: this.$.session.get('token') };
       ajax.body = JSON.stringify(this.input);
       ajax.generateRequest();
     },

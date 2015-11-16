@@ -20,7 +20,7 @@ app.start = function() {
 boot(app, __dirname, function(err) {
   if (err) throw err;
   app.use(loopback.static(path.resolve(__dirname, '../public')));
-  app.use(loopback.static(path.resolve(__dirname, './storage'), { index: false }));
+  app.use(loopback.static(path.resolve(__dirname, './public'), { index: false }));
 
   auth(app);
 

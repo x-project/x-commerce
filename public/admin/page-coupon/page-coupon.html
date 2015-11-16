@@ -67,6 +67,7 @@
     },
 
     create_model: function () {
+      console.log(this.coupon);
       Model.create('/api/coupons', this.coupon)
       .then(function (data) {
         this.coupon = data;

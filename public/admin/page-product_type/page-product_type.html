@@ -1,0 +1,132 @@
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-prod-type-header.html">
+<link rel="import" href="part-prod-type-save.html">
+<link rel="import" href="part-prod-type-actions.html">
+<link rel="import" href="part-prod-type-info.html">
+<dom-module id="page-product_type">
+  <template>
+
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
+      <h1>Product Type</h1>
+      <part-prod-type-header prod_type="{{prod_type}}"></part-prod-type-header>
+      <part-prod-type-actions></part-prod-type-actions>
+      <part-prod-type-info prod_type="{{prod_type}}" error="{{error}}">
+      </part-prod-type-info>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'page-product_type',
+
+    properties: {
+      prod_type: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.prod_type = this.data.prod_type;
+    },
+
+    on_try_save: function (event) {
+      event.stopPropagation();
+      console.log(this.prod_type);
+      if (!this.validate_model()) {
+        return;
+      }
+      if (this.prod_type.id) {
+        this.update_model();
+        return;
+      }
+     this.create_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/product_types', this.prod_type.id, this.prod_type)
+      .then(function (data) {
+        this.prod_type = data;
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/product_types', this.prod_type)
+      .then(function (data) {
+        this.prod_type = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/product_types', this.prod_type.id)
+      .then(function (data) {
+        this.prod_type = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_create: function () {
+      page('/admin/product_types/' + this.prod_type.id);
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.delete_model();
+    },
+
+    response_delete: function () {
+      page('/admin/product_types');
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var error = this.create_custom_err();
+      check = check & this.check_field('name', error, 'can\'t be blank');
+      this.set('error', error);
+      return check;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.prod_type[property] === undefined || this.prod_type[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.name = [];
+      return error;
+    }
+
+  });
+</script>

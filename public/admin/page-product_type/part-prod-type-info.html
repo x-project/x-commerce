@@ -1,0 +1,27 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-prod-type-info.html">
+<dom-module id="part-prod-type-info">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">Overview</h2>
+      <form-prod-type-info prod_type="{{prod_type}}" error="{{error}}"></form-prod-type-info>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-prod-type-info',
+
+    properties: {
+      prod_type: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

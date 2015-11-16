@@ -11,6 +11,9 @@
 <link rel="import" href="../style-progress/style-progress.html">
 <link rel="import" href="../style-pagination/style-pagination.html">
 <link rel="import" href="../style-navs/style-navs.html">
+<link rel="import" href="../style-breadcrumb/style-breadcrumb.html">
+<link rel="import" href="../style-image/style-image.html">
+<link rel="import" href="../style-table/style-table.html">
 
 <dom-module id="page-style-test">
   <template>
@@ -23,10 +26,13 @@
     <style include="style-basic"></style>
     <style include="style-checkbox"></style>
     <style include="style-label"></style>
-    <style include="style-label"></style>
     <style include="style-progress"></style>
     <style include="style-pagination"></style>
     <style include="style-navs"></style>
+    <style include="style-breadcrumb"></style>
+    <style include="style-image"></style>
+    <style include="style-table"></style>
+
     <style>
       .container {
         padding: 5em 10em;
@@ -35,13 +41,12 @@
 
     <div class="container">
       <h1>Button</h1>
-      <button class="btn btn-default">default</button>
-      <button class="btn btn-primary">primary</button>
-      <button class="btn btn-success">success</button>
-      <button class="btn btn-info">info</button>
-      <button class="btn btn-warning">warning</button>
-      <button class="btn btn-danger">danger</button>
-      <button class="btn btn-link">link</button>
+      <button type="button" class="btn btn-primary">Primary</button>
+      <button type="button" class="btn btn-secondary">Secondary</button>
+      <button type="button" class="btn btn-success">Success</button>
+      <button type="button" class="btn btn-warning">Warning</button>
+      <button type="button" class="btn btn-danger">Danger</button>
+      <button type="button" class="btn btn-link">Link</button>
 
       <h1>Form - Basic Form - Example 1</h1>
 
@@ -524,6 +529,100 @@
           <a href="#" class="nav-link">Disabled</a>
         </li>
       </ul>
+
+
+      <h1>Breadcrumb Example 1</h1>
+      <ol class="breadcrumb">
+        <li class="active">Home</li>
+      </ol>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Library</li>
+      </ol>
+      <ol class="breadcrumb" style="margin-bottom: 5px;">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Library</a></li>
+        <li class="active">Data</li>
+      </ol>
+
+      <h1>Image Example 1</h1>
+      <img src="https://goo.gl/6XrErY" class="img-responsive" alt="Responsive image">
+
+      <h3>Image Shape Example 2</h3>
+      <img src="https://goo.gl/6XrErY" alt="..." class="img-rounded">
+      <img src="https://goo.gl/6XrErY" alt="..." class="img-circle">
+      <img src="https://goo.gl/6XrErY" alt="..." class="img-thumbnail">
+
+      <h3>Aligniing Images Example 3</h3>
+      <img src="https://goo.gl/6XrErY" class="img-rounded pull-left" alt="...">
+      <img src="https://goo.gl/6XrErY" class="img-rounded pull-right" alt="...">
+
+      <h1>Table Example 1</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Inverse Table Example 2</h3>
+      <table class="table table-inverse">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
 
     </div>
   </template>

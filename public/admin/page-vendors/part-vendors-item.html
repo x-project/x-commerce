@@ -1,15 +1,30 @@
-<link rel="import" href="../style-item/style-item.html">
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
 <dom-module id="part-vendors-item">
-  <style include="style-item"></style>
 
-  <template>
-    <div class="item">
-      <label class="label">name: </label>
-      <span>{{vendor.name}}</span>
-      <label class="label">description: </label>
-      <span>{{vendor.description}}</span>
-      <a is="app-link" href="/admin/vendors/{{vendor.id}}">edit</a>
-     </div>
+    <style include="style-strip"></style>
+    <style include="style-button"></style>
+    <style include="style-label"></style>
+    <style>
+      .strip-links{
+        @apply(--layout-vertical);
+        @apply(--layout-end-justified);
+        @apply(--layout-end);
+      }
+    </style>
+    <template>
+      <div class="strip">
+        <div class="strip-block">
+          <div class="block-name">{{vendor.name}}</div>
+          <text-view text="{{vendor.description}}"></text-view>
+        </div>
+        <div class="strip-links">
+          <div class="strip-link">
+            <a is="app-link" class="btn btn-link" href="/admin/vendors/{{vendor.id}}">edit</a>
+          </div>
+        </div>
+      </div>
   </template>
 </dom-module>
 <script>

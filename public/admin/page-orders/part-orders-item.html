@@ -1,16 +1,42 @@
-<link rel="import" href="../style-item/style-item.html">
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
+<link rel="import" href="../text-view/text-view.html">
 <dom-module id="part-orders-item">
+  <style include="style-strip"></style>
+  <style include="style-button"></style>
+  <style include="style-label"></style>
+  <style>
+    .strip-links{
+      @apply(--layout-vertical);
+      @apply(--layout-end-justified);
+      @apply(--layout-end);
+    }
+  </style>
   <template>
-  <style include="style-item"></style>
-
     <label class="label">total: </label>
     <span>{{order.total}}</span>
-    <label class="label">shipping_cost: </label>
-    <span>{{order.shipping_cost}}</span>
-    <label class="label">customer: </label>
-    <span>{{order.customer.first_name}}</span>
-    <a is="app-link" href="/admin/orders/{{order.id}}">edit</a>
 
+
+    <div class="strip">
+      <div class="strip-block">
+        <div class="block-name">{{order.customer.first_name}} {{order.customer.last_name}}</div>
+        <div class="block-shipping_cost">{{order.shipping_cost}}</div>
+        <div class="block-total">{{order.total}}</div>
+        <div>
+          <template is="dom-repeat" items="{{order.order_items}}" as="order_item">
+            <div class="block-product label label-primary">{{order_item.product.title}}</div>
+          </template>
+        </div>
+        <div class="block-status label label-warning">{{order.status}}</div>
+        <text-view text="{{order.notes}}"></text-view>
+      </div>
+      <div class="strip-links">
+        <div class="strip-link">
+          <a is="app-link" class="btn btn-link" href="/admin/orders/{{order.id}}">edit</a>
+        </div>
+      </div>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -23,6 +49,10 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      console.log(this.order);
     }
 
   });

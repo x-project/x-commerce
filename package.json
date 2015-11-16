@@ -42,7 +42,8 @@
     "rimraf": "2.4.3",
     "serve-favicon": "2.3.0",
     "stripe": "4.0.0",
-    "superagent": "1.4.0"
+    "superagent": "1.4.0",
+    "taxjar": "^1.1.1"
   },
   "optionalDependencies": {
     "loopback-explorer": "1.7"

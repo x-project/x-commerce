@@ -1,16 +1,44 @@
-<link rel="import" href="../style-item/style-item.html">
-<dom-module id="part-collections-item">
-  <style include="style-item"></style>
+<link rel="import" href="../image-preview/image-preview.html">
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
+<link rel="import" href="../text-view/text-view.html">
 
+<dom-module id="part-collections-item">
+  <style include="style-strip"></style>
+  <style include="style-button"></style>
+  <style include="style-label"></style>
+  <style>
+    .strip-links{
+      @apply(--layout-vertical);
+      @apply(--layout-end-justified);
+      @apply(--layout-end);
+    }
+  </style>
   <template>
-    <div class="item">
-      <label class="label">name: </label>
-      <span>{{collection.title}}</span>
-      <label class="label">description: </label>
-      <span>{{collection.description}}</span>
-      <label class="label">is_published: </label>
-      <span>{{collection.is_published}}</span>
-      <a is="app-link" href="/admin/collections/{{collection.id}}">edit</a>
+    <div class="strip">
+      <div class="strip-img">
+        <image-preview image="{{collection.images}}" like-size="120"
+          height="120" width="100">
+        </image-preview>
+      </div>
+
+      <div class="strip-block">
+        <div class="block-title">{{collection.title}}</div>
+
+        <div class="products">
+          <template is="dom-repeat" items="{{collection.products}}" as="product">
+            <div class="label label-primary">{{product.title}}</div>
+          </template>
+        </div>
+        <text-view text="{{collection.description}}"></text-view>
+      </div>
+
+      <div class="strip-links">
+        <div class="strip-link">
+          <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">edit</a>
+        </div>
+      </div>
     </div>
   </template>
 </dom-module>
@@ -19,7 +47,12 @@
 
     is: 'part-collections-item',
 
-    properties: {}
+    properties: {
+      collection: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>
