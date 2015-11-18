@@ -11,11 +11,12 @@ function status (response) {
   });
 }
 
-Model.create = function (url, data) {
+Model.create = function (url, data, token) {
   return fetch(url, {
     method: 'post',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      'Authorization': token
     },
     body: JSON.stringify(data)
   })

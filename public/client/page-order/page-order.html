@@ -1,5 +1,7 @@
 <link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="../part-jumbotron/part-jumbotron.html">
+<link rel="import" href="../style-page/style-page.html">
 <link rel="import" href="list-order.html">
 <dom-module id="page-order">
   <template>
@@ -14,13 +16,13 @@
       on-response="on_response_reviews">
     </api-model-find>
 
-      <layout-client>
-        <part-jumbotron class="jumbotron">
-          <h1>My Orders</h1>
-        </part-jumbotron>
-        <div class="container">
-          <list-order orders="{{orders_complete}}"></list-order>
-        </div>
+    <layout-client>
+      <part-jumbotron class="jumbotron">
+        <h1>My Orders</h1>
+      </part-jumbotron>
+      <div class="container">
+        <list-order orders="{{orders_complete}}"></list-order>
+      </div>
     </layout-client>
 
   </template>

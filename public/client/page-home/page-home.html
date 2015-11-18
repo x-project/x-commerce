@@ -12,14 +12,12 @@
 
     <layout-client>
       <part-jumbotron class="jumbotron">
-        <h1>{{data.store.name}}</h1>
+        <h1>Catalog</h1>
       </part-jumbotron>
       <div class="container">
-        <h2>Catalog</h2>
         <part-home-products products="{{products}}"></part-home-products>
       </div>
     </layout-client>
-
   </template>
 </dom-module>
 
@@ -31,9 +29,10 @@
     is: 'page-home',
 
     attached: function () {
+      this.$.find.where = { is_published: true };
       this.$.find.order = 'published_at DESC';
       this.$.find.include = ['collections', 'vendor', 'images', 'product_type', 'variants'];
-      this.$.find.perpage = 10;
+      this.$.find.perpage = 2;
       this.$.find.send();
     },
 
@@ -42,7 +41,7 @@
     },
 
     on_response: function (event) {
-      console.log(this.products);
+      // console.log(this.products);
     }
 
   });

@@ -1,15 +1,31 @@
 <link rel="import" href="../style-card/style-card.html">
-<link rel="import" href="part-products-images.html">
+<link rel="import" href="../style-image/style-image.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../image-preview/image-preview.html">
+
 <dom-module id="card-product">
   <template>
     <style include="style-card"></style>
+    <style include="style-image"></style>
+    <style include="style-button"></style>
+    <style>
+      .card {
+        padding: 5px 10px;
+        margin: 10px 10px;
+      }
+    </style>
 
     <div class="card">
-      <part-products-images product="{{product}}"></part-products-images>
-      <div>{{product.title}}</div>
-      <div>{{product.description}}</div>
-      <div>{{product.price}}</div>
-      <div><a href="{{product.url}}">view</a></div>
+      <image-preview class="card-img-top img-responsive" image="{{product.images}}"
+        like-size="80" width="60" height="100">
+      </image-preview>
+
+      <div class="card-block">
+        <h4 class="card-title">{{product.title}} {{product.price}} $</h4>
+      </div>
+      <div class="card-block">
+        <a href="/products/{{product.id}}" class="card-link">view</a>
+      </div>
     </div>
 
   </template>

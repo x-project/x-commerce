@@ -83,6 +83,9 @@
   "Manager": {
     "dataSource": "mongo"
   },
+  "Nexus": {
+    "dataSource": "mongo"
+  },
   "Order": {
     "dataSource": "mongo"
   },

@@ -1,20 +1,75 @@
+<link rel="import" href="../app-session/app-session.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-settings-profile.html">
 <dom-module id="panel-settings-profile">
   <template>
     <style include="style-panel"></style>
 
+    <app-session id="session"></app-session>
+
     <div class="panel">
       <h3 class="title">Update profile</h3>
-      <form-settings-profile></form-settings-profile>
+      <form-settings-profile customer="{{customer}}" error="{{error}}"
+        on-try-update="on_try_update">
+      </form-settings-profile>
     </div>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
-    is: 'panel-settings-profile'
+    is: 'panel-settings-profile',
+
+    attached: function () {
+      this.customer = this.$.session.get('user');
+    },
+
+    on_try_update: function () {
+      var error = this.create_custom_err();
+      if (!this.validate_data(error)) {
+        this.set('error', error);
+        return;
+      }
+      this.try_update();
+    },
+
+    try_update: function () {
+      var token = this.$.session.get('token');
+      Model.update('/api/customers/', this.customer.id, this.customer)
+      .then(function (data) {
+        this.on_response(data);
+      }.bind(this))
+      .catch(function (error) {
+        this.on_error(error);
+      }.bind(this));
+    },
+
+    validate_data: function (error) {
+      var test = true;
+      //controlla se date_of_birth e' futura
+      return true;
+    },
+
+    on_response: function (customer) {
+      this.$.session.unset('user');
+      this.$.session.set('user', customer);
+    },
+
+    on_error: function (error) {
+      console.log(error);
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.date_of_birth = [];
+      return error;
+    }
 
   });
 </script>

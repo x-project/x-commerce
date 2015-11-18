@@ -1,38 +1,54 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../components/iron-input/iron-input.html">
-<!-- <link rel="import" href="../../components/paper-radio-group/paper-radio-group.html"> -->
+<link rel="import" href="/components/iron-input/iron-input.html">
+<link rel="import" href="/components/input-location/input-location.html">
+<link rel="import" href="../input-date-of-birth/input-date-of-birth.html">
+<link rel="import" href="../style-checkbox/style-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-basic/style-basic.html">
+
 <dom-module id="form-settings-profile">
   <template>
+    <style include="style-button"></style>
     <style include="style-form"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-basic"></style>
+    <style>
+      input, input-date-of-birth, .lbl, input-location{
+        width: 50% !important;
+        margin: 10px 0;
+      }
+      .gender {
+        margin: 10px;
+      }
+    </style>
 
-    <api-model-update id="ajax" collection="Customers" model-id="{{user.id}}"
-      on-response="on_response" on-error="on_error">
-    </api-model-update>
+    <form on-submit="on_submit">
+      <div class="form-group">
+        <label class="lbl text-muted" for="first_name">first name</label>
+        <input type="text" is="iron-input" class="form-control"
+          bind-value="{{customer.first_name}}">
+        <label class="lbl text-muted" for="last_name">last name</label>
+        <input type="text" is="iron-input" class="form-control"
+          bind-value="{{customer.last_name}}">
+        <label class="lbl text-muted" for="birth">date of birth</label>
+        <input-date-of-birth date="{{customer.date_of_birth}}"></input-date-of-birth>
 
-    <form id="form" class="form" on-submit="on_submit">
-      <div class="field">
-        <label class="label">fullname</label>
-        <input class="input" is="iron-input" type="text" bind-value="{{user.fullname}}">
+        <div class="gender">
+          <label class="radio-inline">
+            <input type="radio" name="gender" id="male" value="M">Male
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="gender" id="female" value="F">Female
+          </label>
+        </div>
+
+        <div>
+          <label class="lbl text-muted" for="location">location</label>
+          <input-location classes=["form-control"] value="{{customer.location}}"></input-location>
+        </div>
       </div>
-      <div class="field">
-        <label class="label">birthday</label>
-        <input class="input" is="iron-input" type="date" bind-value="{{user.birthday}}">
-      </div>
-      <div class="field">
-        <label class="label">Gender</label>
-        <paper-radio-group selected="{{user.gender}}">
-          <paper-radio-button name="male"><span>male</span></paper-radio-button>
-          <paper-radio-button name="female"><span>female</span></paper-radio-button>
-        </paper-radio-group>
-      </div>
-      <div class="field">
-        <label class="label">location</label>
-        <input class="input" is="iron-input" type="text" bind-value="{{user.location}}">
-      </div>
-      <div class="field">
-        <input class="button" type="submit" value="update" />
-      </div>
+
+      <button class="btn btn-secondary" type="submit" value="update">update</button>
     </form>
 
   </template>
@@ -42,6 +58,21 @@
 
     is: 'form-settings-profile',
 
+    properties: {
+      customer: {
+        type: Object,
+        notify: true,
+        value: function () { return {}; },
+      }
+    },
+
+    attached: function () {
+      if (!this.customer) {
+        return;
+      }
+      this.update_gender();
+    },
+
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -49,15 +80,32 @@
     },
 
     update: function () {
-      this.$.ajax.send();
+      this.customer.date_of_birth = new Date(this.customer.date_of_birth).toISOString();
+      this.customer.gender = this.get_gender();
+      this.fire('try-update');
     },
 
-    on_response: function(event) {
-      console.log(event);
+    get_gender: function () {
+      if (this.$.female.checked) {
+        return 'F'
+      }
+      if (this.$.male.checked) {
+        return 'M'
+      }
+      return '';
     },
 
-    on_error: function (event) {
-      console.warn(event)
+    update_gender: function () {
+      if (!this.customer.gender) {
+        return '';
+      }
+      if (this.customer.gender === 'M') {
+        this.$.male.checked = true;
+        return;
+      }
+      if (this.customer.gender === 'F') {
+        this.$.female.checked = true; 
+      }
     }
 
   });

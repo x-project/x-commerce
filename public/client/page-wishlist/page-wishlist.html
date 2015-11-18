@@ -45,7 +45,7 @@
       var user = this.$.session.get('user');
       this.$.find.modelId = user.id;
       this.$.find.one = false;
-      this.$.find.include = ["product", "product_variant"];
+      this.$.find.include = [{'product': ['images','vendor', 'product_type']}, "product_variant"];
       this.$.find.send();
     },
 

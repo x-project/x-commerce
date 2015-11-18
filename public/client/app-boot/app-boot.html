@@ -115,7 +115,6 @@
       var on_response = function (event) {
         event.stopPropagation();
         var response = ajax.lastResponse.result;
-        console.log(response);
         this.$.app.fire('login', response);
       }.bind(this);
       ajax.addEventListener('response', on_response);

@@ -1,20 +1,92 @@
+<link rel="import" href="../app-session/app-session.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-settings-email.html">
 <dom-module id="panel-settings-email">
   <template>
     <style include="style-panel"></style>
 
+    <app-session id="session"></app-session>
+
     <div class="panel">
       <h3 class="title">Change email</h3>
-      <form-settings-email></form-settings-email>
+      <form-settings-email id="form" data="{{data}}"
+        error="{{error}}" on-try-update="on_try_update">
+      </form-settings-email>
     </div>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
-    is: 'panel-settings-email'
+    is: 'panel-settings-email',
+
+    properties: {
+      data: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_try_update: function () {
+      var error = this.create_custom_err();
+      if (!this.validate_data(error)) {
+        this.set('error', error);
+        return;
+      }
+      this.try_update();
+    },
+
+    try_update: function () {
+      var token = this.$.session.get('token');
+      Model.create('/api/customers/change_email', this.data, token)
+      .then(function (data) {
+        this.on_response(data);
+      }.bind(this))
+      .catch(function (error) {
+        this.on_error(error);
+      }.bind(this));
+    },
+
+    validate_data: function (error) {
+      var test = true;
+      if (this.data.email !== this.data.confirm) {
+        error.details.messages.email.push('not confirmed');
+        this.set('error', error);
+        test = false;
+      }
+      return test;
+    },
+
+    on_response: function (data) {
+      if (data.changed) {
+        var customer = this.$.session.get('user');
+        this.$.session.unset('user');
+        customer.email = this.data.email;
+        this.$.session.set('user', customer);
+        return;
+      }
+    },
+
+    on_error: function (error) {
+      var custom_error = this.create_custom_err();
+      if (error.message === 'invalid password') {
+        custom_error.details.messages.password.push(error.message);
+      }
+      this.set('error', custom_error);
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.email = [];
+      error.details.messages.password = [];
+      return error;
+    }
 
   });
 </script>

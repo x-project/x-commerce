@@ -19,8 +19,8 @@ var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 
 taxjar.taxForOrder({
   'from_country': 'IT',
-  'to_country': 'IT',
-  'amount': 16.50,
+  'to_country': 'FR',
+  'amount': 18.50,
   'shipping': 1.5
 }).then(function(res) {
   // res.tax; // Tax object

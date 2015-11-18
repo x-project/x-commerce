@@ -1,11 +1,14 @@
 <link rel="import" href="../../components/iron-ajax/iron-ajax.html">
-<dom-module id="part-product-wishlist">
+<link rel="import" href="../app-session/app-session.html">
+<dom-module id="part-product-wish">
   <template>
     <style>
       :host {
         display: block;
       }
     </style>
+
+    <app-session id="session"></app-session>
 
     <iron-ajax id="ajax_post" method="POST" handle-as="json" content-type="application/json"
       on-response="on_response" last-response="response" on-error="on_error">
@@ -21,7 +24,7 @@
 <script>
   Polymer({
 
-    is: 'part-product-wishlist',
+    is: 'part-product-wish',
 
     properties: {
       product: {
@@ -36,23 +39,27 @@
 
     on_click_favourite: function (event) {
       event.stopPropagation();
-      this.$.ajax_post.url = '/api/customers/' + this.product.id + '/wishlists';
+      var customer = this.$.session.get('user');
+      if (!customer) {
+        return;
+      }
+      this.$.ajax_post.url = '/api/customers/' + customer.id + '/wishlists';
       this.$.ajax_post.body = JSON.stringify({
         product_id: this.product.id,
-        product_variant_id: this.variant.id
+        product_variant_id: (this.variant) ? variant.id : '',
+        customer_id: customer.id
       });
       this.$.ajax_post.generateRequest();
     },
 
     on_response: function (event) {
       event.stopPropagation();
-      console.log(this.response);
+      // console.log(this.response);
     },
 
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
-
     }
 
   });

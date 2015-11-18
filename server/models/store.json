@@ -23,9 +23,14 @@
     "policy": {
       "type": "String"
     }
-
   },
-  "relations": {},
+  "relations": {
+    "nexus": {
+      "type": "belongsTo",
+      "model": "Nexus",
+      "foreignKey": "nexus_id"
+    }
+  },
   "acls": [],
   "methods": [],
   "validations": []

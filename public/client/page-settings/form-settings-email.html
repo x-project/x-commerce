@@ -1,48 +1,41 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/iron-input/iron-input.html">
 <link rel="import" href="../../components/app-session/app-session.html">
-
+<link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../style-checkbox/style-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-basic/style-basic.html">
 <dom-module id="form-settings-email">
   <template>
-    <style include="style-form"></style>
 
-    <iron-ajax id="ajax" method="POST" url="/api/Customers/change_email"
-      content-type="application/json" handle-as="json"
-      last-response="{{response}}" on-response="on_response"
-      last-error="{{error}}" on-error="on_error">
-    </iron-ajax>
+    <style include="style-button"></style>
+    <style include="style-form"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-basic"></style>
+    <style>
+      input, .lbl, input-location{
+        width: 50% !important;
+        margin: 10px 0;
+      }
+    </style>
 
     <app-session id="session"></app-session>
 
-    <template is="dom-if" if="{{error.diversity}}">
-      <div class="alert error">email not confirmed</div>
-    </template>
+    <input-errors property="email" error="{{error.details}}"></input-errors>
+    <input-errors property="password" error="{{error.details}}"></input-errors>
 
-    <template is="dom-if" if="{{error.error}}">
-      <div class="alert error">something went wrong...</div>
-    </template>
-
-    <template is="dom-if" if="{{model}}">
-      <div class="alert success">email changed successfully!</div>
-    </template>
-
-    <form id="form" on-submit="on_submit" on-keyup="on_keyup">
-      <div class="field">
-        <label class="label">new email</label>
-        <input class="input" is="iron-input" type="email" bind-value="{{input.email}}">
-      </div>
-      <div class="field">
-        <label class="label">confirm email</label>
-        <input class="input" is="iron-input" type="email" bind-value="{{input.confirm}}">
-      </div>
-      <div class="field">
-        <label class="label">password</label>
-        <input class="input" is="iron-input" type="password" bind-value="{{input.password}}">
-      </div>
-      <div class="field">
-        <input class="button" type="submit" value="change" />
-      </div>
+    <form on-submit="on_submit" on-keyup="on_keyup">
+      <div class="form-group">
+        <label id="label-email" class="lbl text-muted" for="new_email">new email</label>
+        <input id="email" type="text" is="iron-input" class="form-control"
+          bind-value="{{data.email}}">
+        <label id="label-confirm" class="lbl text-muted" for="confirm_email">confirm email</label>
+        <input id="confirm" type="text" is="iron-input" class="form-control"
+          bind-value="{{data.confirm}}">
+        <label class="lbl text-muted" for="birth">password</label>
+        <input type="password" is="iron-input" class="form-control"
+          bind-value="{{data.password}}">
+      <button class="btn btn-secondary" type="submit" value="update">update</button>
     </form>
 
   </template>
@@ -52,8 +45,16 @@
 
     is: 'form-settings-email',
 
-    attached: function () {
-      this.set('input', {});
+    properties: {
+      data: {
+        type: Object,
+        notify: true,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
     },
 
     on_keyup: function (event) {
@@ -66,27 +67,11 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
-      if (this.input.email !== this.input.confirm) {
-        this.set('error.diversity', true);
-        return;
-      }
-      this.update();
+
+      this.fire('try-update');
     },
 
-    update: function () {
-      var ajax = this.$.ajax;
-      ajax.headers = { Authorization: this.$.session.get('token') };
-      ajax.body = JSON.stringify(this.input);
-      ajax.generateRequest();
-    },
-
-    on_response: function (event) {
-      console.log(event);
-      this.set('input', {});
-    },
-
-    on_error: function (event) {
-      console.warn(event);
+    clear: function () {
       this.set('input', {});
     }
 

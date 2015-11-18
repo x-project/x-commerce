@@ -1,0 +1,30 @@
+{
+  "name": "Nexus",
+  "plural": "nexus",
+  "mongodb": {
+    "collection": "nexus"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "from_country": {
+      "type": "String",
+      "required": true
+    },
+    "from_zip": {
+      "type": "String"
+    },
+    "from_state": {
+      "type": "String"
+    },
+    "from_city": {
+      "type": "String"
+    },
+    "from_street": {
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}
