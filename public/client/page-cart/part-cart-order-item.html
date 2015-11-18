@@ -1,11 +1,9 @@
 <link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="../style-button-group/style-button-group.html">
-
 <link rel="import" href="../style-card/style-card.html">
 <link rel="import" href="../style-list/style-list.html">
 <link rel="import" href="../style-basic/style-basic.html">
 <link rel="import" href="../style-label/style-label.html">
-
 <dom-module id="part-cart-order-item">
   <template>
     <style include="style-button"></style>
@@ -28,7 +26,6 @@
         display: inline-block;
       }
     </style>
-
     <ul class="list-group">
       <li class="list-group-item">
         <span class="label label-default label-pill pull-right">{{quantity}}</span>
@@ -36,12 +33,10 @@
         <span class="product_price" price_product$="{{price_product}}">
           <span>{{orderItem.product.price}} $</span>
         </span>
-
         <span class="variant" visibile_variant$="{{visibile_variant}}">
           <span>{{orderItem.variant.name}}</span>
           <span>{{orderItem.variant.price}} $</span>
         </span>
-
         <div class="btn-group" role="group" aria-label="First group">
           <button type="button" class="btn btn-secondary" on-click="on_click_decrease"> - </button>
           <button type="button" class="btn btn-secondary" on-click="on_click_increase"> + </button>

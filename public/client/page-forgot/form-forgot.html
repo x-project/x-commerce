@@ -1,16 +1,20 @@
 <link rel="import" href="../../components/iron-input/iron-input.html">
+<link rel="import" href="../style-basic/style-basic.html">
+<link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-forgot">
   <template>
+    <style include="style-basic"></style>
+    <style include="style-button"></style>
     <style include="style-form"></style>
 
-    <form id="form" role="form" name="reset" on-submit="on_submit">
+    <form on-submit="on_submit">
       <div class="field" name="email">
         <label class="label">email</label>
-        <input class="input" is="iron-input" type="text" bind-value="{{email}}">
+        <input class="form-control" is="iron-input" type="text" bind-value="{{email}}">
       </div>
       <div class="field">
-        <input class="button" type="submit" value="reset">
+        <button class="btn btn-secondary" type="submit">reset</button>
       </div>
     </form>
 

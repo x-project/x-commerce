@@ -2,10 +2,13 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
+<link rel="import" href="../style-panel/style-panel.html">
+
 <link rel="import" href="form-signup.html">
 <dom-module id="page-signup">
   <template>
     <style include="layout-empty"></style>
+    <style include="style-panel"></style>
 
     <api-user-signup id="signup" collection="customers" credentials="{{credentials}}"
       on-response="on_response" on-error="on_error">

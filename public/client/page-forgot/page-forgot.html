@@ -1,10 +1,13 @@
 <link rel="import" href="../../components/api-user-reset/api-user-reset.html">
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
+<link rel="import" href="../style-panel/style-panel.html">
+
 <link rel="import" href="form-forgot.html">
 <dom-module id="page-forgot">
   <template>
     <style include="layout-empty"></style>
+    <style include="style-panel"></style>
 
     <api-user-reset id="reset" email="{{email}}"
       response="{{response}}" on-response="{{on_response}}">
@@ -12,7 +15,7 @@
 
     <layout-empty>
       <div class="center">
-        <div id="panel" class="container">
+        <div class="panel">
           <a is="app-link" href="/">&larr;</a>
           <h3>Forgot password</h3>
           <form-forgot on-submit="on_submit"></form-forgot>
