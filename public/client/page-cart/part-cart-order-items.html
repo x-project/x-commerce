@@ -28,7 +28,8 @@
     on_remove_product: function (event) {
       event.stopPropagation();
       var order_item = this.$.order_item.itemForElement(event.target);
-      this.splice('cart', order_item, 1)
+      var index = this.cart.indexOf(order_item);
+      this.splice('cart', index, 1);
       this.fire('update-cart');
     },
 

@@ -3,10 +3,8 @@
 <dom-module id="part-cart-order-detail">
   <template>
     <app-session id="session"></app-session>
-
     <style include="style-form"></style>
     <style include="style-button"></style>
-
     <style>
       .detail {
         display: none;
@@ -18,7 +16,6 @@
     <div class="detail" show$="{{show}}">
       <label class="label">Subtotal</label>
       <span>{{subtotal}}</span>
-
       <div>
         <button class="btn btn-secondary" on-click="on_click_checkout">checkout</button>
       </div>
@@ -52,6 +49,9 @@
     update_subtotal: function () {
       var sub_tot = 0;
       var cart = this.$.session.get('cart');
+      if (cart.length == 0) {
+        this.set('show', false);
+      }
       cart.forEach(function (item) {
         if(item.hasOwnProperty('variant')) {
           sub_tot += item.quantity * item.variant.price;

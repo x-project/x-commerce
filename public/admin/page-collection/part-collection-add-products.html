@@ -50,7 +50,6 @@
 
     on_try_delete_product: function (event) {
       var product = event.detail.product;
-      console.log(product);
       this.$.ajax_delete.url = '/api/collections/' + this.collection.id + '/products/rel/' + product.id;
       this.$.ajax_delete.generateRequest();
     },
