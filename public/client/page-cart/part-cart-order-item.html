@@ -12,31 +12,15 @@
     <style include="style-list"></style>
     <style include="style-basic"></style>
     <style include="style-label"></style>
-    <style>
-      .product_price {
-        display: none;
-      }
-      .product_price[price_product] {
-        display: inline-block;
-      }
-      .variant{
-        display: none;
-      }
-      .variant[visibile_variant] {
-        display: inline-block;
-      }
-    </style>
+
     <ul class="list-group">
       <li class="list-group-item">
         <span class="label label-default label-pill pull-right">{{quantity}}</span>
         <span>{{orderItem.product.title}}</span>
-        <span class="product_price" price_product$="{{price_product}}">
-          <span>{{orderItem.product.price}} $</span>
-        </span>
-        <span class="variant" visibile_variant$="{{visibile_variant}}">
+        <template is="dom-if" if="{{orderItem.variant}}">
           <span>{{orderItem.variant.name}}</span>
-          <span>{{orderItem.variant.price}} $</span>
-        </span>
+        </template>
+        <span>{{price}} $</span>
         <div class="btn-group" role="group" aria-label="First group">
           <button type="button" class="btn btn-secondary" on-click="on_click_decrease"> - </button>
           <button type="button" class="btn btn-secondary" on-click="on_click_increase"> + </button>
@@ -58,14 +42,6 @@
         type: Object,
         value: function () { return {}; }
       },
-      price_product: {
-        type: Boolean,
-        value: true
-      },
-      visibile_variant: {
-        type: Boolean,
-        value: false
-      },
       quantity: {
         type: Number,
         observer: '_on_change_quantity'
@@ -75,9 +51,10 @@
     attached: function () {
       this.quantity = this.orderItem.quantity;
       if (this.orderItem.variant) {
-        this.set('visibile_variant', true);
-        this.set('price_product', false);
+        this.price = this.orderItem.variant.price;
+        return;
       }
+      this.price = this.orderItem.product.price;
     },
 
     _on_change_quantity: function (value) {

@@ -9,9 +9,6 @@
     <style include="style-image"></style>
     <style include="style-button"></style>
     <style>
-      :host {
-        display: block;
-      }
       .whislist_description {
         display: none;
       }
@@ -20,7 +17,7 @@
       }
       .card {
         padding: 5px 10px;
-        margin: 10px 0px;
+        margin: 10px 10pxpx;
       }
     </style>
 
@@ -28,18 +25,17 @@
       <image-preview class="card-img-top img-responsive" image="{{favourite.product.images}}"
         like-size="120" width="30" height="100">
       </image-preview>
-
       <div class="card-block">
-        <h4 class="card-title">{{favourite.product.title}} {{favourite.product.price}} $</h4>
+        <span class="card-title">{{favourite.product.title}}</span>
         <template is="dom-if" if="{{favourite.product_variant}}">
-          ( <h4>{{favourite.product_variant.name}}</h4> )
+          <span>{{favourite.product_variant.name}}</span>
         </template>
-        <h4>{{favourite.description}}</h4>
+        <span>{{price}} $</span>
       </div>
       <div class="card-block">
-        <a href="/products/{{favourite.product_id}}" class="card-link">view</a>
         <button class="btn btn-secondary" on-click="on_click_remove">remove</button>
         <button class="btn btn-secondary" on-click="on_click_description">add description</button>
+        <button class="btn btn-secondary" on-click="on_click_view">view</button>
       </div>
     </div>
 
@@ -87,6 +83,11 @@
     on_add_description: function (event) {
       //bubble up - for add description
       this.set('visible', false);
+    },
+
+    on_click_view: function (event) {
+      event.stopPropagation();
+      page('/products/' + this.favourite.product_id);
     }
 
   });

@@ -46,7 +46,7 @@
       this.$.ajax_post.url = '/api/customers/' + customer.id + '/wishlists';
       this.$.ajax_post.body = JSON.stringify({
         product_id: this.product.id,
-        product_variant_id: (this.variant) ? variant.id : '',
+        product_variant_id: (this.variant) ? this.variant.id : '',
         customer_id: customer.id
       });
       this.$.ajax_post.generateRequest();
