@@ -1,9 +1,20 @@
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-button-group/style-button-group.html">
+
+<link rel="import" href="../style-card/style-card.html">
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="../style-basic/style-basic.html">
+<link rel="import" href="../style-label/style-label.html">
+
 <dom-module id="part-cart-order-item">
   <template>
+    <style include="style-button"></style>
+    <style include="style-button-group"></style>
+    <style include="style-card"></style>
+    <style include="style-list"></style>
+    <style include="style-basic"></style>
+    <style include="style-label"></style>
     <style>
-      :host {
-        display: block;
-      }
       .product_price {
         display: none;
       }
@@ -16,29 +27,29 @@
       .variant[visibile_variant] {
         display: inline-block;
       }
-
     </style>
 
-    <div class="item">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="label label-default label-pill pull-right">{{quantity}}</span>
+        <span>{{orderItem.product.title}}</span>
+        <span class="product_price" price_product$="{{price_product}}">
+          <span>{{orderItem.product.price}} $</span>
+        </span>
 
-      <label class="label">title</label>
-      <span>{{orderItem.product.title}}</span>
-      <span class="product_price" price_product$="{{price_product}}">
-        <label class="label">price</label>
-        <span>{{orderItem.product.price}}</span>
-      </span>
+        <span class="variant" visibile_variant$="{{visibile_variant}}">
+          <span>{{orderItem.variant.name}}</span>
+          <span>{{orderItem.variant.price}} $</span>
+        </span>
 
-      <span class="variant" visibile_variant$="{{visibile_variant}}">
-        <label class="label">variant</label>
-        <span>{{orderItem.variant.name}}</span>
-        <label class="label">price</label>
-        <span>{{orderItem.variant.price}}</span>
-      </span>
-
-      <input id="quantity" on-change="on_change_quantity" type="number"
-        min="1" max="{{orderItem.product.quantity}}" value="{{quantity}}">
-      <button on-click="on_click_remove">remove</button>
-    </div>
+        <div class="btn-group" role="group" aria-label="First group">
+          <button type="button" class="btn btn-secondary" on-click="on_click_decrease"> - </button>
+          <button type="button" class="btn btn-secondary" on-click="on_click_increase"> + </button>
+          <button type="button" class="btn btn-secondary" on-click="on_click_remove">remove</button>
+          <button type="button" class="btn btn-secondary" on-click="on_click_view">view</button>
+        </div>
+      </li>
+    </ul>
 
   </template>
 </dom-module>
@@ -59,6 +70,10 @@
       visibile_variant: {
         type: Boolean,
         value: false
+      },
+      quantity: {
+        type: Number,
+        observer: '_on_change_quantity'
       }
     },
 
@@ -70,13 +85,32 @@
       }
     },
 
-    on_change_quantity: function () {
-      this.fire('change-quantity', this.$.quantity.value);
+    _on_change_quantity: function (value) {
+      if (value <= 0) {
+        this.quantity = 1;
+      }
+    },
+
+    on_click_increase: function (event) {
+      event.stopPropagation();
+      this.quantity++;
+      this.fire('change-quantity', {order_item: this.orderItem, quantity: this.quantity});
+    },
+
+    on_click_decrease: function (event) {
+      event.stopPropagation();
+      this.quantity--;
+      this.fire('change-quantity', {order_item: this.orderItem, quantity: this.quantity});
     },
 
     on_click_remove: function (event) {
       event.stopPropagation();
       this.fire('remove-product');
+    },
+
+    on_click_view: function (event) {
+      event.stopPropagation();
+      page('/products/' + this.orderItem.product.id);
     }
 
   });

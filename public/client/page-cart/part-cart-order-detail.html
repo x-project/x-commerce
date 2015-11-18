@@ -1,18 +1,27 @@
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-button/style-button.html">
 <dom-module id="part-cart-order-detail">
   <template>
+    <app-session id="session"></app-session>
+
+    <style include="style-form"></style>
+    <style include="style-button"></style>
+
     <style>
-      :host {
+      .detail {
+        display: none;
+      }
+      .detail[show] {
         display: block;
       }
     </style>
+    <div class="detail" show$="{{show}}">
+      <label class="label">Subtotal</label>
+      <span>{{subtotal}}</span>
 
-    <app-session id="session"></app-session>
-
-    <label class="label">Subtotal</label>
-    <span>{{subtotal}}</span>
-
-    <div>
-      <button on-click="on_click_checkout">go for checkout</button>
+      <div>
+        <button class="btn btn-secondary" on-click="on_click_checkout">checkout</button>
+      </div>
     </div>
   </template>
 </dom-module>
@@ -24,12 +33,20 @@
     properties: {
       subtotal: {
         type: Number
+      },
+      show: {
+        type: Boolean,
+        value: true
       }
     },
 
     attached: function () {
-      if (this.$.session.get('cart').length > 0)
+      if (this.$.session.get('cart').length > 0){
         this.update_subtotal();
+        this.set('show', true);
+        return;
+      }
+      this.set('show', false);
     },
 
     update_subtotal: function () {
