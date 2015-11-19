@@ -299,6 +299,7 @@ module.exports = function (Order) {
   var braintree_checkout = function (data) {
     return function (next) {
       var transaction = gateway.transaction;
+      console.log(data.amount);
       var sale_data = {
         amount: 1,//data.amount
         paymentMethodNonce: data.payment_method_nonce,
@@ -412,7 +413,7 @@ module.exports = function (Order) {
   var create_invoice = function (data) {
     return function (next) {
       //TODO INVOICE
-      next();
+      next(null);
     };
   };
 
@@ -515,7 +516,7 @@ module.exports = function (Order) {
   Order.remoteMethod('get_client_token', {
     accepts: { arg: 'customer_id', type: 'string', required: true },
     returns: { arg: 'token', type: 'object' },
-    http: { verb: 'get', path:'/client_token' }
+    http: { verb: 'post', path:'/client_token' }
   });
 
   Order.remoteMethod('checkout_braintree', {
