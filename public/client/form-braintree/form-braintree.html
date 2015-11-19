@@ -24,13 +24,13 @@
     </style>
 
     <iron-ajax id="ajax_client_token" method="POST" handle-as="json"
-      content-type="application/json" last-response="{{client_token}}"
-      on-response="setup">
+      content-type="application/json" last-response="{{data_token}}"
+      on-response="on_response">
     </iron-ajax>
 
     <iframe id="iframe" name="form_sending" on-load="on_checkout"></iframe>
 
-    <form action="/api/Payments/checkout" id="form_card" method="post" target="form_sending">
+    <form action="/api/orders/checkout_braintree" id="form_card" method="post" target="form_sending">
       <div class="field">
         <label class="text-muted" for="card-number">Card Number</label>
         <input class="form-control card" type="text" data-braintree-name="number" value="378282246310005">
@@ -42,8 +42,9 @@
         <input class="form-control data-braintree" type="number"
           data-braintree-name="expiration_year" value="20">
       </div>
+
       <input type="hidden" name="data" value="{{data}}">
-      <button id="pay" type="submit" class="btn btn-success">confirm pay</button>
+      <input id="pay" type="submit" class="btn btn-success" value="pay">
     </form>
 
   </template>
@@ -80,6 +81,11 @@
       this.$.ajax_client_token.body = JSON.stringify({ customer_id: '1234' });
       this.$.ajax_client_token.url = '/api/orders/client_token';
       this.$.ajax_client_token.generateRequest();
+    },
+
+    on_response: function () {
+      this.client_token = this.data_token.token.clientToken;
+      this.setup();
     },
 
     setup: function () {

@@ -299,7 +299,6 @@ module.exports = function (Order) {
   var braintree_checkout = function (data) {
     return function (next) {
       var transaction = gateway.transaction;
-      console.log(data.amount);
       var sale_data = {
         amount: 1,//data.amount
         paymentMethodNonce: data.payment_method_nonce,
@@ -413,7 +412,7 @@ module.exports = function (Order) {
   var create_invoice = function (data) {
     return function (next) {
       //TODO INVOICE
-      next(null);
+      next();
     };
   };
 
