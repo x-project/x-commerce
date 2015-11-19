@@ -1,9 +1,17 @@
+<link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../style-alert/style-alert.html">
 <link rel="import" href="form-braintree.html">
 <dom-module id="braintree-payment">
   <template>
+    <style include="style-alert"></style>
 
-   <form-braintree on-client-token-error="on_client_token_error"
-    customer-id="{{customer_id}}"></form-braintree>
+    <form-braintree on-client-token-error="on_client_token_error"
+      customer-id="{{customer_id}}" on-success="on_success_payment">
+    </form-braintree>
+
+    <input-errors property="token" error="{{error.details}}"></input-errors>
+    <input-errors property="order" error="{{error.details}}"></input-errors>
+    <input-errors property="payment" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>
@@ -14,13 +22,61 @@
 
     properties: {
       customer_id: {
-        type:
+        type: String,
+        value: '1234'
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      //TODO CREATE BRAINTREE CUSTOMER & SET customer_id
     },
 
     on_client_token_error: function (event) {
       event.stopPropagation();
-    }
+      var custom_error = this.create_custom_err();
+      var error = event.detail;
+      if (error.name === 'notFoundError' && error.type === 'notFoundError'){
+        custom_error.details.messages.token.push('customer token not found!');
+        this.set('error', custom_error);
+        return;
+      }
+    },
+
+    on_success_payment: function (event) {
+      event.stopPropagation();
+      var res = event.detail;
+      if (Object.keys(res).length !== 0) {
+        res.result.complete.success = false;
+        if (res.result.complete.success && res.result.order.status === 'closed') {
+          this.fire('success', res);
+          return;
+        }
+        var custom_error = this.create_custom_err();
+        if (res.result.complete.success && res.result.order.status !== 'closed') {
+          custom_error.details.messages.order.push('payment complete on success - error on closed order');
+          this.set('error', custom_error);
+        }
+        if (!res.result.complete.success) {
+          custom_error.details.messages.payment.push('error on payment');
+          this.set('error', custom_error);
+        }
+        return;
+      }
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.token = [];
+      error.details.messages.payment = [];
+      error.details.messages.order = [];
+      return error;
+    },
 
   });
 </script>

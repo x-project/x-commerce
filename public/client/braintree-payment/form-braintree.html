@@ -1,5 +1,3 @@
-<link rel="import" href="/components/polymer/polymer.html">
-<link rel="import" href="/components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/components/app-session/app-session.html">
 <link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="../style-basic/style-basic.html">
@@ -23,12 +21,6 @@
       }
     </style>
 
-    <iron-ajax id="ajax_client_token" method="POST" handle-as="json"
-      content-type="application/json" last-response="{{data_token}}"
-      on-response="on_response" on-error="on_error_client_token"
-      last-error="{{client_token_error}}">
-    </iron-ajax>
-
     <iframe id="iframe" name="form_sending" on-load="on_checkout"></iframe>
 
     <form action="/api/orders/checkout" id="form_card" method="post" target="form_sending">
@@ -50,7 +42,10 @@
 
   </template>
 </dom-module>
+
 <script src="/components/braintree-web/dist/braintree.js"></script>
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -66,7 +61,6 @@
       client_token: {
         type: String
       },
-
       customerId: {
         type: String
       }
@@ -82,22 +76,27 @@
       data.coupon = this.$.session.get('coupon');
       data.customer_token = this.$.session.get('token');
       this.data = JSON.stringify(data);
-
-      this.$.ajax_client_token.body = JSON.stringify({ customer_id: this.customerId });
-      this.$.ajax_client_token.url = '/api/orders/client_token';
-      this.$.ajax_client_token.generateRequest();
+      this.get_client_token_model();
     },
 
-    on_response: function () {
-      this.client_token = this.data_token.token.clientToken;
+
+    get_client_token_model: function () {
+      Model.create('/api/orders/client_token', { customer_id: this.customerId })
+      .then(function (data) {
+        this.on_response_get_client_token(data);
+      }.bind(this))
+      .catch(function (error) {
+        this.on_error_client_token(error);
+      }.bind(this));
+    },
+
+    on_response_get_client_token: function (data) {
+      this.client_token = data.token.clientToken;
       this.setup();
     },
 
-    on_error_client_token: function (event) {
-      event.stopPropagation();
-      console.log();
-      this.fire('client-token-error', client_token_error);
-
+    on_error_client_token: function (error) {
+      this.fire('client-token-error', error);
     },
 
     setup: function () {
@@ -114,7 +113,7 @@
         checkout = null;
         console.warn(e);
       }
-      this.checkout = checkout;
+      this.fire('success', checkout);
     }
 
   });

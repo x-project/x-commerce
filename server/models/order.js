@@ -298,7 +298,6 @@ module.exports = function (Order) {
   var braintree_checkout = function (data) {
     return function (next) {
       var transaction = gateway.transaction;
-      console.log('amount: '+ data.amount);
       var sale_data = {
         amount: 1,//data.amount
         paymentMethodNonce: data.payment_method_nonce,
