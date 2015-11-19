@@ -25,7 +25,8 @@
 
     <iron-ajax id="ajax_client_token" method="POST" handle-as="json"
       content-type="application/json" last-response="{{data_token}}"
-      on-response="on_response">
+      on-response="on_response" on-error="on_error_client_token"
+      last-error="{{client_token_error}}">
     </iron-ajax>
 
     <iframe id="iframe" name="form_sending" on-load="on_checkout"></iframe>
@@ -64,6 +65,10 @@
       },
       client_token: {
         type: String
+      },
+
+      customerId: {
+        type: String
       }
     },
 
@@ -78,7 +83,7 @@
       data.customer_token = this.$.session.get('token');
       this.data = JSON.stringify(data);
 
-      this.$.ajax_client_token.body = JSON.stringify({ customer_id: '1234' });
+      this.$.ajax_client_token.body = JSON.stringify({ customer_id: this.customerId });
       this.$.ajax_client_token.url = '/api/orders/client_token';
       this.$.ajax_client_token.generateRequest();
     },
@@ -86,6 +91,13 @@
     on_response: function () {
       this.client_token = this.data_token.token.clientToken;
       this.setup();
+    },
+
+    on_error_client_token: function (event) {
+      event.stopPropagation();
+      console.log();
+      this.fire('client-token-error', client_token_error);
+
     },
 
     setup: function () {

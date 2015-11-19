@@ -1,4 +1,4 @@
-<link rel="import" href="../form-braintree/form-braintree.html">
+<link rel="import" href="../braintree-payment/braintree-payment.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
@@ -23,7 +23,7 @@
         <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
           on-change-address="on_change_address">
         </part-summary-order-detail>
-        <form-braintree id="braintree" on-success="on_success_pay"></form-braintree>
+        <braintree-payment id="braintree" on-success="on_success_pay"></braintree-payment>
         <!-- <form-stripe id="stripe"></form-stripe> -->
       </div>
     </layout-client>

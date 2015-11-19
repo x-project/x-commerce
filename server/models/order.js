@@ -142,7 +142,6 @@ module.exports = function (Order) {
 
   Order.prepare_order_review = function (data) {
     return function (next) {
-      console.log(data);
       if (!data.payment_status) {
         next();
         return;
@@ -299,6 +298,7 @@ module.exports = function (Order) {
   var braintree_checkout = function (data) {
     return function (next) {
       var transaction = gateway.transaction;
+      console.log('amount: '+ data.amount);
       var sale_data = {
         amount: 1,//data.amount
         paymentMethodNonce: data.payment_method_nonce,
@@ -424,8 +424,6 @@ module.exports = function (Order) {
 
   Order.checkout_braintree = function (payment_method_nonce, input_data, callback) {
     var data = {};
-    console.log("hello");
-    console.log(payment_method_nonce, input_data);
 
     data.cart = JSON.parse(input_data.cart);
     data.payment_method_nonce = payment_method_nonce;
@@ -466,7 +464,6 @@ module.exports = function (Order) {
 
   var stripe_checkout = function (data) {
     return function (next) {
-      console.log(1*100);
       var charge = stripe.charges.create({
           amount: 1 * 100,//data.amount * 100
           currency: "eur",

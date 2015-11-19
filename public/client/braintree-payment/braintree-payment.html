@@ -1,0 +1,26 @@
+<link rel="import" href="form-braintree.html">
+<dom-module id="braintree-payment">
+  <template>
+
+   <form-braintree on-client-token-error="on_client_token_error"
+    customer-id="{{customer_id}}"></form-braintree>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'braintree-payment',
+
+    properties: {
+      customer_id: {
+        type:
+      }
+    },
+
+    on_client_token_error: function (event) {
+      event.stopPropagation();
+    }
+
+  });
+</script>
