@@ -470,7 +470,7 @@ module.exports = function (Order) {
           description: "my first faker payment"
         },
         function(err, charge) {
-          // console.log(charge);
+          console.log(charge);
           if (err && err.type === 'StripeCardError') {
             next(err, null);
           }
@@ -493,7 +493,7 @@ module.exports = function (Order) {
       get_customer(data),
       prepare_order(data),
       stripe_checkout(data),
-      Order.prepare_order_review(data)
+      // Order.prepare_order_review(data)
       // Order.try_close_order(data),
       // Order.save_payment(data),
       // create_invoice(data),

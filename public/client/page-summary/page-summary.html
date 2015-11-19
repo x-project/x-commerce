@@ -1,8 +1,8 @@
-<link rel="import" href="../braintree-payment/braintree-payment.html">
+<link rel="import" href="../payment-braintree/payment-braintree.html">
+<link rel="import" href="../payment-stripe/payment-stripe.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../form-stripe/form-stripe.html">
 <link rel="import" href="part-summary-order-detail.html">
 <dom-module id="page-summary">
   <template>
@@ -23,8 +23,8 @@
         <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
           on-change-address="on_change_address">
         </part-summary-order-detail>
-        <braintree-payment id="braintree" on-success="on_success_pay"></braintree-payment>
-        <!-- <form-stripe id="stripe"></form-stripe> -->
+        <!-- <payment-braintree id="braintree" on-success="on_success_pay"></payment-braintree> -->
+        <payment-stripe id="stripe"></payment-stripe>
       </div>
     </layout-client>
 

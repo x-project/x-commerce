@@ -1,24 +1,25 @@
 <link rel="import" href="../input-errors/input-errors.html">
-<link rel="import" href="../style-alert/style-alert.html">
+<link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-braintree.html">
-<dom-module id="braintree-payment">
+<dom-module id="payment-braintree">
   <template>
     <style include="style-alert"></style>
+    <style include="style-panel"></style>
+    <div class="panel">
+      <form-braintree on-client-token-error="on_client_token_error"
+        customer-id="{{customer_id}}" on-success="on_success_payment">
+      </form-braintree>
 
-    <form-braintree on-client-token-error="on_client_token_error"
-      customer-id="{{customer_id}}" on-success="on_success_payment">
-    </form-braintree>
-
-    <input-errors property="token" error="{{error.details}}"></input-errors>
-    <input-errors property="order" error="{{error.details}}"></input-errors>
-    <input-errors property="payment" error="{{error.details}}"></input-errors>
-
+      <input-errors property="token" error="{{error.details}}"></input-errors>
+      <input-errors property="order" error="{{error.details}}"></input-errors>
+      <input-errors property="payment" error="{{error.details}}"></input-errors>
+    </div>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'braintree-payment',
+    is: 'payment-braintree',
 
     properties: {
       customer_id: {
@@ -50,7 +51,6 @@
       event.stopPropagation();
       var res = event.detail;
       if (Object.keys(res).length !== 0) {
-        res.result.complete.success = false;
         if (res.result.complete.success && res.result.order.status === 'closed') {
           this.fire('success', res);
           return;
