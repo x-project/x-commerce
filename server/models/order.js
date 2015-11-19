@@ -37,6 +37,8 @@ taxjar.taxForOrder({
 
 module.exports = function (Order) {
 
+  Order.payment_systems =  Order.payment_systems || {};
+
   var destroy_order_items = function (data) {
     return function (next) {
       data.order.order_items.destroyAll( function (err, res) {
@@ -140,36 +142,36 @@ module.exports = function (Order) {
     };
   };
 
-  Order.prepare_order_review = function (data) {
-    return function (next) {
-      if (!data.payment_status) {
-        next();
-        return;
-      }
-      if (data.payment_status.transaction.status !== 'submitted_for_settlement') {
-        next();
-        return;
-      }
-      if(data.payment_status.transaction.status === 'submitted_for_settlement') {
-        var reviews = [];
-        var review;
-        data.cart.forEach( function (item) {
-          review = {};
-          review.customer_id = data.customer.id;
-          review.product_id = item.product_id;
-          review.closed = false;
-          review.title = '';
-          review.text = '';
-          review.rating = 0;
-          reviews.push(review);
-        });
-        Order.app.models.Review.create(reviews, function (err, model) {
-          setImmediate(next, err);
-          return;
-        });
-      }
-    };
-  };
+  // Order.prepare_order_review = function (data) {
+  //   return function (next) {
+  //     if (!data.payment_status) {
+  //       next();
+  //       return;
+  //     }
+  //     if (data.payment_status.transaction.status !== 'submitted_for_settlement') {
+  //       next();
+  //       return;
+  //     }
+  //     if(data.payment_status.transaction.status === 'submitted_for_settlement') {
+  //       var reviews = [];
+  //       var review;
+  //       data.cart.forEach( function (item) {
+  //         review = {};
+  //         review.customer_id = data.customer.id;
+  //         review.product_id = item.product_id;
+  //         review.closed = false;
+  //         review.title = '';
+  //         review.text = '';
+  //         review.rating = 0;
+  //         reviews.push(review);
+  //       });
+  //       Order.app.models.Review.create(reviews, function (err, model) {
+  //         setImmediate(next, err);
+  //         return;
+  //       });
+  //     }
+  //   };
+  // };
 
   var create_order = function (data) {
     return function (next) {
@@ -387,27 +389,6 @@ module.exports = function (Order) {
     };
   };
 
-  Order.try_close_order =  function (data) {
-    return function (next) {
-      if(!data.payment_status) {
-        next();
-        return;
-      }
-      if(data.payment_status.transaction.status !== 'submitted_for_settlement'){
-        next();
-        return;
-      }
-      if(data.payment_status.transaction.status === 'submitted_for_settlement') {
-        data.order.status = 'closed';
-        Order.upsert(data.order, function (err, model) {
-          data.order = model;
-          setImmediate(next, err);
-          return;
-        });
-      }
-    };
-  };
-
   var create_invoice = function (data) {
     return function (next) {
       //TODO INVOICE
@@ -421,9 +402,55 @@ module.exports = function (Order) {
       data.customer_token === null || data.customer_token === undefined || data.customer_token.length <= 0);
   };
 
+  Order.try_close_order = function (data) {
+    return function (next) {
+      switch(data.payment_system) {
+        case 'braintree':
+          if(!data.payment_status) {
+            next();
+            return;
+          }
+          if(data.payment_status.transaction.status !== 'submitted_for_settlement'){
+            next();
+            return;
+          }
+          if(data.payment_status.transaction.status === 'submitted_for_settlement') {
+            data.order.status = 'closed';
+            Order.upsert(data.order, function (err, model) {
+              data.order = model;
+              setImmediate(next, err);
+              return;
+            });
+          }
+          break;
+        case 'stripe':
+          if (!data.stripe_payment_status) {
+            next();
+            return;
+          }
+          if (data.stripe_payment_status.status !== 'succeeded') {
+            next();
+            return;
+          }
+          if(data.stripe_payment_status.status === 'succeeded') {
+            data.order.status = 'closed';
+            Order.upsert(data.order, function (err, model) {
+              data.order = model;
+              setImmediate(next, err);
+              return;
+            });
+          }
+          break;
+        default:
+          next();
+      }
+    };
+  };
+
+
   Order.checkout_braintree = function (payment_method_nonce, input_data, callback) {
     var data = {};
-
+    data.payment_system = 'braintree';
     data.cart = JSON.parse(input_data.cart);
     data.payment_method_nonce = payment_method_nonce;
     data.coupon = input_data.coupon;
@@ -441,11 +468,11 @@ module.exports = function (Order) {
       prepare_order(data),
       braintree_checkout(data),
       Order.prepare_order_review(data),
-      Order.try_close_order(data),
-      Order.save_payment(data),
-      create_invoice(data),
-      create_fail_task(data),
-      prepare_response(data)
+      Order.try_close_order(data)
+      // Order.save_payment(data),
+      // create_invoice(data),
+      // create_fail_task(data),
+      // prepare_response(data)
     ],
 
     function (err) {
@@ -469,19 +496,83 @@ module.exports = function (Order) {
           source: data.stripe_token,
           description: "my first faker payment"
         },
-        function(err, charge) {
-          console.log(charge);
+        function (err, charge) {
           if (err && err.type === 'StripeCardError') {
-            next(err, null);
+            data.stripe_payment_status = 'card_declined';
+            setImmediate(next, err);
+            return;
           }
-          next(null, charge);
+          data.stripe_payment_status = charge;
+          setImmediate(next, null);
         }
       );
     };
   };
 
+  var get_reviews = function (data) {
+    var reviews = [];
+    var review;
+    data.cart.forEach( function (item) {
+      review = {};
+      review.customer_id = data.customer.id;
+      review.product_id = item.product_id;
+      review.closed = false;
+      review.title = '';
+      review.text = '';
+      review.rating = 0;
+      reviews.push(review);
+    });
+    return reviews;
+  };
+
+
+  Order.prepare_order_review = function (data) {
+    return function (next) {
+      switch(data.payment_system) {
+        case 'braintree':
+          if (!data.payment_status) {
+            next();
+            return;
+          }
+          if (data.payment_status.transaction.status !== 'submitted_for_settlement') {
+            next();
+            return;
+          }
+          if(data.payment_status.transaction.status === 'submitted_for_settlement') {
+            var reviews = get_reviews(data);
+            Order.app.models.Review.create(reviews, function (err, model) {
+              setImmediate(next, err);
+              return;
+            });
+          }
+          break;
+        case 'stripe':
+          if (!data.stripe_payment_status) {
+            next();
+            return;
+          }
+          if (data.stripe_payment_status.status !== 'succeeded') {
+            next();
+            return;
+          }
+          if(data.stripe_payment_status.status === 'succeeded') {
+            var reviews = get_reviews(data);
+            Order.app.models.Review.create(reviews, function (err, models) {
+              setImmediate(next, err);
+              return
+            });
+          }
+          break;
+        default:
+          next();
+      }
+    };
+  };
+
+
   Order.checkout_stripe = function (input_data, token, callback) {
     var data = {};
+    data.payment_system = 'stripe';
     data.cart = JSON.parse(input_data.cart);
     data.coupon = input_data.coupon;
     data.customer_token = input_data.customer_token;
@@ -493,8 +584,8 @@ module.exports = function (Order) {
       get_customer(data),
       prepare_order(data),
       stripe_checkout(data),
-      // Order.prepare_order_review(data)
-      // Order.try_close_order(data),
+      Order.prepare_order_review(data),
+      Order.try_close_order(data)
       // Order.save_payment(data),
       // create_invoice(data),
       // create_fail_task(data),

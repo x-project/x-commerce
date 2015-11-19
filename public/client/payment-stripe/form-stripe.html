@@ -80,9 +80,9 @@
 
     attached: function () {
       var data = {};
+      data.cart = JSON.stringify(this.$.session.get('cart'));
       data.coupon = this.$.session.get('coupon');
       data.customer_token = this.$.session.get('token');
-      data.cart = JSON.stringify(this.$.session.get('cart'));
       this.data = JSON.stringify(data);
       var self = this;
       var stripe_response = function (status, response) {
