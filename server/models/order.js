@@ -424,6 +424,9 @@ module.exports = function (Order) {
 
   Order.checkout_braintree = function (payment_method_nonce, input_data, callback) {
     var data = {};
+    console.log("hello");
+    console.log(payment_method_nonce, input_data);
+
     data.cart = JSON.parse(input_data.cart);
     data.payment_method_nonce = payment_method_nonce;
     data.coupon = input_data.coupon;

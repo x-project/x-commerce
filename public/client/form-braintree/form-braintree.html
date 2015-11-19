@@ -30,7 +30,7 @@
 
     <iframe id="iframe" name="form_sending" on-load="on_checkout"></iframe>
 
-    <form action="/api/orders/checkout_braintree" id="form_card" method="post" target="form_sending">
+    <form action="/api/orders/checkout" id="form_card" method="post" target="form_sending">
       <div class="field">
         <label class="text-muted" for="card-number">Card Number</label>
         <input class="form-control card" type="text" data-braintree-name="number" value="378282246310005">
@@ -40,7 +40,7 @@
         <input class="form-control data-braintree" type="number"
           data-braintree-name="expiration_month" value="1">
         <input class="form-control data-braintree" type="number"
-          data-braintree-name="expiration_year" value="20">
+          data-braintree-name="expiration_year" value="2020">
       </div>
 
       <input type="hidden" name="data" value="{{data}}">
