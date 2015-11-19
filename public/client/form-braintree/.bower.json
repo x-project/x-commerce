@@ -1,0 +1,26 @@
+{
+  "name": "form-braintree",
+  "description": "form for Braintree",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0",
+    "braintree-web": "braintree/braintree-web#^2.0"
+  },
+  "keywords": [
+    "web-components",
+    "form",
+    "braintree",
+    "credit-card",
+    "pay",
+    "payment"
+  ],
+  "homepage": "https://github.com/x-element/form-braintree",
+  "_release": "496fdf15d6",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "496fdf15d606362d0b2452d65cc8f3ef0c7bbcb1"
+  },
+  "_source": "git://github.com/x-element/form-braintree.git",
+  "_target": "*",
+  "_originalSource": "x-element/form-braintree"
+}
