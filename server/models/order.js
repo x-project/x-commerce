@@ -254,46 +254,46 @@ module.exports = function (Order) {
 
   Order.save_payment = function (data) {
     return function (next) {
-      var prefix = data.payment_status;
-      if (!prefix) {
-        next();
-        return;
-      }
-      if (prefix.transaction.status !== 'submitted_for_settlement') {
-        next();
-        return;
-      }
-      if (prefix.transaction.status === 'submitted_for_settlement') {
-        var data_payment = {
-          success: prefix.success,
-          tras_id: prefix.transaction.id,
-          status: prefix.transaction.status,
-          amount: prefix.transaction.amount,
-          bin: prefix.transaction.creditCard.bin,
-          cardType: prefix.transaction.creditCard.cardType,
-          customerLocation: prefix.transaction.creditCard.customerLocation,
-          debit: prefix.transaction.creditCard.debit,
-          expirationDate: prefix.transaction.creditCard.expirationDate,
-          expirationMonth: prefix.transaction.creditCard.expirationMonth,
-          expirationYear: prefix.transaction.creditCard.expirationYear,
-          maskedNumber: prefix.transaction.creditCard.maskedNumber,
-          last4: prefix.transaction.creditCard.last4,
-          issuingBank: prefix.transaction.creditCard.issuingBank,
-          createdAt: prefix.transaction.createdAt,
-          merchantAccountId: prefix.transaction.merchantAccountId,
-          paymentInstrumentType: prefix.transaction.paymentInstrumentType,
-          processorAuthorizationCode: prefix.transaction.processorAuthorizationCode,
-          processorResponseCode: prefix.transaction.processorResponseCode,
-          processorResponseText: prefix.transaction.processorResponseText,
-          updatedAt: prefix.transaction.updatedAt,
-          type: prefix.transaction.type,
-          statusHistory: prefix.transaction.statusHistory
-        };
-        data.order.payments.create(data_payment, function (err, model) {
-          setImmediate(next, err);
-          return;
-        });
-      }
+      // var prefix = data.payment_status;
+      // if (!prefix) {
+      //   next();
+      //   return;
+      // }
+      // if (prefix.transaction.status !== 'submitted_for_settlement') {
+      //   next();
+      //   return;
+      // }
+      // if (prefix.transaction.status === 'submitted_for_settlement') {
+      //   var data_payment = {
+      //     success: prefix.success,
+      //     tras_id: prefix.transaction.id,
+      //     status: prefix.transaction.status,
+      //     amount: prefix.transaction.amount,
+      //     bin: prefix.transaction.creditCard.bin,
+      //     cardType: prefix.transaction.creditCard.cardType,
+      //     customerLocation: prefix.transaction.creditCard.customerLocation,
+      //     debit: prefix.transaction.creditCard.debit,
+      //     expirationDate: prefix.transaction.creditCard.expirationDate,
+      //     expirationMonth: prefix.transaction.creditCard.expirationMonth,
+      //     expirationYear: prefix.transaction.creditCard.expirationYear,
+      //     maskedNumber: prefix.transaction.creditCard.maskedNumber,
+      //     last4: prefix.transaction.creditCard.last4,
+      //     issuingBank: prefix.transaction.creditCard.issuingBank,
+      //     createdAt: prefix.transaction.createdAt,
+      //     merchantAccountId: prefix.transaction.merchantAccountId,
+      //     paymentInstrumentType: prefix.transaction.paymentInstrumentType,
+      //     processorAuthorizationCode: prefix.transaction.processorAuthorizationCode,
+      //     processorResponseCode: prefix.transaction.processorResponseCode,
+      //     processorResponseText: prefix.transaction.processorResponseText,
+      //     updatedAt: prefix.transaction.updatedAt,
+      //     type: prefix.transaction.type,
+      //     statusHistory: prefix.transaction.statusHistory
+      //   };
+      //   data.order.payments.create(data_payment, function (err, model) {
+      //     setImmediate(next, err);
+      //     return;
+      //   });
+      // }
     };
   };
 
@@ -324,6 +324,26 @@ module.exports = function (Order) {
     };
   };
 
+
+  var get_task_braintree = function (data) {
+    var date_now = moment().format().split('+')[0] + 'Z';
+    var task = {
+      data: {
+        order_id: data.order.id,
+        transaction_id: data.payment_status.transaction.id,
+        customer_id: data.customer.id,
+        error: 'data.payment_status'
+      },
+      handler: 'retry_payment',
+      created_at: date_now,
+      priority: 'medium',
+      last_retry_at: date_now,
+      retry_count: 1,
+      done: false
+    };
+    return task;
+  };
+
   var create_fail_task = function (data) {
     return function (next) {
       if (!data.payment_status) {
@@ -335,22 +355,7 @@ module.exports = function (Order) {
         return;
       }
       if (!data.payment_status.success) {
-        var date_now = moment().format().split('+')[0] + 'Z';
-        var task = {
-          data: {
-            order_id: data.order.id,
-            transaction_id: data.payment_status.transaction.id,
-            customer_id: data.customer.id,
-            error: 'data.payment_status'
-          },
-          handler: 'retry_payment',
-          created_at: date_now,
-          priority: 'medium',
-          last_retry_at: date_now,
-          retry_count: 1,
-          done: true
-        };
-        Order.app.models.Task.create(task, function (err, model) {
+        Order.app.models.Task.create(get_task_braintree(data), function (err, model) {
           setImmediate(next, err);
           return;
         });
@@ -400,6 +405,86 @@ module.exports = function (Order) {
     return (data.cart.length <= 0 || data.payment_method_nonce === null ||
       data.payment_method_nonce === undefined ||data. payment_method_nonce.length <= 0 ||
       data.customer_token === null || data.customer_token === undefined || data.customer_token.length <= 0);
+  };
+
+  // var get_payment_info_braintree = function (data) {
+  //   var prefix = data.payment_status;
+  //   var data_payment = {
+  //     success: prefix.success,
+  //     tras_id: prefix.transaction.id,
+  //     status: prefix.transaction.status,
+  //     amount: prefix.transaction.amount,
+  //     bin: prefix.transaction.creditCard.bin,
+  //     cardType: prefix.transaction.creditCard.cardType,
+  //     customerLocation: prefix.transaction.creditCard.customerLocation,
+  //     debit: prefix.transaction.creditCard.debit,
+  //     expirationDate: prefix.transaction.creditCard.expirationDate,
+  //     expirationMonth: prefix.transaction.creditCard.expirationMonth,
+  //     expirationYear: prefix.transaction.creditCard.expirationYear,
+  //     maskedNumber: prefix.transaction.creditCard.maskedNumber,
+  //     last4: prefix.transaction.creditCard.last4,
+  //     issuingBank: prefix.transaction.creditCard.issuingBank,
+  //     createdAt: prefix.transaction.createdAt,
+  //     merchantAccountId: prefix.transaction.merchantAccountId,
+  //     paymentInstrumentType: prefix.transaction.paymentInstrumentType,
+  //     processorAuthorizationCode: prefix.transaction.processorAuthorizationCode,
+  //     processorResponseCode: prefix.transaction.processorResponseCode,
+  //     processorResponseText: prefix.transaction.processorResponseText,
+  //     updatedAt: prefix.transaction.updatedAt,
+  //     type: prefix.transaction.type,
+  //     statusHistory: prefix.transaction.statusHistory
+  //   };
+  //   return data_payment;
+  // };
+
+  // var get_payment_info_stripe = function (data) {
+  //   var prefix = data.stripe_payment_status;
+  //   console.log(prefix);
+
+  // };
+
+
+  Order.save_payment = function (data) {
+    return function (next) {
+      switch(data.payment_system) {
+        case 'braintree':
+          if(!data.payment_status) {
+            next();
+            return;
+          }
+          if(data.payment_status.transaction.status !== 'submitted_for_settlement'){
+            next();
+            return;
+          }
+          if(data.payment_status.transaction.status === 'submitted_for_settlement') {
+            var payment = { payment_method: data.payment_system, payment: data.payment_status};
+            data.order.payments.create(payment, function (err, model) {
+              setImmediate(next, err);
+              return;
+            });
+          }
+          break;
+        case 'stripe':
+          if (!data.stripe_payment_status) {
+            next();
+            return;
+          }
+          if (data.stripe_payment_status.status !== 'succeeded') {
+            next();
+            return;
+          }
+          if(data.stripe_payment_status.status === 'succeeded') {
+            var payment = { payment_method: data.payment_system, payment: data.stripe_payment_status};
+            data.order.payments.create(payment, function (err, model) {
+              setImmediate(next, err);
+              return;
+            });
+          }
+          break;
+        default:
+          next();
+      }
+    };
   };
 
   Order.try_close_order = function (data) {
@@ -549,10 +634,10 @@ module.exports = function (Order) {
       prepare_order(data),
       braintree_checkout(data),
       Order.prepare_order_review(data),
-      Order.try_close_order(data)
-      // Order.save_payment(data),
+      Order.try_close_order(data),
+      Order.save_payment(data),
       // create_invoice(data),
-      // create_fail_task(data),
+      create_fail_task(data)
       // prepare_response(data)
     ],
 
@@ -585,8 +670,8 @@ module.exports = function (Order) {
       prepare_order(data),
       stripe_checkout(data),
       Order.prepare_order_review(data),
-      Order.try_close_order(data)
-      // Order.save_payment(data),
+      Order.try_close_order(data),
+      Order.save_payment(data)
       // create_invoice(data),
       // create_fail_task(data),
       // prepare_response(data)

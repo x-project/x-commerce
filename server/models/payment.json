@@ -6,62 +6,11 @@
   },
   "base": "PersistedModel",
   "properties": {
-    "tras_id": {
+    "payment_method": {
       "type": "String"
     },
-    "amount": {
-      "type": "Number"
-    },
-    "cardType": {
-      "type": "String"
-    },
-    "customerLocation": {
-      "type": "String"
-    },
-    "expirationDate": {
-      "type": "String"
-    },
-    "expirationMonth": {
-      "type": "String"
-    },
-    "expirationYear": {
-      "type": "String"
-    },
-    "maskedNumber": {
-      "type": "String"
-    },
-    "createdAt": {
-      "type": "Date"
-    },
-    "merchantAccountId": {
-      "type": "String"
-    },
-    "paymentInstrumentType": {
-      "type": "String"
-    },
-    "processorAuthorizationCode": {
-      "type": "String"
-    },
-    "processorResponseText": {
-      "type": "String"
-    },
-    "processorResponseCode":{
-      "type": "String"
-    },
-    "status": {
-      "type": "String"
-    },
-    "success": {
-      "type": "Boolean"
-    },
-    "updatedAt": {
-      "type": "Date"
-    },
-    "type": {
-      "type": "String"
-    },
-    "statusHistory": {
-      "type": ["object"]
+    "payment": {
+      "type": "Object"
     }
   },
   "validations": [],
