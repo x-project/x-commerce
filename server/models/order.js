@@ -448,46 +448,6 @@ module.exports = function (Order) {
   };
 
 
-  Order.checkout_braintree = function (payment_method_nonce, input_data, callback) {
-    var data = {};
-    data.payment_system = 'braintree';
-    data.cart = JSON.parse(input_data.cart);
-    data.payment_method_nonce = payment_method_nonce;
-    data.coupon = input_data.coupon;
-    data.customer_token = input_data.customer_token;
-    data.data_client_response = {};
-
-    if (check_pre_condition(data)) {
-      data.data_client_response.error = 'invalid input'
-      callback(null, {err: data.data_client_response.error});
-      return;
-    }
-    async.waterfall([
-      get_access_token_customer(data),
-      get_customer(data),
-      prepare_order(data),
-      braintree_checkout(data),
-      Order.prepare_order_review(data),
-      Order.try_close_order(data)
-      // Order.save_payment(data),
-      // create_invoice(data),
-      // create_fail_task(data),
-      // prepare_response(data)
-    ],
-
-    function (err) {
-      if (err) {
-        callback(err, null);
-        return;
-      }
-      callback(null, {
-        err: data.data_client_response.error,
-        order: data.data_client_response.order,
-        complete: data.data_client_response.complete
-      });
-    });
-  };
-
   var stripe_checkout = function (data) {
     return function (next) {
       var charge = stripe.charges.create({
@@ -567,6 +527,46 @@ module.exports = function (Order) {
           next();
       }
     };
+  };
+
+  Order.checkout_braintree = function (payment_method_nonce, input_data, callback) {
+    var data = {};
+    data.payment_system = 'braintree';
+    data.cart = JSON.parse(input_data.cart);
+    data.payment_method_nonce = payment_method_nonce;
+    data.coupon = input_data.coupon;
+    data.customer_token = input_data.customer_token;
+    data.data_client_response = {};
+
+    if (check_pre_condition(data)) {
+      data.data_client_response.error = 'invalid input'
+      callback(null, {err: data.data_client_response.error});
+      return;
+    }
+    async.waterfall([
+      get_access_token_customer(data),
+      get_customer(data),
+      prepare_order(data),
+      braintree_checkout(data),
+      Order.prepare_order_review(data),
+      Order.try_close_order(data)
+      // Order.save_payment(data),
+      // create_invoice(data),
+      // create_fail_task(data),
+      // prepare_response(data)
+    ],
+
+    function (err) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, {
+        err: data.data_client_response.error,
+        order: data.data_client_response.order,
+        complete: data.data_client_response.complete
+      });
+    });
   };
 
 
