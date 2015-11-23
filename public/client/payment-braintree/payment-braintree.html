@@ -51,16 +51,16 @@
       event.stopPropagation();
       var res = event.detail;
       if (Object.keys(res).length !== 0) {
-        if (res.result.complete.success && res.result.order.status === 'closed') {
+        if (res.result.success && res.result.order.status === 'closed') {
           this.fire('success', res);
           return;
         }
         var custom_error = this.create_custom_err();
-        if (res.result.complete.success && res.result.order.status !== 'closed') {
+        if (res.result.success && res.result.order.status !== 'closed') {
           custom_error.details.messages.order.push('payment complete on success - error on closed order');
           this.set('error', custom_error);
         }
-        if (!res.result.complete.success) {
+        if (!res.result.success) {
           custom_error.details.messages.payment.push('error on payment');
           this.set('error', custom_error);
         }

@@ -1,0 +1,27 @@
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="part-store-actions">
+  <template>
+    <style include="style-form"></style>
+    <style>
+      :host {
+        display: block;
+        margin-bottom: 20px;
+      }
+    </style>
+
+    <input type="submit" class="button" value="save" on-click="on_click_save">
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-store-actions',
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
+    }
+
+  });
+</script>

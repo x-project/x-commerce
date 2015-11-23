@@ -5,7 +5,7 @@
 <link rel="import" href="part-store-header.html">
 <link rel="import" href="part-store-info.html">
 <link rel="import" href="part-store-contact.html">
-<link rel="import" href="part-store-save.html">
+<link rel="import" href="part-store-actions.html">
 <link rel="import" href="part-store-edit.html">
 <link rel="import" href="part-store-policy.html">
 <dom-module id="page-store">
@@ -16,11 +16,10 @@
       collection="stores" model-id="{{data.store.id}}" data="{{data.store}}">
     </api-model-update>
 
-    <layout-admin>
+    <layout-admin on-try-save="on_try_save">
       <h1>Store</h1>
       <part-store-header store="{{data.store}}"></part-store-header>
-      <part-store-save on-try-save="on_try_save"></part-store-save>
-      <part-store-edit on-try-save="on_try_edit"></part-store-edit>
+      <part-store-actions></part-store-actions>
       <part-store-info store="{{data.store}}"></part-store-info>
       <part-store-contact store="{{data.store}}"></part-store-contact>
       <part-store-policy store="{{data.store}}"></part-store-policy>

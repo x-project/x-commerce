@@ -1,46 +1,60 @@
-<link rel="import" href="../style-form/style-form.html">
-<link rel="import" href="../style-label/style-label.html">
 <dom-module id="field-tags">
   <template>
-    <style include="style-form"></style>
-    <style include="style-label"></style>
-
     <style>
-      .tag {
+      .field .name {
+        display: block;
+      }
+
+      .field {
+        @apply(--field-tags);
+      }
+
+      .field .input {
+        border: none;
+        @apply(--field-tags-input);
+      }
+      .field .input:focus,
+      .field .input:hover {
+        outline: none;
+        @apply(--field-tags-input-focus);
+      }
+
+      .tags {
         display: inline-block;
-        padding: 3px 5px;
-        border-radius: 4px;
-        background-color: #0275d8;
+        @apply(--field-tags-items);
       }
+
+      .tag {
+        @apply(--field-tags-item);
+      }
+
       .tag .delete {
-        padding-left: 8px;
-        opacity: 1;
-        color: white;
+        padding-left: 6px;
+        @apply(--field-tags-item-delete);
       }
+
       .tag .delete:hover {
-        opacity: .4;
         cursor: pointer;
+        @apply(--field-tags-item-delete-hover);
       }
     </style>
 
-    <form id="form" role="form" on-submit="on_submit">
-      <div class="field">
-        <label class="tags">Tags</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{tag}}"
-          on-keyup="on_edit_tag">
-      </div>
+    <div class="field">
+      <label class="name">{{label}}</label>
 
-      <div class="items">
+      <div class="tags">
         <template id="tags" is="dom-repeat" items="{{tags}}">
           <div class="tag">
-            <span class="label label-primary">{{item}}</span>
-            <span on-click="on_click_delete" class="delete">x</span>
+            <span class="value">{{item}}</span>
+            <span class="delete" on-click="on_click_delete">x</span>
           <div>
         </template>
+        <input class="input" type="text" is="iron-input" bind-value="{{tag}}"
+          placeholder="{{placeholder}}" on-keyup="on_edit_tag">
       </div>
-    </form>
-  </template>
+    </div>
 
+  </template>
 </dom-module>
 <script>
   Polymer({
@@ -48,9 +62,13 @@
     is: 'field-tags',
 
     properties: {
-      model: {
-        type: Object,
-        value: function () { return {}; }
+      label: {
+        type: String,
+        value: 'tags'
+      },
+      placeholder: {
+        type: String,
+        value: 'insert tag'
       },
       tag: {
         type: String,
@@ -62,17 +80,9 @@
       },
       tags: {
         type: Array,
-        value: function () { return []; }
+        value: function () { return []; },
+        notify: true
       }
-    },
-
-    attached: function () {
-      this.tags = this.model.tags || [];
-    },
-
-    on_submit: function (event) {
-      event.stopPropagaiton();
-      event.preventDefault();
     },
 
     on_edit_tag: function (event) {
@@ -94,22 +104,18 @@
     },
 
     add_tag: function (tag) {
-      if (!this.is_exists(tag)){
+      if (!this.has_tag(tag)) {
         this.push('tags', tag);
       }
-      this.clear();
+      this.clear_tag();
     },
 
-    is_exists: function (value_a) {
-      return this.tags.some(function (value_b) {
-        if (value_a === value_b)
-          return true;
-      });
+    has_tag: function (tag) {
+      return this.tags.indexOf(tag) >= 0;
     },
 
-    clear: function () {
+    clear_tag: function () {
       this.set('tag', '');
-      this.model.tags = this.tags;
     },
 
     on_click_delete: function (event) {
