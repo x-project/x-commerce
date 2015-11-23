@@ -54,6 +54,6 @@ module.exports = function (app) {
     );
   };
 
-  var job = new CronJob('* * * * * *', function () { start(); }, null, true, 'Europe/London');
+  // var job = new CronJob('* * * * * *', function () { start(); }, null, true, 'Europe/London');
 
 };
