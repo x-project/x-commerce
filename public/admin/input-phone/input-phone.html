@@ -1,0 +1,65 @@
+<dom-module id="input-phone">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <input class="input" type="number" is="iron-input"
+      bind-value="{{prefix}}" placeholder="339">
+
+    <input class="input" type="number" is="iron-input"
+      bind-value="{{number}}">
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-phone',
+
+    properties: {
+      number: {
+        type: Number,
+        observer: '_on_change_number'
+      },
+      prefix: {
+        type: Number,
+        observer: '_on_change_prefix'
+      },
+      phone: {
+        type: String,
+        notify: true
+      }
+    },
+
+    attached: function () {
+      if (this.phone) {
+        if (this.phone.length > 0 && this.phone.indexOf(' ') >= 0) {
+          var prefix_num = this.phone.split(' ');
+          this.prefix = prefix_num[0];
+          this.number = prefix_num[1];
+          return;
+        }
+      }
+    },
+
+    _on_change_number: function () {
+      this.update_phone();
+    },
+
+    _on_change_prefix: function () {
+      this.update_phone();
+    },
+
+    update_phone: function () {
+      if (this.prefix.length > 0 && this.number.length > 0) {
+        this.phone = this.prefix + ' ' + this.number;
+        return;
+      }
+      this.phone = '';
+    }
+
+  });
+</script>

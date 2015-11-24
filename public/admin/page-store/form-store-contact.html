@@ -1,15 +1,21 @@
+<link rel="import" href="../input-phone/input-phone.html">
 <dom-module id="form-store-contact">
   <template>
-    <style include="style-page"></style>
+    <style include="style-page">
+      input-phone {
+        display: inline;
+      }
+    </style>
 
     <form role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Email</label>
         <input class="input" type="text" is="iron-input" bind-value="{{store.email}}">
+        <input-errors property="email" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Phone</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{store.phone}}">
+        <input-phone phone="{{store.phone}}"></input-phone>
       </div>
     </form>
   </template>

@@ -1,4 +1,5 @@
 <link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="part-store-policy">
   <template>
     <style include="style-page"></style>
@@ -8,6 +9,8 @@
     <iron-autogrow-textarea is="iron-input" bind-value="{{store.policy}}" rows="5"
       placeholder="policy for my store">
     </iron-autogrow-textarea>
+
+    <input-errors property="policy" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>

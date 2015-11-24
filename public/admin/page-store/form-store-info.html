@@ -1,4 +1,5 @@
 <link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-store-info">
   <template>
     <style include="style-page"></style>
@@ -7,6 +8,7 @@
       <div class="field">
         <label class="label">Store Name</label>
         <input class="input" type="text" is="iron-input" bind-value="{{store.name}}">
+        <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
         <div class="field">
           <label class="label">Description</label>
@@ -26,6 +28,10 @@
 
     properties: {
       store: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

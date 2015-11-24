@@ -1,40 +1,94 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="../style-page/style-page.html">
+<link rel="import" href="part-store-actions.html">
+<link rel="import" href="part-store-contact.html">
 <link rel="import" href="part-store-header.html">
 <link rel="import" href="part-store-info.html">
-<link rel="import" href="part-store-contact.html">
-<link rel="import" href="part-store-actions.html">
-<link rel="import" href="part-store-edit.html">
 <link rel="import" href="part-store-policy.html">
 <dom-module id="page-store">
   <template>
     <style include="style-page"></style>
 
-    <api-model-update id="update"
-      collection="stores" model-id="{{data.store.id}}" data="{{data.store}}">
-    </api-model-update>
-
     <layout-admin on-try-save="on_try_save">
       <h1>Store</h1>
-      <part-store-header store="{{data.store}}"></part-store-header>
+      <part-store-header store="{{store}}"></part-store-header>
       <part-store-actions></part-store-actions>
-      <part-store-info store="{{data.store}}"></part-store-info>
-      <part-store-contact store="{{data.store}}"></part-store-contact>
-      <part-store-policy store="{{data.store}}"></part-store-policy>
+      <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
+      <part-store-contact store="{{store}}" error="{{error}}"></part-store-contact>
+      <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
     is: 'page-store',
 
+    attached: function () {
+      this.store = this.data.store;
+    },
+
     on_try_save: function (event) {
       event.stopPropagation();
-      this.$.update.send();
+      console.log(this.store);
+      if (!this.validate_model()) {
+        return;
+      }
+      this.update_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/stores', this.store.id, this.store)
+        .then(function (data) {
+          this.store = data;
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
+    },
+
+    response_create: function () {
+      page('/admin/store');
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var check = true;
+      var error = this.create_custom_err();
+      check = check & this.check_field(this.store.name, error, 'can\'t be blank');
+      check = check & this.check_email(this.store.email, error, 'invalid email');
+      this.set('error', error);
+      return check;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.name = [];
+      error.details.messages.email = [];
+      return error;
+    },
+
+    check_field: function (property, error, message) {
+      if (property === undefined || property.length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+   check_email: function (email, error, message) {
+      var regex_email = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+      if (!regex_email.test(email)) {
+        error.details.messages.email.push(message);
+        return false;
+      }
+      return true;
     },
 
     on_try_edit: function (event) {
