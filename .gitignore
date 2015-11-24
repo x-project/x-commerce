@@ -20,5 +20,6 @@ node_modules
 npm-debug.log
 public/build
 public/components
+public/icons
 server/public
 server/images
