@@ -21,28 +21,72 @@
       .links .link {
         text-decoration: none;
       }
+
+      object {
+        display: inline;
+        width: 28px;
+        height: 28px;
+      }
+      .links li {
+        display: flex;
+      }
+      .links a{
+        padding: 3px 6px;
+      }
     </style>
 
     <nav role="navigation">
       <h3 class="title"><a href="/admin">x-commerce</a></h3>
       <ul class="links">
-        <li><a is="app-link" class="link" href="/admin/store">Store</a></li>
-        <li><a is="app-link" class="link" href="/admin/team">Team</a></li>
+        <li>
+          <object data="../icons/shop.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/store">Store</a>
+        </li>
+        <li>
+          <object data="../icons/team.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/team">Team</a>
+        </li>
       </ul>
       <ul class="links">
-        <li><a is="app-link" class="link" href="/admin/products">Products</a></li>
-        <li><a is="app-link" class="link" href="/admin/collections">Collections</a></li>
-        <li><a is="app-link" class="link" href="/admin/vendors">Vendors</a></li>
-        <li><a is="app-link" class="link" href="/admin/coupons">Coupon</a></li>
-        <li><a is="app-link" class="link" href="/admin/product_types">Product Type</a></li>
+        <li>
+          <object data="../icons/shop1.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/products">Products</a>
+        </li>
+        <li>
+          <object data="../icons/shop3.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/collections">Collections</a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/vendors">Vendors</a>
+        </li>
+        <li>
+          <object data="../icons/coupon.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/coupons">Coupon</a>
+        </li>
+        <li>
+          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/product_types">Product Type</a>
+        </li>
       </ul>
       <ul class="links">
-        <li><a is="app-link" class="link" href="/admin/customers">Customers</a></li>
-        <li><a is="app-link" class="link" href="/admin/orders">Orders</a></li>
+        <li>
+          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/customers">Customers</a>
+        </li>
+        <li>
+          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/orders">Orders</a>
+        </li>
       </ul>
       <ul class="links">
-        <li><a is="app-link" class="link" href="/admin/articles">Articles</a></li>
-        <li><a is="app-link" class="link" href="/admin/categories">Categories</a></li>
+        <li>
+          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/articles">Articles</a>
+        </li>
+        <li>
+          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <a is="app-link" class="link" href="/admin/categories">Categories</a>
+        </li>
       </ul>
       <ul class="links">
         <li><a is="app-link" class="link" href="/">&larr; Home</a></li>

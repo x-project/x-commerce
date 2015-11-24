@@ -28,13 +28,23 @@
 
     is: 'page-store',
 
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
     attached: function () {
       this.store = this.data.store;
     },
 
     on_try_save: function (event) {
       event.stopPropagation();
-      console.log(this.store);
       if (!this.validate_model()) {
         return;
       }
@@ -59,8 +69,9 @@
       event.stopPropagation();
       var check = true;
       var error = this.create_custom_err();
-      check = check & this.check_field(this.store.name, error, 'can\'t be blank');
+      check = check & this.check_field('name', error, 'can\'t be blank');
       check = check & this.check_email(this.store.email, error, 'invalid email');
+      check = check & this.check_field('description', error, 'can\'t be blank');
       this.set('error', error);
       return check;
     },
@@ -71,16 +82,18 @@
       error.details.messages = {};
       error.details.messages.name = [];
       error.details.messages.email = [];
+      error.details.messages.description = [];
       return error;
     },
 
     check_field: function (property, error, message) {
-      if (property === undefined || property.length === 0) {
+      if (this.store[property] === undefined || this.store[property].length === 0) {
         error.details.messages[property].push(message);
         return false;
       }
       return true;
     },
+
 
    check_email: function (email, error, message) {
       var regex_email = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;

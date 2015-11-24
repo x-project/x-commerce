@@ -71,11 +71,11 @@
     },
 
     attached: function () {
-      var data = {};
-      data.cart = JSON.stringify(this.$.session.get('cart'));
-      data.coupon = this.$.session.get('coupon');
-      data.customer_token = this.$.session.get('token');
-      this.data = JSON.stringify(data);
+      // var data = {};
+      // data.cart = JSON.stringify(this.$.session.get('cart'));
+      // data.coupon = this.$.session.get('coupon');
+      // data.customer_token = this.$.session.get('token');
+      // this.data = JSON.stringify(data);
       this.get_client_token_model();
     },
 

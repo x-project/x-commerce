@@ -8,17 +8,23 @@
   "properties": {
     "name": {
       "type": "String",
-      "default": "x-commerce"
+      "default": "x-commerce",
+      "required": true
     },
     "description": {
+      "type": "String",
+      "required": true
+    },
+    "mobile_phone": {
       "type": "String"
     },
-    "phone": {
+    "office_phone": {
       "type": "String"
     },
     "email": {
       "type": "String",
-      "length": 64
+      "length": 64,
+      "required": true
     },
     "policy": {
       "type": "String"

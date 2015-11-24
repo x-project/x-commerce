@@ -1,10 +1,13 @@
+<link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-store-contact.html">
 <dom-module id="part-store-contact">
   <template>
-    <style include="style-page"></style>
+    <style include="style-panel"></style>
 
-    <h2>Contact</h2>
-    <form-store-contact store="{{store}}" error="{{error}}"></form-store-contact>
+    <div class="panel">
+      <h2 class="title">[[part_contact_label]]</h2>
+      <form-store-contact store="{{store}}" error="{{error}}"></form-store-contact>
+    </div>
 
   </template>
 </dom-module>
@@ -14,6 +17,10 @@
     is: 'part-store-contact',
 
     properties: {
+      part_contact_label: {
+        type: String,
+        value: 'Contact'
+      },
       store: {
         type: Object,
         value: function () { return {}; }

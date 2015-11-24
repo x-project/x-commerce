@@ -4,12 +4,17 @@
       :host {
         display: block;
       }
+      input[type=number]::-webkit-outer-spin-button,
+      input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     </style>
 
-    <input class="input" type="number" is="iron-input"
-      bind-value="{{prefix}}" placeholder="339">
+    <input class="prefix" type="number" is="iron-input"
+      bind-value="{{prefix}}">
 
-    <input class="input" type="number" is="iron-input"
+    <input class="number" type="number" is="iron-input"
       bind-value="{{number}}">
 
   </template>

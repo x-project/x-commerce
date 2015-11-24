@@ -1,10 +1,13 @@
+<link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-store-info.html">
 <dom-module id="part-store-info">
   <template>
-    <style include="style-page"></style>
+    <style include="style-panel"></style>
 
-    <h2>Basic Info</h2>
-    <form-store-info store="{{store}}" error="{{error}}"></form-store-info>
+    <div class="panel">
+      <h2 class="title">Basic Info</h2>
+      <form-store-info store="{{store}}" error="{{error}}"></form-store-info>
+    </div>
 
   </template>
 </dom-module>
