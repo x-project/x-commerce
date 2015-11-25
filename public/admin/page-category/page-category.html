@@ -1,6 +1,8 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="form-category.html">
+<link rel="import" href="part-category-actions.html">
+<link rel="import" href="part-category-header.html">
+<link rel="import" href="part-category-info.html">
 <dom-module id="page-category">
   <template>
 
@@ -8,11 +10,11 @@
       on-response="on_delete">
     </api-model-delete>
 
-    <layout-admin>
-      <div class="container">
-        <h2>Edit category</h2>
-        <form-category category="{{category}}"></form-category>
-      </div>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
+      <h1>Category</h1>
+      <part-category-header category="{{category}}"></part-category-header>
+      <part-category-actions></part-category-actions>
+      <part-category-info category="{{category}}"></part-category-info>
     </layout-admin>
 
   </template>
@@ -22,12 +24,23 @@
 
     is: 'page-category',
 
-    on_click_delete: function (event) {
-      // this.$.delete.send();
+    properties: {
+      category: {
+        type: Object,
+        value: function () { return {}; }
+      }
     },
 
-    on_delete: function (event) {
-      page('/admin/categories');
+    attached: function () {
+      this.category = this.data.category;
+    },
+
+    on_try_save: function (event) {
+      event.stopPropagation();
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
     }
 
   });

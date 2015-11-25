@@ -1,22 +1,19 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../components/iron-input/iron-input.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="form-category">
+<dom-module id="form-category-info">
   <template>
     <style include="style-form"></style>
-
+<!--
     <api-model-update id="update" collection="Categories" model-id="{{category.id}}"
       data="{{category}}"
       on-response="on_response">
-    </api-model-update>
+    </api-model-update> -->
 
-    <form class="form" on-submit="on_submit">
+    <form on-submit="on_submit">
       <div class="field">
-        <label class="label">name</label>
+        <label class="label">[[name_label]]</label>
         <input class="input" is="iron-input" type="text" bind-value="{{category.name}}">
-      </div>
-      <div class="field">
-        <input type="submit" class="button" value="update">
+        <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
     </form>
 
@@ -26,21 +23,26 @@
 <script>
   Polymer({
 
-    is: 'form-category',
+    is: 'form-category-info',
 
     properties: {
+      name_label: {
+        type: String,
+        value: 'Name'
+      },
       category: {
-        type: Object
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
     on_submit: function (event) {
       event.preventDefault();
-      this.$.update.send();
-    },
-
-    on_response: function (event) {
-      // page('/admin/categories');
+      event.stopPropagation();
     }
 
   });

@@ -1,16 +1,25 @@
 <link rel="import" href="../style-button/style-button.html">
-<dom-module id="part-store-actions">
+<dom-module id="part-category-actions">
   <template>
     <style include="style-button"></style>
 
     <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
 
   </template>
 </dom-module>
+
 <script>
   Polymer({
 
-    is: 'part-store-actions',
+    is: 'part-category-actions',
+
+    properties: {},
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    },
 
     on_click_save: function (event) {
       event.stopPropagation();

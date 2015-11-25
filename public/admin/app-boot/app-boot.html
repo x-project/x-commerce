@@ -133,7 +133,12 @@
 
     '/admin/categories/new': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-category';
+      context.data = { category: {} };
       this.open_page(context);
     },
 

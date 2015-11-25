@@ -1,5 +1,6 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/api-user/api-user.html">
+<link rel="import" href="../../components/api-model-create/api-model-create.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="form-invite.html">
 <dom-module id="page-invite">
@@ -14,7 +15,8 @@
       <div class="container">
         <h2>Team</h2>
         <h3>Invite new team member</h3>
-        <form-invite id="form" on-response="on_response" on-submit="on_submit"></form-invite>
+        <form-invite id="form" on-response="on_response" on-submit="on_submit">
+        </form-invite>
         <template is="dom-if" if="{{error_occurs}}">
         <div class="error-box">Error! <span>{{response.message}}</span></div>
         </template>

@@ -1,0 +1,31 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="form-category-info.html">
+<dom-module id="part-category-info">
+  <template>
+  <style include="style-panel"></style>
+
+  <div class="panel">
+    <h2 class="title">Info</h2>
+    <form-category-info category="{{category}}" error="{{error}}"></form-category-info>
+  </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-category-info',
+
+    properties: {
+      category: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      },
+    }
+  });
+</script>
