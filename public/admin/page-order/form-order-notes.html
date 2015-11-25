@@ -1,15 +1,20 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-order-notes">
   <template>
-   <style include="style-form"></style>
+    <style include="style-form"></style>
+    <style>
+      iron-autogrow-textarea {
+        display: block;
+        box-sizing: border-box;
+      }
+    </style>
 
      <form id="form" class="form">
       <div class="field">
-        <label class="label">notes</label>
-          <div class="detail">
-            <iron-autogrow-textarea is="iron-input" bind-value="{{order.notes}}" rows="4">
-            </iron-autogrow-textarea>
-          </div>
+        <label class="label">[[order_notes_label]]</label>
+        <iron-autogrow-textarea class="form-control" is="iron-input"
+          bind-value="{{order.notes}}" rows="4">
+        </iron-autogrow-textarea>
         </div>
      </form>
   </template>
@@ -20,6 +25,10 @@
     is: 'form-order-notes',
 
     properties: {
+      order_notes_label: {
+        type: String,
+        value: 'Notes'
+      },
       order: {
         type: Object,
         value: function () { return {}; }

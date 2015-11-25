@@ -1,19 +1,22 @@
 <link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="../style-form/style-form.html">
-<link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-order-customer">
   <template>
    <style include="style-form"></style>
+   <style>
+    input {
+      box-sizing: border-box;
+    }
+   </style>
 
     <api-model-find id="find" collection="customers" response="{{customers}}"></api-model-find>
-
     <api-model-update id="update" collection="orders" model-id="{{order.id}}"></api-model-update>
 
-    <form id="form" class="form" role="form">
+    <form on-submit="on_sumbmit">
       <div class="field">
-        <label class="label">customer</label>
-        <input class="input" id="input" type="text" is="iron-input" bind-value="{{customer.first_name}}"
+        <label class="label">[[order_customer_label]]</label>
+        <input class="form-control" id="input" type="text" is="iron-input" bind-value="{{customer.first_name}}"
           on-keypress="on_search_customer" on-focus="on_search_customer">
       </div>
       <input-errors property="customer_id" error="{{error.details}}"></input-errors>
@@ -33,6 +36,10 @@
     is: 'form-order-customer',
 
     properties: {
+      order_customer_label: {
+        type: String,
+        value: 'Customer'
+      },
       customers: {
         type: Array,
         value: function () { return []; }
@@ -53,6 +60,11 @@
 
     attached: function () {
       this.customer = this.order.customer || [];
+    },
+
+    on_sumbmit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
     },
 
     on_search_customer:  function (event) {

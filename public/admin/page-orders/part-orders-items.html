@@ -1,15 +1,11 @@
 <link rel="import" href="../style-list/style-list.html">
-<link rel="import" href="part-orders-item.html">
+<link rel="import" href="table-orders.html">
 <dom-module id="part-orders-items">
   <template>
     <style include="style-list"></style>
 
     <div class="items">
-      <template is="dom-repeat" items="{{orders}}" as="order">
-        <div class="item">
-         <part-orders-item order="{{order}}"></part-orders-item>
-        </div>
-      </template>
+      <table-orders orders="{{orders}}"><table-orders>
     </div>
 
   </template>
@@ -25,5 +21,6 @@
         value: function () { return []; }
       }
     }
+
   });
 </script>

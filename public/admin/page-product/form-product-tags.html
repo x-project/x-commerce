@@ -1,4 +1,4 @@
-<link rel="import" href="../field-tags/field-tags.html">
+<link rel="import" href="../../components/input-tags/input-tags.html">
 <link rel="import" href="../style-label/style-label.html">
 <dom-module id="form-product-tags">
   <template>
@@ -8,7 +8,7 @@
         display: block;
       }
 
-      field-tags {
+      input-tags {
         --field-tags-items: {
           padding: 2px;
           border: 1px solid #aaa;
@@ -23,7 +23,7 @@
       }
     </style>
 
-    <field-tags tags="{{product.tags}}"></field-tags>
+    <input-tags tags="{{product.tags}}"></input-tags>
 
   </template>
 </dom-module>

@@ -1,16 +1,15 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="../style-checkbox/style-checkbox.html">
 <link rel="import" href="part-order-item.html">
 <dom-module id="part-order-status">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
+    <style include="style-panel"></style>
+    <style include="style-checkbox"></style>
 
-    <div>
-      <label class="label">order status</label>
-       <paper-checkbox is="iron-input" checked=""></paper-checkbox>
+    <div class="panel">
+      <h2 class="title">Status</h2>
+       <label class="label">Order Status</label>
+       <input type="checkbox" name="status" id="status">
     </div>
 
   </template>
@@ -25,6 +24,14 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      if (this.order.status == 'closed') {
+        this.$.status.checked = true;
+        return;
+      }
+      this.$.status.checked = false;
     }
 
   });

@@ -14,11 +14,14 @@
       <h1>Category</h1>
       <part-category-header category="{{category}}"></part-category-header>
       <part-category-actions></part-category-actions>
-      <part-category-info category="{{category}}"></part-category-info>
+      <part-category-info category="{{category}}" error="{{error}}"></part-category-info>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -26,6 +29,10 @@
 
     properties: {
       category: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }
@@ -37,10 +44,84 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
+      if (!this.validate_model()) {
+        return;
+      }
+      if(this.category.id){
+        this.update_model();
+        return;
+      }
+      this.create_model();
+    },
+
+    update_model: function () {
+      Model.update('/api/categories', this.category.id, this.category)
+      .then(function (data) {
+        this.category = data;
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/categories', this.category)
+      .then(function (data) {
+        this.category = data;
+        this.response_create();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    delete_model: function () {
+      Model.delete('/api/categories', this.category.id)
+      .then(function (data) {
+        this.category = data;
+        this.response_delete();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    response_delete: function () {
+      page('/admin/categories');
+    },
+
+    response_create: function () {
+      page('/admin/categories/' + this.category.id);
+    },
+
+    validate_model: function () {
+      event.stopPropagation();
+      var error = this.create_custom_err();
+      var check = true;
+      check = check & this.check_field('name', error, 'can\'t be blank');
+      this.set('error', error);
+      return check;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.category[property] === undefined || this.category[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.name = [];
+      return error;
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
+      this.delete_model();
     }
 
   });
