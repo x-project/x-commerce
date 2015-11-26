@@ -7,17 +7,24 @@
       input-datetime {
         display: inline-block;
       }
+      input-datetime {
+        box-sizing: border-box;
+        --input-datetime-button: {
+         @apply(--form-control);
+        };
+      }
+
     </style>
 
     <form id="form" class="form" on-submit="on_submit" on-change-date="on_change_date">
       <div class="field">
         <label class="label">From</label>
-        <input-datetime class="input" value="{{coupon.date_from}}"></input-datetime>
+        <input-datetime value="{{coupon.date_from}}"></input-datetime>
         <input-errors property="date_from" error="{{error.details}}"></input-errors>
       </div>
       <div class="filed">
         <label class="label">To</label>
-        <input-datetime class="input" value="{{coupon.date_to}}"></input-datetime>
+        <input-datetime value="{{coupon.date_to}}"></input-datetime>
         <input-errors property="date_to" error="{{error.details}}"></input-errors>
       </div>
     </form>

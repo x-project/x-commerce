@@ -6,17 +6,20 @@
       iron-autogrow-textarea {
         display: block;
       }
+      input, iron-autogrow-textarea {
+        box-sizing: border-box;
+      }
     </style>
 
-    <form id="form" class="form" on-submit="on_submit">
+    <form on-submit="on_submit">
       <div class="field">
         <label class="label">[[name_coupon_label]]</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{coupon.name}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{coupon.name}}">
         <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">[[description_coupon_label]]</label>
-        <iron-autogrow-textarea is="iron-input" bind-value="{{coupon.description}}"
+        <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{coupon.description}}"
           rows="4">
         </iron-autogrow-textarea>
       </div>

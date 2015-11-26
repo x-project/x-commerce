@@ -1,0 +1,50 @@
+<link rel="import" href="../style-table/style-table.html">
+<link rel="import" href="../style-basic/style-basic.html">
+<dom-module id="table-coupons">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Discount(%)</th>
+            <th>Code</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="coupons" is="dom-repeat" items="{{coupons}}" as="coupon">
+            <tr class="text-center">
+              <th scope="row">{{index}}</th>
+              <td>{{coupon.name}}</td>
+              <td>{{coupon.discount}}</td>
+              <td>{{coupon.code}}</td>
+              <td>
+                <a is="app-link" class="btn btn-link"
+                  href="/admin/coupons/{{coupon.id}}">edit
+                </a>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-coupons',
+
+    properties: {
+      coupons: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

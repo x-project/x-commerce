@@ -1,12 +1,10 @@
 <link rel="import" href="../style-list/style-list.html">
-<link rel="import" href="part-coupons-item.html">
+<link rel="import" href="table-coupons.html">
 <dom-module id="part-coupons-items">
   <template>
 
     <div class="items">
-      <template id="customers" is="dom-repeat" items="{{coupons}}" as="coupon">
-        <part-coupons-item coupon="{{coupon}}"></part-coupons-item>
-      </template>
+      <table-coupons coupons="{{coupons}}"></table-coupons>
     </div>
 
   </template>

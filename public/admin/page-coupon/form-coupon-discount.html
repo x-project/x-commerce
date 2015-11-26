@@ -3,16 +3,21 @@
 <dom-module id="form-coupon-discount">
   <template>
     <style include="style-form"></style>
+    <style>
+      input {
+        box-sizing: border-box;
+      }
+    </style>
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Discount</label>
-        <input class="input" type="Number" is="iron-input" bind-value="{{coupon.discount}}">
+        <label class="label">[[coupon_discount_label]]</label>
+        <input class="form-control" type="Number" is="iron-input" bind-value="{{coupon.discount}}">
         <input-errors property="discount" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
-        <label class="label">Code</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{coupon.code}}">
+        <label class="label">[[coupon_code_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{coupon.code}}">
         <input-errors property="code" error="{{error.details}}"></input-errors>
       </div>
     </form>
@@ -25,6 +30,14 @@
     is: 'form-coupon-discount',
 
     properties: {
+      coupon_discount_label: {
+        type: String,
+        value: 'Discount (%)'
+      },
+      coupon_code_label: {
+        type: String,
+        value: 'Code'
+      },
       coupon: {
         type: Object,
         value: function () { return {}; }
