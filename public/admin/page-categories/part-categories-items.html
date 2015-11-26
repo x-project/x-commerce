@@ -1,0 +1,26 @@
+<link rel="import" href="../style-list/style-list.html">
+<link rel="import" href="table-categories.html">
+<dom-module id="part-categories-items">
+  <template>
+    <style include="style-list"></style>
+
+    <div id="views">
+      <table-categories id="table" categories="{{categories}}"></table-categories>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-categories-items',
+
+    properties: {
+      categories: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>
