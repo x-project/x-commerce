@@ -1,6 +1,9 @@
 <link rel="import" href="../style-table/style-table.html">
 <link rel="import" href="../style-basic/style-basic.html">
-<dom-module id="table-customers.html">
+<link rel="import" href="../text-view/text-view.html">
+
+text-view
+<dom-module id="table-prod-types">
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
@@ -11,19 +14,21 @@
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Email</th>
+            <th>Description</th>
             <th>Edit</th>
           </tr>
         </thead>
         <tbody>
-          <template id="customers" is="dom-repeat" items="{{customers}}" as="customer">
+          <template id="prod_types" is="dom-repeat" items="{{prod_types}}" as="prod_type">
             <tr class="text-center">
               <th scope="row">{{index}}</th>
-              <td>{{customer.first_name}} {{customer.last_name}}</td>
-              <td>{{customer.email}}</td>
+              <td>{{prod_type.name}}</td>
+              <td>
+                <text-view text="{{prod_type.description}}" limit="20"></text-view>
+              </td>
               <td>
                 <a is="app-link" class="btn btn-link"
-                  href="/admin/customers/{{customer.id}}">edit
+                  href="/admin/prod_types/{{prod_type.id}}">edit
                 </a>
               </td>
             </tr>
@@ -36,10 +41,10 @@
 <script>
   Polymer({
 
-    is: 'table-customers.html',
+    is: 'table-prod-types',
 
     properties: {
-      customers: {
+      prod_types: {
         type: Array,
         value: function () { return []; }
       }

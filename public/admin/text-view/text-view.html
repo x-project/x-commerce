@@ -12,6 +12,10 @@
       text: {
         type: String,
         value: ''
+      },
+      limit: {
+        type: Number,
+        value: 100
       }
     },
 
@@ -19,7 +23,7 @@
       if (!this.text) {
         return;
       }
-      this.short_text = this.text.slice(0, 100) + '...';
+      this.short_text = this.text.slice(0, this.limit) + '...';
     }
 
   });

@@ -1,12 +1,10 @@
 <link rel="import" href="../style-list/style-list.html">
-<link rel="import" href="part-prod-types-item.html">
+<link rel="import" href="table-prod-types.html">
 <dom-module id="part-prod-types-items">
   <template>
 
     <div class="items">
-      <template id="prod_types" is="dom-repeat" items="{{prod_types}}" as="prod_type">
-        <part-prod-types-item prod_type="{{prod_type}}"></part-prod-types-item>
-      </template>
+      <table-prod-types prod_types="{{prod_types}}"></table-prod-types>
     </div>
 
   </template>

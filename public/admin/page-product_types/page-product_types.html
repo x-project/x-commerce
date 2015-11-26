@@ -11,7 +11,7 @@
   <template>
 
     <api-model-find id="find" collection="product_types" response="{{prod_types}}"
-      order="name" perpage="{{perpage}}" page="{{page}}">
+      order="name" perpage="{{perpage}}" page="{{page}}" on-response="on_response">
     </api-model-find>
 
     <api-model-count id="count" collection="product_types" response="{{count}}">
@@ -44,6 +44,11 @@
 
     attached: function () {
       this.$.count.send();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      console.log(this.prod_types);
     },
 
     on_change_page: function (event) {
