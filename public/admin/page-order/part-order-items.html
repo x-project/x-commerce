@@ -1,8 +1,8 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="../style-table/style-table.html">
 <link rel="import" href="../style-form/style-form.html">
-<link rel="import" href="part-order-item.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
 <link rel="import" href="form-order-item.html">
@@ -13,6 +13,7 @@
     <style include="style-panel"></style>
     <style include="style-table"></style>
     <style include="style-form"></style>
+    <style include="style-button"></style>
 
     <style>
       .items .pending {
@@ -28,16 +29,19 @@
         display: block;
       }
       #quantity_edit {
-        width: 50px;
+        width: 25px;
       }
       table {
         box-sizing: border-box;
+      }
+      button {
+        width: 5em;
       }
 
     </style>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
-      last-response="{{order_items}}">
+      last-response="{{order_items}}" on-response="on_response_get_order_items">
     </iron-ajax>
 
     <iron-ajax id="ajax_put_order_item" method="PUT" content-type="application/json"
@@ -56,22 +60,6 @@
       on-response="on_response_create">
     </api-model-create>
 
-<!--
-
-      <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
-        <part-order-item data="{{order_item}}" on-click-delete="on_click_delete"
-          on-edit-order-item="on_edit_order_item">
-        </part-order-item>
-      </template>
-      <template is="dom-if" if="{{order_item_pending.product.title}}">
-        <part-order-item class="pending" data="{{order_item_pending}}" pending$="{{pending}}">
-        </part-order-item>
-      </template>
-    </div>
-
-    <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
-      on-try-save-order-item="on_try_save_order_item">
-    </form-order-item> -->
     <div class="panel">
       <h2 class="title">Cart</h2>
       <!-- <div class="table-responsive"> -->
@@ -101,13 +89,17 @@
                 </td>
                 <td>{{calculate_subtotal(order_item)}}</td>
                 <td>
-                  <button on-click="on_click_delete">remove</button>
+                  <button class="btn btn-danger" on-click="on_click_delete">remove</button>
                 </td>
               </tr>
             </template>
           </tbody>
         </table>
       <!-- </div> -->
+        <div class="total">
+          <strong class="label">Total</strong>
+          <span>{{total}}</span>
+        </div>
     </div>
   </template>
 
@@ -143,6 +135,7 @@
     attached: function () {
       this.order_items = this.order.order_items;
       this.order_item_pending = {};
+      this.compute_total();
     },
 
     show_saved: function () {
@@ -167,6 +160,10 @@
       this.$.ajax_get_order_items.params.filter = JSON.stringify(include);
       this.set('order_item_pending', {});
       this.$.ajax_get_order_items.generateRequest();
+    },
+
+    on_response_get_order_items: function () {
+      this.compute_total();
     },
 
     selected_pending: function (order_data) {
@@ -259,6 +256,18 @@
     calculate_subtotal_product: function (order_item) {
       return order_item.quantity * order_item.product.price;
     },
+
+    compute_total: function () {
+      var total = 0;
+      this.order_items.forEach(function (order_item) {
+        if (order_item.product_variant) {
+          total += order_item.product_variant.price * order_item.quantity;
+          return;
+        }
+        total += order_item.product.price * order_item.quantity;
+      });
+      this.total = total;
+    }
 
 
   });
