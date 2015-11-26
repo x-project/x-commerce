@@ -1,10 +1,9 @@
-<link rel="import" href="part-order-item.html">
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="part-order-item">
   <template>
+    <style include="style-form"></style>
+
     <style>
-      :host {
-        display: block;
-      }
       .item .delete:hover {
         opacity: .5;
       }
@@ -17,12 +16,18 @@
       .item .pending[pending] {
         display: inline-block;
       }
+      input#quantity_edit {
+        box-sizing: border-box;
+        width: 150px;
+        display: inline;
+      }
     </style>
 
     <div class="item">
       <span>{{data.product.title}} {{data.product_variant.name}}</span>
-      <input id="quantity_edit" readonly$="{{editing}}" type="number" is="iron-input"
-        min="1" bind-value="{{data.quantity}}" on-keyup="on_keyup" on-change="on_change">
+      <input id="quantity_edit" class="form-control" readonly$="{{editing}}"
+        type="number" is="iron-input" min="1" bind-value="{{data.quantity}}"
+        on-keyup="on_keyup" on-change="on_change">
       <span>x $ {{data.product.price}} = $ {{subtotal}}</span>
       <span class="delete" on-click="on_click_delete">x</span>
       <span class="pending" pending$="{{pending}}">saving........</span>
@@ -53,7 +58,8 @@
     },
 
     attached: function () {
-      if(!this.data) {
+      console.log(Object.keys(this.data).length);
+      if(!this.data || Object.keys(this.data).length == 0) {
         return;
       }
       this.update_subtotal();

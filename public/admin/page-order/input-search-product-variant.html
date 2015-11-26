@@ -1,22 +1,24 @@
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="input-search-product-variant">
   <template>
+  <style include="style-form"></style>
     <style>
-      :host {
-        display: block;
-      }
       .items {
         display: none;
       }
       .items[show] {
         display: block;
       }
+      input {
+        box-sizing: border-box;
+      }
     </style>
 
 
    <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label>variant</label>
-        <input is="iron-input" class="input" type="text" bind-value="{{name}}"
+        <label class="label">[[order_item_product_variant_label]]</label>
+        <input is="iron-input" class="form-control" type="text" bind-value="{{name}}"
           on-keypress="on_search_variant" on-focus="on_search_variant">
       </div>
     </form>
@@ -38,6 +40,10 @@
     is: 'input-search-product-variant',
 
     properties: {
+      order_item_product_variant_label: {
+        type: String,
+        value: 'Variant'
+      },
       variants: {
         type: Array,
         value: function () { return []; }

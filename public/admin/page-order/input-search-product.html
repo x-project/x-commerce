@@ -1,15 +1,17 @@
 <link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="input-search-product">
   <template>
+    <style include="style-form"></style>
     <style>
-      :host {
-        display: block;
-      }
       .items {
         display: none;
       }
       .items[show] {
         display: block;
+      }
+      input {
+        box-sizing: border-box;
       }
     </style>
 
@@ -19,8 +21,8 @@
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label>product</label>
-        <input is="iron-input" class="input" type="text" bind-value="{{title}}"
+        <label>[[order_item_product_label]]</label>
+        <input is="iron-input" class="form-control" type="text" bind-value="{{title}}"
           on-keypress="on_search_product" on-focus="on_search_product">
       </div>
     </form>
@@ -42,6 +44,10 @@
     is: 'input-search-product',
 
     properties: {
+      order_item_product_label: {
+        type: String,
+        value: 'Product'
+      },
       title: {
         type: String,
         value: ''

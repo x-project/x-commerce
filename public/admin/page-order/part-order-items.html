@@ -1,4 +1,5 @@
-<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="part-order-item.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
@@ -6,10 +7,9 @@
 
 <dom-module id="part-order-items">
   <template>
+    <style include="style-panel"></style>
+
     <style>
-      :host {
-        display: block;
-      }
       .items .pending {
         display: none;
       }
@@ -44,14 +44,15 @@
       on-response="on_response_create">
     </api-model-create>
 
-    <div class="items">
+    <div class="panel">
+      <h2 class="title">Cart</h2>
       <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
         <part-order-item data="{{order_item}}" on-click-delete="on_click_delete"
           on-edit-order-item="on_edit_order_item">
         </part-order-item>
       </template>
-        <part-order-item class="pending" data="{{order_item_pending}}"
-          pending$="{{pending}}"></part-order-item>
+      <part-order-item class="pending" data="{{order_item_pending}}" pending$="{{pending}}">
+      </part-order-item>
     </div>
 
     <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
@@ -84,8 +85,13 @@
       }
     },
 
+    ready: function () {
+      this.order_items = [];
+    },
+
     attached: function () {
       this.order_items = this.order.order_items;
+      console.log(this.order_items);
     },
 
     show_saved: function () {

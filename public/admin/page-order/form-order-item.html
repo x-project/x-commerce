@@ -3,15 +3,18 @@
 <link rel="import" href="input-search-product-variant.html">
 <dom-module id="form-order-item">
   <template>
-    <style include="style-form">
+    <style include="style-form"></style>
+    <style>
       .input_variants {
         display: none;
       }
       .input_variants[visible] {
         display: block;
       }
+      input {
+        box-sizing: border-box;
+      }
     </style>
-
     <input-search-product id="search_product" id_selected="{{order_item.product_id}}"
       selected="{{product_selected}}" on-change="on_change_product_id">
     </input-search-product>
@@ -23,8 +26,8 @@
     </input-search-product-variant>
 
     <div class="field">
-      <label>quantity</label>
-      <input is="iron-input" class="input" type="number" min="1"
+      <label>[[order_item_quantity_label]]</label>
+      <input is="iron-input" class="form-control" type="number" min="1"
         max="{{max}}" bind-value="{{order_item.quantity}}">
     </div>
     <input type="button" value="save" on-click="on_click_save">
@@ -37,6 +40,10 @@
     is: 'form-order-item',
 
     properties: {
+      order_item_quantity_label: {
+        type: String,
+        value: 'Quantity'
+      },
       order: {
         type: Object,
         value: function () { return {}; }
