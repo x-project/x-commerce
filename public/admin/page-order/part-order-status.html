@@ -9,7 +9,7 @@
     <div class="panel">
       <h2 class="title">Status</h2>
        <label class="label">Order Status</label>
-       <input type="checkbox" name="status" id="status">
+       <input type="checkbox" name="status" id="status" on-change="on_change">
     </div>
 
   </template>
@@ -32,7 +32,16 @@
         return;
       }
       this.$.status.checked = false;
+    },
+
+    on_change: function (event) {
+      if (this.$.status.checked) {
+        this.order.status = 'closed';
+        return;
+      }
+      this.order.status = 'open';
     }
+
 
   });
 </script>

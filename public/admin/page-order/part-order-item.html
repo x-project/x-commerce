@@ -58,8 +58,7 @@
     },
 
     attached: function () {
-      console.log(Object.keys(this.data).length);
-      if(!this.data || Object.keys(this.data).length == 0) {
+      if(!this.data) {
         return;
       }
       this.update_subtotal();

@@ -89,6 +89,8 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
+      console.log(this.order);
+
       if (!this.validate_model()) {
         return;
       }
@@ -102,7 +104,7 @@
     update_model: function () {
       Model.update('/api/orders', this.order.id, this.get_order())
         .then(function (data) {
-          //nothings
+          this.order = data;
         }.bind(this))
         .catch(function (error) {
           this.error = error;
