@@ -3,12 +3,15 @@ var async = require('async');
 var moment = require('moment');
 var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
+var plivo = require('plivo');
+
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
-var plivo = require('plivo')
+
 var plivo_client = plivo.RestAPI({
   authId: process.env.PLIVIO_AUTH_ID_KEY,
   authToken: process.env.PLIVIO_AUTH_TOKEN
 });
+
 module.exports = function (Customer) {
 
   function getCurrentUserId() {
