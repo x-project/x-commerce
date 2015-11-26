@@ -1,12 +1,10 @@
 <link rel="import" href="../style-list/style-list.html">
-<link rel="import" href="part-customers-item.html">
+<link rel="import" href="table-customers.html">
 <dom-module id="part-customers-items">
   <template>
 
     <div class="items">
-      <template id="customers" is="dom-repeat" items="{{customers}}" as="customer">
-        <part-customers-item customer="{{customer}}"></part-customers-item>
-      </template>
+      <table-customers customers="{{customers}}"></table-customers>
     </div>
 
   </template>

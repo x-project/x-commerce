@@ -4,22 +4,34 @@
   <template>
     <style include="style-form"></style>
 
-    <form id="form" class="form" on-submit="on_submit">
+    <style>
+      input-location {
+        --layout-input-location: {
+          @apply(--form);
+          @apply(--form-control);
+        };
+      }
+      input, input-location{
+        box-sizing: border-box;
+      }
+    </style>
+
+    <form on-submit="on_submit">
       <div class="field">
         <label class="label">Address</label>
-        <input-location class="input" options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
+        <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
       </div>
       <div class="field">
         <label class="label">Number</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{customer.location_number}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.location_number}}">
       </div>
       <div class="field">
         <label class="label">Bell Number</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{customer.bell}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.bell}}">
       </div>
       <div class="field">
         <label class="label">Phone</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{customer.phone}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.phone}}">
       </div>
     </form>
   </template>

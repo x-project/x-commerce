@@ -1,8 +1,10 @@
 <link rel="import" href="../../components/api-user-reset/api-user-reset.html">
 <link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="../style-button/style-button.html">
 <dom-module id="part-customer-send-email">
   <template>
     <style include="style-panel"></style>
+    <style include="style-button"></style>
 
     <api-user-reset id="reset" email="{{email}}"
       response="{{response}}">
@@ -10,7 +12,7 @@
 
     <div class="panel">
       <h2 class="title">Send email</h2>
-      <button id="button" class="button" disabled on-click="on_click">send email</button>
+      <button id="button" class="btn btn-primary" disabled on-click="on_click">send email</button>
     </div>
 
   </template>

@@ -1,31 +1,43 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-checkbox/style-checkbox.html">
+
 <dom-module id="form-customer-overview">
   <template>
     <style include="style-form"></style>
+    <style include="style-checkbox"></style>
+
+    <style>
+      input {
+        box-sizing: border-box;
+      }
+    </style>
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
         <label class="label">First Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{customer.first_name}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.first_name}}">
         <input-errors property="first_name" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Last Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{customer.last_name}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.last_name}}">
         <input-errors property="last_name" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Email</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{customer.email}}">
+
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.email}}">
         <input-errors property="email" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">Customer accepts marketing</label>
+        <!-- <input type="checkbox" is="iron-input" checked="{{customer.marketing}}"> -->
         <paper-checkbox checked="{{customer.marketing}}"></paper-checkbox>
       </div>
       <div class="field">
         <label class="label">Customer is tax excempt</label>
+        <!-- <input type="checkbox" is="iron-input" checked="{{customer.taxes_exempt}}"> -->
         <paper-checkbox checked="{{customer.taxes_exempt}}"></paper-checkbox>
       </div>
     </form>

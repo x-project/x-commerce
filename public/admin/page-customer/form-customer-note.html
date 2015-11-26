@@ -3,12 +3,17 @@
 <dom-module id="form-customer-note">
   <template>
     <style include="style-form"></style>
+    <style>
+     input, iron-autogrow-textarea {
+        box-sizing: border-box;
+      }
+    </style>
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Note</label>
         <div>
-          <iron-autogrow-textarea is="iron-input" bind-value="{{customer.note}}"
+          <iron-autogrow-textarea class="form-control"is="iron-input" bind-value="{{customer.note}}"
             rows="4" placeholder="Add a note to this customer">
           </iron-autogrow-textarea>
         </div>
