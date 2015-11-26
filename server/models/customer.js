@@ -8,8 +8,8 @@ var plivo = require('plivo');
 var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
 
 var plivo_client = plivo.RestAPI({
-  authId: process.env.PLIVIO_AUTH_ID_KEY,
-  authToken: process.env.PLIVIO_AUTH_TOKEN
+  authId: process.env.PLIVO_AUTH_ID,
+  authToken: process.env.PLIVO_AUTH_TOKEN
 });
 
 module.exports = function (Customer) {
