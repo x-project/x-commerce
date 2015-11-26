@@ -1,15 +1,18 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="../style-table/style-table.html">
+<link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="part-order-item.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
 <link rel="import" href="form-order-item.html">
+<!-- <link rel="import" href="../../fonts/lineicons/linecons"> -->
 
 <dom-module id="part-order-items">
   <template>
     <style include="style-panel"></style>
     <style include="style-table"></style>
+    <style include="style-form"></style>
 
     <style>
       .items .pending {
@@ -24,9 +27,13 @@
       .form_search_product[show] {
         display: block;
       }
-      part-order-item {
-        margin-bottom: 10px;
+      #quantity_edit {
+        width: 50px;
       }
+      table {
+        box-sizing: border-box;
+      }
+
     </style>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
@@ -34,7 +41,7 @@
     </iron-ajax>
 
     <iron-ajax id="ajax_put_order_item" method="PUT" content-type="application/json"
-      on-error="on_error">
+      on-error="on_error" on-response="on_response_update_order_item">
     </iron-ajax>
 
     <iron-ajax id="ajax_post_order_item" method="POST" handle-as="json"
@@ -49,8 +56,7 @@
       on-response="on_response_create">
     </api-model-create>
 
-<!--     <div class="panel">
-      <h2 class="title">Cart</h2>
+<!--
 
       <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
         <part-order-item data="{{order_item}}" on-click-delete="on_click_delete"
@@ -66,35 +72,42 @@
     <form-order-item class="form_search_product" show$="{{show}}" order="{{order}}"
       on-try-save-order-item="on_try_save_order_item">
     </form-order-item> -->
-
-    <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            <!-- <th>Image</th> -->
-            <th>Product</th>
-            <th>Price</th>
-            <th>Variant</th>
-            <th>Price</th>
-            <th>Subtotal</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
-            <tr class="text-center">
-              <th scope="row">{{index}}</th>
-              <td>{{order_item.product.title}}</td>
-              <td>{{order_item.product.price}}</td>
-              <td>{{order_item.product_variant.name}}</td>
-              <td>{{order_item.product.price}}</td>
-              <td>{{calculate_subtotal(order_item)}}</td>
-              <td>Remove</td>
+    <div class="panel">
+      <h2 class="title">Cart</h2>
+      <!-- <div class="table-responsive"> -->
+        <table class="table table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Variant</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+              <th>Remove</th>
             </tr>
-          </template>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
+              <tr class="text-center">
+                <td>{{order_item.product.title}}</td>
+                <td>{{order_item.product.price}}</td>
+                <td>{{order_item.product_variant.name}}</td>
+                <td>{{order_item.product_variant.price}}</td>
+                <td>
+                  <input id="quantity_edit" class="form-control" readonly$="{{editing}}"
+                  type="number" is="iron-input" min="1" bind-value="{{order_item.quantity}}"
+                  on-change="on_edit_order_item">
+                </td>
+                <td>{{calculate_subtotal(order_item)}}</td>
+                <td>
+                  <button on-click="on_click_delete">remove</button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      <!-- </div> -->
     </div>
   </template>
 
@@ -211,15 +224,20 @@
     on_edit_order_item: function (event) {
       event.stopPropagation();
       var data = this.$.order_items.itemForElement(event.target);
-      this.$.ajax_put_order_item.url = '/api/orders/' + data.orderId + '/order_items/' + data.id;
+      this.$.ajax_put_order_item.url = '/api/orders/' + data.order_id + '/order_items/' + data.id;
       var order_item = {
         quantity: data.quantity,
-        orderId: data.orderId,
+        order_id: data.order_id,
         product_id: data.product_id,
         product_variant_id: data.product_variant_id
       };
-      this.$.ajax_put_order_item.body = JSON.stringify(this.order_item);
+      this.$.ajax_put_order_item.body = JSON.stringify(order_item);
       this.$.ajax_put_order_item.generateRequest();
+    },
+
+    on_response_update_order_item: function (event) {
+      event.stopPropagation();
+      this.update_order_items();
     },
 
     on_error: function (event) {
