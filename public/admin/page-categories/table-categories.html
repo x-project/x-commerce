@@ -1,0 +1,56 @@
+<link rel="import" href="../style-table/style-table.html">
+<link rel="import" href="../style-basic/style-basic.html">
+<dom-module id="table-categories">
+  <template>
+
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <!-- <th>Image</th> -->
+            <th>Name</th>
+            <th>Description</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="category" is="dom-repeat" items="{{categories}}" as="category">
+            <tr class="text-center">
+              <th scope="row">{{index}}</th>
+ <!--              <td>
+                <image-preview image="{{product.images}}"
+                  like-size="50" height="50" width="30">
+                </image-preview>
+              </td> -->
+              <td>{{category.name}}</td>
+              <td>{{category.description}}</td>
+              <td>
+                <a is="app-link" class="btn btn-link"
+                  href="/admin/categories/{{category.id}}">edit
+                </a>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-categories',
+
+    properties: {
+      categories: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

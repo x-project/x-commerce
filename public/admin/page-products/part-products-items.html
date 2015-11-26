@@ -1,40 +1,41 @@
 <link rel="import" href="../style-table/style-table.html">
 <link rel="import" href="../style-basic/style-basic.html">
-<link rel="import" href="table-view.html">
-<link rel="import" href="strip-view.html">
-
-<dom-module id="part-products-view-options">
+<link rel="import" href="table-products.html">
+<link rel="import" href="strips-products.html">
+<dom-module id="part-products-items">
   <template>
 
     <div id="views">
-      <table-view id="table" products="{{products}}"></table-view>
+      <table-products id="table" products="{{products}}"></table-products>
     </div>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-products-view-options',
+    is: 'part-products-items',
 
     properties: {
-      perpage: {
-        type: Number
-      },
-      page: {
-        type: Number
-      },
       products: {
         type: Array,
         value: function () { return []; }
       }
     },
 
-    table_preview: function () {
+    change_view: function (view_type) {
+      if (view_type === 'table') {
+        this.table_preview();
+        return;
+      }
+      this.strip_preview();
+    },
+
+    table_preview: function (view_type) {
       var exists_table = document.getElementById("table");
       if (exists_table) {
         return;
       }
-      var table = this.create_view_element('table-view', 'table');
+      var table = this.create_view_element('table-products', 'table');
       var strip = document.getElementById("strip");
       if (strip) {
         this.$.views.removeChild(strip);
@@ -47,7 +48,7 @@
       if (exists_strip) {
         return;
       }
-      var strip = this.create_view_element('strip-view', 'strip');
+      var strip = this.create_view_element('strips-products', 'strip');
       var table = document.getElementById("table");
       if (table) {
         this.$.views.removeChild(table);

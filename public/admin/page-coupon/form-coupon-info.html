@@ -2,16 +2,20 @@
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-coupon-info">
   <template>
-    <style include="style-form"></style>
+    <style include="style-form">
+      iron-autogrow-textarea {
+        display: block;
+      }
+    </style>
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Name</label>
+        <label class="label">[[name_coupon_label]]</label>
         <input class="input" type="text" is="iron-input" bind-value="{{coupon.name}}">
         <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
-      <label class="label">Description</label>
       <div class="field">
+        <label class="label">[[description_coupon_label]]</label>
         <iron-autogrow-textarea is="iron-input" bind-value="{{coupon.description}}"
           rows="4">
         </iron-autogrow-textarea>
@@ -26,6 +30,14 @@
     is: 'form-coupon-info',
 
     properties: {
+      name_coupon_label: {
+        type: String,
+        value: 'Name'
+      },
+      description_coupon_label: {
+        type: String,
+        value: 'Description'
+      },
       coupon: {
         type: Object,
         value: function () { return {}; }

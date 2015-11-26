@@ -1,21 +1,30 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="list-categories.html">
+<link rel="import" href="part-categories-create.html">
+<link rel="import" href="part-categories-pages.html">
+<link rel="import" href="part-categories-search.html">
+<link rel="import" href="part-categories-stats.html">
+<link rel="import" href="part-categories-items.html">
+
 <dom-module id="page-categories">
   <template>
 
     <api-model-find id="find" collection="categories"
-      response="{{items}}">
+      response="{{categories}}">
     </api-model-find>
 
-    <layout-admin>
-      <div class="main">
-        <div class="container">
-          <h2>Categories</h2>
-          <a is="app-link" class="button" href="/admin/categories/new">create category</a>
-          <list-categories items="{{items}}"></list-categories>
-        </div>
-      </div>
+    <api-model-count id="count" collection="collections" response="{{count}}">
+    </api-model-count>
+
+    <layout-admin on-strip-preview="on_strip_view" on-table-preview="on_table_view">
+      <h1>Categories</h1>
+      <part-categories-create></part-categories-create>
+      <part-collections-search></part-collections-search>
+      <part-collections-stats></part-collections-stats>
+      <part-categories-items categories="{{categories}}"></part-categories-items>
+      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
+        count="{{count}}">
+      </part-products-pages>
     </layout-admin>
 
   </template>
@@ -33,8 +42,14 @@
       }
     },
 
-    ready: function () {
-      // this.$.find.send();
+    attached: function () {
+      this.$.count.send();
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 10;
+      this.page = event.detail.current - 1;
+      this.$.find.send();
     }
 
   });

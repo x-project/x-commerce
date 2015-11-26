@@ -1,6 +1,6 @@
 <link rel="import" href="../style-table/style-table.html">
 <link rel="import" href="../style-basic/style-basic.html">
-<dom-module id="table-view">
+<dom-module id="table-orders">
   <template>
 
     <style include="style-table"></style>
@@ -11,28 +11,22 @@
         <thead>
           <tr>
             <th>#</th>
-            <!-- <th>Image</th> -->
-            <th>Title</th>
-            <th>Vendor</th>
-            <th>Price</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Total</th>
             <th>Edit</th>
           </tr>
         </thead>
         <tbody>
-          <template id="products" is="dom-repeat" items="{{products}}" as="product">
+          <template id="orders" is="dom-repeat" items="{{orders}}" as="order">
             <tr class="text-center">
               <th scope="row">{{index}}</th>
- <!--              <td>
-                <image-preview image="{{product.images}}"
-                  like-size="50" height="50" width="30">
-                </image-preview>
-              </td> -->
-              <td>{{product.title}}</td>
-              <td>{{product.vendor.name}}</td>
-              <td>{{product.price}}</td>
+              <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+              <td>{{order.total}}</td>
+              <td>{{order.status}}</td>
               <td>
                 <a is="app-link" class="btn btn-link"
-                  href="/admin/products/{{product.id}}">edit
+                  href="/admin/orders/{{order.id}}">edit
                 </a>
               </td>
             </tr>
@@ -45,16 +39,10 @@
 <script>
   Polymer({
 
-    is: 'table-view',
+    is: 'table-orders',
 
     properties: {
-      perpage: {
-        type: Number
-      },
-      page: {
-        type: Number
-      },
-      products: {
+      orders: {
         type: Array,
         value: function () { return []; }
       }

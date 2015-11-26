@@ -24,7 +24,6 @@
       <input id="quantity_edit" readonly$="{{editing}}" type="number" is="iron-input"
         min="1" bind-value="{{data.quantity}}" on-keyup="on_keyup" on-change="on_change">
       <span>x $ {{data.product.price}} = $ {{subtotal}}</span>
-      <span class="edit" on-click="on_click_edit" class="edit">edit</span>
       <span class="delete" on-click="on_click_delete">x</span>
       <span class="pending" pending$="{{pending}}">saving........</span>
     </div>
@@ -95,11 +94,6 @@
     on_click_delete: function (event) {
       event.stopPropagation();
       this.fire('click-delete');
-    },
-
-    on_click_edit: function (event) {
-      event.stopPropagation();
-      this.edit_quantity();
     },
 
     on_keyup: function (event) {

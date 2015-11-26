@@ -1,16 +1,10 @@
-<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-button/style-button.html">
 <dom-module id="part-order-actions">
   <template>
-    <style include="style-form"></style>
-    <style>
-      :host {
-        display: block;
-        margin-bottom: 20px;
-      }
-    </style>
+    <style include="style-button"></style>
 
-    <input type="submit" class="button" value="save" on-click="on_click_save">
-    <input type="submit" class="button" value="delete" on-click="on_click_delete">
+    <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
 
   </template>
 </dom-module>

@@ -144,21 +144,19 @@
 
     '/admin/categories/:category_id': function (context) {
       this.init(context);
-
-      // this.get_model({
-      //     collection: 'articles',
-      //     modelId: context.params.category_id
-      //   })
-      //   .then(function (model) {
-      //     context.page_name = 'page-category';
-      //     context.data.article = model;
-      //     this.open_page(context);
-      //   }.bind(this))
-      //   .catch(function (error) {
-      //     context.page_name = 'page-404';
-      //     context.data.error = error;
-      //   });
-
+      this.get_model({
+          collection: 'categories',
+          modelId: context.params.category_id
+        })
+        .then(function (model) {
+          context.page_name = 'page-category';
+          context.data.category = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+        });
       context.page_name = 'page-category';
       this.open_page(context);
     },

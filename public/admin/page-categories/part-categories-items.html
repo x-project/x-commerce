@@ -1,11 +1,11 @@
 <link rel="import" href="../style-list/style-list.html">
-<link rel="import" href="table-orders.html">
-<dom-module id="part-orders-items">
+<link rel="import" href="table-categories.html">
+<dom-module id="part-categories-items">
   <template>
     <style include="style-list"></style>
 
-    <div class="items">
-      <table-orders orders="{{orders}}"><table-orders>
+    <div id="views">
+      <table-categories id="table" categories="{{categories}}"></table-categories>
     </div>
 
   </template>
@@ -13,10 +13,10 @@
 <script>
   Polymer({
 
-    is: 'part-orders-items',
+    is: 'part-categories-items',
 
     properties: {
-      orders: {
+      categories: {
         type: Array,
         value: function () { return []; }
       }
