@@ -41,7 +41,6 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
-      console.log(this.prod_type);
       if (!this.validate_model()) {
         return;
       }
@@ -58,7 +57,6 @@
         this.prod_type = data;
       }.bind(this))
       .catch(function (error) {
-        console.log(error);
         this.error = error;
       }.bind(this));
     },
