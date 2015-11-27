@@ -1,8 +1,10 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../style-checkbox/style-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-product-inventory">
   <template>
     <style include="style-form"></style>
+    <style include="style-checkbox"></style>
     <style>
       .hidden.field {
         display: none;
@@ -10,29 +12,34 @@
       .hidden.field[show] {
         display: block;
       }
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     </style>
 
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">SKU</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.sku}}">
+        <label class="label">[[product_sku_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{product.sku}}">
       </div>
       <div class="field">
-        <label class="label">Barcode</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.barcode}}">
+        <label class="label">[[product_barcode_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{product.barcode}}">
       </div>
       <div class="field">
         <paper-checkbox is="iron-input" checked="{{product.track_quantity}}" on-click="on_click_track">
-          <label>track quantity</label>
+          <label>[[product_track_quantity_label]]</label>
         </paper-checkbox>
       </div>
       <div class="hidden field" show$="{{show}}">
-        <label class="label">Quantity</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.quantity}}">
+        <label class="label">[[product_quantity_label]]</label>
+        <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
       </div>
       <div class="hidden field" show$="{{show}}">
         <paper-checkbox is="iron-input" checked="{{product.sell_after_purchase}}">
-          <label class="label">Allow customers to purchase this product when it's out of stock</label>
+          <label class="label">[[product_stock]]</label>
         </paper-checkbox>
       </div>
     </form>
@@ -45,6 +52,26 @@
     is: 'form-product-inventory',
 
     properties: {
+      product_sku_label: {
+        type: String,
+        value: 'SKU'
+      },
+      product_barcode_label: {
+        type: String,
+        value: 'Barcode'
+      },
+      product_track_quantity_label: {
+        type: String,
+        value: 'Track quantity'
+      },
+      product_quantity_label: {
+        type: String,
+        value: 'Quantity'
+      },
+      product_stock: {
+        type: String,
+        value: 'Allow customers to purchase this product when it\'s out of stock'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

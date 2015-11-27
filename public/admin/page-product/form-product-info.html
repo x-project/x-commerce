@@ -5,19 +5,25 @@
 <dom-module id="form-product-info">
   <template>
     <style include="style-form"></style>
-
+    <style>
+      iron-autogrow-textarea {
+        display: block;
+      }
+      input, iron-autogrow-textarea {
+        box-sizing: border-box;
+      }
+    </style>
     <form id="form" class="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Title</label>
-        <input class="input" id="title" type="text" is="iron-input" bind-value="{{product.title}}">
+        <label class="label">[[product_title_label]]</label>
+        <input class="form-control" id="title" type="text" is="iron-input" bind-value="{{product.title}}">
         <input-errors property="title" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
-        <label class="label">Description</label>
-        <div class="detail">
-          <iron-autogrow-textarea is="iron-input" bind-value="{{product.description}}" rows="4">
-          </iron-autogrow-textarea>
-        </div>
+        <label class="label">[[product_descrip_label]]</label>
+        <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{product.description}}"
+          rows="4">
+        </iron-autogrow-textarea>
         <input-errors property="description" error="{{error.details}}"></input-errors>
       </div>
     </form>
@@ -29,6 +35,14 @@
     is: 'form-product-info',
 
     properties: {
+      product_title_label: {
+        type: String,
+        value: 'Title'
+      },
+      product_descrip_label: {
+        type: String,
+        value: 'Description'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

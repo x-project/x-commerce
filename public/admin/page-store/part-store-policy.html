@@ -1,13 +1,18 @@
 <link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../input-errors/input-errors.html">
-<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="part-store-policy">
   <template>
-    <style include="style-panel"></style>
+    <style include="style-form"></style>
+    <style>
+      iron-autogrow-textarea {
+        display: block;
+      }
+    </style>
 
     <div class="panel">
       <h2 class="title">[[policy_label]]</h2>
-        <iron-autogrow-textarea is="iron-input" bind-value="{{store.policy}}" rows="5"
+        <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{store.policy}}" rows="5"
           placeholder="policy for my store">
         </iron-autogrow-textarea>
         <input-errors property="policy" error="{{error.details}}"></input-errors>

@@ -1,25 +1,40 @@
 <link rel="import" href="../input-phone/input-phone.html">
 <dom-module id="form-store-contact">
   <template>
-    <style include="style-page">
+    <style include="style-form"></style>
+
+    <style>
       input-phone {
         display: inline;
+      }
+      input-phone, input {
+        box-sizing: border-box;
+      }
+      .prefix {
+        --input-phone-prefix: {
+          @apply(--form-control);
+        };
+      }
+      .number{
+        --input-phone-number: {
+          @apply(--form-control);
+        };
       }
     </style>
 
     <form role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[email_label]]</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{store.email}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{store.email}}">
         <input-errors property="email" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">[[personal_phone_label]]</label>
-        <input-phone phone="{{store.mobile_phone}}"></input-phone>
+        <input-phone class="prefix" phone="{{store.mobile_phone}}"></input-phone>
       </div>
       <div class="field">
         <label class="label">[[office_phone_label]]</label>
-        <input-phone phone="{{store.office_phone}}"></input-phone>
+        <input-phone class="number" phone="{{store.office_phone}}"></input-phone>
       </div>
     </form>
   </template>

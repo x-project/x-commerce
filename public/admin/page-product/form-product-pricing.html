@@ -1,22 +1,31 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
-
+<link rel="import" href="../style-checkbox/style-checkbox.html">
 <dom-module id="form-product-pricing">
   <template>
     <style include="style-form"></style>
-
+    <style include="style-checkbox"></style>
+    <style>
+      input {
+        box-sizing: border-box;
+      }
+      input[type=number]::-webkit-inner-spin-button,
+      input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Price</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.price}}">
+        <label class="label">[[product_price_label]]</label>
+        <input class="form-control" type="number" is="iron-input" bind-value="{{product.price}}">
       </div>
       <div class="field">
-        <label class="label">Compare at price</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.compare_at_price}}">
+        <label class="label">[[product_compare_at_label]]</label>
+        <input class="form-control" type="number" is="iron-input" bind-value="{{product.compare_at_price}}">
       </div>
       <div class="field">
-        <label class="label">Charge taxes on this product</label>
-        <paper-checkbox checked="{{product.is_charge_taxes}}"></paper-checkbox>
+        <label class="label">[[product_charge_tax_label]]</label>
+        <input type="checkbox" is="iron-input" checked="{{product.is_charge_taxes}}">
       </div>
     </form>
 
@@ -28,6 +37,18 @@
     is: 'form-product-pricing',
 
     properties: {
+      product_price_label: {
+        type: String,
+        value: 'Price'
+      },
+      product_compare_at_label: {
+        type: String,
+        value: 'Compare at price'
+      },
+      product_charge_tax_label: {
+        type: String,
+        value: 'Charge taxes on this product'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

@@ -1,22 +1,27 @@
 <link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../style-form/input-form.html">
 <dom-module id="form-store-info">
   <template>
-    <style include="style-page">
+    <style include="style-form"></style>
+    <style>
       iron-autogrow-textarea {
         display: block;
       }
+      input, iron-autogrow-textarea {
+        box-sizing: border-box;
+      }
     </style>
 
-    <form role="form" on-submit="on_submit">
+    <form on-submit="on_submit">
       <div class="field">
         <label class="label">[[store_name_label]]</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{store.name}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{store.name}}">
         <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
         <div class="field">
           <label class="label">[[description_label]]</label>
-          <iron-autogrow-textarea is="iron-input" bind-value="{{store.description}}" rows="5"
+          <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{store.description}}" rows="5"
             placeholder="about my store">
           </iron-autogrow-textarea>
           <input-errors property="description" error="{{error.details}}"></input-errors>
