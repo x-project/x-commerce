@@ -1,7 +1,21 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="search-product-vendor.html">
+<link rel="import" href="search-one-item.html">
 <dom-module id="form-product-vendor">
   <template>
+
+    <style>
+      search-one-item {
+        --layout-input-search: {
+          box-sizing: border-box;
+        };
+        --layout-items: {
+          border: #eee solid red;
+        };
+        --layout-item: {
+          font-size: 12px;
+        };
+      }
+    </style>
 
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
       on-error="on_error" on-response="on_response_update">
@@ -11,9 +25,12 @@
       on-response="on_response_create">
     </api-model-create>
 
-    <search-product-vendor id="search" product="{{product}}"
-      on-try-save-vendor="on_try_save_vendor">
-    </search-product-vendor>
+
+    <label class="label">[[product_vendor_label]]</label>
+    <search-one-item id="search" product="{{product}}" items="{{vendors}}"
+      on-try-save-item="on_try_save_item" on-search-item="on_search_item"
+      value="{{product.vendor.name}}" property="name">
+    </search-one-item>
 
   </template>
 </dom-module>
@@ -23,6 +40,10 @@
     is: 'form-product-vendor',
 
     properties: {
+      product_vendor_label: {
+        type: String,
+        value: 'Vendor'
+      },
       product: {
         type: Object,
         value: function () { return {}; }
@@ -33,9 +54,23 @@
       }
     },
 
-    on_try_save_vendor: function (event) {
+    on_search_item: function (event) {
+      this.find_vendors();
+    },
+
+    find_vendors: function () {
+      Model.find('/api/vendors')
+        .then(function (data) {
+          this.set('vendors', data);
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    on_try_save_item: function (event) {
       event.stopPropagation();
-      this.vendor = event.detail.vendor;
+      this.vendor = event.detail.item;
       this.save_vendor();
     },
 

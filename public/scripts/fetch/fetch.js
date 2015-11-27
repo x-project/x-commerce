@@ -35,9 +35,15 @@ Model.update = function (url, model_id, data) {
   .then(status);
 }
 
-Model.delete = function (url, model_id) {
-  url = url + '/' + model_id;
+Model.delete = function (url) {
   return fetch(url, {
     method: 'delete'
   })
+}
+
+Model.find = function (url) {
+  return fetch(url, {
+    method: 'get'
+  })
+  .then(status);
 }

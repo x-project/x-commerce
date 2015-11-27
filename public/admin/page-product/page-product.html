@@ -25,7 +25,7 @@
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
-      <part-product-organization product="{{product}}"></part-product-organization>
+      <part-product-organization product="{{product}}" on-error="on_error"></part-product-organization>
       <part-product-variants id="variants" product="{{product}}"></part-product-variants>
       <part-product-actions></part-product-actions>
     </layout-admin>
@@ -93,7 +93,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/products', this.product.id)
+      Model.delete('/api/products/' + this.product.id)
         .then(function (data) {
           this.response_delete();
         }.bind(this))
@@ -118,11 +118,6 @@
     on_error_create: function (event) {
       event.stopPropagation();
       console.log(event.detail.request.xhr.response);
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
     },
 
     validate_model: function () {
@@ -171,7 +166,12 @@
     on_change_visibility: function (event) {
       event.stopPropagation();
       this.validate_model();
-    }
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+    },
 
   });
 </script>

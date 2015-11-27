@@ -82,7 +82,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/customers', this.customer.id)
+      Model.delete('/api/customers/' + this.customer.id)
       .then(function (data) {
         this.customer = data;
         this.response_delete();

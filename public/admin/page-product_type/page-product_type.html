@@ -73,7 +73,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/product_types', this.prod_type.id)
+      Model.delete('/api/product_types/' + this.prod_type.id)
       .then(function (data) {
         this.prod_type = data;
         this.response_delete();

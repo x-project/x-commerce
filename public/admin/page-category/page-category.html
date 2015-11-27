@@ -76,7 +76,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/categories', this.category.id)
+      Model.delete('/api/categories/' + this.category.id)
       .then(function (data) {
         this.category = data;
         this.response_delete();

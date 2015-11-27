@@ -74,7 +74,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/vendors', this.vendor.id)
+      Model.delete('/api/vendors/' + this.vendor.id)
       .then(function (data) {
         this.vendor = data;
         this.response_delete();

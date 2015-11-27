@@ -3,14 +3,18 @@
 <dom-module id="form-product-shipping">
   <template>
     <style include="style-form"></style>
-
-    <form id="form" role="form" on-submit="on_submit">
+    <style>
+      input {
+        box-sizing: border-box;
+      }
+    </style>
+    <form on-submit="on_submit">
       <div class="field">
-        <label class="label">Weight</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{product.weight}}">
+        <label class="label">[[product_weigth_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{product.weight}}">
       </div>
       <div class="field">
-        <label class="label">This product requires shipping</label>
+        <label class="label">[[product_require_shipping_label]]</label>
         <paper-checkbox checked="{{product.require_shipping}}"></paper-checkbox>
       </div>
     </form>
@@ -22,6 +26,14 @@
     is: 'form-product-shipping',
 
     properties: {
+      product_weigth_label: {
+        type: String,
+        value: 'Weigth'
+      },
+      product_require_shipping_label: {
+        type: String,
+        value: 'This product requires shipping'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

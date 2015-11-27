@@ -12,10 +12,8 @@
       .hidden.field[show] {
         display: block;
       }
-      input[type=number]::-webkit-inner-spin-button,
-      input[type=number]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
+      input {
+        box-sizing: border-box;
       }
     </style>
 
@@ -37,6 +35,7 @@
         <label class="label">[[product_quantity_label]]</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
       </div>
+
       <div class="hidden field" show$="{{show}}">
         <paper-checkbox is="iron-input" checked="{{product.sell_after_purchase}}">
           <label class="label">[[product_stock]]</label>

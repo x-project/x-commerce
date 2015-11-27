@@ -126,7 +126,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/orders', this.order.id)
+      Model.delete('/api/orders/' + this.order.id)
         .then(function (data) {
           this.response_delete();
         }.bind(this))

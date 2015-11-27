@@ -77,7 +77,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/coupons', this.coupon.id)
+      Model.delete('/api/coupons/' + this.coupon.id)
       .then(function (data) {
         this.coupon = data;
         this.response_delete();

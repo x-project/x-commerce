@@ -90,7 +90,7 @@
     },
 
     delete_model: function () {
-      Model.delete('/api/collections', this.collection.id)
+      Model.delete('/api/collections/' + this.collection.id)
       .then(function (data) {
         this.customer = data;
         this.response_delete();
