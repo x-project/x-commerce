@@ -1,19 +1,23 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="search-product-type.html">
+<link rel="import" href="search-one-item.html">
 <dom-module id="form-product-type">
   <template>
+    <style>
+
+    </style>
 
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
-      on-error="on_error" on-response="on_response_updated">
+      on-error="on_error" on-response="on_response_update">
     </api-model-update>
 
     <api-model-create id="create" collection="products"
       on-response="on_response_create">
     </api-model-create>
 
-    <search-product-type id="search" product="{{product}}"
-      on-try-save-prod-type="on_try_save_prod_type">
-    </search-product-type>
+    <label class="label">[[product_type_label]]</label>
+    <search-one-item id="search" items="{{product_types}}" on-search-item="on_search_item"
+      on-try-save-item="on_try_save_prod_type" value="{{product.product_type.name}}">
+    </search-one-item>
 
   </template>
 </dom-module>
@@ -23,6 +27,10 @@
     is: 'form-product-type',
 
     properties: {
+      product_type_label: {
+        type: String,
+        value: 'Product type'
+      },
       product: {
         type: Object,
         value: function () { return {}; }
@@ -33,38 +41,61 @@
       },
     },
 
-    on_try_save_prod_type: function (event) {
+    on_search_item: function (event) {
       event.stopPropagation();
-      this.product_type = event.detail.product_type;
-      this.save_product_type();
+      this.find_product_types();
     },
 
-    save_product_type: function () {
+    find_product_types: function () {
+      Model.find('/api/product_types')
+        .then(function (data) {
+          this.set('product_types', data);
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/products', this.product)
+        .then(function (data) {
+          this.product = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create(error);
+        }.bind(this));
+    },
+
+    on_try_save_prod_type: function (event) {
+      event.stopPropagation();
+      this.product_type = event.detail.item;
+      this.save_prod_type();
+    },
+
+    save_prod_type: function () {
       if (this.product.id) {
-        this.$.update.data = { product_type_id: this.product_type.id };
+        this.$.update.data = { product_type_id: this.product_type.id};
         this.$.update.send();
         return;
       }
-      this.create_product_new();
+      this.create_model();
     },
 
-    on_response_updated: function (event) {
+    on_error_create: function () {
+      this.fire('error');
+    },
+
+    on_response_create: function () {
+      this.save_prod_type();
+    },
+
+    on_response_update: function (event) {
       event.stopPropagation();
-      this.$.search.updated(this.product_type);
+      this.$.search.updated(this.product_type.name);
       page('/admin/products/' + this.product.id);
-    },
-
-    create_product_new: function () {
-      event.stopPropagation();
-      this.$.create.data = this.product;
-      this.$.create.send();
-    },
-
-    on_response_create: function (event) {
-      event.stopPropagation();
-      this.product = event.detail;
-      this.save_product_type();
     }
+
 
   });
 </script>

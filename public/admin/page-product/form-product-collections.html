@@ -95,11 +95,11 @@
           this.on_response_create();
         }.bind(this))
         .catch(function (error) {
-          this.on_error_create(error);
+          this.on_error_create();
         }.bind(this));
     },
 
-    on_error_create: function (error) {
+    on_error_create: function () {
       this.fire('error');
     },
 
@@ -115,8 +115,6 @@
         this.$.ajax_put.generateRequest();
         return;
       }
-      console.log('try create');
-
       this.create_model();
     },
 

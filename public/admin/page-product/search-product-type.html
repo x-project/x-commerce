@@ -2,12 +2,8 @@
 <dom-module id="search-product-type">
   <template>
 
-    <api-model-find id="find" collection="product_types"
-      response="{{product_types}}" on-error="on_error">
-    </api-model-find>
 
     <div class="field">
-      <label class="label">product type</label>
       <input class="input" type="text" is="iron-input" bind-value="{{search}}"
         on-keypress="on_search_prod_type" on-focus="on_search_prod_type">
     </div>
