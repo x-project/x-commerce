@@ -4,15 +4,23 @@
 <dom-module id="form-collection-visibility">
   <template>
     <style include="style-form"></style>
+    <style>
+      input-datetime {
+        @apply(--layout-input-width);
+      }
+      input-datetime {
+        @apply(--layout-input-datetime-field);
+      }
+    </style>
 
     <form id="form" role="form" on-submit="on_submit" on-change-date="on_change_visibility">
       <div class="field">
-        <label class="label">Online Store</label>
+        <label class="label">[[collection_online_store_label]]</label>
         <paper-checkbox class="input" is="iron-input" checked="{{collection.is_published}}">
         </paper-checkbox>
       </div>
       <div class="field">
-        <label class="label">Publish this collection on</label>
+        <label class="label">[[collection_publist_on_label]]</label>
         <input-datetime class="input" value="{{collection.published_at}}"></input-datetime>
         <input-errors property="published_at" error="{{error.details}}"></input-errors>
       </div>
@@ -25,6 +33,14 @@
     is: 'form-collection-visibility',
 
     properties: {
+      collection_online_store_label: {
+        type: String,
+        value: 'Online Store'
+      },
+      collection_publist_on_label: {
+        type: String,
+        value: 'Publish this product on'
+      },
       collection: {
         type: Object,
         value: function () { return {}; }

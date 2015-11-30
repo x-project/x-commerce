@@ -326,7 +326,6 @@ module.exports = function (Order) {
 
   var prepare_response_braintree = function (data) {
     return function (next) {
-      console.log(data.authorization_error);
       if (!data.payment_status) {
         next();
         return;

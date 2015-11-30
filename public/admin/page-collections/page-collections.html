@@ -1,7 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../style-page/style-page.html">
-<link rel="import" href="part-collections-create.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-collections-actions.html">
 <link rel="import" href="part-collections-items.html">
 <link rel="import" href="part-collections-pages.html">
 <link rel="import" href="part-collections-search.html">
@@ -16,12 +15,12 @@
     <api-model-count id="count" collection="collections" response="{{count}}">
     </api-model-count>
 
-    <layout-admin>
+    <layout-admin on-change-view="on_change_view">
       <h1>Collections</h1>
-      <part-collections-create></part-collections-create>
+      <part-collections-actions></part-collections-actions>
       <part-collections-search></part-collections-search>
       <part-collections-stats></part-collections-stats>
-      <part-collections-items collections="{{collections}}"></part-collections-items>
+      <part-collections-items id="items" collections="{{collections}}"></part-collections-items>
       <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
         count="{{count}}">
       </part-products-pages>
@@ -50,6 +49,11 @@
       this.page = event.detail.current - 1;
       this.$.find.include = ['images', 'products'];
       this.$.find.send();
+    },
+
+    on_change_view: function (event) {
+      event.stopPropagation();
+      this.$.items.change_view(event.detail.view);
     }
 
   });

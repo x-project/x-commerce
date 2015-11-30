@@ -1,7 +1,7 @@
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-coupons-pages.html">
+<link rel="import" href="part-coupons-actions.html">
 <link rel="import" href="part-coupons-items.html">
-<link rel="import" href="part-coupons-create.html">
+<link rel="import" href="part-coupons-pages.html">
 <dom-module id="page-coupons">
   <template>
 
@@ -14,7 +14,7 @@
 
     <layout-admin>
       <h1>Coupons</h1>
-      <part-coupons-create></part-coupons-create>
+      <part-coupons-actions></part-coupons-actions>
       <part-coupons-items coupons="{{coupons}}"></part-coupons-items>
       <part-coupons-pages on-change-page="on_change_page" perpage="{{perpage}}"
         count="{{count}}">

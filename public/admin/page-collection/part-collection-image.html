@@ -1,18 +1,26 @@
-<link rel="import" href="../image-view/image-view.html">
+<link rel="import" href="../image-previews/image-previews.html">
 <link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="form-collection-image.html">
 <dom-module id="part-collection-image">
   <template>
     <style include="style-panel"></style>
+    <style>
+      form-collection-image: {
+        --layout-input-image-button: {
+          @apply(--btn);
+          @apply(--btn-secondary);
+        };
+      }
+    </style>
 
     <div class="panel">
-      <h2 class="title">Images</h2>
+      <h2 class="title">[[collection_images_title]]</h2>
       <form-collection-image collection="{{collection}}"></form-collection-image>
     </div>
 
     <div class="images">
       <template id="images" is="dom-repeat" items="{{collection.images}}" as="image">
-        <image-view image="{{image}}" size="contain"></image-view>
+        <!-- <image-previews image="{{image}}" size="contain"></image-previews> -->
       </template>
     </div>
 
@@ -24,6 +32,10 @@
     is: 'part-collection-image',
 
     properties: {
+      collection_images_title: {
+        type: String,
+        value: 'Images'
+      },
       collection: {
         type: Object,
         value: function () { return {}; }

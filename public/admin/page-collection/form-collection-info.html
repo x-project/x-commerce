@@ -4,19 +4,26 @@
 <dom-module id="form-collection-info">
   <template>
     <style include="style-form"></style>
-
+    <style>
+      iron-autogrow-textarea {
+        display: block;
+      }
+      input, iron-autogrow-textarea {
+        @apply(--layout-input-width);
+      }
+    </style>
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">Title</label>
-        <input class="input" id="title" type="text" is="iron-input" bind-value="{{collection.title}}">
+        <label class="label">[[collection_title_label]]</label>
+        <input class="form-control" id="title" type="text" is="iron-input"
+          bind-value="{{collection.title}}">
         <input-errors property="title" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
-        <label class="label">Description</label>
-        <div class="detail">
-          <iron-autogrow-textarea is="iron-input" bind-value="{{collection.description}}" rows="4">
-          </iron-autogrow-textarea>
-        </div>
+        <label class="label">[[collection_description_label]]</label>
+        <iron-autogrow-textarea class="form-control" is="iron-input"
+          bind-value="{{collection.description}}" rows="4">
+        </iron-autogrow-textarea>
       </div>
     </form>
   </template>
@@ -27,6 +34,14 @@
     is: 'form-collection-info',
 
     properties: {
+      collection_title_label: {
+        type: String,
+        value: 'Title'
+      },
+      collection_description_label: {
+        type: String,
+        value: 'Description'
+      },
       collection: {
         type: Object,
         value: function () { return {}; }

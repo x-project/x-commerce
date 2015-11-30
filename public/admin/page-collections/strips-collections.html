@@ -1,0 +1,66 @@
+<link rel="import" href="/components/app-link/app-link.html">
+<link rel="import" href="../image-preview/image-preview.html">
+<link rel="import" href="../style-strip/style-strip.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-label/style-label.html">
+<dom-module id="strips-collections">
+  <template>
+    <style include="style-strip"></style>
+    <style include="style-button"></style>
+    <style include="style-label"></style>
+    <style>
+      .strip-links{
+        @apply(--layout-vertical);
+        @apply(--layout-justified);
+        @apply(--layout-end);
+      }
+      .price {
+        @apply(--layout-center);
+      }
+      .strip-tag {
+        display: inline-block;
+      }
+    </style>
+    <div class="items">
+      <template id="collections" is="dom-repeat" items="{{collections}}" as="collection">
+        <div class="strip">
+          <div class="strip-img">
+            <image-preview image="{{collection.images}}" like-size="120"
+              height="120" width="100">
+            </image-preview>
+          </div>
+          <div class="strip-block">
+            <div class="block-title">{{collection.title}}</div>
+            <text-view text="{{collection.description}}" limit="30"></text-view>
+            <span>{{get_number_of_products(collection)}}</span>
+          </div>
+
+          <div class="strip-links">
+            <div class="strip-link">
+              <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">edit</a>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'strips-collections',
+
+    properties: {
+      collections: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    get_number_of_products: function (collection) {
+      return 'Number of products: ' + collection.products.length || 0;
+    }
+
+  });
+</script>

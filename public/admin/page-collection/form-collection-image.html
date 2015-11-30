@@ -3,6 +3,11 @@
 <dom-module id="form-collection-image">
   <template>
     <style include="style-form"></style>
+    <style>
+      input-image {
+        @apply(--layout-input-image-button);
+      }
+    </style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">

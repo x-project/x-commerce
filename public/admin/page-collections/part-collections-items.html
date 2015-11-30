@@ -1,13 +1,10 @@
-<link rel="import" href="../style-list/style-list.html">
-<link rel="import" href="part-collections-item.html">
+<link rel="import" href="strips-collections.html">
+<link rel="import" href="table-collections.html">
 <dom-module id="part-collections-items">
   <template>
-    <style include="style-list"></style>
 
-    <div class="items">
-      <template is="dom-repeat" items="{{collections}}" as="collection">
-        <part-collections-item collection="{{collection}}"></part-collections-item>
-      </template>
+    <div id="views">
+      <table-collections id="table" collections="{{collections}}"></table-collections>
     </div>
 
   </template>
@@ -22,6 +19,47 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    change_view: function (view_type) {
+      if (view_type === 'table') {
+        this.table_preview();
+        return;
+      }
+      this.strip_preview();
+    },
+
+    table_preview: function (view_type) {
+      var exists_table = document.getElementById("table");
+      if (exists_table) {
+        return;
+      }
+      var table = this.create_view_element('table-collections', 'table');
+      var strip = document.getElementById("strip");
+      if (strip) {
+        this.$.views.removeChild(strip);
+      }
+      this.$.views.appendChild(table);
+    },
+
+    strip_preview: function () {
+      var exists_strip = document.getElementById("strip");
+      if (exists_strip) {
+        return;
+      }
+      var strip = this.create_view_element('strips-collections', 'strip');
+      var table = document.getElementById("table");
+      if (table) {
+        this.$.views.removeChild(table);
+      }
+      this.$.views.appendChild(strip);
+    },
+
+    create_view_element: function (name, id) {
+      var viewer = document.createElement(name);
+      viewer.id = id;
+      viewer.collections = this.collections;
+      return viewer;
     }
 
   });

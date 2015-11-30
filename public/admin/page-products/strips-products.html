@@ -26,12 +26,6 @@
     <div class="items">
       <template id="products" is="dom-repeat" items="{{products}}" as="product">
         <div class="strip">
-<!--           <div class="strip-img">
-            <image-preview image="{{product.images}}" like-size="120"
-              width="100" height="120">
-            </image-preview>
-          </div>
- -->
           <div class="strip-block">
             <div class="block-title">{{product.title}}</div>
             <div class="block-vendor">{{product.vendor.name}}</div>
@@ -78,12 +72,6 @@
     is: 'strips-products',
 
     properties: {
-      perpage: {
-        type: Number
-      },
-      page: {
-        type: Number
-      },
       products: {
         type: Array,
         value: function () { return []; }

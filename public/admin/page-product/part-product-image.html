@@ -4,6 +4,14 @@
 <dom-module id="part-product-image">
   <template>
     <style include="style-panel"></style>
+    <style>
+      form-product-image: {
+        --layout-input-image-button: {
+          @apply(--btn);
+          @apply(--btn-secondary);
+        };
+      }
+    </style>
 
     <div class="panel">
       <h2 class="title">[[product_images_title_label]]</h2>

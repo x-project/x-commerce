@@ -1,6 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="search-item">
+<dom-module id="search-items">
   <template>
     <style include="style-form"></style>
     <style>
@@ -55,7 +55,7 @@
 <script>
   Polymer({
 
-    is: 'search-item',
+    is: 'search-items',
 
     properties: {
       items: {
@@ -77,7 +77,7 @@
     },
 
     attached: function () {
-      this.selected = this.product.collections || [];
+      this.selected = this.items || [];
     },
 
     on_edit_collection: function (event) {

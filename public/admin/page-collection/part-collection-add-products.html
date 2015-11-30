@@ -5,15 +5,22 @@
 <dom-module id="part-collection-add-products">
   <template>
     <style include="style-panel"></style>
+    <style>
 
-    <iron-ajax id="ajax_put" method="PUT" on-error="on_error" on-response="on_response_put"></iron-ajax>
+    </style>
+
+    <iron-ajax id="ajax_put" method="PUT" on-error="on_error"
+     on-response="on_response_put">
+    </iron-ajax>
 
     <iron-ajax id="ajax_delete" method="DELETE" on-error="on_error"></iron-ajax>
 
-    <search-collection-product collection="{{collection}}"
-      on-try-save-product="on_try_save_product" on-try-delete-product="on_try_delete_product">
-    </search-collection-product>
-
+    <div class="panel">
+      <h3 class="title">[[collection_product_title_label]]</h3>
+      <search-collection-product collection="{{collection}}"
+        on-try-save-product="on_try_save_product" on-try-delete-product="on_try_delete_product">
+      </search-collection-product>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -22,6 +29,10 @@
     is: 'part-collection-add-products',
 
     properties: {
+      collection_product_title_label: {
+        type: String,
+        value: 'Add product in Collection'
+      },
       collection: {
         type: Object,
         value: function () { return {}; }

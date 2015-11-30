@@ -3,9 +3,19 @@
 <dom-module id="part-collection-visibility">
   <template>
     <style include="style-panel"></style>
+    <style>
+      form-collection-visibility {
+        --layout-input-width: {
+          box-sizing: border-box;
+        };
+        --layout-input-datetime-field: {
+          @apply(--form-control);
+        };
+      }
+    </style>
 
     <div class="panel">
-      <h3 class="title">Collection Visibility</h3>
+      <h3 class="title">[[colleciton_visibility_title_label]]</h3>
       <form-collection-visibility collection="{{collection}}" error="{{error}}">
       </form-collection-visibility>
     </div>
@@ -18,6 +28,10 @@
     is: 'part-collection-visibility',
 
     properties: {
+      colleciton_visibility_title_label: {
+        type: String,
+        value: 'Collection Visibility'
+      },
       collection: {
         type: Object,
         value: function () { return {}; }

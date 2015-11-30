@@ -3,11 +3,19 @@
 <dom-module id="part-collection-info">
   <template>
     <style include="style-panel"></style>
+    <style>
+      form-collection-info {
+        --layout-input-width: {
+          box-sizing: border-box;
+        };
+      }
+    </style>
 
     <div class="panel">
-      <h3 class="title">Collection Info</h3>
+      <h3 class="title">[[collection_info_title_label]]</h3>
       <form-collection-info collection="{{collection}}" error="{{error}}"></form-collection-info>
     </div>
+
   </template>
 </dom-module>
 <script>
@@ -16,6 +24,10 @@
     is: 'part-collection-info',
 
     properties: {
+      collection_info_title_label: {
+        type: String,
+        value: 'Collection Info'
+      },
       collection: {
         type: Object,
         value: function () { return {}; }

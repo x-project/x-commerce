@@ -1,4 +1,4 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/api-model-update/api-model-update.html">
 <link rel="import" href="../../components/text-view/text-view.html">
 <link rel="import" href="../style-basic/style-basic.html">
 <link rel="import" href="../style-table/style-table.html">
@@ -59,10 +59,6 @@
         type: Array,
         value: function () { return []; }
       }
-    },
-
-    attached: function () {
-      console.log(this.variants);
     },
 
     on_click_available: function (event) {

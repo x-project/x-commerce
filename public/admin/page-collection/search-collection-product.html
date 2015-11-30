@@ -24,13 +24,10 @@
       on-erro="on_error">
     </api-model-find>
 
-    <div class="panel">
-      <h3 class="title">Add product in Collection </h3>
-      <div class="field">
-        <label class="label">Search product</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{title}}"
-          on-keypress="on_search_product" on-focus="on_search_product">
-      </div>
+    <div class="field">
+      <label class="label">Search product</label>
+      <input class="input" type="text" is="iron-input" bind-value="{{title}}"
+        on-keypress="on_search_product" on-focus="on_search_product">
     </div>
 
     <div class="selected items">
@@ -46,8 +43,6 @@
       <template id="products" is="dom-repeat" items="{{new_products}}" filter="filter_products">
         <div class="item" on-click="on_click_select">
           <span>{{item.title}}</span>
-          <span>{{item.price}}</span>
-          <span>{{item.quantity}}</span>
         </div>
       </template>
     </div>

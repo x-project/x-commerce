@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Variants</h2>
+      <h2 class="title">[[variants_title_label]]</h2>
         <table-variants variants="{{variants}}" product="{{product}}"></table-variants>
       </template>
     </div>
@@ -18,6 +18,10 @@
     is: 'part-variants-items',
 
     properties: {
+      variants_title_label: {
+        type: String,
+        value: 'Variants'
+      },
       product: {
         type: Object,
         value: function () { return {}; }
@@ -26,11 +30,6 @@
         type: Array,
         value: function () { return []; }
       }
-    },
-
-    filter_variant: function (variant) {
-      variant.edit_url = '/admin/products/' + this.product.id + '/variants/' + variant.id;
-      return true;
     }
 
   });

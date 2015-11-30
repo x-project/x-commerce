@@ -1,5 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="search-item.html">
+<link rel="import" href="search-items.html">
 <dom-module id="form-product-collections">
   <template>
     <style>
@@ -38,10 +38,10 @@
     </iron-ajax>
 
     <label class="label">[[product_collection_label]]</label>
-    <search-item id="search" items="{{collections}}" product="{{product}}"
+    <search-items id="search" items="{{collections}}" items="{{product}}"
       on-try-save-item="on_try_save_collection" on-search-item="on_search_item"
       on-try-delete-item="on_try_delete_collection">
-    </search-item>
+    </search-items>
 
   </template>
 </dom-module>
