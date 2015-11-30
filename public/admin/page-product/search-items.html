@@ -1,6 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../style-form/style-form.html">
-<dom-module id="show-items">
+<dom-module id="search-items">
   <template>
     <style include="style-form"></style>
     <style>
@@ -23,7 +23,7 @@
     <div class="items">
       <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
         <div class="item" on-click="on_click_item">
-          <span>{{item.title}}</span>
+          <span>{{item.name}}</span>
         <div>
       </template>
     </div>
@@ -33,7 +33,7 @@
 <script>
   Polymer({
 
-    is: 'show-items',
+    is: 'search-items',
 
     properties: {
       items: {

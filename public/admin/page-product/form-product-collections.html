@@ -1,20 +1,18 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../search-items/search-items.html">
-<link rel="import" href="show-items.html">
-<link rel="import" href="item-selected.html">
+<link rel="import" href="search-items.html">
+<link rel="import" href="selected-items.html">
 
 <dom-module id="form-product-collections">
   <template>
     <style>
-      item-selected {
+      selected-items {
         --selected-item: {
           padding: 4px 8px;
           border-radius: 2px;
           display: inline-block;
           background-color: #eee;
         };
-
-
 
         --layout-input-search: {
           box-sizing: border-box;
@@ -45,19 +43,13 @@
 
     <label class="label">[[product_collection_label]]</label>
 
-    <show-items items="{{collections}}" on-search="on_search"
+    <search-items items="{{collections}}" on-search="on_search"
       on-item-selected="on_item_selected">
-    </show-items>
+    </search-items>
 
-    <item-selected id="selected" item="{{item_selected}}" items="{{product.collections}}"
+    <selected-items id="selected" item="{{item_selected}}" items="{{product.collections}}"
       on-delete-item="on_delete_collection">
-    </item-selected>
-
-
-<!--<search-items id="search" items="{{collections}}" selected="{{product.collections}}"
-      on-try-save-item="on_try_save_collection" on-search-item="on_search_item"
-      on-try-delete-item="on_try_delete_collection">
-    </search-items> -->
+    </selected-items>
 
   </template>
 </dom-module>
@@ -93,7 +85,6 @@
       event.stopPropagation();
       var collection = event.detail;
       this.collection = collection;
-      console.log(this.collection);
       this.save_collection();
     },
 
@@ -132,6 +123,7 @@
 
     on_response_put: function (event) {
       event.stopPropagation();
+      page('/admin/products/' + this.product.id);
       this.$.selected.update_item_selected(this.collection);
     },
 
@@ -142,7 +134,6 @@
     },
 
     create_model: function () {
-      console.log('create');
       Model.create('/api/products', this.product)
         .then(function (data) {
           this.product = data;
@@ -154,7 +145,6 @@
     },
 
     on_response_create: function () {
-      page('/admin/products/' + this.product.id);
       this.save_collection();
     },
 
