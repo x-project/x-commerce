@@ -1,18 +1,25 @@
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="form-variant-inventory-coding">
   <template>
     <style include="style-form"></style>
+    <style include="style-panel"></style>
 
-    <h3 class="title">coding</h3>
+    <style>
+      input {
+        @apply(--layout-input-coding);
+      }
+    </style>
+
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
-        <label class="label">SKU</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{variant.sku}}">
+        <label class="label">[[variant_SKU_title]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{variant.sku}}">
       </div>
       <div class="field">
-        <label class="label">Barcode</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{variant.barcode}}">
+        <label class="label">[[variant_barcode_title]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{variant.barcode}}">
       </div>
     </form>
 
@@ -24,6 +31,14 @@
     is: 'form-variant-inventory-coding',
 
     properties: {
+      variant_SKU_title: {
+        type: String,
+        value: 'SKU'
+      },
+      variant_barcode_title: {
+        type: String,
+        value: 'barcode'
+      },
       variant: {
         type: Object,
         value: function () { return {}; }

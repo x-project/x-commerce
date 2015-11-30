@@ -1,19 +1,24 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-panel/style-panel.html">
 <link rel="import" href="part-variant-inventory-quantity.html">
 
 <dom-module id="form-variant-inventory-track">
   <template>
-    <style include="style-form">
+    <style include="style-form"></style>
+    <style include="style-panel"></style>
+    <style>
       #quantity {
         display: none;
       }
       #quantity[show] {
         display: block;
       }
+      part-variant-inventory-quantity {
+        @apply(--layout-input-tracking);
+      }
     </style>
 
-    <h3 class="title">Policy</h3>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">

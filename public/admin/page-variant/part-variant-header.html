@@ -1,10 +1,8 @@
-<link rel="import" href="../style-panel/style-panel.html">
 <dom-module id="part-variant-header">
   <template>
-    <style include="style-panel"></style>
 
-      <h2 class="title"><span>Product / {{product.title}}</span></h2>
-      <h3 class="subtitle"><span>variant / {{variant.name}}</span></h3>
+    <h2 class="title">Product / {{product.title}}</h2>
+    <h3 class="subtitle">variant / {{variant.name}}</h3>
 
   </template>
 </dom-module>
@@ -15,6 +13,10 @@
 
     properties: {
       variant: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      product: {
         type: Object,
         value: function () { return {}; }
       }

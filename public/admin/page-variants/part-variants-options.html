@@ -1,12 +1,12 @@
 <link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="form-variants-option.html">
 <link rel="import" href="part-variants-option.html">
 <dom-module id="part-variants-options">
   <template>
+    <style include="style-panel"></style>
+    <style include="style-button"></style>
     <style>
-      :host {
-        display: block;
-      }
       #form {
         display: none;
       }
@@ -24,14 +24,6 @@
         border-radius: 4px;
         background-color: #eee;
       }
-      .option .delete {
-        padding-left: 8px;
-        opacity: .4;
-        cursor: pointer;
-      }
-      .option .delete:hover {
-        opacity: 1;
-      }
       .option .name {
         background-color: #eaa;
         border-radius: 4px;
@@ -39,6 +31,9 @@
       .option .value{
         background-color: #aae;
         border-radius: 4px;
+      }
+      part-variants-option {
+        margin-bottom: 12px;
       }
     </style>
 
@@ -49,7 +44,8 @@
     </iron-ajax>
 
     <iron-ajax id="ajax_product_option" method="POST" url="{{url_product_option}}"
-      content-type="application/json" handle-as="json" on-error="on_error" on-response="on_response_product_option">
+      content-type="application/json" handle-as="json" on-error="on_error"
+      on-response="on_response_product_option">
     </iron-ajax>
 
     <iron-ajax id="ajax_delete_option" method="DELETE" on-error="on_error"></iron-ajax>
@@ -66,7 +62,7 @@
       <div class="items">
         <template is="dom-repeat" id="options" items="{{options}}">
           <part-variants-option option="{{item}}">
-            <span class="delete" on-click="on_delete_option">x</span>
+            <button class="btn btn-danger delete" on-click="on_delete_option">remove</button>
           </part-variants-option>
         </template>
         <part-variants-option id="last_option" option="{{option_pending}}"
@@ -75,10 +71,10 @@
         </part-variants-option>
       </div>
 
-      <button id="add_option" class="add_option"
+      <button id="add_option" class="btn btn-secondary"
         on-click="on_click_add_option">add option</button>
 
-      <button id="generate_variant" on-click="on_click_generate_variant"
+      <button id="generate_variant" class="btn btn-secondary" on-click="on_click_generate_variant"
         disabled>generate variant</button>
 
       <form-variants-option id="form" open$="{{open}}" option="{{option}}"
@@ -139,7 +135,7 @@
 
     attached: function () {
       this.options = this.product.options;
-      if(this.product_options.length > 0){
+      if(this.options.length > 0){
         this.$.generate_variant.disabled = '';
       }
       this.variants = this.product.variants;

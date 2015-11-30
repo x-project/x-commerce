@@ -5,8 +5,8 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Avaiable</h2>
-      <label class="label">available</label>
+      <h2 class="title">[[variant_avaiable_title_label]]</h2>
+      <label class="label">[[variant_avaiable_label]]</label>
       <paper-checkbox is="iron-input" checked="{{variant.available}}"></paper-checkbox>
     </div>
 
@@ -18,6 +18,14 @@
     is: 'part-variant-available',
 
     properties: {
+      variant_avaiable_label: {
+        type: String,
+        value: 'Available'
+      },
+      variant_avaiable_title_label: {
+        type: String,
+        value: 'Available'
+      },
       variant: {
         type: Object,
         value: function () { return {}; }

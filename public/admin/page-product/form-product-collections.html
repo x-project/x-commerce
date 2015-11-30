@@ -37,7 +37,7 @@
       on-response="on_response_put">
     </iron-ajax>
 
-    <label class="label">Collections</label>
+    <label class="label">[[product_collection_label]]</label>
     <search-item id="search" items="{{collections}}" product="{{product}}"
       on-try-save-item="on_try_save_collection" on-search-item="on_search_item"
       on-try-delete-item="on_try_delete_collection">
@@ -54,6 +54,10 @@
     is: 'form-product-collections',
 
     properties: {
+      product_collection_label: {
+        type: String,
+        value: 'Collections'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

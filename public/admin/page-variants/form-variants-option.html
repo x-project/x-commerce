@@ -1,7 +1,10 @@
+<link rel="import" href="../style-button/style-button.html">
 <link rel="import" href="../style-form/style-form.html">
 <dom-module id="form-variants-option">
   <template>
-    <style include="style-form">
+    <style include="style-form"></style>
+    <style include="style-button"></style>
+    <style>
       .option {
         display: inline-block;
         padding: 4px 8px;
@@ -18,14 +21,14 @@
       }
     </style>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <form on-submit="on_submit">
       <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{option.name}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{option.name}}">
       </div>
       <div class="field">
         <label class="label">Values (space separed values)</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{value}}"
+        <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
           on-keyup="on_edit_option">
       </div>
 
@@ -38,7 +41,7 @@
         </template>
       </div>
 
-      <input type="submit" value="save">
+      <button type="submit" class="btn btn-secondary">save</button>
     </form>
 
 

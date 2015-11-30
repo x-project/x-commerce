@@ -4,9 +4,25 @@
 <dom-module id="part-variant-inventory">
   <template>
     <style include="style-panel"></style>
-
+    <style>
+    form-variant-inventory-coding {
+      --layout-input-coding: {
+        box-sizing: border-box;
+      };
+    }
+    form-variant-inventory-track {
+      form-variant-inventory-track: {
+        box-sizing: border-box;
+      };
+      --layout-input-tracking: {
+        box-sizing: border-box;
+      }
+    }
+    </style>
     <div class="panel">
+      <h3 class="title">[[variant_coding_title]]</h3>
       <form-variant-inventory-coding variant="{{variant}}"></form-variant-inventory-coding>
+      <h3 class="title">[[variant_policy_label]]</h3>
       <form-variant-inventory-track variant="{{variant}}"> </form-variant-inventory-track>
     </div>
 
@@ -18,6 +34,14 @@
     is: 'part-variant-inventory',
 
     properties: {
+      variant_coding_title: {
+        type: String,
+        value: 'Coding'
+      },
+      variant_policy_label: {
+        type: String,
+        value: 'Policy'
+      },
       variant: {
         type: Object,
         value: function () { return {}; }

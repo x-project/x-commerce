@@ -6,7 +6,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Visibility</h2>
+      <h2 class="title">[[product_visibility_title_label]]</h2>
       <form-product-visibility product="{{product}}" error="{{error}}">
       </form-product-visibility>
     </div>
@@ -19,6 +19,10 @@
     is: 'part-product-visibility',
 
     properties: {
+      product_visibility_title_label: {
+        type: String,
+        value: 'Visibility'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

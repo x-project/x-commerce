@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Variants</h2>
+      <h2 class="title">[[product_variants_title_label]]</h2>
       <template is="dom-if" if="{{product.id}}">
         <a is="app-link" href="/admin/products/{{product.id}}/variants">variants</a>
       </template>
@@ -22,6 +22,10 @@
     is: 'part-product-variants',
 
     properties: {
+      product_variants_title_label: {
+        type: String,
+        value: 'Variants'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

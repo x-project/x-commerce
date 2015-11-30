@@ -2,28 +2,28 @@
 <link rel="import" href="../style-label/style-label.html">
 <dom-module id="form-product-tags">
   <template>
-    <style include="style-label"></style>
+    <style include="style-form"></style>
     <style>
-      :host {
-        display: block;
-      }
-
       input-tags {
         --field-tags-items: {
           padding: 2px;
           border: 1px solid #aaa;
           border-radius: 2px;
         };
+        --field-tags-input: {
+          @apply(--form-control);
+        };
         --field-tags-item: {
           @apply(--label);
           @apply(--label-primary);
           margin: 2px 0px;
           padding: 0.5em;
+          display: inline-block;
         };
       }
     </style>
 
-    <input-tags tags="{{product.tags}}"></input-tags>
+    <input-tags tags="{{product.tags}}" on-change="on_change_tags"></input-tags>
 
   </template>
 </dom-module>
@@ -37,6 +37,11 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_change_tags: function (event) {
+      event.stopPropagation();
+      this.product.tags = event.detail;
     }
 
   });

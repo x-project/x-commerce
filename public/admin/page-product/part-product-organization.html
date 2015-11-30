@@ -8,7 +8,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Organization</h2>
+      <h2 class="title">[[product_organization_title_label]]</h2>
       <form-product-collections product="{{product}}"></form-product-collections>
       <form-product-vendor product="{{product}}"></form-product-vendor>
       <form-product-type product="{{product}}"></form-product-type>
@@ -23,6 +23,10 @@
     is: 'part-product-organization',
 
     properties: {
+      product_organization_title_label: {
+        type: String,
+        value: 'Organization'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

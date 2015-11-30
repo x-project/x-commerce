@@ -6,7 +6,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Images</h2>
+      <h2 class="title">[[product_images_title_label]]</h2>
       <form-product-image product="{{product}}"></form-product-image>
     </div>
 
@@ -24,6 +24,10 @@
     is: 'part-product-image',
 
     properties: {
+      product_images_title_label: {
+        type: String,
+        value: 'Images'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

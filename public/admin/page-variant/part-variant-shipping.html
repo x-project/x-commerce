@@ -3,9 +3,16 @@
 <dom-module id="part-variant-shipping">
   <template>
     <style include="style-panel"></style>
+    <style>
+    form-variant-shipping {
+      --layout-inpuit-shipping: {
+        box-sizing: border-box;
+      };
+    }
 
+    </style>
     <div class="panel">
-      <h2 class="title">Shipping</h2>
+      <h2 class="title">[[variant_shipping_label]]</h2>
       <form-variant-shipping variant="{{variant}}"></form-variant-shipping>
     </div>
 
@@ -17,6 +24,10 @@
     is: 'part-variant-shipping',
 
     properties: {
+      variant_shipping_label: {
+        type: String,
+        value: 'Shipping'
+      },
       variant: {
         type: Object,
         value: function () { return {}; }

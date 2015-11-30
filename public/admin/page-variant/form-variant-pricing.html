@@ -2,15 +2,20 @@
 <dom-module id="form-variant-pricing">
   <template>
     <style include="style-form"></style>
+    <style>
+      input {
+        @apply(--layout-input-pricing);
+      }
+    </style>
 
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">Price</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{variant.price}}">
+        <input class="form-control" type="number" is="iron-input" bind-value="{{variant.price}}">
       </div>
       <div class="field">
         <label class="label">Compare at price</label>
-        <input class="input" type="text" is="iron-input" bind-value="{{variant.compare_at_price}}">
+        <input class="form-control" type="number" is="iron-input" bind-value="{{variant.compare_at_price}}">
       </div>
     </form>
 

@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Shipping</h2>
+      <h2 class="title">[[product_shipping_title_label]]</h2>
       <form-product-shipping product="{{product}}"></form-product-shipping>
     </div>
   </template>
@@ -16,6 +16,10 @@
     is: 'part-product-shipping',
 
     properties: {
+      product_shipping_title_label: {
+        type: String,
+        value: 'Shipping'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

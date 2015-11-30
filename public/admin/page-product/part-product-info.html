@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Basic info</h2>
+      <h2 class="title">[[product_basic_info_label]]</h2>
       <form-product-info product="{{product}}" error="{{error}}"></form-product-info>
     </div>
 
@@ -17,6 +17,10 @@
     is: 'part-product-info',
 
     properties: {
+      product_basic_info_label: {
+        type: String,
+        value: 'Basic info'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

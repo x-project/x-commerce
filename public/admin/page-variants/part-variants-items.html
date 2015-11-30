@@ -1,16 +1,12 @@
 <link rel="import" href="../style-panel/style-panel.html">
-<link rel="import" href="part-variants-item.html">
+<link rel="import" href="table-variants.html">
 <dom-module id="part-variants-items">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2>Variants</h2>
-      <template is="dom-repeat" id="variants" items="{{variants}}" as="variant"
-        filter="filter_variant">
-        <div class="item">
-          <part-variants-item variant="{{variant}}"></part-variants-item>
-        </div>
+      <h2 class="title">Variants</h2>
+        <table-variants variants="{{variants}}" product="{{product}}"></table-variants>
       </template>
     </div>
 

@@ -3,9 +3,16 @@
 <dom-module id="part-variant-pricing">
 	<template>
     <style include="style-panel"></style>
+    <style>
+      form-variant-pricing {
+        --layout-input-pricing: {
+          box-sizing: border-box;
+        };
+      }
+    </style>
 
     <div class="panel">
-		  <h2 class="title">Pricing</h2>
+		  <h2 class="title">[[variant_pricing_title_label]]</h2>
 		  <form-variant-pricing variant="{{variant}}"></form-variant-pricing>
     </div>
 
@@ -17,6 +24,10 @@
 		is: 'part-variant-pricing',
 
     properties: {
+      variant_pricing_title_label: {
+        type: String,
+        value: 'Pricing'
+      },
       product: {
         type: Object,
         value: function () { return {}; }

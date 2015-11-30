@@ -5,7 +5,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Pricing</h2>
+      <h2 class="title">[[product_pricing_title_label]]</h2>
       <form-product-pricing product="{{product}}"></form-product-pricing>
     </div>
   </template>
@@ -16,6 +16,10 @@
     is: 'part-product-pricing',
 
     properties: {
+      product_pricing_title_label: {
+        type: String,
+        value: 'Pricing'
+      },
       product: {
         type: Object,
         value: function () { return {}; }
