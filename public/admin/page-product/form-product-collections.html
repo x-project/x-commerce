@@ -1,9 +1,9 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="search-items.html">
+<link rel="import" href="../search-items/search-items.html">
 <dom-module id="form-product-collections">
   <template>
     <style>
-      search-item {
+      search-items {
         --layout-input-search: {
           box-sizing: border-box;
         };
@@ -33,12 +33,12 @@
       }
     </style>
 
-    <iron-ajax id="ajax_put" method="PUT" on-error="on_error"
-      on-response="on_response_put">
+    <iron-ajax id="ajax_put" method="PUT" on-error="on_error" handle-as="json"
+      on-response="on_response_put" content-type="application/json">
     </iron-ajax>
 
     <label class="label">[[product_collection_label]]</label>
-    <search-items id="search" items="{{collections}}" items="{{product}}"
+    <search-items id="search" items="{{collections}}" selected="{{product.collections}}"
       on-try-save-item="on_try_save_collection" on-search-item="on_search_item"
       on-try-delete-item="on_try_delete_collection">
     </search-items>
@@ -116,6 +116,10 @@
     save_prod_collection: function () {
       if (this.product.id) {
         this.$.ajax_put.url = '/api/products/' + this.product.id + '/collections/rel/' + this.collection.id;
+        this.$.ajax_put.body = JSON.stringify({
+          collectionId: this.collection.id,
+          productId: this.product.id
+        });
         this.$.ajax_put.generateRequest();
         return;
       }

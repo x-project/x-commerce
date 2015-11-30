@@ -9,7 +9,10 @@
         @apply(--layout-input-width);
       }
       input-datetime {
-        @apply(--layout-input-datetime-field);
+        --input-datetime: {
+          border: 2px solid red;
+          @apply(--form-control);
+        };
       }
     </style>
 

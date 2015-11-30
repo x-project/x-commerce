@@ -5,11 +5,18 @@
   <template>
     <style include="style-form"></style>
     <style>
-      iron-autogrow-textarea {
-        display: block;
+      label {
+
       }
-      input, iron-autogrow-textarea {
-        @apply(--layout-input-width);
+
+      input {
+        box-sizing: var(--form-box-sizing);
+        @apply(--form-input);
+      }
+      iron-autogrow-textarea {
+        display: block;
+        box-sizing: var(--form-box-sizing);
+        @apply(--form-textarea);
       }
     </style>
     <form id="form" role="form" on-submit="on_submit">

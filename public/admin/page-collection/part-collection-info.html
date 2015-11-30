@@ -4,16 +4,21 @@
   <template>
     <style include="style-panel"></style>
     <style>
-      form-collection-info {
-        --layout-input-width: {
-          box-sizing: border-box;
+      .form {
+        --form-box-sizing: border-box;
+
+        --form-input: {
+          font-size: inherit;
         };
+        --form-textarea: {
+
+        }
       }
     </style>
 
     <div class="panel">
       <h3 class="title">[[collection_info_title_label]]</h3>
-      <form-collection-info collection="{{collection}}" error="{{error}}"></form-collection-info>
+      <form-collection-info class="form" collection="{{collection}}" error="{{error}}"></form-collection-info>
     </div>
 
   </template>

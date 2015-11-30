@@ -135,7 +135,8 @@
     attached: function () {
       this.order_items = this.order.order_items;
       this.order_item_pending = {};
-      this.compute_total();
+      if (this.order_items.length > 0);
+        this.compute_total();
     },
 
     show_saved: function () {
@@ -162,7 +163,8 @@
       this.$.ajax_get_order_items.generateRequest();
     },
 
-    on_response_get_order_items: function () {
+    on_response_get_order_items: function (event) {
+      event.stopPropagation();
       this.compute_total();
     },
 

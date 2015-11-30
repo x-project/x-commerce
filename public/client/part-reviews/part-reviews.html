@@ -8,10 +8,6 @@
 
     </style>
 
-    <iron-ajax id="ajax_post_comment" method="POST" content-type="application/json"
-      handle-as="json" on-response="on_response" on-error="on_error" >
-    </iron-ajax>
-
     <template is="dom-repeat" items="{{reviews}}" as="review">
       <part-review review="{{review}}"></part-review>
     </template>
@@ -24,47 +20,10 @@
     is: 'part-reviews',
 
     properties: {
-      product: {
-        type: Object,
-        value: function () { return {}; }
-      },
       reviews: {
         type: Array,
         value: function () { return []; }
-      },
-      comment: {
-        type: Object,
-        value: function () { return {}; }
       }
-    },
-
-    on_try_save_comment: function  (event) {
-      event.stopPropagation();
-      // TODO author_id
-      this.$.ajax_post_comment.body = JSON.stringify(this.get_data());
-      this.$.ajax_post_comment.url = '/api/products/' + this.product.id + '/comments'
-      this.$.ajax_post_comment.generateRequest();
-    },
-
-    get_data: function () {
-      return {
-        title: this.comment.title,
-        text: this.comment.text,
-        product_id: this.product.id,
-        author_id: '5612ab0087eb96dc542a4b17'
-      };
-    },
-
-    on_response: function  (event, details) {
-      event.stopPropagation();
-      this.set('comment.title', '');
-      this.set('comment.text', '');
-      this.fire('change-discussion');
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
     }
 
   });

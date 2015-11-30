@@ -28,8 +28,8 @@
     </style>
 
     <div class="field ">
-      <input class="form-control" type="text" on-keypress="on_edit_collection"
-        on-focus="on_edit_collection" is="iron-input" bind-value="{{title}}">
+      <input class="form-control" type="text" on-keypress="on_edit"
+        on-focus="on_edit" is="iron-input" bind-value="{{title}}">
     </div>
 
     <div class="selected items">
@@ -76,11 +76,7 @@
       }
     },
 
-    attached: function () {
-      this.selected = this.items || [];
-    },
-
-    on_edit_collection: function (event) {
+    on_edit: function (event) {
       this.fire('search-item');
     },
 
