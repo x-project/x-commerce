@@ -1,0 +1,68 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../style-form/style-form.html">
+<dom-module id="item-selected">
+  <template>
+    <style include="style-form"></style>
+    <style>
+      .item {
+        @apply(--selected-item);
+      }
+    </style>
+
+    <div class="items">
+      <template id="items" is="dom-repeat" items="{{items}}">
+        <div class="item">
+          <span>{{item.title}}</span>
+          <span on-click="on_click_delete" class="delete">x</span>
+        <div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'item-selected',
+
+    properties: {
+      items: {
+        type: Array,
+        value: function () { return []; }
+      },
+      item: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    update_item_selected: function (item) {
+      if (!this.items) {
+        this.items = [];
+      }
+      if (this.contain(item)) {
+        return;
+      }
+      this.push('items', item);
+    },
+
+    contain: function (item) {
+      return this.items.some(function (element) {
+        return element.id === item.id;
+      });
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      var item = this.$.items.itemForElement(event.target);
+      var index = this.items.indexOf(item);
+      this.splice('items', index, 1);
+      this.fire('delete-item', item);
+    }
+
+
+
+
+
+  });
+</script>

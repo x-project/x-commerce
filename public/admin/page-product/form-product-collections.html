@@ -1,20 +1,26 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../search-items/search-items.html">
+<link rel="import" href="show-items.html">
+<link rel="import" href="item-selected.html">
+
 <dom-module id="form-product-collections">
   <template>
     <style>
-      search-items {
+      item-selected {
+        --selected-item: {
+          padding: 4px 8px;
+          border-radius: 2px;
+          display: inline-block;
+          background-color: #eee;
+        };
+
+
+
         --layout-input-search: {
           box-sizing: border-box;
         };
         --layout-selected-items: {
 
-        };
-        --layout-selected-item: {
-          padding: 4px 8px;
-          border-radius: 2px;
-          display: inline-block;
-          background-color: #eee;
         };
         --layout-item-delete: {
           padding-left: 8px;
@@ -38,10 +44,20 @@
     </iron-ajax>
 
     <label class="label">[[product_collection_label]]</label>
-    <search-items id="search" items="{{collections}}" selected="{{product.collections}}"
+
+    <show-items items="{{collections}}" on-search="on_search"
+      on-item-selected="on_item_selected">
+    </show-items>
+
+    <item-selected id="selected" item="{{item_selected}}" items="{{product.collections}}"
+      on-delete-item="on_delete_collection">
+    </item-selected>
+
+
+<!--<search-items id="search" items="{{collections}}" selected="{{product.collections}}"
       on-try-save-item="on_try_save_collection" on-search-item="on_search_item"
       on-try-delete-item="on_try_delete_collection">
-    </search-items>
+    </search-items> -->
 
   </template>
 </dom-module>
@@ -68,11 +84,20 @@
       }
     },
 
-    on_search_item: function () {
-      this.find_collections();
+    on_search: function (event) {
+      event.stopPropagation();
+      this.get_collections();
     },
 
-    find_collections: function () {
+    on_item_selected: function (event) {
+      event.stopPropagation();
+      var collection = event.detail;
+      this.collection = collection;
+      console.log(this.collection);
+      this.save_collection();
+    },
+
+    get_collections: function () {
       Model.find('/api/collections')
         .then(function (data) {
           this.set('collections', data);
@@ -82,38 +107,7 @@
         }.bind(this));
     },
 
-    delete_model: function (collection) {
-      Model.delete('/api/products/' + this.product.id + '/collections/rel/' + collection.id)
-        .then(function (data) {
-          // noting
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error);
-        }.bind(this));
-    },
-
-    create_model: function () {
-      Model.create('/api/products', this.product)
-        .then(function (data) {
-          this.product = data;
-          this.on_response_create();
-        }.bind(this))
-        .catch(function (error) {
-          this.on_error_create();
-        }.bind(this));
-    },
-
-    on_error_create: function () {
-      this.fire('error');
-    },
-
-    on_try_save_collection: function (event) {
-      event.stopPropagation();
-      this.collection = event.detail.item;
-      this.save_prod_collection();
-    },
-
-    save_prod_collection: function () {
+    save_collection: function () {
       if (this.product.id) {
         this.$.ajax_put.url = '/api/products/' + this.product.id + '/collections/rel/' + this.collection.id;
         this.$.ajax_put.body = JSON.stringify({
@@ -126,18 +120,46 @@
       this.create_model();
     },
 
+    delete_model: function (collection) {
+      Model.delete('/api/products/' + this.product.id + '/collections/rel/' + collection.id)
+        .then(function (data) {
+          //noting
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
     on_response_put: function (event) {
       event.stopPropagation();
-      page('/admin/products/' + this.product.id);
+      this.$.selected.update_item_selected(this.collection);
+    },
+
+    on_delete_collection: function (event) {
+      event.stopPropagation();
+      var collection = event.detail;
+      this.delete_model(collection);
+    },
+
+    create_model: function () {
+      console.log('create');
+      Model.create('/api/products', this.product)
+        .then(function (data) {
+          this.product = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create();
+        }.bind(this));
     },
 
     on_response_create: function () {
-      this.save_prod_collection();
+      page('/admin/products/' + this.product.id);
+      this.save_collection();
     },
 
-    on_try_delete_collection: function (event) {
-      var collection = event.detail.item;
-      this.delete_model(collection);
+    on_error_create: function () {
+      this.fire('error');
     }
 
   });
