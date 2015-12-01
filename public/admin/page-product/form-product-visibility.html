@@ -6,7 +6,6 @@
   <template>
     <style include="style-form"></style>
     <style include="style-checkbox"></style>
-
     <style>
       .invalid_date{
         display: none;
@@ -14,11 +13,14 @@
       .invalid_date[show] {
         display: block;
       }
-      input-datetime{
+      input-datetime {
         box-sizing: border-box;
-        --layout-input-data-time: {
+        --input-datetime: {
           @apply(--form-control);
         };
+        --datetime-button-now: {
+          @apply(--btn-secondary);
+        }
       }
     </style>
 

@@ -2,15 +2,20 @@
 <link rel="import" href="/components/iron-input/iron-input.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../style-color/style-color.html">
 <dom-module id="form-product-info">
   <template>
     <style include="style-form"></style>
+    <style include="style-color"></style>
     <style>
       iron-autogrow-textarea {
         display: block;
       }
       input, iron-autogrow-textarea {
         box-sizing: border-box;
+      }
+      label {
+        color: var(--title-color);
       }
     </style>
     <form id="form" class="form" on-submit="on_submit">
@@ -21,8 +26,8 @@
       </div>
       <div class="field">
         <label class="label">[[product_descrip_label]]</label>
-        <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{product.description}}"
-          rows="4">
+        <iron-autogrow-textarea class="form-control" is="iron-input"
+          bind-value="{{product.description}}" rows="4">
         </iron-autogrow-textarea>
         <input-errors property="description" error="{{error.details}}"></input-errors>
       </div>

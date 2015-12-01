@@ -99,15 +99,10 @@
       Model.find('/api/collections')
         .then(function (data) {
           this.set('collections', data);
-          // this.update_collections(data);
         }.bind(this))
         .catch(function (error) {
           console.log(error);
         }.bind(this));
-    },
-
-    update_collections: function (collections) {
-      this.$.search.update_items(collections);
     },
 
     save_collection: function () {
