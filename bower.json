@@ -12,7 +12,8 @@
     "paper-checkbox": "PolymerElements/paper-checkbox#^1.0.0",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.0.2",
     "superagent": "cvdlab/superagent",
-    "x-element": "x-element/x-element"
+    "x-element": "x-element/x-element",
+    "vaadin-combo-box": "~1.0.0-alpha2"
   },
   "license": "MIT"
 }

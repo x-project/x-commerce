@@ -58,6 +58,7 @@
       this.set('is_selected', is_selected);
       if (is_selected) {
         this.$.item.focus();
+        console.log('focus', this.item);
       } else {
         this.$.item.blur();
       }

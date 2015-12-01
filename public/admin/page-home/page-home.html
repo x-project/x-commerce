@@ -1,9 +1,12 @@
+<link rel="import" href="../../components/vaadin-combo-box/vaadin-combo-box.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <dom-module id="page-home">
   <template>
 
     <layout-admin>
       <h1>Admin</h1>
+      <vaadin-combo-box label="Favourite word"></vaadin-combo-box>
+
     </layout-admin>
 
   </template>
@@ -11,7 +14,12 @@
 <script>
   Polymer({
 
-    is: 'page-home'
+    is: 'page-home',
+
+    attached: function () {
+      var combobox = combobox || document.querySelector('vaadin-combo-box');
+        combobox.items = ['foo', 'bar', 'baz'];
+    }
 
   });
 </script>
