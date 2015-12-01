@@ -47,11 +47,9 @@
 
     <label class="label">[[product_collection_label]]</label>
 
-    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-      on-keypress="on_search" on-focus="on_search">
 
-    <search-items items="{{collections}}" value="{{value}}"
-      on-item-selected="on_item_selected" property="title">
+    <search-items id="search" items="{{collections}}" value="{{value}}"
+      on-item-selected="on_item_selected" property="title" on-search="on_search">
     </search-items>
 
     <selected-items id="selected" item="{{item_selected}}" property="title"
@@ -99,10 +97,15 @@
       Model.find('/api/collections')
         .then(function (data) {
           this.set('collections', data);
+          // this.update_collections(data);
         }.bind(this))
         .catch(function (error) {
           console.log(error);
         }.bind(this));
+    },
+
+    update_collections: function (collections) {
+      this.$.search.update_items(collections);
     },
 
     save_collection: function () {
