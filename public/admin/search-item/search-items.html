@@ -1,12 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../style-form/style-form.html">
 <dom-module id="search-items">
   <template>
-    <style include="style-form"></style>
     <style>
-      input {
-        @apply(--layout-input-width);
-      }
       .items {
         @apply(--layout-items);
       }
@@ -15,15 +10,10 @@
       }
     </style>
 
-    <div class="field">
-    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-      on-keypress="on_search_item" on-focus="on_search_item">
-    </div>
-
     <div class="items">
       <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
         <div class="item" on-click="on_click_item">
-          <span>{{item.name}}</span>
+          <span>{{item._name}}</span>
         <div>
       </template>
     </div>
@@ -43,12 +33,11 @@
       value: {
         type: String,
         value: ''
+      },
+      property: {
+        type: String,
+        value: 'name'
       }
-    },
-
-    on_search_item: function (event) {
-      event.stopPropagation();
-      this.fire('search');
     },
 
     on_click_item: function (event) {
@@ -59,7 +48,8 @@
     },
 
     filter: function (item) {
-      return item.title.search(this.title) >= 0;
+      item._name = item[this.property];
+      return item._name.search(this.value) >= 0;
     }
 
   });

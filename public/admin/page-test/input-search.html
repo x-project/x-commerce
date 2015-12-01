@@ -6,6 +6,11 @@
         display: block;
       }
 
+      #container {
+        width: 100%;
+        position: relative;
+      }
+
       #search {
         width: 100%;
         @apply(--input-search);
@@ -18,11 +23,16 @@
 
       #datalist {
         width: 100%;
+        position: absolute;
+        background: white;
       }
     </style>
 
-    <input id="search" type="search" placeholder="search" on-keydown="on_keydown">
-    <input-search-datalist id="datalist" items="{{items}}"></input-search-datalist>
+    <div id="container">
+      <input id="search" type="text" placeholder="search"
+        on-keydown="on_keydown">
+      <input-search-datalist id="datalist" items="{{items}}"></input-search-datalist>
+    </div>
 
   </template>
 </dom-module>

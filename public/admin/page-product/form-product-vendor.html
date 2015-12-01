@@ -1,18 +1,13 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="search-one-item.html">
+<link rel="import" href="../../components/api-model-update/api-model-update.html">
+<link rel="import" href="../search-items/search-items.html">
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="search-items.html">
 <dom-module id="form-product-vendor">
   <template>
+    <style include="style-form"></style>
     <style>
-      search-one-item {
-        --layout-input-width: {
-          box-sizing: border-box;
-        };
-        --layout-item: {
-
-        };
-        --layout-items: {
-
-        };
+      input {
+        box-sizing: border-box;
       }
     </style>
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
@@ -24,10 +19,13 @@
     </api-model-create>
 
     <label class="label">[[product_vendor_label]]</label>
-    <search-one-item id="search" items="{{vendors}}"
-      on-try-save-item="on_try_save_vendor" on-search-item="on_search_item"
-      value="{{product.vendor.name}}" property="name">
-    </search-one-item>
+
+    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
+      on-keypress="on_search" on-focus="on_search">
+
+    <search-items items="{{vendors}}" value="{{value}}"
+      on-item-selected="on_item_selected">
+    </search-items>
 
   </template>
 </dom-module>
@@ -51,7 +49,11 @@
       }
     },
 
-    on_search_item: function (event) {
+    attached: function () {
+     (this.product.vendor) ? this.value = this.product.vendor.name : this.value = '';
+    },
+
+    on_search: function (event) {
       event.stopPropagation();
       this.find_vendors();
     },
@@ -70,9 +72,9 @@
       this.fire('error');
     },
 
-    on_try_save_vendor: function (event) {
+    on_item_selected: function (event) {
       event.stopPropagation();
-      this.vendor = event.detail.item;
+      this.vendor = event.detail;
       this.save_vendor();
     },
 
@@ -87,7 +89,7 @@
 
     on_response_update: function (event) {
       event.stopPropagation();
-      this.$.search.updated(this.vendor.name);
+      this.value = this.vendor.name;
       page('/admin/products/' + this.product.id);
     },
 

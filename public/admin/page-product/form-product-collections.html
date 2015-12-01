@@ -1,10 +1,11 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../search-items/search-items.html">
+<link rel="import" href="../selected-items/selected-items.html">
+<link rel="import" href="../style-form/style-form.html">
 <link rel="import" href="search-items.html">
-<link rel="import" href="selected-items.html">
-
 <dom-module id="form-product-collections">
   <template>
+    <style include="style-form"></style>
     <style>
       selected-items {
         --selected-item: {
@@ -35,6 +36,9 @@
 
         };
       }
+      input {
+        box-sizing: border-box;
+      }
     </style>
 
     <iron-ajax id="ajax_put" method="PUT" on-error="on_error" handle-as="json"
@@ -43,12 +47,15 @@
 
     <label class="label">[[product_collection_label]]</label>
 
-    <search-items items="{{collections}}" on-search="on_search"
-      on-item-selected="on_item_selected">
+    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
+      on-keypress="on_search" on-focus="on_search">
+
+    <search-items items="{{collections}}" value="{{value}}"
+      on-item-selected="on_item_selected" property="title">
     </search-items>
 
-    <selected-items id="selected" item="{{item_selected}}" items="{{product.collections}}"
-      on-delete-item="on_delete_collection">
+    <selected-items id="selected" item="{{item_selected}}" property="title"
+      items="{{product.collections}}" on-delete-item="on_delete_collection">
     </selected-items>
 
   </template>

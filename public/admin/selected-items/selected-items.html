@@ -10,9 +10,9 @@
     </style>
 
     <div class="items">
-      <template id="items" is="dom-repeat" items="{{items}}">
+      <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
         <div class="item">
-          <span>{{item.title}}</span>
+          <span>{{item._name}}</span>
           <span on-click="on_click_delete" class="delete">x</span>
         <div>
       </template>
@@ -33,6 +33,10 @@
       item: {
         type: Object,
         value: function () { return {}; }
+      },
+      property: {
+        type: String,
+        value: 'name'
       }
     },
 
@@ -58,11 +62,12 @@
       var index = this.items.indexOf(item);
       this.splice('items', index, 1);
       this.fire('delete-item', item);
+    },
+
+    filter: function (item) {
+      item._name = item[this.property];
+      return true;
     }
-
-
-
-
 
   });
 </script>

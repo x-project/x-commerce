@@ -1,18 +1,13 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="search-one-item.html">
+<link rel="import" href="../../components/api-model-update/api-model-update.html">
+<link rel="import" href="../search-items/search-items.html">
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="search-items.html">
 <dom-module id="form-product-type">
   <template>
+    <style include="style-form"></style>
     <style>
-      search-one-item {
-        --layout-input-width: {
-            box-sizing: border-box;
-        };
-        --layout-item: {
-
-        };
-        --layout-items: {
-
-        };
+      input {
+        box-sizing: border-box;
       }
     </style>
 
@@ -20,15 +15,14 @@
       on-error="on_error" on-response="on_response_update">
     </api-model-update>
 
-    <api-model-create id="create" collection="products"
-      on-response="on_response_create">
-    </api-model-create>
-
     <label class="label">[[product_type_label]]</label>
 
-    <search-one-item id="search" items="{{product_types}}" on-search-item="on_search_item"
-      on-try-save-item="on_try_save_prod_type" value="{{product.product_type.name}}">
-    </search-one-item>
+    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
+      on-keypress="on_search" on-focus="on_search">
+
+    <search-items items="{{product_types}}" value="{{value}}"
+      on-item-selected="on_item_selected">
+    </search-items>
 
   </template>
 </dom-module>
@@ -52,7 +46,12 @@
       },
     },
 
-    on_search_item: function (event) {
+
+    attached: function () {
+     (this.product.product_type.name) ? this.value = this.product.product_type.name : this.value = '';
+    },
+
+    on_search: function (event) {
       event.stopPropagation();
       this.find_product_types();
     },
@@ -78,9 +77,9 @@
         }.bind(this));
     },
 
-    on_try_save_prod_type: function (event) {
+    on_item_selected: function (event) {
       event.stopPropagation();
-      this.product_type = event.detail.item;
+      this.product_type = event.detail;
       this.save_prod_type();
     },
 
@@ -103,7 +102,7 @@
 
     on_response_update: function (event) {
       event.stopPropagation();
-      this.$.search.updated(this.product_type.name);
+      this.value = this.product_type.name;
       page('/admin/products/' + this.product.id);
     }
 
