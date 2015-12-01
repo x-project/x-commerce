@@ -36,8 +36,13 @@
 
         };
       }
-      input {
+
+      search-items {
         box-sizing: border-box;
+        @apply(--form-control);
+        --combo-box: {
+
+        };
       }
     </style>
 
@@ -47,9 +52,8 @@
 
     <label class="label">[[product_collection_label]]</label>
 
-
-    <search-items id="search" items="{{collections}}" value="{{value}}"
-      on-item-selected="on_item_selected" property="title" on-search="on_search">
+    <search-items id="search" items="{{collections}}" on-item-selected="on_item_selected"
+      property="title" on-search="on_search" label="search collection">
     </search-items>
 
     <selected-items id="selected" item="{{item_selected}}" property="title"

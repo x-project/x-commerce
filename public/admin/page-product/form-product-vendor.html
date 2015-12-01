@@ -6,25 +6,22 @@
   <template>
     <style include="style-form"></style>
     <style>
-      input {
+      search-items {
         box-sizing: border-box;
+        @apply(--form-control);
+        --combo-box: {
+
+        };
       }
     </style>
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
       on-error="on_error" on-response="on_response_update">
     </api-model-update>
 
-    <api-model-create id="create" collection="products"
-      on-response="on_response_create">
-    </api-model-create>
-
     <label class="label">[[product_vendor_label]]</label>
 
-    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-      on-keypress="on_search" on-focus="on_search">
-
-    <search-items items="{{vendors}}" value="{{value}}"
-      on-item-selected="on_item_selected">
+    <search-items id="search" items="{{vendors}}" on-item-selected="on_item_selected"
+      property="name" on-search="on_search" label="search vendor" value="{{product.vendor.name}}">
     </search-items>
 
   </template>
@@ -49,10 +46,6 @@
       }
     },
 
-    attached: function () {
-     (this.product.vendor) ? this.value = this.product.vendor.name : this.value = '';
-    },
-
     on_search: function (event) {
       event.stopPropagation();
       this.find_vendors();
@@ -70,6 +63,11 @@
 
     on_error_create: function () {
       this.fire('error');
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      this.on_error_create();
     },
 
     on_item_selected: function (event) {

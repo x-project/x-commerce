@@ -6,16 +6,21 @@
 <dom-module id="part-product-organization">
   <template>
     <style include="style-panel"></style>
+    <style>
+      .form{
+        margin-bottom: 20px;
+      }
+    </style>
 
     <div class="panel">
       <h2 class="title">[[product_organization_title_label]]</h2>
-      <form-product-collections product="{{product}}"></form-product-collections>
-      <!-- <form-product-vendor product="{{product}}"></form-product-vendor> -->
-      <!-- <form-product-type product="{{product}}"></form-product-type> -->
-      <!-- <form-product-tags product="{{product}}"></form-product-tags> -->
+      <form-product-collections class="form" product="{{product}}"></form-product-collections>
+      <form-product-vendor class="form" product="{{product}}"></form-product-vendor>
+      <form-product-type class="form" product="{{product}}"></form-product-type>
+      <form-product-tags class="form" product="{{product}}"></form-product-tags>
     </div>
 
-  </template>
+  </temlate>
 </dom-module>
 <script>
   Polymer({

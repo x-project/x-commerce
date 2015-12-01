@@ -6,8 +6,12 @@
   <template>
     <style include="style-form"></style>
     <style>
-      input {
+      search-items {
         box-sizing: border-box;
+        @apply(--form-control);
+        --combo-box: {
+
+        };
       }
     </style>
 
@@ -17,11 +21,8 @@
 
     <label class="label">[[product_type_label]]</label>
 
-    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-      on-keypress="on_search" on-focus="on_search">
-
-    <search-items items="{{product_types}}" value="{{value}}"
-      on-item-selected="on_item_selected">
+    <search-items id="search" items="{{product_types}}" on-item-selected="on_item_selected"
+      property="name" on-search="on_search" label="search product type" value="{{product.product_type.name}}">
     </search-items>
 
   </template>
@@ -44,11 +45,6 @@
         type: Object,
         value: function () { return {}; }
       },
-    },
-
-
-    attached: function () {
-     (this.product.product_type.name) ? this.value = this.product.product_type.name : this.value = '';
     },
 
     on_search: function (event) {
@@ -94,6 +90,11 @@
 
     on_error_create: function () {
       this.fire('error');
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      this.on_error_create();
     },
 
     on_response_create: function () {

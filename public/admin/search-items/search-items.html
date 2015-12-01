@@ -3,28 +3,14 @@
 <dom-module id="search-items">
   <template>
     <style>
-      .items {
-        @apply(--layout-items);
-      }
-      .item {
-        @apply(--layout-item);
-      }
-      vaadin-combo-box {
-        border: 1px solid #eee;
+      #combo_box {
+        @apply(--combo-box);
       }
     </style>
 
-<!--     <div class="items">
-      <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
-        <div class="item" on-click="on_click_item">
-          <span>{{item._name}}</span>
-        <div>
-      </template>
-    </div> -->
     <vaadin-combo-box id="combo_box" on-focus="on_search" on-click="on_search"
-      label="search items" on-change-selected="on_change_selected">
+      label="{{label}}" on-change-selected="on_change_selected">
     </vaadin-combo-box>
-
 
   </template>
 </dom-module>
@@ -39,14 +25,22 @@
         value: function () { return []; },
         observer: '_on_change_items'
       },
-      value: {
-        type: String,
-        value: ''
-      },
       property: {
         type: String,
         value: 'name'
+      },
+      label: {
+        type: String,
+        value: 'search item'
+      },
+      value: {
+        type: String,
+        value: ''
       }
+    },
+
+    attached: function () {
+      this.$.combo_box.value = this.value;
     },
 
     on_search: function (event) {
@@ -82,18 +76,6 @@
       }, this);
       return obj;
     }
-
-    // on_click_item: function (event) {
-    //   event.stopPropagation();
-    //   var item = this.$.items.itemForElement(event.target);
-    //   this.set('items', []);
-    //   this.fire('item-selected', item);
-    // },
-
-    // filter: function (item) {
-    //   item._name = item[this.property];
-    //   return item._name.search(this.value) >= 0;
-    // }
 
   });
 </script>
