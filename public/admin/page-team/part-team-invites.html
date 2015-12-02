@@ -1,0 +1,34 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="item-invite.html">
+<dom-module id="part-team-invites">
+  <style include="style-panel"></style>
+  <template>
+
+    <div class="panel">
+    <h2 class="title">[[team_invites_title_label]]</h2>
+      <template is="dom-repeat" items="{{invites}}" as="invite">
+        <item-invite item="{{invite}}"></item-invite>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-team-invites',
+
+    properties: {
+      team_invites_title_label: {
+        type: String,
+        value: 'Team invites'
+      },
+      invites: {
+        type: Array,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

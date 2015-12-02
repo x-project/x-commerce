@@ -1,0 +1,53 @@
+<link rel="import" href="../../components/text-view/text-view.html">
+<link rel="import" href="../style-table/style-table.html">
+<link rel="import" href="../style-basic/style-basic.html">
+<dom-module id="table-members">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fullname</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="members" is="dom-repeat" items="{{members}}" as="member">
+            <tr class="text-center">
+              <th scope="row">{{index}}</th>
+              <td>{{member.fullname}}</td>
+              <td>{{member.email}}</td>
+              <td>{{member.role}}</td>
+              <td>
+                <!--hidden$="{{!route.session.isAdmin}} hide edit link-->
+                <a is="app-link" class="btn btn-link"
+                  href="/admin/members/{{member.id}}">edit
+                </a>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-members',
+
+    properties: {
+      members: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

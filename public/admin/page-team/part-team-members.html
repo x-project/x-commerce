@@ -1,0 +1,32 @@
+<link rel="import" href="../style-panel/style-panel.html">
+<link rel="import" href="table-members.html">
+<dom-module id="part-team-members">
+  <style include="style-panel"></style>
+
+  <template>
+    <div class="panel">
+      <h2 class="title">[[team_members_title_label]]</h2>
+      <table-members members="{{members}}"></table-members>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-team-members',
+
+    properties: {
+      team_members_title_label: {
+        type: String,
+        value: 'Team members'
+      },
+      members: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>
