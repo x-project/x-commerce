@@ -48,13 +48,7 @@
       if (!this.validate_model()) {
         return;
       }
-      // this.convert_phone_string_to_num();
       this.update_model();
-    },
-
-    convert_phone_string_to_num: function () {
-      parseInt(this.store.mobile_phone);
-      console.log(this.store.mobile_phone);
     },
 
     update_model: function () {
