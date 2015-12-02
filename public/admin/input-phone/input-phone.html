@@ -1,13 +1,10 @@
+<link rel="import" href="../style-form/style-form.html">
 <dom-module id="input-phone">
   <template>
+    <style include="style-form"></style>
     <style>
-      :host {
-        display: block;
-      }
-      input[type=number]::-webkit-outer-spin-button,
-      input[type=number]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
+      input {
+        box-sizing: border-box;
       }
       input.prefix {
         @apply(--input-phone-prefix);

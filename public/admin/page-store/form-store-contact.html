@@ -2,24 +2,35 @@
 <dom-module id="form-store-contact">
   <template>
     <style include="style-form"></style>
-
     <style>
-      input-phone {
-        display: inline;
-      }
-      input-phone, input {
+      input {
         box-sizing: border-box;
       }
-      .prefix {
-        --input-phone-prefix: {
+      .mobile {
+        --input-phone-prefix: {
           @apply(--form-control);
+          display: inline;
+          width: auto;
+        };
+        --input-phone-number: {
+          @apply(--form-control);
+          display: inline;
+          width: auto;
         };
       }
-      .number{
-        --input-phone-number: {
+      .office {
+        --input-phone-prefix: {
           @apply(--form-control);
+          display: inline;
+          width: auto;
+        };
+        --input-phone-number: {
+          @apply(--form-control);
+          display: inline;
+          width: auto;
         };
       }
+
     </style>
 
     <form role="form" on-submit="on_submit">
@@ -30,11 +41,11 @@
       </div>
       <div class="field">
         <label class="label">[[personal_phone_label]]</label>
-        <input-phone class="prefix" phone="{{store.mobile_phone}}"></input-phone>
+        <input-phone class="mobile" phone="{{store.mobile_phone}}"></input-phone>
       </div>
       <div class="field">
         <label class="label">[[office_phone_label]]</label>
-        <input-phone class="number" phone="{{store.office_phone}}"></input-phone>
+        <input-phone class="office" phone="{{store.office_phone}}"></input-phone>
       </div>
     </form>
   </template>
