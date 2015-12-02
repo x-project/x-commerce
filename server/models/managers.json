@@ -5,10 +5,8 @@
     "collection": "managers"
   },
   "base": "InvitableUser",
-  "properties": {
-  },
-  "relations": {
-  },
+  "properties": {},
+  "relations": {},
   "acls": [
     {
       "principalType": "ROLE",

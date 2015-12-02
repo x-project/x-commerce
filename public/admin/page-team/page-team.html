@@ -1,16 +1,10 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="list-members.html">
-<link rel="import" href="list-invites.html">
-
+<link rel="import" href="part-team-members.html">
+<link rel="import" href="part-team-actions.html">
+<link rel="import" href="part-team-invites.html">
 <dom-module id="page-team">
   <template>
-    <style include="style-page"></style>
-    <style>
-    a[hidden] {
-      display: none;
-    }
-    </style>
 
     <api-model-find id="find_members"
       collection="members" access-token="{{route.session.accessToken}}"
@@ -23,13 +17,11 @@
     </api-model-find>
 
     <layout-admin>
-      <div class="container">
-        <h2>Team</h2>
-        <list-members items="{{members}}"></list-members>
-        <h2>Invites</h2>
-        <a is="app-link" class="btn" href="/admin/invites/new" hidden$="{{!isAdmin}}">invite new team member</a>
-        <list-invites items="{{invites}}"></list-invites>
-      </div>
+      <h2>Team</h2>
+      <h2>Invites</h2>
+      <part-team-actions></part-team-actions>
+      <part-team-members members="{{members}}"></part-team-members>
+      <part-team-invites invites="{{invites}}"></part-team-invites>
     </layout-admin>
 
   </template>
