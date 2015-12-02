@@ -44,8 +44,8 @@
 
     attached: function () {
       if (this.phone) {
-        if (this.phone.length > 0 && this.phone.indexOf(' ') >= 0) {
-          var prefix_num = this.phone.split(' ');
+        if (this.phone.length > 0 && this.phone.indexOf('-') >= 0) {
+          var prefix_num = this.phone.split('-');
           this.prefix = prefix_num[0];
           this.number = prefix_num[1];
           return;
@@ -63,7 +63,7 @@
 
     update_phone: function () {
       if (this.prefix.length > 0 && this.number.length > 0) {
-        this.phone = this.prefix + ' ' + this.number;
+        this.phone = this.prefix + '-' + this.number;
         return;
       }
       this.phone = '';
