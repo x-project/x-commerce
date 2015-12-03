@@ -1,10 +1,10 @@
-<link rel="import" href="../../styles/style-list/style-list.html">
 <link rel="import" href="table-categories.html">
 <dom-module id="part-categories-items">
   <template>
-    <style include="style-list"></style>
+    <style include="style-panel"></style>
 
-    <div id="views">
+    <div class="panel">
+      <h2 class="title">[[categories_items_title_label]]</h2>
       <table-categories id="table" categories="{{categories}}"></table-categories>
     </div>
 
@@ -16,6 +16,10 @@
     is: 'part-categories-items',
 
     properties: {
+      categories_items_title_label: {
+        type: String,
+        value: 'Categories'
+      },
       categories: {
         type: Array,
         value: function () { return []; }

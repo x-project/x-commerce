@@ -1,11 +1,10 @@
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-prod-type-info.html">
 <dom-module id="part-prod-type-info">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Overview</h2>
+      <h2 class="title">[[prod_type_overview_title_label]]</h2>
       <form-prod-type-info prod_type="{{prod_type}}" error="{{error}}"></form-prod-type-info>
     </div>
 
@@ -17,6 +16,10 @@
     is: 'part-prod-type-info',
 
     properties: {
+      prod_type_overview_title_label: {
+        type: String,
+        value: 'Overview'
+      },
       prod_type: {
         type: Object,
         value: function () { return {}; }

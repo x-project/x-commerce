@@ -32,6 +32,23 @@ taxjar.taxForOrder({
 
 module.exports = function (Order) {
 
+  /* ********************************************************* */
+  /*
+    * data validation
+  */
+  // Order.validate('customer_id', validate_customer, { message: 'invalid customer' });
+  // function validate_customer (err) {
+  //   var order = this;
+  //   Order.app.models.Customer.exists(order.customer_id, function (error, exixts) {
+  //     if (exixts){
+  //       return;
+  //     }
+  //     err();
+  //   });
+  // }
+  /* ********************************************************* */
+
+
   Order.payment_systems =  Order.payment_systems || {};
 
   var destroy_order_items = function (data) {

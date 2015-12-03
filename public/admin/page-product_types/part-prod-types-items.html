@@ -1,9 +1,10 @@
-<link rel="import" href="../../styles/style-list/style-list.html">
 <link rel="import" href="table-prod-types.html">
 <dom-module id="part-prod-types-items">
   <template>
+    <style include="style-panel"></style>
 
-    <div class="items">
+    <div class="panel">
+    <h2 class="title">[[prod_type_items_title_label]]</h2>
       <table-prod-types prod_types="{{prod_types}}"></table-prod-types>
     </div>
 
@@ -15,6 +16,10 @@
     is: 'part-prod-types-items',
 
     properties: {
+      prod_type_items_title_label: {
+        type: String,
+        value: 'Product types'
+      },
       prod_types: {
         type: Array,
         value: function () { return []; }

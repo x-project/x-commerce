@@ -1,13 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="input-search-product.html">
 <link rel="import" href="input-search-product-variant.html">
 <link rel="import" href="form-order-item.html">
-<!-- <link rel="import" href="../../fonts/lineicons/linecons"> -->
-
 <dom-module id="part-order-items">
   <template>
     <style include="style-panel"></style>
@@ -62,7 +56,6 @@
 
     <div class="panel">
       <h2 class="title">Cart</h2>
-      <!-- <div class="table-responsive"> -->
         <table class="table table-hover table-sm">
           <thead>
             <tr>
@@ -85,7 +78,7 @@
                 <td>
                   <input id="quantity_edit" class="form-control" readonly$="{{editing}}"
                   type="number" is="iron-input" min="1" bind-value="{{order_item.quantity}}"
-                  on-change="on_edit_order_item">
+                  on-change="on_edit_order_item" on-keypress="on_edit_order_item">
                 </td>
                 <td>{{calculate_subtotal(order_item)}}</td>
                 <td>
@@ -95,7 +88,6 @@
             </template>
           </tbody>
         </table>
-      <!-- </div> -->
         <div class="total">
           <strong class="label">Total</strong>
           <span>{{total}}</span>

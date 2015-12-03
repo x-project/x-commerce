@@ -1,9 +1,10 @@
-<link rel="import" href="../../styles/style-list/style-list.html">
 <link rel="import" href="table-customers.html">
 <dom-module id="part-customers-items">
   <template>
+    <style include="style-panel"></style>
 
-    <div class="items">
+    <div class="panel">
+      <h2 class="title">[[customers_items_title_label]]</h2>
       <table-customers customers="{{customers}}"></table-customers>
     </div>
 
@@ -15,6 +16,10 @@
     is: 'part-customers-items',
 
     properties: {
+      customers_items_title_label: {
+        type: String,
+        value: 'Customers'
+      },
       customers: {
         type: Array,
         value: function () { return []; }

@@ -1,10 +1,10 @@
-<link rel="import" href="../../styles/style-list/style-list.html">
 <link rel="import" href="table-orders.html">
 <dom-module id="part-orders-items">
   <template>
-    <style include="style-list"></style>
+    <style include="style-panel"></style>
 
-    <div class="items">
+    <div class="panel">
+      <h2 class="title">[[orders_items_title_lable]]</h2>
       <table-orders orders="{{orders}}"><table-orders>
     </div>
 
@@ -16,6 +16,10 @@
     is: 'part-orders-items',
 
     properties: {
+      orders_items_title_lable: {
+        type: String,
+        value: 'Orders'
+      },
       orders: {
         type: Array,
         value: function () { return []; }

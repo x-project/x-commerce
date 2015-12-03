@@ -1,7 +1,4 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-
+<link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
 <dom-module id="form-customer-overview">
   <template>
     <style include="style-form"></style>
@@ -26,7 +23,6 @@
       </div>
       <div class="field">
         <label class="label">Email</label>
-
         <input class="form-control" type="text" is="iron-input" bind-value="{{customer.email}}">
         <input-errors property="email" error="{{error.details}}"></input-errors>
       </div>

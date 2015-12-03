@@ -1,6 +1,11 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-categories-create.html">
+<link rel="import" href="part-categories-actions.html">
 <link rel="import" href="part-categories-pages.html">
 <link rel="import" href="part-categories-search.html">
 <link rel="import" href="part-categories-stats.html">
@@ -16,9 +21,9 @@
     <api-model-count id="count" collection="collections" response="{{count}}">
     </api-model-count>
 
-    <layout-admin on-strip-preview="on_strip_view" on-table-preview="on_table_view">
+    <layout-admin>
       <h1>Categories</h1>
-      <part-categories-create></part-categories-create>
+      <part-categories-actions></part-categories-actions>
       <part-collections-search></part-collections-search>
       <part-collections-stats></part-collections-stats>
       <part-categories-items categories="{{categories}}"></part-categories-items>
