@@ -3,6 +3,26 @@ var rmdir = require('rimraf');
 
 module.exports = function (Collection) {
 
+  /* ********************************************************* */
+  /*
+    * data validation
+  */
+  Collection.validate('published_at', validate_published_at_future, { message: 'invalid past date' });
+  function validate_published_at_future (err) {
+    var collection = this;
+    if (!collection.published_at) {
+      return;
+    }
+    var published_at = new Date(collection.published_at);
+    var date_now = Date.now();
+    var diff =  published_at - date_now;
+    if (diff < 0) {
+      err();
+    }
+  }
+  /* ********************************************************* */
+
+
   var remove_products = function (collection, products, callback) {
     async.each(products,
       function(product, done) {

@@ -3,8 +3,14 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-product-info">
   <template>
+    <style include="style-label"></style>
+    <style include="style-color"></style>
     <style include="style-form"></style>
     <style>
+      :host {
+        --label-color: green;
+      }
+
       iron-autogrow-textarea {
         display: block;
       }

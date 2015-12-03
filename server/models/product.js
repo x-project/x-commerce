@@ -4,7 +4,10 @@ var rmdir = require('rimraf');
 var moment = require('moment');
 
 module.exports = function (Product) {
-
+  /* ********************************************************* */
+  /*
+    * data validation
+  */
   Product.validate('published_at', validate_published_at_future, { message: 'invalid past date' });
 
   function validate_published_at_future (err) {
@@ -19,6 +22,7 @@ module.exports = function (Product) {
       err();
     }
   }
+  /* ********************************************************* */
 
   var get_product = function (data) {
     return function (next) {

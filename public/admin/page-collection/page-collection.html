@@ -124,7 +124,7 @@
       check = check & this.check_field('title', error, 'can\'t be blank');
       check = check & this.check_date('published_at', error);
       this.set('error', error);
-      return check;
+      return true;
     },
 
     create_custom_err: function () {

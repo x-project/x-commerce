@@ -1,9 +1,10 @@
-<link rel="import" href="../../styles/style-list/style-list.html">
 <link rel="import" href="table-coupons.html">
 <dom-module id="part-coupons-items">
   <template>
+    <style include="style-panel"></style>
 
-    <div class="items">
+    <div class="panel">
+    <h2 class="title">[[coupons_items_title_label]]</h2>
       <table-coupons coupons="{{coupons}}"></table-coupons>
     </div>
 
@@ -15,6 +16,10 @@
     is: 'part-coupons-items',
 
     properties: {
+      coupons_items_title_label: {
+        type: String,
+        value: 'Coupons'
+      },
       coupons: {
         type: Array,
         value: function () { return []; }

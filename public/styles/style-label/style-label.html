@@ -3,7 +3,9 @@
   <template>
     <style>
       :host {
-        display: block;
+
+        /*default value*/
+        --label-color: black;
 
         --label: {
           display: inline-block;
@@ -11,16 +13,16 @@
           font-size: 75%;
           font-weight: bold;
           line-height: 1;
-          color: #fff;
+          color: var(--label-color);
           text-align: center;
           white-space: nowrap;
           vertical-align: baseline;
           border-radius: .25rem;
-        }
+        };
 
         --label-primary: {
           background-color: #0275d8;
-        }
+        };
 
       }
 
@@ -30,7 +32,8 @@
         font-size: 75%;
         font-weight: bold;
         line-height: 1;
-        color: #fff;
+        color: var(--label-color);
+        /*color: #fff;*/
         text-align: center;
         white-space: nowrap;
         vertical-align: baseline;

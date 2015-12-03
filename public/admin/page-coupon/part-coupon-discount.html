@@ -1,11 +1,10 @@
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-coupon-discount.html">
 <dom-module id="part-coupon-discount">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Discount</h2>
+      <h2 class="title">[[coupon_discount_title_label]]</h2>
       <form-coupon-discount coupon="{{coupon}}" error="{{error}}"></form-coupon-discount>
     </div>
 
@@ -17,6 +16,10 @@
     is: 'part-coupon-discount',
 
     properties: {
+      coupon_discount_title_label: {
+        type: String,
+        value: 'Discount'
+      },
       coupon: {
         type: Object,
         value: function () { return {}; }
