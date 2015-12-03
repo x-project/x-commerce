@@ -2,10 +2,13 @@
 <link rel="import" href="strips-products.html">
 <dom-module id="part-products-items">
   <template>
+    <style include="style-panel"></style>
 
-    <div id="views">
+    <div class="panel">
+      <h2 class="title">Products</h2>
       <table-products id="table" products="{{products}}"></table-products>
     </div>
+
   </template>
 </dom-module>
 <script>

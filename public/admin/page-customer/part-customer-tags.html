@@ -1,11 +1,11 @@
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="form-customer-address.html">
+<link rel="import" href="form-customer-tags.html">
 <dom-module id="part-customer-tags">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Tags</h2>
+      <h2 class="title">[[customer_tags_title_label]]</h2>
       <form-customer-tags customer="{{customer}}"></form-customer-tags>
     </div>
 
@@ -17,6 +17,10 @@
     is: 'part-customer-tags',
 
     properties: {
+      customer_tags_title_label: {
+        type: String,
+        value: 'Tags'
+      },
       customer: {
         type: Object,
         value: function () {return {}; }
