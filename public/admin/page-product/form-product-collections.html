@@ -1,9 +1,13 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../search-items/search-items.html">
+<link rel="import" href="../search-option/search-option.html">
+
 <link rel="import" href="../selected-items/selected-items.html">
 <dom-module id="form-product-collections">
   <template>
     <style include="style-form"></style>
+    <style include="style-button"></style>
+
     <style>
       selected-items {
         --selected-item: {
@@ -29,21 +33,41 @@
 
         };
       }
+      search-option.search {
+        display: none;
+      }
+      search-option.search[display] {
+        display: block;
+      }
     </style>
 
     <iron-ajax id="ajax_put" method="PUT" on-error="on_error" handle-as="json"
       on-response="on_response_put" content-type="application/json">
     </iron-ajax>
 
-    <label class="label">[[product_collection_label]]</label>
+    <api-model-find id="find_filter_collection" collection="collections"
+      on-response="on_response_get_filter" response="{{filter_collections}}">
+    </api-model-find>
 
-    <search-items id="search" items="{{collections}}" on-item-selected="on_item_selected"
-      property="title" on-search="on_search" label="search collection">
-    </search-items>
+    <api-model-count id="count" collection="collections" response="{{count}}">
+    </api-model-count>
+
+    <label class="label">[[product_collection_label]]</label>
 
     <selected-items id="selected" item="{{item_selected}}" property="title"
       items="{{product.collections}}" on-delete-item="on_delete_collection">
     </selected-items>
+
+    <button class="btn btn-primary" on-click="on_click_add_collection">Add collection</button>
+
+    <search-option class="search" display$="{{show}}" on-change-value="on_change_value"
+      value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"
+      count="{{count}}" perpage="{{perpage}}">
+    </search-option>
+
+<!--     <search-items id="search" items="{{collections}}" on-item-selected="on_item_selected"
+      property="title" on-search="on_search" label="search collection">
+    </search-items> -->
 
   </template>
 </dom-module>
@@ -67,8 +91,75 @@
       collection: {
         type: Object,
         value: function () { return {}; }
+      },
+      display: {
+        type: Boolean,
+        value: false
       }
     },
+
+    attached: function () {
+      this.$.count.send();
+    },
+
+    on_click_add_collection: function (event) {
+      event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
+      this.set('show', true);
+    },
+
+    on_change_value: function (event) {
+      event.stopPropagation();
+      if(this.value === '' || !this.value) {
+        this.$.find_filter_collection.perpage = 5;
+        this.perpage = 5
+      }
+      this.$.find_filter_collection.where = {title: {like: this.value}};
+      this.$.find_filter_collection.send();
+    },
+
+    on_response_get_filter: function (event) {
+      event.stopPropagation();
+      console.log(this.filter_collections);
+    },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.$.find_filter_collection.page = event.detail - 1;
+      this.$.find_filter_collection.perpage = 5;
+      this.perpage = 5
+      console.log(this.$.find_filter_collection.page);
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     on_search: function (event) {
       event.stopPropagation();

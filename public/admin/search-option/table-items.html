@@ -1,0 +1,43 @@
+<link rel="import" href="../../components/text-view/text-view.html">
+<dom-module id="table-items">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="items" is="dom-repeat" items="{{items}}" as="item">
+            <tr class="text-center">
+              <th scope="row">{{index}}</th>
+              <td>{{item.title}}</td>
+              <td>
+                <text-view text="{{item.description}}" limit="30"></text-view>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-items',
+
+    properties: {
+      items: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>
