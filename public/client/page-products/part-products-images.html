@@ -1,4 +1,4 @@
-<link rel="import" href="../image-view/image-view.html">
+<link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="part-products-images">
   <template>
     <style>
@@ -9,7 +9,7 @@
 
      <div class="images">
       <template id="images" is="dom-repeat" items="{{product.images}}" as="image">
-        <image-view image="{{image}}" size="contain"></image-view>
+        <image-preview image="{{image}}" size="contain"></image-preview>
       </template>
     </div>
 

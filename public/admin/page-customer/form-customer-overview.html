@@ -1,6 +1,6 @@
 <link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../style-form/style-form.html">
-<link rel="import" href="../style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 
 <dom-module id="form-customer-overview">
   <template>
@@ -49,21 +49,21 @@
 
     is: 'form-customer-overview',
 
-    properties: {
+    properties: {
       customer: {
         type: Object,
         value: function () { return {}; }
       }
     },
 
-    attached: function () {
-      if (!this.customer.hasOwnProperty('marketing')) {
+    attached: function () {
+      if (!this.customer.hasOwnProperty('marketing')) {
         this.set('customer.marketing', true);
         return;
       }
     },
 
-    on_submit: function (event) {
+    on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
     }

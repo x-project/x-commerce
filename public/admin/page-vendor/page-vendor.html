@@ -1,6 +1,5 @@
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-vendor-header.html">
-<link rel="import" href="part-vendor-save.html">
 <link rel="import" href="part-vendor-actions.html">
 <link rel="import" href="part-vendor-info.html">
 <dom-module id="page-vendor">
@@ -10,8 +9,7 @@
       <h1>Vendor</h1>
       <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
       <part-vendor-actions></part-vendor-actions>
-      <part-vendor-info vendor="{{vendor}}" error="{{error}}">
-      </part-vendor-info>
+      <part-vendor-info vendor="{{vendor}}" error="{{error}}"></part-vendor-info>
     </layout-admin>
 
   </template>

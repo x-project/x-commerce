@@ -1,0 +1,48 @@
+<link rel="import" href="../../components/input-tags/input-tags.html">
+
+<dom-module id="form-customer-tags">
+  <template>
+    <style>
+      input-tags {
+        --field-tags-items: {
+          padding: 2px;
+          border: 1px solid #aaa;
+          border-radius: 2px;
+        };
+        --field-tags-input: {
+
+        };
+        --field-tags-item: {
+          @apply(--label);
+          @apply(--label-primary);
+          margin: 2px 0px;
+          padding: 0.5em;
+          display: inline-block;
+        };
+      }
+    </style>
+
+    <input-tags tags="{{customer.tags}}" on-change="on_change_tags"></input-tags>
+
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-customer-tags',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_change_tags: function (event) {
+      event.stopPropagation();
+      this.customer.tags = event.detail;
+    }
+
+  });
+</script>
