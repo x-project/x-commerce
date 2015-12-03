@@ -2,8 +2,10 @@
 <link rel="import" href="table-collections.html">
 <dom-module id="part-collections-items">
   <template>
+    <style include="style-panel"></style>
 
-    <div id="views">
+    <div class="panel" id="views">
+      <h2 class="title">[[collections_items_title_label]]</h2>
       <table-collections id="table" collections="{{collections}}"></table-collections>
     </div>
 
@@ -15,6 +17,10 @@
     is: 'part-collections-items',
 
     properties: {
+      collections_items_title_label: {
+        type: String,
+        value: 'Collections'
+      },
       collections: {
         type: Array,
         value: function () { return []; }
