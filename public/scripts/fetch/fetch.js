@@ -23,8 +23,7 @@ Model.create = function (url, data, token) {
   .then(status);
 }
 
-Model.update = function (url, model_id, data) {
-  url = url + '/' + model_id;
+Model.update = function (url, data) {
   return fetch(url, {
     method: 'put',
     headers: {

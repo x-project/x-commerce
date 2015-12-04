@@ -39,7 +39,7 @@
 
     try_update: function () {
       var token = this.$.session.get('token');
-      Model.update('/api/customers/', this.customer.id, this.customer)
+      Model.update('/api/customers/' + this.customer.id, this.customer)
       .then(function (data) {
         this.on_response(data);
       }.bind(this))

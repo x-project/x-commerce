@@ -59,7 +59,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/coupons', this.coupon.id, this.coupon)
+      Model.update('/api/coupons/' + this.coupon.id, this.coupon)
       .then(function (data) {
         this.coupon = data;
       }.bind(this))

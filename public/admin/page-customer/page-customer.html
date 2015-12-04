@@ -63,7 +63,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/customers', this.customer.id, this.customer)
+      Model.update('/api/customers/' + this.customer.id, this.customer)
       .then(function (data) {
         this.customer = data;
       }.bind(this))

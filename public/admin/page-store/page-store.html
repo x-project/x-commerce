@@ -55,7 +55,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/stores', this.store.id, this.store)
+      Model.update('/api/stores/' + this.store.id, this.store)
         .then(function (data) {
           this.store = data;
         }.bind(this))

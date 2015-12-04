@@ -1,4 +1,3 @@
-<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../search-items/search-items.html">
 <link rel="import" href="../selected-items/selected-items.html">
 <dom-module id="form-product-collections">
@@ -31,10 +30,6 @@
         display: block;
       }
     </style>
-
-    <iron-ajax id="ajax_put" method="PUT" on-error="on_error" handle-as="json"
-      on-response="on_response_put" content-type="application/json">
-    </iron-ajax>
 
     <label class="label">[[product_collection_label]]</label>
 
@@ -89,7 +84,6 @@
 
     attached: function () {
       this.count_collections();
-
     },
 
     count_collections: function () {
@@ -166,17 +160,27 @@
       this.save_collection();
     },
 
+    update_model: function (data) {
+      Model.update('/api/products/' + this.product.id + '/collections/rel/' + this.collection.id, data)
+      .then(function (data) {
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+
     save_collection: function () {
       if (this.product.id) {
-        this.$.ajax_put.url = '/api/products/' + this.product.id + '/collections/rel/' + this.collection.id;
-        this.$.ajax_put.body = JSON.stringify({
+        var data = {
           collectionId: this.collection.id,
           productId: this.product.id
-        });
-        this.$.ajax_put.generateRequest();
+        };
+        this.update_model(data);
         return;
       }
-      this.create_model();
+      this.create_model_new();
     },
 
     delete_model: function (collection) {
@@ -189,8 +193,7 @@
         }.bind(this));
     },
 
-    on_response_put: function (event) {
-      event.stopPropagation();
+    on_response_update: function () {
       page('/admin/products/' + this.product.id);
     },
 
@@ -200,7 +203,7 @@
       this.delete_model(collection);
     },
 
-    create_model: function () {
+    create_model_new: function () {
       Model.create('/api/products', this.product)
         .then(function (data) {
           this.product = data;

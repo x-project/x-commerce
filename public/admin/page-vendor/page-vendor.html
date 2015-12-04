@@ -53,7 +53,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/vendors', this.vendor.id, this.vendor)
+      Model.update('/api/vendors/' + this.vendor.id, this.vendor)
       .then(function (data) {
         this.vendor = data;
       }.bind(this))

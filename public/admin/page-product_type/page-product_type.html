@@ -54,7 +54,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/product_types', this.prod_type.id, this.prod_type)
+      Model.update('/api/product_types/' + this.prod_type.id, this.prod_type)
       .then(function (data) {
         this.prod_type = data;
       }.bind(this))

@@ -1,4 +1,3 @@
-<link rel="import" href="../../components/api-model-update/api-model-update.html">
 <link rel="import" href="../search-items/search-items.html">
 <dom-module id="form-product-vendor">
   <template>
@@ -17,16 +16,15 @@
         display: block !important;
       }
     </style>
-    <api-model-update id="update" collection="products" model-id="{{product.id}}"
-      on-error="on_error" on-response="on_response_update">
-    </api-model-update>
 
     <label class="label">[[product_vendor_label]]</label>
 
-    <div class="vendor">
-      <span>{{vendor_selected}}</span>
-      <span class="remove_vendor" on-click="on_click_remove_vendor">X</span>
-    </div>
+    <template is="dom-if" if="{{product.vendor}}">
+      <div clas="vendor_selected">
+        <span>{{product.vendor.name}}</span>
+        <span class="remove_vendor" on-click="on_click_remove_vendor">X</span>
+      </div>
+    </template>
 
     <button class="btn btn-primary" on-click="on_click_add_vendor">Add vendor</button>
 
@@ -72,10 +70,6 @@
 
     attached: function () {
       this.count_vendors();
-      if (!this.product.vendor) {
-        return;
-      }
-      this.vendor_selected = this.product.vendor.name;
     },
 
     count_vendors: function () {
@@ -146,35 +140,52 @@
 
     save_vendor: function () {
       if (this.product.id) {
-        this.$.update.data = { vendor_id: this.vendor.id};
-        this.$.update.send();
+        var data = { vendor_id: this.vendor.id };
+        this.update_model(data);
         return;
       }
       this.create_product_new();
     },
 
-    on_response_update: function (event) {
-      event.stopPropagation();
+    update_model: function (data) {
+      Model.update('/api/products/' + this.product.id, data)
+      .then(function (data) {
+        this.product = data;
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    on_response_update: function () {
       page('/admin/products/' + this.product.id);
     },
 
     create_product_new: function () {
-      event.stopPropagation();
-      this.$.create.data = this.product;
-      this.$.create.send();
+      Model.create('/api/products', this.product)
+        .then(function (data) {
+          this.product = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create();
+        }.bind(this));
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
-      this.product = event.detail;
+    on_response_create: function () {
       this.save_vendor();
     },
 
     on_click_remove_vendor: function (event) {
       event.stopPropagation();
-      this.$.update.data = { vendor_id: ''};
-      this.$.update.send();
+      var data = { vendor_id: ''};
+      this.update_model(data);
     },
+
+    on_error_create: function () {
+      this.fire('error');
+    }
 
 
   });

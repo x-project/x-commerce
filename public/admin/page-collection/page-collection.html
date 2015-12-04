@@ -71,7 +71,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/collections', this.collection.id, this.collection)
+      Model.update('/api/collections/' + this.collection.id, this.collection)
       .then(function (data) {
         this.collection = data;
       }.bind(this))

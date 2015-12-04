@@ -58,7 +58,7 @@
     },
 
     update_model: function () {
-      Model.update('/api/categories', this.category.id, this.category)
+      Model.update('/api/categories/' + this.category.id, this.category)
       .then(function (data) {
         this.category = data;
       }.bind(this))
