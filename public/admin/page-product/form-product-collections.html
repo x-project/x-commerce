@@ -96,6 +96,48 @@
         }.bind(this));
     },
 
+    remove_collection: function (collection) {
+      Model.delete('/api/products/' + this.product.id + '/collections/rel/' + collection.id)
+        .then(function (data) {
+          //noting
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_collections: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/collections', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_collections = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    update_product_collection: function (data) {
+      Model.update('/api/products/' + this.product.id + '/collections/rel/' + this.collection.id, data)
+      .then(function (data) {
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+    create_new_product: function () {
+      Model.create('/api/products', this.product)
+        .then(function (data) {
+          this.product = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create();
+        }.bind(this));
+    },
+
     on_close_items: function (event) {
       event.stopPropagation();
       this.set('show', false);
@@ -113,17 +155,6 @@
     on_change_value: function (event) {
       event.stopPropagation();
       this.get_collections();
-    },
-
-    get_collections: function () {
-      var pattern = '/' + this.value +'/' + 'i';
-      Model.find('/api/collections', this.get_filter_options(pattern))
-        .then(function (data) {
-          this.filter_collections = data;
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error);
-        }.bind(this));
     },
 
     get_filter_options: function (regex_pattern) {
@@ -160,36 +191,16 @@
       this.save_collection();
     },
 
-    update_model: function (data) {
-      Model.update('/api/products/' + this.product.id + '/collections/rel/' + this.collection.id, data)
-      .then(function (data) {
-        this.on_response_update();
-      }.bind(this))
-      .catch(function (error) {
-        console.log(error);
-      }.bind(this));
-    },
-
     save_collection: function () {
       if (this.product.id) {
         var data = {
           collectionId: this.collection.id,
           productId: this.product.id
         };
-        this.update_model(data);
+        this.update_product_collection(data);
         return;
       }
       this.create_new_product();
-    },
-
-    delete_model: function (collection) {
-      Model.delete('/api/products/' + this.product.id + '/collections/rel/' + collection.id)
-        .then(function (data) {
-          //noting
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error);
-        }.bind(this));
     },
 
     on_response_update: function () {
@@ -199,18 +210,7 @@
     on_delete_collection: function (event) {
       event.stopPropagation();
       var collection = event.detail;
-      this.delete_model(collection);
-    },
-
-    create_new_product: function () {
-      Model.create('/api/products', this.product)
-        .then(function (data) {
-          this.product = data;
-          this.on_response_create();
-        }.bind(this))
-        .catch(function (error) {
-          this.on_error_create();
-        }.bind(this));
+      this.remove_collection(collection);
     },
 
     on_response_create: function () {

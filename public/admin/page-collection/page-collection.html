@@ -1,14 +1,14 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="part-collection-add-products.html">
+<link rel="import" href="part-collection-actions.html">
 <link rel="import" href="part-collection-header.html">
 <link rel="import" href="part-collection-image.html">
 <link rel="import" href="part-collection-info.html">
-<link rel="import" href="part-collection-actions.html">
+<link rel="import" href="part-collection-products.html">
 <link rel="import" href="part-collection-visibility.html">
 <dom-module id="page-collection">
   <template>
@@ -24,9 +24,9 @@
       </part-collection-visibility>
       <part-collection-image collection="{{collection}}" on-try-save="on_try_save">
       </part-collection-image>
-      <part-collection-add-products id="products" collection="{{collection}}"
-        products="{{products}}" on-try-save="on_try_save">
-      </part-collection-add-products>
+      <part-collection-products id="products" collection="{{collection}}"
+        products="{{products}}" on-try-save="on_try_save" on-error="on_error">
+      </part-collection-products>
     </layout-admin>
 
   </template>
@@ -161,6 +161,11 @@
     },
 
     on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+    },
+
+   on_error: function (event) {
       event.stopPropagation();
       this.validate_model();
     }
