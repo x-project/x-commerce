@@ -38,7 +38,7 @@
 
     <label class="label">[[product_collection_label]]</label>
 
-    <selected-items id="selected" item="{{item_selected}}" property="title"
+    <selected-items item="{{item_selected}}" property="title"
       items="{{product.collections}}" on-delete-item="on_delete_collection">
     </selected-items>
 
@@ -88,6 +88,11 @@
     },
 
     attached: function () {
+      this.count_collections();
+
+    },
+
+    count_collections: function () {
       Model.count('/api/collections/count')
         .then(function (data) {
           this.count = data.count;
@@ -187,7 +192,6 @@
     on_response_put: function (event) {
       event.stopPropagation();
       page('/admin/products/' + this.product.id);
-      this.$.selected.update_item_selected(this.collection);
     },
 
     on_delete_collection: function (event) {

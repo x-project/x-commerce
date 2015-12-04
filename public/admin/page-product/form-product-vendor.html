@@ -3,13 +3,18 @@
 <dom-module id="form-product-vendor">
   <template>
     <style include="style-form"></style>
-    <style>
-      search-items {
-        box-sizing: border-box;
-        @apply(--form-control);
-        --combo-box: {
+    <style include="style-button"></style>
 
-        };
+    <style>
+      search-items.search {
+        display: none;
+        margin-top: 1em;
+      }
+      search-items.search[show] {
+        display: block;
+      }
+      button {
+        display: block !important;
       }
     </style>
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
@@ -18,9 +23,18 @@
 
     <label class="label">[[product_vendor_label]]</label>
 
-<!--     <search-items id="search" items="{{vendors}}" on-item-selected="on_item_selected"
-      property="name" on-search="on_search" label="search vendor" value="{{product.vendor.name}}">
-    </search-items> -->
+    <div class="vendor">
+      <span>{{vendor_selected}}</span>
+      <span class="remove_vendor" on-click="on_click_remove_vendor">X</span>
+    </div>
+
+    <button class="btn btn-primary" on-click="on_click_add_vendor">Add vendor</button>
+
+    <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
+      value="{{value}}" items="{{filter_vendors}}" on-change-page="on_change_page"
+      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+      on-close-items="on_close_items" placeholder="search vendor" property="name">
+    </search-items>
 
   </template>
 </dom-module>
@@ -41,37 +55,93 @@
       vendor: {
         type: Object,
         value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
       }
     },
 
-    on_search: function (event) {
-      event.stopPropagation();
-      this.find_vendors();
+    attached: function () {
+      this.count_vendors();
+      if (!this.product.vendor) {
+        return;
+      }
+      this.vendor_selected = this.product.vendor.name;
     },
 
-    find_vendors: function () {
-      Model.find('/api/vendors')
+    count_vendors: function () {
+      Model.count('/api/vendors/count')
         .then(function (data) {
-          this.set('vendors', data);
+          this.count = data.count;
         }.bind(this))
         .catch(function (error) {
-          this.on_error_create();
+          this.count = 0;
         }.bind(this));
     },
 
-    on_error_create: function () {
-      this.fire('error');
+    on_click_add_vendor: function (event) {
+      event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
+      this.set('show', true);
+    },
+
+    on_close_items: function (event) {
+      event.stopPropagation();
+      this.set('show', false);
+    },
+
+    on_select_item: function (event) {
+      event.stopPropagation();
+      this.vendor = event.detail;
+      this.save_vendor();
+    },
+
+    on_change_value: function (event) {
+      event.stopPropagation();
+      this.get_vendors();
+    },
+
+    get_vendors: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/vendors', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_vendors = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'name',
+        page: this.page,
+        where: {name: {regexp: regex_pattern}}
+      };
+    },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.page = event.detail - 1;
+      this.get_vendors();
     },
 
     on_error: function (event) {
       event.stopPropagation();
-      this.on_error_create();
-    },
-
-    on_item_selected: function (event) {
-      event.stopPropagation();
-      this.vendor = event.detail;
-      this.save_vendor();
+      console.log(event);
     },
 
     save_vendor: function () {
@@ -85,7 +155,6 @@
 
     on_response_update: function (event) {
       event.stopPropagation();
-      this.value = this.vendor.name;
       page('/admin/products/' + this.product.id);
     },
 
@@ -99,7 +168,14 @@
       event.stopPropagation();
       this.product = event.detail;
       this.save_vendor();
-    }
+    },
+
+    on_click_remove_vendor: function (event) {
+      event.stopPropagation();
+      this.$.update.data = { vendor_id: ''};
+      this.$.update.send();
+    },
+
 
   });
 </script>
