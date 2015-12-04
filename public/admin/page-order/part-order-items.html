@@ -1,14 +1,13 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="input-search-product.html">
-<link rel="import" href="input-search-product-variant.html">
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="form-order-item.html">
 <dom-module id="part-order-items">
   <template>
+    <style include="style-basic"></style>
+    <style include="style-button"></style>
+    <style include="style-form"></style>
     <style include="style-panel"></style>
     <style include="style-table"></style>
-    <style include="style-form"></style>
-    <style include="style-button"></style>
-
     <style>
       .items .pending {
         display: none;
@@ -56,13 +55,14 @@
 
     <div class="panel">
       <h2 class="title">Cart</h2>
-        <table class="table table-hover table-sm">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
           <thead>
             <tr>
               <th>Product</th>
-              <th>Price</th>
+              <th>Price (P)</th>
               <th>Variant</th>
-              <th>Price</th>
+              <th>Price (V)</th>
               <th>Quantity</th>
               <th>Subtotal</th>
               <th>Remove</th>
@@ -88,10 +88,11 @@
             </template>
           </tbody>
         </table>
-        <div class="total">
-          <strong class="label">Total</strong>
-          <span>{{total}}</span>
-        </div>
+      </div>
+      <div class="total">
+        <strong class="label">Total</strong>
+        <span>{{total}}</span>
+      </div>
     </div>
   </template>
 
