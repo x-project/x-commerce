@@ -3,13 +3,18 @@
 <dom-module id="form-product-type">
   <template>
     <style include="style-form"></style>
-    <style>
-      search-items {
-        box-sizing: border-box;
-        @apply(--form-control);
-        --combo-box: {
+    <style include="style-button"></style>
 
-        };
+    <style>
+      search-items.search {
+        display: none;
+        margin-top: 1em;
+      }
+      search-items.search[show] {
+        display: block;
+      }
+      button {
+        display: block !important;
       }
     </style>
 
@@ -19,9 +24,20 @@
 
     <label class="label">[[product_type_label]]</label>
 
-<!--     <search-items id="search" items="{{product_types}}" on-item-selected="on_item_selected"
-      property="name" on-search="on_search" label="search product type" value="{{product.product_type.name}}">
-    </search-items> -->
+    <template is="dom-if" if="{{product.product_type}}">
+      <div clas="product_type_selected">
+        <span>{{product.product_type.name}}</span>
+        <span class="remove_product_type" on-click="on_click_remove_product_type">X</span>
+      </div>
+    </template>
+
+    <button class="btn btn-primary" on-click="on_click_add_prod_type">Add product type</button>
+
+    <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
+      value="{{value}}" items="{{filter_product_types}}" on-change-page="on_change_page"
+      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+      on-close-items="on_close_items" placeholder="search product type" property="name">
+    </search-items>
 
   </template>
 </dom-module>
@@ -43,24 +59,66 @@
         type: Object,
         value: function () { return {}; }
       },
+      show: {
+        type: Boolean,
+        value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
+      }
     },
 
-    on_search: function (event) {
-      event.stopPropagation();
-      this.find_product_types();
+    attached: function () {
+      this.count_product_types();
     },
 
-    find_product_types: function () {
-      Model.find('/api/product_types')
+    count_product_types: function () {
+      Model.count('/api/product_types/count')
         .then(function (data) {
-          this.set('product_types', data);
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+        }.bind(this));
+    },
+
+    get_product_types: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/product_types', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_product_types = data;
         }.bind(this))
         .catch(function (error) {
           console.log(error);
         }.bind(this));
     },
 
-    create_model: function () {
+    update_model: function (data) {
+      Model.update('/api/products/' + this.product.id, data)
+      .then(function (data) {
+        this.product = data;
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'name',
+        page: this.page,
+        where: {name: {regexp: regex_pattern}}
+      };
+    },
+
+    create_new_product: function () {
       Model.create('/api/products', this.product)
         .then(function (data) {
           this.product = data;
@@ -71,6 +129,37 @@
         }.bind(this));
     },
 
+    on_click_add_prod_type: function (event) {
+      event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
+      this.set('show', true);
+    },
+
+    on_close_items: function (event) {
+      event.stopPropagation();
+      this.set('show', false);
+    },
+
+    on_select_item: function (event) {
+      event.stopPropagation();
+      this.product_type = event.detail;
+      this.save_prod_type();
+    },
+
+    on_change_value: function (event) {
+      event.stopPropagation();
+      this.get_product_types();
+    },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.page = event.detail - 1;
+      this.get_product_types();
+    },
+
     on_item_selected: function (event) {
       event.stopPropagation();
       this.product_type = event.detail;
@@ -79,32 +168,30 @@
 
     save_prod_type: function () {
       if (this.product.id) {
-        this.$.update.data = { product_type_id: this.product_type.id};
-        this.$.update.send();
+        var data = { product_type_id: this.product_type.id };
+        this.update_model(data);
         return;
       }
-      this.create_model();
+      this.create_new_product();
     },
 
     on_error_create: function () {
       this.fire('error');
     },
 
-    on_error: function (event) {
-      event.stopPropagation();
-      this.on_error_create();
-    },
-
     on_response_create: function () {
       this.save_prod_type();
     },
 
-    on_response_update: function (event) {
-      event.stopPropagation();
-      this.value = this.product_type.name;
+    on_response_update: function () {
       page('/admin/products/' + this.product.id);
-    }
+    },
 
+    on_click_remove_product_type: function (event) {
+      event.stopPropagation();
+      var data = { product_type_id: ''};
+      this.update_model(data);
+    }
 
   });
 </script>

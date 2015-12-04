@@ -82,6 +82,48 @@
         }.bind(this));
     },
 
+    get_vendors: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/vendors', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_vendors = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    update_model: function (data) {
+      Model.update('/api/products/' + this.product.id, data)
+      .then(function (data) {
+        this.product = data;
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+      }.bind(this));
+    },
+
+    create_new_product: function () {
+      Model.create('/api/products', this.product)
+        .then(function (data) {
+          this.product = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create();
+        }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'name',
+        page: this.page,
+        where: {name: {regexp: regex_pattern}}
+      };
+    },
+
     on_click_add_vendor: function (event) {
       event.stopPropagation();
       if (this.show) {
@@ -107,35 +149,10 @@
       this.get_vendors();
     },
 
-    get_vendors: function () {
-      var pattern = '/' + this.value +'/' + 'i';
-      Model.find('/api/vendors', this.get_filter_options(pattern))
-        .then(function (data) {
-          this.filter_vendors = data;
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error);
-        }.bind(this));
-    },
-
-    get_filter_options: function (regex_pattern) {
-      return {
-        perpage: this.perpage,
-        order: 'name',
-        page: this.page,
-        where: {name: {regexp: regex_pattern}}
-      };
-    },
-
     on_change_page: function (event) {
       event.stopPropagation();
       this.page = event.detail - 1;
       this.get_vendors();
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
     },
 
     save_vendor: function () {
@@ -144,33 +161,11 @@
         this.update_model(data);
         return;
       }
-      this.create_product_new();
-    },
-
-    update_model: function (data) {
-      Model.update('/api/products/' + this.product.id, data)
-      .then(function (data) {
-        this.product = data;
-        this.on_response_update();
-      }.bind(this))
-      .catch(function (error) {
-        this.error = error;
-      }.bind(this));
+      this.create_new_product();
     },
 
     on_response_update: function () {
       page('/admin/products/' + this.product.id);
-    },
-
-    create_product_new: function () {
-      Model.create('/api/products', this.product)
-        .then(function (data) {
-          this.product = data;
-          this.on_response_create();
-        }.bind(this))
-        .catch(function (error) {
-          this.on_error_create();
-        }.bind(this));
     },
 
     on_response_create: function () {

@@ -170,7 +170,6 @@
       }.bind(this));
     },
 
-
     save_collection: function () {
       if (this.product.id) {
         var data = {
@@ -180,7 +179,7 @@
         this.update_model(data);
         return;
       }
-      this.create_model_new();
+      this.create_new_product();
     },
 
     delete_model: function (collection) {
@@ -203,7 +202,7 @@
       this.delete_model(collection);
     },
 
-    create_model_new: function () {
+    create_new_product: function () {
       Model.create('/api/products', this.product)
         .then(function (data) {
           this.product = data;
