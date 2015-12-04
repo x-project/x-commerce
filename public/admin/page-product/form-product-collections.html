@@ -1,4 +1,4 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../search-items/search-items.html">
 <link rel="import" href="../selected-items/selected-items.html">
 <dom-module id="form-product-collections">
@@ -36,11 +36,6 @@
       on-response="on_response_put" content-type="application/json">
     </iron-ajax>
 
-    <api-model-find id="find_filter_collection" collection="collections"
-      on-response="on_response_get_filter" response="{{filter_collections}}"
-      perpage="{{perpage}}" page="{{page}}"order="title">
-    </api-model-find>
-
     <label class="label">[[product_collection_label]]</label>
 
     <selected-items id="selected" item="{{item_selected}}" property="title"
@@ -52,8 +47,7 @@
     <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"
       count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
-      on-close-items="on_close_items" placeholder="search collections"
-      properties=['name', 'description']>
+      on-close-items="on_close_items" placeholder="search collections" property="title">
     </search-items>
 
   </template>
@@ -82,6 +76,14 @@
       show: {
         type: Boolean,
         value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
       }
     },
 
@@ -111,39 +113,52 @@
 
     on_change_value: function (event) {
       event.stopPropagation();
-      if(this.value === '' || !this.value) {
-        this.perpage = 5;
-      }
-      this.$.find_filter_collection.where = {title: {like: this.value}};
-      this.$.find_filter_collection.send();
+      this.get_collections();
+    },
+
+    get_collections: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/collections', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_collections = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        where: {title: {regexp: regex_pattern}}
+      };
     },
 
     on_response_get_filter: function (event) {
       event.stopPropagation();
+      // var collection_data = [];
+      // var collection_tmp;
+      // this.filter_collections.forEach(function (collection) {
+      //   collection_tmp = {};
+      //   collection_tmp.Title = collection.title;
+      //   collection_tmp.Description = collection.description;
+      //   collection_data.push(collection_tmp);
+      // });
+      // this.set('items', collection_data);
     },
 
     on_change_page: function (event) {
       event.stopPropagation();
       this.page = event.detail - 1;
-      this.perpage = 5;
-      this.$.find_filter_collection.where = {title: {like: this.value}};
-      this.$.find_filter_collection.send();
+      this.get_collections();
     },
 
     on_select_item: function (event) {
       event.stopPropagation();
       this.collection = event.detail;
       this.save_collection();
-    },
-
-    get_collections: function () {
-      Model.find('/api/collections')
-        .then(function (data) {
-          this.set('collections', data);
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error);
-        }.bind(this));
     },
 
     save_collection: function () {

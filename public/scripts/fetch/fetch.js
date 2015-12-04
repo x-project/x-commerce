@@ -41,7 +41,17 @@ Model.delete = function (url) {
   })
 }
 
-Model.find = function (url) {
+Model.find = function (url, filter) {
+  var _get_filter = function () {
+    return {
+      where: filter.where,
+      order: filter.order,
+      skip: filter.page ? filter.page * filter.perpage : 0,
+      limit: filter.perpage,
+      include: filter.include
+    };
+  };
+  url = url + '?' + 'filter=' + JSON.stringify(_get_filter());
   return fetch(url, {
     method: 'get'
   })

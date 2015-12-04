@@ -7,17 +7,13 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Description</th>
+            <th>{{property}}</th>
           </tr>
         </thead>
         <tbody>
-          <template id="items" is="dom-repeat" items="{{items}}" as="item">
+          <template id="items" is="dom-repeat" items="{{items}}" as="item" filter="filter_item">
             <tr class="text-center" on-click="on_click_item">
-              <td>{{item.title}}</td>
-              <td>
-                <text-view text="{{item.description}}" limit="30"></text-view>
-              </td>
+              <td>{{item._name}}</td>
             </tr>
           </template>
         </tbody>
@@ -33,14 +29,36 @@
     properties: {
       items: {
         type: Array,
+        value: function () { return []; },
+        observer: '_on_change_items'
+      },
+      filed_values: {
+        type: Array,
         value: function () { return []; }
+      },
+      property: {
+        type: String,
+        value: 'name'
       }
+    },
+
+    _on_change_items: function () {
+      var model = this.items[0];
+      for (var key in model) {
+        this.filed_values.push(key);
+      }
+      this.set('keys', this.filed_values);
     },
 
     on_click_item: function (event) {
       event.stopPropagation();
       var item = this.$.items.itemForElement(event.target);
       this.fire('select-item', item);
+    },
+
+    filter_item: function (item) {
+      item._name = item[this.property];
+      return true;
     }
 
   });

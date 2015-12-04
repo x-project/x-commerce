@@ -12,8 +12,7 @@
       .title, .hide-items {
         display: inline-block !important;
       }
-      .hide-items {
-        display: inline-block;
+      .hide-items {
         opacity: .5;
       }
       .hide-items:hover {
@@ -26,13 +25,11 @@
       on-keyup="on_change_value" on-focus="on_change_value" placeholder="{{placeholder}}"/>
 
     <div class="panel">
-      <h2 class="title">Items</h2>
-      <div class="hide-items" on-click="on_click_closed_items">X</div>
-      <table-items items="{{items}}"></table-items>
+      <span class="hide-items" on-click="on_click_closed_items">X</span>
+      <table-items items="{{items}}" property="{{property}}"></table-items>
       <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
       </part-items-pages>
     </div>
-
 
   </template>
 </dom-module>
@@ -61,9 +58,8 @@
         type: String,
         value: ''
       },
-      properties: {
-        type: Array,
-        value: function () { return []; }
+      property: {
+        type: String
       }
     },
 
