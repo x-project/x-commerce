@@ -1,15 +1,25 @@
-<link rel="import" href="../../components/vaadin-combo-box/vaadin-combo-box.html">
+<link rel="import" href="part-items-pages.html">
+<link rel="import" href="table-items.html">
 <dom-module id="search-items">
   <template>
+    <style include="style-form"></style>
+    <style include="style-panel"></style>
     <style>
-      #combo_box {
-        @apply(--combo-box);
+      input {
+        box-sizing: border-box;
       }
     </style>
 
-    <vaadin-combo-box id="combo_box" on-focus="on_search" on-click="on_search"
-      label="{{label}}" on-change-selected="on_change_selected">
-    </vaadin-combo-box>
+    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
+      on-keyup="on_change_value" on-focus="on_change_value"/>
+
+    <div class="panel">
+      <h2 class="title">Items</h2>
+      <table-items items="{{items}}"></table-items>
+      <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
+      </part-items-pages>
+    </div>
+
 
   </template>
 </dom-module>
@@ -19,62 +29,39 @@
     is: 'search-items',
 
     properties: {
-      items: {
-        type: Array,
-        value: function () { return []; },
-        observer: '_on_change_items'
-      },
-      property: {
-        type: String,
-        value: 'name'
-      },
-      label: {
-        type: String,
-        value: 'search item'
-      },
       value: {
         type: String,
-        value: ''
+        value: '',
+        notify: true
+      },
+      items: {
+        type: Array,
+        value: function () { return []; }
+      },
+      count: {
+        type: Number
+      },
+      perpage: {
+        type: Number
       }
     },
-
 
     attached: function () {
-      this.$.combo_box.value = this.value;
-    },
-
-    on_search: function (event) {
-      event.stopPropagation();
-      this.fire('search');
-    },
-
-    _on_change_items: function () {
-      if(this.items.length <= 0) {
+      if (!this.items) {
+        this.items = [];
         return;
       }
-      var list = [];
-      this.items.forEach(function (item) {
-        list.push(item[this.property]);
-      },this);
-      this.$.combo_box.items = list;
     },
 
-    on_change_selected: function (event) {
+    on_change_value: function (event) {
       event.stopPropagation();
-      var value = event.detail;
-      var item = this.search_item(value);
-      this.fire('item-selected', item);
+      this.fire('change-value');
     },
 
-    search_item: function (value) {
-      var obj;
-      this.items.some(function (item) {
-        if (item[this.property] === value) {
-          obj = item;
-          return true;
-        }
-      }, this);
-      return obj;
+    on_change_page: function (event) {
+      event.stopPropagation();
+      var page = event.detail.current;
+      this.fire('change-page', page);
     }
 
   });

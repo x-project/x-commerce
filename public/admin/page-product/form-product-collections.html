@@ -1,7 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../search-items/search-items.html">
-<link rel="import" href="../search-option/search-option.html">
-
 <link rel="import" href="../selected-items/selected-items.html">
 <dom-module id="form-product-collections">
   <template>
@@ -25,18 +23,10 @@
           cursor: pointer;
         };
       }
-
-      search-items {
-        box-sizing: border-box;
-        @apply(--form-control);
-        --combo-box: {
-
-        };
-      }
-      search-option.search {
+      search-items.search {
         display: none;
       }
-      search-option.search[display] {
+      search-items.search[show] {
         display: block;
       }
     </style>
@@ -46,7 +36,8 @@
     </iron-ajax>
 
     <api-model-find id="find_filter_collection" collection="collections"
-      on-response="on_response_get_filter" response="{{filter_collections}}">
+      on-response="on_response_get_filter" response="{{filter_collections}}"
+      perpage="{{perpage}}" page="{{page}}">
     </api-model-find>
 
     <api-model-count id="count" collection="collections" response="{{count}}">
@@ -60,14 +51,10 @@
 
     <button class="btn btn-primary" on-click="on_click_add_collection">Add collection</button>
 
-    <search-option class="search" display$="{{show}}" on-change-value="on_change_value"
+    <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"
-      count="{{count}}" perpage="{{perpage}}">
-    </search-option>
-
-<!--     <search-items id="search" items="{{collections}}" on-item-selected="on_item_selected"
-      property="title" on-search="on_search" label="search collection">
-    </search-items> -->
+      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item">
+    </search-items>
 
   </template>
 </dom-module>
@@ -92,7 +79,7 @@
         type: Object,
         value: function () { return {}; }
       },
-      display: {
+      show: {
         type: Boolean,
         value: false
       }
@@ -114,8 +101,7 @@
     on_change_value: function (event) {
       event.stopPropagation();
       if(this.value === '' || !this.value) {
-        this.$.find_filter_collection.perpage = 5;
-        this.perpage = 5
+        this.perpage = 5;
       }
       this.$.find_filter_collection.where = {title: {like: this.value}};
       this.$.find_filter_collection.send();
@@ -123,53 +109,19 @@
 
     on_response_get_filter: function (event) {
       event.stopPropagation();
-      console.log(this.filter_collections);
     },
 
     on_change_page: function (event) {
       event.stopPropagation();
-      this.$.find_filter_collection.page = event.detail - 1;
-      this.$.find_filter_collection.perpage = 5;
-      this.perpage = 5
-      console.log(this.$.find_filter_collection.page);
+      this.page = event.detail - 1;
+      this.perpage = 5;
+      this.$.find_filter_collection.where = {title: {like: this.value}};
+      this.$.find_filter_collection.send();
     },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    on_search: function (event) {
+    on_select_item: function (event) {
       event.stopPropagation();
-      this.get_collections();
-    },
-
-    on_item_selected: function (event) {
-      event.stopPropagation();
-      var collection = event.detail;
-      this.collection = collection;
+      this.collection = event.detail;
       this.save_collection();
     },
 

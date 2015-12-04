@@ -1,5 +1,5 @@
 <link rel="import" href="../part-pages/part-pages.html">
-<dom-module id="part-product-pages">
+<dom-module id="part-items-pages">
   <template>
     <style>
       :host {
@@ -16,9 +16,16 @@
 <script>
   Polymer({
 
-    is: 'part-product-pages',
+    is: 'part-items-pages',
 
-    properties: {}
+    properties: {
+      perpage: {
+        type: Number
+      },
+      count: {
+        type: Number
+      }
+    }
 
   });
 </script>
