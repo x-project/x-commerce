@@ -47,3 +47,10 @@ Model.find = function (url) {
   })
   .then(status);
 }
+
+Model.count = function (url) {
+  return fetch(url, {
+    method: 'get'
+  })
+  .then(status);
+}

@@ -25,6 +25,7 @@
       }
       search-items.search {
         display: none;
+        margin-top: 1em;
       }
       search-items.search[show] {
         display: block;
@@ -37,11 +38,8 @@
 
     <api-model-find id="find_filter_collection" collection="collections"
       on-response="on_response_get_filter" response="{{filter_collections}}"
-      perpage="{{perpage}}" page="{{page}}">
+      perpage="{{perpage}}" page="{{page}}"order="title">
     </api-model-find>
-
-    <api-model-count id="count" collection="collections" response="{{count}}">
-    </api-model-count>
 
     <label class="label">[[product_collection_label]]</label>
 
@@ -53,7 +51,9 @@
 
     <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"
-      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item">
+      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+      on-close-items="on_close_items" placeholder="search collections"
+      properties=['name', 'description']>
     </search-items>
 
   </template>
@@ -86,7 +86,18 @@
     },
 
     attached: function () {
-      this.$.count.send();
+      Model.count('/api/collections/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+        }.bind(this));
+    },
+
+    on_close_items: function (event) {
+      event.stopPropagation();
+      this.set('show', false);
     },
 
     on_click_add_collection: function (event) {

@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="part-items-pages.html">
 <link rel="import" href="table-items.html">
 <dom-module id="search-items">
@@ -8,13 +9,25 @@
       input {
         box-sizing: border-box;
       }
+      .title, .hide-items {
+        display: inline-block !important;
+      }
+      .hide-items {
+        display: inline-block;
+        opacity: .5;
+      }
+      .hide-items:hover {
+        opacity: 1;
+      }
+
     </style>
 
     <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-      on-keyup="on_change_value" on-focus="on_change_value"/>
+      on-keyup="on_change_value" on-focus="on_change_value" placeholder="{{placeholder}}"/>
 
     <div class="panel">
       <h2 class="title">Items</h2>
+      <div class="hide-items" on-click="on_click_closed_items">X</div>
       <table-items items="{{items}}"></table-items>
       <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
       </part-items-pages>
@@ -43,6 +56,14 @@
       },
       perpage: {
         type: Number
+      },
+      placeholder: {
+        type: String,
+        value: ''
+      },
+      properties: {
+        type: Array,
+        value: function () { return []; }
       }
     },
 
@@ -62,6 +83,11 @@
       event.stopPropagation();
       var page = event.detail.current;
       this.fire('change-page', page);
+    },
+
+    on_click_closed_items: function (event) {
+      event.stopPropagation();
+      this.fire('close-items');
     }
 
   });
