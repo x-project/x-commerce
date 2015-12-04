@@ -1,13 +1,10 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="part-products-pages.html">
 <link rel="import" href="deck-products.html">
 <dom-module id="page-products">
   <template>
-
-    <style include="style-page"></style>
 
     <api-model-find id="find" collection="products" response="{{products}}"
       order="title" perpage="{{perpage}}" page="{{page}}" include=["images"]>
