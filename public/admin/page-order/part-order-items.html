@@ -49,10 +49,6 @@
       on-response="on_response_delete">
     </iron-ajax>
 
-    <api-model-create id="create" collection="orders" on-error="on_error"
-      on-response="on_response_create">
-    </api-model-create>
-
     <div class="panel">
       <h2 class="title">Cart</h2>
       <div class="table-responsive">
@@ -126,7 +122,7 @@
     },
 
     attached: function () {
-      this.order_items = this.order.order_items;
+      this.order_items = this.order.order_items || [];
       this.order_item_pending = {};
       if (this.order_items.length > 0);
         this.compute_total();
@@ -185,14 +181,19 @@
     },
 
     create_order_new: function () {
-      this.$.create.data = this.order;
-      this.$.create.send();
+      Model.create('/api/orders', this.order)
+      .then(function (data) {
+        this.order = data;
+        this.on_response_create();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
     },
 
-    on_response_create: function (event) {
-      event.stopPropagation();
-      this.order = event.detail;
+    on_response_create: function () {
       this.request_post(this.order_item_pending);
+      page('/admin/orders/' + this.order.id);
     },
 
     on_response_post: function (event) {

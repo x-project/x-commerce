@@ -4,7 +4,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Customer</h2>
+      <h2 class="title">[[order_customer_title_label]]</h2>
       <form-order-customer order="{{order}}" error="{{error}}"></form-order-customer>
     </div>
 
@@ -16,6 +16,10 @@
     is: 'part-order-customer',
 
     properties: {
+      order_customer_title_label: {
+        type: String,
+        value: 'Customer'
+      },
       order: {
         type: Object,
         value: function () { return {}; }

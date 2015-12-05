@@ -13,7 +13,6 @@
       }
     </style>
 
-
    <form id="form" class="form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[order_item_product_variant_label]]</label>
@@ -23,13 +22,13 @@
     </form>
 
     <div class="items" show$="{{show}}">
-      <template id="variants" is="dom-repeat" items="{{variants}}" as="variant"
-        filter="filter_variant">
+      <template id="variants" is="dom-repeat" items="{{variants}}" as="variant" filter="filter_variant">
         <div class="variant" on-click="on_click_select">
           <span>{{variant.name}}</span>
         </div>
       </template>
     </div>
+
 
   </template>
 </dom-module>

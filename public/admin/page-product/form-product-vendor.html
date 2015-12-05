@@ -82,6 +82,15 @@
         }.bind(this));
     },
 
+    on_click_add_vendor: function (event) {
+      event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
+      this.set('show', true);
+    },
+
     get_vendors: function () {
       var pattern = '/' + this.value +'/' + 'i';
       Model.find('/api/vendors', this.get_filter_options(pattern))
@@ -122,15 +131,6 @@
         page: this.page,
         where: {name: {regexp: regex_pattern}}
       };
-    },
-
-    on_click_add_vendor: function (event) {
-      event.stopPropagation();
-      if (this.show) {
-        this.set('show', false);
-        return;
-      }
-      this.set('show', true);
     },
 
     on_close_items: function (event) {

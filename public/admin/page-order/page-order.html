@@ -99,23 +99,24 @@
         return;
       }
       if (this.order.id) {
-        this.update_model();
+        this.update_order();
         return;
       }
-      this.create_model();
+      this.create_new_order();
     },
 
-    update_model: function () {
+    update_order: function () {
       Model.update('/api/orders/' + this.order.id, this.get_order())
         .then(function (data) {
           this.order = data;
+          this.on_update_order();
         }.bind(this))
         .catch(function (error) {
           this.error = error;
         }.bind(this));
     },
 
-    create_model: function () {
+    create_new_order: function () {
       Model.create('/api/orders', this.get_order())
         .then(function (data) {
           this.order = data;
@@ -124,6 +125,10 @@
         .catch(function (error) {
           this.error = error;
         }.bind(this));
+    },
+
+    on_update_order: function () {
+      page('/admin/orders/' + this.order.id);
     },
 
     on_try_delete: function (event) {
@@ -137,7 +142,7 @@
           this.response_delete();
         }.bind(this))
         .catch(function (error) {
-          this.error = error;
+          console.log(error);
         }.bind(this));
     },
 
@@ -178,10 +183,6 @@
         return false;
       }
       return true;
-    },
-
-    check_order_items: function () {
-
     },
 
     response_create: function () {

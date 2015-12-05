@@ -141,7 +141,6 @@ module.exports = function (Product) {
           return option.values;
         });
         var combos = cartesian(options);
-        console.log(product);
         var variants = combos.map(function (values) {
           return {
             name: values.join('-'),
@@ -156,7 +155,6 @@ module.exports = function (Product) {
             require_shipping: product.require_shipping || ''
           };
         },this);
-        console.log(variants);
         product.variants.create(variants, next);
       }
     ],

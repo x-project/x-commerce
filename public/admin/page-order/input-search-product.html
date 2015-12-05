@@ -2,11 +2,14 @@
 <dom-module id="input-search-product">
   <template>
     <style include="style-form"></style>
+    <style include="style-button"></style>
+
     <style>
-      .items {
+      search-items.search {
         display: none;
+        margin-top: 1em;
       }
-      .items[show] {
+      search-items.search[show] {
         display: block;
       }
       input {
@@ -14,26 +17,19 @@
       }
     </style>
 
-    <api-model-find id="find" collection="products" response="{{products}}"
-      include=["variants"]>
-    </api-model-find>
-
-    <form id="form" class="form" on-submit="on_submit">
-      <div class="field">
-        <label>[[order_item_product_label]]</label>
-        <input is="iron-input" class="form-control" type="text" bind-value="{{title}}"
-          on-keypress="on_search_product" on-focus="on_search_product">
+    <template is="dom-if" if="{{selected}}">
+      <div clas="selected">
+        <span>{{selected.title}}</span>
       </div>
-    </form>
+    </template>
 
-    <div class="items" show$="{{show}}">
-      <template id="products" is="dom-repeat" items="{{products}}" as="product"
-        filter="filter_products">
-        <div class="product" on-click="on_click_select">
-          <span class="product">{{product.title}}</span>
-        </div>
-      </template>
-    </div>
+    <button id="button_add_product" class="btn btn-primary" on-click="on_click_add_product">Add product</button>
+
+    <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
+      value="{{value}}" items="{{filter_products}}" on-change-page="on_change_page"
+      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+      on-close-items="on_close_items" placeholder="search product" property="title">
+    </search-items>
 
   </template>
 </dom-module>
@@ -51,10 +47,6 @@
         type: String,
         value: ''
       },
-      show: {
-        type: Boolean,
-        value: false,
-      },
       id_selected: {
         type: String,
         notify: true,
@@ -64,39 +56,97 @@
         type: Object,
         notify: true,
         value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
       }
     },
 
-    show_products: function () {
+    attached: function () {
+      this.count_products();
+    },
+
+    count_products: function () {
+      Model.count('/api/products/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+        }.bind(this));
+    },
+
+    get_products: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/products', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_products = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        include: ['variants'],
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        where: {title: {regexp: regex_pattern}}
+      };
+    },
+
+    on_click_add_product: function (event) {
+      event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
       this.set('show', true);
     },
 
-    hide_products: function () {
-      this.set('show', false);
+    on_change_value: function (event) {
+      event.stopPropagation();
+      this.get_products();
     },
 
-    on_search_product: function (event) {
+    on_change_page: function (event) {
       event.stopPropagation();
-      this.show_products();
-      this.$.find.send();
+      this.page = event.detail - 1;
+      this.get_products();
     },
 
-    on_click_select: function (event) {
+    on_select_item: function (event) {
       event.stopPropagation();
-      var product = this.$.products.itemForElement(event.target);
-      this.hide_products();
+      var product = event.detail;
       this.id_selected = product.id;
       this.selected = product;
-      this.title = product.title;
+      this.hide_items();
+      this.$.button_add_product.disabled = true;
       this.fire('change');
     },
 
-    filter_products: function (product) {
-      return product.title.search(this.title) >= 0;
+    on_close_items: function (event) {
+      event.stopPropagation();
+      this.hide_items();
+    },
+
+    hide_items: function () {
+      this.set('show', false);
     },
 
     clear: function () {
-      this.set('title', '');
+      this.product_selected = {};
     }
 
   });

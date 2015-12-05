@@ -4,18 +4,19 @@
   <template>
     <style include="style-form"></style>
     <style>
-      .input_variants {
+      #search_product_variant {
         display: none;
       }
-      .input_variants[visible] {
+      #search_product_variant[visible] {
         display: block;
       }
       input {
         box-sizing: border-box;
       }
     </style>
+
     <input-search-product id="search_product" id_selected="{{order_item.product_id}}"
-      selected="{{product_selected}}" on-change="on_change_product_id">
+      selected="{{product_selected}}" on-change="on_change_product">
     </input-search-product>
 
     <input-search-product-variant id="search_product_variant" class="input_variants"
@@ -73,7 +74,7 @@
       this.set('visible', false);
     },
 
-    on_change_product_id: function (event) {
+    on_change_product: function (event) {
       event.stopPropagation();
       this.order_item.variant_id = '';
       if (this.product_selected.hasOwnProperty('variants')){

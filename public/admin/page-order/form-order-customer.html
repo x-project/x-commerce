@@ -1,32 +1,38 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../search-items/search-items.html">
 <dom-module id="form-order-customer">
   <template>
-   <style include="style-form"></style>
-   <style>
-    input {
-      box-sizing: border-box;
-    }
+    <style include="style-form"></style>
+    <style include="style-button"></style>
+    <style>
+      input {
+        box-sizing: border-box;
+      }
+      search-items.search {
+        display: none;
+        margin-top: 1em;
+      }
+      search-items.search[show] {
+        display: block;
+      }
    </style>
 
-    <api-model-find id="find" collection="customers" response="{{customers}}"></api-model-find>
-    <api-model-update id="update" collection="orders" model-id="{{order.id}}"></api-model-update>
+    <label class="label">[[order_customer_label]]</label>
 
-    <form on-submit="on_sumbmit">
-      <div class="field">
-        <label class="label">[[order_customer_label]]</label>
-        <input class="form-control" id="input" type="text" is="iron-input" bind-value="{{customer.first_name}}"
-          on-keypress="on_search_customer" on-focus="on_search_customer">
+    <template is="dom-if" if="{{order.customer}}">
+      <div clas="customer_selected">
+        <span>{{order.customer.first_name}} {{order.customer.last_name}}</span>
+        <span class="remove_customer" on-click="on_click_remove_customer">X</span>
       </div>
-      <input-errors property="customer_id" error="{{error.details}}"></input-errors>
-    </form>
+    </template>
 
-    <div class="item">
-      <template id="customers" is="dom-repeat" items="{{customers}}" filter="filter_customer">
-        <div class="item" on-click="on_customer_selected">
-          <span>{{item.first_name}}</span>
-        </div>
-      </template>
+    <button class="btn btn-primary" on-click="on_click_add_customer">Add customer</button>
+
+    <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
+      value="{{value}}" items="{{filter_customers}}" on-change-page="on_change_page"
+      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+      on-close-items="on_close_items" placeholder="search customer" property="first_name">
+    </search-items>
+
   </template>
 </dom-module>
 <script>
@@ -54,44 +60,134 @@
       error: {
         type: Object,
         value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
       }
     },
 
     attached: function () {
-      this.customer = this.order.customer || [];
+      this.customer = this.order.customer || {};
+      this.count_customers();
     },
 
-    on_sumbmit: function (event) {
-      event.preventDefault();
+    on_click_add_customer: function (event) {
       event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
+      this.set('show', true);
     },
 
-    on_search_customer:  function (event) {
+    count_customers: function () {
+      Model.count('/api/customers/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+        }.bind(this));
+    },
+
+    get_customers: function () {
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/customers', this.get_filter_options(pattern))
+        .then(function (data) {
+          this.filter_customers = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'first_name',
+        page: this.page,
+        where: {first_name: {regexp: regex_pattern}}
+      };
+    },
+
+    update_model: function (data) {
+      Model.update('/api/orders/' + this.order.id, data)
+      .then(function (data) {
+        this.order = data;
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+    create_new_order: function () {
+      Model.create('/api/orders', this.order)
+        .then(function (data) {
+          this.order = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create();
+        }.bind(this));
+    },
+
+    on_close_items: function (event) {
       event.stopPropagation();
-      this.$.find.send();
+      this.set('show', false);
     },
 
-    filter_customer: function(customer) {
-      return customer.first_name.search(this.customer.first_name)>=0;
-    },
-
-    on_customer_selected: function (event) {
+    on_change_value: function (event) {
       event.stopPropagation();
-      var customer = this.$.customers.itemForElement(event.target);
-      this.$.input.value = customer.first_name;
-      this.customers = [];
-      this.order.customer_id = customer.id;
-      this.fire('try-save');
+      this.get_customers();
     },
 
-    try_save: function (customer) {
-      this.$.update.data = { customer_id: customer.id };
-      this.$.update.send();
-    },
-
-    on_put_response: function (event, details) {
+    on_change_page: function (event) {
       event.stopPropagation();
-      this.set('customers', []);
+      this.page = event.detail - 1;
+      this.get_customers();
+    },
+
+    on_select_item: function (event) {
+      event.stopPropagation();
+      this.customer = event.detail;
+      this.save_customer();
+    },
+
+    save_customer: function () {
+      if (this.order.id) {
+        var data = { customer_id: this.customer.id };
+        this.update_model(data);
+        return;
+      }
+      this.create_new_order();
+    },
+
+    on_click_remove_customer: function (event) {
+      event.stopPropagation();
+      var data = { customer_id: ''};
+      this.update_model(data);
+    },
+
+    on_response_update: function () {
+      page('/admin/orders/' + this.order.id);
+    },
+
+    on_response_create: function () {
+      this.save_customer();
+    },
+
+    on_error_create: function () {
+      this.fire('error');
     }
 
   });
