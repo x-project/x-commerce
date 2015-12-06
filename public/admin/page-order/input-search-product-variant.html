@@ -1,3 +1,4 @@
+<link rel="import" href="part-items-pages.html">
 <dom-module id="input-search-product-variant">
   <template>
   <style include="style-form"></style>
@@ -17,17 +18,19 @@
       <div class="field">
         <label class="label">[[order_item_product_variant_label]]</label>
         <input is="iron-input" class="form-control" type="text" bind-value="{{name}}"
-          on-keypress="on_search_variant" on-focus="on_search_variant">
+          on-keyup="on_search_variant" on-focus="on_search_variant">
       </div>
     </form>
 
-    <div class="items" show$="{{show}}">
-      <template id="variants" is="dom-repeat" items="{{variants}}" as="variant" filter="filter_variant">
-        <div class="variant" on-click="on_click_select">
-          <span>{{variant.name}}</span>
+    <div show$="{{show}}">
+      <template id="items" is="dom-repeat" items="{{items}}" as="item" filter="filter_variant">
+        <div class="item" on-click="on_click_select">
+          <span>{{item.name}}</span>
         </div>
       </template>
     </div>
+
+    <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
 
   </template>
 </dom-module>
@@ -41,9 +44,10 @@
         type: String,
         value: 'Variant'
       },
-      variants: {
+      items: {
         type: Array,
-        value: function () { return []; }
+        value: function () { return []; },
+        observer: '_on_change_items'
       },
       name: {
         type: String,
@@ -63,34 +67,89 @@
         notify: true,
         value: ''
       },
+      count: {
+        type: Number
+      },
+      perpage: {
+        type: Number,
+        value: 2
+      },
+      list: {
+        type: Array,
+        value: function () { return []; }
+      },
     },
 
-    show_variants: function () {
-      this.set('show', true);
-    },
-
-    hide_variants: function () {
-      this.set('show', false);
+    _on_change_items: function () {
+      if (!this.items) {
+        this.count = 0;
+        return;
+      }
+      this.count = this.items.length;
+      this.clone_items();
+      this.set('items' , this.items.slice(0, this.perpage));
     },
 
     on_search_variant: function (event) {
       event.stopPropagation();
-      this.show_variants();
-      this.set('variants', this.variants);
+      if (!this.items) {
+        return;
+      }
+      this.clone_items();
+      this.set('show', true);
+      if (this.name.length === 0) {
+        this.set('items' , this.items.slice(0, this.perpage));
+      }
+      this.set('items', this.get_filter_variant());
+    },
+
+    clone_items: function () {
+      if (this.list.length === 0 && this.items.length !== 0) {
+        this.list = JSON.parse(JSON.stringify(this.items));
+        this.list.sort(function (item_a, item_b) {
+          if (item_a.name < item_b.name)
+            return -1;
+          if (item_a.name > item_b.name)
+            return 1;
+          return 0;
+        });
+        this.items = this.list;
+      }
+    },
+
+    get_filter_variant: function () {
+      return this.items.filter(function (item) {
+        return item.name.search(this.name) >= 0;
+      }, this);
+    },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.items = this.list;
+      if (!this.items) {
+        return;
+      }
+      var page = event.detail.current -1;
+      var skip = page ? page * this.perpage : 0;
+      if (skip == 0) {
+        this.set('items', this.items.slice(0, this.perpage));
+        return;
+      }
+      this.set('items', this.items.slice(skip));
     },
 
     on_click_select: function (event) {
       event.stopPropagation();
-      this.hide_variants();
-      var variant = this.$.variants.itemForElement(event.target);
-      this.id_selected_variant = variant.id;
-      this.selected = variant;
-      this.name = variant.name;
+      this.set('show', false);
+      var item = this.$.items.itemForElement(event.target);
+      this.id_selected_variant = item.id;
+      this.selected = item;
+      this.name = item.name;
       this.fire('selected-variant');
     },
 
-    filter_variant: function (variant) {
-      return variant.name.search(this.name) >= 0;
+    filter_variant: function (item) {
+      return item.name.search(this.name) >= 0;
     },
 
     clear: function () {
@@ -101,7 +160,6 @@
       event.stopPropagation();
       event.preventDefault();
     }
-
 
   });
 </script>

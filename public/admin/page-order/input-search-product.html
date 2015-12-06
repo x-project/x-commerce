@@ -1,4 +1,4 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../search-items/search-items.html">
 <dom-module id="input-search-product">
   <template>
     <style include="style-form"></style>
@@ -23,7 +23,7 @@
       </div>
     </template>
 
-    <button id="button_add_product" class="btn btn-primary" on-click="on_click_add_product">Add product</button>
+    <button id="button_add_product" class="btn btn-secondary" on-click="on_click_add_product">Add product</button>
 
     <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_products}}" on-change-page="on_change_page"

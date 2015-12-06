@@ -74,7 +74,7 @@
                 <td>
                   <input id="quantity_edit" class="form-control" readonly$="{{editing}}"
                   type="number" is="iron-input" min="1" bind-value="{{order_item.quantity}}"
-                  on-change="on_edit_order_item" on-keypress="on_edit_order_item">
+                  on-keyup="on_edit_order_item">
                 </td>
                 <td>{{calculate_subtotal(order_item)}}</td>
                 <td>
