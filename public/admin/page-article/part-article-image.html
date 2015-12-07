@@ -1,0 +1,44 @@
+<link rel="import" href="../image-previews/image-previews.html">
+<link rel="import" href="form-article-image.html">
+<dom-module id="part-article-image">
+  <template>
+    <style include="style-panel"></style>
+    <style>
+
+    </style>
+
+    <div class="panel">
+      <h2 class="title">[[product_images_title_label]]</h2>
+      <form-product-image article="{{article}}"></form-product-image>
+    </div>
+
+    <div class="images">
+      <template id="images" is="dom-repeat" items="{{article.images}}" as="image" filter="image_filter">
+        <image-preview image="{{image}}" size="contain" multi-image="true"></image-preview>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-product-image',
+
+    properties: {
+      product_images_title_label: {
+        type: String,
+        value: 'Images'
+      },
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    image_filter: function (image) {
+      return this.article.id === image.artile_id;
+    }
+
+  });
+</script>

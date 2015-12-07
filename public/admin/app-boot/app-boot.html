@@ -109,22 +109,20 @@
 
     '/admin/articles/:article_id': function (context) {
       this.init(context);
-
-      // this.get_model({
-      //     collection: 'articles',
-      //     modelId: context.params.article_id,
-      //     include: ['author', 'categories', 'images']
-      //   })
-      //   .then(function (model) {
-      //     context.page_name = 'page-article';
-      //     context.data.article = model;
-      //     this.open_page(context);
-      //   }.bind(this))
-      //   .catch(function (error) {
-      //     context.page_name = 'page-404';
-      //     context.data.error = error;
-      //   });
-
+      this.get_model({
+          collection: 'articles',
+          modelId: context.params.article_id,
+          include: ['author', 'category', 'images']
+        })
+        .then(function (model) {
+          context.page_name = 'page-article';
+          context.data.article = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+        });
       context.page_name = 'page-article';
       this.open_page(context);
     },

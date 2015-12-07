@@ -1,22 +1,20 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-articles-actions.html">
+<link rel="import" href="part-articles-items.html">
 <dom-module id="page-articles">
   <template>
 
-    <api-model-find id="find" collection="articles"
-      count="{{count}}" perpage="{{perpage}}" page="{{params.page}}"
-      include="{{include}}" response="{{articles}}">
-    </api-model-find>
-
     <layout-admin>
-      <div class="container">
-        <h2>Articles</h2>
-        <a is="app-link" class="button" href="/admin/articles/new">create article</a>
-        <list-articles items="{{articles}}"></list-articles>
-        <part-pages count="{{count}}" perpage="{{perpage}}" current="{{params.page}}"
-          on-select="on_select_page"></part-pages>
-      </div>
+      <h2>Articles</h2>
+      <part-articles-actions></part-articles-actions>
+      <part-articles-items articles="{{articles}}"></part-articles-items>
+      <part-coupons-pages on-change-page="on_change_page" perpage="{{perpage}}"
+        count="{{count}}">
+      </part-coupons-pages>
     </layout-admin>
 
   </template>
@@ -30,25 +28,52 @@
       articles: {
         type: Array
       },
-      include: {
-        type: Array,
-        value: ['category', 'author']
-      },
       count: {
         type: Number
       },
       perpage: {
         type: Number,
-        value: 9
+        value: 5
       }
     },
 
     attached: function () {
-      // this.$.find.send();
+      this.count_articles();
     },
 
-    on_select_page: function (event, detail) {
-      page('/admin/articles/page/' + detail.page);
+    count_articles: function () {
+      Model.count('/api/articles/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+        }.bind(this));
+    },
+
+    get_articles: function () {
+      Model.find('/api/articles', this.get_filter_options())
+        .then(function (data) {
+          this.articles = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: ['category', 'author']
+      };
+    },
+
+    on_change_page: function (event) {
+      this.perpage = 4;
+      this.page = event.detail.current - 1;
+      this.get_articles();
     }
 
   });

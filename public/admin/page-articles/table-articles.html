@@ -1,0 +1,62 @@
+<link rel="import" href="../../components/text-view/text-view.html">
+<dom-module id="table-articles">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>By</th>
+            <th>Summary</th>
+            <th>Content</th>
+            <th>In</th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="articles" is="dom-repeat" items="{{articles}}" as="article">
+            <tr class="text-center">
+              <td>
+                <text-view text="{{article.title}}" limit="20"></text-view>
+              </td>
+              <td>
+                <text-view text="{{article.author.fullname}}" limit="20"></text-view>
+              </td>
+              <td>
+                <text-view text="{{article.summary}}" limit="20"></text-view>
+              </td>
+              <td>
+                <text-view text="{{article.content}}" limit="30"></text-view>
+              </td>
+              <td>
+                <text-view text="{{article.category.name}}" limit="30"></text-view>
+              </td>
+              <td>
+                <a is="app-link" class="btn btn-link"
+                  href="/admin/articles/{{article.id}}">edit
+                </a>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-articles',
+
+    properties: {
+      categories: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

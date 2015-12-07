@@ -1,0 +1,35 @@
+<link rel="import" href="form-article-info.html">
+<dom-module id="part-article-info">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">[[article_info_title_label]]</h2>
+      <form-article-info article="{{article}}" error="{{error}}"></form-article-info>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-article-info',
+
+    properties: {
+      article_info_title_label: {
+        type: String,
+        value: 'Basic info'
+      },
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      },
+    }
+
+  });
+</script>

@@ -1,15 +1,22 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-article-header.html">
+<link rel="import" href="part-article-actions.html">
+<link rel="import" href="part-article-info.html">
+<link rel="import" href="part-article-image.html">
 <link rel="import" href="form-article.html">
 <dom-module id="page-article">
   <template>
 
-    <layout-admin>
-      <div class="container">
-        <h2>edit article</h2>
-        <form-article article="{{data.article}}"></form-article>
-        <button class="btn" on-click="on_click_delete">delete</button>
-      </div>
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
+      <h2>Articles</h2>
+      <part-article-header article="{{article}}"></part-article-header>
+      <part-article-actions></part-article-actions>
+      <part-article-info article="{{article}}" error="{{error}}"></part-article-info>
+      <part-article-image article="{{article}}" error="{{error}}"></part-article-image>
+      <form-article article="{{data.article}}"></form-article>
+      <button class="btn" on-click="on_click_delete">delete</button>
     </layout-admin>
 
   </template>
@@ -20,16 +27,23 @@
 
     is: 'page-article',
 
-    delete: function () {
-      // this.$.delete.send();
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      }
     },
 
-    on_click_delete: function (event) {
-      this.delete();
+    attached: function () {
+      this.article = this.data.article || {};
     },
 
-    on_delete: function (event) {
-      page('/admin/articles');
+    on_try_save: function (event) {
+      event.stopPropagation();
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
     }
 
   });

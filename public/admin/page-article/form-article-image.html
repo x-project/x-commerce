@@ -1,0 +1,32 @@
+<link rel="import" href="../input-image/input-image.html">
+<dom-module id="form-article-image">
+  <template>
+
+    <form id="form" role="form" on-submit="on_submit">
+      <div class="field">
+        <label class="label">image</label>
+        <input-image collection="articles" model-id="{{article.id}}" folder="images"></input-image>
+      </div>
+    </form>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-article-image',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+  });
+</script>

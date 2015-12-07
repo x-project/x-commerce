@@ -166,19 +166,6 @@
       };
     },
 
-    on_response_get_filter: function (event) {
-      event.stopPropagation();
-      // var collection_data = [];
-      // var collection_tmp;
-      // this.filter_collections.forEach(function (collection) {
-      //   collection_tmp = {};
-      //   collection_tmp.Title = collection.title;
-      //   collection_tmp.Description = collection.description;
-      //   collection_data.push(collection_tmp);
-      // });
-      // this.set('items', collection_data);
-    },
-
     on_change_page: function (event) {
       event.stopPropagation();
       this.page = event.detail - 1;

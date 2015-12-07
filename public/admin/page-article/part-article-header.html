@@ -1,0 +1,29 @@
+<dom-module id="part-article-header">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <div>
+      <h2 class="title"><span>Article / {{article.title}}</span></h2>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-article-header',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
