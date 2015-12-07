@@ -113,6 +113,9 @@
   "Store": {
     "dataSource": "mongo"
   },
+  "Service": {
+    "dataSource": "mongo"
+  },
   "Task": {
     "dataSource": "mongo"
   },
