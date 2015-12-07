@@ -1,15 +1,10 @@
-<!-- <link rel="import" href="../image-preview/image-preview.html"> -->
+<link rel="import" href="../image-previews/image-previews.html">
 <link rel="import" href="form-product-image.html">
 <dom-module id="part-product-image">
   <template>
     <style include="style-panel"></style>
     <style>
-      form-product-image {
-        --layout-input-image-button: {
-          @apply(--btn);
-          @apply(--btn-secondary);
-        };
-      }
+
     </style>
 
     <div class="panel">
@@ -18,8 +13,8 @@
     </div>
 
     <div class="images">
-      <template id="images" is="dom-repeat" items="{{product.images}}" as="image">
-        <!-- <image-preview image="{{image}}" size="contain"></image-preview> -->
+      <template id="images" is="dom-repeat" items="{{product.images}}" as="image" filter="image_filter">
+        <image-preview image="{{image}}" size="contain" multi-image="true"></image-preview>
       </template>
     </div>
 
@@ -39,6 +34,14 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      console.log(this.product);
+    },
+
+    image_filter: function (image) {
+      return this.product.id === image.product_id;
     }
 
   });
