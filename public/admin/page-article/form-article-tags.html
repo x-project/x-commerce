@@ -1,0 +1,47 @@
+<link rel="import" href="../../components/input-tags/input-tags.html">
+<link rel="import" href="../input-errors/input-errors.html">
+<dom-module id="form-article-tags">
+  <template>
+    <style include="style-form"></style>
+    <style>
+      input-tags {
+        --field-tags-items: {
+          padding: 2px;
+          border: 1px solid #aaa;
+          border-radius: 2px;
+        };
+        --field-tags-input: {
+
+        };
+        --field-tags-item: {
+          @apply(--label);
+          @apply(--label-primary);
+          margin: 2px 0px;
+          padding: 0.5em;
+          display: inline-block;
+        };
+      }
+    </style>
+    <input-tags tags="{{article.tags}}" on-change="on_change_tags"></input-tags>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-article-tags',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_change_tags: function (event) {
+      event.stopPropagation();
+      this.article.tags = event.detail;
+    }
+
+  });
+</script>

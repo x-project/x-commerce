@@ -1,0 +1,43 @@
+<link rel="import" href="../../components/input-datetime/input-datetime.html">
+<link rel="import" href="../input-errors/input-errors.html">
+<dom-module id="form-article-published-at">
+  <template>
+    <style include="style-form"></style>
+    <style>
+      input-datetime {
+        box-sizing: border-box;
+        --input-datetime: {
+          @apply(--form-control);
+        };
+        --datetime-button-now: {
+          @apply(--btn-secondary);
+        }
+      }
+    </style>
+
+      <div class="field date">
+        <label class="label">Published at</label>
+        <input-datetime value="{{article.published_at}}"></input-datetime>
+        <input-errors property="published_at" error="{{error.details}}"></input-errors>
+      </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-article-published-at',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

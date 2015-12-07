@@ -1,0 +1,55 @@
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../select-option/select-option.html">
+<dom-module id="form-article-author">
+  <template>
+    <app-session id="session"></app-session>
+
+    <div>
+      <label class="label">Author</label>
+      <select-option items="{{authors}}" value="{{value}}" on-change-value="on_change_value" property="fullname">
+      </select-option>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-article-author',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.get_authors();
+      if (!this.article || Object.keys(this.article) == 0 || !this.article.author) {
+        return;
+      }
+      this.value = this.article.author.fullname || '';
+    },
+
+    get_authors: function () {
+      Model.find('/api/managers', {}, this.$.session.get('token'))
+        .then(function (data) {
+          this.authors = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    on_change_value: function (event) {
+      event.stopPropagation();
+      this.article.author_id = event.detail;
+    },
+
+  });
+</script>

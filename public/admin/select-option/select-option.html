@@ -1,0 +1,48 @@
+<dom-module id="select-option">
+  <template>
+
+    <select id="select" on-change="on_value_change">
+      <option disabled></option>
+      <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
+        <option value="{{item.id}}" on-click="on_click">{{item._name}}</option>
+      </template>
+    </select>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'select-option',
+
+    properties: {
+      items: {
+        type: Array,
+        value: function () { return []; }
+      },
+      property: {
+        type: String,
+        value: 'name'
+      },
+      value: {
+        type: String
+      }
+    },
+
+    attached: function () {
+      this.$.select.item_name = this.value;
+    },
+
+    on_value_change: function (event) {
+      event.stopPropagation();
+      console.log("ahah");
+      this.fire('change-value', this.$.select.value);
+    },
+
+    filter: function (item) {
+      item._name = item[this.property];
+      return true;
+    }
+
+  });
+</script>

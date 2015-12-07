@@ -1,0 +1,50 @@
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="form-article-author.html">
+<link rel="import" href="form-article-category.html">
+<link rel="import" href="form-article-published-at.html">
+<link rel="import" href="form-article-tags.html">
+
+<dom-module id="part-article-organizzation">
+  <template>
+
+    <style include="style-panel"></style>
+    <style>
+      .organizzation {
+        margin: 8px;
+      }
+    </style>
+
+    <div class="panel">
+      <h2 class="title">[[article_published_title_label]]</h2>
+      <form-article-author class="organizzation" article="{{article}}" error="{{error}}"></form-article-author>
+      <form-article-category class="organizzation" article="{{article}}" error="{{error}}"></form-article-category>
+      <form-article-published-at class="organizzation" article="{{article}}" error="{{error}}">
+      </form-article-published-at>
+      <form-article-tags class="organizzation" article="{{article}}"></form-article-tags>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-article-organizzation',
+
+    properties: {
+      article_published_title_label: {
+        type: String,
+        value: 'Organizzation'
+      },
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

@@ -1,0 +1,56 @@
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../select-option/select-option.html">
+<dom-module id="form-article-category">
+  <template>
+    <app-session id="session"></app-session>
+
+    <div>
+      <label class="label">Category</label>
+      <select-option items="{{categories}}" value="{{value}}" on-change-value="on_change_value">
+      </select-option>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-article-category',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.get_categories();
+      if (!this.article || Object.keys(this.article) == 0 || !this.article.category) {
+        return;
+      }
+      this.value = this.article.category.name || '';
+    },
+
+    get_categories: function () {
+      Model.find('/api/categories', {})
+        .then(function (data) {
+          this.categories = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    on_change_value: function (event) {
+      event.stopPropagation();
+      this.article.category_id = event.detail;
+    }
+
+
+  });
+</script>
