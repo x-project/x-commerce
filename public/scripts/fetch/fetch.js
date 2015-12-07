@@ -40,7 +40,7 @@ Model.delete = function (url) {
   })
 }
 
-Model.find = function (url, filter) {
+Model.find = function (url, filter, token) {
   var _get_filter = function () {
     return {
       where: filter.where,
@@ -52,14 +52,20 @@ Model.find = function (url, filter) {
   };
   url = url + '?' + 'filter=' + JSON.stringify(_get_filter());
   return fetch(url, {
-    method: 'get'
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
   })
   .then(status);
 }
 
 Model.count = function (url) {
   return fetch(url, {
-    method: 'get'
-  })
+    method: 'get',
+      'Accept': 'application/json',
+    })
   .then(status);
 }

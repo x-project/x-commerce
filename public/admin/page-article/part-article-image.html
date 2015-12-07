@@ -9,12 +9,12 @@
 
     <div class="panel">
       <h2 class="title">[[product_images_title_label]]</h2>
-      <form-product-image article="{{article}}"></form-product-image>
+      <form-article-image article="{{article}}"></form-article-image>
     </div>
 
     <div class="images">
       <template id="images" is="dom-repeat" items="{{article.images}}" as="image" filter="image_filter">
-        <image-preview image="{{image}}" size="contain" multi-image="true"></image-preview>
+        <image-preview image="{{image}}" size="contain"></image-preview>
       </template>
     </div>
 
@@ -23,7 +23,7 @@
 <script>
   Polymer({
 
-    is: 'part-product-image',
+    is: 'part-article-image',
 
     properties: {
       product_images_title_label: {

@@ -1,10 +1,9 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-color/style-color.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-color/style-color.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-product-actions.html">
 <link rel="import" href="part-product-header.html">
@@ -97,12 +96,13 @@
         }.bind(this));
     },
 
-    delete_model: function () {
+    delete_product: function () {
       Model.delete('/api/products/' + this.product.id)
         .then(function (data) {
           this.response_delete();
         }.bind(this))
         .catch(function (error) {
+          console.log(this.error);
           this.error = error;
         }.bind(this));
     },
@@ -112,8 +112,9 @@
       this.fire('iron-signal', {name: 'save'});
     },
 
-    on_try_delete: function () {
-      this.delete_model();
+    on_try_delete: function (event) {
+      event.stopPropagation()
+      this.delete_product();
     },
 
     response_delete: function () {
@@ -126,7 +127,6 @@
     },
 
     validate_model: function () {
-      event.stopPropagation();
       var check = true;
       var error = this.create_custom_err();
       check = check & this.check_field('title', error, 'can\'t be blank');

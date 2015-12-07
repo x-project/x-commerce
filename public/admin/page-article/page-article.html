@@ -1,11 +1,12 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-article-header.html">
 <link rel="import" href="part-article-actions.html">
-<link rel="import" href="part-article-info.html">
+<link rel="import" href="part-article-header.html">
 <link rel="import" href="part-article-image.html">
-<link rel="import" href="form-article.html">
+<link rel="import" href="part-article-info.html">
+<link rel="import" href="part-article-organizzation.html">
 <dom-module id="page-article">
   <template>
 
@@ -14,13 +15,15 @@
       <part-article-header article="{{article}}"></part-article-header>
       <part-article-actions></part-article-actions>
       <part-article-info article="{{article}}" error="{{error}}"></part-article-info>
-      <part-article-image article="{{article}}" error="{{error}}"></part-article-image>
-      <form-article article="{{data.article}}"></form-article>
-      <button class="btn" on-click="on_click_delete">delete</button>
+      <part-article-image article="{{article}}"></part-article-image>
+      <part-article-organizzation article="{{article}}" error="{{error}}"></part-article-organizzation>
+      <part-article-actions></part-article-actions>
     </layout-admin>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
 
 <script>
   Polymer({
@@ -40,11 +43,106 @@
 
     on_try_save: function (event) {
       event.stopPropagation();
+      if (!this.validate_model()) {
+        return;
+      }
+      if(this.article.id){
+        this.update_model();
+        return;
+      }
+      this.create_model();
     },
 
-    on_try_delete: function (event) {
-      event.stopPropagation();
-    }
+    update_model: function () {
+      Model.update('/api/articles/' + this.article.id, this.article)
+        .then(function (data) {
+          this.article = data;
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+          console.log(error);
+        }.bind(this));
+    },
+
+    create_model: function () {
+      Model.create('/api/articles', this.article)
+        .then(function (data) {
+          this.article = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
+    },
+
+    response_create: function () {
+      page('/admin/articles/' + this.article.id);
+      this.fire('iron-signal', {name: 'save'});
+    },
+
+    validate_model: function () {
+      var check = true;
+      var error = this.create_custom_err();
+      check = check & this.check_field('title', error, 'can\'t be blank');
+      check = check & this.check_date('published_at', error);
+      this.set('error', error);
+      return check;
+    },
+
+    check_date: function (property, error) {
+      var test = true;
+      var date = new Date(this.article[property]);
+      if (date == "Invalid Date" && this.article[property] != undefined) {
+        error.details.messages[property].push('invalid date');
+        test = false;
+      }
+      var date_now = Date.now();
+      var diff = date - date_now;
+      if (diff < 0) {
+        error.details.messages[property].push('invalid past date');
+        test = false;
+      }
+      return test;
+    },
+
+    check_field: function (property, error, message) {
+      if (this.article[property] === undefined || this.article[property].length === 0) {
+        error.details.messages[property].push(message);
+        return false;
+      }
+      return true;
+    },
+
+    create_custom_err: function () {
+      var error = {};
+      error.details = {};
+      error.details.messages = {};
+      error.details.messages.title = [];
+      error.details.messages.summary = [];
+      error.details.messages.content = [];
+      error.details.messages.published_at = [];
+      return error;
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation()
+      this.delete_article();
+    },
+
+    delete_article: function () {
+      Model.delete('/api/articles/' + this.article.id)
+        .then(function (data) {
+          this.response_delete();
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+          this.error = error;
+        }.bind(this));
+    },
+
+    response_delete: function () {
+      page('/admin/articles');
+    },
 
   });
 </script>

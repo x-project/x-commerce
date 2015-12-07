@@ -7,7 +7,8 @@
   },
   "properties": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "subtitle": {
       "type": "string"
@@ -37,15 +38,19 @@
   "relations": {
     "author": {
       "type": "belongsTo",
-      "model": "Manager"
+      "model": "Manager",
+      "foreignKey": "author_id"
     },
     "category": {
       "type": "belongsTo",
-      "model": "Category"
+      "model": "Category",
+      "foreignKey": "category_id"
     },
     "images": {
       "type": "hasMany",
-      "model": "Image"
+      "model": "Image",
+      "foreignKey": "article_id"
+
     }
   },
   "acls": [],
