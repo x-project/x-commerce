@@ -19,11 +19,11 @@
 
       <div class="field">
         <label class="label">[[services_plivo_public_key_label]]</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{public_key}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{service.public_key}}">
       </div>
       <div class="field">
         <label class="label">[[services_plivo_provate_key_label]]</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{private_key}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{service.private_key}}">
       </div>
       <button id="update" type="submit" class="btn btn-secondary">update</button>
     </form>
@@ -51,13 +51,9 @@
         type: String,
         value: 'private key'
       },
-      public_key: {
-        type: String,
-        value: ''
-      },
-      private_key: {
-        type: String,
-        value: ''
+      service: {
+        type: Object,
+        value: function () { return {}; }
       },
       show: {
         type: Boolean,
@@ -75,8 +71,8 @@
     on_click_submit: function (event) {
       event.stopPropagation();
       var keys = {
-        public_key: this.public_key,
-        private_key: this.private_key,
+        public_key: this.service.public_key,
+        private_key: this.service.private_key,
         password: this.password
       };
       this.fire('update', keys);

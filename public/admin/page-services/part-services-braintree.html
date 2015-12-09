@@ -1,5 +1,5 @@
 <link rel="import" href="../../components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../form-service-keys/form-service-keys.html">
+<link rel="import" href="form-services-braintree.html">
 <dom-module id="part-services-braintree">
   <template>
     <style include="style-panel"></style>
@@ -11,8 +11,8 @@
 
     <div class="panel">
       <h2 class="title">Braintree</h2>
-      <form-service-keys private_key="{{private_key}}" public_key="{{public_key}}" on-update="on_update">
-      </form-services-keys>
+      <form-services-braintree service="{{service}}" on-submit="on_submit">
+      </form-services-braintree>
     </div>
 
   </template>
@@ -24,8 +24,9 @@
 
     properties: {
       services: {
-        type: Object,
-        value: function () { return {}; }
+        type: Array,
+        value: function () { return []; },
+        observer: '_on_change_services'
       },
       error: {
         type: Object,
@@ -33,10 +34,33 @@
       }
     },
 
-    on_update: function (event) {
+    _on_change_services: function () {
+      if (!this.services) {
+        return;
+      }
+      var service = {};
+      this.services.find(function (item) {
+        if (item.name == "braintree") {
+          service.public_key = item.public_key;
+          service.private_key = item.private_key;
+          service.merchant_id = item.params.merchant_id;
+          return true;
+        }
+      }, this);
+      this.service = service;
+    },
+
+    on_submit: function (event) {
       event.stopPropagation();
-      var data = event.detail;
+      var braintree_data = event.detail;
+      var data = {};
       data.name = 'braintree';
+      data.password = braintree_data.password;
+      data.public_key = braintree_data.public_key;
+      data.private_key = braintree_data.private_key;
+      data.params = {};
+      data.params.merchant_id = braintree_data.merchant_id;
+      console.log(data);
       this.$.update_keys.body = JSON.stringify({data: data});
       this.$.update_keys.generateRequest();
     },

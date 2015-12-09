@@ -24,6 +24,9 @@
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -31,14 +34,25 @@
 
     properties: {
       services: {
-        type: Object,
-        value: function () { return {}; }
+        type: Array,
+        value: function () { return []; }
       }
     },
 
     attached: function () {
+      this.find_services();
+    },
 
-    }
+    find_services: function () {
+      Model.find('/api/services', {})
+        .then(function (data) {
+          this.services = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+          this.error = error;
+        }.bind(this));
+    },
 
   });
 </script>

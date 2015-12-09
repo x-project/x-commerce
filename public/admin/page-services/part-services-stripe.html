@@ -11,7 +11,7 @@
 
     <div class="panel">
       <h2 class="title">Stripe</h2>
-      <form-service-keys private_key="{{private_key}}" public_key="{{public_key}}" on-update="on_update">
+      <form-service-keys service="{{service}}" on-update="on_update">
       </form-services-keys>
     </div>
 
@@ -24,13 +24,25 @@
 
     properties: {
       services: {
-        type: Object,
-        value: function () { return {}; }
+        type: Array,
+        value: function () { return []; },
+        observer: '_on_change_services'
       },
       error: {
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    _on_change_services: function () {
+      if (!this.services) {
+        return;
+      }
+      this.services.find(function (item) {
+        if (item.name == "stripe") {
+          this.service = item;
+        }
+      }, this);
     },
 
     on_update: function (event) {

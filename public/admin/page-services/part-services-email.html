@@ -11,7 +11,7 @@
 
     <div class="panel">
       <h2 class="title">Email</h2>
-      <form-services-email services="{{services}}" error="{{error}}" on-submit="on_submit">
+      <form-services-email service="{{service}}" error="{{error}}" on-submit="on_submit">
       </form-services-email>
     </div>
 
@@ -24,13 +24,25 @@
 
     properties: {
       services: {
-        type: Object,
-        value: function () { return {}; }
+        type: Array,
+        value: function () { return []; },
+        observer: '_on_change_services'
       },
       error: {
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    _on_change_services: function () {
+      if (!this.services) {
+        return;
+      }
+      this.services.find(function (item) {
+        if (item.name == "email") {
+          this.service = item.params;
+        }
+      }, this);
     },
 
     on_submit: function (event) {
@@ -42,6 +54,7 @@
       data.params = {};
       data.params.email = email_data.email;
       data.params.email_password = email_data.email_password;
+      data.params.email_service = email_data.email_service;
 
       this.$.update_keys.body = JSON.stringify({data: data});
       this.$.update_keys.generateRequest();

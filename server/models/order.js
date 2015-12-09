@@ -4,31 +4,6 @@ var braintree = require('braintree');
 var express = require('express');
 var moment = require('moment');
 var loopback = require('loopback');
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-var gateway = braintree.connect({
-  environment: braintree.Environment.Sandbox,
-  merchantId: process.env.BRAINTREE_MERCHANT_ID,
-  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-  privateKey: process.env.BRAINTREE_SECRET_KEY
-});
-
-/*=================Tax===================*/
-
-var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
-
-taxjar.taxForOrder({
-  'from_country': 'IT',
-  'to_country': 'FR',
-  'amount': 18.50,
-  'shipping': 1.5
-}).then(function(res) {
-  // res.tax; // Tax object
-  // res.tax.amount_to_collect; // Amount to collect
-  // console.log(res);
-});
-
-/*=======================================*/
 
 module.exports = function (Order) {
 
@@ -47,6 +22,33 @@ module.exports = function (Order) {
   //   });
   // }
   /* ********************************************************* */
+  Order.app.models.Service.find({where: {name: 'braintree'}}, function (err, models) {
+    console.log(models);
+  });
+
+  var gateway = braintree.connect({
+    environment: braintree.Environment.Sandbox,
+    merchantId: process.env.BRAINTREE_MERCHANT_ID,
+    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+    privateKey: process.env.BRAINTREE_SECRET_KEY
+  });
+  var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+/*=================Tax===================*/
+var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
+
+taxjar.taxForOrder({
+  'from_country': 'IT',
+  'to_country': 'FR',
+  'amount': 18.50,
+  'shipping': 1.5
+}).then(function(res) {
+  // res.tax; // Tax object
+  // res.tax.amount_to_collect; // Amount to collect
+  // console.log(res);
+});
+
+/*=======================================*/
 
 
   Order.payment_systems =  Order.payment_systems || {};
