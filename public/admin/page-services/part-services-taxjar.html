@@ -5,7 +5,8 @@
 
     <div class="panel">
       <h2 class="title">Taxjar</h2>
-      <form-services-taxjar services="{{services}}" error="{{error}}"></form-services-taxjar>
+      <form-services-taxjar services="{{services}}" error="{{error}}" on-submit="on_submit">
+      </form-services-taxjar>
     </div>
 
   </template>
@@ -24,6 +25,12 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var taxjar_keys = event.detail;
+      console.log(taxjar_keys);
     }
 
   });

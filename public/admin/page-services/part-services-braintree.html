@@ -5,7 +5,8 @@
 
     <div class="panel">
       <h2 class="title">Braintree</h2>
-      <form-services-braintree services="{{servies}}" error="{{error}}"></form-services-braintree>
+      <form-services-braintree services="{{services}}" error="{{error}}" on-submit="on_submit">
+      </form-services-braintree>
     </div>
 
   </template>
@@ -24,6 +25,12 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var braintree_keys = event.detail;
+      console.log(braintree_keys);
     }
 
   });

@@ -5,7 +5,8 @@
 
     <div class="panel">
       <h2 class="title">Plivo</h2>
-      <form-services-plivo services="{{services}}" error="{{error}}"></form-services-plivo>
+      <form-services-plivo services="{{services}}" error="{{error}}" on-submit="on_submit">
+      </form-services-plivo>
     </div>
 
   </template>
@@ -24,6 +25,12 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var plivo_keys = event.detail;
+      console.log(plivo_keys);
     }
 
   });

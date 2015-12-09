@@ -1,6 +1,7 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-services-email">
   <template>
+    <style include="style-button"></style>
     <style include="style-form"></style>
     <style>
       input {
@@ -20,9 +21,10 @@
       </div>
       <div class="field">
         <label class="label">[[services_service_email_label]]</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{services.service_email}}">
+        <input class="form-control" type="text" is="iron-input" bind-value="{{services.email_service}}">
         <input-errors property="service_email" error="{{error.details}}"></input-errors>
       </div>
+      <button type="submit" class="btn btn-secondary">submit</button>
     </form>
   </template>
 
@@ -58,6 +60,12 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
+      var data = {
+        email: this.services.email,
+        password: this.services.password,
+        email_service: this.services.email_service
+      };
+      this.fire('submit', data);
     }
 
   });

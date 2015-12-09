@@ -5,7 +5,8 @@
 
     <div class="panel">
       <h2 class="title">Mandrill</h2>
-      <form-services-mandrill services="{{services}}" error="{{error}}"></form-services-mandrill>
+      <form-services-mandrill services="{{services}}" error="{{error}}" on-submit="on_submit">
+      </form-services-mandrill>
     </div>
 
   </template>
@@ -24,6 +25,12 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var mandrill_keys = event.detail;
+      console.log(mandrill_keys);
     }
 
 

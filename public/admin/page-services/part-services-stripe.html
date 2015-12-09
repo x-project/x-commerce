@@ -5,7 +5,8 @@
 
     <div class="panel">
       <h2 class="title">Stripe</h2>
-      <form-services-stripe services="{{services}}" error="{{error}}"></form-services-stripe>
+      <form-services-stripe services="{{services}}" error="{{error}}" on-submit="on_submit">
+      </form-services-stripe>
     </div>
 
   </template>
@@ -24,6 +25,12 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var stripe_keys = event.detail;
+      console.log(stripe_keys);
     }
 
   });

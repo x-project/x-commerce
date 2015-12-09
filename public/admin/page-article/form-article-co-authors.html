@@ -1,0 +1,77 @@
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../search-items/search-items.html">
+<link rel="import" href="../selected-items/selected-items.html">
+<dom-module id="form-article-co-authors">
+  <template>
+    <style include="style-button"></style>
+    <style>
+      selected-items {
+        --selected-item: {
+          padding: 4px 8px;
+          border-radius: 2px;
+          display: inline-block;
+          background-color: #eee;
+        };
+        --layout-item-delete: {
+          padding-left: 8px;
+          opacity: .4;
+        };
+        --layout-item-delete-hover: {
+          opacity: 1;
+          cursor: pointer;
+        };
+      }
+      search-items.search {
+        display: none;
+        margin-top: 1em;
+      }
+      search-items.search[show] {
+        display: block;
+      }
+    </style>
+
+    <app-session id="session"></app-session>
+
+    <div>
+      <label class="label">TODO Co authors</label>
+
+
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-article-co-authors',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      co_author: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
+      }
+    }
+
+
+  });
+</script>

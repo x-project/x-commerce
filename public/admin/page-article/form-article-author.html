@@ -1,13 +1,41 @@
 <link rel="import" href="../../components/app-session/app-session.html">
-<link rel="import" href="../select-option/select-option.html">
+<link rel="import" href="../search-items/search-items.html">
 <dom-module id="form-article-author">
   <template>
+    <style include="style-button"></style>
+    <style>
+      search-items.search {
+        display: none;
+        margin-top: 1em;
+      }
+      search-items.search[show] {
+        display: block;
+      }
+      button {
+        display: block !important;
+      }
+    </style>
+
     <app-session id="session"></app-session>
 
     <div>
       <label class="label">Author</label>
-      <select-option items="{{authors}}" value="{{value}}" on-change-value="on_change_value" property="fullname">
-      </select-option>
+
+      <template is="dom-if" if="{{article.author}}">
+        <div clas="author_selected">
+          <span>{{article.author.fullname}}</span>
+          <span class="remove_author" on-click="on_click_remove_author">X</span>
+        </div>
+      </template>
+
+      <button class="btn btn-primary" on-click="on_click_add_author">Add collection</button>
+
+      <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
+        value="{{value}}" items="{{filter_authors}}" on-change-page="on_change_page"
+        count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+        on-close-items="on_close_items" placeholder="search author" property="fullname">
+      </search-items>
+
     </div>
 
   </template>
@@ -25,31 +53,139 @@
       error: {
         type: Object,
         value: function () { return {}; }
+      },
+      author: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 5
       }
     },
 
     attached: function () {
-      this.get_authors();
-      if (!this.article || Object.keys(this.article) == 0 || !this.article.author) {
-        return;
-      }
-      this.value = this.article.author.fullname || '';
+      this.count_authors();
+    },
+
+    count_authors: function () {
+      Model.count('/api/managers/count', {},  this.$.session.get('token'))
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+          this.count = 0;
+        }.bind(this));
     },
 
     get_authors: function () {
-      Model.find('/api/managers', {}, this.$.session.get('token'))
+      var pattern = '/' + this.value +'/' + 'i';
+      Model.find('/api/managers', this.get_filter_options(pattern), this.$.session.get('token'))
         .then(function (data) {
-          this.authors = data;
+          this.filter_authors = data;
         }.bind(this))
         .catch(function (error) {
           console.log(error);
         }.bind(this));
     },
 
+    update_article: function (data) {
+      Model.update('/api/articles/' + this.article.id, data)
+      .then(function (data) {
+        this.article = data;
+        this.on_response_update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+    get_filter_options: function (regex_pattern) {
+      return {
+        perpage: this.perpage,
+        order: 'fullname',
+        page: this.page,
+        where: {fullname: {regexp: regex_pattern}}
+      };
+    },
+
+    create_new_article: function () {
+      Model.create('/api/articles', this.article)
+        .then(function (data) {
+          this.article = data;
+          this.on_response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.on_error_create();
+        }.bind(this));
+    },
+
+    on_click_add_author: function (event) {
+      event.stopPropagation();
+      if (this.show) {
+        this.set('show', false);
+        return;
+      }
+      this.set('show', true);
+    },
+
+
+    on_close_items: function (event) {
+      event.stopPropagation();
+      this.set('show', false);
+    },
+
+    on_select_item: function (event) {
+      event.stopPropagation();
+      this.author = event.detail;
+      this.save_author();
+    },
+
     on_change_value: function (event) {
       event.stopPropagation();
-      this.article.author_id = event.detail;
+      this.get_authors();
     },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.page = event.detail - 1;
+      this.get_authors();
+    },
+
+    save_author: function () {
+      if (this.article.id) {
+        this.update_article({ author_id: this.author.id });
+        return;
+      }
+      this.create_new_article();
+    },
+
+    on_response_create: function () {
+      this.save_author();
+    },
+
+    on_response_update: function () {
+      page('/admin/articles/' + this.article.id);
+    },
+
+    on_click_remove_product_type: function (event) {
+      event.stopPropagation();
+      var data = { author_id: ''};
+      this.update_article(data);
+    },
+
+    on_error_create: function () {
+      this.fire('error');
+    }
 
   });
 </script>

@@ -50,7 +50,7 @@
         display: block;
       }
     </style>
-
+    <app-session id="session"></app-session>
     <app-container id="app" on-login="on_login" on-logout="on_logout"></app-container>
 
   </template>
@@ -70,6 +70,10 @@
     behaviors: [
       Polymer.RouterBehaviour
     ],
+
+    // attached: function () {
+    //   this.$.session.set('token', 'hsjYPQujjL2Ujh7vV3xMSV0WKVtTPYWt4YQ15bNYSQoxFtzg0vKH7R2yIu33Leeh');
+    // },
 
     on_login: function (event) {
       this.$.session.set('token', event.detail.id);
@@ -113,7 +117,7 @@
       this.get_model({
           collection: 'articles',
           modelId: context.params.article_id,
-          include: ['author', 'category', 'images']
+          include: [{'author': ['co_authors']}, 'category', 'images']
         })
         .then(function (model) {
           context.page_name = 'page-article';

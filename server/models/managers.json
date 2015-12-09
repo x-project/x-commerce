@@ -6,7 +6,13 @@
   },
   "base": "InvitableUser",
   "properties": {},
-  "relations": {},
+  "relations": {
+    "co_authors": {
+      "type": "hasMany",
+      "model": "Co_Manager",
+      "foreignKey": "manager_id"
+    }
+  },
   "acls": [
     {
       "principalType": "ROLE",
@@ -19,6 +25,30 @@
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "find"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "count"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__get__co_authors"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__create__co_authors"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "__deleteById__co_authors"
     }
   ],
   "validations": [],

@@ -62,10 +62,14 @@ Model.find = function (url, filter, token) {
   .then(status);
 }
 
-Model.count = function (url) {
+Model.count = function (url, filter, token) {
   return fetch(url, {
     method: 'get',
+    headers: {
       'Accept': 'application/json',
-    })
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  })
   .then(status);
 }

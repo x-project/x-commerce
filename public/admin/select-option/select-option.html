@@ -1,7 +1,7 @@
 <dom-module id="select-option">
   <template>
 
-    <select id="select" on-change="on_value_change">
+    <select id="select" value="{{value}}" on-change="on_value_change">
       <option disabled></option>
       <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
         <option value="{{item.id}}" on-click="on_click">{{item._name}}</option>
@@ -30,16 +30,19 @@
     },
 
     attached: function () {
-      this.$.select.value = this.value;
+
     },
 
     on_value_change: function (event) {
       event.stopPropagation();
-      console.log("ahah");
       this.fire('change-value', this.$.select.value);
     },
 
     filter: function (item) {
+      if(this.value.length != 0) {
+        item._name = this.value;
+        return true;
+      }
       item._name = item[this.property];
       return true;
     }

@@ -64,6 +64,9 @@
   "Coupon": {
     "dataSource": "mongo"
   },
+  "Co_Manager": {
+    "dataSource": "mongo"
+  },
   "Email": {
     "dataSource": "email",
     "public": false

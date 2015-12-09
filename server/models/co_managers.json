@@ -1,0 +1,20 @@
+{
+  "name": "Co_Manager",
+  "plural": "co_managers",
+  "mongodb": {
+    "collection": "co_managers"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "fullname": {
+      "type": "String"
+    },
+    "description": {
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "validations": [],
+  "methods": []
+}

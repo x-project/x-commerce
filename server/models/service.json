@@ -42,7 +42,7 @@
     "email": {
       "type": "String"
     },
-    "service_email": {
+    "email_service": {
       "type": "String"
     },
     "password": {

@@ -175,10 +175,6 @@
       this.create_new_product();
     },
 
-    on_error_create: function () {
-      this.fire('error');
-    },
-
     on_response_create: function () {
       this.save_prod_type();
     },
@@ -191,6 +187,10 @@
       event.stopPropagation();
       var data = { product_type_id: ''};
       this.update_model(data);
+    },
+
+    on_error_create: function () {
+      this.fire('error');
     }
 
   });

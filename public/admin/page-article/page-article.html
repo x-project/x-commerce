@@ -16,7 +16,7 @@
       <part-article-actions></part-article-actions>
       <part-article-info article="{{article}}" error="{{error}}"></part-article-info>
       <part-article-image article="{{article}}"></part-article-image>
-      <part-article-organizzation article="{{article}}" error="{{error}}"></part-article-organizzation>
+      <part-article-organizzation article="{{article}}" error="{{error}}" on-error="on_error"></part-article-organizzation>
       <part-article-actions></part-article-actions>
     </layout-admin>
 
@@ -143,6 +143,11 @@
     response_delete: function () {
       page('/admin/articles');
     },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      this.validate_model();
+    }
 
   });
 </script>

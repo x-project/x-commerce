@@ -5,7 +5,8 @@
 
     <div class="panel">
       <h2 class="title">Email</h2>
-      <form-services-email services="{{services}}" error="{{error}}"></form-services-email>
+      <form-services-email services="{{services}}" error="{{error}}" on-submit="on_submit">
+      </form-services-email>
     </div>
 
   </template>
@@ -24,6 +25,12 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var data_email = event.detail;
+      console.log(data_email);
     }
 
   });
