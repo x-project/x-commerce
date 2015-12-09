@@ -5,6 +5,13 @@ var express = require('express');
 var moment = require('moment');
 var loopback = require('loopback');
 
+var gateway = braintree.connect({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_SECRET_KEY
+});
+
 module.exports = function (Order) {
 
   /* ********************************************************* */
@@ -22,19 +29,15 @@ module.exports = function (Order) {
   //   });
   // }
   /* ********************************************************* */
-  Order.app.models.Service.find({where: {name: 'braintree'}}, function (err, models) {
-    console.log(models);
-  });
 
-  var gateway = braintree.connect({
-    environment: braintree.Environment.Sandbox,
-    merchantId: process.env.BRAINTREE_MERCHANT_ID,
-    publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-    privateKey: process.env.BRAINTREE_SECRET_KEY
-  });
-  var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
+  // var braintree_key;
+  // Order.app.models.Service.findOne({where: {name: 'braintree'}}, function (err, models) {
+  //   console.log(models);
+  //   braintree_key = models[0];
+  // });
 /*=================Tax===================*/
+var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 
 taxjar.taxForOrder({
