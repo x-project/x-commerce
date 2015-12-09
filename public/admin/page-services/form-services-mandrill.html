@@ -1,0 +1,51 @@
+<link rel="import" href="../input-errors/input-errors.html">
+<dom-module id="form-services-mandrill">
+  <template>
+    <style include="style-form"></style>
+    <style>
+      input {
+        box-sizing: border-box;
+      }
+    </style>
+    <form on-submit="on_submit">
+      <div class="field">
+        <label class="label">[[services_public_key_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{services.mandrill_public_key}}">
+        <input-errors property="mandrill_public_key" error="{{error.details}}"></input-errors>
+      </div>
+      <div class="field">
+        <label class="label">[[services_private_key_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{services.mandrill_private_key}}">
+        <input-errors property="mandrill_private_key" error="{{error.details}}"></input-errors>
+      </div>
+    </form>
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-services-mandrill',
+
+    properties: {
+      services_public_key_label: {
+        type: String,
+        value: 'public key'
+      },
+      services_private_key_label: {
+        type: String,
+        value: 'private key'
+      },
+      services: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+  });
+</script>

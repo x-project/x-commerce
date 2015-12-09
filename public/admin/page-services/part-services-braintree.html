@@ -1,11 +1,11 @@
-<link rel="import" href="form-services-email.html">
-<dom-module id="part-services-email">
+<link rel="import" href="form-services-braintree.html">
+<dom-module id="part-services-braintree">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Email</h2>
-      <form-services-email services="{{services}}" error="{{error}}"></form-services-email>
+      <h2 class="title">Braintree</h2>
+      <form-services-braintree services="{{servies}}" error="{{error}}"></form-services-braintree>
     </div>
 
   </template>
@@ -13,7 +13,7 @@
 <script>
   Polymer({
 
-    is: 'part-services-email',
+    is: 'part-services-braintree',
 
     properties: {
       services: {

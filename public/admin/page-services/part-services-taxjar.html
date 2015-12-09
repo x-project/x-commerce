@@ -1,10 +1,11 @@
+<link rel="import" href="form-services-taxjar.html">
 <dom-module id="part-services-taxjar">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">part-services-taxjar</h2>
-
+      <h2 class="title">Taxjar</h2>
+      <form-services-taxjar services="{{services}}" error="{{error}}"></form-services-taxjar>
     </div>
 
   </template>
@@ -16,6 +17,10 @@
 
     properties: {
       services: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

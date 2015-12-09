@@ -1,11 +1,11 @@
-<link rel="import" href="form-services-email.html">
-<dom-module id="part-services-email">
+<link rel="import" href="form-services-mandrill.html">
+<dom-module id="part-services-mandrill">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">Email</h2>
-      <form-services-email services="{{services}}" error="{{error}}"></form-services-email>
+      <h2 class="title">Mandrill</h2>
+      <form-services-mandrill services="{{services}}" error="{{error}}"></form-services-mandrill>
     </div>
 
   </template>
@@ -13,7 +13,7 @@
 <script>
   Polymer({
 
-    is: 'part-services-email',
+    is: 'part-services-mandrill',
 
     properties: {
       services: {
@@ -25,6 +25,7 @@
         value: function () { return {}; }
       }
     }
+
 
   });
 </script>
