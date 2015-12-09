@@ -1,7 +1,13 @@
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="form-services-email.html">
 <dom-module id="part-services-email">
   <template>
     <style include="style-panel"></style>
+
+    <iron-ajax id="update_keys" method="POST" content-type="application/json" handle-as="json"
+      url="/api/services/update_service" last-response="{{response}}" on-response="on_response"
+      on-error="on_error">
+    </iron-ajax>
 
     <div class="panel">
       <h2 class="title">Email</h2>
@@ -29,8 +35,26 @@
 
     on_submit: function (event) {
       event.stopPropagation();
-      var data_email = event.detail;
-      console.log(data_email);
+      var email_data = event.detail;
+      var data = {};
+      data.name = 'email';
+      data.password = email_data.password;
+      data.params = {};
+      data.params.email = email_data.email;
+      data.params.email_password = email_data.email_password;
+
+      this.$.update_keys.body = JSON.stringify({data: data});
+      this.$.update_keys.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      console.log(this.response);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

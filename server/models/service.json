@@ -6,56 +6,17 @@
   },
   "base": "PersistedModel",
   "properties": {
-    "plivo_public_key": {
+    "name": {
       "type": "String"
     },
-    "plivo_private_key": {
+    "public_key": {
       "type": "String"
     },
-    "braintree_public_key": {
+    "private_key": {
       "type": "String"
     },
-    "braintree_private_key": {
-      "type": "String"
-    },
-    "braintree_mercant_id": {
-      "type": "String"
-    },
-    "stripe_public_key": {
-      "type": "String"
-    },
-    "stripe_private_key": {
-      "type": "String"
-    },
-    "taxjar_public_key": {
-      "type": "String"
-    },
-    "taxjar_private_key": {
-      "type": "String"
-    },
-    "mandrill_public_key": {
-      "type": "String"
-    },
-    "mandrill_private_key": {
-      "type": "String"
-    },
-    "email": {
-      "type": "String"
-    },
-    "email_service": {
-      "type": "String"
-    },
-    "password": {
-      "type": "String"
-    },
-    "jwt_secret_key_email": {
-      "type": "String"
-    },
-    "jwt_secret_key_sms": {
-      "type": "String"
-    },
-    "phone_src": {
-      "type": "String"
+    "params": {
+      "type": "Object"
     }
   },
   "relations": {},

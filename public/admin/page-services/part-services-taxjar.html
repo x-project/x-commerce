@@ -1,12 +1,18 @@
-<link rel="import" href="form-services-taxjar.html">
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../form-service-keys/form-service-keys.html">
 <dom-module id="part-services-taxjar">
   <template>
     <style include="style-panel"></style>
 
+    <iron-ajax id="update_keys" method="POST" content-type="application/json" handle-as="json"
+      url="/api/services/update_service" last-response="{{response}}" on-response="on_response"
+      on-error="on_error">
+    </iron-ajax>
+
     <div class="panel">
       <h2 class="title">Taxjar</h2>
-      <form-services-taxjar services="{{services}}" error="{{error}}" on-submit="on_submit">
-      </form-services-taxjar>
+      <form-service-keys private_key="{{private_key}}" public_key="{{public_key}}" on-update="on_update">
+      </form-services-keys>
     </div>
 
   </template>
@@ -27,10 +33,22 @@
       }
     },
 
-    on_submit: function (event) {
+    on_update: function (event) {
       event.stopPropagation();
-      var taxjar_keys = event.detail;
-      console.log(taxjar_keys);
+      var data = event.detail;
+      data.name = 'taxjar';
+      this.$.update_keys.body = JSON.stringify({data: data});
+      this.$.update_keys.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      console.log(this.response);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

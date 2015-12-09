@@ -7,6 +7,12 @@
       input {
         box-sizing: border-box;
       }
+      .password {
+        display: none;
+      }
+      .password[show] {
+        display: block;
+      }
     </style>
     <form on-submit="on_submit">
       <div class="field">
@@ -24,8 +30,15 @@
         <input class="form-control" type="text" is="iron-input" bind-value="{{services.email_service}}">
         <input-errors property="service_email" error="{{error.details}}"></input-errors>
       </div>
-      <button type="submit" class="btn btn-secondary">submit</button>
+      <button id="update" type="submit" class="btn btn-secondary">update</button>
     </form>
+
+    <div class="password" show$="{{show}}">
+      <input class="form-control" type="text" is="iron-input" bind-value="{{password}}">
+      <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
+      <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
+    </div>
+
   </template>
 
 </dom-module>
@@ -51,21 +64,34 @@
         type: Object,
         value: function () { return {}; }
       },
-      error: {
-        type: Object,
-        value: function () { return {}; }
+      show: {
+        type: Boolean,
+        value: false
       }
     },
 
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
+      this.$.update.disabled = true;
+      this.set('show', true);
+    },
+
+    on_click_submit: function (event) {
+      event.stopPropagation();
       var data = {
         email: this.services.email,
-        password: this.services.password,
-        email_service: this.services.email_service
+        email_password: this.services.password,
+        email_service: this.services.email_service,
+        password: this.password
       };
       this.fire('submit', data);
+    },
+
+    on_click_undo: function (event) {
+      event.stopPropagation();
+      this.set('show', false);
+      this.$.update.disabled = false;
     }
 
   });
