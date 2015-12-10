@@ -5,14 +5,77 @@ var express = require('express');
 var moment = require('moment');
 var loopback = require('loopback');
 
-var gateway = braintree.connect({
-  environment: braintree.Environment.Sandbox,
-  merchantId: process.env.BRAINTREE_MERCHANT_ID,
-  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-  privateKey: process.env.BRAINTREE_SECRET_KEY
-});
+// var gateway = braintree.connect({
+//   environment: braintree.Environment.Sandbox,
+//   merchantId: process.env.BRAINTREE_MERCHANT_ID,
+//   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+//   privateKey: process.env.BRAINTREE_SECRET_KEY
+// });
 
 module.exports = function (Order) {
+
+  var gateway;
+  var service;
+
+  function connect (service) {
+    return new Promise(function (resolve, reject) {
+      if (gateway) {
+        resolve(gateway);
+        return;
+      }
+      gateway = braintree.connect({
+        environment: braintree.Environment.Sandbox,
+        merchantId: service.params.merchant_id,
+        publicKey: service.public_key,
+        privateKey: service.private_key
+      });
+      resolve(gateway);
+    });
+  }
+
+  function get_service (name) {
+    return new Promise(function (resolve, reject) {
+      if (service) {
+        resolve(service);
+        return;
+      }
+      var filter = {where: { name: name }};
+      Order.app.models.Service.findOne(filter, function (err, models) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        service = models;
+        resolve(service);
+      });
+
+    });
+  }
+
+  function get_gateway (name) {
+    return new Promise(function (resolve, reject) {
+      get_service(name)
+        .then(connect)
+        .then(resolve)
+        .catch(reject)
+    });
+  }
+
+  function get_keys (name) {
+    return new Promise(function (resolve, reject) {
+      var filter = {where: { name: name }};
+      Order.app.models.Service.findOne(filter, function (err, models) {
+        if (err) {
+          reject(err);
+        }
+        resolve(models);
+      });
+    });
+  }
+
+
+
+
 
   /* ********************************************************* */
   /*
@@ -30,14 +93,8 @@ module.exports = function (Order) {
   // }
   /* ********************************************************* */
 
-  // var braintree_key;
-  // Order.app.models.Service.findOne({where: {name: 'braintree'}}, function (err, models) {
-  //   console.log(models);
-  //   braintree_key = models[0];
-  //   setImmediate(next, models);
-  // });
 /*=================Tax===================*/
-var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+var stripe = require("stripe");
 
 var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 
@@ -118,17 +175,19 @@ taxjar.taxForOrder({
   };
 
   Order.get_client_token = function (customer_id, callback) {
-    gateway.customer.find(customer_id, function (err, customer) {
-      if (err) {
-        callback(err, null);
-        return;
-      }
-      gateway.clientToken.generate({ customerId: customer_id }, function (err, response) {
+    get_gateway('braintree').then(function (gateway) {
+      gateway.customer.find(customer_id, function (err, customer) {
         if (err) {
           callback(err, null);
           return;
         }
-        callback(null, response);
+        gateway.clientToken.generate({ customerId: customer_id }, function (err, response) {
+          if (err) {
+            callback(err, null);
+            return;
+          }
+          callback(null, response);
+        });
       });
     });
   };
@@ -564,22 +623,26 @@ taxjar.taxForOrder({
 
   var stripe_checkout = function (data) {
     return function (next) {
-      var charge = stripe.charges.create({
-          amount: 1 * 100,//data.amount * 100
-          currency: "eur",
-          source: data.stripe_token,
-          description: "my first faker payment"
-        },
-        function (err, charge) {
-          if (err && err.type === 'StripeCardError') {
-            data.stripe_payment_status = 'card_declined';
-            setImmediate(next, err);
-            return;
+      get_keys('stripe').then(function (model) {
+        var charge = stripe(model.private_key).charges.create({
+            amount: 1 * 100,//data.amount * 100
+            currency: "eur",
+            source: data.stripe_token,
+            description: "my first faker payment"
+          },
+          function (err, charge) {
+            if (err && err.type === 'StripeCardError') {
+              data.stripe_payment_status = 'card_declined';
+              setImmediate(next, err);
+              return;
+            }
+            data.stripe_payment_status = charge;
+            setImmediate(next, null);
           }
-          data.stripe_payment_status = charge;
-          setImmediate(next, null);
-        }
-      );
+        );
+      }).catch(function (err) {
+        setImmediate(next, err);
+      });
     };
   };
 
@@ -637,11 +700,11 @@ taxjar.taxForOrder({
       get_customer(data),
       prepare_order(data),
       stripe_checkout(data),
-      Order.prepare_order_review(data),
-      Order.try_close_order(data),
-      Order.save_payment(data),
+      Order.prepare_order_review_stripe(data),
+      Order.try_close_order_stripe(data),
+      Order.save_payment_braintree(data),
       // create_invoice(data),
-      create_fail_task(data)
+      create_fail_task_stripe(data)
       // prepare_response(data)
     ],
 

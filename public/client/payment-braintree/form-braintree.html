@@ -80,9 +80,9 @@
       this.get_client_token_model();
     },
 
-
     get_client_token_model: function () {
-      Model.create('/api/orders/client_token', { customer_id: this.customerId })
+      var data = { customer_id: this.customerId };
+      Model.create('/api/orders/client_token', data)
       .then(function (data) {
         this.on_response_get_client_token(data);
       }.bind(this))

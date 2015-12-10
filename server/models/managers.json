@@ -6,13 +6,7 @@
   },
   "base": "InvitableUser",
   "properties": {},
-  "relations": {
-    "co_authors": {
-      "type": "hasMany",
-      "model": "Co_Manager",
-      "foreignKey": "manager_id"
-    }
-  },
+  "relations": {},
   "acls": [
     {
       "principalType": "ROLE",

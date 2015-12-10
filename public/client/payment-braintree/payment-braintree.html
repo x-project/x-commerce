@@ -3,9 +3,9 @@
 <link rel="import" href="form-braintree.html">
 <dom-module id="payment-braintree">
   <template>
-    <style include="style-alert"></style>
     <style include="style-panel"></style>
     <div class="panel">
+
       <form-braintree on-client-token-error="on_client_token_error"
         customer-id="{{customer_id}}" on-success="on_success_payment">
       </form-braintree>

@@ -390,7 +390,7 @@ module.exports = function (Customer) {
   /*
     * passwordless by email
   */
-  // enter_token = client da la richiesta e il server invia una signed url con token
+  // enter_token = client fa la richiesta e il server invia una signed url con token
   Customer.remoteMethod('get_token_email', {
     accepts: [
       { arg: 'email', type: 'string', required: true },
