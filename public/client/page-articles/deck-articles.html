@@ -2,16 +2,21 @@
 <link rel="import" href="card-article.html">
 <dom-module id="deck-articles">
   <template>
+    <style include="style-deck"></style>
+    <style>
+      .card {
+        @apply(--layout-col-3);
+      }
+    </style>
 
     <div class="deck">
       <template is="dom-repeat" items="{{items}}">
-        <card-article data="{{item}}"></card-article>
+        <card-article class="card" data="{{item}}"></card-article>
       </template>
     </div>
 
   </template>
 </dom-module>
-
 <script>
   Polymer({
 

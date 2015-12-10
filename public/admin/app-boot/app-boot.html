@@ -117,7 +117,7 @@
       this.get_model({
           collection: 'articles',
           modelId: context.params.article_id,
-          include: [{'author': ['co_authors']}, 'category', 'images']
+          include: ['author', 'category', 'images']
         })
         .then(function (model) {
           context.page_name = 'page-article';
