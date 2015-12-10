@@ -5,6 +5,7 @@ var express = require('express');
 var moment = require('moment');
 var loopback = require('loopback');
 var stripe = require("stripe");
+var taxjar = require('taxjar');
 
 module.exports = function (Order) {
   var services = {};
@@ -42,6 +43,8 @@ module.exports = function (Order) {
           privateKey: service.private_key
         });
         resolve(gateway);
+      }).catch(function (err) {
+        reject(err);
       });
     });
   }
@@ -65,7 +68,6 @@ module.exports = function (Order) {
 
 /*=================TODO Tax===================*/
 
-var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 
 var get_tax = function (data) {
   return function (next) {
