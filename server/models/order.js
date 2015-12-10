@@ -4,77 +4,47 @@ var braintree = require('braintree');
 var express = require('express');
 var moment = require('moment');
 var loopback = require('loopback');
-
-// var gateway = braintree.connect({
-//   environment: braintree.Environment.Sandbox,
-//   merchantId: process.env.BRAINTREE_MERCHANT_ID,
-//   publicKey: process.env.BRAINTREE_PUBLIC_KEY,
-//   privateKey: process.env.BRAINTREE_SECRET_KEY
-// });
+var stripe = require("stripe");
 
 module.exports = function (Order) {
+  var services = {};
+
+  function get_service (name) {
+    return new Promise(function (resolve, reject) {
+      if (name in services) {
+        resolve(services[name]);
+        return;
+      }
+      var filter = {where: { name: name }};
+      Order.app.models.Service.findOne(filter, function (err, service) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        services[name] = service;
+        resolve(service);
+      });
+    });
+  }
 
   var gateway;
-  var service;
-
-  function connect (service) {
+  function connect_braintree () {
     return new Promise(function (resolve, reject) {
       if (gateway) {
         resolve(gateway);
         return;
       }
-      gateway = braintree.connect({
-        environment: braintree.Environment.Sandbox,
-        merchantId: service.params.merchant_id,
-        publicKey: service.public_key,
-        privateKey: service.private_key
-      });
-      resolve(gateway);
-    });
-  }
-
-  function get_service (name) {
-    return new Promise(function (resolve, reject) {
-      if (service) {
-        resolve(service);
-        return;
-      }
-      var filter = {where: { name: name }};
-      Order.app.models.Service.findOne(filter, function (err, models) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        service = models;
-        resolve(service);
-      });
-
-    });
-  }
-
-  function get_gateway (name) {
-    return new Promise(function (resolve, reject) {
-      get_service(name)
-        .then(connect)
-        .then(resolve)
-        .catch(reject)
-    });
-  }
-
-  function get_keys (name) {
-    return new Promise(function (resolve, reject) {
-      var filter = {where: { name: name }};
-      Order.app.models.Service.findOne(filter, function (err, models) {
-        if (err) {
-          reject(err);
-        }
-        resolve(models);
+      get_service('braintree').then(function (service) {
+        gateway = braintree.connect({
+          environment: braintree.Environment.Sandbox,
+          merchantId: service.params.merchant_id,
+          publicKey: service.public_key,
+          privateKey: service.private_key
+        });
+        resolve(gateway);
       });
     });
   }
-
-
-
 
 
   /* ********************************************************* */
@@ -93,22 +63,31 @@ module.exports = function (Order) {
   // }
   /* ********************************************************* */
 
-/*=================Tax===================*/
-var stripe = require("stripe");
+/*=================TODO Tax===================*/
 
 var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 
-taxjar.taxForOrder({
-  'from_country': 'IT',
-  'to_country': 'FR',
-  'amount': 18.50,
-  'shipping': 1.5
-}).then(function(res) {
-  // res.tax; // Tax object
-  // res.tax.amount_to_collect; // Amount to collect
-  // console.log(res);
-});
-
+var get_tax = function (data) {
+  return function (next) {
+    get_service('taxjar')
+      .then(function (service) {
+        taxjar(service.private_key).taxForOrder({
+          'from_country': 'IT',
+          'to_country': 'FR',
+          'amount': 18.50,
+          'shipping': 1.5
+        })
+        .then(function(res) {
+          // res.tax; // Tax object
+          // res.tax.amount_to_collect; // Amount to collect
+          // console.log(res);
+        });
+      })
+      .catch(function (err) {
+        setImmediate(next, err);
+      });
+  };
+};
 /*=======================================*/
 
 
@@ -175,7 +154,7 @@ taxjar.taxForOrder({
   };
 
   Order.get_client_token = function (customer_id, callback) {
-    get_gateway('braintree').then(function (gateway) {
+    connect_braintree().then(function (gateway) {
       gateway.customer.find(customer_id, function (err, customer) {
         if (err) {
           callback(err, null);
@@ -364,33 +343,41 @@ taxjar.taxForOrder({
   };
 
   Order.braintre_complete_transation = function (tras_id, amount, callback) {
-    var transaction = gateway.transaction;
-    transaction.find(tras_id, function (err, tras_status) {
-      if (tras_status.status !== 'submitted_for_settlement') {
-        transaction.submitForSettlement(tras_id, amount, callback);
-        return;
-      }
-      callback(err, tras_status);
+    get_service('braintree').then(function (gateway) {
+      var transaction = gateway.transaction;
+      transaction.find(tras_id, function (err, tras_status) {
+        if (tras_status.status !== 'submitted_for_settlement') {
+          transaction.submitForSettlement(tras_id, amount, callback);
+          return;
+        }
+        callback(err, tras_status);
+      });
+    }).catch(function (err) {
+      callback(err, null);
     });
   };
 
   Order.stripe_complete_transation = function (stripe_token, amount, callback) {
-    var charge = stripe.charges.create({
-        amount: 1 * 100,//amount * 100
-        currency: "eur",
-        source: stripe_token,
-        description: "retry payment"
-      },
-      function (err, charge) {
-        if (err && err.type === 'StripeCardError') {
-          data.stripe_payment_status = 'card_declined';
-          setImmediate(next, err);
-          return;
+    get_service('stripe').then(function (service) {
+      var charge = stripe.charges.create({
+          amount: 1 * 100,//amount * 100
+          currency: "eur",
+          source: stripe_token,
+          description: "retry payment"
+        },
+        function (err, charge) {
+          if (err && err.type === 'StripeCardError') {
+            data.stripe_payment_status = 'card_declined';
+          setImmediate(callback, err);
+            return;
+          }
+          data.stripe_payment_status = charge;
+          setImmediate(callback, null);
         }
-        data.stripe_payment_status = charge;
-        setImmediate(next, null);
-      }
-    );
+      );
+    }).catch(function (err) {
+      setImmediate(callback, err);
+    });
   };
 
   var create_invoice = function (data) {
@@ -623,8 +610,8 @@ taxjar.taxForOrder({
 
   var stripe_checkout = function (data) {
     return function (next) {
-      get_keys('stripe').then(function (model) {
-        var charge = stripe(model.private_key).charges.create({
+      get_service('stripe').then(function (service) {
+        var charge = stripe(service.private_key).charges.create({
             amount: 1 * 100,//data.amount * 100
             currency: "eur",
             source: data.stripe_token,
