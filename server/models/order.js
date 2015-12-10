@@ -34,6 +34,7 @@ module.exports = function (Order) {
   // Order.app.models.Service.findOne({where: {name: 'braintree'}}, function (err, models) {
   //   console.log(models);
   //   braintree_key = models[0];
+  //   setImmediate(next, models);
   // });
 /*=================Tax===================*/
 var stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);

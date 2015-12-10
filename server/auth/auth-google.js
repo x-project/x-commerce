@@ -2,7 +2,7 @@ var request = require('request');
 
 module.exports = function (app) {
 
-  var User = app.models.User;
+  var Customer = app.models.Customer;
 
   var token_secret = process.env.TOKEN_SECRET_GOOGLE;
 
@@ -64,7 +64,7 @@ module.exports = function (app) {
     var defer = Promise.defer();
     var query = { where: { or: [{ google: profile.sub }, { email: profile.email }] } };
 
-    User.findOne(query, function (err, user) {
+    Customer.findOne(query, function (err, user) {
       if (err) {
         defer.reject(err);
         return;
@@ -88,8 +88,8 @@ module.exports = function (app) {
   function create_user (profile) {
     var defer = Promise.defer();
 
-    User.create({
-      profile_name: profile.name,
+    Customer.create({
+      name: profile.name,
       google: profile.sub,
       email: profile.email,
       password: profile.sub
@@ -125,7 +125,7 @@ module.exports = function (app) {
   function create_token (user) {
     var defer = Promise.defer();
 
-    user.createAccessToken(User.settings.ttl, function (err, token) {
+    user.createAccessToken(Customer.settings.ttl, function (err, token) {
       if (err) {
         defer.reject(err);
         return;

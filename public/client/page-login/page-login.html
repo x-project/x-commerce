@@ -1,6 +1,7 @@
 <link rel="import" href="../../components/api-user-login/api-user-login.html">
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/button-connect-google/button-connect-google.html">
+<link rel="import" href="../../components/button-connect-facebook/button-connect-facebook.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
 <link rel="import" href="form-login.html">
 <dom-module id="page-login">
@@ -16,9 +17,14 @@
         <div id="panel" class="container">
           <a is="app-link" href="/">&larr;</a>
           <h3>Login</h3>
-          <button-connect-google client_id="{{clientId}}"
+          <button-connect-google client_id="{{client_google}}"
             on-response="on_connect" on-error="on_error">
           </button-connect-google>
+
+          <button-connect-facebook client_id="{{client_facebook}}"
+            on-response="on_connect" on-error="on_error">
+          </button-connect-facebook>
+
           <div>
             <a is="app-link" href="/passwordless_email">passwordless emal</a>
           </div>
@@ -48,10 +54,14 @@
     is: 'page-login',
 
     properties: {
-      clientId: {
+      client_google: {
         type: String,
-        value: '665881914089-84qldqqvbr9qr7od4f46ssrgnnloti9k.apps.googleusercontent.com'
+        value: '766830066511-sh61ne68dpnoc1q1n896br3qkp6nnfu2.apps.googleusercontent.com'
         // value: '989154659952-r3lfvshi4s0fcbesie408bm5iip1occg.apps.googleusercontent.com'
+      },
+      client_facebook: {
+        type: String,
+        value: ''
       }
     },
 

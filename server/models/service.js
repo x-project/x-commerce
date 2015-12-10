@@ -55,9 +55,6 @@ module.exports = function (Service) {
     });
   };
 
-
-
-
   Service.remoteMethod('update_service', {
     accepts: [
       { arg: 'data', type: 'object' }
