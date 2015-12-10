@@ -88,7 +88,21 @@
 
     '/articles/:article_id': function (context) {
       this.init(context)
-      context.page_name = 'page-article';
+      this.get_model({
+        collection: 'articles',
+        modelId: context.params.article_id,
+        include: ['author', 'category', 'images']
+      })
+      .then(function (model) {
+        context.page_name = 'page-article';
+        context.data = {};
+        context.data.article = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (err) {
+        context.page_name = 'page-404';
+        this.open_page(context);
+      });
       this.open_page(context);
     },
 

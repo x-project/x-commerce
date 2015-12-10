@@ -1,22 +1,35 @@
 <link rel="import" href="../../styles/style-card/style-card.html">
-
 <dom-module id="card-article">
   <template>
+    <style include="style-card"></style>
+    <style>
+      .card {
+        padding: 5px 10px;
+        margin: 10px 10px;
+      }
 
-    <div class="card">
-      <header class="header">
-        <h2>{{data.title}}</h2>
-        <h3>{{data.subtitle}}</h3>
-        <h4><span>by </span><em>{{data.author.fullname}}</em></h4>
-      </header>
-      <section class="section">
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+    </style>
 
-      </section>
-    </div>
+    <a href="/articles/{{data.id}}">
+      <div class="card">
+        <header class="header">
+          <h2>{{data.title}}</h2>
+          <h3>{{data.subtitle}}</h3>
+          <h4><span>by </span><em>{{data.author.fullname}}</em></h4>
+          <h5><span>in </span><span>{{data.category.name}}</span></h5>
+        </header>
+        <section class="section">
+          <p>{{data.summary}}</p>
+        </section>
+      </div>
+    </a>
 
   </template>
 </dom-module>
-
 <script>
   Polymer({
 
