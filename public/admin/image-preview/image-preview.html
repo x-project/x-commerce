@@ -1,5 +1,3 @@
-<link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="/components/layout-grid/layout-grid.html">
 <dom-module id="image-preview">
   <template>
   <style>
@@ -17,7 +15,10 @@
       transition-duration: 1s;
     }
     .image:hover {
-      background-size: 100%;
+      background-size: 130%;
+    }
+    .image {
+      @apply(--image-preview);
     }
   </style>
 
@@ -60,6 +61,7 @@
 
       // put minium size in blur
       var url = this.get_image_url(min_size);
+
       var rules = [
         'background-image: url("' + url + '")',
         'height: '+ this.height + 'px',
@@ -68,9 +70,20 @@
       ];
       this.style = rules.join(';');
 
-      //search the corrent size
+
+      //search the corrent or major or minor size
       var best_size = this.search_best_image();
-      console.log(best_size);
+
+      var url = this.get_image_url(best_size);
+      var rules = [
+        'background-image: url("' + url + '")',
+        'height: '+ this.height + 'px',
+        'width: ' + this.width + '%',
+      ];
+
+      this.async(function () {
+        this.style = rules.join(';');
+      }, 1500);
     },
 
     sort_thumbs_size: function () {
@@ -78,7 +91,6 @@
         return size_a - size_b;
       });
     },
-
 
     get_image_url: function (thumb_size) {
       var tmp = this.image.base_url.replace('public/', '');
@@ -88,22 +100,33 @@
     search_best_image: function () {
       var test = false;
       var best_size;
-      for (var i = 0; i < this.image.thumbs.length && !test; i++) {
-        if (this.likeSize < this.image.thumbs[i]) {
-          best_size = this.image.thumbs[i];
-          test = true;
+      var thumbs = this.image.thumbs;
+      //search likeSize
+      best_size = thumbs.find(function (size) {
+        if (size === this.likeSize) {
+          return size;
         }
+      }, this);
+      //search next major size
+      if (!best_size) {
+        best_size = thumbs.find(function (size) {
+          if (size > this.likeSize) {
+            return size;
+          }
+        }, this);
       }
-      //
-      if (best_size) {
-        return best_size;
+      //search minor size
+      if (!best_size) {
+        var reverse_order = thumbs.sort(function (size_a, size_b) {
+          return size_b - size_a;
+        });
+        best_size = reverse_order.find(function (size) {
+          if (size < this.likeSize) {
+            return size;
+          }
+        }, this);
       }
-      //return likSize
-      if (size_contains(this.size_contains(this.likeSize))) {
-        return this.likeSize;
-      }
-
-
+      return best_size;
     },
 
     size_contains: function (size) {
@@ -111,9 +134,6 @@
         return item === size;
       });
     },
-
-
-
 
     search_near_thumb_size: function () {
       var little_size;

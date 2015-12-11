@@ -25,7 +25,8 @@
       <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
       <part-product-visibility product="{{product}}" error="{{error}}"
         on-change-visibility="on_change_visibility"></part-product-visibility>
-      <part-product-image product="{{product}}"></part-product-image>
+      <part-product-image product="{{product}}" on-uploaded-image="on_upload_image">
+      </part-product-image>
       <part-product-pricing product="{{product}}"></part-product-pricing>
       <part-product-inventory product="{{product}}"></part-product-inventory>
       <part-product-shipping product="{{product}}"></part-product-shipping>
@@ -69,23 +70,24 @@
         return;
       }
       if(this.product.id){
-        this.update_model();
+        this.update_product();
         return;
       }
-      this.create_model();
+      this.create_product();
     },
 
-    update_model: function () {
+    update_product: function () {
       Model.update('/api/products/' + this.product.id, this.product)
         .then(function (data) {
           this.product = data;
+          this.on_update_product();
         }.bind(this))
         .catch(function (error) {
           this.error = error;
         }.bind(this));
     },
 
-    create_model: function () {
+    create_product: function () {
       Model.create('/api/products', this.product)
         .then(function (data) {
           this.product = data;
@@ -107,10 +109,20 @@
         }.bind(this));
     },
 
+    on_update_product: function () {
+      page('/admin/products/' + this.product.id);
+    },
+
+    on_upload_image: function () {
+      this.on_update_product();
+    },
+
     response_create: function () {
       page('/admin/products/' + this.product.id);
       this.fire('iron-signal', {name: 'save'});
     },
+
+
 
     on_try_delete: function (event) {
       event.stopPropagation()

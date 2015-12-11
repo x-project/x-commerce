@@ -11,8 +11,8 @@
 
     <iron-signals on-iron-signal-save="on_save"></iron-signals>
 
-    <api-image-upload id="request"
-      collection="{{collection}}" model-id="{{modelId}}" folder="{{folder}}">
+    <api-image-upload id="request" collection="{{collection}}" model-id="{{modelId}}"
+      folder="{{folder}}" on-response="on_response">
     </api-image-upload>
 
     <input id="input" type="file" on-change="on_change_file">
@@ -54,7 +54,13 @@
       event.stopPropagation();
       if (this.file.name) {
         this.$.request.send(this.file);
+        this.fire();
       }
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      this.fire('uploaded-image');
     }
 
   });

@@ -1,26 +1,35 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../image-previews/image-previews.html">
 <link rel="import" href="form-collection-image.html">
 <dom-module id="part-collection-image">
   <template>
     <style include="style-panel"></style>
     <style>
-      form-collection-image {
-        --layout-input-image-button: {
-          @apply(--btn);
-          @apply(--btn-secondary);
+     image-preview {
+        --image-preview: {
         };
+      }
+      .images {
+        @apply(--layout-horizontal);
+      }
+      image-preview {
+        @apply(--layout-flex);
+        margin-left: 10px;
       }
     </style>
 
     <div class="panel">
       <h2 class="title">[[collection_images_title]]</h2>
       <form-collection-image collection="{{collection}}"></form-collection-image>
-    </div>
 
-    <div class="images">
-      <template id="images" is="dom-repeat" items="{{collection.images}}" as="image">
-        <!-- <image-previews image="{{image}}" size="contain"></image-previews> -->
-      </template>
+      <div class="images panel">
+        <template id="images" is="dom-repeat" items="{{collection.images}}"
+          as="image" filter="filter_images">
+         <image-preview image="{{image}}" cover-type="contain" like-size="120"
+            height="100" width="100">
+          </image-preview>
+        </template>
+      </div>
     </div>
 
   </template>
@@ -39,6 +48,10 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    filter_images: function (image) {
+      return this.collection.id === image.collection_id;
     }
 
   });
