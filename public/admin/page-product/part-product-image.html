@@ -10,12 +10,15 @@
     <div class="panel">
       <h2 class="title">[[product_images_title_label]]</h2>
       <form-product-image product="{{product}}"></form-product-image>
-    </div>
 
-    <div class="images">
-      <template id="images" is="dom-repeat" items="{{product.images}}" as="image" filter="image_filter">
-        <image-preview image="{{image}}" size="contain"></image-preview>
-      </template>
+      <div class="images">
+        <template id="images" is="dom-repeat" items="{{product.images}}" as="image"
+          filter="filter_image">
+          <image-preview image="{{image}}" cover-type="contain" like-size="800"
+            height="100" width="10">
+          </image-preview>
+        </template>
+      </div>
     </div>
 
   </template>
@@ -40,7 +43,7 @@
       console.log(this.product);
     },
 
-    image_filter: function (image) {
+    filter_image: function (image) {
       return this.product.id === image.product_id;
     }
 

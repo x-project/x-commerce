@@ -5,8 +5,6 @@ var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
 var plivo = require('plivo');
 
-
-
 module.exports = function (Customer) {
 
   var services = {};

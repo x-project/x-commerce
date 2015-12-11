@@ -24,7 +24,8 @@
     </form>
 
     <div class="password" show$="{{show}}">
-      <input class="form-control" type="text" is="iron-input" bind-value="{{password}}">
+      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
+      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
       <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
       <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
     </div>
@@ -49,6 +50,10 @@
       show: {
         type: Boolean,
         value: false
+      },
+      admin_email: {
+        type: String,
+        value: 'admin@x-commerce.com'
       }
     },
 
@@ -63,7 +68,8 @@
       event.stopPropagation();
       var data = {
         phone: this.service.phone,
-        password: this.password
+        admin_email: this.admin_email,
+        admin_password: this.admin_password
       };
       this.fire('submit', data);
     },

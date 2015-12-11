@@ -16,7 +16,6 @@
       }
     </style>
     <form on-submit="on_submit">
-
       <div class="field">
         <label class="label">[[services_plivo_public_key_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{service.public_key}}">
@@ -29,7 +28,10 @@
     </form>
 
     <div class="password" show$="{{show}}">
-      <input class="form-control" type="text" is="iron-input" bind-value="{{password}}">
+      <label class="label">[[services_email_label]]</label>
+      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
+      <label class="label">[[services_password_label]]</label>
+      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
       <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
       <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
     </div>
@@ -51,6 +53,14 @@
         type: String,
         value: 'private key'
       },
+      services_email_label: {
+        type: String,
+        value: 'Email'
+      },
+      services_password_label: {
+        type: String,
+        value: 'password'
+      },
       service: {
         type: Object,
         value: function () { return {}; }
@@ -58,6 +68,10 @@
       show: {
         type: Boolean,
         value: false
+      },
+      admin_email: {
+        type: String,
+        value: 'admin@x-commerce.com'
       }
     },
 
@@ -73,7 +87,8 @@
       var keys = {
         public_key: this.service.public_key,
         private_key: this.service.private_key,
-        password: this.password
+        admin_email: this.admin_email,
+        admin_password: this.admin_password
       };
       this.fire('update', keys);
     },

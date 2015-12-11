@@ -55,12 +55,12 @@
       var braintree_data = event.detail;
       var data = {};
       data.name = 'braintree';
-      data.password = braintree_data.password;
+      data.admin_email = braintree_data.admin_email;
+      data.admin_password = braintree_data.admin_password;
       data.public_key = braintree_data.public_key;
       data.private_key = braintree_data.private_key;
       data.params = {};
       data.params.merchant_id = braintree_data.merchant_id;
-      console.log(data);
       this.$.update_keys.body = JSON.stringify({data: data});
       this.$.update_keys.generateRequest();
     },

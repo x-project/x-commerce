@@ -2,16 +2,29 @@ var async = require('async');
 
 module.exports = function (Service) {
 
-  var verify_password = function (data) {
+  var verify_admin = function (data) {
     return function (next) {
-      // TODO password check
-      data.autenticate = true;
-      next();
+      var admin_email = data.admin_email;
+      var admin_password = data.admin_password + '';
+      Service.app.models.Manager.findOne({where: {email: admin_email}}, function (err, manager) {
+        manager.hasPassword(admin_password)
+          .then(function (result) {
+            data.authenticate = result;
+            setImmediate(next, err);
+          })
+          .catch(function (err) {
+            next(err, null);
+          });
+      });
     };
   };
 
   var find_or_create_service = function (data) {
     return function (next) {
+      if (!data.authenticate) {
+        next(new Error('you don\'t have permission for request this actions'), null);
+        return;
+      }
       var service_data = {};
       service_data.name = data.name;
       service_data.public_key = data.public_key;
@@ -27,6 +40,10 @@ module.exports = function (Service) {
 
   var update_service_key = function (data) {
     return function (next) {
+      if (!data.authenticate) {
+        next(new Error('you don\'t have permission for request this actions'), null);
+        return;
+      }
       var service_data = {};
       data.name = data.name;
       data.service_model.public_key = data.public_key;
@@ -41,7 +58,7 @@ module.exports = function (Service) {
 
   Service.update_service = function (data, callback) {
       async.waterfall([
-      verify_password(data),
+      verify_admin(data),
       find_or_create_service(data),
       update_service_key(data)
     ],

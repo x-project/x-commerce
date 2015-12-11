@@ -4,7 +4,7 @@
   <template>
   <style>
     :host{
-      display: block
+      display: block;
     }
     .image {
       margin: auto;
@@ -17,7 +17,7 @@
       transition-duration: 1s;
     }
     .image:hover {
-      background-size: 120%;
+      background-size: 100%;
     }
   </style>
 
@@ -47,19 +47,73 @@
       },
       width: {
         type: Number
+      },
+      coverType: {
+        type: String,
+        value: 'contain'
       }
     },
 
     attached: function () {
-      var url = '';
-      if (this.exists_thumb()) {
-        this.view_one_image();
-        return;
-      }
-      // search small size
-      this.search_near_thumb_size();
-      this.view_one_image();
+      this.sort_thumbs_size();
+      var min_size = this.image.thumbs[0];
+
+      // put minium size in blur
+      var url = this.get_image_url(min_size);
+      var rules = [
+        'background-image: url("' + url + '")',
+        'height: '+ this.height + 'px',
+        'width: ' + this.width + '%',
+        '-webkit-filter: '+ 'blur'+'('+ 5 +'px)'
+      ];
+      this.style = rules.join(';');
+
+      //search the corrent size
+      var best_size = this.search_best_image();
+      console.log(best_size);
     },
+
+    sort_thumbs_size: function () {
+      var thumbs_size_ordered = this.image.thumbs.sort(function (size_a, size_b) {
+        return size_a - size_b;
+      });
+    },
+
+
+    get_image_url: function (thumb_size) {
+      var tmp = this.image.base_url.replace('public/', '');
+      return this.host_name + tmp + '/thumb-' + thumb_size + this.image.extension;
+    },
+
+    search_best_image: function () {
+      var test = false;
+      var best_size;
+      for (var i = 0; i < this.image.thumbs.length && !test; i++) {
+        if (this.likeSize < this.image.thumbs[i]) {
+          best_size = this.image.thumbs[i];
+          test = true;
+        }
+      }
+      //
+      if (best_size) {
+        return best_size;
+      }
+      //return likSize
+      if (size_contains(this.size_contains(this.likeSize))) {
+        return this.likeSize;
+      }
+
+
+    },
+
+    size_contains: function (size) {
+      return this.image.thumbs.some(function (item) {
+        return item === size;
+      });
+    },
+
+
+
 
     search_near_thumb_size: function () {
       var little_size;
