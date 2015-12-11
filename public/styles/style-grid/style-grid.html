@@ -5,6 +5,22 @@
         display: block;
       }
 
+      .container {
+        padding-right: .9375rem;
+        padding-left: .9375rem;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .container:before,
+      .container:after {
+        display: table;
+        content: " ";
+      }
+
+      .container:after {
+        clear: both;
+      }
       @media (min-width: 34em) {
         .container {
           max-width: 34rem;
@@ -1070,7 +1086,190 @@
   }
 }
 
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  input[type="date"].form-control,
+  input[type="time"].form-control,
+  input[type="datetime-local"].form-control,
+  input[type="month"].form-control {
+    line-height: 2.375rem;
+  }
+  input[type="date"].input-sm,
+  .input-group-sm input[type="date"].form-control,
+  input[type="time"].input-sm,
+  .input-group-sm input[type="time"].form-control,
+  input[type="datetime-local"].input-sm,
+  .input-group-sm input[type="datetime-local"].form-control,
+  input[type="month"].input-sm,
+  .input-group-sm input[type="month"].form-control {
+    line-height: 1.95rem;
+  }
+  input[type="date"].input-lg,
+  .input-group-lg input[type="date"].form-control,
+  input[type="time"].input-lg,
+  .input-group-lg input[type="time"].form-control,
+  input[type="datetime-local"].input-lg,
+  .input-group-lg input[type="datetime-local"].form-control,
+  input[type="month"].input-lg,
+  .input-group-lg input[type="month"].form-control {
+    line-height: 3.291667rem;
+  }
+}
 
+@media (min-width: 34em) {
+  .jumbotron {
+    padding: 4rem 2rem;
+  }
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress {
+    background-color: #eee;
+    border-radius: .25rem;
+  }
+  .progress-bar {
+    display: inline-block;
+    height: 1rem;
+    text-indent: -999rem;
+    background-color: #0074d9;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+  .progress[width^="0"] {
+    min-width: 2rem;
+    color: #818a91;
+    background-color: transparent;
+    background-image: none;
+  }
+  .progress[width="100%"] {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress-bar-striped {
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    -webkit-background-size: 1rem 1rem;
+            background-size: 1rem 1rem;
+  }
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress-animated .progress-bar-striped {
+    -webkit-animation: progress-bar-stripes 2s linear infinite;
+         -o-animation: progress-bar-stripes 2s linear infinite;
+            animation: progress-bar-stripes 2s linear infinite;
+  }
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress-success .progress-bar {
+    background-color: #5cb85c;
+  }
+}
+
+.progress-info[value]::-webkit-progress-value {
+  background-color: #5bc0de;
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress-info .progress-bar {
+    background-color: #5bc0de;
+  }
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress-warning .progress-bar {
+    background-color: #f0ad4e;
+  }
+}
+
+@media screen and (min-width: 0 \0) {
+  .progress-danger .progress-bar {
+    background-color: #d9534f;
+  }
+}
+
+@media (min-width: 34em) {
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .modal-sm {
+    width: 300px;
+  }
+}
+
+@media (min-width: 48em) {
+  .modal-lg {
+    width: 900px;
+  }
+}
+
+
+@media all and (transform-3d), (-webkit-transform-3d) {
+  .carousel-inner > .carousel-item {
+    -webkit-transition: -webkit-transform .6s ease-in-out;
+         -o-transition:      -o-transform .6s ease-in-out;
+            transition:         transform .6s ease-in-out;
+
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+            perspective: 1000px;
+  }
+  .carousel-inner > .carousel-item.next,
+  .carousel-inner > .carousel-item.active.right {
+    left: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+  .carousel-inner > .carousel-item.prev,
+  .carousel-inner > .carousel-item.active.left {
+    left: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  .carousel-inner > .carousel-item.next.left,
+  .carousel-inner > .carousel-item.prev.right,
+  .carousel-inner > .carousel-item.active {
+    left: 0;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (min-width: 34em) {
+  .carousel-control .icon-prev,
+  .carousel-control .icon-next {
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    font-size: 30px;
+  }
+  .carousel-control .icon-prev {
+    margin-left: -15px;
+  }
+  .carousel-control .icon-next {
+    margin-right: -15px;
+  }
+  .carousel-caption {
+    right: 20%;
+    left: 20%;
+    padding-bottom: 30px;
+  }
+  .carousel-indicators {
+    bottom: 20px;
+  }
+}
+
+@media (min-width: 34em) {
+  .jumbotron {
+    padding: 4rem 2rem;
+  }
+}
     </style>
   </template>
 </dom-module>
