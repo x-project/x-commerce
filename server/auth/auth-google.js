@@ -4,7 +4,25 @@ module.exports = function (app) {
 
   var Customer = app.models.Customer;
 
-  var token_secret = process.env.TOKEN_SECRET_GOOGLE;
+  var services = {};
+  var google_secret_key;
+  function get_service (name) {
+    return new Promise(function (resolve, reject) {
+      if (name in services) {
+        resolve(services[name]);
+        return;
+      }
+      var filter = {where: { name: name }};
+      Customer.app.models.Service.findOne(filter, function (err, service) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        services[name] = service;
+        resolve(service);
+      });
+    });
+  }
 
   var access_token_endpoint = 'https://accounts.google.com/o/oauth2/token';
 
@@ -157,17 +175,22 @@ module.exports = function (app) {
   }
 
   app.post('/auth/google', function (req, res, next) {
-    var params = {
-      client_id: req.body.client_id,
-      code: req.body.code,
-      redirect_uri: req.body.redirect_uri,
-      client_secret: token_secret,
-      grant_type: 'authorization_code'
-    };
-
-    auth(params)
-      .then(function (token) {
-        res.send(token);
+    get_service('google')
+      .then(function (serivce) {
+        var params = {
+          client_id: req.body.client_id,
+          code: req.body.code,
+          redirect_uri: req.body.redirect_uri,
+          client_secret: serivce.private_key,
+          grant_type: 'authorization_code'
+        };
+        auth(params)
+          .then(function (token) {
+            res.send(token);
+          })
+          .catch(function (err) {
+            res.status(500).send(err);
+          });
       })
       .catch(function (err) {
         res.status(500).send(err);
