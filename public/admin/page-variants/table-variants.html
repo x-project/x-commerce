@@ -2,6 +2,7 @@
 <link rel="import" href="../../components/text-view/text-view.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../part-checkbox/part-checkbox.html">
 <dom-module id="table-variants">
   <template>
     <style include="style-table"></style>
@@ -27,9 +28,8 @@
             <tr class="text-center">
               <th scope="row">{{index}}</th>
               <td>
-                <paper-checkbox is="iron-input" checked="{{variant.available}}"
-                  on-click="on_click_available">
-                </paper-checkbox>
+                <part-checkbox checked="{{variant.available}}" on-change="on_change_available">
+                </part-checkbox>
               </td>
               <td>{{variant.name}}</td>
               <td>{{variant.price}}</td>
@@ -61,9 +61,10 @@
       }
     },
 
-    on_click_available: function (event) {
+    on_change_available: function (event) {
       event.stopPropagation();
       var variant = this.$.variants.itemForElement(event.target);
+      variant.available = event.detail;
       this.$.update.data = variant;
       this.$.update.modelId = variant.id;
       this.$.update.send();

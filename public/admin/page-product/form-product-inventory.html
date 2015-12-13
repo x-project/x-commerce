@@ -1,4 +1,4 @@
-<link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../part-checkbox/part-checkbox.html">
 <dom-module id="form-product-inventory">
   <template>
     <style include="style-form"></style>
@@ -26,8 +26,7 @@
       </div>
       <div class="field">
         <label>[[product_track_quantity_label]]</label>
-        <paper-checkbox is="iron-input" checked="{{product.track_quantity}}" on-click="on_click_track">
-        </paper-checkbox>
+        <part-checkbox checked="{{product.track_quantity}}" on-change="on_change_track_quantity"></part-checkbox>
       </div>
       <div class="hidden field" show$="{{show}}">
         <label class="label">[[product_quantity_label]]</label>
@@ -36,8 +35,7 @@
 
       <div class="hidden field" show$="{{show}}">
         <label class="label">[[product_stock]]</label>
-        <paper-checkbox is="iron-input" checked="{{product.sell_after_purchase}}">
-        </paper-checkbox>
+        <part-checkbox checked="{{product.sell_after_purchase}}" on-change="on_change_sell_after_purchase"></part-checkbox>
       </div>
     </form>
 
@@ -81,25 +79,24 @@
 
     attached: function () {
       if(this.product.track_quantity){
-        this.show_quantity();
+        this.set('show', true);
         return;
       }
     },
 
-    on_click_track: function (event) {
+    on_change_track_quantity: function (event) {
+      event.stopPropagation();
+      this.product.track_quantity = event.detail;
       if(this.product.track_quantity){
-        this.show_quantity();
+        this.set('show', true);
         return;
       }
       this.set('show', false);
     },
 
-    show_quantity: function () {
-      this.set('show', true);
-    },
-
-    hide_quantity: function () {
-      this.set('show', false);
+    on_change_sell_after_purchase: function (event) {
+      event.stopPropagation();
+      this.product.sell_after_purchase = event.detail;
     },
 
     on_submit: function (event) {

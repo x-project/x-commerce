@@ -1,7 +1,8 @@
-<link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../part-checkbox/part-checkbox.html">
 <dom-module id="form-product-shipping">
   <template>
     <style include="style-form"></style>
+    <style include="style-checkbox"></style>
     <style>
       input {
         box-sizing: border-box;
@@ -14,7 +15,7 @@
       </div>
       <div class="field">
         <label class="label">[[product_require_shipping_label]]</label>
-        <paper-checkbox checked="{{product.require_shipping}}"></paper-checkbox>
+        <part-checkbox checked="{{product.require_shipping}}" on-change="on_change_require_shipping"></part-checkbox>
       </div>
     </form>
   </template>
@@ -42,6 +43,11 @@
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
+    },
+
+    on_change_require_shipping: function (event) {
+      event.stopPropagation();
+      this.product.require_shipping = event.detail;
     }
 
   });

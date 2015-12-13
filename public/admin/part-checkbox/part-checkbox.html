@@ -1,0 +1,31 @@
+<dom-module id="part-checkbox">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <input type="checkbox" is="iron-input" checked="{{checked}}" on-change="on_change"/>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-checkbox',
+
+    properties: {
+      checked: {
+        type: Boolean
+      }
+    },
+
+    on_change: function (event) {
+      event.stopPropagation();
+      this.set('checked', !this.checked);
+      this.fire('change', this.checked);
+    }
+
+  });
+</script>

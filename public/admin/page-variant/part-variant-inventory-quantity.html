@@ -1,8 +1,8 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../part-checkbox/part-checkbox.html">
 <dom-module id="part-variant-inventory-quantity">
   <template>
     <style include="style-form"></style>
+    <style include="style-checkbox"></style>
     <style>
       input {
         @apply(--layout-input-tracking);
@@ -16,7 +16,7 @@
     </div>
     <div class="field">
       <label class="label">[[product_stock_label]]</label>
-      <paper-checkbox is="iron-input" checked="{{variant.sell_after_purchase}}"></paper-checkbox>
+      <part-checkbox checked="{{variant.sell_after_purchase}}" on-change="on_change_sell_after_purchase"></part-checkbox>
     </div>
 
   </template>
@@ -43,6 +43,11 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_change_sell_after_purchase: function (event) {
+      event.stopPropagation();
+      this.variant.sell_after_purchase = event.detail;
     }
 
   });

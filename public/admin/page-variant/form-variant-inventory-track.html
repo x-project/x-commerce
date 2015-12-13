@@ -1,12 +1,11 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../part-checkbox/part-checkbox.html">
 <link rel="import" href="part-variant-inventory-quantity.html">
-
 <dom-module id="form-variant-inventory-track">
   <template>
     <style include="style-form"></style>
     <style include="style-panel"></style>
+    <style include="style-checkbox"></style>
+
     <style>
       #quantity {
         display: none;
@@ -23,9 +22,7 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">track quantity</label>
-        <paper-checkbox is="iron-input" checked="{{variant.track_quantity}}"
-         on-click="on_click_track">
-        </paper-checkbox>
+        <part-checkbox checked="{{variant.track_quantity}}" on-change="on_change_track_quantity"></part-checkbox>
       </div>
       <part-variant-inventory-quantity id="quantity"show$="{{show}}"
         variant="{{variant}}">
@@ -51,25 +48,18 @@
     },
 
     attached: function () {
-    if(this.variant.track_quantity){
-        this.show_quantity();
-        return;
-      }
-    },
-
-    on_click_track: function (event) {
       if(this.variant.track_quantity){
-        this.show_quantity();
+        this.set('show', true);
         return;
       }
-      this.set('show', false);
     },
 
-    show_quantity: function () {
-      this.set('show', true);
-    },
-
-    hide_quantity: function () {
+    on_change_track_quantity: function (event) {
+      this.variant.track_quantity = event.detail;
+      if(this.variant.track_quantity){
+        this.set('show', true);
+        return;
+      }
       this.set('show', false);
     },
 

@@ -1,5 +1,6 @@
 <link rel="import" href="../../components/input-datetime/input-datetime.html">
 <link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../part-checkbox/part-checkbox.html">
 <dom-module id="form-product-visibility">
   <template>
     <style include="style-form"></style>
@@ -26,7 +27,7 @@
       on-change-date="on_change_visibility">
       <div class="field">
         <label class="label">[[product_online_store_label]]</label>
-        <input type="checkbox" is="iron-input" checked="{{product.is_published}}"/>
+        <part-checkbox checked="{{product.is_published}}" on-change="on_change_is_published"></part-checkbox>
       </div>
       <div class="field date">
         <label class="label">[[product_publist_on_label]]</label>
@@ -61,6 +62,7 @@
     },
 
     attached: function () {
+      console.log(this.product);
       if (!this.product.hasOwnProperty('is_published')) {
         this.set('product.is_published', true);
         return;
@@ -70,6 +72,11 @@
     on_submit: function (event) {
       event.preventDefault();
       event.stopPropagation();
+    },
+
+    on_change_is_published: function (event) {
+      event.stopPropagation();
+      this.product.is_published = event.detail;
     },
 
     on_change_visibility: function (event) {
