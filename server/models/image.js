@@ -93,7 +93,7 @@ var save = function (side, x_data) {
   return function (done) {
     var data_side = x_data[side];
     var gm = data_side.gm;
-    var file = path.join(x_data.folder_path, 'thumb-' + side + '.jpg');
+    var file = path.join(x_data.folder_path, 'thumb-' + side + x_data.extension);
 
     if(data_side.skipped) {
       setImmediate(done);
@@ -276,7 +276,8 @@ module.exports = function(Image) {
           sides: sides,
           image: image,
           Image: Image,
-          thumbs: []
+          thumbs: [],
+          extension: extension
         };
 
         if (payload.check !== secret || expired) {

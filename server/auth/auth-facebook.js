@@ -28,7 +28,6 @@ module.exports = function (app) {
     });
   }
 
-
   function fetch_token (params) {
     return new Promise(function (resolve, reject) {
       var options = {

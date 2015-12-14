@@ -16,8 +16,9 @@
     </style>
 
     <div class="card">
-      <image-preview class="card-img-top img-responsive" image="{{product.images}}"
-        like-size="80" width="60" height="100">
+
+      <image-preview image="{{product.images.0}}" sizing="contain" like-size="120"
+        height="100" width="100">
       </image-preview>
 
       <div class="card-block">
@@ -40,6 +41,10 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      console.log(this.product);
     }
 
   });

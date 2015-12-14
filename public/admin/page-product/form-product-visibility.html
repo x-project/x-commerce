@@ -62,7 +62,6 @@
     },
 
     attached: function () {
-      console.log(this.product);
       if (!this.product.hasOwnProperty('is_published')) {
         this.set('product.is_published', true);
         return;
