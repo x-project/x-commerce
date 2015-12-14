@@ -1,7 +1,6 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
 <link rel="import" href="part-product-cart.html">
 <link rel="import" href="part-product-details.html">
 <link rel="import" href="part-product-images.html">
@@ -15,7 +14,6 @@ tags
 <link rel="import" href="part-product-wish.html">
 <dom-module id="page-product">
   <template>
-
 
     <layout-client>
       <part-jumbotron class="jumbotron">
@@ -33,7 +31,8 @@ tags
         </part-product-quantity>
         <part-product-vendor product="{{data.product}}"></part-product-vendor>
         <part-product-images product="{{data.product}}"></part-product-images>
-        <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}"></part-product-cart>
+        <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}">
+        </part-product-cart>
         <part-product-details product="{{data.product}}"></part-product-details>
         <part-product-wish product="{{data.product}}" variant="{{variant}}"></part-product-wish>
         <part-product-reviews product="{{data.product}}"></part-product-reviews>

@@ -1,4 +1,4 @@
-<link rel="import" href="../part-checkbox/part-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="form-variant-shipping">
   <template>
     <style include="style-form"></style>
@@ -17,7 +17,7 @@
       </div>
       <div class="field">
         <label class="label">This product requires shipping</label>
-        <part-checkbox checked="{{variant.require_shipping}}" on-change="on_change_require_shipping"></part-checkbox>
+        <input-checkbox checked="{{variant.require_shipping}}" on-change="on_change_require_shipping"></input-checkbox>
       </div>
     </form>
 

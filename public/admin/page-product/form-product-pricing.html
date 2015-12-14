@@ -1,4 +1,4 @@
-<link rel="import" href="../part-checkbox/part-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="form-product-pricing">
   <template>
     <style include="style-form"></style>
@@ -19,7 +19,7 @@
       </div>
       <div class="field">
         <label class="label">[[product_charge_tax_label]]</label>
-        <part-checkbox checked="{{product.is_charge_taxes}}" on-change="on_change_is_charge_taxes"></part-checkbox>
+        <input-checkbox checked="{{product.is_charge_taxes}}" on-change="on_change_is_charge_taxes"></input-checkbox>
       </div>
     </form>
 

@@ -1,4 +1,4 @@
-<link rel="import" href="../part-checkbox/part-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-variant-inventory-quantity">
   <template>
     <style include="style-form"></style>
@@ -16,7 +16,7 @@
     </div>
     <div class="field">
       <label class="label">[[product_stock_label]]</label>
-      <part-checkbox checked="{{variant.sell_after_purchase}}" on-change="on_change_sell_after_purchase"></part-checkbox>
+      <input-checkbox checked="{{variant.sell_after_purchase}}" on-change="on_change_sell_after_purchase"></input-checkbox>
     </div>
 
   </template>

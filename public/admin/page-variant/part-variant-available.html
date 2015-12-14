@@ -1,4 +1,4 @@
-<link rel="import" href="../part-checkbox/part-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-variant-available">
   <template>
     <style include="style-panel"></style>
@@ -7,7 +7,7 @@
     <div class="panel">
       <h2 class="title">[[variant_avaiable_title_label]]</h2>
       <label class="label">[[variant_avaiable_label]]</label>
-      <part-checkbox checked="{{variant.available}}" on-change="on_change_available"></part-checkbox>
+      <input-checkbox checked="{{variant.available}}" on-change="on_change_available"></input-checkbox>
     </div>
 
   </template>

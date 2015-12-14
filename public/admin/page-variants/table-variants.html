@@ -2,7 +2,7 @@
 <link rel="import" href="../../components/text-view/text-view.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-table/style-table.html">
-<link rel="import" href="../part-checkbox/part-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="table-variants">
   <template>
     <style include="style-table"></style>
@@ -28,8 +28,8 @@
             <tr class="text-center">
               <th scope="row">{{index}}</th>
               <td>
-                <part-checkbox checked="{{variant.available}}" on-change="on_change_available">
-                </part-checkbox>
+                <input-checkbox checked="{{variant.available}}" on-change="on_change_available">
+                </input-checkbox>
               </td>
               <td>{{variant.name}}</td>
               <td>{{variant.price}}</td>

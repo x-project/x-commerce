@@ -1,4 +1,4 @@
-<link rel="import" href="../part-checkbox/part-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <link rel="import" href="part-variant-inventory-quantity.html">
 <dom-module id="form-variant-inventory-track">
   <template>
@@ -22,7 +22,7 @@
     <form id="form" role="form" on-submit="on_submit">
       <div class="field">
         <label class="label">track quantity</label>
-        <part-checkbox checked="{{variant.track_quantity}}" on-change="on_change_track_quantity"></part-checkbox>
+        <input-checkbox checked="{{variant.track_quantity}}" on-change="on_change_track_quantity"></input-checkbox>
       </div>
       <part-variant-inventory-quantity id="quantity"show$="{{show}}"
         variant="{{variant}}">

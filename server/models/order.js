@@ -49,7 +49,6 @@ module.exports = function (Order) {
     });
   }
 
-
   /* ********************************************************* */
   /*
     * data validation
