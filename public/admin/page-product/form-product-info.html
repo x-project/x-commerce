@@ -8,7 +8,7 @@
     <style include="style-form"></style>
     <style>
       :host {
-        --label-color: green;
+        /*--label-color: #7f8c8d;*/
       }
 
       iron-autogrow-textarea {
@@ -18,7 +18,8 @@
         box-sizing: border-box;
       }
     </style>
-    <form id="form" class="form" on-submit="on_submit">
+
+    <div class="panel-container">
       <div class="field">
         <label class="label">[[product_title_label]]</label>
         <input class="form-control" id="title" type="text" is="iron-input" bind-value="{{product.title}}">
@@ -31,7 +32,8 @@
         </iron-autogrow-textarea>
         <input-errors property="description" error="{{error.details}}"></input-errors>
       </div>
-    </form>
+    </div>
+
   </template>
 </dom-module>
 <script>
@@ -56,11 +58,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

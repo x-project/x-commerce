@@ -1,11 +1,11 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-color/style-color.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-product-actions.html">
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
@@ -19,9 +19,7 @@
   <template>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h1>Products</h1>
       <part-product-header product="{{product}}"></part-product-header>
-      <part-product-actions></part-product-actions>
       <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
       <part-product-visibility product="{{product}}" error="{{error}}"
         on-change-visibility="on_change_visibility"></part-product-visibility>

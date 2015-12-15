@@ -3,9 +3,17 @@
     <style include="style-table"></style>
     <style include="style-basic"></style>
     <style>
-    .fa.fa-trash-o:hover {
-      cursor: pointer;
-    }
+      i {
+        margin: 0 4px;
+      }
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      a i:hover {
+        color: #0275d8;
+        cursor: pointer;
+      }
     </style>
 
     <div class="table-responsive">
@@ -15,26 +23,24 @@
             <th>Title</th>
             <th>Vendor</th>
             <th>Price</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <template id="products" is="dom-repeat" items="{{products}}" as="product">
-            <tr class="text-center">
+            <tr class="text-center" on-click="on_click_row">
               <td>{{product.title}}</td>
               <td>{{product.vendor.name}}</td>
               <td>{{product.price}}</td>
               <td>
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/products/{{product.id}}">
-                  <i class="fa fa-pencil-square-o"></i>
+                <a is="app-link" class="btn btn-link" href="/admin/products/{{product.id}}">
+                  <i class="fa fa-pencil"></i>
                 </a>
-              </td>
-              <td>
-                <a is="app-link" class="btn btn-link"
-                  on-click="on_click_delete_product">
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_product">
                   <i class="fa fa-trash-o"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" href="/products/{{product.id}}">
+                  <i class="fa fa-eye"></i>
                 </a>
               </td>
             </tr>
@@ -57,6 +63,12 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var product = this.$.products.itemForElement(event.target);
+      page('/admin/products/' + product.id);
     },
 
     on_click_delete_product: function (event) {

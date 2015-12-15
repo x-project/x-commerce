@@ -1,0 +1,35 @@
+<link rel="import" href="form-invite-member.html">
+<dom-module id="part-invite-member">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <h2 class="title">[[invite_member_info_label]]</h2>
+        <form-invite-member member="{{member}}" error="{{error}}"></form-invite-member>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-invite-member',
+
+    properties: {
+      invite_member_info_label: {
+        type: String,
+        value: 'Member info'
+      },
+      member: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

@@ -2,13 +2,13 @@
 <dom-module id="form-product-image">
   <template>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <div class="panel-container">
       <div class="field">
         <label class="label">image</label>
         <input-image collection="products" model-id="{{product.id}}" folder="images">
         </input-image>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -22,11 +22,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

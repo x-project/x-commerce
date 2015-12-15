@@ -8,7 +8,7 @@
         box-sizing: border-box;
       }
     </style>
-    <form id="form" role="form" on-submit="on_submit">
+    <div class="panel-container">
       <div class="field">
         <label class="label">[[product_price_label]]</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.price}}">
@@ -19,9 +19,9 @@
       </div>
       <div class="field">
         <label class="label">[[product_charge_tax_label]]</label>
-        <input-checkbox checked="{{product.is_charge_taxes}}" on-change="on_change_is_charge_taxes"></input-checkbox>
+        <input-checkbox checked="{{product.is_charge_taxes}}"></input-checkbox>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -47,16 +47,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    },
-
-    on_change_is_charge_taxes: function (event) {
-      event.stopPropagation();
-      this.product.is_charge_taxes = event.detail;
     }
 
   });

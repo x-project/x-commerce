@@ -2,6 +2,8 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="form-variants-option.html">
 <link rel="import" href="part-variants-option.html">
+<link rel="import" href="table-options.html">
+
 <dom-module id="part-variants-options">
   <template>
     <style include="style-panel"></style>
@@ -59,27 +61,21 @@
     <div class="panel">
       <h2 class="title">Options</h2>
 
-      <div class="items">
-        <template is="dom-repeat" id="options" items="{{options}}">
-          <part-variants-option option="{{item}}">
-            <button class="btn btn-danger delete" on-click="on_delete_option">remove</button>
-          </part-variants-option>
-        </template>
-        <part-variants-option id="last_option" option="{{option_pending}}"
-          saving$="{{last_option_saving}}">
-          <span class="saving">saving...</span>
-        </part-variants-option>
+      <div class="options">
+        <table-options options="{{options}}" on-delete-option="on_delete_option"></table-options>
       </div>
 
-      <button id="add_option" class="btn btn-secondary"
-        on-click="on_click_add_option">add option</button>
+      <div>
+        <button id="add_option" class="btn btn-secondary"
+          on-click="on_click_add_option">add option</button>
 
-      <button id="generate_variant" class="btn btn-secondary" on-click="on_click_generate_variant"
-        disabled>generate variant</button>
+        <button id="generate_variant" class="btn btn-secondary" on-click="on_click_generate_variant"
+          disabled>generate variant</button>
 
-      <form-variants-option id="form" open$="{{open}}" option="{{option}}"
-        on-try-save="on_try_save">
-      </form-variants-option>
+        <form-variants-option id="form" open$="{{open}}" option="{{option}}"
+          on-try-save="on_try_save">
+        </form-variants-option>
+      </div>
 
     </div>
   </template>
@@ -181,8 +177,8 @@
     },
 
     on_delete_option: function (event) {
-      var option = this.$.options.itemForElement(event.target);
-      var index = this.$.options.indexForElement(event.target);
+      var option = event.detail.option;
+      var index = event.detail.index;
       this.splice('options', index, 1);
       if(this.options.length < 1)
         this.$.generate_variant.disabled = 'disabled';

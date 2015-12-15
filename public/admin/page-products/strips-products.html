@@ -19,6 +19,18 @@
       .strip-tag {
         display: inline-block;
       }
+      .strip-links .strip-link a{
+        padding: 0;
+        margin: 0 2px;
+      }
+      .strip-links .strip-link a{
+        text-decoration: none;
+        color: black;
+      }
+      .strip-links .strip-link a i:hover {
+        color: #999;
+        cursor: pointer;
+      }
     </style>
 
     <div class="items">
@@ -55,12 +67,15 @@
             </div>
 
             <div class="strip-link">
-              <a is="app-link" class="btn btn-link" href="/admin/products/{{product.id}}">
-                <i class="fa fa-pencil-square-o"></i>
-              </a>
+                <a is="app-link" class="btn btn-link" href="/admin/products/{{product.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
                 <a is="app-link" class="btn btn-link" on-click="on_click_delete_product">
-                <i class="fa fa-trash-o"></i>
-              </a>
+                  <i class="fa fa-trash-o"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" href="/products/{{product.id}}">
+                  <i class="fa fa-eye"></i>
+                </a>
             </div>
           </div>
         </div>
@@ -81,6 +96,12 @@
       }
     },
 
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var product = this.$.products.itemForElement(event.target);
+      page('/admin/products/' + product.id);
+    },
+
     on_click_delete_product: function (event) {
       var product = this.$.products.itemForElement(event.target);
       Model.delete('/api/products/' + product.id)
@@ -91,6 +112,5 @@
           console.log(this.error);
         }.bind(this));
     }
-
   });
 </script>

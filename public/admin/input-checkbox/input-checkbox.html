@@ -6,7 +6,7 @@
       }
     </style>
 
-    <input type="checkbox" is="iron-input" checked="{{checked}}" on-change="on_change"/>
+    <input type="checkbox" id="checkbox" on-change="to_model"/>
 
   </template>
 </dom-module>
@@ -17,14 +17,19 @@
 
     properties: {
       checked: {
-        type: Boolean
+        type: Boolean,
+        observer: 'from_model',
+        notify: true
       }
     },
 
-    on_change: function (event) {
+    from_model: function (checked) {
+      this.$.checkbox.checked = checked;
+    },
+
+    to_model: function (event) {
       event.stopPropagation();
-      this.set('checked', !this.checked);
-      this.fire('change', this.checked);
+      this.set('checked', event.target.checked);
     }
 
   });

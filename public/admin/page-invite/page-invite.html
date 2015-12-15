@@ -1,26 +1,32 @@
-<link rel="import" href="../../components/app-link/app-link.html">
-<link rel="import" href="../../components/api-user/api-user.html">
 <link rel="import" href="../../components/api-model-create/api-model-create.html">
+<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="form-invite.html">
+<link rel="import" href="part-invite-actions.html">
+<link rel="import" href="part-invite-header.html">
+<link rel="import" href="part-invite-member.html">
+
 <dom-module id="page-invite">
   <template>
+    <app-session id="session"></app-session>
 
-    <api-model-create id="create" collection="invites" access-token="{{route.session.accessToken}}"
-      response="{{response}}" error="{{error}}" data="{{data}}"
+    <api-model-create id="create" collection="invites" response="{{response}}" error="{{error}}"
       on-response="on_response" on-error="on_error">
     </api-model-create>
 
-    <layout-admin>
-      <div class="container">
-        <h2>Team</h2>
-        <h3>Invite new team member</h3>
-        <form-invite id="form" on-response="on_response" on-submit="on_submit">
-        </form-invite>
-        <template is="dom-if" if="{{error_occurs}}">
+    <layout-admin on-try-invite="on_try_invite">
+      <part-invite-header></part-invite-header>
+      <part-invite-actions></part-invite-actions>
+      <part-invite-member member="{{member}}" error="{{error}}"></part-invite-member>
+
+      <!--
+      <template is="dom-if" if="{{error_occurs}}">
         <div class="error-box">Error! <span>{{response.message}}</span></div>
-        </template>
-      </div>
+      </template>
+      -->
     </layout-admin>
 
   </template>
@@ -31,25 +37,21 @@
     is: 'page-invite',
 
     properties: {
-      token: {
-        type: String
-      },
-      response: {
+      member: {
         type: Object,
         value: function () { return {}; }
       },
       error: {
         type: Object,
         value: function () { return {}; }
-      },
-      error_occurs: {
-        type: Boolean,
-        value: false
       }
     },
 
-    on_submit: function (event) {
-      this.data = event.detail;
+
+    on_try_invite: function (event) {
+      event.stopPropagation();
+      this.$.create.accessToken = this.$.session.get('token');
+      this.$.create.data = this.member;
       this.$.create.send();
     },
 
@@ -58,7 +60,8 @@
     },
 
     on_error: function (event) {
-      this.error_occurs = true;
+      event.stopPropagation();
+      console.log(event);
     }
 
   });

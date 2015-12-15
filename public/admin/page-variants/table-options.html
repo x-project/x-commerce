@@ -1,0 +1,78 @@
+<link rel="import" href="../../components/text-view/text-view.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
+<dom-module id="table-options">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+    <style>
+      i {
+        margin: 0 4px;
+      }
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      a i:hover {
+        color: #999;
+        cursor: pointer;
+      }
+    </style>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Values</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="options" is="dom-repeat" items="{{options}}" as="option">
+            <tr class="text-center">
+              <td>{{option.name}}</td>
+              <td>
+                <template id="values" is="dom-repeat" items="{{option.values}}" as="value">
+                  <span> {{value}} </span>
+                </template>
+              </td>
+              <td>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_option">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+
+    </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-options',
+
+    properties: {
+      options: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      console.log(this.options);
+    },
+
+    on_click_delete_option: function (event) {
+      event.stopPropagation();
+      var option = this.$.options.itemForElement(event.target);
+      var index = this.$.options.indexForElement(event.target);
+      this.fire('delete-option', {option: option, index: index});
+    }
+
+  });
+</script>

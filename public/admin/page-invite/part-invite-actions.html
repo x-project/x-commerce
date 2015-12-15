@@ -1,0 +1,21 @@
+<dom-module id="part-invite-actions">
+  <template>
+    <style include="style-button"></style>
+
+    <button class="btn btn-secondary" on-click="on_click_invite">invite</button>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-invite-actions',
+
+    on_click_invite: function (event) {
+      event.stopPropagation();
+      this.fire('try-invite');
+    }
+
+  });
+</script>

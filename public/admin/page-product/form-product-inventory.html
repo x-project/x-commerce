@@ -15,7 +15,7 @@
       }
     </style>
 
-    <form id="form" class="form" on-submit="on_submit">
+    <div id="panel-container">
       <div class="field">
         <label class="label">[[product_sku_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{product.sku}}">
@@ -28,16 +28,16 @@
         <label>[[product_track_quantity_label]]</label>
         <input-checkbox checked="{{product.track_quantity}}" on-change="on_change_track_quantity"></input-checkbox>
       </div>
-      <div class="hidden field" show$="{{show}}">
+      <div class="hidden field" show$="{{product.track_quantity}}">
         <label class="label">[[product_quantity_label]]</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
       </div>
 
-      <div class="hidden field" show$="{{show}}">
+      <div class="hidden field" show$="{{product.track_quantity}}">
         <label class="label">[[product_stock]]</label>
-        <input-checkbox checked="{{product.sell_after_purchase}}" on-change="on_change_sell_after_purchase"></input-checkbox>
+        <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -70,38 +70,7 @@
       product: {
         type: Object,
         value: function () { return {}; }
-      },
-      show: {
-        type: Boolean,
-        value: false
       }
-    },
-
-    attached: function () {
-      if(this.product.track_quantity){
-        this.set('show', true);
-        return;
-      }
-    },
-
-    on_change_track_quantity: function (event) {
-      event.stopPropagation();
-      this.product.track_quantity = event.detail;
-      if (this.product.track_quantity) {
-        this.set('show', true);
-        return;
-      }
-      this.set('show', false);
-    },
-
-    on_change_sell_after_purchase: function (event) {
-      event.stopPropagation();
-      this.product.sell_after_purchase = event.detail;
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

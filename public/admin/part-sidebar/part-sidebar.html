@@ -8,10 +8,15 @@
 
       nav {
         padding: 20px;
+        position: fixed;
       }
 
-      h3 {
-        margin-top: 0;
+      .title .link {
+        text-decoration: none;
+        color: #777;
+        font-size: 14px;
+        text-transform: uppercase;
+        font-family: font-bold;
       }
 
       .links {
@@ -20,87 +25,112 @@
       }
 
       .links .link {
+        display: inline-block;
         text-decoration: none;
+        color: #7f8c8d;
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+      .links .link:hover {
+        color: #333;
+        font-family: font-bold;
       }
 
-      object {
-        display: inline;
-        width: 28px;
-        height: 28px;
+      .links .link .fa {
+        width: 26px;
       }
-      .links li {
-        display: flex;
-      }
-      .links a{
-        padding: 3px 6px;
-      }
-
     </style>
 
     <nav role="navigation">
-      <h3 class="title"><a href="/admin">x-commerce</a></h3>
+      <h3 class="title"><a class="link" href="/admin">x-commerce</a></h3>
       <ul class="links">
         <li>
-          <i class="fa fa-shopping-bag"></i>
-          <a is="app-link" class="link" href="/admin/store">Store</a>
+          <a is="app-link" class="link" href="/admin/store">
+            <i class="fa fa-shopping-bag"></i>
+            <span>Store</span>
+          </a>
         </li>
         <li>
-        <i class="fa fa-users"></i>
-          <a is="app-link" class="link" href="/admin/team">Team</a>
+          <a is="app-link" class="link" href="/admin/team">
+            <i class="fa fa-users"></i>
+            <span>Team</span>
+          </a>
         </li>
       </ul>
       <ul class="links">
         <li>
-        <i class="fa fa-barcode fa-lg"></i>
-          <a is="app-link" class="link" href="/admin/products">Products</a>
+          <a is="app-link" class="link" href="/admin/products">
+            <i class="fa fa-cube fa-lg"></i>
+            <span>Products</span>
+          </a>
         </li>
         <li>
-          <i class="fa fa-umbrella"></i>
-          <a is="app-link" class="link" href="/admin/collections">Collections</a>
+          <a is="app-link" class="link" href="/admin/collections">
+            <i class="fa fa-cubes"></i>
+            <span>Collections</span>
+          </a>
         </li>
         <li>
-          <i class="fa fa-user-secret"></i>
-          <a is="app-link" class="link" href="/admin/vendors">Vendors</a>
+          <a is="app-link" class="link" href="/admin/vendors">
+            <i class="fa fa-users"></i>
+            <span>Vendors</span>
+          </a>
         </li>
         <li>
-          <i class="fa fa-percent"></i>
-          <a is="app-link" class="link" href="/admin/coupons">Coupon</a>
+          <a is="app-link" class="link" href="/admin/coupons">
+            <i class="fa fa-percent"></i>
+            <span>Coupons</span>
+          </a>
         </li>
         <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
-          <a is="app-link" class="link" href="/admin/product_types">Product Type</a>
-        </li>
-      </ul>
-      <ul class="links">
-        <li>
-          <i class="fa fa-user"></i>
-          <a is="app-link" class="link" href="/admin/customers">Customers</a>
-        </li>
-        <li>
-          <i class="fa fa-list-ul"></i>
-          <a is="app-link" class="link" href="/admin/orders">Orders</a>
-        </li>
-      </ul>
-      <ul class="links">
-        <li>
-          <i class="fa fa-newspaper-o"></i>
-          <a is="app-link" class="link" href="/admin/articles">Articles</a>
-        </li>
-        <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
-          <a is="app-link" class="link" href="/admin/categories">Categories</a>
+          <a is="app-link" class="link" href="/admin/product_types">
+            <i class="fa fa-sitemap"></i>
+            <span>Product Types</span>
+          </a>
         </li>
       </ul>
       <ul class="links">
         <li>
-          <i class="fa fa-key"></i>
-          <a is="app-link" class="link" href="/admin/services">Services</a>
+          <a is="app-link" class="link" href="/admin/customers">
+            <i class="fa fa-users"></i>
+            <span>Customers</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/orders">
+            <i class="fa fa-list"></i>
+            <span>Orders</span>
+          </a>
         </li>
       </ul>
       <ul class="links">
         <li>
-          <i class="fa fa-home"></i>
-          <a is="app-link" class="link" href="/"> Home</a>
+          <a is="app-link" class="link" href="/admin/articles">
+            <i class="fa fa-newspaper-o"></i>
+            <span>Articles</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/categories">
+            <i class="fa fa-sitemap"></i>
+            <span>Categories</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="links">
+        <li>
+          <a is="app-link" class="link" href="/admin/services">
+            <i class="fa fa-key"></i>
+            <span>Services</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="links">
+        <li>
+          <a is="app-link" class="link" href="/">
+            <i class="fa fa-home fa-lg"></i>
+            <span>Home</span>
+          </a>
         </li>
       </ul>
     </nav>

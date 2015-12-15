@@ -1,9 +1,7 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../../styles/style-strip/style-strip.html">
 <link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
@@ -15,20 +13,12 @@
 <dom-module id="page-products">
   <template>
 
-    <api-model-find id="find" collection="products" response="{{products}}"
-      order="title" perpage="{{perpage}}" page="{{page}}">
-    </api-model-find>
-
-    <api-model-count id="count" collection="products" response="{{count}}">
-    </api-model-count>
-
     <layout-admin on-change-view="on_change_view">
       <h1>Products</h1>
       <part-products-actions></part-products-actions>
       <part-products-search></part-products-search>
       <part-products-stats></part-products-stats>
-      <part-products-items id="items" products="{{products}}">
-        </part-products-items>
+      <part-products-items id="items" products="{{products}}"></part-products-items>
       <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
         count="{{count}}">
       </part-products-pages>
@@ -45,18 +35,54 @@
       products: {
         type: Array,
         value: function () { return []; }
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 30
       }
     },
 
     attached: function () {
-      this.$.count.send();
+      this.count_products();
+    },
+
+    count_products: function () {
+      Model.count('/api/products/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_collections: function () {
+      Model.find('/api/products', this.get_filter_options())
+        .then(function (data) {
+          this.products = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function () {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: ['collections', 'vendor', 'images', 'product_type', 'variants']
+      };
     },
 
     on_change_page: function (event) {
-      this.perpage = 30;
       this.page = event.detail.current - 1;
-      this.$.find.include = ['collections', 'vendor', 'images', 'product_type', 'variants'];
-      this.$.find.send();
+      this.get_collections();
     },
 
     on_change_view: function (event) {
