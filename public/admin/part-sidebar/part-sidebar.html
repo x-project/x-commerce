@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="../../fonts/icons/css/font-awesome.min.css">
 <dom-module id="part-sidebar">
   <template>
     <style>
@@ -33,35 +34,36 @@
       .links a{
         padding: 3px 6px;
       }
+
     </style>
 
     <nav role="navigation">
       <h3 class="title"><a href="/admin">x-commerce</a></h3>
       <ul class="links">
         <li>
-          <object data="../icons/shop.svg" type="image/svg+xml"></object>
+          <i class="fa fa-shopping-bag"></i>
           <a is="app-link" class="link" href="/admin/store">Store</a>
         </li>
         <li>
-          <object data="../icons/team.svg" type="image/svg+xml"></object>
+        <i class="fa fa-users"></i>
           <a is="app-link" class="link" href="/admin/team">Team</a>
         </li>
       </ul>
       <ul class="links">
         <li>
-          <object data="../icons/shop1.svg" type="image/svg+xml"></object>
+        <i class="fa fa-barcode fa-lg"></i>
           <a is="app-link" class="link" href="/admin/products">Products</a>
         </li>
         <li>
-          <object data="../icons/shop3.svg" type="image/svg+xml"></object>
+          <i class="fa fa-umbrella"></i>
           <a is="app-link" class="link" href="/admin/collections">Collections</a>
         </li>
         <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <i class="fa fa-user-secret"></i>
           <a is="app-link" class="link" href="/admin/vendors">Vendors</a>
         </li>
         <li>
-          <object data="../icons/coupon.svg" type="image/svg+xml"></object>
+          <i class="fa fa-percent"></i>
           <a is="app-link" class="link" href="/admin/coupons">Coupon</a>
         </li>
         <li>
@@ -71,17 +73,17 @@
       </ul>
       <ul class="links">
         <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <i class="fa fa-user"></i>
           <a is="app-link" class="link" href="/admin/customers">Customers</a>
         </li>
         <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <i class="fa fa-list-ul"></i>
           <a is="app-link" class="link" href="/admin/orders">Orders</a>
         </li>
       </ul>
       <ul class="links">
         <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <i class="fa fa-newspaper-o"></i>
           <a is="app-link" class="link" href="/admin/articles">Articles</a>
         </li>
         <li>
@@ -91,12 +93,15 @@
       </ul>
       <ul class="links">
         <li>
-          <object data="../icons/coupon1.svg" type="image/svg+xml"></object>
+          <i class="fa fa-key"></i>
           <a is="app-link" class="link" href="/admin/services">Services</a>
         </li>
       </ul>
       <ul class="links">
-        <li><a is="app-link" class="link" href="/">&larr; Home</a></li>
+        <li>
+          <i class="fa fa-home"></i>
+          <a is="app-link" class="link" href="/"> Home</a>
+        </li>
       </ul>
     </nav>
 

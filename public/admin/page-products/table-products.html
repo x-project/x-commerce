@@ -2,28 +2,39 @@
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
+    <style>
+    .fa.fa-trash-o:hover {
+      cursor: pointer;
+    }
+    </style>
 
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>#</th>
             <th>Title</th>
             <th>Vendor</th>
             <th>Price</th>
             <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           <template id="products" is="dom-repeat" items="{{products}}" as="product">
             <tr class="text-center">
-              <th scope="row">{{index}}</th>
               <td>{{product.title}}</td>
               <td>{{product.vendor.name}}</td>
               <td>{{product.price}}</td>
               <td>
                 <a is="app-link" class="btn btn-link"
-                  href="/admin/products/{{product.id}}">edit
+                  href="/admin/products/{{product.id}}">
+                  <i class="fa fa-pencil-square-o"></i>
+                </a>
+              </td>
+              <td>
+                <a is="app-link" class="btn btn-link"
+                  on-click="on_click_delete_product">
+                  <i class="fa fa-trash-o"></i>
                 </a>
               </td>
             </tr>
@@ -33,6 +44,9 @@
     </div>
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -43,6 +57,17 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click_delete_product: function (event) {
+      var product = this.$.products.itemForElement(event.target);
+      Model.delete('/api/products/' + product.id)
+        .then(function (data) {
+          page('/admin/products');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
     }
 
   });
