@@ -1,0 +1,47 @@
+<link rel="import" href="../input-checkbox/input-checkbox.html">
+<dom-module id="form-variant-inventory-quantity">
+  <template>
+    <style include="style-form"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-label"></style>
+    <style include="style-field"></style>
+
+    <div class="panel-form">
+      <div class="field">
+        <label class="label">[[variant_quantity_label]]</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{variant.quantity}}">
+      </div>
+      <div class="field">
+        <input-checkbox checked="{{variant.sell_after_purchase}}"></input-checkbox>
+        <label class="label stock">[[product_stock_label]]</label>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-variant-inventory-quantity',
+
+    properties: {
+      variant_quantity_label: {
+        type: String,
+        value: 'Quantiy'
+      },
+      product_stock_label: {
+        type: String,
+        value: 'Allow customers to purchase this product when it\'s out of stock'
+      },
+      variant: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

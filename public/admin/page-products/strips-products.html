@@ -27,8 +27,12 @@
         text-decoration: none;
         color: black;
       }
+      a {
+        text-decoration: none;
+        color: black;
+      }
       .strip-links .strip-link a i:hover {
-        color: #999;
+        color: #0275d8;
         cursor: pointer;
       }
     </style>
@@ -73,7 +77,7 @@
                 <a is="app-link" class="btn btn-link" on-click="on_click_delete_product">
                   <i class="fa fa-trash-o"></i>
                 </a>
-                <a is="app-link" class="btn btn-link" href="/products/{{product.id}}">
+                <a is="app-link" class="btn btn-link" href="/products/{{product.id}}" target="_blank">
                   <i class="fa fa-eye"></i>
                 </a>
             </div>

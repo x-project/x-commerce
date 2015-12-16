@@ -1,10 +1,11 @@
 <link rel="import" href="../input-checkbox/input-checkbox.html">
-<link rel="import" href="part-variant-inventory-quantity.html">
+<link rel="import" href="form-variant-inventory-quantity.html">
 <dom-module id="form-variant-inventory-track">
   <template>
     <style include="style-form"></style>
     <style include="style-panel"></style>
     <style include="style-checkbox"></style>
+    <style include="style-label"></style>
 
     <style>
       #quantity {
@@ -19,15 +20,15 @@
     </style>
 
 
-    <form id="form" role="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
+        <input-checkbox checked="{{variant.track_quantity}}"></input-checkbox>
         <label class="label">track quantity</label>
-        <input-checkbox checked="{{variant.track_quantity}}" on-change="on_change_track_quantity"></input-checkbox>
       </div>
-      <part-variant-inventory-quantity id="quantity"show$="{{show}}"
-        variant="{{variant}}">
-      </part-variant-inventory-quantity>
-    </form>
+      <form-variant-inventory-quantity id="quantity" show$="{{variant.track_quantity}}"
+        variant="{{variant}}" product="{{product}}">
+      </form-variant-inventory-quantity>
+    </div>
 
   </template>
 </dom-module>
@@ -41,31 +42,14 @@
         type: Object,
         value: function () { return {}; }
       },
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
       show: {
         type: Boolean,
         value: false
       }
-    },
-
-    attached: function () {
-      if(this.variant.track_quantity){
-        this.set('show', true);
-        return;
-      }
-    },
-
-    on_change_track_quantity: function (event) {
-      this.variant.track_quantity = event.detail;
-      if(this.variant.track_quantity){
-        this.set('show', true);
-        return;
-      }
-      this.set('show', false);
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

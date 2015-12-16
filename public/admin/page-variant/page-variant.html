@@ -1,6 +1,9 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-variant-actions.html">
@@ -12,22 +15,13 @@
 <dom-module id="page-variant">
   <template>
 
-    <api-model-update id="update" collection="product_variants"
-      data="{{variant}}" model-id="{{variant.id}}">
-    </api-model-update>
-
-    <api-model-delete id="delete_model" collection="product_variants"
-      model-id="{{variant.id}}" on-response="on_response_delete">
-    </api-model-delete>
-
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h1>Variant</h1>
       <part-variant-header product="{{product}}" variant="{{variant}}"></part-variant-header>
-      <part-variant-actions></part-variant-actions>
-      <part-variant-available variant="{{variant}}"></part-variant-available>
-      <part-variant-pricing variant="{{variant}}"></part-variant-pricing>
-      <part-variant-inventory variant="{{variant}}"></part-variant-inventory>
-      <part-variant-shipping variant="{{variant}}"></part-variant-shipping>
+      <part-variant-available variant="{{variant}}" error="{{error}}"></part-variant-available>
+      <part-variant-pricing variant="{{variant}}" error="{{error}}"></part-variant-pricing>
+      <part-variant-inventory variant="{{variant}}" product="{{product}}" error="{{error}}">
+      </part-variant-inventory>
+      <part-variant-shipping variant="{{variant}}" error="{{error}}"></part-variant-shipping>
       <part-variant-actions></part-variant-actions>
     </layout-admin>
 
@@ -46,6 +40,10 @@
       variant: {
         type: Object,
         value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
@@ -54,28 +52,57 @@
       this.product = this.variant.product;
     },
 
-    on_try_save: function (event) {
-      event.stopPropagation();
-      this.$.update.send();
+    update_variant: function () {
+      Model.update('/api/product_variants/' + this.variant.id, this.variant)
+        .then(function (data) {
+          this.variant = data;
+          this.on_update_variant();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+          console.log(error);
+        }.bind(this));
     },
 
-    on_response_put_variant: function (event, details) {
+    delete_variant: function () {
+      Model.delete('/api/product_variants/' + this.variant.id)
+        .then(function (data) {
+          this.response_delete();
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+          this.error = error;
+          console.log(error);
+        }.bind(this));
+    },
+
+    on_try_save: function (event) {
       event.stopPropagation();
+      if (!this.validate_model()) {
+        return;
+      }
+      if(this.variant.id){
+        this.update_variant();
+        return;
+      }
+      page('/admin');
     },
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.$.delete_model.send();
+      this.delete_variant();
     },
 
-    on_response_delete: function (event) {
-      event.stopPropagation();
+    validate_model: function () {
+      return true;
+    },
+
+    on_update_variant: function () {
+      page('/admin/products/' + this.product.id + '/variants/' + this.variant.id);
+    },
+
+    response_delete: function () {
       page('/admin/products/' + this.product.id + '/variants');
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
     }
 
   });

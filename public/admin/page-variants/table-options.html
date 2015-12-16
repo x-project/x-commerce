@@ -15,7 +15,7 @@
         color: black;
       }
       a i:hover {
-        color: #999;
+        color: #0275d8;
         cursor: pointer;
       }
     </style>
@@ -25,6 +25,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Type</th>
             <th>Values</th>
             <th>Actions</th>
           </tr>
@@ -33,9 +34,10 @@
           <template id="options" is="dom-repeat" items="{{options}}" as="option">
             <tr class="text-center">
               <td>{{option.name}}</td>
+              <td>{{option.type}}</td>
               <td>
                 <template id="values" is="dom-repeat" items="{{option.values}}" as="value">
-                  <span> {{value}} </span>
+                 <label class="label label-info">{{value}}</label>
                 </template>
               </td>
               <td>
@@ -61,10 +63,6 @@
         type: Array,
         value: function () { return []; }
       }
-    },
-
-    attached: function () {
-      console.log(this.options);
     },
 
     on_click_delete_option: function (event) {

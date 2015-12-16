@@ -6,20 +6,20 @@
     <style include="style-label"></style>
     <style include="style-color"></style>
     <style include="style-form"></style>
+    <style include="style-field"></style>
     <style>
       :host {
         /*--label-color: #7f8c8d;*/
       }
-
       iron-autogrow-textarea {
         display: block;
-      }
-      input, iron-autogrow-textarea {
-        box-sizing: border-box;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
 
-    <div class="panel-container">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[product_title_label]]</label>
         <input class="form-control" id="title" type="text" is="iron-input" bind-value="{{product.title}}">

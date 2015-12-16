@@ -1,0 +1,34 @@
+<dom-module id="part-variants-header">
+  <style include="style-breadcrumb"></style>
+  <template>
+  <style>
+    .panel-header {
+      margin-top: 20px;
+    }
+  </style>
+
+  <div class="panel-header">
+    <ol class="breadcrumb">
+      <li><a href="/admin/products">Products</a></li>
+      <li><a href="/admin/products/{{product.id}}">{{product.title}}</a></li>
+      <li class="active">variants</li>
+    </ol>
+  </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-variants-header',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+
+  });
+</script>

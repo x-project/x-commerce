@@ -56,6 +56,12 @@
     },
 
     attached: function () {
+      if (!this.image) {
+        return;
+      }
+      if(this.image.length === 0) {
+        return;
+      }
       this.sort_thumbs_size();
       var min_size = this.image.thumbs[0];
 

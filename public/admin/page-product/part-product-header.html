@@ -4,11 +4,7 @@
     <style include="style-button"></style>
     <style include="style-breadcrumb"></style>
     <style>
-      .breadcrumb {
-        background: white;
-        padding-left: 0;
-      }
-      .panel {
+      .panel-header {
         @apply(--layout-horizontal);
         @apply(--layout-justified);
         margin-top: 20px;
@@ -19,26 +15,17 @@
       .btn {
         margin-right: 4px;
       }
-      span {
-        font-size: 20px;
-        ma
-      }
     </style>
 
-    <div class="panel">
-
+    <div class="panel-header">
       <ol class="breadcrumb">
         <li>
-          <a href="/admin/products">
-            <span>Products</span>
-          </a>
+          <a href="/admin/products">Products</a>
         </li>
-        <li class="active">
-          <span>{{product.title}}</span>
-        </li>
+        <li class="active">{{product.title}}</li>
       </ol>
 
-      <div class="panel actions">
+      <div class="panel-header actions">
         <button class="btn btn-secondary" on-click="on_click_save">save</button>
         <a is="app-link" class="btn btn-secondary" href="/products/{{product.id}}">view</a>
         <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
@@ -68,7 +55,6 @@
       event.stopPropagation();
       this.fire('try-save');
     }
-
 
   });
 </script>

@@ -29,6 +29,9 @@
     "require_shipping": {
       "type": "Boolean"
     },
+    "track_quantity": {
+      "type": "Boolean"
+    },
     "quantity": {
       "type": "Number"
     },

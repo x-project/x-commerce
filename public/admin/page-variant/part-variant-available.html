@@ -3,11 +3,12 @@
   <template>
     <style include="style-panel"></style>
     <style include="style-checkbox"></style>
+    <style include="style-label"></style>
 
     <div class="panel">
       <h2 class="title">[[variant_avaiable_title_label]]</h2>
+      <input-checkbox checked="{{variant.available}}"></input-checkbox>
       <label class="label">[[variant_avaiable_label]]</label>
-      <input-checkbox checked="{{variant.available}}" on-change="on_change_available"></input-checkbox>
     </div>
 
   </template>
@@ -30,10 +31,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_change_available: function (event) {
-      this.variant.available = event.detail;
     }
 
   });

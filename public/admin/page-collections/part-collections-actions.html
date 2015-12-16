@@ -4,20 +4,32 @@
 	<template>
 	  <style include="style-button"></style>
     <style>
-      .container {
+      .panel-header {
         @apply(--layout-horizontal);
         @apply(--layout-justified);
+        margin-bottom: 20px;
+      }
+      .panel-header .view {
+        margin-right: 20px;
+      }
+      .panel-header .view i {
+        margin: 0 4px;
+      }
+      .panel-header .view i:hover {
+        color: #0275d8;
       }
     </style>
-    <div class="container">
+
+    <div class="panel-header">
       <div>
         <a is="app-link" class="btn btn-secondary" href="/admin/collections/new">create collection</a>
       </div>
-      <div>
-        <button class="btn btn-secondary" on-click="on_click_view" data-view="table">table</button>
-        <button class="btn btn-secondary" on-click="on_click_view" data-view="strips">strip</button>
-      </div>
+      <div class="view">
+        <i class="fa fa-th-list" on-click="on_click_view" data-view="strips"></i>
+        <i class="fa fa-th" on-click="on_click_view" data-view="table"></i>
+        </div>
     </div>
+
 
 	</template>
 </dom-module>

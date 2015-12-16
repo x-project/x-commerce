@@ -1,21 +1,29 @@
 <link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <dom-module id="part-store-policy">
   <template>
+    <style include="style-label"></style>
     <style include="style-form"></style>
-    <style include="style-panel"></style>
+    <style include="style-field"></style>
     <style>
-      iron-autogrow-textarea {
+      iron-autogrow-textarea {
         display: block;
-        box-sizing: border-box;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
 
     <div class="panel">
       <h2 class="title">[[policy_label]]</h2>
-        <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{store.policy}}" rows="5"
-          placeholder="policy for my store">
-        </iron-autogrow-textarea>
+      <div class="panel-form">
+        <div class="field">
+          <label class="label">[[policy_label]]</label>
+          <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{store.policy}}" rows="5"
+            placeholder="policy for my store">
+          </iron-autogrow-textarea>
+        </div>
       </div>
+    </div>
 
   </template>
 </dom-module>

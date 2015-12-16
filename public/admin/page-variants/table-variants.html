@@ -15,7 +15,7 @@
         color: black;
       }
       a i:hover {
-        color: #999;
+        color: #0275d8;
         cursor: pointer;
       }
     </style>
@@ -25,6 +25,7 @@
         <thead>
           <tr>
             <th>Name</th>
+            <th>Type</th>
             <th>Price</th>
             <th>Actions</th>
           </tr>
@@ -32,7 +33,14 @@
         <tbody>
           <template id="variants" is="dom-repeat" items="{{variants}}" as="variant">
             <tr class="text-center" on-click="on_click_row">
-              <td>{{variant.name}}</td>
+              <td>
+                <label class="label label-info">{{variant.name}}</label>
+              </td>
+              <td>
+                <template id="types" is="dom-repeat" items="{{product.options}}" as="option">
+                  <span>{{option.type}}</span>
+                </template>
+              </td>
               <td>{{variant.price}}</td>
               <td>
                 <a is="app-link" class="btn btn-link"

@@ -1,8 +1,9 @@
 <link rel="import" href="../input-image/input-image.html">
 <dom-module id="form-product-image">
   <template>
+  <style include="style-label"></style>
 
-    <div class="panel-container">
+    <div class="panel-form">
       <div class="field">
         <label class="label">image</label>
         <input-image collection="products" model-id="{{product.id}}" folder="images">

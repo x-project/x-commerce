@@ -37,6 +37,9 @@
       part-variants-option {
         margin-bottom: 12px;
       }
+      .form-option {
+        margin-top: 60px;
+      }
     </style>
 
 
@@ -65,7 +68,8 @@
         <table-options options="{{options}}" on-delete-option="on_delete_option"></table-options>
       </div>
 
-      <div>
+      <div class="form-option">
+        <h2 class="title">Add options</h2>
         <button id="add_option" class="btn btn-secondary"
           on-click="on_click_add_option">add option</button>
 
@@ -75,6 +79,7 @@
         <form-variants-option id="form" open$="{{open}}" option="{{option}}"
           on-try-save="on_try_save">
         </form-variants-option>
+
       </div>
 
     </div>

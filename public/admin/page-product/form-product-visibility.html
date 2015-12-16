@@ -6,7 +6,7 @@
     <style include="style-form"></style>
     <style include="style-checkbox"></style>
     <style include="style-label"></style>
-
+    <style include="style-field"></style>
     <style>
       .invalid_date{
         display: none;
@@ -24,7 +24,7 @@
       }
     </style>
 
-    <div class="panel-container" on-change-date="on_change_visibility">
+    <div class="panel-form" on-change-date="on_change_visibility">
       <div class="field">
         <input-checkbox checked="{{product.is_published}}"></input-checkbox>
         <label class="label">[[product_online_store_label]]</label>
@@ -34,7 +34,8 @@
         <input-datetime value="{{product.published_at}}"></input-datetime>
         <input-errors property="published_at" error="{{error.details}}"></input-errors>
       </div>
-    </form>
+    </div>
+
   </template>
 </dom-module>
 <script>

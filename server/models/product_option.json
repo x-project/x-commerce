@@ -11,6 +11,9 @@
     },
     "values": {
       "type": ["String"]
+    },
+    "type": {
+      "type": "String"
     }
   },
   "relations": {},

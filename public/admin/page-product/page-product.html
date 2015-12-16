@@ -2,10 +2,12 @@
 <link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-color/style-color.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-product-actions.html">
 <link rel="import" href="part-product-header.html">
 <link rel="import" href="part-product-image.html">
 <link rel="import" href="part-product-info.html">
@@ -129,11 +131,6 @@
       page('/admin/products');
     },
 
-    on_error_create: function (event) {
-      event.stopPropagation();
-      console.log(event.detail.request.xhr.response);
-    },
-
     validate_model: function () {
       var check = true;
       var error = this.create_custom_err();
@@ -184,7 +181,7 @@
     on_error: function (event) {
       event.stopPropagation();
       this.validate_model();
-    },
+    }
 
   });
 </script>

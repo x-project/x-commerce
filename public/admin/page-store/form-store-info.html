@@ -2,17 +2,19 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-store-info">
   <template>
+    <style include="style-label"></style>
     <style include="style-form"></style>
+    <style include="style-field"></style>
     <style>
       iron-autogrow-textarea {
         display: block;
-      }
-      input, iron-autogrow-textarea {
-        box-sizing: border-box;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
 
-    <form on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[store_name_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{store.name}}">
@@ -25,7 +27,8 @@
           </iron-autogrow-textarea>
           <input-errors property="description" error="{{error.details}}"></input-errors>
       </div>
-    </form>
+    </div>
+
   </template>
 </dom-module>
 <script>
@@ -50,11 +53,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

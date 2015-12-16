@@ -18,13 +18,29 @@
       .strip-tag {
         display: inline-block;
       }
+      .strip-links .strip-link a{
+        padding: 0;
+        margin: 0 2px;
+      }
+      .strip-links .strip-link a{
+        text-decoration: none;
+        color: black;
+      }
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      .strip-links .strip-link a i:hover {
+        color: #0275d8;
+        cursor: pointer;
+      }
     </style>
     <div class="items">
       <template id="collections" is="dom-repeat" items="{{collections}}" as="collection">
-        <div class="strip">
+        <div class="strip" on-click="on_click_row">
           <div class="strip-img">
-            <image-preview image="{{collection.images}}" like-size="120"
-              height="120" width="100">
+            <image-preview image="{{collection.images.0}}" sizing="contain" like-size="120"
+              height="100" width="100">
             </image-preview>
           </div>
           <div class="strip-block">
@@ -35,7 +51,12 @@
 
           <div class="strip-links">
             <div class="strip-link">
-              <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">edit</a>
+                <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_collection">
+                  <i class="fa fa-trash-o"></i>
+                </a>
             </div>
           </div>
         </div>
@@ -58,6 +79,23 @@
 
     get_number_of_products: function (collection) {
       return 'Number of products: ' + collection.products.length || 0;
+    },
+
+    on_click_delete_collection: function (event) {
+      var collection = this.$.collections.itemForElement(event.target);
+      Model.delete('/api/collections/' + collection.id)
+        .then(function (data) {
+          page('/admin/collections');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var collection = this.$.collections.itemForElement(event.target);
+      page('/admin/collections/' + collection.id);
     }
 
   });

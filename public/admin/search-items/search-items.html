@@ -1,10 +1,13 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="part-items-pages.html">
 <link rel="import" href="table-items.html">
 <dom-module id="search-items">
   <template>
     <style include="style-form"></style>
-    <style include="style-panel"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
+
     <style>
       input {
         box-sizing: border-box;
@@ -12,23 +15,42 @@
       .title, .hide-items {
         display: inline-block !important;
       }
-      .hide-items {
+
+      .close {
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+        margin: 4px;
+        font-size: 14px;
+      }
+
+      span.hide-items {
         opacity: .5;
       }
+
       .hide-items:hover {
         opacity: 1;
+        color: #0275d8;
+      }
+
+      input, table-items, .close {
+        width: 60% !important;
       }
 
     </style>
 
-    <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-      on-keyup="on_change_value" on-focus="on_change_value" placeholder="{{placeholder}}"/>
 
-    <div class="panel">
-      <span class="hide-items" on-click="on_click_closed_items">X</span>
-      <table-items items="{{items}}" property="{{property}}"></table-items>
-      <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
-      </part-items-pages>
+      <div class="close">
+        <span class="hide-items" on-click="on_click_closed_items">close</span>
+      </div>
+
+        <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
+          on-keyup="on_change_value" on-focus="on_change_value" placeholder="{{placeholder}}"/>
+
+        <div class="panel">
+          <table-items items="{{items}}" property="{{property}}"></table-items>
+          <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
+        </part-items-pages>
+
     </div>
 
   </template>

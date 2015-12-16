@@ -1,6 +1,8 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-store-actions.html">
 <link rel="import" href="part-store-contact.html">
@@ -10,14 +12,12 @@
 <dom-module id="page-store">
   <template>
 
-
     <layout-admin on-try-save="on_try_save">
-      <h1>Store</h1>
       <part-store-header store="{{store}}"></part-store-header>
-      <part-store-actions></part-store-actions>
       <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
       <part-store-contact store="{{store}}" error="{{error}}"></part-store-contact>
       <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
+      <part-store-actions></part-store-actions>
     </layout-admin>
 
   </template>

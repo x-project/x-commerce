@@ -1,11 +1,16 @@
+<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-variants-header.html">
 <link rel="import" href="part-variants-options.html">
 <link rel="import" href="part-variants-items.html">
 <dom-module id="page-variants">
   <template>
 
     <layout-admin>
-      <h1>Variants</h1>
+      <part-variants-header product="{{product}}"></part-variants-header>
       <part-variants-items product="{{product}}" variants="{{variants}}"></part-variants-items>
       <part-variants-options product="{{product}}" variants="{{variants}}"></part-variants-options>
     </layout-admin>

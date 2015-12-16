@@ -2,38 +2,34 @@
 <dom-module id="form-store-contact">
   <template>
     <style include="style-form"></style>
+    <style include="style-label"></style>
+    <style include="style-field"></style>
+
     <style>
-      input {
-        box-sizing: border-box;
-      }
       .mobile {
         --input-phone-prefix: {
           @apply(--form-control);
-          display: inline;
-          width: auto;
+          width: 60%;
         };
         --input-phone-number: {
           @apply(--form-control);
-          display: inline;
-          width: auto;
+          width: 60%;
         };
       }
       .office {
         --input-phone-prefix: {
           @apply(--form-control);
-          display: inline;
-          width: auto;
+          width: 60%;
         };
         --input-phone-number: {
           @apply(--form-control);
-          display: inline;
-          width: auto;
+          width: 60%;
         };
       }
 
     </style>
 
-    <form role="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[email_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{store.email}}">
@@ -47,7 +43,7 @@
         <label class="label">[[office_phone_label]]</label>
         <input-phone class="office" phone="{{store.office_phone}}"></input-phone>
       </div>
-    </form>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -76,11 +72,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

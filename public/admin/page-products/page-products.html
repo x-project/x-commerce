@@ -61,7 +61,7 @@
         }.bind(this));
     },
 
-    get_collections: function () {
+    get_products: function () {
       Model.find('/api/products', this.get_filter_options())
         .then(function (data) {
           this.products = data;
@@ -82,7 +82,7 @@
 
     on_change_page: function (event) {
       this.page = event.detail.current - 1;
-      this.get_collections();
+      this.get_products();
     },
 
     on_change_view: function (event) {

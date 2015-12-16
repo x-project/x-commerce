@@ -3,18 +3,18 @@
 <dom-module id="form-collection-info">
   <template>
     <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
     <style>
-      input {
-        box-sizing: var(--form-box-sizing);
-        @apply(--form-input);
-      }
       iron-autogrow-textarea {
         display: block;
-        box-sizing: var(--form-box-sizing);
-        @apply(--form-textarea);
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
-    <form id="form" role="form" on-submit="on_submit">
+
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[collection_title_label]]</label>
         <input class="form-control" id="title" type="text" is="iron-input"
@@ -27,7 +27,8 @@
           bind-value="{{collection.description}}" rows="4">
         </iron-autogrow-textarea>
       </div>
-    </form>
+    </div>
+
   </template>
 </dom-module>
 <script>
@@ -52,11 +53,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

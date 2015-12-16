@@ -1,8 +1,42 @@
+<link rel="import" href="../../components/app-link/app-link.html">
 <dom-module id="part-variant-header">
   <template>
+    <style include="style-button"></style>
+    <style include="style-breadcrumb"></style>
+    <style>
+      .panel-header {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        margin-top: 20px;
+      }
+      .actions{
+        @apply(--layout-center);
+      }
+      .btn {
+        margin-right: 4px;
+      }
+    </style>
 
-    <h2 class="title">Product / {{product.title}}</h2>
-    <h3 class="subtitle">variant / {{variant.name}}</h3>
+    <div class="panel-header">
+      <ol class="breadcrumb">
+        <li>
+          <a href="/admin/products">Products</a>
+        </li>
+        <li>
+          <a href="/admin/products/{{product.id}}">{{product.title}}</a>
+        </li>
+        <li>
+          <a href="/admin/products/{{product.id}}/variants">variants</a>
+        </li>
+        <li class="active">{{variant.name}}</li>
+      </ol>
+
+      <div class="panel-header actions">
+        <button class="btn btn-secondary" on-click="on_click_save">save</button>
+        <a is="app-link" class="btn btn-secondary" href="/products/{{product.id}}">view</a>
+        <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
+      </div>
+    </div>
 
   </template>
 </dom-module>
@@ -20,6 +54,16 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    },
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
     }
 
   });
