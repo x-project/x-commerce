@@ -40,6 +40,12 @@
     <div class="items">
       <template id="products" is="dom-repeat" items="{{products}}" as="product">
         <div class="strip">
+          <div class="strip-img">
+            <image-preview image="{{product.images.0}}" sizing="contain" like-size="120"
+              height="100" width="100">
+            </image-preview>
+          </div>
+
           <div class="strip-block">
             <div class="block-title">{{product.title}}</div>
             <div class="block-vendor">{{product.vendor.name}}</div>

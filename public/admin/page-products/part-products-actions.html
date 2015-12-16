@@ -25,8 +25,8 @@
         <a is="app-link" class="btn btn-secondary" href="/admin/products/new">create product</a>
       </div>
       <div class="view">
-        <i class="fa fa-th-list" on-click="on_click_view" data-view="strips"></i>
-        <i class="fa fa-th" on-click="on_click_view" data-view="table"></i>
+        <i style$="{{color_strip}}" class="fa fa-th-list" on-click="on_click_view" data-view="strips"></i>
+        <i style$="{{color_table}}" class="fa fa-th" on-click="on_click_view" data-view="table"></i>
         </div>
     </div>
 
@@ -37,10 +37,22 @@
 
     is: 'part-products-actions',
 
+    attached: function () {
+      this.color_table = 'color: #0275d8;';
+      this.color_strip = 'color: black;';
+    },
+
     on_click_view: function (event) {
       event.stopPropagation();
       window.target = event.target;
       this.fire('change-view', { view: event.target.dataset.view });
+      if (event.target.dataset.view === 'strips') {
+        this.color_strip = 'color: #0275d8;';
+        this.color_table = 'color: black';
+        return;
+      }
+      this.color_table = 'color: #0275d8;';
+      this.color_strip = 'color: black;';
     }
 
   });
