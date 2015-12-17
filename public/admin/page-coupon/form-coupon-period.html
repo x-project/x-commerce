@@ -2,20 +2,21 @@
 <link rel="import" href="../../components/input-datetime/input-datetime.html">
 <dom-module id="form-coupon-period">
   <template>
-    <style include="style-form">
-      input-datetime {
-        display: inline-block;
-      }
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style include="style-button"></style>
+
+    <style>
       input-datetime {
-        box-sizing: border-box;
-        --input-datetime-button: {
-         @apply(--form-control);
+        --datetime-input: {
+          @apply(--form-control);
+        };
+        --datetime-button: {
         };
       }
-
     </style>
 
-    <form id="form" class="form" on-submit="on_submit" on-change-date="on_change_date">
+    <div class="panel-form" on-change-date="on_change_date">
       <div class="field">
         <label class="label">From</label>
         <input-datetime value="{{coupon.date_from}}"></input-datetime>
@@ -26,7 +27,7 @@
         <input-datetime value="{{coupon.date_to}}"></input-datetime>
         <input-errors property="date_to" error="{{error.details}}"></input-errors>
       </div>
-    </form>
+    </div>
   </template>
 
 </dom-module>
@@ -40,11 +41,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     },
 
     on_change_date: function (event) {

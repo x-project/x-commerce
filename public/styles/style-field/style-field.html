@@ -9,11 +9,12 @@
         }
 
       }
+
       .panel-form .field {
         margin-bottom: 10px;
       }
 
-      .panel-form .field input,iron-autogrow-textarea {
+      .panel-form .field input[type="text"],iron-autogrow-textarea {
         width: 60% !important;
       }
 
@@ -24,10 +25,13 @@
           border-radius: .25rem;
         };
       }
-      .panel-form input, iron-autogrow-textarea {
+      .panel-form input[type="text"], iron-autogrow-textarea {
         box-sizing: border-box;
       }
 
+      input-datetime, input-location {
+        width: 55%;
+      }
 
     </style>
   </template>

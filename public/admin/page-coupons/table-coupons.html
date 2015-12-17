@@ -1,28 +1,32 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <dom-module id="table-coupons">
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
+
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>#</th>
             <th>Name</th>
             <th>Discount(%)</th>
             <th>Code</th>
-            <th>Edit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <template id="coupons" is="dom-repeat" items="{{coupons}}" as="coupon">
             <tr class="text-center">
-              <th scope="row">{{index}}</th>
-              <td>{{coupon.name}}</td>
-              <td>{{coupon.discount}}</td>
-              <td>{{coupon.code}}</td>
+              <td on-click="on_click_row">{{coupon.name}}</td>
+              <td on-click="on_click_row">{{coupon.discount}}</td>
+              <td on-click="on_click_row">{{coupon.code}}</td>
               <td>
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/coupons/{{coupon.id}}">edit
+                <a is="app-link" class="btn btn-link" href="/admin/coupons/{{coupon.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_coupon">
+                  <i class="fa fa-trash-o"></i>
                 </a>
               </td>
             </tr>
@@ -42,6 +46,23 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var coupon = this.$.coupons.itemForElement(event.target);
+      page('/admin/coupons/' + coupon.id);
+    },
+
+    on_click_delete_coupon: function (event) {
+      var coupon = this.$.coupons.itemForElement(event.target);
+      Model.delete('/api/coupons/' + coupon.id)
+        .then(function (data) {
+          page('/admin/coupons');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
     }
 
   });

@@ -1,9 +1,14 @@
 <dom-module id="part-vendor-actions">
   <template>
     <style include="style-button"></style>
-
-    <button class="btn btn-secondary" on-click="on_click_save">save</button>
-    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
+    <style>
+      .actions {
+        margin-bottom: 60px;
+      }
+    </style>
+    <div class="actions">
+      <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    </div>
 
   </template>
 </dom-module>

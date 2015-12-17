@@ -1,20 +1,9 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <dom-module id="table-products">
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
-    <style>
-      i {
-        margin: 0 4px;
-      }
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      a i:hover {
-        color: #0275d8;
-        cursor: pointer;
-      }
-    </style>
 
     <div class="table-responsive">
       <table class="table table-striped table-hover">
@@ -28,10 +17,10 @@
         </thead>
         <tbody>
           <template id="products" is="dom-repeat" items="{{products}}" as="product">
-            <tr class="text-center" on-click="on_click_row">
-              <td>{{product.title}}</td>
-              <td>{{product.vendor.name}}</td>
-              <td>{{product.price}}</td>
+            <tr class="text-center">
+              <td on-click="on_click_row">{{product.title}}</td>
+              <td on-click="on_click_row">{{product.vendor.name}}</td>
+              <td on-click="on_click_row">{{product.price}}</td>
               <td>
                 <a is="app-link" class="btn btn-link" href="/admin/products/{{product.id}}">
                   <i class="fa fa-pencil"></i>

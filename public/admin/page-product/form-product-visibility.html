@@ -3,10 +3,12 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-product-visibility">
   <template>
-    <style include="style-form"></style>
+    <style include="style-button"></style>
     <style include="style-checkbox"></style>
-    <style include="style-label"></style>
     <style include="style-field"></style>
+    <style include="style-form"></style>
+    <style include="style-label"></style>
+
     <style>
       .invalid_date{
         display: none;
@@ -15,12 +17,11 @@
         display: block;
       }
       input-datetime {
-        --input-datetime: {
+        --datetime-input: {
           @apply(--form-control);
         };
-        --input-datetime-button): {
-          @apply(--btn-secondary);
-        }
+        --datetime-button: {
+        };
       }
     </style>
 

@@ -1,6 +1,8 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-customer-address.html">
@@ -16,13 +18,13 @@
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Customers</h1>
       <part-customer-header customer="{{customer}}"></part-customer-header>
-      <part-customer-actions></part-customer-actions>
       <part-customer-overview customer="{{customer}}" error="{{error}}">
       </part-customer-overview>
       <part-customer-address customer="{{customer}}"></part-customer-address>
       <part-customer-send-email customer="{{customer}}"></part-customer-send-email>
       <part-customer-note customer="{{customer}}"></part-customer-note>
       <part-customer-tags customer="{{customer}}"></part-customer-tags>
+      <part-customer-actions></part-customer-actions>
     </layout-admin>
 
   </template>
@@ -56,13 +58,13 @@
         return;
       }
       if (this.customer.id) {
-        this.update_model();
+        this.update_customer();
         return;
       }
-      this.create_model();
+      this.create_customer();
     },
 
-    update_model: function () {
+    update_customer: function () {
       Model.update('/api/customers/' + this.customer.id, this.customer)
       .then(function (data) {
         this.customer = data;
@@ -73,7 +75,7 @@
       }.bind(this));
     },
 
-    create_model: function () {
+    create_customer: function () {
       this.customer.password = "123";
       Model.create('/api/customers', this.customer)
       .then(function (data) {
@@ -85,7 +87,7 @@
       }.bind(this));
     },
 
-    delete_model: function () {
+    delete_customer: function () {
       Model.delete('/api/customers/' + this.customer.id)
       .then(function (data) {
         this.customer = data;
@@ -140,7 +142,7 @@
 
     on_try_delete: function (event) {
       event.stopPropagation();
-      this.delete_model();
+      this.delete_customer();
     },
 
     response_delete: function () {

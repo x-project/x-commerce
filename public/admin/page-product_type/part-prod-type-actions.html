@@ -1,9 +1,15 @@
 <dom-module id="part-prod-type-actions">
   <template>
     <style include="style-button"></style>
+    <style>
+      .actions {
+        margin-bottom: 60px;
+      }
+    </style>
 
-    <button class="btn btn-secondary" on-click="on_click_save">save</button>
-    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
+    <div class="actions">
+      <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    </div>
 
   </template>
 </dom-module>
@@ -11,11 +17,6 @@
   Polymer({
 
     is: 'part-prod-type-actions',
-
-    on_click_delete: function (event) {
-      event.stopPropagation();
-      this.fire('try-delete');
-    },
 
     on_click_save: function (event) {
       event.stopPropagation();

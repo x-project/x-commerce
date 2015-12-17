@@ -6,19 +6,6 @@
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
-    <style>
-      i {
-        margin: 0 4px;
-      }
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      a i:hover {
-        color: #0275d8;
-        cursor: pointer;
-      }
-    </style>
 
     <div class="table-responsive">
       <table class="table table-striped table-hover">
@@ -32,16 +19,16 @@
         </thead>
         <tbody>
           <template id="variants" is="dom-repeat" items="{{variants}}" as="variant">
-            <tr class="text-center" on-click="on_click_row">
-              <td>
+            <tr class="text-center">
+              <td on-click="on_click_row">
                 <label class="label label-info">{{variant.name}}</label>
               </td>
-              <td>
+              <td on-click="on_click_row">
                 <template id="types" is="dom-repeat" items="{{product.options}}" as="option">
                   <span>{{option.type}}</span>
                 </template>
               </td>
-              <td>{{variant.price}}</td>
+              <td on-click="on_click_row">{{variant.price}}</td>
               <td>
                 <a is="app-link" class="btn btn-link"
                   href="/admin/products/{{product.id}}/variants/{{variant.id}}">

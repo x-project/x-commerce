@@ -1,22 +1,11 @@
 <link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../components/api-model-update/api-model-update.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <dom-module id="table-collections">
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
-    <style>
-      i {
-        margin: 0 4px;
-      }
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      a i:hover {
-        color: #0275d8;
-        cursor: pointer;
-      }
-    </style>
 
     <div class="table-responsive">
       <table class="table table-striped table-hover">
@@ -30,12 +19,12 @@
         </thead>
         <tbody>
           <template id="collections" is="dom-repeat" items="{{collections}}" as="collection">
-            <tr class="text-center" on-click="on_click_row">
-              <td>{{collection.title}}</td>
-              <td>
+            <tr class="text-center">
+              <td on-click="on_click_row">{{collection.title}}</td>
+              <td on-click="on_click_row">
                 <text-view text="{{collection.description}}" limit="15"></text-view>
               </td>
-              <td>{{ get_number_of_products(collection) }}</td>
+              <td on-click="on_click_row">{{ get_number_of_products(collection) }}</td>
               <td>
                 <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">
                   <i class="fa fa-pencil"></i>

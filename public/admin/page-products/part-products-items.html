@@ -5,10 +5,33 @@
 <dom-module id="part-products-items">
   <template>
     <style include="style-panel"></style>
+    <style>
+      .header-table {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+      }
+      .header-table .view {
+        margin-right: 20px;
+      }
+      .header-table .view i {
+        margin: 0 4px;
+      }
+      .header-table .view i:hover {
+        color: #0275d8;
+      }
+    </style>
 
-    <div class="panel" id="views">
-      <h2 class="title">Products</h2>
-      <table-products id="table" products="{{products}}"></table-products>
+    <div class="panel">
+      <div class="header-table">
+        <h2 class="title">Products</h2>
+        <div class="view">
+          <i style$="{{color_strip}}" class="fa fa-th-list" on-click="on_click_view" data-view="strips"></i>
+          <i style$="{{color_table}}" class="fa fa-th" on-click="on_click_view" data-view="table"></i>
+        </div>
+      </div>
+      <div id="views">
+        <table-products id="table" products="{{products}}"></table-products>
+      </div>
     </div>
 
   </template>
@@ -25,11 +48,26 @@
       }
     },
 
+    attached: function () {
+      this.color_table = 'color: #0275d8;';
+      this.color_strip = 'color: black;';
+    },
+
+    on_click_view: function (event) {
+      event.stopPropagation();
+      window.target = event.target;
+      this.change_view(event.target.dataset.view);
+    },
+
     change_view: function (view_type) {
       if (view_type === 'table') {
         this.table_preview();
+        this.color_table = 'color: #0275d8;';
+        this.color_strip = 'color: black;';
         return;
       }
+      this.color_strip = 'color: #0275d8;';
+      this.color_table = 'color: black';
       this.strip_preview();
     },
 

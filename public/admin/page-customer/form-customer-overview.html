@@ -1,16 +1,19 @@
-<link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
+
 <dom-module id="form-customer-overview">
   <template>
-    <style include="style-form"></style>
     <style include="style-checkbox"></style>
-
+    <style include="style-form"></style>
+    <style include="style-field"></style>
     <style>
-      input {
-        box-sizing: border-box;
+      iron-autogrow-textarea {
+        display: block;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
-
-    <form id="form" class="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">First Name</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{customer.first_name}}">
@@ -27,16 +30,14 @@
         <input-errors property="email" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
+        <input-checkbox checked="{{customer.marketing}}"></input-checkbox>
         <label class="label">Customer accepts marketing</label>
-        <!-- <input type="checkbox" is="iron-input" checked="{{customer.marketing}}"> -->
-        <paper-checkbox checked="{{customer.marketing}}"></paper-checkbox>
       </div>
       <div class="field">
+        <input-checkbox checked="{{customer.taxes_exempt}}"></input-checkbox>
         <label class="label">Customer is tax excempt</label>
-        <!-- <input type="checkbox" is="iron-input" checked="{{customer.taxes_exempt}}"> -->
-        <paper-checkbox checked="{{customer.taxes_exempt}}"></paper-checkbox>
       </div>
-    </form>
+    </div>
   </template>
 
 </dom-module>
@@ -57,11 +58,6 @@
         this.set('customer.marketing', true);
         return;
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

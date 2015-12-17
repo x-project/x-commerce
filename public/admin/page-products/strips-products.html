@@ -1,5 +1,7 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-strip/style-strip.html">
 <link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="strips-products">
   <template>
@@ -7,62 +9,32 @@
     <style include="style-button"></style>
     <style include="style-label"></style>
 
-    <style>
-      .strip-links{
-        @apply(--layout-vertical);
-        @apply(--layout-justified);
-        @apply(--layout-end);
-      }
-      .price {
-        @apply(--layout-center);
-      }
-      .strip-tag {
-        display: inline-block;
-      }
-      .strip-links .strip-link a{
-        padding: 0;
-        margin: 0 2px;
-      }
-      .strip-links .strip-link a{
-        text-decoration: none;
-        color: black;
-      }
-      a {
-        text-decoration: none;
-        color: black;
-      }
-      .strip-links .strip-link a i:hover {
-        color: #0275d8;
-        cursor: pointer;
-      }
-    </style>
-
     <div class="items">
       <template id="products" is="dom-repeat" items="{{products}}" as="product">
         <div class="strip">
-          <div class="strip-img">
+          <div class="strip-img" on-click="on_click_row">
             <image-preview image="{{product.images.0}}" sizing="contain" like-size="120"
               height="100" width="100">
             </image-preview>
           </div>
 
-          <div class="strip-block">
+          <div class="strip-block" on-click="on_click_row">
             <div class="block-title">{{product.title}}</div>
             <div class="block-vendor">{{product.vendor.name}}</div>
 
-            <div>
+            <div on-click="on_click_row">
               <template is="dom-repeat" items="{{product.collections}}" as="collection">
                 <div class="block-collection label label-primary">{{collection.title}}</div>
               </template>
             </div>
 
-            <div>
+            <div on-click="on_click_row">
               <template is="dom-repeat" items="{{product.tags}}" as="tag">
                 <div class="block-tag label label-default">{{tag}}</div>
               </template>
             </div>
 
-            <div class="variants">
+            <div class="variants" on-click="on_click_row">
               <template is="dom-repeat" items="{{product.variants}}" as="variant">
                 <div class="label label-info">{{variant.name}}</div>
               </template>
