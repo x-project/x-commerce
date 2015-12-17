@@ -6,7 +6,6 @@
 <dom-module id="part-order-items">
   <template>
     <style include="style-basic"></style>
-    <style include="style-button"></style>
     <style include="style-form"></style>
     <style include="style-panel"></style>
     <style include="style-table"></style>
@@ -26,13 +25,6 @@
       #quantity_edit {
         width: 25px;
       }
-      table {
-        box-sizing: border-box;
-      }
-      button {
-        width: 5em;
-      }
-
     </style>
 
     <iron-ajax id="ajax_get_order_items" method="GET" on-error="on_error"
@@ -54,7 +46,7 @@
     <div class="panel">
       <h2 class="title">Cart</h2>
       <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>Product</th>
@@ -63,7 +55,7 @@
               <th>Price (V)</th>
               <th>Quantity</th>
               <th>Subtotal</th>
-              <th>Remove</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -74,13 +66,17 @@
                 <td>{{order_item.product_variant.name}}</td>
                 <td>{{order_item.product_variant.price}}</td>
                 <td>
-                  <input id="quantity_edit" class="form-control" readonly$="{{editing}}"
-                  type="number" is="iron-input" min="1" bind-value="{{order_item.quantity}}"
-                  on-keyup="on_edit_order_item">
+                  <input id="quantity_edit" class="form-control" type="number" is="iron-input" min="1"
+                    bind-value="{{order_item.quantity}}" on-keyup="on_edit_order_item">
                 </td>
                 <td>{{calculate_subtotal(order_item)}}</td>
                 <td>
-                  <button class="btn btn-danger" on-click="on_click_delete">remove</button>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_order_item">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" href="/products/{{order_item.product.id}}" target="_blank">
+                  <i class="fa fa-eye"></i>
+                </a>
                 </td>
               </tr>
             </template>
@@ -110,9 +106,6 @@
         type: Object,
         value: function () { return {}; }
       },
-      index: {
-        type: Number
-      },
       pending: {
         type: Boolean,
         value: false
@@ -126,16 +119,9 @@
     attached: function () {
       this.order_items = this.order.order_items || [];
       this.order_item_pending = {};
-      if (this.order_items.length > 0);
+      if (this.order_items.length > 0) {
         this.compute_total();
-    },
-
-    show_saved: function () {
-      this.set('saved', true);
-    },
-
-    hide_saved: function () {
-      this.set('saved', false);
+      }
     },
 
     show_pending: function () {
@@ -174,9 +160,7 @@
           product_id: order_data.product_id,
           product_variant_id: order_data.variant_id
         });
-        this.async(function () {
-          this.$.ajax_post_order_item.generateRequest();
-        }, 2000);
+        this.$.ajax_post_order_item.generateRequest();
         return;
       }
       this.create_order_new();
@@ -205,7 +189,7 @@
       this.update_order_items();
     },
 
-    on_click_delete: function () {
+    on_click_delete_order_item: function () {
       var order_item = this.$.order_items.itemForElement(event.target);
       this.$.ajax_delete.url = '/api/orders/' + order_item.order_id + '/order_items/' + order_item.id;
       this.$.ajax_delete.generateRequest();
