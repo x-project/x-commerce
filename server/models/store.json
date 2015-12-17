@@ -35,6 +35,11 @@
       "type": "belongsTo",
       "model": "Nexus",
       "foreignKey": "nexus_id"
+    },
+    "image": {
+      "type": "hasOne",
+      "model": "Image",
+      "foreignKey": "image_id"
     }
   },
   "acls": [],

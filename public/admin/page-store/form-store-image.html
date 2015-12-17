@@ -1,0 +1,29 @@
+<link rel="import" href="../input-image/input-image.html">
+<dom-module id="form-store-image">
+  <template>
+  <style include="style-label"></style>
+
+    <div class="panel-form">
+      <div class="field">
+        <label class="label">image</label>
+        <input-image collection="stores" model-id="{{store.id}}" folder="image">
+        </input-image>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'form-store-image',
+
+    properties: {
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
