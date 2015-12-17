@@ -3,15 +3,17 @@
 <dom-module id="form-vendor-info">
   <template>
     <style include="style-form"></style>
+    <style include="style-field"></style>
     <style>
       iron-autogrow-textarea {
         display: block;
-      }
-      input, iron-autogrow-textarea {
-        box-sizing: border-box;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
-    <form id="form" class="form" on-submit="on_submit">
+
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[vendor_name_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{vendor.name}}">
@@ -22,9 +24,9 @@
         <iron-autogrow-textarea class="form-control" is="iron-input" bind-value="{{vendor.description}}" rows="4">
         </iron-autogrow-textarea>
       </div>
-    </form>
-  </template>
+    </div>
 
+  </template>
 </dom-module>
 <script>
   Polymer({
@@ -34,7 +36,7 @@
     properties: {
       vendor_name_label: {
         type: String,
-        value: 'Name'
+        value: 'Full name'
       },
       vendor_descrip_label: {
         type: String,
@@ -44,11 +46,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

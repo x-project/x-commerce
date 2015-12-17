@@ -53,20 +53,12 @@
     on_click_add_order_item: function (event) {
       event.stopPropagation();
       this.$.btn_add_order_item.disabled = 'disabled';
-      this.show_form();
-    },
-
-    show_form: function () {
       this.set('show', true);
-    },
-
-    hide_form: function () {
-      this.set('show', false);
     },
 
     on_try_save_order_item: function (event) {
       //lascio passare l event con order item, prodotto e variante selezionata
-      this.hide_form();
+      this.set('show', false);
       this.$.btn_add_order_item.disabled = '';
     }
 

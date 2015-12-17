@@ -2,13 +2,9 @@
 <dom-module id="form-coupon-discount">
   <template>
     <style include="style-form"></style>
-    <style>
-      input {
-        box-sizing: border-box;
-      }
-    </style>
+    <style include="style-field"></style>
 
-    <form id="form" class="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[coupon_discount_label]]</label>
         <input class="form-control" type="Number" is="iron-input" bind-value="{{coupon.discount}}">
@@ -19,7 +15,7 @@
         <input class="form-control" type="text" is="iron-input" bind-value="{{coupon.code}}">
         <input-errors property="code" error="{{error.details}}"></input-errors>
       </div>
-    </form>
+    </div>
   </template>
 
 </dom-module>
@@ -45,11 +41,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

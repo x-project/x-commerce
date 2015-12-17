@@ -1,13 +1,14 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-variant-available">
   <template>
     <style include="style-panel"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-label"></style>
 
     <div class="panel">
       <h2 class="title">[[variant_avaiable_title_label]]</h2>
+      <input-checkbox checked="{{variant.available}}"></input-checkbox>
       <label class="label">[[variant_avaiable_label]]</label>
-      <paper-checkbox is="iron-input" checked="{{variant.available}}"></paper-checkbox>
     </div>
 
   </template>

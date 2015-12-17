@@ -1,0 +1,67 @@
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../form-service-keys/form-service-keys.html">
+<dom-module id="part-services-facebook">
+  <template>
+    <style include="style-panel"></style>
+
+    <iron-ajax id="update_keys" method="POST" content-type="application/json" handle-as="json"
+      url="/api/services/update_service" last-response="{{response}}" on-response="on_response"
+      on-error="on_error">
+    </iron-ajax>
+
+    <div class="panel">
+      <h2 class="title">Facebook</h2>
+      <form-service-keys service="{{service}}" on-update="on_update">
+      </form-services-keys>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-services-facebook',
+
+    properties: {
+      services: {
+        type: Array,
+        value: function () { return []; },
+        observer: '_on_change_services'
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    _on_change_services: function () {
+      if (!this.services) {
+        return;
+      }
+      this.services.find(function (item) {
+        if (item.name == "facebook") {
+          this.service = item;
+        }
+      }, this);
+    },
+
+    on_update: function (event) {
+      event.stopPropagation();
+      var data = event.detail;
+      data.name = 'facebook';
+      this.$.update_keys.body = JSON.stringify({data: data});
+      this.$.update_keys.generateRequest();
+    },
+
+    on_response: function (event) {
+      event.stopPropagation();
+      console.log(this.response);
+    },
+
+    on_error: function (event) {
+      event.stopPropagation();
+      console.log(event);
+    }
+
+  });
+</script>

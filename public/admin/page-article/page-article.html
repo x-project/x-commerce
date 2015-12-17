@@ -15,8 +15,10 @@
       <part-article-header article="{{article}}"></part-article-header>
       <part-article-actions></part-article-actions>
       <part-article-info article="{{article}}" error="{{error}}"></part-article-info>
-      <part-article-image article="{{article}}"></part-article-image>
-      <part-article-organizzation article="{{article}}" error="{{error}}" on-error="on_error"></part-article-organizzation>
+      <part-article-image article="{{article}}" on-uploaded-image="on_uploaded_image">
+      </part-article-image>
+      <part-article-organizzation article="{{article}}" error="{{error}}" on-error="on_error">
+      </part-article-organizzation>
       <part-article-actions></part-article-actions>
     </layout-admin>
 
@@ -47,16 +49,17 @@
         return;
       }
       if(this.article.id){
-        this.update_model();
+        this.update_article();
         return;
       }
       this.create_model();
     },
 
-    update_model: function () {
+    update_article: function () {
       Model.update('/api/articles/' + this.article.id, this.article)
         .then(function (data) {
           this.article = data;
+          this.on_update_article();
         }.bind(this))
         .catch(function (error) {
           this.error = error;
@@ -78,6 +81,15 @@
     response_create: function () {
       page('/admin/articles/' + this.article.id);
       this.fire('iron-signal', {name: 'save'});
+    },
+
+    on_update_article: function () {
+      page('/admin/articles/' + this.article.id);
+    },
+
+    on_uploaded_image: function (event) {
+      event.stopPropagation();
+      this.on_update_article();
     },
 
     validate_model: function () {

@@ -1,10 +1,8 @@
-<link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="/components/layout-grid/layout-grid.html">
 <dom-module id="image-preview">
   <template>
   <style>
     :host{
-      display: block
+      display: block;
     }
     .image {
       margin: auto;
@@ -17,7 +15,10 @@
       transition-duration: 1s;
     }
     .image:hover {
-      background-size: 120%;
+      background-size: 130%;
+    }
+    .image {
+      @apply(--image-preview);
     }
   </style>
 
@@ -47,18 +48,97 @@
       },
       width: {
         type: Number
+      },
+      sizing: {
+        type: String,
+        value: 'contain'
       }
     },
 
     attached: function () {
-      var url = '';
-      if (this.exists_thumb()) {
-        this.view_one_image();
+      if (!this.image) {
         return;
       }
-      // search small size
-      this.search_near_thumb_size();
-      this.view_one_image();
+      if(this.image.length === 0) {
+        return;
+      }
+      this.sort_thumbs_size();
+      var min_size = this.image.thumbs[0];
+
+      // put minium size in blur
+      var url = this.get_image_url(min_size);
+
+      var rules = [
+        'background-image: url("' + url + '")',
+        'height: '+ this.height + 'px',
+        'width: ' + this.width + '%',
+        '-webkit-filter: '+ 'blur'+'('+ 5 +'px)'
+      ];
+      this.style = rules.join(';');
+
+
+      //search the corrent or major or minor size
+      var best_size = this.search_best_image();
+
+      var url = this.get_image_url(best_size);
+      var rules = [
+        'background-image: url("' + url + '")',
+        'height: '+ this.height + 'px',
+        'width: ' + this.width + '%',
+      ];
+
+      this.async(function () {
+        this.style = rules.join(';');
+      }, 1500);
+    },
+
+    sort_thumbs_size: function () {
+      var thumbs_size_ordered = this.image.thumbs.sort(function (size_a, size_b) {
+        return size_a - size_b;
+      });
+    },
+
+    get_image_url: function (thumb_size) {
+      var tmp = this.image.base_url.replace('public/', '');
+      return this.host_name + tmp + '/thumb-' + thumb_size + this.image.extension;
+    },
+
+    search_best_image: function () {
+      var test = false;
+      var best_size;
+      var thumbs = this.image.thumbs;
+      //search likeSize
+      best_size = thumbs.find(function (size) {
+        if (size === this.likeSize) {
+          return size;
+        }
+      }, this);
+      //search next major size
+      if (!best_size) {
+        best_size = thumbs.find(function (size) {
+          if (size > this.likeSize) {
+            return size;
+          }
+        }, this);
+      }
+      //search minor size
+      if (!best_size) {
+        var reverse_order = thumbs.sort(function (size_a, size_b) {
+          return size_b - size_a;
+        });
+        best_size = reverse_order.find(function (size) {
+          if (size < this.likeSize) {
+            return size;
+          }
+        }, this);
+      }
+      return best_size;
+    },
+
+    size_contains: function (size) {
+      return this.image.thumbs.some(function (item) {
+        return item === size;
+      });
     },
 
     search_near_thumb_size: function () {

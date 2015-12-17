@@ -1,11 +1,8 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-orders-create.html">
+<link rel="import" href="part-orders-actions.html">
 <link rel="import" href="part-orders-items.html">
 <link rel="import" href="part-orders-search.html">
 <link rel="import" href="part-orders-stats.html">
@@ -13,16 +10,9 @@
 <dom-module id="page-orders">
   <template>
 
-    <api-model-find id="find" collection="orders" response="{{orders}}"
-      order="total" perpage="{{perpage}}" page="{{page}}" include=["customer"]>
-    </api-model-find>
-
-    <api-model-count id="count" collection="orders" response="{{count}}">
-    </api-model-count>
-
     <layout-admin>
       <h1>Orders</h1>
-      <part-orders-create></part-orders-create>
+      <part-orders-actions></part-orders-actions>
       <part-orders-search></part-orders-search>
       <part-orders-stats></part-orders-stats>
       <part-orders-items orders="{{orders}}"></part-orders-items>
@@ -42,18 +32,54 @@
       orders: {
         type: Array,
         value: function () { return []; }
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 30
       }
     },
 
+
     attached: function () {
-      this.$.count.send();
+      this.count_orders();
+    },
+
+    count_orders: function () {
+      Model.count('/api/orders/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_orders: function () {
+      Model.find('/api/orders', this.get_filter_options())
+        .then(function (data) {
+          this.orders = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function () {
+      return {
+        perpage: this.perpage,
+        page: this.page,
+        include: [{'order_items': ['product','product_variant']}, 'customer']
+      };
     },
 
     on_change_page: function (event) {
-      this.perpage = 10;
       this.page = event.detail.current - 1;
-      this.$.find.include = [{'order_items': ['product','product_variant']}, 'customer'];
-      this.$.find.send();
+      this.get_orders();
     }
 
   });

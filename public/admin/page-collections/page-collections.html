@@ -1,11 +1,7 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-strip/style-strip.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-collections-actions.html">
 <link rel="import" href="part-collections-items.html">
@@ -14,13 +10,6 @@
 <link rel="import" href="part-collections-stats.html">
 <dom-module id="page-collections">
   <template>
-
-    <api-model-find id="find" collection="collections" response="{{collections}}"
-      order="name" perpage="{{perpage}}" page="{{page}}">
-    </api-model-find>
-
-    <api-model-count id="count" collection="collections" response="{{count}}">
-    </api-model-count>
 
     <layout-admin on-change-view="on_change_view">
       <h1>Collections</h1>
@@ -44,23 +33,54 @@
       collections: {
         type: Array,
         value: function () { return []; }
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 30
       }
     },
 
     attached: function () {
-      this.$.count.send();
+      this.count_collections();
+    },
+
+    count_collections: function () {
+      Model.count('/api/collections/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_collections: function () {
+      Model.find('/api/collections', this.get_filter_options())
+        .then(function (data) {
+          this.collections = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function () {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: ['images', 'products']
+      };
     },
 
     on_change_page: function (event) {
-      this.perpage = 10;
       this.page = event.detail.current - 1;
-      this.$.find.include = ['images', 'products'];
-      this.$.find.send();
-    },
-
-    on_change_view: function (event) {
-      event.stopPropagation();
-      this.$.items.change_view(event.detail.view);
+      this.get_collections();
     }
 
   });

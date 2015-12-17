@@ -1,24 +1,23 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-team-members.html">
 <link rel="import" href="part-team-actions.html">
 <link rel="import" href="part-team-invites.html">
 <dom-module id="page-team">
   <template>
+    <app-session id="session"></app-session>
 
-    <api-model-find id="find_members"
-      collection="managers" access-token="{{route.session.accessToken}}"
-      response="{{members}}">
+    <api-model-find id="find_members" collection="managers" response="{{members}}">
     </api-model-find>
 
-    <api-model-find id="find_invites"
-      collection="invites" include='["sender"]' access-token="{{route.session.accessToken}}"
+    <api-model-find id="find_invites" collection="invites" include='["sender"]'
       response="{{invites}}">
     </api-model-find>
 
     <layout-admin>
       <h2>Team</h2>
-      <h2>Invites</h2>
+      <h2>asd</h2>
       <part-team-actions></part-team-actions>
       <part-team-members members="{{members}}"></part-team-members>
       <part-team-invites invites="{{invites}}"></part-team-invites>
@@ -44,7 +43,11 @@
     },
 
     attached: function () {
+      var token = this.$.session.get('token');
+      this.$.find_members.accessToken = token;
       this.$.find_members.send();
+
+      this.$.find_invites.accessToken = token;
       this.$.find_invites.send();
     }
 

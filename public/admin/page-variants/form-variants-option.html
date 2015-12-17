@@ -4,6 +4,8 @@
   <template>
     <style include="style-form"></style>
     <style include="style-button"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
     <style>
       .option {
         display: inline-block;
@@ -25,6 +27,10 @@
       <div class="field">
         <label class="label">Name</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{option.name}}">
+      </div>
+      <div class="field">
+        <label class="label">Type</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{option.type}}">
       </div>
       <div class="field">
         <label class="label">Values (space separed values)</label>

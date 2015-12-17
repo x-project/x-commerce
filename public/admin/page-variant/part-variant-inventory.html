@@ -1,29 +1,14 @@
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-variant-inventory-coding.html">
 <link rel="import" href="form-variant-inventory-track.html">
 <dom-module id="part-variant-inventory">
   <template>
     <style include="style-panel"></style>
-    <style>
-    form-variant-inventory-coding {
-      --layout-input-coding: {
-        box-sizing: border-box;
-      };
-    }
-    form-variant-inventory-track {
-      form-variant-inventory-track: {
-        box-sizing: border-box;
-      };
-      --layout-input-tracking: {
-        box-sizing: border-box;
-      }
-    }
-    </style>
+
     <div class="panel">
       <h3 class="title">[[variant_coding_title]]</h3>
       <form-variant-inventory-coding variant="{{variant}}"></form-variant-inventory-coding>
       <h3 class="title">[[variant_policy_label]]</h3>
-      <form-variant-inventory-track variant="{{variant}}"> </form-variant-inventory-track>
+      <form-variant-inventory-track variant="{{variant}}" product="{{product}}"></form-variant-inventory-track>
     </div>
 
   </template>
@@ -43,6 +28,10 @@
         value: 'Policy'
       },
       variant: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      product: {
         type: Object,
         value: function () { return {}; }
       }

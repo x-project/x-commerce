@@ -1,24 +1,22 @@
-<link rel="import" href="/components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="form-variant-shipping">
   <template>
     <style include="style-form"></style>
-    <style>
-      input {
-        @apply(--layout-inpuit-shipping);
-      }
-    </style>
+    <style include="style-checkbox"></style>
+    <style include="style-label"></style>
+    <style include="style-field"></style>
 
-    <form on-submit="on_submit">
+
+    <div class="panel-form">
       <div class="field">
         <label class="label">Weight</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{variant.weight}}">
       </div>
       <div class="field">
+        <input-checkbox checked="{{variant.require_shipping}}"></input-checkbox>
         <label class="label">This product requires shipping</label>
-        <paper-checkbox checked="{{variant.require_shipping}}"></paper-checkbox>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -32,11 +30,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

@@ -1,42 +1,39 @@
 <link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../components/api-model-update/api-model-update.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <dom-module id="table-collections">
   <template>
     <style include="style-table"></style>
     <style include="style-basic"></style>
 
-    <api-model-update id="update" collection="collections"
-      on-response="on_response_update" on-error="on_error">
-    </api-model-update>
-
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>#</th>
             <th>Title</th>
             <th>Description</th>
-            <th>Published</th>
             <th># Products</th>
-            <th>Edit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <template id="collections" is="dom-repeat" items="{{collections}}" as="collection">
             <tr class="text-center">
-              <th scope="row">{{index}}</th>
-              <td>{{collection.title}}</td>
-              <td>
-                <text-view text="{{collection.description}}" limit="20"></text-view>
+              <td on-click="on_click_row">{{collection.title}}</td>
+              <td on-click="on_click_row">
+                <text-view text="{{collection.description}}" limit="15"></text-view>
               </td>
+              <td on-click="on_click_row">{{ get_number_of_products(collection) }}</td>
               <td>
-                <paper-checkbox checked="{{collection.is_published}}" on-click="on_click_published">
-                </paper-checkbox>
-              </td>
-              <td>{{ get_number_of_products(collection) }}</td>
-              <td>
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/collections/{{collection.id}}">edit
+                <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_collection">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" href="/" target="_blank">
+                  <i class="fa fa-eye"></i>
                 </a>
               </td>
             </tr>
@@ -62,22 +59,22 @@
       return collection.products.length || 0;
     },
 
-    on_click_published: function (event) {
+    on_click_delete_collection: function (event) {
+      var collection = this.$.collections.itemForElement(event.target);
+      Model.delete('/api/collections/' + collection.id)
+        .then(function (data) {
+          page('/admin/collections');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
+    },
+
+    on_click_row: function (event) {
       event.stopPropagation();
       var collection = this.$.collections.itemForElement(event.target);
-      this.$.update.data = collection;
-      this.$.update.modelId = collection.id;
-      this.$.update.send();
+      page('/admin/collections/' + collection.id);
     },
-
-    on_response_update: function (event, details) {
-      event.stopPropagation();
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
-    }
 
   });
 </script>

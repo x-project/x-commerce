@@ -3,16 +3,10 @@
 <dom-module id="form-variant-inventory-coding">
   <template>
     <style include="style-form"></style>
-    <style include="style-panel"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
 
-    <style>
-      input {
-        @apply(--layout-input-coding);
-      }
-    </style>
-
-
-    <form id="form" role="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[variant_SKU_title]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{variant.sku}}">

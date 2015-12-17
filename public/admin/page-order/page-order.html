@@ -1,9 +1,8 @@
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
@@ -18,7 +17,6 @@
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Orders</h1>
       <part-order-header order="{{order}}"></part-order-header>
-      <part-order-actions></part-order-actions>
       <part-order-status order="{{order}}"></part-order-status>
       <part-order-customer order="{{order}}" error="{{error}}"></part-order-customer>
       <part-order-create-order-item order="{{order}}" error="{{error}}"
@@ -26,6 +24,7 @@
       </part-order-create-order-item>
       <part-order-items id="items" order="{{order}}"></part-order-items>
       <part-order-notes order="{{order}}"></part-order-notes>
+      <part-order-actions></part-order-actions>
     </layout-admin>
 
   </template>
@@ -127,16 +126,7 @@
         }.bind(this));
     },
 
-    on_update_order: function () {
-      page('/admin/orders/' + this.order.id);
-    },
-
-    on_try_delete: function (event) {
-      event.stopPropagation();
-      this.delete_model();
-    },
-
-    delete_model: function () {
+    delete_order: function () {
       Model.delete('/api/orders/' + this.order.id)
         .then(function (data) {
           this.response_delete();
@@ -144,6 +134,15 @@
         .catch(function (error) {
           console.log(error);
         }.bind(this));
+    },
+
+    on_update_order: function () {
+      page('/admin/orders/' + this.order.id);
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.delete_order();
     },
 
     validate_model: function () {

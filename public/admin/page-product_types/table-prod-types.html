@@ -1,4 +1,6 @@
 <link rel="import" href="../../components/text-view/text-view.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <dom-module id="table-prod-types">
   <template>
     <style include="style-table"></style>
@@ -8,23 +10,24 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>#</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Edit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <template id="prod_types" is="dom-repeat" items="{{prod_types}}" as="prod_type">
             <tr class="text-center">
-              <th scope="row">{{index}}</th>
-              <td>{{prod_type.name}}</td>
-              <td>
+              <td on-click="on_click_row">{{prod_type.name}}</td>
+              <td on-click="on_click_row">
                 <text-view text="{{prod_type.description}}" limit="20"></text-view>
               </td>
               <td>
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/product_types/{{prod_type.id}}">edit
+                <a is="app-link" class="btn btn-link" href="/admin/product_types/{{prod_type.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_prod_type">
+                  <i class="fa fa-trash-o"></i>
                 </a>
               </td>
             </tr>
@@ -44,6 +47,23 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var product_type = this.$.prod_types.itemForElement(event.target);
+      page('/admin/product_types/' + product_type.id);
+    },
+
+    on_click_delete_prod_type: function (event) {
+      var product_type = this.$.prod_types.itemForElement(event.target);
+      Model.delete('/api/product_types/' + product_type.id)
+        .then(function (data) {
+          page('/admin/product_types');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
     }
 
   });

@@ -1,13 +1,12 @@
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="form-product-pricing">
   <template>
     <style include="style-form"></style>
     <style include="style-checkbox"></style>
-    <style>
-      input {
-        box-sizing: border-box;
-      }
-    </style>
-    <form id="form" role="form" on-submit="on_submit">
+    <style include="style-field"></style>
+    <style include="style-label"></style>
+
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[product_price_label]]</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.price}}">
@@ -17,10 +16,10 @@
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.compare_at_price}}">
       </div>
       <div class="field">
+        <input-checkbox checked="{{product.is_charge_taxes}}"></input-checkbox>
         <label class="label">[[product_charge_tax_label]]</label>
-        <input type="checkbox" is="iron-input" bind-checked="{{product.is_charge_taxes}}">
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -46,11 +45,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

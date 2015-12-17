@@ -1,33 +1,23 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-strip/style-strip.html">
 <link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="strips-collections">
   <template>
     <style include="style-strip"></style>
     <style include="style-button"></style>
     <style include="style-label"></style>
-    <style>
-      .strip-links{
-        @apply(--layout-vertical);
-        @apply(--layout-justified);
-        @apply(--layout-end);
-      }
-      .price {
-        @apply(--layout-center);
-      }
-      .strip-tag {
-        display: inline-block;
-      }
-    </style>
+
     <div class="items">
       <template id="collections" is="dom-repeat" items="{{collections}}" as="collection">
         <div class="strip">
-          <div class="strip-img">
-            <image-preview image="{{collection.images}}" like-size="120"
-              height="120" width="100">
+          <div class="strip-img" on-click="on_click_row">
+            <image-preview image="{{collection.images.0}}" sizing="contain" like-size="120"
+              height="100" width="100">
             </image-preview>
           </div>
-          <div class="strip-block">
+          <div class="strip-block" on-click="on_click_row">
             <h3 class="block-title">{{collection.title}}</h3>
             <text-view text="{{collection.description}}" limit="30"></text-view>
             <span>{{get_number_of_products(collection)}}</span>
@@ -35,7 +25,12 @@
 
           <div class="strip-links">
             <div class="strip-link">
-              <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">edit</a>
+                <a is="app-link" class="btn btn-link" href="/admin/collections/{{collection.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_collection">
+                  <i class="fa fa-trash-o"></i>
+                </a>
             </div>
           </div>
         </div>
@@ -58,6 +53,23 @@
 
     get_number_of_products: function (collection) {
       return 'Number of products: ' + collection.products.length || 0;
+    },
+
+    on_click_delete_collection: function (event) {
+      var collection = this.$.collections.itemForElement(event.target);
+      Model.delete('/api/collections/' + collection.id)
+        .then(function (data) {
+          page('/admin/collections');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var collection = this.$.collections.itemForElement(event.target);
+      page('/admin/collections/' + collection.id);
     }
 
   });

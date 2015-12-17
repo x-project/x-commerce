@@ -1,16 +1,17 @@
 <link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <dom-module id="form-coupon-info">
   <template>
-    <style include="style-form">
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style>
       iron-autogrow-textarea {
         display: block;
-      }
-      input, iron-autogrow-textarea {
-        box-sizing: border-box;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
-
-    <form on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[name_coupon_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{coupon.name}}">
@@ -22,7 +23,7 @@
           rows="4">
         </iron-autogrow-textarea>
       </div>
-    </form>
+    </div>
   </template>
 
 </dom-module>
@@ -48,11 +49,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

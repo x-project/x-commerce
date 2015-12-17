@@ -2,19 +2,17 @@
 <dom-module id="form-customer-address">
   <template>
     <style include="style-form"></style>
-
+    <style include="style-field"></style>
     <style>
       input-location {
+        display: block !important;
         --input-location: {
           @apply(--form-control);
         };
       }
-      input {
-        box-sizing: border-box;
-      }
     </style>
 
-    <form on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">Address</label>
         <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
@@ -31,7 +29,7 @@
         <label class="label">Phone</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{customer.phone}}">
       </div>
-    </form>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -60,11 +58,6 @@
 
     on_change_place: function (place) {
       // console.log(place);
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

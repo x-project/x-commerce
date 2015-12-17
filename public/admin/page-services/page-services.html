@@ -1,15 +1,16 @@
-<link rel="import" href="..../styles/style-button/style-button.html">
-<link rel="import" href="..../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-services-plivo.html">
 <link rel="import" href="part-services-braintree.html">
+<link rel="import" href="part-services-email.html">
 <link rel="import" href="part-services-google.html">
+<link rel="import" href="part-services-facebook.html">
+<link rel="import" href="part-services-mandrill.html">
+<link rel="import" href="part-services-phone.html">
+<link rel="import" href="part-services-plivo.html">
+<link rel="import" href="part-services-secret-keys.html">
 <link rel="import" href="part-services-stripe.html">
 <link rel="import" href="part-services-taxjar.html">
-<link rel="import" href="part-services-phone.html">
-<link rel="import" href="part-services-mandrill.html">
-<link rel="import" href="part-services-email.html">
-<link rel="import" href="part-services-secret-keys.html">
 <dom-module id="page-services">
   <template>
 
@@ -21,6 +22,7 @@
       <part-services-taxjar services="{{services}}"></part-services-taxjar>
       <part-services-phone services="{{services}}"></part-services-phone>
       <part-services-google services="{{services}}"></part-services-google>
+      <part-services-facebook services="{{services}}"></part-services-facebook>
       <part-services-mandrill services="{{services}}"></part-services-mandrill>
       <part-services-email services="{{services}}"></part-services-email>
       <part-services-secret-keys services="{{services}}"></part-services-secret-keys>

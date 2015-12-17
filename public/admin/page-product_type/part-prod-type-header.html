@@ -1,13 +1,33 @@
 <dom-module id="part-prod-type-header">
-  <style>
-    :host {
-      display: block;
-    }
-  </style>
   <template>
+    <style include="style-button"></style>
+    <style include="style-breadcrumb"></style>
+    <style>
+      .panel-header {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        margin-top: 20px;
+      }
+      .actions{
+        @apply(--layout-center);
+      }
+      .btn {
+        margin-right: 4px;
+      }
+    </style>
 
-    <div>
-      <h2 class="title"><span>Product type / {{prod_type.name}}</span></h2>
+    <div class="panel-header">
+      <ol class="breadcrumb">
+        <li>
+          <a href="/admin/product_types">Product types</a>
+        </li>
+        <li class="active">{{prod_type.name}}</li>
+      </ol>
+
+      <div class="panel-header actions">
+        <button class="btn btn-secondary" on-click="on_click_save">save</button>
+        <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
+      </div>
     </div>
 
   </template>
@@ -22,6 +42,16 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    },
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
     }
 
   });

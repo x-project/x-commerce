@@ -1,0 +1,45 @@
+<dom-module id="style-field">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        --input-tags: {
+          width: 55%;
+        }
+
+      }
+
+      .panel-form .field {
+        margin-bottom: 10px;
+      }
+
+      .panel-form .field input[type="text"], input[type="number"], iron-autogrow-textarea {
+        width: 60% !important;
+      }
+
+      .panel-form .field iron-autogrow-textarea {
+        --iron-autogrow-textarea: {
+          width: 60%;
+          border: .0625rem solid #ccc;
+          border-radius: .25rem;
+        };
+      }
+      .panel-form input[type="text"], input[type="number"], iron-autogrow-textarea {
+        box-sizing: border-box;
+      }
+
+      input-datetime, input-location {
+        width: 55%;
+      }
+
+    </style>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'style-field'
+
+  });
+</script>

@@ -1,28 +1,17 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-prod-types-actions.html">
 <link rel="import" href="part-prod-types-items.html">
 <link rel="import" href="part-prod-types-pages.html">
 <link rel="import" href="part-prod-types-search.html">
 <link rel="import" href="part-prod-types-stats.html">
-
 <dom-module id="page-product_types">
   <template>
 
-    <api-model-find id="find" collection="product_types" response="{{prod_types}}"
-      order="name" perpage="{{perpage}}" page="{{page}}">
-    </api-model-find>
-
-    <api-model-count id="count" collection="product_types" response="{{count}}">
-    </api-model-count>
-
     <layout-admin>
-      <h1>Product Types</h1>
+      <h1>Product types</h1>
       <part-prod-types-actions></part-prod-types-actions>
       <part-prod-types-search></part-prod-types-search>
       <part-prod-types-stats></part-prod-types-stats>
@@ -43,19 +32,54 @@
       prod_types: {
         type: Array,
         value: function () { return []; }
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 30
       }
     },
-
     attached: function () {
-      this.$.count.send();
+      this.count_product_types();
+    },
+
+    count_product_types: function () {
+      Model.count('/api/product_types/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_product_types: function () {
+      Model.find('/api/product_types', this.get_filter_options())
+        .then(function (data) {
+          this.prod_types = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function () {
+      return {
+        perpage: this.perpage,
+        order: 'name',
+        page: this.page
+      };
     },
 
     on_change_page: function (event) {
-      event.stopPropagation();
-      this.perpage = 10;
       this.page = event.detail.current - 1;
-      this.$.find.send();
+      this.get_product_types();
     }
+
 
   });
 </script>

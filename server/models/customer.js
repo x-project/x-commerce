@@ -5,14 +5,62 @@ var jwt = require('jwt-simple');
 var mandrill = require('mandrill-api/mandrill');
 var plivo = require('plivo');
 
-var mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
-
-var plivo_client = plivo.RestAPI({
-  authId: process.env.PLIVO_AUTH_ID,
-  authToken: process.env.PLIVO_AUTH_TOKEN
-});
-
 module.exports = function (Customer) {
+
+  var services = {};
+
+  function get_service (name) {
+    return new Promise(function (resolve, reject) {
+      if (name in services) {
+        resolve(services[name]);
+        return;
+      }
+      var filter = {where: { name: name }};
+      Customer.app.models.Service.findOne(filter, function (err, service) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        services[name] = service;
+        resolve(service);
+      });
+    });
+  }
+
+  var mandrill_client;
+  function connect_mandrill_client () {
+    return new Promise(function (resolve, reject) {
+      if (mandrill_client) {
+        resolve(mandrill_client);
+        return;
+      }
+      get_service('mandrill').then(function (service) {
+        resolve(new mandrill.Mandrill(service.private_key));
+      }).catch(function (err) {
+        reject(err);
+      });
+    });
+  }
+
+  var plivo_client;
+  function connect_plivo_client () {
+    return new Promise(function (resolve, reject) {
+      if (plivo_client) {
+        resolve(plivo_client);
+        return;
+      }
+      get_service('plivo').then(function (service) {
+        var plivo_client = plivo.RestAPI({
+          authId: service.public_key,
+          authToken: service.private_key
+        });
+        resolve(plivo_client);
+      }).catch(function (err) {
+        reject(err);
+      });
+    });
+  }
+
 
   function getCurrentUserId() {
     var ctx = loopback.getCurrentContext();
@@ -116,7 +164,6 @@ module.exports = function (Customer) {
   });
 
 
-
   Customer.on('resetPasswordRequest', function (info) {
     // console.log(info.user); // the requested user
     // console.log(info.email); // the email of the requested user
@@ -124,41 +171,32 @@ module.exports = function (Customer) {
     // TODO: send email to user
   });
 
-/*
-* init passwordless with email
-*/
-  var create_trasport = function () {
-    var transporter = nodemailer.createTransport({
-      service: process.env.EMAIL_SERVICE,
-      auth: {
-        user: process.env.MY_EMAIL,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-    return transporter;
-  };
-
-  var prepare_mail = function (destination_email, enter_token) {
-    var host = 'http://localhost:3000/';
-    var link = host + 'enter?token=' + enter_token;
-    var signed_url = '<a href="' + link + '">' + link + '</a>';
-    var message = {
-      "html": signed_url,
-      "text": "click from url for sign in",
-      "subject": "signed url",
-      "from_email": process.env.MY_EMAIL,
-      "from_name": "x-commerce",
-      "to": [{
-              "email": destination_email,
-              "name": "x-commerce",
-              "type": "to"
+  var prepare_mail = function (destination_email, enter_token, callback) {
+    get_service('email')
+      .then(function (serivce) {
+        var host = 'http://localhost:3000/';
+        var link = host + 'enter?token=' + enter_token;
+        var signed_url = '<a href="' + link + '">' + link + '</a>';
+        var message = {
+          "html": signed_url,
+          "text": "click from url for sign in",
+          "subject": "signed url",
+          "from_email": serivce.params.email,
+          "from_name": "x-commerce",
+          "to": [{
+            "email": destination_email,
+            "name": "x-commerce",
+            "type": "to"
           }],
-      "headers": {
-          "Reply-To": process.env.MY_EMAIL
-      },
-      "subaccount": "123",
-    };
-    return message;
+          "headers": {
+            "Reply-To": serivce.params.email
+          },
+          "subaccount": "123",
+        };
+        callback(null, message);
+    }).catch(function (err) {
+      callback(err, null);
+    });
   };
 
   var create_new_customer = function (data) {
@@ -191,28 +229,45 @@ module.exports = function (Customer) {
         iat: moment().unix(),
         exp: moment().add(1, 'days').unix()
       };
-      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER_EMAIL);
-      data.token =  token;
-      data.customer.last_enter_token = token;
-      Customer.upsert(data.customer, function (err, model) {
-        data.customer = model;
-        setImmediate(next, err);
-      });
+      get_service('passwordless_secret_keys')
+        .then(function (service) {
+          var token = jwt.encode(payload, service.params.jwt_secret_key_email);
+          data.token =  token;
+          data.customer.last_enter_token = token;
+          Customer.upsert(data.customer, function (err, model) {
+            data.customer = model;
+            setImmediate(next, err);
+            return;
+          });
+        })
+        .catch(function (err) {
+          setImmediate(next, err);
+        });
     };
   };
 
   var send_signed_url_by_email = function (data) {
     return function (next) {
-      var message = prepare_mail(data.email, data.token);
-      mandrill_client.messages.send({"message": message},
-        function (res) {
-          data.email_result = res;
-          setImmediate(next, null);
-        },
-        function (err) {
+      prepare_mail(data.email, data.token, function (err, message) {
+        if (err) {
           setImmediate(next, err);
+          return;
         }
-      );
+        connect_mandrill_client()
+          .then(function (mandrill_client) {
+            mandrill_client.messages.send({"message": message},
+              function (res) {
+                data.email_result = res;
+                setImmediate(next, null);
+              },
+              function (err) {
+                setImmediate(next, err);
+              }
+            );
+          }).catch(function (err) {
+            setImmediate(next, err);
+          });
+      });
     };
   };
 
@@ -261,23 +316,24 @@ module.exports = function (Customer) {
   };
 
   Customer.try_enter_email = function (enter_token, callback) {
-    var payload = jwt.decode(enter_token, process.env.TOKEN_SECRET_ENTER_EMAIL);
-    Customer.findById(payload.sub, function(err, user) {
-      if (!user) {
-        callback({error: 'user not found'}, null);
-      }
-      create_access_token(user, function (err, user_profile) {
-        if (err) {
-          callback(err, null);
-        }
-        callback(null, user_profile);
-      });
+    get_service('passwordless_secret_keys')
+      .then(function (service) {
+        var payload = jwt.decode(enter_token, service.params.jwt_secret_key_email);
+        Customer.findById(payload.sub, function(err, user) {
+          if (!user) {
+            callback({error: 'user not found'}, null);
+          }
+          create_access_token(user, function (err, user_profile) {
+            if (err) {
+              callback(err, null);
+            }
+            callback(null, user_profile);
+          });
+        });
+    }).catch(function (err) {
+      callback(err, null);
     });
   };
-
-
-
-
 
   var get_customer_by_phone = function (data) {
     return function (next) {
@@ -303,29 +359,46 @@ module.exports = function (Customer) {
         iat: moment().unix(),
         exp: moment().add(1, 'days').unix()
       };
-      var token = jwt.encode(payload, process.env.TOKEN_SECRET_ENTER_SMS);
-      data.token =  token;
-      data.customer.last_sms_token = token;
-      Customer.upsert(data.customer, function (err, model) {
-        data.customer = model;
-        setImmediate(next, err);
-      });
+      get_service('passwordless_secret_keys')
+        .then(function (service) {
+          var token = jwt.encode(payload, service.params.jwt_secret_key_sms);
+          data.token =  token;
+          data.customer.last_sms_token = token;
+          Customer.upsert(data.customer, function (err, model) {
+            data.customer = model;
+            setImmediate(next, err);
+          });
+        }).catch(function (err) {
+          setImmediate(next, err);
+        });
     };
   };
 
   var send_sms = function (data) {
     return function (next) {
-      var params = {
-        'src': process.env.PHONE_SRC,
-        'dst' : data.phone,
-        'text' : "Your code for login is: " + data.code,
-        'url' : "http://example.com/report/",
-        'method' : "GET"
-      };
-      plivo_client.send_message(params, function (status, response) {
-        data.response = { status: status, response: response };
-        setImmediate(next, null);
-      });
+      get_service('phone')
+        .then(function (serivce) {
+          var params = {
+            'src': serivce.params.phone,
+            'dst' : data.phone,
+            'text' : "Your code for login is: " + data.code,
+            'url' : "http://example.com/report/",
+            'method' : "GET"
+          };
+          connect_plivo_client()
+            .then(function (plivo_client) {
+              plivo_client.send_message(params, function (status, response) {
+              data.response = { status: status, response: response };
+              setImmediate(next, null);
+            });
+          })
+          .catch(function (err) {
+            setImmediate(next, err);
+          });
+        })
+        .catch(function (err) {
+          setImmediate(next, err);
+        });
     };
   };
 
@@ -335,9 +408,9 @@ module.exports = function (Customer) {
     data.new_customer = {
       first_name: 'unknown',
       last_name: 'unknown',
-      email: 'unknown32089' + getRandomInt(1, 10000000000000)+ '@email.com',
+      email: 'unknown' + getRandomInt(1, 10000000000000) + getRandomInt(1, 10000000000000)+ '@email.com',
       password: '3208932443232987832932',
-      last_phone: data.phone
+      phone: data.phone
     };
     async.waterfall([
       get_customer_by_phone(data),
@@ -371,19 +444,24 @@ module.exports = function (Customer) {
         callback(null, {invalid_input: 'customer not found', success: false});
         return;
       }
-      var payload = jwt.decode(customer.last_sms_token, process.env.TOKEN_SECRET_ENTER_SMS);
-      if (payload.sub !== customer.id + '' + code) {
-        callback(null, {invalid_input: 'invalid code',  success: false });
-        return;
-      }
-      create_access_token(customer, function (err, user_profile) {
-        if (err) {
+      get_service('passwordless_secret_keys')
+        .then(function (service) {
+          var payload = jwt.decode(customer.last_sms_token, service.params.jwt_secret_key_sms);
+          if (payload.sub !== customer.id + '' + code) {
+            callback(null, {invalid_input: 'invalid code',  success: false });
+            return;
+          }
+          create_access_token(customer, function (err, user_profile) {
+            if (err) {
+              callback(err, null);
+              return;
+            }
+            user_profile.success = true;
+            callback(null, user_profile);
+          });
+        }).catch(function (err) {
           callback(err, null);
-          return;
-        }
-        user_profile.success = true;
-        callback(null, user_profile);
-      });
+        })
     });
   };
 

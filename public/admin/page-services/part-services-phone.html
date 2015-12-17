@@ -52,7 +52,8 @@
       var phone_data = event.detail;
       var data = {};
       data.name = 'phone';
-      data.password = phone_data.password;
+      data.admin_email = phone_data.admin_email;
+      data.admin_password = phone_data.admin_password;
       data.params = {};
       data.params.phone = phone_data.phone;
       this.$.update_keys.body = JSON.stringify({data: data});

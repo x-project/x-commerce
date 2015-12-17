@@ -1,25 +1,14 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-vendors-actions.html">
 <link rel="import" href="part-vendors-items.html">
 <link rel="import" href="part-vendors-pages.html">
 <link rel="import" href="part-vendors-search.html">
 <link rel="import" href="part-vendors-stats.html">
-
 <dom-module id="page-vendors">
   <template>
-
-    <api-model-find id="find" collection="vendors" response="{{vendors}}"
-      order="name" perpage="{{perpage}}" page="{{page}}">
-    </api-model-find>
-
-    <api-model-count id="count" collection="vendors" response="{{count}}">
-    </api-model-count>
 
     <layout-admin>
       <h1>Vendors</h1>
@@ -43,18 +32,53 @@
       vendors: {
         type: Array,
         value: function () { return []; }
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 30
       }
     },
 
     attached: function () {
-      this.$.count.send();
+      this.count_vendors();
+    },
+
+    count_vendors: function () {
+      Model.count('/api/vendors/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_vendors: function () {
+      Model.find('/api/vendors', this.get_filter_options())
+        .then(function (data) {
+          this.vendors = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function () {
+      return {
+        perpage: this.perpage,
+        order: 'name',
+        page: this.page
+      };
     },
 
     on_change_page: function (event) {
-      event.stopPropagation();
-      this.perpage = 10;
       this.page = event.detail.current - 1;
-      this.$.find.send();
+      this.get_vendors();
     }
 
   });

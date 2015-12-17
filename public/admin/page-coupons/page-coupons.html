@@ -1,22 +1,12 @@
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-coupons-actions.html">
 <link rel="import" href="part-coupons-items.html">
 <link rel="import" href="part-coupons-pages.html">
 <dom-module id="page-coupons">
   <template>
-
-    <api-model-find id="find" collection="coupons" response="{{coupons}}"
-      order="name" perpage="{{perpage}}" page="{{page}}">
-    </api-model-find>
-
-    <api-model-count id="count" collection="coupons" response="{{count}}">
-    </api-model-count>
 
     <layout-admin>
       <h1>Coupons</h1>
@@ -34,16 +24,57 @@
 
     is: 'page-coupons',
 
-    properties: {},
+    properties: {
+      coupons: {
+        type: Array,
+        value: function () { return []; }
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 30
+      }
+    },
 
     attached: function () {
-      this.$.count.send();
+      this.count_coupons();
+    },
+
+    count_coupons: function () {
+      Model.count('/api/coupons/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_coupons: function () {
+      Model.find('/api/coupons', this.get_filter_options())
+        .then(function (data) {
+          this.coupons = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_options: function () {
+      return {
+        perpage: this.perpage,
+        order: 'name',
+        page: this.page
+      };
     },
 
     on_change_page: function (event) {
-      this.perpage = 4;
       this.page = event.detail.current - 1;
-      this.$.find.send();
+      this.get_coupons();
     }
 
   });

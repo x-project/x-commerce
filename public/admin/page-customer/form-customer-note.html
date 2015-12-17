@@ -2,22 +2,24 @@
 <dom-module id="form-customer-note">
   <template>
     <style include="style-form"></style>
+    <style include="style-field"></style>
     <style>
-     input, iron-autogrow-textarea {
-        box-sizing: border-box;
+      iron-autogrow-textarea {
+        display: block;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
 
-    <form id="form" class="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">Note</label>
-        <div>
-          <iron-autogrow-textarea class="form-control"is="iron-input" bind-value="{{customer.note}}"
-            rows="4" placeholder="Add a note to this customer">
-          </iron-autogrow-textarea>
-        </div>
+        <iron-autogrow-textarea class="form-control"is="iron-input" bind-value="{{customer.note}}"
+          rows="4" placeholder="Add a note to this customer">
+        </iron-autogrow-textarea>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -31,11 +33,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.stopPropagation();
-      event.preventDefault();
     }
 
   });

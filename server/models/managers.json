@@ -25,24 +25,6 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "count"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "__get__co_authors"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "__create__co_authors"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "__deleteById__co_authors"
     }
   ],
   "validations": [],

@@ -50,7 +50,8 @@
       var email_data = event.detail;
       var data = {};
       data.name = 'email';
-      data.password = email_data.password;
+      data.admin_email = email_data.admin_email;
+      data.admin_password = email_data.admin_password;
       data.params = {};
       data.params.email = email_data.email;
       data.params.email_password = email_data.email_password;

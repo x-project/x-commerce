@@ -1,0 +1,36 @@
+<dom-module id="input-checkbox">
+  <template>
+  <style>
+    :host {
+      display: block;
+    }
+  </style>
+
+    <input type="checkbox" id="checkbox" on-change="to_model"/>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-checkbox',
+
+    properties: {
+      checked: {
+        type: Boolean,
+        observer: 'from_model',
+        notify: true
+      }
+    },
+
+    from_model: function (checked) {
+      this.$.checkbox.checked = checked;
+    },
+
+    to_model: function (event) {
+      event.stopPropagation();
+      this.set('checked', event.target.checked);
+    }
+
+  });
+</script>

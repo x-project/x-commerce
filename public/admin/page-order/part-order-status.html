@@ -1,12 +1,17 @@
 <dom-module id="part-order-status">
   <template>
-    <style include="style-panel"></style>
     <style include="style-checkbox"></style>
+    <style include="style-field"></style>
+    <style include="style-panel"></style>
 
     <div class="panel">
       <h2 class="title">Status</h2>
-       <label class="label">Order Status</label>
-       <input type="checkbox" name="status" id="status" on-change="on_change">
+      <div class="panel-form">
+        <div class="field">
+          <input type="checkbox" name="status" id="status" on-change="on_change">
+          <label class="label">Order Status</label>
+        </div>
+      </div>
     </div>
 
   </template>

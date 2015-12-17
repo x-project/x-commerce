@@ -1,14 +1,9 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var path = require('path');
-var env = require('node-env-file');
 var auth = require('./auth/auth');
 var app = module.exports = loopback();
 var moment = require('moment');
-
-if (process.env.NODE_ENV !== 'production') {
-  env(__dirname + '/.env');
-}
 
 app.start = function() {
   return app.listen(function() {

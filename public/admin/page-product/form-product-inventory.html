@@ -1,8 +1,10 @@
-<link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="form-product-inventory">
   <template>
     <style include="style-form"></style>
     <style include="style-checkbox"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
     <style>
       .hidden.field {
         display: none;
@@ -10,12 +12,9 @@
       .hidden.field[show] {
         display: block;
       }
-      input {
-        box-sizing: border-box;
-      }
     </style>
 
-    <form id="form" class="form" on-submit="on_submit">
+    <div class="panel-form">
       <div class="field">
         <label class="label">[[product_sku_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{product.sku}}">
@@ -25,21 +24,19 @@
         <input class="form-control" type="text" is="iron-input" bind-value="{{product.barcode}}">
       </div>
       <div class="field">
-        <label>[[product_track_quantity_label]]</label>
-        <paper-checkbox is="iron-input" checked="{{product.track_quantity}}" on-click="on_click_track">
-        </paper-checkbox>
+        <input-checkbox checked="{{product.track_quantity}}" on-change="on_change_track_quantity"></input-checkbox>
+        <label class="label">[[product_track_quantity_label]]</label>
       </div>
-      <div class="hidden field" show$="{{show}}">
+      <div class="hidden field" show$="{{product.track_quantity}}">
         <label class="label">[[product_quantity_label]]</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
       </div>
 
-      <div class="hidden field" show$="{{show}}">
+      <div class="hidden field" show$="{{product.track_quantity}}">
+        <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
         <label class="label">[[product_stock]]</label>
-        <paper-checkbox is="iron-input" checked="{{product.sell_after_purchase}}">
-        </paper-checkbox>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -72,39 +69,7 @@
       product: {
         type: Object,
         value: function () { return {}; }
-      },
-      show: {
-        type: Boolean,
-        value: false
       }
-    },
-
-    attached: function () {
-      if(this.product.track_quantity){
-        this.show_quantity();
-        return;
-      }
-    },
-
-    on_click_track: function (event) {
-      if(this.product.track_quantity){
-        this.show_quantity();
-        return;
-      }
-      this.set('show', false);
-    },
-
-    show_quantity: function () {
-      this.set('show', true);
-    },
-
-    hide_quantity: function () {
-      this.set('show', false);
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

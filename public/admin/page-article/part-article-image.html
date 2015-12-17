@@ -1,21 +1,35 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../image-previews/image-previews.html">
 <link rel="import" href="form-article-image.html">
 <dom-module id="part-article-image">
   <template>
     <style include="style-panel"></style>
     <style>
-
+      image-preview {
+        --image-preview: {
+        };
+      }
+      .images {
+        @apply(--layout-horizontal);
+      }
+      image-preview {
+        @apply(--layout-flex);
+        margin-left: 10px;
+      }
     </style>
 
     <div class="panel">
       <h2 class="title">[[product_images_title_label]]</h2>
       <form-article-image article="{{article}}"></form-article-image>
-    </div>
 
-    <div class="images">
-      <template id="images" is="dom-repeat" items="{{article.images}}" as="image" filter="image_filter">
-        <image-preview image="{{image}}" size="contain"></image-preview>
-      </template>
+      <div class="images panel">
+        <template id="images" is="dom-repeat" items="{{article.images}}" as="image"
+          filter="image_filter">
+           <image-preview image="{{image}}" sizing="contain" like-size="120"
+            height="100" width="100">
+          </image-preview>
+        </template>
+      </div>
     </div>
 
   </template>
@@ -36,8 +50,12 @@
       }
     },
 
+    attached: function () {
+      console.log(this.article);
+    },
+
     image_filter: function (image) {
-      return this.article.id === image.artile_id;
+      return this.article.id === image.article_id;
     }
 
   });

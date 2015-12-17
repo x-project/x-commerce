@@ -1,3 +1,3 @@
-module.exports = function (Managers) {
+module.exports = function (Manager) {
 
 };
