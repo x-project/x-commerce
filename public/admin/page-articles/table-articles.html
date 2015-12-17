@@ -1,3 +1,5 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../../components/text-view/text-view.html">
 <dom-module id="table-articles">
   <template>
@@ -11,32 +13,30 @@
             <th>Title</th>
             <th>By</th>
             <th>Summary</th>
-            <th>Content</th>
-            <th>In</th>
-            <th>actions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <template id="articles" is="dom-repeat" items="{{articles}}" as="article">
             <tr class="text-center">
-              <td>
+              <td on-click="on_click_row">
                 <text-view text="{{article.title}}" limit="20"></text-view>
               </td>
-              <td>
+              <td on-click="on_click_row">
                 <text-view text="{{article.author.fullname}}" limit="20"></text-view>
               </td>
-              <td>
+              <td on-click="on_click_row">
                 <text-view text="{{article.summary}}" limit="20"></text-view>
               </td>
               <td>
-                <text-view text="{{article.content}}" limit="30"></text-view>
-              </td>
-              <td>
-                <text-view text="{{article.category.name}}" limit="30"></text-view>
-              </td>
-              <td>
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/articles/{{article.id}}">edit
+                <a is="app-link" class="btn btn-link" href="/admin/articles/{{article.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_article">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" href="/" target="_blank">
+                  <i class="fa fa-eye"></i>
                 </a>
               </td>
             </tr>
@@ -56,6 +56,23 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click_delete_article: function (event) {
+      var article = this.$.articles.itemForElement(event.target);
+      Model.delete('/api/articles/' + article.id)
+        .then(function (data) {
+          page('/admin/articles');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var article = this.$.articles.itemForElement(event.target);
+      page('/admin/articles/' + article.id);
     }
 
   });

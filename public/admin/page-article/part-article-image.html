@@ -11,6 +11,7 @@
       }
       .images {
         @apply(--layout-horizontal);
+        margin-top: 20px;
       }
       image-preview {
         @apply(--layout-flex);
@@ -48,10 +49,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    attached: function () {
-      console.log(this.article);
     },
 
     image_filter: function (image) {

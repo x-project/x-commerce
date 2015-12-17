@@ -1,28 +1,30 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-category-info">
   <template>
-    <style include="style-form">
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style>
       iron-autogrow-textarea {
         display: block;
-      }
-      input, iron-autogrow-textarea {
-        box-sizing: border-box;
+        border: 0 !important;
+        width: 99% !important;
+        @apply(--iron-autogrow-textarea);
       }
     </style>
 
-    <form on-submit="on_submit">
-      <div class="form-group">
+    <div class="panel-form">
+      <div class="field">
         <label class="label">[[name_category_label]]</label>
         <input class="form-control" is="iron-input" type="text" bind-value="{{category.name}}">
         <input-errors property="name" error="{{error.details}}"></input-errors>
       </div>
-      <div class="form-group">
+      <div class="field">
         <label class="label">[[description_category_label]]</label>
         <iron-autogrow-textarea class="form-control" is="iron-input"
           bind-value="{{category.description}}" rows="4">
         </iron-autogrow-textarea>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -49,11 +51,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    on_submit: function (event) {
-      event.preventDefault();
-      event.stopPropagation();
     }
 
   });

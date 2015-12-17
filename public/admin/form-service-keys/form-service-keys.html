@@ -1,21 +1,23 @@
-<link rel="import" href="../styles/style-button/style-button.html">
-<link rel="import" href="../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <dom-module id="form-service-keys">
   <template>
-    <style include="style-form"></style>
     <style include="style-button"></style>
+    <style include="style-label"></style>
+    <style include="style-field"></style>
+    <style include="style-form"></style>
     <style>
-      input {
-        box-sizing: border-box;
-      }
       .password {
-        display: none;
+        display: none ;
       }
       .password[show] {
         display: block;
       }
     </style>
-    <form on-submit="on_submit">
+
+    <form class="panel-form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[services_plivo_public_key_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{service.public_key}}">
@@ -25,15 +27,23 @@
         <input class="form-control" type="text" is="iron-input" bind-value="{{service.private_key}}">
       </div>
       <button id="update" type="submit" class="btn btn-secondary">update</button>
-    </form>
+    </div>
 
     <div class="password" show$="{{show}}">
-      <label class="label">[[services_email_label]]</label>
-      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
-      <label class="label">[[services_password_label]]</label>
-      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
-      <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
-      <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
+      <div class="panel-form">
+        <div class="field">
+          <label class="label">[[services_email_label]]</label>
+          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
+        </div>
+        <div class="field">
+          <label class="label">[[services_password_label]]</label>
+          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
+        </div>
+
+        <button class="btn btn-secondary" on-click="on_click_submit">update</button>
+        <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
+
+      </div>
     </div>
 
   </template>

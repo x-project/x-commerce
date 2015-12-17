@@ -9,17 +9,20 @@
           <tr>
             <th>Name</th>
             <th>Description</th>
-            <th>Edit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <template id="category" is="dom-repeat" items="{{categories}}" as="category">
+          <template id="categories" is="dom-repeat" items="{{categories}}" as="category">
             <tr class="text-center">
-              <td>{{category.name}}</td>
-              <td>{{category.description}}</td>
+              <td on-click="on_click_row">{{category.name}}</td>
+              <td on-click="on_click_row">{{category.description}}</td>
               <td>
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/categories/{{category.id}}">edit
+                <a is="app-link" class="btn btn-link" href="/admin/categories/{{category.id}}">
+                  <i class="fa fa-pencil"></i>
+                </a>
+                <a is="app-link" class="btn btn-link" on-click="on_click_delete_category">
+                  <i class="fa fa-trash-o"></i>
                 </a>
               </td>
             </tr>
@@ -39,6 +42,23 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click_delete_category: function (event) {
+      var category = this.$.categories.itemForElement(event.target);
+      Model.delete('/api/categories/' + category.id)
+        .then(function (data) {
+          page('/admin/categories');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var category = this.$.categories.itemForElement(event.target);
+      page('/admin/categories/' + category.id);
     }
 
   });

@@ -225,10 +225,19 @@
     },
 
     calculate_subtotal: function (order_item) {
+      var subtotal = 0;
       if (order_item.product_variant) {
-        return this.calculate_subtotal_variant(order_item);
+        subtotal = this.calculate_subtotal_variant(order_item);
+        if (!isNaN(subtotal)){
+          return subtotal;
+        }
+        return 'free';
       }
-      return this.calculate_subtotal_product(order_item);
+      subtotal = this.calculate_subtotal_product(order_item);
+      if (!isNaN(subtotal)) {
+        return subtotal
+      }
+      return 'free';
     },
 
     calculate_subtotal_variant: function (order_item) {
@@ -243,10 +252,10 @@
       var total = 0;
       this.order_items.forEach(function (order_item) {
         if (order_item.product_variant) {
-          total += order_item.product_variant.price * order_item.quantity;
+          total += (order_item.product_variant.price || 0) * order_item.quantity;
           return;
         }
-        total += order_item.product.price * order_item.quantity;
+        total += (order_item.product.price || 0) * order_item.quantity;
       });
       this.total = total;
     }

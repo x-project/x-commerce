@@ -2,23 +2,24 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-article-published-at">
   <template>
+    <style include="style-field"></style>
     <style include="style-form"></style>
     <style>
       input-datetime {
-        box-sizing: border-box;
-        --input-datetime: {
+        --datetime-input: {
           @apply(--form-control);
         };
-        --datetime-button-now: {
-          @apply(--btn-secondary);
-        }
+        --datetime-button: {
+        };
       }
     </style>
 
-      <div class="field date">
-        <label class="label">Published at</label>
-        <input-datetime value="{{article.published_at}}"></input-datetime>
-        <input-errors property="published_at" error="{{error.details}}"></input-errors>
+      <div class="panel-form">
+        <div class="field">
+          <label class="label">Published at</label>
+          <input-datetime value="{{article.published_at}}"></input-datetime>
+          <input-errors property="published_at" error="{{error.details}}"></input-errors>
+        </div>
       </div>
 
   </template>

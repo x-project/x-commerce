@@ -3,6 +3,8 @@
 <dom-module id="form-article-tags">
   <template>
     <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
     <style>
       input-tags {
         --field-tags-items: {
@@ -11,7 +13,8 @@
           border-radius: 2px;
         };
         --field-tags-input: {
-
+          @apply(--form-control);
+          @apply(--input-tags);
         };
         --field-tags-item: {
           @apply(--label);
@@ -19,6 +22,9 @@
           margin: 2px 0px;
           padding: 0.5em;
           display: inline-block;
+        };
+        --label-tags: {
+          @apply(--label);
         };
       }
     </style>
