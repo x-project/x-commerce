@@ -1,10 +1,8 @@
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
 <link rel="import" href="part-home-products.html">
 <dom-module id="page-home">
   <template>
-
 
     <api-model-find id="find" collection="products" response="{{products}}"
       on-response="on_response" on-error="on_error">
@@ -18,11 +16,10 @@ tags
         <part-home-products products="{{products}}"></part-home-products>
       </div>
     </layout-client>
+
   </template>
 </dom-module>
-
 <script src="../../scripts/fetch/fetch.js"></script>
-
 <script>
   Polymer({
 
@@ -32,7 +29,7 @@ tags
       this.$.find.where = { is_published: true };
       this.$.find.order = 'published_at DESC';
       this.$.find.include = ['collections', 'vendor', 'images', 'product_type', 'variants'];
-      this.$.find.perpage = 2;
+      this.$.find.perpage = 4;
       this.$.find.send();
     },
 
