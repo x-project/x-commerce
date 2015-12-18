@@ -14,7 +14,8 @@
     <form id="form" role="form" read$="{{read}}" on-submit="on_submit">
       <div class="field">
         <label class="label">Rating</label>
-        <input-rating emty-icon="fa fa-star-o fa-2x" fill-icon="fa fa-star fa-2x" on-rating="on_rating">
+        <input-rating rating="{{review.rating}}" empty-icon="fa fa-star-o fa-2x"
+          fill-icon="fa fa-star fa-2x" on-rating="on_rating">
         </input-rating>
       </div>
       <div class="field">
@@ -61,7 +62,6 @@
       event.stopPropagation();
       var rating = event.detail;
       this.review.rating = rating;
-      console.log(this.review);
     },
 
     on_submit: function (event) {

@@ -43,7 +43,7 @@
     properties: {
       rating: {
         type: Number,
-        value: 0
+        notify: true
       },
       emptyIcon: {
         type: String
@@ -51,6 +51,10 @@
       fillIcon: {
         type: String
       }
+    },
+
+    attached: function () {
+      this.set('rating', this.rating);
     },
 
     on_change_value: function (event) {
@@ -61,7 +65,7 @@
 
     on_rating: function (event) {
       event.stopPropagation();
-      this.fire('rating', event.detail);
+      this.rating = event.detail;
     }
 
   });

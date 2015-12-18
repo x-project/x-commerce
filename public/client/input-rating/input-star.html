@@ -39,6 +39,9 @@
 
     attached: function () {
       this.$.star.setAttribute("class", this.emptyIcon);
+      if (this.rating > 0) {
+        this._on_change_rating(this.rating);
+      }
     },
 
     on_mouse_over: function (event) {
