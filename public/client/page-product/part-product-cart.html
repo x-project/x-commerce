@@ -1,27 +1,27 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
 <dom-module id="part-product-cart">
   <template>
+    <style include="style-button"></style>
     <style>
       :host {
         display: block;
       }
-
-      .button {
+      .btn {
         display: none;
       }
-      .button[display] {
-        display: block;
+      .btn[display] {
+        display: inline-block;
       }
     </style>
-
-    <h3>Cart</h3>
 
     <app-session id="session"></app-session>
 
     <input id="quantity" type="number" min="1" max="{{quantity}}" value="1">
 
-    <button id="add" class="button" display$="{{!incart}}" on-click="on_click_add">add cart</button>
+    <button id="add" class="btn btn-success" display$="{{!incart}}"
+      on-click="on_click_add">add to cart</button>
 
-    <button id="update" class="button"  display$="{{incart}}"
+    <button id="update" class="btn btn-primary"  display$="{{incart}}"
       on-click="on_click_update">update cart</button>
 
   </template>

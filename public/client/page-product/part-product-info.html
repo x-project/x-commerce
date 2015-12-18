@@ -1,9 +1,15 @@
 <dom-module id="part-product-info">
   <template>
-    <div>
-      <h3>Description</h3>
-      <p>{{product.description}}</p>
-    </div>
+    <style>
+      :host {
+        display: block;
+        background-color: #efefef;
+        padding: 20px;
+      }
+    </style>
+
+    <p>{{product.description}}</p>
+
   </template>
 </dom-module>
 <script>
