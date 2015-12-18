@@ -9,7 +9,9 @@
 
     <div class="images">
       <template id="images" is="dom-repeat" items="{{product.images}}" as="image">
-        <image-preview image="{{image}}" size="contain"></image-preview>
+        <image-preview image="{{image}}" sizing="contain" like-size="120"
+          height="100" width="100">
+        </image-preview>
       </template>
     </div>
 
@@ -25,6 +27,10 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      console.log(this.product);
     }
 
   });

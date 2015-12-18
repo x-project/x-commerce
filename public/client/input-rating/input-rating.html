@@ -1,0 +1,68 @@
+<link rel="stylesheet" type="text/css" href="../../fonts/icons/css/font-awesome.min.css">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="input-star.html">
+
+<dom-module id="input-rating">
+  <template>
+    <style>
+      .rating{
+        @apply(--layout-horizontal);
+      }
+      input-star {
+        margin-left: 4px;
+      }
+    </style>
+      <div class="rating">
+        <input-star value="2" rating="{{rating}}" empty-icon="{{emptyIcon}}" full-icon="{{fillIcon}}"
+          on-change-value="on_change_value" on-rating="on_rating">
+        </input-star>
+
+        <input-star value="4" rating="{{rating}}" empty-icon="{{emptyIcon}}" full-icon="{{fillIcon}}"
+          on-change-value="on_change_value" on-rating="on_rating">
+        </input-star>
+
+        <input-star value="6" rating="{{rating}}" empty-icon="{{emptyIcon}}" full-icon="{{fillIcon}}"
+          on-change-value="on_change_value" on-rating="on_rating">
+        </input-star>
+
+        <input-star value="8" rating="{{rating}}" empty-icon="{{emptyIcon}}" full-icon="{{fillIcon}}"
+          on-change-value="on_change_value" on-rating="on_rating">
+        </input-star>
+
+        <input-star value="10" rating="{{rating}}" empty-icon="{{emptyIcon}}" full-icon="{{fillIcon}}"
+          on-change-value="on_change_value" on-rating="on_rating">
+        </input-star>
+      </div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-rating',
+
+    properties: {
+      rating: {
+        type: Number,
+        value: 0
+      },
+      emptyIcon: {
+        type: String
+      },
+      fillIcon: {
+        type: String
+      }
+    },
+
+    on_change_value: function (event) {
+      event.stopPropagation();
+      var value = event.detail;
+      this.set('rating', value);
+    },
+
+    on_rating: function (event) {
+      event.stopPropagation();
+      this.fire('rating', event.detail);
+    }
+
+  });
+</script>

@@ -33,8 +33,8 @@
 
     properties: {
       image: {
-        type: Array,
-        value: function () { return []; }
+        type: Object,
+        value: function () { return {}; }
       },
       likeSize: {
         type: Number
@@ -56,11 +56,15 @@
     },
 
     attached: function () {
-      if (this.image.length <= 0) {
+      if (!this.image) {
+        return;
+      }
+      if(this.image.length === 0) {
         return;
       }
       this.sort_thumbs_size();
       var min_size = this.image.thumbs[0];
+
       // put minium size in blur
       var url = this.get_image_url(min_size);
 

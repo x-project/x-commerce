@@ -121,7 +121,7 @@
     update_product_collection: function (data) {
       Model.update('/api/products/' + this.product.id + '/collections/rel/' + this.collection.id, data)
       .then(function (data) {
-        this.product = data;
+        this.collection = data;
         this.on_response_update();
       }.bind(this))
       .catch(function (error) {
