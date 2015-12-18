@@ -1,4 +1,5 @@
 <link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-product-cart.html">
@@ -14,28 +15,47 @@
 <link rel="import" href="part-product-wish.html">
 <dom-module id="page-product">
   <template>
+    <style include="style-grid"></style>
+    <style>
+      .jumbotron {
+        --jumbotron-content: {
+          @apply(--layout-horizontal);
+          @apply(--layout-end);
+        }
+      }
+    </style>
 
     <layout-client>
       <part-jumbotron class="jumbotron">
-        <h1><span>Product</span> <span>{{data.product.title}}</span></h1>
+        <div class="container">
+          <h1><span>Product</span> <span>{{data.product.title}}</span></h1>
+        </div>
       </part-jumbotron>
       <div class="container">
-        <a is="app-link" href="/products">Back to products</a>
-        <part-product-info product="{{data.product}}"></part-product-info>
-        <part-product-type product="{{data.product}}"></part-product-type>
-        <part-product-options product="{{data.product}}" variant="{{variant}}"
-          on-change="on_change"></part-product-options>
-        <part-product-price id="price" product="{{data.product}}" variant="{{variant}}">
-        </part-product-price>
-        <part-product-quantity id="quantity" product="{{data.product}}" variant="{{variant}}">
-        </part-product-quantity>
-        <part-product-vendor product="{{data.product}}"></part-product-vendor>
-        <part-product-images product="{{data.product}}"></part-product-images>
-        <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}">
-        </part-product-cart>
-        <part-product-details product="{{data.product}}"></part-product-details>
-        <part-product-wish product="{{data.product}}" variant="{{variant}}"></part-product-wish>
-        <part-product-reviews product="{{data.product}}"></part-product-reviews>
+        <div class="row">
+          <div class="col col-md-6">
+            <part-product-images product="{{data.product}}"></part-product-images>
+          </div>
+          <div class="col col-md-6">
+            <h1>{{data.product.title}}</h1>
+            <h2><span>in</span> <span>{{data.product.product_type.name}}</span></h2>
+            <h3><span>by</span> <span>{{data.product.vendor.name}}</span></h3>
+            <div>{{data.product.description}}</div>
+            <div><span>available</span> <span>{{data.product.quantity}}</span></div>
+
+            <part-product-options product="{{data.product}}" variant="{{variant}}"
+              on-change="on_change"></part-product-options>
+            <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}"></part-product-cart>
+            <div><span>$</span> <span>{{product.price}}</span></div>
+            <part-product-wish product="{{data.product}}" variant="{{variant}}"></part-product-wish>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-md-12">
+            <part-product-details product="{{data.product}}"></part-product-details>
+            <part-product-reviews product="{{data.product}}"></part-product-reviews>
+          </div>
+        </div>
       </div>
     </layout-client>
 

@@ -87,9 +87,7 @@
       context.session.token = this.session.get('token');
       context.data = context.data || {};
       context.data.store = this.store;
-      return new Promise(function (resolve, reject) {
-        resolve(context);
-      });
+      return Promise.resolve(context);
     }
 
   };

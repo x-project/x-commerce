@@ -1,12 +1,24 @@
 <link rel="import" href="../../styles/style-deck/style-deck.html">
-<link rel="import" href="card-product.html">
+<link rel="import" href="../../styles/style-card/style-card.html">
 <dom-module id="deck-products">
   <template>
     <style include="style-deck"></style>
+    <style include="style-card"></style>
 
     <div class="deck">
-      <template is="dom-repeat" items="{{products}}" as="product" filter="filter">
-        <card-product product="{{product}}"></card-product>
+      <template is="dom-repeat" items="{{products}}" as="product">
+        <div class="card">
+          <image-preview class="card-img-top img-responsive" image="{{product.images.0}}"
+            sizing="contain" like-size="120"
+            height="100" width="100">
+          </image-preview>
+          <div class="card-block">
+            <h4 class="card-title">{{product.title}} {{product.price}} $</h4>
+          </div>
+          <div class="card-block">
+            <a href="/products/{{product.id}}" class="card-link">view</a>
+          </div>
+        </div>
       </template>
     </div>
 
@@ -22,11 +34,6 @@
         type: Array,
         value: function () { return []; }
       }
-    },
-
-    filter: function (product) {
-      product.url = '/products/' + product.id;
-      return true;
     }
 
   });

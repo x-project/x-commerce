@@ -1,52 +1,14 @@
 <dom-module id="part-product-type">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-      .type {
-        display: none;
-      }
-      .type[show] {
-        display: block;
-      }
-    </style>
 
-    <div class="type" show$="{{show}}">
-      <h3>Product Type</h3>
-      <div class="filed">
-        <label class="label">type: </label>
-        <span>{{product.product_type.name}}</span>
-      </div>
-      <div class="filed">
-        <label class="label">descrition: </label>
-        <span>{{product.product_type.description}}</span>
-      </div>
-    </div>
+    <span>{{product.product_type.name}}</span>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-product-type',
-
-    properties: {
-      product: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      show: {
-        type: Boolean,
-        value: false
-      }
-    },
-
-    attached: function () {
-      if (this.product.product_type) {
-        this.set('show', true);
-      }
-    }
+    is: 'part-product-type'
 
   });
 </script>

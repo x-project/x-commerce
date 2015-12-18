@@ -1,37 +1,44 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
-<link rel="import" href="part-home-products.html">
+<link rel="import" href="part-home-collections.html">
 <dom-module id="page-home">
   <template>
+    <style include="style-grid"></style>
+    <style>
+      .jumbotron {
+        --jumbotron-content: {
+          @apply(--layout-horizontal);
+          @apply(--layout-end);
+        }
+      }
+    </style>
 
-    <api-model-find id="find" collection="products" response="{{products}}"
+    <api-model-find id="find" collection="collections" response="{{collections}}"
       on-response="on_response" on-error="on_error">
     </api-model-find>
 
     <layout-client>
       <part-jumbotron class="jumbotron">
-        <h1>Catalog</h1>
+        <div class="container">
+          <h1>Catalog</h1>
+        </div>
       </part-jumbotron>
       <div class="container">
-        <part-home-products products="{{products}}"></part-home-products>
+        <part-home-collections collections="{{collections}}"></part-home-collections>
       </div>
     </layout-client>
+
   </template>
 </dom-module>
-
-<script src="../../scripts/fetch/fetch.js"></script>
-
 <script>
   Polymer({
 
     is: 'page-home',
 
     attached: function () {
-      this.$.find.where = { is_published: true };
-      this.$.find.order = 'published_at DESC';
-      this.$.find.include = ['collections', 'vendor', 'images', 'product_type', 'variants'];
-      this.$.find.perpage = 2;
+      this.$.find.perpage = 4;
       this.$.find.send();
     },
 

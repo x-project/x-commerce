@@ -3,26 +3,19 @@
     <style>
       :host {
         display: block;
+        background-color: #efefef;
+        padding: 20px;
       }
     </style>
 
-    <div>
-      <h3>Description</h3>
-      <p>{{product.description}}</p>
-    </div>
+    <p>{{product.description}}</p>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-product-info',
-
-    properties: {
-      product: {
-        type: Object
-      }
-    }
+    is: 'part-product-info'
 
   });
 </script>

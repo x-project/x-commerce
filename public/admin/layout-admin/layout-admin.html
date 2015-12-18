@@ -1,6 +1,5 @@
 <link rel="import" href="../../components/layout-grid/layout-grid.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
-
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <dom-module id="layout-admin">
   <template>
@@ -13,9 +12,11 @@
 
     <div class="page">
       <div class="container">
-        <part-sidebar class="sidebar col-sm-3"></part-sidebar>
-        <div class="main col-sm-8">
-          <content></content>
+        <div class="row">
+          <part-sidebar class="sidebar col col-sm-3"></part-sidebar>
+          <div class="main col col-sm-8">
+            <content></content>
+          </div>
         </div>
       </div>
     </div>

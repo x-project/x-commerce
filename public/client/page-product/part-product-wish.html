@@ -1,12 +1,9 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../app-session/app-session.html">
 <dom-module id="part-product-wish">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
+    <style include="style-button"></style>
 
     <app-session id="session"></app-session>
 
@@ -14,10 +11,7 @@
       on-response="on_response" last-response="response" on-error="on_error">
     </iron-ajax>
 
-    <h3>Favourite</h3>
-    <div>
-      <button class="button" on-click="on_click_favourite">add to favourite</button>
-    </div>
+    <button class="btn btn-primary" on-click="on_click">add to wishlist</button>
 
   </template>
 </dom-module>
@@ -37,7 +31,7 @@
       }
     },
 
-    on_click_favourite: function (event) {
+    on_click: function (event) {
       event.stopPropagation();
       var customer = this.$.session.get('user');
       if (!customer) {
@@ -54,7 +48,7 @@
 
     on_response: function (event) {
       event.stopPropagation();
-      // console.log(this.response);
+      console.log(event);
     },
 
     on_error: function (event) {
