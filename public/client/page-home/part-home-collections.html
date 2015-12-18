@@ -1,0 +1,38 @@
+<link rel="import" href="../../styles/style-card/style-card.html">
+<link rel="import" href="../../styles/style-deck/style-deck.html">
+<link rel="import" href="../../styles/style-image/style-image.html">
+<dom-module id="part-home-collections">
+  <template>
+    <style include="style-deck"></style>
+    <style include="style-card"></style>
+    <style include="style-image"></style>
+
+    <div class="deck">
+      <template is="dom-repeat" items="{{collections}}" as="collection">
+        <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">{{collection.title}}</h4>
+          </div>
+          <div class="card-block">
+            <a href="/collection/{{collection.id}}" class="card-link">view</a>
+          </div>
+        </div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-home-collections',
+
+    properties: {
+      collections: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

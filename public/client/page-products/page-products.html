@@ -1,10 +1,20 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="part-products-pages.html">
+<link rel="import" href="../part-pages/part-pages.html">
 <link rel="import" href="deck-products.html">
 <dom-module id="page-products">
   <template>
+    <style include="style-grid"></style>
+    <style>
+      .jumbotron {
+        --jumbotron-content: {
+          @apply(--layout-horizontal);
+          @apply(--layout-end);
+        }
+      }
+    </style>
 
     <api-model-find id="find" collection="products" response="{{products}}"
       order="title" perpage="{{perpage}}" page="{{page}}" include=["images"]>
@@ -15,13 +25,13 @@
 
     <layout-client>
       <part-jumbotron class="jumbotron">
-        <h1>Products</h1>
+        <div class="container">
+          <h1>Products</h1>
+        </div>
       </part-jumbotron>
       <div class="container">
         <deck-products products="{{products}}"></deck-products>
-        <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
-          count="{{count}}">
-        </part-products-pages>
+        <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page"></part-pages>
       </div>
     </layout-client>
 

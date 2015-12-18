@@ -1,44 +1,15 @@
 <dom-module id="part-product-price">
   <template>
-    <style>
-      :host {
-        display: block;
-      }
-      .vendor{
-        display: none;
-      }
-      .vendor[show] {
-        display: block;
-      }
-
-    </style>
-    <h3>Price</h3>
-    <span>{{price}}</span>
+    <div>
+      <h3>Price</h3>
+      <span>{{product.price}}</span>
+    </div>
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-product-price',
-
-    properties: {
-      product: {
-        type: Object,
-        value: function () { return {}; }
-      },
-      variant: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    },
-
-    attached: function () {
-      this.calculate_price();
-    },
-
-    calculate_price: function () {
-      this.price = (this.variant) ? this.variant.price : this.product.price;
-    }
+    is: 'part-product-price'
 
   });
 </script>

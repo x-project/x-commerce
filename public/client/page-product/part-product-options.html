@@ -7,12 +7,11 @@
       }
     </style>
 
-    <template is="dom-if" if="{{product.variants.length}}">
+    <template is="dom-if" if="{{product.variants.length}}" on-change="on_change">
       <div class="variant">
         <h3>Variants</h3>
         <choose-product-options options="{{product.options}}"
-          on-change="on_change">
-        </choose-product-options>
+          ></choose-product-options>
       </div>
     </template>
 
@@ -53,6 +52,7 @@
         return variant.name == name;
       })[0];
       this.variant = variant;
+      this.product.price = variant.price;
     }
 
   });
