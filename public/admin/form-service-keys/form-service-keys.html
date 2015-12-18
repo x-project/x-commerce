@@ -2,55 +2,44 @@
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../input-secret/input-secret.html">
 <dom-module id="form-service-keys">
   <template>
     <style include="style-button"></style>
-    <style include="style-label"></style>
-    <style include="style-field"></style>
     <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
     <style>
-      .password {
-        display: none ;
+      .password {
+        display: none;
       }
       .password[show] {
         display: block;
-      }
-      i {
-        margin: 0 4px;
-      }
-      a i:hover {
-        color: #0275d8;
-        cursor: pointer;
       }
     </style>
 
     <form class="panel-form" on-submit="on_submit">
       <div class="field">
-        <label class="label">[[services_plivo_public_key_label]]</label>
+        <label class="label">[[services_public_key_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{service.public_key}}">
       </div>
-      <div class="field">
-        <label class="label">[[services_plivo_provate_key_label]]</label>
-        <input class="form-control" type="password" is="iron-input" bind-value="{{service.private_key}}">
-        <i class="fa fa-eye"></i>
-      </div>
+      <label class="label">private key</label>
+      <input-secret private_key="{{service.private_key}}"></input-secret>
       <button id="update" type="submit" class="btn btn-secondary">update</button>
     </div>
 
     <div class="password" show$="{{show}}">
       <div class="panel-form">
         <div class="field">
-          <label class="label">[[services_email_label]]</label>
+          <label class="label">Admin email</label>
           <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
         </div>
         <div class="field">
-          <label class="label">[[services_password_label]]</label>
+          <label class="label">Password</label>
           <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
         </div>
-
-        <button class="btn btn-secondary" on-click="on_click_submit">update</button>
+        <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
         <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
-
       </div>
     </div>
 
@@ -63,11 +52,11 @@
     is: 'form-service-keys',
 
     properties: {
-      services_plivo_public_key_label: {
+      services_public_key_label: {
         type: String,
         value: 'public key'
       },
-      services_plivo_provate_key_label: {
+      services_private_key_label: {
         type: String,
         value: 'private key'
       },
@@ -79,6 +68,10 @@
         type: String,
         value: 'password'
       },
+      admin_email: {
+        type: String,
+        value: 'admin@x-commerce.com'
+      },
       service: {
         type: Object,
         value: function () { return {}; }
@@ -86,10 +79,6 @@
       show: {
         type: Boolean,
         value: false
-      },
-      admin_email: {
-        type: String,
-        value: 'admin@x-commerce.com'
       }
     },
 
@@ -115,6 +104,18 @@
       event.stopPropagation();
       this.set('show', false);
       this.$.update.disabled = false;
+    },
+
+    on_click_show_private_key: function (event) {
+      event.stopPropagation();
+      if (this.$.private_key.type === 'password') {
+        this.$.private_key.type = 'text';
+        this.style = 'color: #0275d8;';
+        return;
+      }
+      this.$.private_key.type = 'password';
+      this.style = 'color: black;';
+      return;
     }
 
   });

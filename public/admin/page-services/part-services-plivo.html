@@ -3,10 +3,11 @@
 <dom-module id="part-services-plivo">
   <template>
     <style include="style-panel"></style>
+    <style include="style-label"></style>
 
-    <iron-ajax id="update_keys" method="POST" content-type="application/json" handle-as="json"
-      url="/api/services/update_service" last-response="{{response}}" on-response="on_response"
-      on-error="on_error">
+    <iron-ajax id="update_keys" method="POST" content-type="application/json"
+      handle-as="json" url="/api/services/update_service"
+      last-response="{{response}}" on-response="on_response" on-error="on_error">
     </iron-ajax>
 
     <div class="panel">

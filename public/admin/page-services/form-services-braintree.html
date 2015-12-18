@@ -1,4 +1,5 @@
 <link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../input-secret/input-secret.html">
 <dom-module id="form-services-braintree">
   <template>
     <style include="style-button"></style>
@@ -20,8 +21,8 @@
         <input-errors property="braintree_public_key" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
-        <label class="label">[[service_braintree_private_key_label]]</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{service.private_key}}">
+        <label class="label">private key</label>
+        <input-secret private_key="{{service.private_key}}"></input-secret>
         <input-errors property="braintree_private_key" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
@@ -59,10 +60,6 @@
       service_braintree_public_key_label: {
         type: String,
         value: 'public key'
-      },
-      service_braintree_private_key_label: {
-        type: String,
-        value: 'private key'
       },
       service_braintree_mercant_id_label: {
         type: String,

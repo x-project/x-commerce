@@ -1,4 +1,5 @@
 <link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../input-secret/input-secret.html">
 <dom-module id="form-services-email">
   <template>
     <style include="style-button"></style>
@@ -21,7 +22,7 @@
       </div>
       <div class="field">
         <label class="label">[[services_password_email_label]]</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{service.email_password}}">
+        <input-secret private_key="{{service.email_password}}"></input-secret>
         <input-errors property="password" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
