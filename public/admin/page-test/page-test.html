@@ -1,46 +1,12 @@
 <link rel="import" href="/components/iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../input-rating/input-rating.html">
+
 <link rel="import" href="input-search.html">
 <dom-module id="page-test">
   <template>
-    <style>
-      :host {
-        display: block;
-        padding: 40px;
-      }
 
-      input-search {
-        width: 300px;
-        --input-search: {
-          padding: 0.5em 1em;
-          border: 1px solid #eee;
-          border-radius: 2px;
-        }
-        --input-search-focused: {
-          border-color: lightblue;
-        }
-        --input-search-datalist: {
-          border: 1px solid #eee;
-        }
-        --input-search-dataitem: {
-          padding: 0.5em 1em;
-        }
-        --input-search-dataitem-selected: {
-          background-color: #eee;
-        }
-      }
-    </style>
-
-    <h1>test</h1>
-
-    <input-search on-change="on_change" items="{{items}}"></input-search>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
+    <input-rating emty-icon="{{emt_icon}}" fill-icon="{{full_icon}}" on-rating="on_rating">
+    </input-rating>
 
   </template>
 </dom-module>
@@ -50,16 +16,20 @@
     is: 'page-test',
 
     properties: {
-      items: {
-        type: Array,
-        value: function () { return ['a', 'b', 'c', 'd', 'e']; }
+      emt_icon: {
+        type: String,
+        value: 'fa fa-star-o fa-2x'
+      },
+      full_icon: {
+        type: String,
+        value: 'fa fa-star fa-2x'
       }
     },
 
-    on_change: function (event) {
-      find({ text: event.detail }, function (result) {
-        this.items = result;
-      })
+    on_rating: function (event) {
+      event.stopPropagation();
+      var rating = event.detail;
+      console.log(rating);
     }
 
   });

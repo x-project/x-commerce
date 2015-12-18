@@ -1,0 +1,67 @@
+<link rel="stylesheet" type="text/css" href="../../fonts/icons/css/font-awesome.min.css">
+<dom-module id="input-star">
+
+  <template>
+    <style>
+      :host {
+        display: block;
+      };
+    </style>
+
+    <i id="star" class="fa fa-star-o fa-5x" style$="{{style}}" value="{{value}}"
+      on-mouseover="on_mouse_over" on-click="on_click">
+
+  </template>
+
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-star',
+
+    properties: {
+      value: {
+        type: Number
+      },
+      rating: {
+        type: Number,
+        observer: '_on_change_rating'
+      },
+      emptyIcon: {
+        type: String,
+        value: 'fa fa-star-o fa-2x'
+      },
+      fullIcon: {
+        type: String,
+        value: 'fa fa-star fa-2x'
+      }
+    },
+
+    attached: function () {
+      this.$.star.setAttribute("class", this.emptyIcon);
+      if (this.rating > 0) {
+        this._on_change_rating(this.rating);
+      }
+    },
+
+    on_mouse_over: function (event) {
+      event.stopPropagation();
+      this.fire('change-value', this.value);
+    },
+
+    on_click: function(event){
+      this.fire('rating', this.value);
+    },
+
+    _on_change_rating: function (value) {
+      if (this.value <= value) {
+        this.style = 'color: gold;';
+        this.$.star.setAttribute("class", this.fullIcon);
+        return;
+      }
+      this.$.star.setAttribute("class", this.emptyIcon);
+      this.style = 'color: silver;';
+    }
+
+  });
+</script>

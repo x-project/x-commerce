@@ -1,6 +1,6 @@
 <link rel="import" href="/components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="input-rating.html">
+<link rel="import" href="../input-rating/input-rating.html">
 <dom-module id="form-feedback">
   <template>
     <style include="style-form">
@@ -11,10 +11,12 @@
 
     <a is="app-link" href="/reviews">Back to reviews</a>
 
-    <form id="form" role="form" read$="{{read}}"on-submit="on_submit">
+    <form id="form" role="form" read$="{{read}}" on-submit="on_submit">
       <div class="field">
         <label class="label">Rating</label>
-        <input-rating review="{{review}}"></input-rating>
+        <input-rating rating="{{review.rating}}" empty-icon="fa fa-star-o fa-2x"
+          fill-icon="fa fa-star fa-2x" on-rating="on_rating">
+        </input-rating>
       </div>
       <div class="field">
         <label class="label">Title</label>
@@ -56,9 +58,19 @@
       this.set('read', true);
     },
 
+    on_rating: function (event) {
+      event.stopPropagation();
+      var rating = event.detail;
+      this.review.rating = rating;
+    },
+
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
+      if (this.review.rating === 0) {
+        alert('rating can be greater than zero');
+        return;
+      }
       this.fire('try-save');
     }
 
