@@ -7,6 +7,7 @@
 <link rel="import" href="part-store-actions.html">
 <link rel="import" href="part-store-contact.html">
 <link rel="import" href="part-store-header.html">
+<link rel="import" href="part-store-image.html">
 <link rel="import" href="part-store-info.html">
 <link rel="import" href="part-store-policy.html">
 <dom-module id="page-store">
@@ -16,6 +17,7 @@
       <part-store-header store="{{store}}"></part-store-header>
       <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
       <part-store-contact store="{{store}}" error="{{error}}"></part-store-contact>
+      <part-store-image store="{{store}}" on-uploaded-image="on_upload_image"></part-store-image>
       <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
       <part-store-actions></part-store-actions>
     </layout-admin>
@@ -108,7 +110,15 @@
 
     on_try_edit: function (event) {
       event.stopPropagation();
-    }
+    },
+
+    on_update_store: function () {
+      page('/admin/store/');
+    },
+
+    on_upload_image: function () {
+      this.on_update_store();
+    },
 
   });
 </script>

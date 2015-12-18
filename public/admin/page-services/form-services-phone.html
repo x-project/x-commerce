@@ -3,10 +3,9 @@
   <template>
     <style include="style-button"></style>
     <style include="style-form"></style>
+    <style include="style-label"></style>
+    <style include="style-field"></style>
     <style>
-      input {
-        box-sizing: border-box;
-      }
       .password {
         display: none;
       }
@@ -14,7 +13,7 @@
         display: block;
       }
     </style>
-    <form id="form" class="form" on-submit="on_submit">
+    <form class="panel-form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[services_taxjar_public_key_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{service.phone}}">
@@ -24,10 +23,18 @@
     </form>
 
     <div class="password" show$="{{show}}">
-      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
-      <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
-      <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
-      <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
+      <div class="panel-form">
+        <div class="field">
+          <label class="label">Admin email</label>
+          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
+        </div>
+        <div class="field">
+          <label class="label">Password</label>
+          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
+        </div>
+        <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
+        <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
+      </div>
     </div>
 
   </template>

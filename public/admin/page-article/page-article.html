@@ -1,5 +1,7 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-article-actions.html">
@@ -11,9 +13,8 @@
   <template>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h2>Articles</h2>
+      <h1>Articles</h1>
       <part-article-header article="{{article}}"></part-article-header>
-      <part-article-actions></part-article-actions>
       <part-article-info article="{{article}}" error="{{error}}"></part-article-info>
       <part-article-image article="{{article}}" on-uploaded-image="on_uploaded_image">
       </part-article-image>

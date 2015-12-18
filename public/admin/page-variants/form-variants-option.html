@@ -125,6 +125,15 @@
     on_submit: function (event) {
       event.preventDefault();
       if (!this.option.name && !this.option.value) {
+        alert('options name cant \t be black');
+        return;
+      }
+      if (!this.option.type && !this.option.type) {
+        alert('options type cant \t be black');
+        return;
+      }
+      if (!this.options || this.options.length == 0) {
+        alert('options value cant \t be black');
         return;
       }
       this.reset_options();

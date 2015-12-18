@@ -20,8 +20,6 @@ node_modules
 npm-debug.log
 public/build
 public/components
-public/icons
-public/fonts
 server/public
 server/images
 server/storage

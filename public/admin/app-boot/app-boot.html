@@ -447,7 +447,7 @@
 
       this.get_model({
           collection: 'product_variants',
-            modelId: context.params.variant_id,
+          modelId: context.params.variant_id,
           include: ['product']
         })
         .then(function (model) {
@@ -525,7 +525,8 @@
 
       this.find_models({
           collection: 'stores',
-          one: true
+          one: true,
+          include: ['image']
         })
         .then(function (model) {
           context.page_name = 'page-store';

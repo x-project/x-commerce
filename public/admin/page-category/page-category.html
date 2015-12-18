@@ -1,6 +1,6 @@
-<link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-category-actions.html">
@@ -9,15 +9,11 @@
 <dom-module id="page-category">
   <template>
 
-    <api-model-delete id="delete" collection="categories" model-id="{{data.category.id}}"
-      on-response="on_delete">
-    </api-model-delete>
-
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <h1>Category</h1>
       <part-category-header category="{{category}}"></part-category-header>
-      <part-category-actions></part-category-actions>
       <part-category-info category="{{category}}" error="{{error}}"></part-category-info>
+      <part-category-actions></part-category-actions>
     </layout-admin>
 
   </template>
@@ -51,13 +47,13 @@
         return;
       }
       if(this.category.id){
-        this.update_model();
+        this.update_category();
         return;
       }
-      this.create_model();
+      this.create_category();
     },
 
-    update_model: function () {
+    update_category: function () {
       Model.update('/api/categories/' + this.category.id, this.category)
       .then(function (data) {
         this.category = data;
@@ -67,7 +63,7 @@
       }.bind(this));
     },
 
-    create_model: function () {
+    create_category: function () {
       Model.create('/api/categories', this.category)
       .then(function (data) {
         this.category = data;

@@ -1,9 +1,19 @@
 <link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <dom-module id="part-articles-actions">
   <template>
     <style include="style-button"></style>
+    <style>
+      .panel-header {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        margin-bottom: 20px;
+      }
+    </style>
 
-    <a is="app-link" class="btn btn-secondary" href="/admin/articles/new">create article</a>
+    <div class="panel-header">
+      <a is="app-link" class="btn btn-secondary" href="/admin/articles/new">create article</a>
+    </div>
 
   </template>
 </dom-module>

@@ -6,7 +6,15 @@
     <style include="style-field"></style>
     <style include="style-label"></style>
     <style include="style-checkbox"></style>
-
+    <style>
+      input-datetime {
+        --datetime-input: {
+          @apply(--form-control);
+        };
+        --datetime-button: {
+        };
+      }
+    </style>
     <div class="panel-form" on-change-date="on_change_visibility">
       <div class="field">
         <input-checkbox checked="{{collection.is_published}}"></input-checkbox>
