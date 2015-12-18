@@ -15,6 +15,13 @@
       .password[show] {
         display: block;
       }
+      i {
+        margin: 0 4px;
+      }
+      a i:hover {
+        color: #0275d8;
+        cursor: pointer;
+      }
     </style>
 
     <form class="panel-form" on-submit="on_submit">
@@ -25,6 +32,7 @@
       <div class="field">
         <label class="label">[[services_plivo_provate_key_label]]</label>
         <input class="form-control" type="password" is="iron-input" bind-value="{{service.private_key}}">
+        <i class="fa fa-eye"></i>
       </div>
       <button id="update" type="submit" class="btn btn-secondary">update</button>
     </div>
