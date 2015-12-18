@@ -57,9 +57,20 @@
       this.set('read', true);
     },
 
+    on_rating: function (event) {
+      event.stopPropagation();
+      var rating = event.detail;
+      this.review.rating = rating;
+      console.log(this.review);
+    },
+
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
+      if (this.review.rating === 0) {
+        alert('rating can be greater than zero');
+        return;
+      }
       this.fire('try-save');
     }
 
