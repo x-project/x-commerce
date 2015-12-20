@@ -2,20 +2,9 @@ var async = require('async');
 
 module.exports = function (Service) {
 
-  function getCurrentUserId() {
-    var ctx = loopback.getCurrentContext();
-    var accessToken = ctx && ctx.get('accessToken');
-    var userId = accessToken && accessToken.userId;
-    return userId;
-  }
-
-
   var verify_admin = function (data) {
     return function (next) {
       var admin_email = data.admin_email;
-      var user_id = getCurrentUserId();
-
-      console.loguser_id
       var admin_password = data.admin_password + '';
       Service.app.models.Manager.findOne({where: {email: admin_email}}, function (err, manager) {
         manager.hasPassword(admin_password)
