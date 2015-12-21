@@ -7,16 +7,12 @@ module.exports = function (Service) {
       var admin_email = data.admin_email;
       var admin_password = data.admin_password + '';
       Service.app.models.Manager.findOne({where: {email: admin_email}}, function (err, manager) {
-        manager.hasPassword(admin_password)
-          .then(function (result) {
-            data.authenticate = result;
-            setImmediate(next, err);
-          })
-          .catch(function (err) {
-            next(err, null);
-          });
+         manager.hasPassword(admin_password, function (err, match) {
+          data.authenticate = match;
+          setImmediate(next, err);
+         });
       });
-    };
+    }
   };
 
   var find_or_create_service = function (data) {

@@ -1,13 +1,14 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/app-session/app-session.html">
 <script src="../../components/page/page.js"></script>
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
 
   Polymer.RouterBehaviour = {
 
     attached: function () {
       this.setup();
-      // this.session.set('my_cart', JSON.stringify([]));
       this.register();
     },
 

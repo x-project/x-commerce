@@ -1,22 +1,10 @@
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="form-login-passwordless-email.html">
-<link rel="import" href="form-login-passwordless-sms.html">
-
+<link rel="import" href="../input-rating/input-rating-2.html">
+<link rel="import" href="../input-rating/input-rating-3.html">
+<link rel="import" href="../input-rating/input-rating-4.html">
 <dom-module id="page-test">
   <template>
 
-
-    <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>Test</h1>
-      </part-jumbotron>
-        <div class="container">
-          <form-login-passwordless-email on-submit-email="on_login_email">
-          </form-login-passwordless-email>
-          <form-login-passwordless-sms on-submit-sms="on_login_sms"></form-login-passwordless-sms>
-        </div>
-    </layout-client>
+    <input-rating-4 values="[1,2,3,4,5,6]" value="3" editable></input-rating-4>
 
   </template>
 </dom-module>

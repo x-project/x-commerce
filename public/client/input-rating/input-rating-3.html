@@ -1,0 +1,79 @@
+<dom-module id="input-rating-3">
+  <template>
+    <style>
+      .stars {
+
+      }
+
+      .stars > .star {
+        display: inline-block;
+        font-size: 30px;
+        float: left;
+        color: coral;
+        @apply(--rating-star);
+      }
+
+      .stars > .star:before {
+        content: "★";
+      }
+      .stars > .star[selected] ~ .star:before {
+        content: "☆";
+      }
+
+      .stars[editable]:hover > .star[selected] ~ .star:before {
+        content: "★";
+      }
+      .stars[editable]:hover > .star:hover ~ .star:before {
+        content: "☆";
+      }
+    </style>
+
+    <div class="stars" editable$="{{editable}}">
+      <template id="stars" is="dom-repeat" items="{{values}}">
+        <span class="star" selected$="{{is_selected(value,item)}}"
+          data-value="{{item}}" on-click="on_click_star"></span>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-rating-3',
+
+    properties: {
+      values: {
+        type: Array,
+        value: function () { return [1,2,3,4,5]; }
+      },
+      value: {
+        type: Number,
+        value: 1,
+        notify: true
+      },
+      editable: {
+        type: Boolean
+      }
+    },
+
+    is_editable: function () {
+      return this.editable;
+    },
+
+    is_selected: function (value, item) {
+      console.log(value, item);
+      return value == item;
+    },
+
+    on_click_star: function (event) {
+      event.stopPropagation();
+      if (!this.editable) {
+        return;
+      }
+      var value = this.$.stars.itemForElement(event.target);
+      this.set('value', value);
+    }
+
+  });
+</script>

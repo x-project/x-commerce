@@ -71,13 +71,9 @@
       Polymer.RouterBehaviour
     ],
 
-    // attached: function () {
-    //   this.$.session.set('token', 'hsjYPQujjL2Ujh7vV3xMSV0WKVtTPYWt4YQ15bNYSQoxFtzg0vKH7R2yIu33Leeh');
-    // },
-
     on_login: function (event) {
-      this.$.session.set('token', event.detail.id);
-      this.$.session.set('user', event.detail.user);
+      this.$.session.set('admin_token', event.detail.id);
+      this.$.session.set('admin_user', event.detail.user);
       page('/admin');
     },
 
@@ -87,8 +83,12 @@
     },
 
     auth: function (context) {
-      return true; //context.token;
+      if (this.$.session.get('admin_token')) {
+        return true;
+      }
+      return false;
     },
+
 
     '/admin': function (context) {
       this.init(context);
@@ -102,18 +102,30 @@
 
     '/admin/articles': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-articles';
       this.open_page(context);
     },
 
     '/admin/articles/new': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-article';
       this.open_page(context);
     },
 
     '/admin/articles/:article_id': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       this.get_model({
           collection: 'articles',
           modelId: context.params.article_id,
@@ -132,6 +144,10 @@
 
     '/admin/categories': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-categories';
       this.open_page(context);
     },
@@ -149,6 +165,10 @@
 
     '/admin/categories/:category_id': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       this.get_model({
           collection: 'categories',
           modelId: context.params.category_id
@@ -256,6 +276,10 @@
 
     '/admin/coupons': function (context) {
       this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
       context.page_name = 'page-coupons';
       this.open_page(context);
     },
@@ -277,7 +301,6 @@
         page('/admin/login');
         return;
       }
-
       this.get_model({
         collection: 'coupons',
         modelId: context.params.coupon_id
@@ -351,7 +374,6 @@
         page('/admin/login');
         return;
       }
-
       this.get_model({
           collection: 'orders',
           modelId: context.params.order_id,
@@ -396,7 +418,6 @@
         page('/admin/login');
         return;
       }
-
       this.get_model({
           collection: 'products',
           modelId: context.params.product_id,
@@ -588,7 +609,6 @@
         page('/admin/login');
         return;
       }
-
       this.get_model({
           collection: 'vendors',
           modelId: context.params.vendor_id

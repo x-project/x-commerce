@@ -38,6 +38,7 @@
     },
 
     attached: function () {
+      // this.$.star.classList.add(this.emptyIcon);
       this.$.star.setAttribute("class", this.emptyIcon);
       if (this.rating > 0) {
         this._on_change_rating(this.rating);
@@ -56,7 +57,7 @@
     _on_change_rating: function (value) {
       if (this.value <= value) {
         this.style = 'color: gold;';
-        this.$.star.setAttribute("class", this.fullIcon);
+        this.$.star.setAttribute("class", ' '+this.fullIcon);
         return;
       }
       this.$.star.setAttribute("class", this.emptyIcon);

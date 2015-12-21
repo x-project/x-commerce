@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="../input-secret/input-secret.html">
 <dom-module id="form-services-email">
@@ -14,6 +15,9 @@
         display: block;
       }
     </style>
+
+    <app-session id="session"></app-session>
+
     <form class="panel-form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[services_email_label]]</label>
@@ -23,7 +27,7 @@
       <div class="field">
         <label class="label">[[services_password_email_label]]</label>
         <input-secret private_key="{{service.email_password}}"></input-secret>
-        <input-errors property="password" error="{{error.details}}"></input-errors>
+        <input-errors property="email_password" error="{{error.details}}"></input-errors>
       </div>
       <div class="field">
         <label class="label">[[services_service_email_label]]</label>
@@ -35,10 +39,6 @@
 
     <div class="password" show$="{{show}}">
       <div class="panel-form">
-        <div class="field">
-          <label class="label">Admin email</label>
-          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
-        </div>
         <div class="field">
           <label class="label">Password</label>
           <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
@@ -92,11 +92,12 @@
 
     on_click_submit: function (event) {
       event.stopPropagation();
+      var admin = this.$.session.get('admin_user');
       var data = {
         email: this.service.email,
         email_password: this.service.email_password,
         email_service: this.service.email_service,
-        admin_email: this.admin_email,
+        admin_email: admin.email,
         admin_password: this.admin_password
       };
       this.fire('submit', data);
