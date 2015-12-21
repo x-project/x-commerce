@@ -1,13 +1,10 @@
-<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="form-services-braintree.html">
 <dom-module id="part-services-braintree">
   <template>
     <style include="style-panel"></style>
 
-    <iron-ajax id="update_keys" method="POST" content-type="application/json" handle-as="json"
-      url="/api/services/update_service" last-response="{{response}}" on-response="on_response"
-      on-error="on_error">
-    </iron-ajax>
+    <app-session id="session"></app-session>
 
     <div class="panel">
       <h2 class="title">Braintree</h2>
@@ -61,18 +58,15 @@
       data.private_key = braintree_data.private_key;
       data.params = {};
       data.params.merchant_id = braintree_data.merchant_id;
-      this.$.update_keys.body = JSON.stringify({data: data});
-      this.$.update_keys.generateRequest();
-    },
 
-    on_response: function (event) {
-      event.stopPropagation();
-      console.log(this.response);
-    },
-
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
+      Model.create('/api/services/update_service', {data: data}, this.$.session.get('admin_token'))
+      .then(function (data) {
+        this.service = data.result;
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+        alert(this.error.message);
+      }.bind(this));
     }
 
   });

@@ -3,6 +3,8 @@
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../input-secret/input-secret.html">
+<link rel="import" href="../../components/app-session/app-session.html">
+
 <dom-module id="form-service-keys">
   <template>
     <style include="style-button"></style>
@@ -18,6 +20,8 @@
       }
     </style>
 
+    <app-session id="session"></app-session>
+
     <form class="panel-form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[services_public_key_label]]</label>
@@ -30,10 +34,6 @@
 
     <div class="password" show$="{{show}}">
       <div class="panel-form">
-        <div class="field">
-          <label class="label">Admin email</label>
-          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
-        </div>
         <div class="field">
           <label class="label">Password</label>
           <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
@@ -68,10 +68,6 @@
         type: String,
         value: 'password'
       },
-      admin_email: {
-        type: String,
-        value: 'admin@x-commerce.com'
-      },
       service: {
         type: Object,
         value: function () { return {}; }
@@ -91,10 +87,11 @@
 
     on_click_submit: function (event) {
       event.stopPropagation();
+      var admin = this.$.session.get('admin_user');
       var keys = {
         public_key: this.service.public_key,
         private_key: this.service.private_key,
-        admin_email: this.admin_email,
+        admin_email: admin.email,
         admin_password: this.admin_password
       };
       this.fire('update', keys);

@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-services-phone">
   <template>
@@ -13,6 +14,9 @@
         display: block;
       }
     </style>
+
+    <app-session id="session"></app-session>
+
     <form class="panel-form" on-submit="on_submit">
       <div class="field">
         <label class="label">[[services_phone_src_label]]</label>
@@ -24,10 +28,6 @@
 
     <div class="password" show$="{{show}}">
       <div class="panel-form">
-        <div class="field">
-          <label class="label">Admin email</label>
-          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_email}}">
-        </div>
         <div class="field">
           <label class="label">Password</label>
           <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
@@ -73,9 +73,10 @@
 
     on_click_submit: function (event) {
       event.stopPropagation();
+      var admin = this.$.session.get('admin_user');
       var data = {
         phone: this.service.phone,
-        admin_email: this.admin_email,
+        admin_email: admin.email,
         admin_password: this.admin_password
       };
       this.fire('submit', data);
