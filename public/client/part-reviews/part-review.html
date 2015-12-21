@@ -1,4 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../input-rating/input-rating.html">
 <link rel="import" href="part-review-reply.html">
 <link rel="import" href="form-review-reply.html">
 <dom-module id="part-review">
@@ -30,7 +31,9 @@
     <div class="comment">
       <div class="rating">
         <label class="label">rating</label>
-        <span class="title">{{review.rating}}</span>
+        <input-rating values="[2,4,6,8,10]" value="{{review.rating}}"
+         on-change="on_change_rating">
+        </input-rating>
       </div>
       <div class="rating">
         <label class="label">title</label>
@@ -95,6 +98,11 @@
     on_error: function (event) {
       event.stopPropagation();
       console.log(event);
+    },
+
+    on_change_rating: function (event) {
+      event.stopPropagation();
+      // notings
     }
 
 

@@ -7,6 +7,9 @@
       form[read]{
         pointer-events: none;
       }
+      #rating {
+        display: inline;
+      }
     </style>
 
     <a is="app-link" href="/reviews">Back to reviews</a>
@@ -14,8 +17,8 @@
     <form id="form" role="form" read$="{{read}}" on-submit="on_submit">
       <div class="field">
         <label class="label">Rating</label>
-        <input-rating rating="{{review.rating}}" empty-icon="fa fa-star-o fa-2x"
-          fill-icon="fa fa-star fa-2x" on-rating="on_rating">
+        <input-rating id="rating" values="[2,4,6,8,10]" value="{{review.rating}}"
+          editable on-change="on_change_rating">
         </input-rating>
       </div>
       <div class="field">
@@ -58,10 +61,9 @@
       this.set('read', true);
     },
 
-    on_rating: function (event) {
+    on_change_rating: function (event) {
       event.stopPropagation();
-      var rating = event.detail;
-      this.review.rating = rating;
+      //notings
     },
 
     on_submit: function (event) {
