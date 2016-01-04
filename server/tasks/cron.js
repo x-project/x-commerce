@@ -9,7 +9,7 @@ module.exports = function (app) {
   var start = function () {
     if (running === false) {
       loop_task(function (err) {
-        running = false
+        running = false;
       });
     }
   };
@@ -21,7 +21,7 @@ module.exports = function (app) {
       var last_retry_at = new Date(tasks[i].last_retry_at)
       var date_now = new Date(moment().format().split('+')[0] + 'Z');
       var minutes_past = (date_now - last_retry_at)/1000/60;
-      console.log(minutes_past, Math.pow(tasks[i].retry_count, 4.09));
+      // console.log(minutes_past, Math.pow(tasks[i].retry_count, 4.09));
       if (minutes_past > Math.pow(tasks[i].retry_count, 4.09)) {
         task = tasks[i];
         test = true;

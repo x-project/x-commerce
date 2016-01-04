@@ -6,21 +6,74 @@ module.exports = function (app) {
   app.tasks =  app.tasks || {};
 
   app.tasks.retry_payment = function (task, callback) {
+    if (task.data.payment_system === 'braintree') {
+      retry_payment_braintree(task, function (err) {
+        callback(err);
+      });
+      return;
+    }
+    if (task.data.payment_system === 'stripe') {
+      retry_payment_stripe(task, function (err) {
+        callback(err);
+      });
+      return;
+    }
+    callback(null);
+    return;
+  };
+
+
+/*==============================STRIPE==============================*/
+  var retry_payment_stripe = function (task, callback) {
+    var data = {};
+    data.task = task;
+    data.payment_status = {};
+    callback(null);
+  };
+/*==================================================================*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var retry_payment_braintree = function (task, callback) {
     var data = {};
     data.task = task;
     data.payment_status = {};
     async.waterfall([
       get_order(data),
-      retry_submit_payment(data),
-      close_order(data),
-      save_payment(data),
+      retry_submit_payment_braintree(data),
+      // close_order_braintree(data),
+      // save_payment_braintree(data),
       // create_review(data)
-      mark_complete_task(data)
+      mark_complete_task_braintree(data)
       // delete_oldest_task(data)
     ],
 
     function (err) {
-      setImmediate(callback, err);
+      callback(err);
     });
   };
 
@@ -44,11 +97,10 @@ module.exports = function (app) {
     };
   };
 
-  var retry_submit_payment = function (data) {
+  var retry_submit_payment_braintree = function (data) {
     return function (next) {
       var amount = 1;  //data.order.total - (data.order.total * data.order.discount)/100;
       var tras_id = data.task.data.transaction_id;
-      console.log(tras_id);
       var _order = app.models.Order;
       _order.braintre_complete_transation(tras_id, amount, function(err, res) {
         data.payment_status.transaction = res;
@@ -57,12 +109,12 @@ module.exports = function (app) {
     };
   };
 
-  var close_order = function (data) {
-    return app.models.Order.try_close_order(data);
+  var close_order_braintree = function (data) {
+    return app.models.Order.try_close_order_braintree(data);
   };
 
-  var save_payment = function (data) {
-    return app.models.Order.try_close_order(data);
+  var save_payment_braintree = function (data) {
+    return app.models.Order.save_payment_braintree(data);
   };
 
 
@@ -145,7 +197,7 @@ module.exports = function (app) {
     };
   };
 
-  var mark_complete_task = function (data) {
+  var mark_complete_task_braintree = function (data) {
     return function (next) {
       var date_now = new Date(moment().format().split('+')[0] + 'Z');
       var task = data.task;

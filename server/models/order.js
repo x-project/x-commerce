@@ -280,27 +280,31 @@ var get_tax = function (data) {
 
   var braintree_checkout = function (data) {
     return function (next) {
-      var transaction = gateway.transaction;
-      var sale_data = {
-        amount: 1,//data.amount
-        paymentMethodNonce: data.payment_method_nonce,
-        options: {
-          submitForSettlement: true
-        }
-      };
-      transaction.sale(sale_data, function (err, res) {
-        if (res.errors !== undefined) {
-          var err_detail = {
-            params: res.params,
-            success: res.success,
-            message: res.message
-          };
-          data.authorization_error = err_detail;
-          setImmediate(next, null);
-          return;
-        }
-        data.payment_status = res;
-        setImmediate(next, err);
+      connect_braintree().then(function (gateway) {
+        var transaction = gateway.transaction;
+        var sale_data = {
+          amount: 1,//data.amount
+          paymentMethodNonce: data.payment_method_nonce,
+          options: {
+            submitForSettlement: true
+          }
+        };
+        transaction.sale(sale_data, function (err, res) {
+          if (res.errors !== undefined) {
+            var err_detail = {
+              params: res.params,
+              success: res.success,
+              message: res.message
+            };
+            data.authorization_error = err_detail;
+            setImmediate(next, null);
+            return;
+          }
+          data.payment_status = res;
+          setImmediate(next, err);
+        });
+      }).catch(function (err) {
+        setImmediate(next, null);
       });
     };
   };
@@ -312,7 +316,8 @@ var get_tax = function (data) {
         order_id: data.order.id,
         transaction_id: data.payment_status.transaction.id,
         customer_id: data.customer.id,
-        error: 'data.payment_status'
+        error: 'data.payment_status', // failure error
+        payment_system: 'braintree'
       },
       handler: 'retry_payment',
       created_at: date_now,
@@ -331,9 +336,10 @@ var get_tax = function (data) {
         order_id: data.order.id,
         transaction_id: data.stripe_token,
         customer_id: data.customer.id,
-        error: 'data.stripe_payment_status'
+        error: 'data.stripe_payment_status', // failure error
+        payment_system: 'stripe'
       },
-      handler: 'retry_payment_stripe',
+      handler: 'retry_payment',
       created_at: date_now,
       priority: 'medium',
       last_retry_at: date_now,
@@ -344,7 +350,7 @@ var get_tax = function (data) {
   };
 
   Order.braintre_complete_transation = function (tras_id, amount, callback) {
-    get_service('braintree').then(function (gateway) {
+    connect_braintree().then(function (gateway) {
       var transaction = gateway.transaction;
       transaction.find(tras_id, function (err, tras_status) {
         if (tras_status.status !== 'submitted_for_settlement') {
@@ -435,15 +441,15 @@ var get_tax = function (data) {
 
   var create_fail_task_braintree = function (data) {
     return function (next) {
-      if (!data.payment_status) {
-        next();
-        return;
-      }
+      // if (!data.payment_status) {
+      //   next();
+      //   return;
+      // }
+      // if (data.payment_status.success) {
+      //   next();
+      //   return;
+      // }
       if (data.payment_status.success) {
-        next();
-        return;
-      }
-      if (!data.payment_status.success) {
         Order.app.models.Task.create(get_task_braintree(data), function (err, model) {
           setImmediate(next, err);
           return;
@@ -454,15 +460,15 @@ var get_tax = function (data) {
 
   var create_fail_task_stripe = function (data) {
     return function (next) {
-      if (!data.stripe_payment_status) {
-        next();
-        return;
-      }
-      if (data.stripe_payment_status.status == 'succeeded') {
-        next();
-        return;
-      }
-      if(data.stripe_payment_status.status !== 'succeeded') {
+      // if (!data.stripe_payment_status) {
+      //   next();
+      //   return;
+      // }
+      // if (data.stripe_payment_status.status == 'succeeded') {
+      //   next();
+      //   return;
+      // }
+      if(data.stripe_payment_status.status == 'succeeded') {
         Order.app.models.Task.create(get_task_stripe(data), function (err, model) {
           setImmediate(next, err);
           return;
@@ -491,7 +497,7 @@ var get_tax = function (data) {
     };
   };
 
-  var save_payment_stripe = function (data) {
+  Order.save_payment_stripe = function (data) {
     return function (next) {
       if (!data.stripe_payment_status) {
         next();
@@ -690,7 +696,7 @@ var get_tax = function (data) {
       stripe_checkout(data),
       Order.prepare_order_review_stripe(data),
       Order.try_close_order_stripe(data),
-      Order.save_payment_braintree(data),
+      Order.save_payment_stripe(data),
       // create_invoice(data),
       create_fail_task_stripe(data)
       // prepare_response(data)
