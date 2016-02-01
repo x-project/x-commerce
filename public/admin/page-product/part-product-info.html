@@ -1,11 +1,22 @@
-<link rel="import" href="form-product-info.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-product-info">
   <template>
     <style include="style-panel"></style>
+    <style include="style-field"></style>
 
     <div class="panel">
       <h2 class="title">[[product_basic_info_label]]</h2>
-      <form-product-info product="{{product}}" error="{{error}}"></form-product-info>
+      <div class="field">
+        <field-text label="title" property="title" value="{{product.title}}"
+          error="{{error}}">
+        </field-text>
+      </div>
+      <div class="field">
+        <field-long-text label="description" property="description" value="{{product.description}}"
+          error="{{error}}">
+        </field-long-text>
+      </div>
     </div>
 
   </template>
@@ -21,6 +32,10 @@
         value: 'Basic info'
       },
       product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

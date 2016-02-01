@@ -1,12 +1,24 @@
-<link rel="import" href="form-product-shipping.html">
+<link rel="import" href="../field-number/field-number.html">
 <dom-module id="part-product-shipping">
   <template>
-    <style include="style-panel"></style>
+    <style include="style-form"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
 
     <div class="panel">
       <h2 class="title">[[product_shipping_title_label]]</h2>
-      <form-product-shipping product="{{product}}"></form-product-shipping>
+      <div class="field">
+        <field-number label="Weigth" property="weight" value="{{product.weight}}"
+          error="{{error}}">
+        </field-number>
+      </div>
+      <div class="field">
+        <input-checkbox checked="{{product.require_shipping}}"></input-checkbox>
+        <label class="label">This product requires shipping</label>
+      </div>
     </div>
+
   </template>
 </dom-module>
 <script>

@@ -316,7 +316,6 @@ var get_tax = function (data) {
         order_id: data.order.id,
         transaction_id: data.payment_status.transaction.id,
         customer_id: data.customer.id,
-        error: 'data.payment_status', // failure error
         payment_system: 'braintree'
       },
       handler: 'retry_payment',
@@ -441,15 +440,15 @@ var get_tax = function (data) {
 
   var create_fail_task_braintree = function (data) {
     return function (next) {
-      // if (!data.payment_status) {
-      //   next();
-      //   return;
-      // }
-      // if (data.payment_status.success) {
-      //   next();
-      //   return;
-      // }
+      if (!data.payment_status) {
+        next();
+        return;
+      }
       if (data.payment_status.success) {
+        next();
+        return;
+      }
+      if (!data.payment_status.success) {
         Order.app.models.Task.create(get_task_braintree(data), function (err, model) {
           setImmediate(next, err);
           return;
@@ -460,15 +459,15 @@ var get_tax = function (data) {
 
   var create_fail_task_stripe = function (data) {
     return function (next) {
-      // if (!data.stripe_payment_status) {
-      //   next();
-      //   return;
-      // }
-      // if (data.stripe_payment_status.status == 'succeeded') {
-      //   next();
-      //   return;
-      // }
-      if(data.stripe_payment_status.status == 'succeeded') {
+      if (!data.stripe_payment_status) {
+        next();
+        return;
+      }
+      if (data.stripe_payment_status.status == 'succeeded') {
+        next();
+        return;
+      }
+      if(data.stripe_payment_status.status !== 'succeeded') {
         Order.app.models.Task.create(get_task_stripe(data), function (err, model) {
           setImmediate(next, err);
           return;
@@ -698,7 +697,7 @@ var get_tax = function (data) {
       Order.try_close_order_stripe(data),
       Order.save_payment_stripe(data),
       // create_invoice(data),
-      create_fail_task_stripe(data)
+      // create_fail_task_stripe(data) //vedi retry_payment.js
       // prepare_response(data)
     ],
 

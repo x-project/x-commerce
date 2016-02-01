@@ -1,0 +1,30 @@
+<dom-module id="field-view">
+  <template>
+
+    {{value}}
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'field-view',
+
+    properties: {
+      item: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      field: {
+        type: String
+      }
+    },
+
+    attached: function () {
+      console.log(this.field);
+      this.value = this.item[this.field];
+    }
+
+  });
+</script>

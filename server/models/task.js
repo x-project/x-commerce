@@ -35,7 +35,7 @@ module.exports = function (Task) {
     var data = {};
     data.task_id = task_id;
 
-    if (!task) {
+    if (!task_id) {
       callback(null);
       return;
     }

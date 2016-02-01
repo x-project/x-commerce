@@ -27,6 +27,7 @@
         <input-checkbox checked="{{product.track_quantity}}" on-change="on_change_track_quantity"></input-checkbox>
         <label class="label">[[product_track_quantity_label]]</label>
       </div>
+
       <div class="hidden field" show$="{{product.track_quantity}}">
         <label class="label">[[product_quantity_label]]</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
@@ -36,6 +37,9 @@
         <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
         <label class="label">[[product_stock]]</label>
       </div>
+
+
+
     </div>
 
   </template>

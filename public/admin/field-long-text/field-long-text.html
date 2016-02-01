@@ -1,0 +1,54 @@
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
+<link rel="import" href="../input-errors/input-errors.html">
+<dom-module id="field-long-text">
+  <template>
+    <style include="style-label"></style>
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style>
+      div.filed iron-autogrow-textarea.textarea {
+        display: block;
+        @apply(--iron-autogrow-textarea);
+          border: .0625rem solid #ccc;
+          border-radius: .25rem;
+      }
+    </style>
+
+     <div class="filed">
+        <label class="label">[[label]]</label>
+        <iron-autogrow-textarea class="textarea" is="iron-input"
+          bind-value="{{value}}" rows="4">
+        </iron-autogrow-textarea>
+        <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
+      </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'field-long-text',
+
+    properties: {
+      label: {
+        type: String,
+        value: ''
+      },
+      value: {
+        type: String,
+        value: '',
+        notify: true
+      },
+      property: {
+        type: String
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

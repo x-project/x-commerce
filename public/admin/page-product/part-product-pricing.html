@@ -1,12 +1,28 @@
-<link rel="import" href="form-product-pricing.html">
+<link rel="import" href="../field-number/field-number.html">
 <dom-module id="part-product-pricing">
   <template>
     <style include="style-panel"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-field"></style>
 
     <div class="panel">
       <h2 class="title">[[product_pricing_title_label]]</h2>
-      <form-product-pricing product="{{product}}"></form-product-pricing>
+      <div class="field">
+        <field-number label="Price" property="price" value="{{product.price}}"
+          error="{{error}}">
+        </field-number>
+      </div>
+      <div class="field">
+        <field-number label="Compare at price" property="compare_at_price"
+          value="{{product.compare_at_price}}" error="{{error}}">
+        </field-number>
+      </div>
+      <div class="field">
+        <input-checkbox checked="{{product.is_charge_taxes}}"></input-checkbox>
+        <label class="label">Charge taxes on this product</label>
+      </div>
     </div>
+
   </template>
 </dom-module>
 <script>
@@ -20,6 +36,10 @@
         value: 'Pricing'
       },
       product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

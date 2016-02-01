@@ -1,12 +1,41 @@
+<link rel="import" href="../../components/input-datetime/input-datetime.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
+<link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="form-product-visibility.html">
+
 <dom-module id="part-product-visibility">
   <template>
-    <style include="style-panel"></style>
-
-    <div class="panel">
+    <style include="style-button"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-field"></style>
+    <style include="style-form"></style>
+    <style include="style-label"></style>
+    <style>
+      .invalid_date{
+        display: none;
+      }
+      .invalid_date[show] {
+        display: block;
+      }
+      input-datetime {
+        --datetime-input: {
+          @apply(--form-control);
+        };
+        --datetime-button: {
+        };
+      }
+    </style>
+    <div class="panel" on-change-date="on_change_visibility">
       <h2 class="title">[[product_visibility_title_label]]</h2>
-      <form-product-visibility product="{{product}}" error="{{error}}">
-      </form-product-visibility>
+      <div class="field">
+        <input-checkbox checked="{{product.is_published}}"></input-checkbox>
+        <label class="label">Online Store</label>
+      </div>
+      <div class="field date">
+        <label class="label">Publish this product on</label>
+        <input-datetime value="{{product.published_at}}"></input-datetime>
+        <input-errors property="published_at" error="{{error.details}}"></input-errors>
+      </div>
     </div>
 
   </template>
@@ -25,6 +54,18 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    attached: function () {
+      if (!this.product.hasOwnProperty('is_published')) {
+        this.set('product.is_published', true);
+        return;
+      }
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.fire('change-visibility');
     }
 
   });

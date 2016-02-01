@@ -1,11 +1,45 @@
-<link rel="import" href="form-product-inventory.html">
+<link rel="import" href="../field-text/field-text.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-product-inventory">
   <template>
-    <style include="style-panel"></style>
-
+    <style include="style-form"></style>
+    <style include="style-checkbox"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
+    <style>
+      .hidden.field {
+        display: none;
+      }
+      .hidden.field[show] {
+        display: block;
+      }
+    </style>
     <div class="panel">
       <h2 class="title">[[product_inventory_title_label]]</h2>
-      <form-product-inventory product="{{product}}"></form-product-inventory>
+      <div class="field">
+        <field-text label="SKY" property="sku" value="{{product.sku}}"
+          error="{{error}}">
+        </field-text>
+      </div>
+      <div class="field">
+        <field-text label="Barcode" property="barcode" value="{{product.barcode}}"
+          error="{{error}}">
+        </field-text>
+      </div>
+      <div class="field">
+        <input-checkbox checked="{{product.track_quantity}}" on-change="on_change_track_quantity">
+        </input-checkbox>
+        <label class="label">Track quantity</label>
+      </div>
+
+      <div class="hidden field" show$="{{product.track_quantity}}">
+        <label class="label">Quantity</label>
+        <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
+      </div>
+      <div class="hidden field" show$="{{product.track_quantity}}">
+        <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
+        <label class="label">Allow customers to purchase this product when it\'s out of stock</label>
+      </div>
     </div>
 
   </template>

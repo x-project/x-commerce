@@ -43,8 +43,8 @@
     },
 
     on_success_pay: function (event) {
-      // event.stopPropagation();
-      console.log(event.detail);
+      event.stopPropagation();
+      var response = event.detail;
       // if (event.detail.result.complete.success) {
       //   this.$.session.set('cart', []);
       //   page('/order/' + event.detail.result.order.id);

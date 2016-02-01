@@ -8,55 +8,39 @@ module.exports = function (app) {
   app.tasks.retry_payment = function (task, callback) {
     if (task.data.payment_system === 'braintree') {
       retry_payment_braintree(task, function (err) {
-        callback(err);
+        callback(err, null);
       });
       return;
     }
-    if (task.data.payment_system === 'stripe') {
-      retry_payment_stripe(task, function (err) {
-        callback(err);
-      });
-      return;
-    }
-    callback(null);
+
+    /*
+      per provare a ritentare il pagamento con stripe serve avere un token
+      generato a lato client. Tale token dipende dai dati della carta e non
+      è univoco(cioè non si puo usare lo stesso token per due volte).
+      Poiche stripe non restituisce un id della trasazione(come braintree),
+      per ritentare il pagamento, è necessario inviare da lato client anche
+      i dati relativi alla carta oltre al classico token. Cosi si puo
+      generare a lato server il token, necessario per iniziare l operazione,
+      per ritentare il pagamento.. Per il momento il task per recuparare il
+      pagamento mal andato con stripe, non viene gestito in attesa di capire
+      se è proprio necessario inviare i dati relativi alla carta per procedere
+      con il ri-tentativo di pagamento(inviare i dati delle carte è rischioso,
+      questo è il motivo per cui i sistemi di pagamento inviano un token che
+      identifica il tipo di pagamento includendo i dati della carta).
+    */
+
+    // if (task.data.payment_system === 'stripe') {
+    //   retry_payment_stripe(task, function (err) {
+    //     callback(err, null);
+    //   });
+    //   return;
+    // }
+
+    callback(null, null);
     return;
   };
 
-
-/*==============================STRIPE==============================*/
-  var retry_payment_stripe = function (task, callback) {
-    var data = {};
-    data.task = task;
-    data.payment_status = {};
-    callback(null);
-  };
-/*==================================================================*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*============================================================*/
 
   var retry_payment_braintree = function (task, callback) {
     var data = {};
@@ -65,15 +49,15 @@ module.exports = function (app) {
     async.waterfall([
       get_order(data),
       retry_submit_payment_braintree(data),
-      // close_order_braintree(data),
-      // save_payment_braintree(data),
+      close_order_braintree(data),
+      save_payment_braintree(data),
       // create_review(data)
       mark_complete_task_braintree(data)
       // delete_oldest_task(data)
     ],
 
     function (err) {
-      callback(err);
+      callback(err, null);
     });
   };
 
@@ -211,5 +195,25 @@ module.exports = function (app) {
       });
     };
   };
+
+/*==============================TODO STRIPE==============================*/
+  var retry_payment_stripe = function (task, callback) {
+    callback(null, null);
+    // var data = {};
+    // data.task = task;
+    // data.payment_status = {};
+
+    // async.waterfall([
+    //   get_order(data),
+    //   retry_submit_payment_stripe(data)
+    // ],
+
+    // function (err) {
+    //   callback(err, null);
+    // });
+
+  };
+
+/*=======================================================================*/
 
 };

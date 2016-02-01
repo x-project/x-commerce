@@ -1,0 +1,41 @@
+<link rel="import" href="../input-errors/input-errors.html">
+<dom-module id="field-text">
+  <template>
+    <style include="style-label"></style>
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+
+    <div class="field">
+      <label class="label">[[label]]</label>
+      <input class="form-control" type="text" is="iron-input" bind-value="{{value}}">
+      <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'field-text',
+
+    properties: {
+      label: {
+        type: String,
+        value: ''
+      },
+      value: {
+        type: String,
+        value: '',
+        notify: true
+      },
+      property: {
+        type: String
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>
