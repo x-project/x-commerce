@@ -26,6 +26,9 @@
 
   </template>
 </dom-module>
+
+<script src="../../components/web-animations-js/web-animations.min.js"></script>
+
 <script>
   Polymer({
 
@@ -41,7 +44,7 @@
       },
       host_name: {
         type: String,
-        value: 'http://localhost:3000/'
+        value: '/'
       },
       height: {
         type: Number
@@ -76,7 +79,6 @@
       ];
       this.style = rules.join(';');
 
-
       //search the corrent or major or minor size
       var best_size = this.search_best_image();
 
@@ -89,6 +91,15 @@
 
       this.async(function () {
         this.style = rules.join(';');
+        var elem = document.querySelector('.image');
+        var animation = elem.animate([
+          { opacity: 0.5, transform: "scale(0.5)" },
+          { opacity: 1.0, transform: "scale(1)" }
+        ], {
+          duration: 500,
+          iterations: 1,
+          easing: 'linear',
+        });
       }, 1500);
     },
 

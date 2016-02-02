@@ -28,13 +28,17 @@
         </div>
       </div>
       <div id="views">
-        <table-view items="{{collections}}" fields=["title","description"] on-click="on_click">
+        <table-view items="{{collections}}" fields=["title","description"] on-click="on_click_edit"
+          on-delete="on_delete_collection">
         </table-view>
       </div>
     </div>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -111,6 +115,23 @@
       event.stopPropagation();
       var collection = event.detail;
       page('/admin/collections/' + collection.id);
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+      var collection = event.detail;
+      page('/admin/collections/' + collection.id);
+    },
+
+    on_delete_collection: function (event) {
+      var collection = event.detail;
+      Model.delete('/api/collections/' + collection.id)
+        .then(function (data) {
+          page('/admin/collections');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
     }
 
   });

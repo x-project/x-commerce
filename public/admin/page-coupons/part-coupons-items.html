@@ -5,12 +5,16 @@
 
     <div class="panel">
     <h2 class="title">[[coupons_items_title_label]]</h2>
-      <table-view items="{{coupons}}" fields=["name","discount","code"] on-click="on_click">
+      <table-view items="{{coupons}}" fields=["name","discount","code"] on-click="on_click_edit"
+        on-delete="on_delete_coupon">
       </table-view>
     </div>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -31,6 +35,23 @@
       event.stopPropagation();
       var coupon = event.detail;
       page('/admin/coupons/' + coupon.id);
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+      var coupon = event.detail;
+      page('/admin/coupons/' + coupon.id);
+    },
+
+    on_delete_coupon: function (event) {
+      var coupon = event.detail;
+      Model.delete('/api/coupons/' + coupon.id)
+        .then(function (data) {
+          page('/admin/coupons');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
     }
 
   });

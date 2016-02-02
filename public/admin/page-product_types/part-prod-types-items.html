@@ -5,7 +5,8 @@
 
     <div class="panel">
     <h2 class="title">[[prod_type_items_title_label]]</h2>
-      <table-view items="{{prod_types}}" fields=["name","description"] on-click="on_click">
+      <table-view items="{{prod_types}}" fields=["name","description"] on-click="on_click_edit"
+        on-delete="on_delete_prod_type">
       </table-view>
     </div>
 
@@ -31,6 +32,23 @@
       event.stopPropagation();
       var prod_type = event.detail;
       page('/admin/product_types/' + prod_type.id);
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+      var prod_type = event.detail;
+      page('/admin/product_types/' + prod_type.id);
+    },
+
+    on_delete_prod_type: function (event) {
+      var prod_type = event.detail;
+      Model.delete('/api/product_types/' + prod_type.id)
+        .then(function (data) {
+          page('/admin/product_types');
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+        }.bind(this));
     }
 
   });
