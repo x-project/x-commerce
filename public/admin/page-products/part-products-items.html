@@ -32,8 +32,9 @@
         </div>
       </div>
       <div id="views">
-        <!-- <table-view items="{{products}}" fields=["title","description"]></table-view> -->
-        <table-products id="table" products="{{products}}"></table-products>
+        <table-view items="{{products}}" fields=["title","description","price"] on-click="on_click">
+        </table-view>
+        <!-- <table-products id="table" products="{{products}}"></table-products> -->
       </div>
     </div>
 
@@ -50,6 +51,8 @@
         value: function () { return []; }
       }
     },
+
+
 
     attached: function () {
       this.color_table = 'color: #0275d8;';
@@ -105,6 +108,12 @@
       viewer.id = id;
       viewer.products = this.products;
       return viewer;
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      var product = event.detail;
+      page('/admin/products/' + product.id);
     }
 
   });

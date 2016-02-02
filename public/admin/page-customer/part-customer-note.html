@@ -1,3 +1,4 @@
+<link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="form-customer-note.html">
 <dom-module id="part-customer-note">
   <template>
@@ -5,7 +6,9 @@
 
     <div class="panel">
       <h2 class="title">Notes</h2>
-      <form-customer-note customer="{{customer}}"></form-customer-note>
+      <field-long-text label="Note" property="note" value="{{customer.note}}"
+        error="{{error}}">
+      </field-long-text>
     </div>
 
   </template>

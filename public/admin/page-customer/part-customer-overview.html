@@ -1,11 +1,19 @@
-<link rel="import" href="form-customer-overview.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-customer-overview">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
       <h2 class="title">Overview</h2>
-      <form-customer-overview customer="{{customer}}" error="{{error}}"></form-customer-overview>
+      <field-text label="First name" property="first_name" value="{{customer.first_name}}"
+        error="{{error}}">
+      </field-text>
+      <field-text label="Last name" property="last_name" value="{{customer.last_name}}"
+        error="{{error}}">
+      </field-text>
+      <field-text label="Email" property="email" value="{{customer.email}}" error="{{error}}">
+      </field-text>
     </div>
 
   </template>

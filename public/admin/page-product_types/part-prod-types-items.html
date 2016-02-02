@@ -1,3 +1,4 @@
+<link rel="import" href="../table-view/table-view.html">
 <link rel="import" href="table-prod-types.html">
 <dom-module id="part-prod-types-items">
   <template>
@@ -5,7 +6,9 @@
 
     <div class="panel">
     <h2 class="title">[[prod_type_items_title_label]]</h2>
-      <table-prod-types prod_types="{{prod_types}}"></table-prod-types>
+      <table-view items="{{prod_types}}" fields=["name","description"] on-click="on_click">
+      </table-view>
+      <!-- <table-prod-types prod_types="{{prod_types}}"></table-prod-types> -->
     </div>
 
   </template>
@@ -24,6 +27,12 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      var prod_type = event.detail;
+      page('/admin/product_types/' + prod_type.id);
     }
 
   });

@@ -1,12 +1,32 @@
-<link rel="import" href="form-collection-visibility.html">
+<link rel="import" href="../../components/input-datetime/input-datetime.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-collection-visibility">
   <template>
     <style include="style-panel"></style>
-
-    <div class="panel">
-      <h3 class="title">[[colleciton_visibility_title_label]]</h3>
-      <form-collection-visibility collection="{{collection}}" error="{{error}}">
-      </form-collection-visibility>
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
+    <style include="style-checkbox"></style>
+    <style>
+      input-datetime {
+        --datetime-input: {
+          @apply(--form-control);
+        };
+        --datetime-button: {
+        };
+      }
+    </style>
+    <div class="panel" on-change-date="on_change_visibility">
+      <h3 class="title">Collection Visibility</h3>
+      <div class="field">
+        <input-checkbox checked="{{collection.is_published}}"></input-checkbox>
+        <label class="label">Online Store</label>
+      </div>
+      <div class="field">
+        <label class="label">Publish this product on</label>
+        <input-datetime class="input" value="{{collection.published_at}}"></input-datetime>
+        <input-errors property="published_at" error="{{error.details}}"></input-errors>
+      </div>
     </div>
 
   </template>
@@ -17,15 +37,22 @@
     is: 'part-collection-visibility',
 
     properties: {
-      colleciton_visibility_title_label: {
-        type: String,
-        value: 'Collection Visibility'
-      },
       collection: {
         type: Object,
         value: function () { return {}; }
       }
-    }
+    },
 
+    attached: function () {
+      if (!this.collection.hasOwnProperty('is_published')) {
+        this.set('collection.is_published', true);
+        return;
+      }
+    },
+
+    on_change_visibility: function (event) {
+      event.stopPropagation();
+      this.fire('change-visibility');
+    }
   });
 </script>

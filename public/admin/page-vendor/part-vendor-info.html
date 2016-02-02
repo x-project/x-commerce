@@ -1,11 +1,18 @@
-<link rel="import" href="form-vendor-info.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-vendor-info">
   <template>
     <style include="style-panel"></style>
+    <style include="style-field"></style>
 
     <div class="panel">
       <h2 class="title">Overview</h2>
-      <form-vendor-info vendor="{{vendor}}" error="{{error}}"></form-vendor-info>
+      <field-text label="Full name" property="name" value="{{vendor.name}}"
+        error="{{error}}">
+      </field-text>
+      <field-long-text label="description" property="description" value="{{product.description}}"
+        error="{{error}}">
+      </field-long-text>
     </div>
 
   </template>

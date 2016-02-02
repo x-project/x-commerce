@@ -1,3 +1,4 @@
+<link rel="import" href="../table-view/table-view.html">
 <link rel="import" href="table-categories.html">
 <dom-module id="part-categories-items">
   <template>
@@ -5,7 +6,9 @@
 
     <div class="panel">
       <h2 class="title">[[categories_items_title_label]]</h2>
-      <table-categories id="table" categories="{{categories}}"></table-categories>
+      <table-view items="{{categories}}" fields=["name","description"] on-click="on_click">
+      </table-view>
+      <!-- <table-categories id="table" categories="{{categories}}"></table-categories> -->
     </div>
 
   </template>
@@ -24,6 +27,12 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      var categorie = event.detail;
+      page('/admin/categories/' + categorie.id);
     }
 
   });

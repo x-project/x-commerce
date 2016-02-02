@@ -1,11 +1,18 @@
-<link rel="import" href="form-article-info.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-article-info">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
       <h2 class="title">[[article_info_title_label]]</h2>
-      <form-article-info article="{{article}}" error="{{error}}"></form-article-info>
+      <field-text label="title" property="title" value="{{article.title}}" error="{{error}}"></field-text>
+      <field-long-text label="Summary" property="summary" value="{{article.summary}}"
+        error="{{error}}">
+      </field-long-text>
+      <field-long-text label="Content" property="content" value="{{article.content}}"
+        error="{{error}}">
+      </field-long-text>
     </div>
 
   </template>

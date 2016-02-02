@@ -7,16 +7,10 @@
 
     <div class="panel">
       <h2 class="title">[[product_basic_info_label]]</h2>
-      <div class="field">
-        <field-text label="title" property="title" value="{{product.title}}"
-          error="{{error}}">
-        </field-text>
-      </div>
-      <div class="field">
-        <field-long-text label="description" property="description" value="{{product.description}}"
-          error="{{error}}">
-        </field-long-text>
-      </div>
+      <field-text label="title" property="title" value="{{product.title}}" error="{{error}}"></field-text>
+      <field-long-text label="description" property="description" value="{{product.description}}"
+        error="{{error}}">
+      </field-long-text>
     </div>
 
   </template>

@@ -10,23 +10,19 @@
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
-          <tr>
-            <template id="filed" is="dom-repeat" items="{{fields}}" as="filed">
-              <th>{{filed}}</th>
+          <tr on-click="on_click_row">
+            <template is="dom-repeat" items="{{fields}}" as="field">
+              <th>{{field}}</th>
             </template>
           </tr>
         </thead>
         <tbody>
           <template id="items" is="dom-repeat" items="{{items}}" as="item">
-            <template id="filed" is="dom-repeat" items="{{fields}}" as="field">
-              <tr class="text-center">
-                <td>
-                  <field-view item="{{item}}" field="{{field}}"></field-view>
-                </td>
-                <!-- <td>{{print_title(item, filed)}}</td> -->
-              </tr>
-            </template>
-
+            <tr class="text-center" on-click="on_click">
+              <template is="dom-repeat" items="{{fields}}" as="field">
+                <td>{{_value(item,field)}}</td>
+              </template>
+            </tr>
           </template>
         </tbody>
       </table>
@@ -46,12 +42,24 @@
         value: function () { return []; }
       },
       fields: {
-        type: Array
+        type: Array,
+        value: function () { return []; }
       }
     },
 
-    print_title: function (item, filed) {
-      return item[filed];
+    _value: function (item, field) {
+      return item[field];
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      var item = this.$.items.itemForElement(event.target);
+      this.fire('click', item);
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
     }
 
   });

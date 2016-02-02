@@ -1,11 +1,15 @@
-<link rel="import" href="form-prod-type-info.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-prod-type-info">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
       <h2 class="title">[[prod_type_overview_title_label]]</h2>
-      <form-prod-type-info prod_type="{{prod_type}}" error="{{error}}"></form-prod-type-info>
+      <field-text label="Name" property="name" value="{{prod_type.name}}" error="{{error}}"></field-text>
+      <field-long-text label="description" property="description" value="{{prod_type.description}}"
+        error="{{error}}">
+      </field-long-text>
     </div>
 
   </template>

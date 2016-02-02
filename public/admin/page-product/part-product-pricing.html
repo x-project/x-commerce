@@ -7,16 +7,12 @@
 
     <div class="panel">
       <h2 class="title">[[product_pricing_title_label]]</h2>
-      <div class="field">
-        <field-number label="Price" property="price" value="{{product.price}}"
-          error="{{error}}">
-        </field-number>
-      </div>
-      <div class="field">
-        <field-number label="Compare at price" property="compare_at_price"
-          value="{{product.compare_at_price}}" error="{{error}}">
-        </field-number>
-      </div>
+      <field-number label="Price" property="price" value="{{product.price}}"
+        error="{{error}}">
+      </field-number>
+      <field-number label="Compare at price" property="compare_at_price"
+        value="{{product.compare_at_price}}" error="{{error}}">
+      </field-number>
       <div class="field">
         <input-checkbox checked="{{product.is_charge_taxes}}"></input-checkbox>
         <label class="label">Charge taxes on this product</label>

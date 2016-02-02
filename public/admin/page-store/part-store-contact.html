@@ -1,11 +1,49 @@
-<link rel="import" href="form-store-contact.html">
+<link rel="import" href="../field-text/field-text.html">
+<link rel="import" href="../input-phone/input-phone.html">
+
 <dom-module id="part-store-contact">
   <template>
     <style include="style-panel"></style>
+    <style include="style-form"></style>
+    <style include="style-label"></style>
+    <style include="style-field"></style>
+    <style>
+      .mobile {
+        --input-phone-prefix: {
+          @apply(--form-control);
+          width: 60%;
+        };
+        --input-phone-number: {
+          @apply(--form-control);
+          width: 60%;
+        };
+      }
+      .office {
+        --input-phone-prefix: {
+          @apply(--form-control);
+          width: 60%;
+        };
+        --input-phone-number: {
+          @apply(--form-control);
+          width: 60%;
+        };
+      }
+    </style>
 
     <div class="panel">
       <h2 class="title">[[part_contact_label]]</h2>
-      <form-store-contact store="{{store}}" error="{{error}}"></form-store-contact>
+
+      <field-text label="Email" property="email" value="{{store.email}}"
+        error="{{error}}">
+      </field-text>
+      <div class="field">
+        <label class="label">Mobile Phone</label>
+        <input-phone class="mobile" phone="{{store.mobile_phone}}"></input-phone>
+      </div>
+      <div class="field">
+        <label class="label">Office Phone</label>
+        <input-phone class="office" phone="{{store.office_phone}}"></input-phone>
+      </div>
     </div>
 
   </template>
@@ -21,6 +59,10 @@
         value: 'Contact'
       },
       store: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

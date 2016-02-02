@@ -1,11 +1,39 @@
-<link rel="import" href="form-customer-address.html">
+<link rel="import" href="../../components/input-location/input-location.html">
+<link rel="import" href="../field-number/field-number.html">
 <dom-module id="part-customer-address">
   <template>
     <style include="style-panel"></style>
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style>
+      input-location {
+        display: block !important;
+        --input-location: {
+          @apply(--form-control);
+        };
+      }
+    </style>
 
     <div class="panel">
       <h2 class="title">Address</h2>
-      <form-customer-address customer="{{customer}}"></form-customer-address>
+
+      <div class="field">
+        <label class="label">Address</label>
+        <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
+      </div>
+
+      <field-number label="Location number" property="location_number" value="{{customer.location_number}}"
+        error="{{error}}">
+      </field-number>
+      <field-number label="Bell number" property="bell" value="{{customer.bell}}"
+        error="{{error}}">
+      </field-number>
+
+      <div class="field">
+        <label class="label">Phone</label>
+        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.phone}}">
+      </div>
+
     </div>
 
   </template>
@@ -20,6 +48,14 @@
         type: Object,
         value: function () {return {}; }
       }
+    },
+
+    ready: function () {
+      this.option  = { 'types': ['address'] };
+    },
+
+    on_change_place: function (place) {
+      // console.log(place);
     }
 
   });

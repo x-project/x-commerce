@@ -1,11 +1,15 @@
-<link rel="import" href="form-coupon-discount.html">
+<link rel="import" href="../field-number/field-number.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-coupon-discount">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
       <h2 class="title">[[coupon_discount_title_label]]</h2>
-      <form-coupon-discount coupon="{{coupon}}" error="{{error}}"></form-coupon-discount>
+      <field-number label="Discount" property="discount" value="{{coupon.discount}}"
+        error="{{error}}">
+      </field-number>
+      <field-text label="Code" property="code" value="{{coupon.code}}" error="{{error}}"></field-text>
     </div>
 
   </template>

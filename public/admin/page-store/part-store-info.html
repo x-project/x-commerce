@@ -1,11 +1,17 @@
-<link rel="import" href="form-store-info.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-store-info">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
       <h2 class="title">Basic Info</h2>
-      <form-store-info store="{{store}}" error="{{error}}"></form-store-info>
+      <field-text label="Full name" property="name" value="{{store.name}}"
+        error="{{error}}">
+      </field-text>
+      <field-long-text label="description" property="description" value="{{store.description}}"
+        error="{{error}}">
+      </field-long-text>
     </div>
 
   </template>
@@ -17,6 +23,10 @@
 
     properties: {
       store: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
         type: Object,
         value: function () { return {}; }
       }

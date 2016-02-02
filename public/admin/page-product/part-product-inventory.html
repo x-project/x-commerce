@@ -16,16 +16,13 @@
     </style>
     <div class="panel">
       <h2 class="title">[[product_inventory_title_label]]</h2>
-      <div class="field">
-        <field-text label="SKY" property="sku" value="{{product.sku}}"
-          error="{{error}}">
-        </field-text>
-      </div>
-      <div class="field">
-        <field-text label="Barcode" property="barcode" value="{{product.barcode}}"
-          error="{{error}}">
-        </field-text>
-      </div>
+      <field-text label="SKU" property="sku" value="{{product.sku}}"
+        error="{{error}}">
+      </field-text>
+      <field-text label="Barcode" property="barcode" value="{{product.barcode}}"
+        error="{{error}}">
+      </field-text>
+
       <div class="field">
         <input-checkbox checked="{{product.track_quantity}}" on-change="on_change_track_quantity">
         </input-checkbox>
@@ -36,6 +33,7 @@
         <label class="label">Quantity</label>
         <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
       </div>
+
       <div class="hidden field" show$="{{product.track_quantity}}">
         <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
         <label class="label">Allow customers to purchase this product when it\'s out of stock</label>

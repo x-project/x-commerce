@@ -1,11 +1,36 @@
-<link rel="import" href="form-customer-tags.html">
+<link rel="import" href="../../components/input-tags/input-tags.html">
 <dom-module id="part-customer-tags">
   <template>
     <style include="style-panel"></style>
-
+    <style include="style-form"></style>
+    <style include="style-field"></style>
+    <style include="style-label"></style>
+    <style>
+      input-tags {
+        --field-tags-items: {
+          padding: 2px;
+          border: 1px solid #aaa;
+          border-radius: 2px;
+        };
+        --field-tags-input: {
+          @apply(--form-control);
+          @apply(--input-tags);
+        };
+        --field-tags-item: {
+          @apply(--label);
+          @apply(--label-primary);
+          margin: 2px 0px;
+          padding: 0.5em;
+          display: inline-block;
+        };
+        --label-tags: {
+          @apply(--label);
+        };
+      }
+    </style>
     <div class="panel">
       <h2 class="title">[[customer_tags_title_label]]</h2>
-      <form-customer-tags customer="{{customer}}"></form-customer-tags>
+      <input-tags tags="{{customer.tags}}" on-change="on_change_tags"></input-tags>
     </div>
 
   </template>
@@ -24,6 +49,11 @@
         type: Object,
         value: function () {return {}; }
       }
+    },
+
+    on_change_tags: function (event) {
+      event.stopPropagation();
+      this.customer.tags = event.detail;
     }
 
   });
