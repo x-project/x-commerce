@@ -1,5 +1,4 @@
 <link rel="import" href="../table-view/table-view.html">
-<link rel="import" href="table-articles.html">
 <dom-module id="part-articles-items">
   <template>
     <style include="style-panel"></style>
@@ -8,7 +7,6 @@
       <h2 class="title">[[articles_items_title_label]]</h2>
       <table-view items="{{articles}}" fields=["title","summary","content"] on-click="on_click">
       </table-view>
-      <!-- <table-articles id="table" articles="{{articles}}"></table-articles> -->
     </div>
 
   </template>

@@ -1,8 +1,5 @@
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
-<link rel="import" href="table-products.html">
 <link rel="import" href="strips-products.html">
-
 <dom-module id="part-products-items">
   <template>
     <style include="style-panel"></style>
@@ -34,7 +31,6 @@
       <div id="views">
         <table-view items="{{products}}" fields=["title","description","price"] on-click="on_click">
         </table-view>
-        <!-- <table-products id="table" products="{{products}}"></table-products> -->
       </div>
     </div>
 

@@ -1,6 +1,5 @@
 <link rel="import" href="../table-view/table-view.html">
 <link rel="import" href="strips-collections.html">
-<link rel="import" href="table-collections.html">
 <dom-module id="part-collections-items">
   <template>
     <style include="style-panel"></style>
@@ -31,7 +30,6 @@
       <div id="views">
         <table-view items="{{collections}}" fields=["title","description"] on-click="on_click">
         </table-view>
-        <!-- <table-collections id="table" collections="{{collections}}"></table-collections> -->
       </div>
     </div>
 

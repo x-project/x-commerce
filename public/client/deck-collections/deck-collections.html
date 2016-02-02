@@ -1,20 +1,22 @@
-<link rel="import" href="../../styles/style-card/style-card.html">
 <link rel="import" href="../../styles/style-deck/style-deck.html">
-<link rel="import" href="../../styles/style-image/style-image.html">
-<dom-module id="part-home-collections">
+<link rel="import" href="../../styles/style-card/style-card.html">
+<dom-module id="deck-collections">
   <template>
     <style include="style-deck"></style>
     <style include="style-card"></style>
-    <style include="style-image"></style>
 
     <div class="deck">
       <template is="dom-repeat" items="{{collections}}" as="collection">
         <div class="card">
+          <image-preview class="card-img-top img-responsive" image="{{collection.images.0}}"
+            sizing="contain" like-size="120"
+            height="100" width="100">
+          </image-preview>
           <div class="card-block">
             <h4 class="card-title">{{collection.title}}</h4>
           </div>
           <div class="card-block">
-            <a href="/collection/{{collection.id}}" class="card-link">view</a>
+            <a href="/collections/{{collection.id}}" class="card-link">view</a>
           </div>
         </div>
       </template>
@@ -25,7 +27,7 @@
 <script>
   Polymer({
 
-    is: 'part-home-collections',
+    is: 'deck-collections',
 
     properties: {
       collections: {

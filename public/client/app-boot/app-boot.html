@@ -10,6 +10,7 @@
 <link rel="import" href="../page-article/page-article.html">
 <link rel="import" href="../page-articles/page-articles.html">
 <link rel="import" href="../page-cart/page-cart.html">
+<link rel="import" href="../page-collection/page-collection.html">
 <link rel="import" href="../page-contact/page-contact.html">
 <link rel="import" href="../page-forgot/page-forgot.html">
 <link rel="import" href="../page-home/page-home.html">
@@ -116,6 +117,26 @@
       this.init(context);
       context.page_name = 'page-contact';
       this.open_page(context);
+    },
+
+   '/collections/:collection_id': function (context) {
+      this.init(context);
+      this.get_model({
+        collection: 'collections',
+        modelId: context.params.collection_id,
+        include: [{'products': ['images']}]
+
+      })
+      .then(function (model) {
+        context.page_name = 'page-collection';
+        context.data = {};
+        context.data.collection = model;
+        this.open_page(context);
+      }.bind(this))
+      .catch(function (err) {
+        context.page_name = 'page-404';
+        this.open_page(context);
+      });
     },
 
     '/enter': function (context) {

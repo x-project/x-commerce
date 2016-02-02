@@ -1,5 +1,6 @@
 <link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../components/text-view/text-view.html">
 <link rel="import" href="field-view.html">
 
 <dom-module id="table-view">
@@ -20,7 +21,9 @@
           <template id="items" is="dom-repeat" items="{{items}}" as="item">
             <tr class="text-center" on-click="on_click">
               <template is="dom-repeat" items="{{fields}}" as="field">
-                <td>{{_value(item,field)}}</td>
+                <td>
+                  <text-view text="{{_value(item,field)}}" limit="30"></text-view>
+                </td>
               </template>
             </tr>
           </template>
