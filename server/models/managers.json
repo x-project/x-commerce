@@ -24,7 +24,7 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "count"
+      "property": "find"
     }
   ],
   "validations": [],

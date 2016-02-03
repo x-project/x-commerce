@@ -11,13 +11,12 @@
     <api-model-find id="find_members" collection="managers" response="{{members}}">
     </api-model-find>
 
-    <api-model-find id="find_invites" collection="invites" include='["sender"]'
+    <api-model-find id="find_invites" collection="invites" include=["sender"]
       response="{{invites}}">
     </api-model-find>
 
     <layout-admin>
       <h2>Team</h2>
-      <h2>asd</h2>
       <part-team-actions></part-team-actions>
       <part-team-members members="{{members}}"></part-team-members>
       <part-team-invites invites="{{invites}}"></part-team-invites>

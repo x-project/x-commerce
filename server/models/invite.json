@@ -59,7 +59,7 @@
   "relations": {
     "sender": {
       "type": "belongsTo",
-      "model": "Member"
+      "model": "Manager"
     }
   },
   "acls": [
@@ -104,6 +104,12 @@
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "resend"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "find"
     }
   ],
   "methods": {}
