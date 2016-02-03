@@ -343,8 +343,22 @@
         page('/admin/login');
         return;
       }
-      context.page_name = 'page-member';
-      this.open_page(context);
+      this.get_model({
+          collection: 'managers',
+          modelId: context.params.member_id,
+          token: this.$.session.get('admin_token')
+        })
+        .then(function (model) {
+          context.page_name = 'page-member';
+          context.data.member = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
+
     },
 
     '/admin/orders': function (context) {

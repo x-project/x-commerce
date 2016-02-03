@@ -1,5 +1,4 @@
 <link rel="import" href="../../components/api-model-create/api-model-create.html">
-<link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
@@ -47,10 +46,9 @@
       }
     },
 
-
     on_try_invite: function (event) {
       event.stopPropagation();
-      this.$.create.accessToken = this.$.session.get('token');
+      this.$.create.accessToken = this.$.session.get('admin_token');
       this.$.create.data = this.member;
       this.$.create.send();
     },

@@ -65,14 +65,12 @@
   "acls": [
     {
       "principalType": "ROLE",
-      "accessType": "EXECUTE",
       "principalId": "$everyone",
-      "permission": "DENY",
+      "permission": "ALLOW",
       "property": "create"
     },
     {
       "principalType": "ROLE",
-      "accessType": "EXECUTE",
       "principalId": "admin",
       "permission": "ALLOW",
       "property": "create"
@@ -91,13 +89,6 @@
       "permission": "ALLOW",
       "property": "revoke"
     },
-   {
-      "principalType": "ROLE",
-      "accessType": "EXECUTE",
-      "principalId": "$everyone",
-      "permission": "DENY",
-      "property": "resend"
-    },
     {
       "principalType": "ROLE",
       "accessType": "EXECUTE",
@@ -107,7 +98,13 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "owner",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
       "permission": "ALLOW",
       "property": "find"
     }

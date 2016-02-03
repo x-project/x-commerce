@@ -1,27 +1,16 @@
-<link rel="import" href="/components/app-link/app-link.html">
-<link rel="import" href="../part-sidebar/part-sidebar.html">
-tags
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="form-member.html">
 
 <dom-module id="page-member">
   <template>
 
+    <app-session id="session"></app-session>
 
-    <api-model-get id="get" access-token="{{route.session.accessToken}}"
-      collection="members" model-id="{{member_id}}"
-      response="{{member}}">
-    </api-model-get>
-
-    <div class="page">
-      <part-sidebar class="sidebar"></part-sidebar>
-      <div class="main">
-        <div class="container">
-          <h2>edit member</h2>
-          <form-member member="{{member}}" token="{{route.session.accessToken}}"></form-member>
-        </div>
-      </div>
-    </div>
-
+    <layout-admin>
+      <h2>Member</h2>
+      <form-member member="{{member}}" token="{{token}}"></form-member>
+    </layout-admin>
   </template>
 </dom-module>
 
@@ -38,10 +27,8 @@ tags
     },
 
     attached: function () {
-      this.set('member_id', this.route.params.member_id);
-      this.async(function () {
-        this.$.get.send();
-      });
+      this.member = this.data.member;
+      this.token = this.$.session.get('admin_token');
     }
 
   });

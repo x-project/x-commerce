@@ -58,7 +58,7 @@ module.exports = function (Invite) {
         role: invite.role,
         status: invite.status
       };
-      var token = jwt.encode(payload, process.env.SECRET);
+      var token = jwt.encode(payload, '123123123123');
       invite.expiresAt = expiresAt;
       invite.token = token;
       invite.url = encodeURI(template_url(invite));
@@ -114,10 +114,7 @@ module.exports = function (Invite) {
   };
 
   Invite.afterRemote('create', function( ctx, invite, done) {
-    var x_data = {
-      invite: invite
-    };
-
+    var x_data = { invite: invite };
     // TODO IMPROVE THIS WATERFALL
     async.waterfall([
       if_async.not(is_complete(x_data))

@@ -42,11 +42,11 @@
     },
 
     attached: function () {
-      var token = this.$.session.get('token');
-      this.$.find_members.accessToken = token;
+      var admin_token = this.$.session.get('admin_token');
+      this.$.find_members.accessToken = admin_token;
       this.$.find_members.send();
 
-      this.$.find_invites.accessToken = token;
+      this.$.find_invites.accessToken = admin_token;
       this.$.find_invites.send();
     }
 

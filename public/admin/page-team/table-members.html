@@ -10,24 +10,22 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>#</th>
             <th>Fullname</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Edit</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <template id="members" is="dom-repeat" items="{{members}}" as="member">
-            <tr class="text-center">
-              <th scope="row">{{index}}</th>
+            <tr class="text-center" on-click="on_click">
               <td>{{member.fullname}}</td>
               <td>{{member.email}}</td>
               <td>{{member.role}}</td>
               <td>
                 <!--hidden$="{{!route.session.isAdmin}} hide edit link-->
-                <a is="app-link" class="btn btn-link"
-                  href="/admin/members/{{member.id}}">edit
+                <a is="app-link" class="btn btn-link" href="/admin/members/{{member.id}}">
+                  <i class="fa fa-pencil"></i>
                 </a>
               </td>
             </tr>
@@ -47,6 +45,12 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      var member = this.$.members.itemForElement(event.target);
+      page('/admin/members/' + member.id);
     }
 
   });

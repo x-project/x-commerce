@@ -1,11 +1,34 @@
-<link rel="import" href="form-invite-member.html">
+<link rel="import" href="../../components/iron-selector/iron-selector.html">
+<link rel="import" href="../field-number/field-number.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-invite-member">
   <template>
     <style include="style-panel"></style>
-
+    <style>
+      iron-selector {
+        font-size: 12px;
+      }
+      .iron-selected {
+        background: #eee;
+      }
+      input {
+        box-sizing: border-box;
+      }
+    </style>
     <div class="panel">
       <h2 class="title">[[invite_member_info_label]]</h2>
-        <form-invite-member member="{{member}}" error="{{error}}"></form-invite-member>
+      <field-text label="Email" property="email" value="{{member.email}}" error="{{error}}"></field-text>
+      <div class="field">
+        <label>role</label>
+        <iron-selector attr-for-selected="name" selected="{{member.role}}">
+          <div name="author">author</div>
+          <div name="editor">editor</div>
+          <div name="admin">admin</div>
+        </iron-selector>
+      </div>
+      <field-number label="Expires in (days)" property="expiresIn" value="{{member.expiresIn}}"
+        error="{{error}}">
+      </field-number>
     </div>
 
   </template>
@@ -28,6 +51,17 @@
       error: {
         type: Object,
         value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      if (!this.member.role) {
+        this.member.role = 'author';
+        this.set('member.role', this.member.role);
+      }
+      if (!this.member.expiresIn) {
+        this.member.expiresIn = 7;
+        this.set('member.expiresIn', this.member.expiresIn);
       }
     }
 

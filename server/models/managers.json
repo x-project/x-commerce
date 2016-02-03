@@ -16,13 +16,13 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "admin",
+      "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "find"
+      "property": "count"
     },
     {
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "admin",
       "permission": "ALLOW",
       "property": "find"
     }
