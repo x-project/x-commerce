@@ -65,8 +65,7 @@
     "dataSource": "mongo"
   },
   "Email": {
-    "dataSource": "email",
-    "public": false
+    "dataSource": "email"
   },
   "Invite": {
     "dataSource": "mongo"
