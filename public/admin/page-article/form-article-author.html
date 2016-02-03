@@ -77,7 +77,7 @@
     },
 
     count_authors: function () {
-      Model.count('/api/managers/count', {},  this.$.session.get('token'))
+      Model.count('/api/managers/count', {},  this.$.session.get('admin_token'))
         .then(function (data) {
           this.count = data.count;
         }.bind(this))
@@ -89,7 +89,7 @@
 
     get_authors: function () {
       var pattern = '/' + this.value +'/' + 'i';
-      Model.find('/api/managers', this.get_filter_options(pattern), this.$.session.get('token'))
+      Model.find('/api/managers', this.get_filter_options(pattern), this.$.session.get('admin_token'))
         .then(function (data) {
           this.filter_authors = data;
         }.bind(this))

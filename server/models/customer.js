@@ -165,9 +165,9 @@ module.exports = function (Customer) {
 
 
   Customer.on('resetPasswordRequest', function (info) {
-    // console.log(info.user); // the requested user
-    // console.log(info.email); // the email of the requested user
-    // console.log(info.accessToken); // the temp access token to allow password reset
+    console.log(info.user); // the requested user
+    console.log(info.email); // the email of the requested user
+    console.log(info.accessToken); // the temp access token to allow password reset
     // TODO: send email to user
   });
 
