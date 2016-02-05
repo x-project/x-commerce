@@ -1,5 +1,4 @@
-<link rel="import" href="/components/app-link/app-link.html">
-<link rel="import" href="/components/api-user-signup/api-user-signup.html">
+<link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="form-signup.html">
 <dom-module id="page-signup">
   <style>
@@ -16,10 +15,9 @@
   </style>
   <template>
 
-    <api-user-signup id="signup" credentials="{{credentials}}" collection="members"
-      response="{{response}}" error="{{error}}"
-      on-response="on_signup" on-error="on_error">
-    </api-user-signup>
+    <iron-ajax id="ajax_email" method="POST" handle-as="json" content-type="application/json"
+      on-response="on_response_send_email" last-response="{{response}}">
+    </iron-ajax>
 
     <div id="panel" class="container">
       <a is="app-link" href="/">&larr;</a>
@@ -54,13 +52,23 @@
       }
     },
 
-    on_submit: function (event) {
-      this.credentials = event.detail;
-      this.$.signup.send();
+    attached: function () {
     },
 
-    on_signup: function (event) {
-      page('/');
+    on_submit: function (event) {
+      var credentials = event.detail;
+      var data = {
+        email: credentials.email,
+        password: credentials.password,
+        token: this.data.token
+      };
+      this.$.ajax_email.body = JSON.stringify({credentials: data});
+      this.$.ajax_email.url = '/api/managers/confirm_invite';
+      this.$.ajax_email.generateRequest();
+    },
+
+    on_response_send_email: function (event) {
+      this.fire('signup', this.response.result);
     },
 
     on_error: function (event) {

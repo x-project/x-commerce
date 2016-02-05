@@ -1,9 +1,9 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../input-secret/input-secret.html">
-<link rel="import" href="../../components/app-session/app-session.html">
 
 <dom-module id="form-service-keys">
   <template>
@@ -27,8 +27,8 @@
         <label class="label">[[services_public_key_label]]</label>
         <input class="form-control" type="text" is="iron-input" bind-value="{{service.public_key}}">
       </div>
-      <label class="label">private key</label>
-      <input-secret private_key="{{service.private_key}}"></input-secret>
+      <input-secret label="private key" private_key="{{service.private_key}}">
+      </input-secret>
       <button id="update" type="submit" class="btn btn-secondary">update</button>
     </div>
 

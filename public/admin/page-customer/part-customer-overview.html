@@ -1,3 +1,4 @@
+<link rel="import" href="../input-secret/input-secret.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-customer-overview">
@@ -14,6 +15,9 @@
       </field-text>
       <field-text label="Email" property="email" value="{{customer.email}}" error="{{error}}">
       </field-text>
+      <input-secret label="password" private_key="{{customer.password}}">
+      </input-secret>
+      <button on-click="on_click_random_password">Get password</button>
     </div>
 
   </template>
@@ -28,6 +32,16 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_click_random_password: function (event) {
+      event.stopPropagation();
+      var random_password = (Date.now() + '').substring(6,12) + this.getRandomIntInclusive(1, 1000000);
+      this.set('customer.password', random_password);
+    },
+
+    getRandomIntInclusive: function (min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
   });

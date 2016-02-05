@@ -32,18 +32,13 @@
 
     <div class="panel">
       <h2 class="title">[[part_contact_label]]</h2>
-
       <field-text label="Email" property="email" value="{{store.email}}"
         error="{{error}}">
       </field-text>
-      <div class="field">
-        <label class="label">Mobile Phone</label>
-        <input-phone class="mobile" phone="{{store.mobile_phone}}"></input-phone>
-      </div>
-      <div class="field">
-        <label class="label">Office Phone</label>
-        <input-phone class="office" phone="{{store.office_phone}}"></input-phone>
-      </div>
+      <input-phone class="mobile" label="Mobile Phone" phone="{{store.mobile_phone}}">
+      </input-phone>
+      <input-phone class="office" label="Office Phone" phone="{{store.office_phone}}">
+      </input-phone>
     </div>
 
   </template>

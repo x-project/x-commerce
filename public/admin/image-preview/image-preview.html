@@ -88,19 +88,6 @@
         'height: '+ this.height + 'px',
         'width: ' + this.width + '%',
       ];
-
-      this.async(function () {
-        this.style = rules.join(';');
-        var elem = document.querySelector('.image');
-        var animation = elem.animate([
-          { opacity: 0.5, transform: "scale(0.5)" },
-          { opacity: 1.0, transform: "scale(1)" }
-        ], {
-          duration: 500,
-          iterations: 1,
-          easing: 'linear',
-        });
-      }, 1500);
     },
 
     sort_thumbs_size: function () {

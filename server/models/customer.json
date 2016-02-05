@@ -194,6 +194,18 @@
       "principalId": "$everyone",
       "permission": "ALLOW",
       "property": "__destroyById__shipping_addresses"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "send_credentials_email"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "owner",
+      "permission": "ALLOW",
+      "property": "send_credentials_email"
     }
   ],
   "validations": [],

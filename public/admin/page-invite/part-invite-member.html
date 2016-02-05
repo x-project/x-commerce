@@ -1,6 +1,8 @@
-<link rel="import" href="../../components/iron-selector/iron-selector.html">
+<link rel="import" href="../input-secret/input-secret.html">
 <link rel="import" href="../field-number/field-number.html">
 <link rel="import" href="../field-text/field-text.html">
+<link rel="import" href="../input-select/input-select.html">
+
 <dom-module id="part-invite-member">
   <template>
     <style include="style-panel"></style>
@@ -11,23 +13,24 @@
       .iron-selected {
         background: #eee;
       }
-      input {
-        box-sizing: border-box;
-      }
     </style>
     <div class="panel">
       <h2 class="title">[[invite_member_info_label]]</h2>
-      <field-text label="Email" property="email" value="{{member.email}}" error="{{error}}"></field-text>
-      <div class="field">
-        <label>role</label>
-        <iron-selector attr-for-selected="name" selected="{{member.role}}">
-          <div name="author">author</div>
-          <div name="editor">editor</div>
-          <div name="admin">admin</div>
-        </iron-selector>
-      </div>
-      <field-number label="Expires in (days)" property="expiresIn" value="{{member.expiresIn}}"
+      <field-text label="Full name" property="full_name" value="{{member.full_name}}"
         error="{{error}}">
+      </field-text>
+      <field-text label="Email" property="email" value="{{member.email}}"
+        error="{{error}}">
+      </field-text>
+
+      <input-secret label="password" private_key="{{member.password}}">
+      </input-secret>
+      <button on-click="on_click_random_password">Get password</button>
+      <input-select label="Role" options="{{options}}" on-change="on_change">
+      </input-select>
+
+      <field-number label="Expires in (days)" property="expiresIn"
+        value="{{member.expiresIn}}" error="{{error}}">
       </field-number>
     </div>
 
@@ -54,7 +57,14 @@
       }
     },
 
+
     attached: function () {
+      this.options = [
+        { author: 'author' },
+        { editor: 'editor' },
+        { admin: 'admin' }
+      ];
+
       if (!this.member.role) {
         this.member.role = 'author';
         this.set('member.role', this.member.role);
@@ -63,6 +73,16 @@
         this.member.expiresIn = 7;
         this.set('member.expiresIn', this.member.expiresIn);
       }
+    },
+
+    on_click_random_password: function (event) {
+      event.stopPropagation();
+      var random_password = (Date.now() + '').substring(6,12) + this.getRandomIntInclusive(1, 1000000);
+      this.set('member.password', random_password);
+    },
+
+    getRandomIntInclusive: function (min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
   });

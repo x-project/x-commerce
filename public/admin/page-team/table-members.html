@@ -13,7 +13,9 @@
             <th>Fullname</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Actions</th>
+            <template is="dom-if" if="{{manager.isMainAdmin}}">
+              <th>Actions</th>
+            </template>
           </tr>
         </thead>
         <tbody>
@@ -23,10 +25,11 @@
               <td>{{member.email}}</td>
               <td>{{member.role}}</td>
               <td>
-                <!--hidden$="{{!route.session.isAdmin}} hide edit link-->
-                <a is="app-link" class="btn btn-link" href="/admin/members/{{member.id}}">
-                  <i class="fa fa-pencil"></i>
-                </a>
+                <template is="dom-if" if="{{manager.isMainAdmin}}">
+                  <a is="app-link" class="btn btn-link" href="/admin/members/{{member.id}}">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                </template>
               </td>
             </tr>
           </template>
@@ -44,11 +47,18 @@
       members: {
         type: Array,
         value: function () { return []; }
+      },
+      manager: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
     on_click: function (event) {
       event.stopPropagation();
+      if (!this.manager.isMainAdmin) {
+        return;
+      }
       var member = this.$.members.itemForElement(event.target);
       page('/admin/members/' + member.id);
     }

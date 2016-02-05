@@ -6,7 +6,7 @@
   <template>
     <div class="panel">
       <h2 class="title">[[team_members_title_label]]</h2>
-      <table-members members="{{members}}"></table-members>
+      <table-members manager="{{manager}}" members="{{members}}"></table-members>
     </div>
 
   </template>
@@ -25,6 +25,10 @@
       members: {
         type: Array,
         value: function () { return []; }
+      },
+      manager: {
+        type: Object,
+        value: function () { return {}; }
       }
     }
 

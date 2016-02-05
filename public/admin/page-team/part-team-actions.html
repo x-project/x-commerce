@@ -4,14 +4,25 @@
   <template>
     <style include="style-button"></style>
 
-    <a is="app-link" class="btn btn-secondary" href="/admin/invites/new">invite new team member</a>
+
+    <template is="dom-if" if="{{manager.isMainAdmin}}">
+      <a is="app-link" class="btn btn-secondary" href="/admin/invites/new">invite new team member
+      </a>
+    </template>
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'part-team-actions'
+    is: 'part-team-actions',
+
+    properties: {
+      manager: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
   });
 </script>

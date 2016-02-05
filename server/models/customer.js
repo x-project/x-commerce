@@ -7,6 +7,8 @@ var plivo = require('plivo');
 
 module.exports = function (Customer) {
 
+  var host = 'http://localhost:3000/';
+
   var services = {};
 
   function get_service (name) {
@@ -28,7 +30,7 @@ module.exports = function (Customer) {
   }
 
   var mandrill_client;
-  function connect_mandrill_client () {
+  Customer.connect_mandrill_client = function () {
     return new Promise(function (resolve, reject) {
       if (mandrill_client) {
         resolve(mandrill_client);
@@ -43,7 +45,7 @@ module.exports = function (Customer) {
   }
 
   var plivo_client;
-  function connect_plivo_client () {
+  Customer.connect_plivo_client = function () {
     return new Promise(function (resolve, reject) {
       if (plivo_client) {
         resolve(plivo_client);
@@ -60,6 +62,71 @@ module.exports = function (Customer) {
       });
     });
   }
+
+
+
+/*=========send credentials for email===========*/
+
+  var credentials_email = function (credentials, callback) {
+    get_service('email')
+      .then(function (serivce) {
+        var signed_url = "<div><p>email: "+ credentials.email +"</p></br><p>password: "+ credentials.password +"</p></div>";
+        var message = {
+          "html": signed_url,
+          "text": "credentials",
+          "subject": "credentials",
+          "from_email": serivce.params.email,
+          "from_name": "x-commerce",
+          "to": [{
+            "email": credentials.email,
+            "name": "x-commerce",
+            "type": "to"
+          }],
+          "headers": {
+            "Reply-To": serivce.params.email
+          },
+          "subaccount": "123",
+        };
+        callback(null, message);
+    }).catch(function (err) {
+      callback(err, null);
+    });
+  };
+
+
+  Customer.send_credentials_email = function (credentials, callback) {
+    credentials_email(credentials, function (err, message) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      Customer.connect_mandrill_client()
+        .then(function (mandrill_client) {
+          mandrill_client.messages.send({"message": message},
+            function (res) {
+              callback(null, res);
+            },
+            function (err) {
+              callback(err, null);
+            }
+          );
+        }).catch(function (err) {
+          callback(err, null);
+        });
+    });
+  };
+
+
+  Customer.remoteMethod('send_credentials_email', {
+    accepts: [
+      { arg: 'credentials', type: 'object', required: true },
+    ],
+    returns: { arg: 'result', type: 'object' },
+    http: { path: '/send_credentials_email', verb: 'post' }
+  });
+
+/*===============================================*/
+
 
 
   function getCurrentUserId() {
@@ -171,10 +238,9 @@ module.exports = function (Customer) {
     // TODO: send email to user
   });
 
-  var prepare_mail = function (destination_email, enter_token, callback) {
+  var prepare_mail_sms_login = function (destination_email, enter_token, callback) {
     get_service('email')
       .then(function (serivce) {
-        var host = 'http://localhost:3000/';
         var link = host + 'enter?token=' + enter_token;
         var signed_url = '<a href="' + link + '">' + link + '</a>';
         var message = {
@@ -198,6 +264,34 @@ module.exports = function (Customer) {
       callback(err, null);
     });
   };
+
+
+  var prepare_mail_for_send_credentials = function (data, callback) {
+    get_service('email')
+      .then(function (serivce) {
+        var message = {
+          "html": "<div><p>Email: " +data.email +"</p></br><p>Password: " +data.password +"</p></div>",
+          "text": "credentials",
+          "subject": "credentials",
+          "from_email": serivce.params.email,
+          "from_name": "x-commerce",
+          "to": [{
+            "email": destination_email,
+            "name": "x-commerce",
+            "type": "to"
+          }],
+          "headers": {
+            "Reply-To": serivce.params.email
+          },
+          "subaccount": "123",
+        };
+        callback(null, message);
+    }).catch(function (err) {
+      callback(err, null);
+    });
+  };
+
+
 
   var create_new_customer = function (data) {
     return function (next) {
@@ -248,12 +342,12 @@ module.exports = function (Customer) {
 
   var send_signed_url_by_email = function (data) {
     return function (next) {
-      prepare_mail(data.email, data.token, function (err, message) {
+      prepare_mail_sms_login(data.email, data.token, function (err, message) {
         if (err) {
           setImmediate(next, err);
           return;
         }
-        connect_mandrill_client()
+        Customer.connect_mandrill_client()
           .then(function (mandrill_client) {
             mandrill_client.messages.send({"message": message},
               function (res) {
@@ -385,7 +479,7 @@ module.exports = function (Customer) {
             'url' : "http://example.com/report/",
             'method' : "GET"
           };
-          connect_plivo_client()
+          Customer.connect_plivo_client()
             .then(function (plivo_client) {
               plivo_client.send_message(params, function (status, response) {
               data.response = { status: status, response: response };
@@ -503,5 +597,6 @@ module.exports = function (Customer) {
     returns: { arg: 'result', type: 'object' },
     http: { path: '/enter_sms', verb: 'post' }
   });
+
 
 };

@@ -1,12 +1,15 @@
 <link rel="import" href="../../components/api-user-reset/api-user-reset.html">
+<link rel="import" href="../../components/app-session/app-session.html">
+
 <dom-module id="part-customer-send-email">
   <template>
     <style include="style-panel"></style>
     <style include="style-button"></style>
 
-    <api-user-reset id="reset" collection="customers" email="{{email}}"
-      response="{{response}}">
-    </api-user-reset>
+    <app-session id="session"></app-session>
+    <iron-ajax id="ajax_email" method="POST" handle-as="json" content-type="application/json"
+      on-response="on_response_send_email" last-response="{{response}}">
+    </iron-ajax>
 
     <div class="panel">
       <h2 class="title">TODO Send email</h2>
@@ -30,7 +33,7 @@
     attached: function () {
       if(this.customer.id) {
         this.$.button.disabled = false;
-        return
+        return;
       }
     },
 
@@ -39,8 +42,18 @@
       if (!this.validate_email()) {
         return;
       }
-      this.email = this.customer.email;
-      this.$.reset.send();
+      var data = {
+        email: this.customer.email,
+        password: this.customer.password
+      };
+      this.$.ajax_email.body = JSON.stringify({credentials: data});
+      this.$.ajax_email.url = '/api/customers/send_credentials_email';
+      this.$.ajax_email.headers.Authorization = this.$.session.get('admin_token');
+      this.$.ajax_email.generateRequest();
+    },
+
+    on_response_send_email: function (event) {
+      console.log(this.response);
     },
 
     validate_email: function () {

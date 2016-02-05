@@ -1,7 +1,10 @@
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
+
 <dom-module id="input-phone">
   <template>
     <style include="style-form"></style>
+    <style include="style-label"></style>
     <style>
       input {
         box-sizing: border-box;
@@ -14,11 +17,13 @@
       }
     </style>
 
-    <input class="prefix" type="number" is="iron-input"
-      bind-value="{{prefix}}">
-
-    <input class="number" type="number" is="iron-input"
-      bind-value="{{number}}">
+    <div class="field">
+      <label class="label">[[label]]</label>
+      <input class="prefix" type="number" is="iron-input"
+        bind-value="{{prefix}}">
+      <input class="number" type="number" is="iron-input"
+        bind-value="{{number}}">
+    </div>
 
   </template>
 </dom-module>
@@ -39,6 +44,10 @@
       phone: {
         type: String,
         notify: true
+      },
+      label: {
+        type: String,
+        value: ''
       }
     },
 

@@ -1,0 +1,54 @@
+<link rel="import" href="../../styles/style-label/style-label.html">
+<dom-module id="input-select">
+  <template>
+    <style include="style-label"></style>
+
+    <div class="select">
+      <label class="label">[[label]]</label>
+      <select id="select" on-change="on_change">
+        <option value=""></option>
+        <template is="dom-repeat" items="{{options}}" as="option">
+          <option value="{{_get_value(option)}}">{{_get_option(option)}}</option>
+        </template>
+      </select>
+    </div>
+
+  </template>
+</dom-module>
+
+<!--
+  require input like:
+  options = [ { author: 'author1' }, { editor: 'editor1' }, { admin: 'admin1' }];
+-->
+
+<script>
+  Polymer({
+
+    is: 'input-select',
+
+    properties: {
+      options: {
+        type: Array,
+        value: function () { return []; }
+      },
+      label: {
+        type: String,
+        value: ''
+      }
+    },
+
+    on_change: function (event) {
+      event.stopPropagation();
+      this.fire('change', this.$.select.value);
+    },
+
+    _get_option: function (option) {
+      return Object.keys(option)[0];
+    },
+
+    _get_value: function (option) {
+      return option[this._get_option(option)];
+    }
+
+  });
+</script>

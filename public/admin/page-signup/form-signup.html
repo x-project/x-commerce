@@ -38,7 +38,6 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
-      console.log(this.credentials)
       this.fire('submit', this.credentials);
     }
 

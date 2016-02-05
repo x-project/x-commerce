@@ -133,6 +133,14 @@
           </a>
         </li>
       </ul>
+      <ul class="links">
+        <li>
+          <a is="app-link" class="link" href="/" on-click="on_click">
+            <i class="fa fa-sign-out fa-lg"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
     </nav>
 
   </template>
@@ -140,7 +148,13 @@
 <script>
   Polymer({
 
-    is: 'part-sidebar'
+    is: 'part-sidebar',
+
+    on_click: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.fire('logout');
+    }
 
   });
 </script>

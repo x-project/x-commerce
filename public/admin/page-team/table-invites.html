@@ -6,29 +6,31 @@
     <style include="style-table"></style>
     <style include="style-basic"></style>
     <div class="table-responsive">
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Invite for</th>
-            <th>As</th>
-            <th>Issued by</th>
-            <th>Issued by</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template id="vendors" is="dom-repeat" items="{{invites}}" as="invite">
-            <tr class="text-center">
-              <th scope="row">{{index}}</th>
-              <td>{{invite.email}}</td>
-              <td>{{invite.role}}</td>
-              <td>{{invite.sender.fullname}}</td>
-              <td>{{invite.status}}</td>
+      <template is="dom-if" if="{{manager.isMainAdmin}}">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Invite for</th>
+              <th>As</th>
+              <th>Issued by</th>
+              <th>Issued by</th>
+              <th>Status</th>
             </tr>
-          </template>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <template id="vendors" is="dom-repeat" items="{{invites}}" as="invite">
+              <tr class="text-center">
+                <th scope="row">{{index}}</th>
+                <td>{{invite.email}}</td>
+                <td>{{invite.role}}</td>
+                <td>{{invite.sender.fullname}}</td>
+                <td>{{invite.status}}</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </template>
     </div>
   </template>
 </dom-module>
@@ -41,6 +43,10 @@
       invites: {
         type: Array,
         value: function () { return []; }
+      },
+      manager: {
+        type: Object,
+        value: function () { return {}; }
       }
     }
 

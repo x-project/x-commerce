@@ -1,15 +1,27 @@
 <link rel="import" href="../../components/input-location/input-location.html">
+<link rel="import" href="../input-phone/input-phone.html">
 <link rel="import" href="../field-number/field-number.html">
 <dom-module id="part-customer-address">
   <template>
     <style include="style-panel"></style>
     <style include="style-form"></style>
     <style include="style-field"></style>
+    <style include="style-label"></style>
     <style>
       input-location {
         display: block !important;
         --input-location: {
           @apply(--form-control);
+        };
+      }
+      .phone {
+        --input-phone-prefix: {
+          @apply(--form-control);
+          width: 60%;
+        };
+        --input-phone-number: {
+          @apply(--form-control);
+          width: 60%;
         };
       }
     </style>
@@ -21,19 +33,14 @@
         <label class="label">Address</label>
         <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
       </div>
-
       <field-number label="Location number" property="location_number" value="{{customer.location_number}}"
         error="{{error}}">
       </field-number>
       <field-number label="Bell number" property="bell" value="{{customer.bell}}"
         error="{{error}}">
       </field-number>
-
-      <div class="field">
-        <label class="label">Phone</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{customer.phone}}">
-      </div>
-
+      <input-phone class="phone" label="Phone" phone="{{customer.phone}}">
+      </input-phone>
     </div>
 
   </template>

@@ -5,9 +5,11 @@
   <template>
 
     <div class="panel">
-    <h2 class="title">[[team_invites_title_label]]</h2>
-      <template is="dom-repeat" items="{{invites}}" as="invite">
-        <item-invite item="{{invite}}"></item-invite>
+      <template is="dom-if" if="{{manager.isMainAdmin}}">
+        <h2 class="title">[[team_invites_title_label]]</h2>
+        <template is="dom-repeat" items="{{invites}}" as="invite">
+          <item-invite item="{{invite}}"></item-invite>
+        </template>
       </template>
     </div>
 
@@ -26,6 +28,10 @@
       },
       invites: {
         type: Array,
+        value: function () { return {}; }
+      },
+      manager: {
+        type: Object,
         value: function () { return {}; }
       }
     }

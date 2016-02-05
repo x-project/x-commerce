@@ -17,9 +17,9 @@
 
     <layout-admin>
       <h2>Team</h2>
-      <part-team-actions></part-team-actions>
-      <part-team-members members="{{members}}"></part-team-members>
-      <part-team-invites invites="{{invites}}"></part-team-invites>
+      <part-team-actions manager="{{manager}}"></part-team-actions>
+      <part-team-members manager="{{manager}}" members="{{members}}"></part-team-members>
+      <part-team-invites manager="{{manager}}" invites="{{invites}}"></part-team-invites>
     </layout-admin>
 
   </template>
@@ -38,10 +38,15 @@
       invites: {
         type: Array,
         value: function () { return []; }
+      },
+      manager: {
+        type: Object,
+        value: function () { return {}; }
       }
     },
 
     attached: function () {
+      this.manager = this.data.manager;
       var admin_token = this.$.session.get('admin_token');
       this.$.find_members.accessToken = admin_token;
       this.$.find_members.send();
