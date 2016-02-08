@@ -6,10 +6,10 @@
   },
   "base": "PersistedModel",
   "properties": {
-    "passwordless_content": {
+    "type": {
       "type": "String"
     },
-    "invite_content": {
+    "text": {
       "type": "String"
     },
     "by": {
@@ -17,7 +17,44 @@
     }
   },
   "relations": {},
-  "acls": [],
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "owner",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "owner",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "owner",
+      "permission": "ALLOW",
+      "property": "upsert"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "admin",
+      "permission": "ALLOW",
+      "property": "upsert"
+    }
+  ],
   "methods": [],
   "validations": []
 }

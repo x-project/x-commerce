@@ -1,15 +1,17 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-mail-invite">
   <template>
     <style include="style-button"></style>
 
+    <app-session id="session"></app-session>
     <div class="panel">
       <h3>Invite content</h3>
-      <field-long-text label="Message in HTML" property="message" value="{{message}}"
+      <field-long-text label="Message in HTML" property="text" value="{{message.text}}"
         error="{{error}}">
       </field-long-text>
-      <button class="btn btn-secondary">Submit</button>
+      <button class="btn btn-secondary" on-click="on_submit">Submit</button>
     </div>
 
   </template>
@@ -23,8 +25,40 @@
     properties: {
       messages: {
         type: Array,
-        value: function () { return []; }
+        value: function () { return []; },
+        observer: '_on_change_messages'
+      },
+      message: {
+        type: Object,
+        value: function () { return {}; }
       }
+    },
+
+    _on_change_messages: function () {
+      if (!this.messages) {
+        return;
+      }
+      var message = {};
+      this.messages.find(function (item) {
+        if (item.type == "invite_collaborators") {
+          this.message = item;
+          return true;
+        }
+      }, this);
+    },
+
+    on_submit: function (event) {
+      event.stopPropagation();
+      var data = {
+        type: 'invite_collaborators',
+        text: this.message.text
+      };
+      if (!this.message.id) {
+        this.fire('try-create', data);
+        return;
+      }
+      data.id = this.message.id;
+      this.fire('try-update', data);
     }
 
   });

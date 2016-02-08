@@ -23,11 +23,12 @@ Model.create = function (url, data, token) {
   .then(status);
 }
 
-Model.update = function (url, data) {
+Model.update = function (url, data, token) {
   return fetch(url, {
     method: 'put',
     headers: {
-      'Content-type': 'application/json'
+      'Content-type': 'application/json',
+      'Authorization': token
     },
     body: JSON.stringify(data)
   })

@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
@@ -10,7 +11,9 @@
 <dom-module id="page-mail">
   <template>
 
-    <layout-admin>
+    <app-session id="session"></app-session>
+
+    <layout-admin on-try-create="on_try_create" on-try-update="on_try_update">
       <h1>Mail messages</h1>
       <part-mail-passwordless messages="{{messages}}"></part-mail-passwordless>
       <part-mail-invite messages="{{messages}}"></part-mail-invite>
@@ -26,9 +29,54 @@
 
     is: 'page-mail',
 
-    properties: {},
+    properties: {
+      services: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
 
-    attached: function () {
+    attached: function () {
+      this.get_messages();
+    },
+
+    on_updated: function () {
+      this.get_messages();
+    },
+
+    get_messages: function () {
+      Model.find('/api/mail_messages', {}, this.$.session.get('admin_token'))
+        .then(function (data) {
+          this.messages = data;
+        }.bind(this))
+        .catch(function (error) {
+          alert(this.error);
+          this.error = error;
+        }.bind(this));
+    },
+
+    on_try_create: function (event) {
+      console.log(event);
+      Model.create('/api/mail_messages', event.detail, this.$.session.get('admin_token'))
+      .then(function (data) {
+        this.get_messages();
+      }.bind(this))
+      .catch(function (error) {
+        this.error = error;
+        alert(this.error.message);
+      }.bind(this));
+    },
+
+    on_try_update: function (event) {
+      console.log(event.detail);
+      Model.update('/api/mail_messages/' + event.detail.id, event.detail, this.$.session.get('admin_token'))
+      .then(function (data) {
+        this.get_messages();
+      }.bind(this))
+      .catch(function (error) {
+        alert(this.error);
+        this.error = error;
+      }.bind(this));
     }
 
   });
