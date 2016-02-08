@@ -4,14 +4,18 @@ module.exports = function (Manager) {
 
   var get_invite_by_email = function (data) {
     return function (next) {
-      var filter = {where: { email: data.email }};
+
+      var filter = { where: { and: [{email: data.email}, {status: 'pending'}]}};
       Manager.app.models.Invite.findOne(filter, function (err, model) {
+        if (!model) {
+          next(new Error('invite has been revoked: contact the Administrator of the system'), null);
+          return;
+        }
         data.invite = model;
         setImmediate(next, err);
       });
     };
   }
-
 
   var create_manager_token = function (data) {
     return function (next) {
@@ -84,7 +88,6 @@ module.exports = function (Manager) {
   };
 
 
-
   Manager.remoteMethod('confirm_invite', {
     accepts: [
       { arg: 'credentials', type: 'object', required: true },
@@ -92,6 +95,5 @@ module.exports = function (Manager) {
     returns: { arg: 'result', type: 'object' },
     http: { path: '/confirm_invite', verb: 'post' }
   });
-
 
 };

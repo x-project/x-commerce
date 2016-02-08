@@ -1,0 +1,23 @@
+{
+  "name": "MailMessage",
+  "plural": "mail_messages",
+  "mongodb": {
+    "collection": "mail_messages"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "passwordless_content": {
+      "type": "String"
+    },
+    "invite_content": {
+      "type": "String"
+    },
+    "by": {
+      "type": "String"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

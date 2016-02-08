@@ -16,7 +16,7 @@
 <dom-module id="page-services">
   <template>
 
-    <layout-admin>
+    <layout-admin on-updated="on_updated">
       <h1>Services</h1>
       <part-services-plivo services="{{services}}"></part-services-plivo>
       <part-services-braintree services="{{services}}"></part-services-braintree>
@@ -48,6 +48,10 @@
     },
 
     attached: function () {
+      this.find_services();
+    },
+
+    on_updated: function () {
       this.find_services();
     },
 

@@ -58,10 +58,10 @@
       data.private_key = braintree_data.private_key;
       data.params = {};
       data.params.merchant_id = braintree_data.merchant_id;
-
       Model.create('/api/services/update_service', {data: data}, this.$.session.get('admin_token'))
       .then(function (data) {
         this.service = data.result;
+        this.fire('updated');
       }.bind(this))
       .catch(function (error) {
         this.error = error;

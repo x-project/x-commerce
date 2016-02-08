@@ -1,0 +1,31 @@
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../field-text/field-text.html">
+<dom-module id="part-mail-invite">
+  <template>
+    <style include="style-button"></style>
+
+    <div class="panel">
+      <h3>Invite content</h3>
+      <field-long-text label="Message in HTML" property="message" value="{{message}}"
+        error="{{error}}">
+      </field-long-text>
+      <button class="btn btn-secondary">Submit</button>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'part-mail-invite',
+
+    properties: {
+      messages: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

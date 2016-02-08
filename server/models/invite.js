@@ -13,13 +13,6 @@ var mandrill = require('mandrill-api/mandrill');
 
 module.exports = function (Invite) {
 
-  var getCurrentUserId = function () {
-    var ctx = loopback.getCurrentContext();
-    var accessToken = ctx && ctx.get('accessToken');
-    var userId = accessToken && accessToken.userId;
-    return userId;
-  };
-
   var services = {};
 
   function get_service (name) {
@@ -39,6 +32,14 @@ module.exports = function (Invite) {
       });
     });
   }
+
+  var getCurrentUserId = function () {
+    var ctx = loopback.getCurrentContext();
+    var accessToken = ctx && ctx.get('accessToken');
+    var userId = accessToken && accessToken.userId;
+    return userId;
+  };
+
 
   var prepare_mail = function (x_data, callback) {
     get_service('email')

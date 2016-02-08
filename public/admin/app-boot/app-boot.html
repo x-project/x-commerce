@@ -33,6 +33,7 @@
 <link rel="import" href="../page-variant/page-variant.html">
 <link rel="import" href="../page-invite/page-invite.html">
 <link rel="import" href="../page-login/page-login.html">
+<link rel="import" href="../page-mail/page-mail.html">
 <link rel="import" href="../page-member/page-member.html">
 <link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-team/page-team.html">
@@ -51,6 +52,7 @@
         display: block;
       }
     </style>
+
     <app-session id="session"></app-session>
     <app-container id="app" on-login="on_login" on-logout="on_logout"
       on-signup="on_signup">
@@ -99,6 +101,15 @@
       return false;
     },
 
+    '/admin/login': function (context) {
+      this.init(context);
+      if (this.auth(context)) {
+        page('/admin');
+        return;
+      }
+      context.page_name = 'page-login';
+      this.open_page(context);
+    },
 
     '/admin': function (context) {
       this.init(context);
@@ -337,15 +348,16 @@
       this.open_page(context);
     },
 
-    '/admin/login': function (context) {
+    '/admin/mail': function (context) {
       this.init(context);
-      if (this.auth(context)) {
-        page('/admin');
+      if (!this.auth(context)) {
+        page('/admin/login');
         return;
       }
-      context.page_name = 'page-login';
+      context.page_name = 'page-mail';
       this.open_page(context);
     },
+
 
     '/admin/members/:member_id': function (context) {
       this.init(context);

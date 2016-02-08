@@ -79,6 +79,9 @@
   "Invoice": {
     "dataSource": "mongo"
   },
+  "MailMessage": {
+    "dataSource": "mongo"
+  },
   "Manager": {
     "dataSource": "mongo"
   },

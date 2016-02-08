@@ -56,6 +56,7 @@
       Model.create('/api/services/update_service', {data: data}, this.$.session.get('admin_token'))
       .then(function (data) {
         this.service = data.result.params;
+        this.fire('updated');
       }.bind(this))
       .catch(function (error) {
         this.error = error;

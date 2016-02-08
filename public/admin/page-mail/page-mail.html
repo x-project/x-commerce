@@ -1,0 +1,35 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-mail-passwordless.html">
+<link rel="import" href="part-mail-invite.html">
+
+<dom-module id="page-mail">
+  <template>
+
+    <layout-admin>
+      <h1>Mail messages</h1>
+      <part-mail-passwordless messages="{{messages}}"></part-mail-passwordless>
+      <part-mail-invite messages="{{messages}}"></part-mail-invite>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'page-mail',
+
+    properties: {},
+
+    attached: function () {
+    }
+
+  });
+</script>
