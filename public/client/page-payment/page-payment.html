@@ -1,19 +1,13 @@
 <link rel="import" href="../payment-braintree/form-braintree.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
-
 <dom-module id="page-payment">
   <template>
-
 
     <app-session id="session"></app-session>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>payment</h1>
-      </part-jumbotron>
+      <h1>Payment</h1>
       <div class="container">
         <form-braintree order="{{data.order}}"></form-braintree>
       </div>

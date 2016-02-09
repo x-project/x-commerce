@@ -7,10 +7,14 @@
       model-id="{{review.id}}" on-response="on_response">
     </api-model-update>
 
-    <form-feedback id="form_feedback" review="{{review}}" on-try-save="on_try_save"></form-feedback>
+    <form-feedback id="form_feedback" review="{{review}}" on-try-save="on_try_save">
+    </form-feedback>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -34,7 +38,20 @@
       event.stopPropagation();
       this.$.form_feedback.feedback_completed();
       page('/reviews');
-    }
+    },
+
+    on_try_save: function () {
+      this.review.closed = true;
+      Model.create('/api/products', this.product)
+        .then(function (data) {
+          this.product = data;
+          this.response_create();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
+    },
+
 
   });
 </script>

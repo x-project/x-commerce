@@ -1,20 +1,15 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
 <link rel="import" href="part-success-order-info.html">
 <dom-module id="page-success">
   <template>
 
-
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>Success <span>{{}}</span></h1>
-      </part-jumbotron>
-        <div class="container">
-          <a is="app-link" href="/orders">my orders</a>
-          <part-success-order-info order="{{data.order}}"></part-success-order-info>
-        </div>
+      <h1>Success <span>{{}}</span></h1>
+      <div class="container">
+        <a is="app-link" href="/orders">my orders</a>
+        <part-success-order-info order="{{data.order}}"></part-success-order-info>
+      </div>
     </layout-client>
 
   </template>

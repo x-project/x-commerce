@@ -21,11 +21,6 @@
     }
   },
   "relations": {
-    "product": {
-      "type": "belongsTo",
-      "model": "Product",
-      "foreignKey": "product_id"
-    },
     "customer": {
       "type": "belongsTo",
       "model": "Customer",

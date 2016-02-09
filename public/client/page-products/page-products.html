@@ -1,7 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../part-pages/part-pages.html">
 <link rel="import" href="../deck-products/deck-products.html">
 <dom-module id="page-products">
@@ -17,21 +16,18 @@
     </style>
 
     <api-model-find id="find" collection="products" response="{{products}}"
-      order="title" perpage="{{perpage}}" page="{{page}}" include=["images"]>
+      order="title" perpage="{{perpage}}" page="{{page}}" include='["images"]'>
     </api-model-find>
 
     <api-model-count id="count" collection="products" response="{{count}}">
     </api-model-count>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <div class="container">
-          <h1>Products</h1>
-        </div>
-      </part-jumbotron>
+      <h1>Products</h1>
       <div class="container">
         <deck-products products="{{products}}"></deck-products>
-        <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page"></part-pages>
+        <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
+        </part-pages>
       </div>
     </layout-client>
 

@@ -41,9 +41,8 @@ module.exports = function (Invite) {
   };
 
 
-  function get_mail_configuration_params (msg_type, host) {
+  function get_mail_configuration_params (filter) {
     return new Promise(function (resolve, reject) {
-      var filter = { where: {or: [{type: msg_type}, {type: host}] } };
       Invite.app.models.MailMessage.find(filter, function (err, models) {
         if (err) {
           reject(err);
@@ -99,7 +98,8 @@ module.exports = function (Invite) {
   }
 
   var prepare_mail = function (x_data, callback) {
-    get_mail_configuration_params('invite_collaborators', 'host_name')
+    var filter = {where: {or: [{type: 'invite_collaborators'}, {type: 'host_name'}]}};
+    Invite.app.models.MailMessage.get_mail_configuration_params(filter)
       .then(function (models) {
         x_data.email_setup_params = models;
         setup_mail_content_msg(x_data, function (err, message) {

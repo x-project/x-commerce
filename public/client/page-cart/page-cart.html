@@ -1,12 +1,9 @@
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
 <link rel="import" href="part-cart-order-items.html">
 <link rel="import" href="part-cart-order-detail.html">
 <dom-module id="page-cart">
   <template>
-
 
     <app-session id="session"></app-session>
 
@@ -19,17 +16,15 @@ tags
     </api-model-find>
 
     <iron-ajax id="create_order" method="PUT" handle-as="json" url="/api/orders"
-      content-type="application/json" on-response="on_response_create_order" on-error="on_error">
+      content-type="application/json" on-response="on_response_create_order"
+      on-error="on_error">
     </iron-ajax>
 
-    <iron-ajax id="create_order_items" method="POST" handle-as="json" content-type="application/json"
-      on-response="on_response_create_order_items" on-error="on_error">
+    <iron-ajax id="create_order_items" method="POST" handle-as="json" content-type="application/json" on-response="on_response_create_order_items" on-error="on_error">
     </iron-ajax>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>Cart</h1>
-      </part-jumbotron>
+      <h1>Cart</h1>
       <div class="container">
         <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart"></part-cart-order-items>
         <part-cart-order-detail id="order_detail" cart="{{cart}}"

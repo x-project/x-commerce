@@ -1,8 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-<link rel="import" href="../part-pages/part-pages.html">
 <link rel="import" href="../deck-products/deck-products.html">
 <dom-module id="page-collection">
   <template>
@@ -20,11 +18,7 @@
     </api-model-count>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <div class="container">
-          <h1>Collection \ {{collection.title}}</h1>
-        </div>
-      </part-jumbotron>
+      <h1>Collection \ {{collection.title}}</h1>
       <div class="container">
         <deck-products products="{{products}}"></deck-products>
       </div>

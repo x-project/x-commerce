@@ -91,6 +91,11 @@
       "type": "belongsTo",
       "model": "Vendor",
       "foreignKey": "vendor_id"
+    },
+    "reviews": {
+      "type": "hasMany",
+      "model": "Review",
+      "foreignKey": "product_id"
     }
   },
   "acls": [],

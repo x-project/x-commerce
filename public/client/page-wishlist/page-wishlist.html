@@ -1,11 +1,9 @@
 <link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-wishlist-items.html">
 <dom-module id="page-wishlist">
   <template>
-
 
     <app-session id="session"></app-session>
 
@@ -22,9 +20,7 @@
     </iron-ajax>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>Wishlist</h1>
-      </part-jumbotron>
+      <h1>Wishlist</h1>
       <div class="container">
         <part-wishlist-items favourites="{{favourites}}" on-add-description="on_add_description"
           on-try-remove-favourite="on_try_remove_favourite">

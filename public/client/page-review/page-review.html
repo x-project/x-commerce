@@ -1,15 +1,12 @@
-<link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="part-feedback.html">
 <dom-module id="page-review">
   <template>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>Review <span>{{data.review.product.title}}</span></h1>
-      </part-jumbotron>
-        <div class="container">
-          <part-feedback review="{{data.review}}"></part-feedback>
-        </div>
+      <h1>Review <span>{{data.review.product.title}}</span></h1>
+      <div class="container">
+        <part-feedback review="{{data.review}}"></part-feedback>
+      </div>
     </layout-client>
 
   </template>

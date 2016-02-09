@@ -2,7 +2,6 @@
 <link rel="import" href="../payment-stripe/payment-stripe.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-summary-order-detail.html">
 <dom-module id="page-summary">
   <template>
@@ -16,9 +15,7 @@
     <app-session id="session"></app-session>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>Cart Summary</h1>
-      </part-jumbotron>
+      <h1>Cart Summary</h1>
       <div class="container">
         <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
           on-change-address="on_change_address">

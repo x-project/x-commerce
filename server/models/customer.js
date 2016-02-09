@@ -7,7 +7,7 @@ var plivo = require('plivo');
 
 module.exports = function (Customer) {
 
-  var host = 'http://localhost:3000/';
+//   var host = 'http://localhost:3000/';
 
   var services = {};
 
@@ -63,8 +63,6 @@ module.exports = function (Customer) {
     });
   }
 
-
-
 /*=========send credentials for email===========*/
 
   var credentials_email = function (credentials, callback) {
@@ -93,7 +91,6 @@ module.exports = function (Customer) {
     });
   };
 
-
   Customer.send_credentials_email = function (credentials, callback) {
     credentials_email(credentials, function (err, message) {
       if (err) {
@@ -116,7 +113,6 @@ module.exports = function (Customer) {
     });
   };
 
-
   Customer.remoteMethod('send_credentials_email', {
     accepts: [
       { arg: 'credentials', type: 'object', required: true },
@@ -125,10 +121,7 @@ module.exports = function (Customer) {
     http: { path: '/send_credentials_email', verb: 'post' }
   });
 
-/*===============================================*/
-
-
-
+  /*===============================================*/
   function getCurrentUserId() {
     var ctx = loopback.getCurrentContext();
     var accessToken = ctx && ctx.get('accessToken');
@@ -238,61 +231,6 @@ module.exports = function (Customer) {
     // TODO: send email to user
   });
 
-  var prepare_mail_sms_login = function (destination_email, enter_token, callback) {
-    get_service('email')
-      .then(function (serivce) {
-        var link = host + 'enter?token=' + enter_token;
-        var signed_url = '<a href="' + link + '">' + link + '</a>';
-        var message = {
-          "html": signed_url,
-          "text": "click from url for sign in",
-          "subject": "signed url",
-          "from_email": serivce.params.email,
-          "from_name": "x-commerce",
-          "to": [{
-            "email": destination_email,
-            "name": "x-commerce",
-            "type": "to"
-          }],
-          "headers": {
-            "Reply-To": serivce.params.email
-          },
-          "subaccount": "123",
-        };
-        callback(null, message);
-    }).catch(function (err) {
-      callback(err, null);
-    });
-  };
-
-
-  var prepare_mail_for_send_credentials = function (data, callback) {
-    get_service('email')
-      .then(function (serivce) {
-        var message = {
-          "html": "<div><p>Email: " +data.email +"</p></br><p>Password: " +data.password +"</p></div>",
-          "text": "credentials",
-          "subject": "credentials",
-          "from_email": serivce.params.email,
-          "from_name": "x-commerce",
-          "to": [{
-            "email": destination_email,
-            "name": "x-commerce",
-            "type": "to"
-          }],
-          "headers": {
-            "Reply-To": serivce.params.email
-          },
-          "subaccount": "123",
-        };
-        callback(null, message);
-    }).catch(function (err) {
-      callback(err, null);
-    });
-  };
-
-
-
   var create_new_customer = function (data) {
     return function (next) {
       if (data.customer != null) {
@@ -342,26 +280,83 @@ module.exports = function (Customer) {
 
   var send_signed_url_by_email = function (data) {
     return function (next) {
-      prepare_mail_sms_login(data.email, data.token, function (err, message) {
-        if (err) {
+      Customer.connect_mandrill_client()
+        .then(function (mandrill_client) {
+          mandrill_client.messages.send({"message": data.message},
+            function (res) {
+              data.email_result = res;
+              setImmediate(next, null);
+            },
+            function (err) {
+              setImmediate(next, err);
+            }
+          );
+        }).catch(function (err) {
           setImmediate(next, err);
-          return;
-        }
-        Customer.connect_mandrill_client()
-          .then(function (mandrill_client) {
-            mandrill_client.messages.send({"message": message},
-              function (res) {
-                data.email_result = res;
-                setImmediate(next, null);
-              },
-              function (err) {
-                setImmediate(next, err);
-              }
-            );
-          }).catch(function (err) {
-            setImmediate(next, err);
-          });
+        });
+    };
+  };
+
+  // ritorna parametri come il testo, nome del dominio
+  var get_email_conf_params = function (data) {
+    return function (next) {
+      var filter = { where: {or: [{type: 'passworless_via_email'}, {type: 'host_name'}]}};
+      Customer.app.models.MailMessage.get_mail_configuration_params(filter)
+      .then(function (models) {
+        data.email_conf_params = models;
+        setImmediate(next, null);
+      }).catch(function (err) {
+        setImmediate(next, err);
       });
+    };
+  };
+
+  var get_sender_info = function (data) {
+    return function (next) {
+      get_service('email')
+        .then(function (service) {
+          data.sender_info = service;
+          setImmediate(next, null);
+        }).catch(function (err) {
+          setImmediate(next, err);
+        });
+    };
+  };
+
+
+  function get_email_msg (content, destination_email, sender_email) {
+    var message = {
+      "html": content,
+      "text": "click from url for sign in",
+      "subject": "signed url",
+      "from_email": sender_email,
+      "from_name": "x-commerce",
+      "to": [{
+        "email": destination_email,
+        "name": "x-commerce",
+        "type": "to"
+      }],
+      "headers": {
+        "Reply-To": sender_email
+      },
+      "subaccount": "123",
+    };
+    return message;
+  }
+
+  var prepare_email_content = function (data) {
+    return function (next) {
+      var host_name = data.email_conf_params.filter(function (item) {
+        return item.type == 'host_name';
+      });
+      var text_content = data.email_conf_params.filter(function (item) {
+        return item.type == 'passworless_via_email';
+      });
+      var link = host_name[0].text + '/enter?token=' + data.token;
+      var content = text_content[0].text +'<br/><a href="' + link + '">' + link + '</a>';
+      var msg = get_email_msg(content, data.email, data.sender_info.params.email);
+      data.message = msg;
+      setImmediate(next, null);
     };
   };
 
@@ -375,13 +370,16 @@ module.exports = function (Customer) {
       first_name: 'unknown',
       last_name: 'unknown',
       email: data.email,
-      password: '3208932443232987832932'
+      password: '123'
     };
 
     async.waterfall([
       get_customer_by_email(data),
       create_new_customer(data),
       create_token(data),
+      get_email_conf_params(data),
+      get_sender_info(data),
+      prepare_email_content(data),
       send_signed_url_by_email(data)
     ],
     function (err) {
@@ -442,7 +440,6 @@ module.exports = function (Customer) {
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
-
 
   var create_sms_code = function (data) {
     return function (next) {

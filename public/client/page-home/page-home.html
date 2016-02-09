@@ -1,31 +1,17 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="../deck-collections/deck-collections.html">
 <link rel="import" href="part-home-collections.html">
 <dom-module id="page-home">
   <template>
     <style include="style-grid"></style>
-    <style>
-      .jumbotron {
-        --jumbotron-content: {
-          @apply(--layout-horizontal);
-          @apply(--layout-end);
-        }
-      }
-    </style>
 
     <api-model-find id="find" collection="collections" response="{{collections}}"
       include=["images"] on-response="on_response" on-error="on_error">
     </api-model-find>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <div class="container">
-          <h1>Catalog</h1>
-        </div>
-      </part-jumbotron>
       <div class="container">
         <deck-collections collections="{{collections}}"></deck-collections>
       </div>

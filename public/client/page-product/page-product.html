@@ -1,7 +1,6 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
 <link rel="import" href="part-product-cart.html">
 <link rel="import" href="part-product-details.html">
 <link rel="import" href="part-product-images.html">
@@ -15,6 +14,7 @@
 <link rel="import" href="part-product-wish.html">
 <dom-module id="page-product">
   <template>
+
     <style include="style-grid"></style>
     <style>
       .jumbotron {
@@ -26,11 +26,7 @@
     </style>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <div class="container">
-          <h1><span>Product</span> <span>{{data.product.title}}</span></h1>
-        </div>
-      </part-jumbotron>
+      <h1><span>{{data.product.title}}</span></h1>
       <div class="container">
         <div class="row">
           <div class="col col-md-6">

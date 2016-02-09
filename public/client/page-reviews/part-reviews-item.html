@@ -30,6 +30,7 @@
     },
 
     attached: function () {
+      console.log(this.review);
       this.edit_url = '/reviews/' + this.review.id;
       (this.review.closed) ? this.edit = 'view feedback' : this.edit = 'leave feedback';
     }

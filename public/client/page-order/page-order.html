@@ -1,12 +1,8 @@
 <link rel="import" href="/components/api-model/api-model.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-jumbotron/part-jumbotron.html">
-tags
 <link rel="import" href="list-order.html">
 <dom-module id="page-order">
   <template>
-
-
 
     <api-model-find id="find_orders" collection="orders" response="{{orders}}"
       on-response="on_response_orders">
@@ -17,9 +13,7 @@ tags
     </api-model-find>
 
     <layout-client>
-      <part-jumbotron class="jumbotron">
-        <h1>My Orders</h1>
-      </part-jumbotron>
+      <h1>My Orders</h1>
       <div class="container">
         <list-order orders="{{orders_complete}}"></list-order>
       </div>

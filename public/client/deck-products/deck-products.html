@@ -14,6 +14,7 @@
           </image-preview>
           <div class="card-block">
             <h4 class="card-title">{{product.title}} {{product.price}} $</h4>
+            <input-rating></input-rating>
           </div>
           <div class="card-block">
             <a href="/products/{{product.id}}" class="card-link">view</a>
@@ -34,6 +35,10 @@
         type: Array,
         value: function () { return []; }
       }
+    },
+
+    attached: function () {
+      // console.log(this.products);
     }
 
   });
