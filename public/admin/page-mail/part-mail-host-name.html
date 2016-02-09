@@ -1,21 +1,15 @@
 <link rel="import" href="../../components/app-session/app-session.html">
-<link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="../field-text/field-text.html">
-<dom-module id="part-mail-passwordless">
+<dom-module id="part-mail-host-name">
   <template>
     <style include="style-button"></style>
 
+    <app-session id="session"></app-session>
     <div class="panel">
-      <h3>Passwordless content</h3>
-      <field-text label="Subject" property="text" value="{{message.subject}}"
+      <h3>Host name</h3>
+      <field-text label="Host name" property="text" value="{{message.text}}"
         error="{{error}}">
       </field-text>
-      <field-text label="From name" property="text" value="{{message.from_name}}"
-        error="{{error}}">
-      </field-text>
-      <field-long-text label="Message in HTML" property="text" value="{{message.text}}"
-        error="{{error}}">
-      </field-long-text>
       <button class="btn btn-secondary" on-click="on_submit">Submit</button>
     </div>
 
@@ -25,7 +19,7 @@
 <script>
   Polymer({
 
-    is: 'part-mail-passwordless',
+    is: 'part-mail-host-name',
 
     properties: {
       messages: {
@@ -45,8 +39,8 @@
       }
       var message = {};
       this.messages.find(function (item) {
-        if (item.type == "passworless_via_email") {
-          this.message =  item;
+        if (item.type == "host_name") {
+          this.message = item;
           return true;
         }
       }, this);
@@ -55,10 +49,8 @@
     on_submit: function (event) {
       event.stopPropagation();
       var data = {
-        type: 'passworless_via_email',
-        text: this.message.text,
-        subject: this.message.subject,
-        from_name: this.message.from_name
+        type: 'host_name',
+        text: this.message.text
       };
       if (!this.message.id) {
         this.fire('try-create', data);

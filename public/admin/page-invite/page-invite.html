@@ -48,7 +48,6 @@
 
     on_try_invite: function (event) {
       event.stopPropagation();
-      console.log(this.member);
       this.$.create.accessToken = this.$.session.get('admin_token');
       this.$.create.data = this.member;
       this.$.create.send();

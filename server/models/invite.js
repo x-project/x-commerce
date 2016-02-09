@@ -41,35 +41,77 @@ module.exports = function (Invite) {
   };
 
 
-  var prepare_mail = function (x_data, callback) {
+  function get_mail_configuration_params (msg_type, host) {
+    return new Promise(function (resolve, reject) {
+      var filter = { where: {or: [{type: msg_type}, {type: host}] } };
+      Invite.app.models.MailMessage.find(filter, function (err, models) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(models);
+      });
+    });
+  }
+
+  function get_mail_msg(service, params) {
+    var message = {
+      "html": params.text,
+      // "text": email_text,
+      "subject": params.subject,
+      "from_email": service.params.email,
+      "from_name": params.from_name,
+      "to": [{
+        "email": params.to,
+        "name": params.from_name,
+        "type": "to"
+      }],
+      "headers": {
+        "Reply-To": service.params.email
+      },
+      "subaccount": "123",
+    };
+    return message;
+  }
+
+  function setup_mail_content_msg (x_data, callback) {
     get_service('email')
-      .then(function (serivce) {
-        var base_url = 'http://localhost:3000/admin/signup';
-
+      .then(function (service) {
+        var host_name_conf = x_data.email_setup_params.filter(function (item) {
+          return item.type == 'host_name';
+        });
+        var invite_collaborators_conf = x_data.email_setup_params.filter(function (item) {
+          return item.type == 'invite_collaborators';
+        });
+        var base_url = host_name_conf[0].text + '/admin/signup';
         var url = base_url + '?invite='+ x_data.invite.token +'&email='+ x_data.invite.email;
-        var email_text = "Hello there,\n\n you have been invited to take part in x-commerce as" + x_data.invite.role + ".\n\nTo accept the invitation follow this link: "+ url;
-        var email_html = "<div><p>Hello there,</p><p>you have been invited to take part in x-commerce as "+ x_data.invite.role +"</p></br><p>Use this email for login: "+ x_data.invite.email + "</p></br><p>Use this password for login: "+ x_data.invite.password +"</p></br><p>To accept the invitation follow this link: <a href=\"" +url +"\">" + url +"</a><div>";
-
-        var message = {
-          "html": email_html,
-          "text": email_text,
-          "subject": "signed url",
-          "from_email": serivce.params.email,
-          "from_name": "x-commerce",
-          "to": [{
-            "email": x_data.invite.email,
-            "name": "x-commerce",
-            "type": "to"
-          }],
-          "headers": {
-            "Reply-To": serivce.params.email
-          },
-          "subaccount": "123",
+        var text = invite_collaborators_conf[0].text + "<br/><p>email: " + x_data.invite.email+ "</p>" + "<br/><p>password: " + x_data.invite.password + "</p>" + "<br/> <p>click here for confirm</p>" + url;
+        var params = {
+          text: text,
+          subject: invite_collaborators_conf[0].subject,
+          from_name: invite_collaborators_conf[0].from_name,
+          to: x_data.invite.email
         };
-        callback(null, message);
-    }).catch(function (err) {
+        callback(null, get_mail_msg(service, params));
+      }).catch(function (err) {
       callback(err, null);
     });
+  }
+
+  var prepare_mail = function (x_data, callback) {
+    get_mail_configuration_params('invite_collaborators', 'host_name')
+      .then(function (models) {
+        x_data.email_setup_params = models;
+        setup_mail_content_msg(x_data, function (err, message) {
+          if (err) {
+            callback(err, null);
+            return;
+          }
+          callback(null, message);
+        });
+      }).catch(function (err) {
+        callback(err, null);
+      });
   };
 
   var send_email = function (x_data, next) {
@@ -122,8 +164,8 @@ module.exports = function (Invite) {
         invite.token = token;
         invite.senderId = getCurrentUserId();
         setImmediate(done, null, x_data);
-      }).catch(function () {
-        setImmediate(err, null);
+      }).catch(function (err) {
+        setImmediate(done, err, null);
       });
     };
   };

@@ -12,6 +12,9 @@
     "text": {
       "type": "String"
     },
+    "subject": {
+      "type": "String"
+    },
     "by": {
       "type": "String"
     }

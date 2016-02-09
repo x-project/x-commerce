@@ -5,8 +5,9 @@
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-mail-passwordless.html">
+<link rel="import" href="part-mail-host-name.html">
 <link rel="import" href="part-mail-invite.html">
+<link rel="import" href="part-mail-passwordless.html">
 
 <dom-module id="page-mail">
   <template>
@@ -15,6 +16,7 @@
 
     <layout-admin on-try-create="on_try_create" on-try-update="on_try_update">
       <h1>Mail messages</h1>
+      <part-mail-host-name messages="{{messages}}"></part-mail-host-name>
       <part-mail-passwordless messages="{{messages}}"></part-mail-passwordless>
       <part-mail-invite messages="{{messages}}"></part-mail-invite>
     </layout-admin>
@@ -56,7 +58,6 @@
     },
 
     on_try_create: function (event) {
-      console.log(event);
       Model.create('/api/mail_messages', event.detail, this.$.session.get('admin_token'))
       .then(function (data) {
         this.get_messages();
@@ -68,7 +69,6 @@
     },
 
     on_try_update: function (event) {
-      console.log(event.detail);
       Model.update('/api/mail_messages/' + event.detail.id, event.detail, this.$.session.get('admin_token'))
       .then(function (data) {
         this.get_messages();

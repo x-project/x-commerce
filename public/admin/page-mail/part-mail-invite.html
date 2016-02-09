@@ -8,6 +8,12 @@
     <app-session id="session"></app-session>
     <div class="panel">
       <h3>Invite content</h3>
+      <field-text label="Subject" property="text" value="{{message.subject}}"
+        error="{{error}}">
+      </field-text>
+      <field-text label="From name" property="text" value="{{message.from_name}}"
+        error="{{error}}">
+      </field-text>
       <field-long-text label="Message in HTML" property="text" value="{{message.text}}"
         error="{{error}}">
       </field-long-text>
@@ -51,7 +57,9 @@
       event.stopPropagation();
       var data = {
         type: 'invite_collaborators',
-        text: this.message.text
+        text: this.message.text,
+        subject: this.message.subject,
+        from_name: this.message.from_name
       };
       if (!this.message.id) {
         this.fire('try-create', data);
