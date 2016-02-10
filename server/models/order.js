@@ -558,20 +558,63 @@ var get_tax = function (data) {
     };
   };
 
-  var get_reviews = function (data) {
-    var reviews = [];
-    var review;
-    data.cart.forEach( function (item) {
-      review = {};
-      review.customer_id = data.customer.id;
-      review.product_id = item.product_id;
-      review.closed = false;
-      review.title = '';
-      review.text = '';
-      review.rating = 0;
-      reviews.push(review);
-    });
-    return reviews;
+  // var get_reviews = function (data) {
+  //   var reviews = [];
+  //   var review;
+  //   console.log(data.cart);
+  //   data.cart.forEach(function (item) {
+  //     review = {};
+  //     review.customer_id = data.customer.id;
+  //     review.closed = false;
+  //     review.title = '';
+  //     review.text = '';
+  //     review.rating = 0;
+  //     reviews.push(review);
+  //   });
+  //   return reviews;
+  // };
+
+  /*
+    nel carrello ci possono stare piu di un prodotto - per aggiungere
+    la review ad ogni prodotto del carrello devo prendere il prodotto completo
+    cosi posso aggiungere la relazione navigare la relazione hasMany che c'è
+    tra product e reviews
+  */
+
+  var get_products_by_id = function (data) {
+    return function (done) {
+      var products_ids = data.cart.map(function (item) {
+        return item.product_id;
+      });
+      var filter = { where: { id: { inq: products_ids}}};
+      Order.app.models.Product.find(filter, function (err, models) {
+        data.products = models;
+        setImmediate(done, err);
+      });
+    };
+  };
+
+  var add_review = function (data) {
+    return function (done) {
+      var reviews_created = [];
+      var review;
+      async.each(data.products,
+        function(product, callback) {
+          review = {};
+          review.customer_id = data.customer.id;
+          review.closed = false;
+          review.title = '';
+          review.text = '';
+          review.rating = 0;
+          product.reviews.create(review, function (err, review) {
+            reviews_created.push(review);
+            callback();
+          });
+        }, function (err) {
+          data.reviews_created = reviews_created;
+          setImmediate(done, err);
+      });
+    };
   };
 
   Order.prepare_order_review_braintree = function (data) {
@@ -585,14 +628,17 @@ var get_tax = function (data) {
         return;
       }
       if(data.payment_status.transaction.status === 'submitted_for_settlement') {
-        var reviews = get_reviews(data);
-        Order.app.models.Review.create(reviews, function (err, model) {
+        async.waterfall([
+          get_products_by_id(data),
+          add_review(data)
+        ],
+        function (err) {
           setImmediate(next, err);
-          return;
         });
       }
     };
   };
+
 
   Order.prepare_order_review_stripe = function (data) {
     return function (next) {
