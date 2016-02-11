@@ -55,9 +55,13 @@
         content: "$";
       }
 
+      .card:hover {
+        cursor: pointer;
+      }
+
     </style>
 
-   <div class="card" on-click="on_click">
+   <div class="card" on-click="on_click_card">
        <div class="card-header">
           <image-preview class="image card-img-top img-responsive" image="{{product.images.0}}"
             sizing="cover" like-size="120"
@@ -69,10 +73,11 @@
         <h5 class="card-vendor">{{product.vendor.name}}</h5>
        <text-view text="{{product.description}}" limit="60"></text-view>
         <input-rating class="card-rating" value="{{_get_percentual_rating(product)}}"></input-rating>
-        <h4 class="card-detail"><span class="usd">{{product.price}}</span></h2>
+        <h4 class="card-detail">
+          <span class="usd">{{product.price}}</span>
+        </h2>
       </div>
     </div>
-
 
   </template>
 </dom-module>
@@ -97,6 +102,10 @@
         return
       }
       return product.score_review / product.total_review;
+    },
+
+    on_click_card: function (event) {
+      page('/products/' + this.product.id);
     }
 
 

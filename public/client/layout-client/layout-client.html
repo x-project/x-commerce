@@ -1,14 +1,12 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../part-footer/part-footer.html">
 <link rel="import" href="../part-header/part-header.html">
 <dom-module id="layout-client">
   <template>
     <style include="style-grid"></style>
     <style>
-      :host {
-        display: block;
-      }
-
       #page {
         width: 100%;
         min-height: 100vh;
@@ -16,31 +14,52 @@
         overflow: hidden;
       }
 
-      #header {
-        position: fixed;
+      paper-toolbar {
+
       }
 
-      #main {
-        padding-top: 50px;
+      paper-header-panel paper-toolbar {
+        background-color: #fff;
+      }
+
+      paper-header-panel[mode="waterfall-tall"] paper-toolbar {
+        --paper-toolbar-background: transparent;
+        background-attachment: initial;
+        background-image: url('https://static.pexels.com/photos/17746/pexels-photo-large.jpg');
+        background-position: center;
+        background-size: 100%;
+      }
+
+      part-header {
+        background-color: transparent;
+      }
+
+      paper-header-panel {
+        height: 100vh;
+        --paper-header-panel-shadow: {
+            box-shadow: none;
+        }
+        --paper-header-panel-standard-container: {
+          @apply(--layout-vertical);
+        }
+         --paper-header-panel-waterfall-tall-container: {
+          @apply(--layout-vertical);
+        }
       }
 
       #space {
         @apply(--layout-flex);
       }
-
-      #footer {
-
-      }
     </style>
 
-      <div id="page">
-        <!-- <part-header id="header"></part-header> -->
-        <div id="main">
-          <content></content>
-        </div>
-        <div id="space"></div>
-        <part-footer id="footer"></part-footer>
-      </div>
+    <paper-header-panel mode="{{mode}}">
+      <paper-toolbar>
+        <part-header></part-header>
+      </paper-toolbar>
+      <content></content>
+      <div id="space"></div>
+      <part-footer id="footer"></part-footer>
+    </paper-header-panel>
 
   </template>
 </dom-module>

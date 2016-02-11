@@ -22,69 +22,69 @@
     <style include="style-navs"></style>
 
     <style>
-      .container {
-      }
-      .box {
-        padding: 0;
-        background-color: #fff;
-        height: 400px;
-      }
-      .image {
-        padding: 0;
-      }
-      .strip {
-        margin-top: 40px;
-        background-color: #f1f1f1;
-        padding-left: 0.9375rem;
-      }
-      .row {
-        box-sizing: border-box;
-        margin-right: 0;
-        padding: 40px 0px;
-      }
-      .box .title {
-        font-family: font-light;
-      }
-      .box {
-        padding-left: 10px;
-        @apply(--layout-vertical);
-      }
-      .space {
-        @apply(--layout-flex);
-      }
-      .field {
-        margin-top: 20px;
-      }
-      .detail {
-        height: 100px;
-      }
-      .text-blue {
-        color: #09f;
-      }
-      .text-underline {
-        text-decoration: underline;
-      }
-      .text-blue.text-underline:hover {
-        cursor: pointer;
-      }
-      .number .label {
-        margin: 10px 4px;
-      }
+    .container {
+    }
+    .box {
+      padding: 0;
+      background-color: #fff;
+      height: 400px;
+    }
+    .image {
+      padding: 0;
+    }
+    .strip {
+      margin-top: 40px;
+      background-color: #f1f1f1;
+      padding-left: 0.9375rem;
+    }
+    .row {
+      box-sizing: border-box;
+      margin-right: 0;
+      padding: 40px 0px;
+    }
+    .box .title {
+      font-family: font-light;
+    }
+    .box {
+      padding-left: 10px;
+      @apply(--layout-vertical);
+    }
+    .space {
+      @apply(--layout-flex);
+    }
+    .field {
+      margin-top: 20px;
+    }
+    .detail {
+      height: 100px;
+    }
+    .text-blue {
+      color: #09f;
+    }
+    .text-underline {
+      text-decoration: underline;
+    }
+    .text-blue.text-underline:hover {
+      cursor: pointer;
+    }
+    .number .label {
+      margin: 10px 4px;
+    }
 
-      .number .value{
-        margin: 0 4px;
-      }
-      .numbers {
-        display: flex;
-        margin-top: 10px;
-        font-size: 20px;
-        font-weight: 10;
-        margin-right: 40px;
-        @apply(--layout-justified)
-      }
-      part-product-wish {
-        margin: 10px 0px;
-      }
+    .number .value{
+      margin: 0 4px;
+    }
+    .numbers {
+      display: flex;
+      margin-top: 10px;
+      font-size: 20px;
+      font-weight: 10;
+      margin-right: 40px;
+      @apply(--layout-justified)
+    }
+    part-product-wish {
+      margin: 10px 0px;
+    }
     .nav {
       display: flex;
       @apply(--layout-justified)
@@ -101,10 +101,8 @@
           box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
       };
     }
-
     </style>
     <layout-client>
-
 
 
       <div class="strip">
@@ -118,7 +116,9 @@
                 <h1 class="title">{{data.product.title}}</h1>
                 <h4 class="vendor">By {{data.product.vendor.name}}</h4>
                 <h3 class="prod-type">in {{data.product.product_type.name}}</h3>
-                <h1 class="price">$ {{data.product.price}}</h1>
+                <h1 class="price">
+                  <span class="normal-price" line_through$="{{line_through}}">$ {{data.product.price}}<span>
+                </h1>
                 <part-product-options class="field" product="{{data.product}}" variant="{{variant}}"
                   on-change="on_change">
                 </part-product-options>
@@ -183,6 +183,10 @@
         type: Object,
         notify: true,
         value: function () { return {}; }
+      },
+      line_through: {
+        type: Boolean,
+        value: true
       }
     },
 
@@ -213,7 +217,9 @@
     on_click_reviews: function (event) {
       event.stopPropagation();
       this.set('current', 'reviews');
-    }
+    },
+
+
 
   });
 </script>
