@@ -1,5 +1,7 @@
 <link rel="import" href="../../styles/style-deck/style-deck.html">
 <link rel="import" href="../../styles/style-card/style-card.html">
+<link rel="import" href="../input-rating/input-rating.html">
+
 <dom-module id="deck-products">
   <template>
     <style include="style-deck"></style>
@@ -14,7 +16,7 @@
           </image-preview>
           <div class="card-block">
             <h4 class="card-title">{{product.title}} {{product.price}} $</h4>
-            <input-rating></input-rating>
+            <input-rating value="{{_get_average_rating(product)}}"></input-rating>
           </div>
           <div class="card-block">
             <a href="/products/{{product.id}}" class="card-link">view</a>
@@ -37,8 +39,8 @@
       }
     },
 
-    attached: function () {
-      // console.log(this.products);
+    _get_average_rating: function (product) {
+      return product.score_review / product.total_review;
     }
 
   });

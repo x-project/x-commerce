@@ -1,6 +1,9 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-navs/style-navs.html">
 <link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="../x-tabs/x-tabs.html">
 <link rel="import" href="part-product-cart.html">
 <link rel="import" href="part-product-details.html">
 <link rel="import" href="part-product-images.html">
@@ -16,42 +19,140 @@
   <template>
 
     <style include="style-grid"></style>
-    <style>
-      .jumbotron {
-        --jumbotron-content: {
-          @apply(--layout-horizontal);
-          @apply(--layout-end);
-        }
-      }
-    </style>
+    <style include="style-navs"></style>
 
+    <style>
+      .container {
+      }
+      .box {
+        padding: 0;
+        background-color: #fff;
+        height: 400px;
+      }
+      .image {
+        padding: 0;
+      }
+      .strip {
+        margin-top: 40px;
+        background-color: #f1f1f1;
+        padding-left: 0.9375rem;
+      }
+      .row {
+        box-sizing: border-box;
+        margin-right: 0;
+        padding: 40px 0px;
+      }
+      .box .title {
+        font-family: font-light;
+      }
+      .box {
+        padding-left: 10px;
+        @apply(--layout-vertical);
+      }
+      .space {
+        @apply(--layout-flex);
+      }
+      .field {
+        margin-top: 20px;
+      }
+      .detail {
+        height: 100px;
+      }
+      .text-blue {
+        color: #09f;
+      }
+      .text-underline {
+        text-decoration: underline;
+      }
+      .text-blue.text-underline:hover {
+        cursor: pointer;
+      }
+      .number .label {
+        margin: 10px 4px;
+      }
+
+      .number .value{
+        margin: 0 4px;
+      }
+      .numbers {
+        display: flex;
+        margin-top: 10px;
+        font-size: 20px;
+        font-weight: 10;
+        margin-right: 40px;
+        @apply(--layout-justified)
+      }
+      part-product-wish {
+        margin: 10px 0px;
+      }
+    .nav {
+      display: flex;
+      @apply(--layout-justified)
+    }
+
+    .nav-tabs .nav-item{
+      margin: 0 10px;
+    }
+
+    </style>
     <layout-client>
-      <h1><span>{{data.product.title}}</span></h1>
-      <div class="container">
-        <div class="row">
-          <div class="col col-md-6">
-            <part-product-images product="{{data.product}}"></part-product-images>
-          </div>
-          <div class="col col-md-6">
-            <h1>{{data.product.title}}</h1>
-            <h2><span>in</span> <span>{{data.product.product_type.name}}</span></h2>
-            <h3><span>by</span> <span>{{data.product.vendor.name}}</span></h3>
-            <div>{{data.product.description}}</div>
-            <div><span>available</span> <span>{{data.product.quantity}}</span></div>
-            <part-product-options product="{{data.product}}" variant="{{variant}}"
-              on-change="on_change"></part-product-options>
-            <part-product-cart id="cart" product="{{data.product}}" variant="{{variant}}"></part-product-cart>
-            <div><span>$</span> <span>{{product.price}}</span></div>
-            <part-product-wish product="{{data.product}}" variant="{{variant}}"></part-product-wish>
+      <div class="strip">
+        <div class="container">
+          <div class="row">
+            <div class="image col col-sm-8">
+              <part-product-images product="{{data.product}}"></part-product-images>
+            </div>
+            <div class="box col col-sm-4">
+              <div class="info">
+                <h1 class="title">{{data.product.title}}</h1>
+                <h4 class="vendor">By {{data.product.vendor.name}}</h4>
+                <h3 class="prod-type">in {{data.product.product_type.name}}</h3>
+                <h1 class="price">$ {{data.product.price}}</h1>
+                <part-product-options class="field" product="{{data.product}}" variant="{{variant}}"
+                  on-change="on_change">
+                </part-product-options>
+                <part-product-cart class="field cart" product="{{data.product}}" variant="{{variant}}">
+                </part-product-cart>
+                <part-product-wish product="{{data.product}}" variant="{{variant}}"></part-product-wish>
+              </div>
+              <div class="space"></div>
+              <div class="numbers">
+                <div class="number">
+                  <div class="value"><i class="fa fa-thumbs-o-up"></i>
+                    {{_get_percentage_rating_score(data.product)}}
+                  </div>
+                  <h4 class="label text-blue text-underline"
+                    on-click="on_click_reviews">{{data.product.total_review}} Reviews</h4>
+                </div>
+                <div class="number">
+                  <div class="value">{{data.product.quantity}}</div>
+                  <h4 class="label">Quantity</h4>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col col-md-12">
-            <part-product-details product="{{data.product}}"></part-product-details>
+
+        <div class="container">
+          <nav class="nav nav-tabs" role="tablist" on-click="on_click_nav">
+            <ul>
+              <li class="nav-item nav-link active" data-tab="reviews">Reviews</li>
+              <li class="nav-item nav-link active" data-tab="description">Description</li>
+              <li class="nav-item nav-link active" data-tab="detail">Detail</li>
+            </ul>
+          </nav>
+          <x-tabs id="tabs" current="{{current}}">
+            <x-tab name="reviews">
             <part-product-reviews product="{{data.product}}"></part-product-reviews>
-          </div>
+            </x-tab>
+            <x-tab name="description">
+              <div>{{data.product.description}}</div>
+            </x-tab>
+            <x-tab name="detail">
+              <part-product-details product="{{data.product}}"></part-product-details>
+            </x-tab>
+          </x-tabs>
         </div>
-      </div>
     </layout-client>
 
   </template>
@@ -73,11 +174,33 @@
       }
     },
 
+    attached: function () {
+      this.set('current', 'reviews');
+    },
+
     on_change: function () {
       this.$.cart.update();
       this.$.cart.update_max_quantity();
       this.$.price.calculate_price();
       this.$.quantity.update_max_quantity();
+    },
+
+    _get_percentage_rating_score: function (product) {
+      if (!product) {
+        return;
+      }
+      return (product.score_review / product.total_review) * 10 + '%';
+    },
+
+    on_click_nav: function (event) {
+      event.stopPropagation();
+      var name = event.target.dataset.tab;
+      this.set('current', name);
+    },
+
+    on_click_reviews: function (event) {
+      event.stopPropagation();
+      this.set('current', 'reviews');
     }
 
   });

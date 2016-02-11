@@ -558,22 +558,6 @@ var get_tax = function (data) {
     };
   };
 
-  // var get_reviews = function (data) {
-  //   var reviews = [];
-  //   var review;
-  //   console.log(data.cart);
-  //   data.cart.forEach(function (item) {
-  //     review = {};
-  //     review.customer_id = data.customer.id;
-  //     review.closed = false;
-  //     review.title = '';
-  //     review.text = '';
-  //     review.rating = 0;
-  //     reviews.push(review);
-  //   });
-  //   return reviews;
-  // };
-
   /*
     nel carrello ci possono stare piu di un prodotto - per aggiungere
     la review ad ogni prodotto del carrello devo prendere il prodotto completo
@@ -602,16 +586,15 @@ var get_tax = function (data) {
         function(product, callback) {
           review = {};
           review.customer_id = data.customer.id;
+          review.product_id = product.id;
           review.closed = false;
           review.title = '';
           review.text = '';
           review.rating = 0;
-          product.reviews.create(review, function (err, review) {
-            reviews_created.push(review);
+          product.reviews.create(review, function (err, result) {
             callback();
           });
         }, function (err) {
-          data.reviews_created = reviews_created;
           setImmediate(done, err);
       });
     };

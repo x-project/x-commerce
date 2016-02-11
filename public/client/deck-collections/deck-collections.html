@@ -1,24 +1,17 @@
 <link rel="import" href="../../styles/style-deck/style-deck.html">
-<link rel="import" href="../../styles/style-card/style-card.html">
+<link rel="import" href="card-collection.html">
 <dom-module id="deck-collections">
   <template>
     <style include="style-deck"></style>
-    <style include="style-card"></style>
+    <style>
+      :host {
+        margin: 0 -5px;
+      }
+    </style>
 
-    <div class="deck">
-      <template is="dom-repeat" items="{{collections}}" as="collection">
-        <div class="card">
-          <image-preview class="card-img-top img-responsive" image="{{collection.images.0}}"
-            sizing="contain" like-size="120"
-            height="100" width="100">
-          </image-preview>
-          <div class="card-block">
-            <h4 class="card-title">{{collection.title}}</h4>
-          </div>
-          <div class="card-block">
-            <a href="/collections/{{collection.id}}" class="card-link">view</a>
-          </div>
-        </div>
+   <div class="deck row">
+      <template id="collection" is="dom-repeat" items="{{collections}}" as="collection">
+        <card-collection collection="{{collection}}"></card-collection>
       </template>
     </div>
 

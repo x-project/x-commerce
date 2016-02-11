@@ -30,27 +30,27 @@
 
     on_try_save: function  (event) {
       event.stopPropagation();
-      this.review.closed = true;
-      this.$.update.send();
-    },
-
-    on_response: function (event) {
-      event.stopPropagation();
-      this.$.form_feedback.feedback_completed();
-      page('/reviews');
-    },
-
-    on_try_save: function () {
-      this.review.closed = true;
-      Model.create('/api/products', this.product)
+      var data = {
+        title: this.review.title,
+        text: this.review.text,
+        rating: this.review.rating,
+        closed: true,
+        customer_id: this.review.customer_id
+      };
+      Model.update('/api/reviews/' + this.review.id, data)
         .then(function (data) {
-          this.product = data;
-          this.response_create();
+          this.on_response();
         }.bind(this))
         .catch(function (error) {
           this.error = error;
+          console.log(err);
         }.bind(this));
     },
+
+    on_response: function () {
+      this.$.form_feedback.feedback_completed();
+      page('/reviews');
+    }
 
 
   });

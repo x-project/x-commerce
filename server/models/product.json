@@ -54,6 +54,14 @@
     },
     "tags": {
       "type": ["String"]
+    },
+    "total_review": {
+      "type": "Number",
+      "default": 0
+    },
+    "score_review": {
+      "type": "Number",
+      "default": 0
     }
   },
   "relations": {

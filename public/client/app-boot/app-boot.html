@@ -216,7 +216,7 @@
       this.get_model({
         collection: 'products',
         modelId: context.params.product_id,
-        include: ['images', 'options', 'product_type', 'variants', 'vendor']
+        include: ['images', 'options', 'product_type', 'variants', 'vendor', 'reviews']
       })
       .then(function (model) {
         context.page_name = 'page-product';

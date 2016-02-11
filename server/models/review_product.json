@@ -1,0 +1,20 @@
+{
+  "name": "ReviewProduct",
+  "plural": "review_products",
+  "mongodb": {
+    "collection": "review_products"
+  },
+  "base": "PersistedModel",
+  "properties": {
+    "reviewId": {
+      "type": "Number"
+    },
+    "productId": {
+      "type": "Number"
+    }
+  },
+  "relations": {},
+  "acls": [],
+  "methods": [],
+  "validations": []
+}

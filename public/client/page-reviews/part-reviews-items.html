@@ -38,7 +38,7 @@
     },
 
     attached: function  () {
-      if(Object.keys(this.customer).length > 0){
+      if(Object.keys(this.customer).length > 0) {
         this.$.find.where = { customer_id: this.customer.id };
         this.$.find.send();
       }

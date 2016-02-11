@@ -16,7 +16,8 @@
     </style>
 
     <api-model-find id="find" collection="products" response="{{products}}"
-      order="title" perpage="{{perpage}}" page="{{page}}" include='["images"]'>
+      order="title" perpage="{{perpage}}" page="{{page}}" include='["images"]'
+      on-response="on_response">
     </api-model-find>
 
     <api-model-count id="count" collection="products" response="{{count}}">
@@ -47,6 +48,10 @@
 
     attached: function () {
       this.$.count.send();
+    },
+
+    on_response: function () {
+      // console.log(this.products);
     },
 
     on_change_page: function (event) {
