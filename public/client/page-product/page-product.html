@@ -1,5 +1,5 @@
-<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../../styles/style-navs/style-navs.html">
 <link rel="import" href="../layout-client/layout-client.html">
@@ -94,8 +94,19 @@
       margin: 0 10px;
     }
 
+    paper-header-panel {
+      --paper-header-panel-shadow: {
+          height: 6px;
+          bottom: -6px;
+          box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+      };
+    }
+
     </style>
     <layout-client>
+
+
+
       <div class="strip">
         <div class="container">
           <div class="row">
@@ -153,6 +164,7 @@
             </x-tab>
           </x-tabs>
         </div>
+
     </layout-client>
 
   </template>
