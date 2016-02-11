@@ -1,7 +1,8 @@
+<link rel="import" href="../../components/iron-image/iron-image.html">
 <link rel="import" href="../../styles/style-card/style-card.html">
 <link rel="import" href="../../components/text-view/text-view.html">
 
-<dom-module id="card-collection">
+<dom-module id="card-product">
   <template>
     <!-- /*<style include="style-card"></style>*/ -->
     <style>
@@ -12,75 +13,92 @@
         color: #333;
         box-sizing: border-box;
       }
+
       .image {
         background-color: #eee;
         height: 120px;
         width: 100%;
       }
+
       .card-title {
         margin: 6px 0px;
         text-decoration: none;
         font-size: 15px;
         font-family: font-light;
       }
+
       .card-title .link {
         color: #333;
         text-decoration: none;
       }
+
       .card-text {
         margin: 6px 0px;
         font-size: 15px;
         font-family: font-light;
       }
+
       .card-rating {
         margin: 6px 0px;
+
         --rating-star : {
           font-size: 12px;
           padding: 2px;
         };
       }
+
       .card-detail {
         margin: 6px 0;
       }
+
       .usd:before {
         content: "$";
       }
+
     </style>
 
-     <div class="card" on-click="on_click">
-        <div class="card-header">
-          <image-preview class="image card-img-top img-responsive" image="{{collection.images.0}}"
+   <div class="card" on-click="on_click">
+       <div class="card-header">
+          <image-preview class="image card-img-top img-responsive" image="{{product.images.0}}"
             sizing="cover" like-size="120"
             height="120" width="100">
           </image-preview>
         </div>
-        <div class="card-block">
-          <h4 class="card-title">
-            <a class="link" href="/collections/{{collection.id}}">{{collection.title}}</a>
-          </h4>
-          <text-view text="{{collection.description}}" limit="20"></text-view>
-          <!-- input rating -->
-        </div>
+      <div class="card-block">
+        <h4 class="card-title">{{product.title}}</h4>
+        <h5 class="card-vendor">{{product.vendor.name}}</h5>
+       <text-view text="{{product.description}}" limit="60"></text-view>
+        <input-rating class="card-rating" value="{{_get_percentual_rating(product)}}"></input-rating>
+        <h4 class="card-detail"><span class="usd">{{product.price}}</span></h2>
       </div>
+    </div>
+
 
   </template>
 </dom-module>
 <script>
   Polymer({
 
-    is: 'card-collection',
+    is: 'card-product',
 
     properties: {
-      collection: {
+      product: {
         type: Object,
         value: function () { return {}; }
       }
     },
 
-    on_click: function (event) {
-      event.stopPropagation();
-      page('/collections/' + this.collection.id);
+    attached: function () {
+      console.log(this.product);
+    },
+
+    _get_percentual_rating: function (product) {
+      if (!product) {
+        return
+      }
+      return product.score_review / product.total_review;
     }
+
 
   });
 </script>

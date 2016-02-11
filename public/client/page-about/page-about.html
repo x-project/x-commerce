@@ -1,15 +1,28 @@
-<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <dom-module id="page-about">
   <template>
+  <style>
+    paper-header-panel {
+      min-height: 100vh;
+    }
+  </style>
 
+    <paper-header-panel mode="waterfall-tall">
+      <paper-toolbar>
+        <div>Hello World!</div>
+      </paper-toolbar>
+      <div class="fit">
+      <content></content>
+      </div>
+    </paper-header-panel>
 
-    <layout-client>
-      <h1>About</h1>
+      <!-- <h1>About</h1>
       <div class="container">
         <p>{{data.store.description}}</p>
-      </div>
-    </layout-client>
+      </div> -->
+
   </template>
 
 </dom-module>

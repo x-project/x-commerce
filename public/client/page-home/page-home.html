@@ -3,6 +3,8 @@
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../deck-collections/deck-collections.html">
 <link rel="import" href="part-home-collections.html">
+<link rel="import" href="../layout-jumbotron/layout-jumbotron.html">
+
 <dom-module id="page-home">
   <template>
     <style include="style-grid"></style>
@@ -11,11 +13,9 @@
       include=["images"] on-response="on_response" on-error="on_error">
     </api-model-find>
 
-    <layout-client>
-      <div class="container">
-        <deck-collections collections="{{collections}}"></deck-collections>
-      </div>
-    </layout-client>
+    <layout-jumbotron>
+      <deck-collections collections="{{collections}}"></deck-collections>
+    </layout-jumbotron>
 
   </template>
 </dom-module>

@@ -1,0 +1,39 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../part-footer/part-footer.html">
+<link rel="import" href="../part-header/part-header.html">
+<dom-module id="layout-jumbotron">
+  <template>
+    <style include="style-grid"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-header-panel {
+        min-height: 100vh;
+      }
+      part-header {
+        background-color: #3f51b5;
+      }
+    </style>
+
+    <paper-header-panel mode="waterfall-tall">
+      <paper-toolbar>
+        <part-header></part-header>
+      </paper-toolbar>
+      <div class="fit">
+      <content></content>
+      </div>
+    </paper-header-panel>
+
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'layout-jumbotron'
+
+  });
+</script>
