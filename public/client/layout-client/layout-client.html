@@ -13,26 +13,29 @@
         @apply(--layout-vertical);
         overflow: hidden;
       }
-
-
-
       paper-header-panel paper-toolbar {
         background-color: #fff;
       }
-
       paper-header-panel[mode="waterfall-tall"] paper-toolbar {
         --paper-toolbar-background: transparent;
         background-attachment: initial;
-        background-image: url('http://img.tgcom24.mediaset.it/binary/agenzia/68.$plit/C_4_articolo_2113931_upiImagepp.jpg');
         background-position: center;
         background-size: 100%;
+        --paper-toolbar-height: 100px;
       }
-
-      part-header {
+      paper-header-panel[mode="waterfall-tall"] part-header {
         background-color: transparent;
         --color-link: {
           color: white;
         }
+      }
+      paper-header-panel[mode="standard"] part-header {
+        --color-link: {
+          color: #333;
+        }
+      }
+      part-header {
+        /*background-color: red;*/
       }
       paper-header-panel {
         height: 100vh;
@@ -46,14 +49,13 @@
           @apply(--layout-vertical);
         }
       }
-
       #space {
         @apply(--layout-flex);
       }
     </style>
 
-    <paper-header-panel mode="{{mode}}">
-      <paper-toolbar>
+    <paper-header-panel mode="{{mode}}" image="{{image}}">
+      <paper-toolbar style$="background-image: url('{{image}}')">
         <part-header></part-header>
       </paper-toolbar>
       <content></content>
@@ -66,7 +68,22 @@
 <script>
   Polymer({
 
-    is: 'layout-client'
+    is: 'layout-client',
+
+    properties: {
+      mode: {
+        type: String,
+        value: 'waterfall-tall'
+      },
+      image: {
+        type: String,
+        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+      }
+    },
+
+
+
+
 
   });
 </script>

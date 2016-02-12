@@ -1,6 +1,6 @@
 <link rel="import" href="../../api-model-find/api-model-find.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="deck-articles.html">
+<link rel="import" href="../deck-articles/deck-articles.html">
 <dom-module id="page-articles">
   <template>
     <style>
@@ -11,13 +11,13 @@
     </style>
 
     <api-model-find id="find" collection="articles" include='["author", "category", "images"]'
-      response="{{articles}}">
+      response="{{articles}}" on-response="on_response">
     </api-model-find>
 
     <layout-client>
       <h1>Articles</h1>
       <div class="container">
-        <deck-articles items="{{articles}}"></deck-articles>
+        <deck-articles articles="{{articles}}"></deck-articles>
       </div>
     </layout-client>
 
@@ -38,6 +38,10 @@
 
     attached: function () {
       this.$.find.send();
+    },
+
+    on_response: function () {
+      // console.log(this.articles);
     }
 
   });

@@ -1,6 +1,6 @@
 <link rel="import" href="../../styles/style-card/style-card.html">
 <link rel="import" href="../../components/text-view/text-view.html">
-
+<link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="card-collection">
   <template>
     <!-- /*<style include="style-card"></style>*/ -->
@@ -45,12 +45,15 @@
       .usd:before {
         content: "$";
       }
+      .card-block {
+        text-align: center;
+      }
     </style>
 
      <div class="card" on-click="on_click">
         <div class="card-header">
           <image-preview class="image card-img-top img-responsive" image="{{collection.images.0}}"
-            sizing="cover" like-size="120"
+            sizing="cover" like-size="400"
             height="120" width="100">
           </image-preview>
         </div>

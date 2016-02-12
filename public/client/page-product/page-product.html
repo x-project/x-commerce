@@ -22,8 +22,6 @@
     <style include="style-navs"></style>
 
     <style>
-    .container {
-    }
     .box {
       padding: 0;
       background-color: #fff;
@@ -33,7 +31,7 @@
       padding: 0;
     }
     .strip {
-      margin-top: 40px;
+      /*margin-top: 40px;*/
       background-color: #f1f1f1;
       padding-left: 0.9375rem;
     }
@@ -102,8 +100,7 @@
       };
     }
     </style>
-    <layout-client>
-
+    <layout-client image="" mode="standard">
 
       <div class="strip">
         <div class="container">
@@ -117,7 +114,7 @@
                 <h4 class="vendor">By {{data.product.vendor.name}}</h4>
                 <h3 class="prod-type">in {{data.product.product_type.name}}</h3>
                 <h1 class="price">
-                  <span class="normal-price" line_through$="{{line_through}}">$ {{data.product.price}}<span>
+                  <span class="normal-price" line_through$="{{line_through}}">${{data.product.price}}</span>
                 </h1>
                 <part-product-options class="field" product="{{data.product}}" variant="{{variant}}"
                   on-change="on_change">
@@ -143,27 +140,28 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="container">
-          <nav class="nav nav-tabs" role="tablist" on-click="on_click_nav">
-            <ul>
-              <li class="nav-item nav-link active" data-tab="reviews">Reviews</li>
-              <li class="nav-item nav-link active" data-tab="description">Description</li>
-              <li class="nav-item nav-link active" data-tab="detail">Detail</li>
-            </ul>
-          </nav>
-          <x-tabs id="tabs" current="{{current}}">
-            <x-tab name="reviews">
-            <part-product-reviews product="{{data.product}}"></part-product-reviews>
-            </x-tab>
-            <x-tab name="description">
-              <div>{{data.product.description}}</div>
-            </x-tab>
-            <x-tab name="detail">
-              <part-product-details product="{{data.product}}"></part-product-details>
-            </x-tab>
-          </x-tabs>
-        </div>
+      <div class="container">
+        <nav class="nav nav-tabs" role="tablist" on-click="on_click_nav">
+          <ul>
+            <li class="nav-item nav-link active" data-tab="reviews">Reviews</li>
+            <li class="nav-item nav-link active" data-tab="description">Description</li>
+            <li class="nav-item nav-link active" data-tab="detail">Detail</li>
+          </ul>
+        </nav>
+        <x-tabs id="tabs" current="{{current}}">
+          <x-tab name="reviews">
+          <part-product-reviews product="{{data.product}}"></part-product-reviews>
+          </x-tab>
+          <x-tab name="description">
+            <div>{{data.product.description}}</div>
+          </x-tab>
+          <x-tab name="detail">
+            <part-product-details product="{{data.product}}"></part-product-details>
+          </x-tab>
+        </x-tabs>
+      </div>
 
     </layout-client>
 

@@ -1,6 +1,7 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../part-header/part-header.html">
+<link rel="import" href="../part-pages/part-pages.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../deck-collections/deck-collections.html">
 <link rel="import" href="../layout-client/layout-client.html">
@@ -9,12 +10,27 @@
   <template>
     <style include="style-grid"></style>
 
+<!--
     <api-model-find id="find" collection="collections" response="{{collections}}"
       include=["images"] on-response="on_response" on-error="on_error">
     </api-model-find>
+-->
 
-    <layout-client mode="waterfall-tall">
-      <deck-collections collections="{{collections}}"></deck-collections>
+    <api-model-find id="find" collection="collections" response="{{collections}}"
+      perpage="{{perpage}}" page="{{page}}" include='["images"]'
+      on-response="on_response">
+    </api-model-find>
+
+    <api-model-count id="count" collection="collections" response="{{count}}">
+    </api-model-count>
+
+    <layout-client mode="waterfall-tall" image="https://static.pexels.com/photos/17746/pexels-photo.jpg">
+      <div class="container">
+        <h1>Products</h1>
+        <deck-collections collections="{{collections}}"></deck-collections>
+        <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
+        </part-pages>
+      </div>
     </layout-client>
 
   </template>
@@ -24,9 +40,15 @@
 
     is: 'page-home',
 
+    properties: {
+      perpage: {
+        type: Number,
+        value: 20
+      }
+    },
+
     attached: function () {
-      this.$.find.perpage = 50;
-      this.$.find.send();
+      this.$.count.send();
     },
 
     on_error: function (event) {
@@ -34,7 +56,13 @@
     },
 
     on_response: function (event) {
-      console.log(this.collections);
+      // console.log(this.collections);
+    },
+
+    on_change_page: function (event) {
+      this.perpage = this.perpage;
+      this.page = event.detail.current - 1;
+      this.$.find.send();
     }
 
   });

@@ -8,11 +8,11 @@
       display: block;
       width: 100%;
       z-index: 100;
-      background-color: #000;;
       /*box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);*/
     }
     #header {
       @apply(--layout-horizontal);
+      letter-spacing: 12px;
     }
 
     #brand .link {
@@ -29,15 +29,14 @@
 
     .link {
       display: inline-block;
-      color: #808080;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 600;
-      font-family: font-bold;
+      font-family: font-light;
       letter-spacing: 1px;
       line-height: 50px;
       text-decoration: none;
-      text-transform: uppercase;
       padding: 0 5px;
+      color: white;
       @apply(--color-link);
     }
     .navbar .link:first-child {
@@ -45,6 +44,10 @@
     }
     .navbar .link:last-child {
       padding-right: 0px;
+    }
+    .navbar .link .cart:hover,#brand .link:hover,.navbar .link:hover {
+      color: gold;
+      cursor: pointer;
     }
   </style>
   <template>
@@ -72,13 +75,15 @@
       <template is="dom-if" if="{{token}}">
         <nav class="navbar">
             <a class="link" href="/products">products</a>
-            <a class="link" href="/articles">articles</a>
-            <a class="link" href="/cart">cart</a>
+            <a class="link" href="/articles">magazines</a>
             <a class="link" href="/settings">settings</a>
             <a class="link" href="/reviews">reviews</a>
             <a class="link" href="/orders">orders</a>
             <a class="link" href="/wishlist">wishlist</a>
             <a class="link" on-click="on_click_logout">logout</a>
+            <a class="link" href="/cart">
+              <i class="fa fa-shopping-cart cart"></i>
+            </a>
         </nav>
       </template>
     </div>

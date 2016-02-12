@@ -1,6 +1,6 @@
 <link rel="import" href="../../styles/style-deck/style-deck.html">
-<link rel="import" href="card-collection.html">
-<dom-module id="deck-collections">
+<link rel="import" href="card-article.html">
+<dom-module id="deck-articles">
   <template>
     <style include="style-deck"></style>
     <style>
@@ -10,8 +10,8 @@
     </style>
 
     <div class="deck row">
-      <template id="collection" is="dom-repeat" items="{{collections}}" as="collection">
-        <card-collection collection="{{collection}}"></card-collection>
+      <template id="article" is="dom-repeat" items="{{articles}}" as="article">
+        <card-article article="{{article}}"></card-article>
       </template>
     </div>
 
@@ -20,10 +20,10 @@
 <script>
   Polymer({
 
-    is: 'deck-collections',
+    is: 'deck-articles',
 
     properties: {
-      collections: {
+      articles: {
         type: Array,
         value: function () { return []; }
       }
