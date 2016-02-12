@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../payment-braintree/payment-braintree.html">
 <link rel="import" href="../payment-stripe/payment-stripe.html">
 <link rel="import" href="../layout-client/layout-client.html">
@@ -13,10 +14,11 @@
     </style>
 
     <app-session id="session"></app-session>
+    <style include="style-grid"></style>
 
     <layout-client>
-      <h1>Cart Summary</h1>
       <div class="container">
+        <h1>Cart Summary</h1>
         <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
           on-change-address="on_change_address">
         </part-summary-order-detail>

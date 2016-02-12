@@ -1,5 +1,6 @@
-<link rel="import" href="../../styles/style-card/style-card.html">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../components/text-view/text-view.html">
+<link rel="import" href="../../styles/style-card/style-card.html">
 <link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="card-product">
   <template>
@@ -39,9 +40,6 @@
           padding: 2px;
         };
       }
-      .card-detail {
-        margin: 6px 0;
-      }
       .usd:before {
         content: "$";
       }
@@ -50,6 +48,14 @@
       }
       .card-block {
         text-align: center;
+      }
+      .card-block {
+        overflow: hidden;
+      }
+      .details {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+        margin: 10px 10px;
       }
     </style>
 
@@ -63,11 +69,16 @@
       <div class="card-block">
         <h4 class="card-title">{{product.title}}</h4>
         <h5 class="card-vendor">{{product.vendor.name}}</h5>
-       <text-view text="{{product.description}}" limit="60"></text-view>
-        <input-rating class="card-rating" value="{{_get_percentual_rating(product)}}"></input-rating>
-        <h4 class="card-detail">
-          <span class="usd">{{product.price}}</span>
-        </h2>
+        <text-view text="{{product.description}}" limit="60"></text-view>
+        <div class="details">
+          <div class="rating">
+            <input-rating class="card-rating" value="{{product.total_score}}">
+            </input-rating>
+          </div>
+          <div class="price">
+            <strong class="usd">{{product.price}}</strong>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -83,13 +94,6 @@
         type: Object,
         value: function () { return {}; }
       }
-    },
-
-    _get_percentual_rating: function (product) {
-      if (!product) {
-        return
-      }
-      return product.score_review / product.total_review;
     },
 
     on_click_card: function (event) {

@@ -1,10 +1,12 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <dom-module id="page-article">
 	<template>
+    <style include="style-grid"></style>
 
     <layout-client>
-      <h1>{{data.article.title}}</h1>
       <div class="container">
+        <h1>{{data.article.title}}</h1>
         <h3>{{data.article.summary}}</h3>
         <p>{{data.article.content}}</p>
         <h5 class="published">
@@ -21,7 +23,14 @@
 <script>
 	Polymer({
 
-		is: 'page-article'
+		is: 'page-article',
+
+    properties: {
+      article: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
 
 	});
 </script>

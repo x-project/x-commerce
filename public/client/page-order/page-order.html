@@ -1,8 +1,11 @@
-<link rel="import" href="/components/api-model/api-model.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="list-order.html">
 <dom-module id="page-order">
   <template>
+    <style include="style-grid"></style>
+
 
     <api-model-find id="find_orders" collection="orders" response="{{orders}}"
       on-response="on_response_orders">
@@ -13,8 +16,8 @@
     </api-model-find>
 
     <layout-client>
-      <h1>My Orders</h1>
       <div class="container">
+        <h1>My Orders</h1>
         <list-order orders="{{orders_complete}}"></list-order>
       </div>
     </layout-client>
@@ -34,8 +37,12 @@
     },
 
     attached: function () {
+      if(!this.session.user) {
+        return;
+      }
       this.$.find_orders.where = { customer_id: this.session.user.id };
       this.$.find_orders.one = false;
+      this.$.find_orders.accessToken = this.session.token;
       this.$.find_orders.include = [ "customer", {"order_items":["product","product_variant"]}];
       this.$.find_orders.send();
     },

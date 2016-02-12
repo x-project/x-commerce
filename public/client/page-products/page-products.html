@@ -2,7 +2,7 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-pages/part-pages.html">
-<link rel="import" href="../deck-products/deck-products.html">
+<link rel="import" href="deck-products.html">
 <dom-module id="page-products">
   <template>
     <style include="style-grid"></style>
@@ -16,8 +16,8 @@
     </api-model-count>
 
     <layout-client image="https://static.pexels.com/photos/17746/pexels-photo.jpg">
-      <h1>Products</h1>
       <div class="container">
+        <h1>Products</h1>
         <deck-products products="{{products}}"></deck-products>
         <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
         </part-pages>

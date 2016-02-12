@@ -1,10 +1,13 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="part-reviews-items.html">
 <dom-module id="page-reviews">
   <template>
+    <style include="style-grid"></style>
 
-    <layout-client>
-      <h1>Reviews</h1>
+    <layout-client mode="waterfall-tall">
       <div class="container">
+        <h1>Reviews</h1>
         <part-reviews-items customer="{{customer}}"></part-reviews-items>
       </div>
     </layout-client>

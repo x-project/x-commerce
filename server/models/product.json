@@ -55,11 +55,15 @@
     "tags": {
       "type": ["String"]
     },
-    "total_review": {
+    "total_reviews": {
       "type": "Number",
       "default": 0
     },
-    "score_review": {
+    "score_reviews": {
+      "type": "Number",
+      "default": 1
+    },
+    "total_score": {
       "type": "Number",
       "default": 0
     }

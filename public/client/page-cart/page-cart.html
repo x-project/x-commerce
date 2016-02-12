@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="part-cart-order-items.html">
@@ -6,6 +7,7 @@
   <template>
 
     <app-session id="session"></app-session>
+    <style include="style-grid"></style>
 
     <api-model-find id="find_products" collection="products" response="{{products}}"
       on-response="on_response_find_products">
@@ -24,8 +26,8 @@
     </iron-ajax>
 
     <layout-client>
-      <h1>Cart</h1>
       <div class="container">
+        <h1>Cart</h1>
         <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart"></part-cart-order-items>
         <part-cart-order-detail id="order_detail" cart="{{cart}}"
           on-try-checkout="on_try_checkout">

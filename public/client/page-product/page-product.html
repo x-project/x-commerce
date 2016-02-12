@@ -31,7 +31,6 @@
       padding: 0;
     }
     .strip {
-      /*margin-top: 40px;*/
       background-color: #f1f1f1;
       padding-left: 0.9375rem;
     }
@@ -106,34 +105,34 @@
         <div class="container">
           <div class="row">
             <div class="image col col-sm-8">
-              <part-product-images product="{{data.product}}"></part-product-images>
+              <part-product-images product="{{product}}"></part-product-images>
             </div>
             <div class="box col col-sm-4">
               <div class="info">
-                <h1 class="title">{{data.product.title}}</h1>
-                <h4 class="vendor">By {{data.product.vendor.name}}</h4>
-                <h3 class="prod-type">in {{data.product.product_type.name}}</h3>
+                <h1 class="title">{{product.title}}</h1>
+                <h4 class="vendor">By {{product.vendor.name}}</h4>
+                <h3 class="prod-type">in {{product.product_type.name}}</h3>
                 <h1 class="price">
-                  <span class="normal-price" line_through$="{{line_through}}">${{data.product.price}}</span>
+                  <span class="normal-price" line_through$="{{line_through}}">${{product.price}}</span>
                 </h1>
-                <part-product-options class="field" product="{{data.product}}" variant="{{variant}}"
+                <part-product-options class="field" product="{{product}}" variant="{{variant}}"
                   on-change="on_change">
                 </part-product-options>
-                <part-product-cart class="field cart" product="{{data.product}}" variant="{{variant}}">
+                <part-product-cart class="field cart" product="{{product}}" variant="{{variant}}">
                 </part-product-cart>
-                <part-product-wish product="{{data.product}}" variant="{{variant}}"></part-product-wish>
+                <part-product-wish product="{{product}}" variant="{{variant}}"></part-product-wish>
               </div>
               <div class="space"></div>
               <div class="numbers">
                 <div class="number">
                   <div class="value"><i class="fa fa-thumbs-o-up"></i>
-                    {{_get_percentage_rating_score(data.product)}}
+                    {{_get_percentage_rating_score(product)}}
                   </div>
                   <h4 class="label text-blue text-underline"
-                    on-click="on_click_reviews">{{data.product.total_review}} Reviews</h4>
+                    on-click="on_click_reviews">{{product.total_reviews}} Reviews</h4>
                 </div>
                 <div class="number">
-                  <div class="value">{{data.product.quantity}}</div>
+                  <div class="value">{{product.quantity}}</div>
                   <h4 class="label">Quantity</h4>
                 </div>
               </div>
@@ -150,15 +149,16 @@
             <li class="nav-item nav-link active" data-tab="detail">Detail</li>
           </ul>
         </nav>
+
         <x-tabs id="tabs" current="{{current}}">
           <x-tab name="reviews">
-          <part-product-reviews product="{{data.product}}"></part-product-reviews>
+            <part-product-reviews product="{{product}}"></part-product-reviews>
           </x-tab>
           <x-tab name="description">
-            <div>{{data.product.description}}</div>
+            <div>{{product.description}}</div>
           </x-tab>
           <x-tab name="detail">
-            <part-product-details product="{{data.product}}"></part-product-details>
+            <part-product-details product="{{product}}"></part-product-details>
           </x-tab>
         </x-tabs>
       </div>
@@ -173,7 +173,7 @@
     is: 'page-product',
 
     properties: {
-      data: {
+      product: {
         type: Object,
         value: function () { return {}; }
       },
@@ -189,7 +189,10 @@
     },
 
     attached: function () {
+      this.product = this.data.product;
+      console.log(this.product);
       this.set('current', 'description');
+
     },
 
     on_change: function () {
@@ -201,9 +204,12 @@
 
     _get_percentage_rating_score: function (product) {
       if (!product) {
-        return;
+        return 0;
       }
-      return (product.score_review / product.total_review) * 10 + '%';
+      if (!product.total_score) {
+        return 0;
+      }
+      return product.total_score * 10 + '%';
     },
 
     on_click_nav: function (event) {

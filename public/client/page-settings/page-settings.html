@@ -1,13 +1,15 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="panel-settings-profile.html">
 <link rel="import" href="panel-settings-email.html">
 <link rel="import" href="panel-settings-password.html">
 <dom-module id="page-settings">
   <template>
+    <style include="style-grid"></style>
 
-    <layout-client>
-      <h1>Settings</h1>
+    <layout-client mode="waterfall-tall">
       <div class="container">
+        <h1>Settings</h1>
         <panel-settings-profile></panel-settings-profile>
         <panel-settings-email></panel-settings-email>
         <panel-settings-password></panel-settings-password>
@@ -19,7 +21,14 @@
 <script>
   Polymer({
 
-    is: 'page-settings'
+    is: 'page-settings',
+
+    properties: {
+      image: {
+        type: String,
+        value: ''
+      }
+    }
 
   });
 </script>

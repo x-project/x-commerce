@@ -1,10 +1,13 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="part-feedback.html">
 <dom-module id="page-review">
   <template>
+    <style include="style-grid"></style>
 
     <layout-client>
-      <h1>Review <span>{{data.review.product.title}}</span></h1>
       <div class="container">
+        <h1>Review <span>{{data.review.product.title}}</span></h1>
         <part-feedback review="{{data.review}}"></part-feedback>
       </div>
     </layout-client>

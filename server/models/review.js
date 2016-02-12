@@ -15,8 +15,9 @@ module.exports = function (Review) {
     return function (next) {
       var product = {};
       product = data.product;
-      product.score_review = data.product.score_review + data.review.rating;
-      product.total_review = (data.product.total_review == 0) ? 1 : data.product.total_review + 1;
+      product.score_reviews = data.product.score_reviews + data.review.rating;
+      product.total_reviews = data.product.total_reviews + 1;
+      product.total_score = product.score_reviews / product.total_reviews;
       Review.app.models.Product.upsert(product, function (err, product) {
         data.product = product;
         setImmediate(next, err);

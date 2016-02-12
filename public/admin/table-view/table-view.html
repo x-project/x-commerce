@@ -14,6 +14,9 @@
       td i:hover{
         color: #0275d8;
       }
+      .actions i {
+        cursor: pointer;
+      }
     </style>
     <div class="table-responsive">
       <table class="table table-striped table-hover">
@@ -33,7 +36,7 @@
                   <text-view text="{{_value(item,field)}}" limit="30"></text-view>
                 </td>
               </template>
-              <td>
+              <td class="actions">
                 <i class="fa fa-pencil" on-click="on_click_edit"></i>
                 <i class="fa fa-trash-o" on-click="on_click_delete"></i>
               </td>

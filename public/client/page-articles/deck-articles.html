@@ -4,14 +4,14 @@
   <template>
     <style include="style-deck"></style>
     <style>
-      .card {
-        @apply(--layout-col-3);
+      :host {
+        margin: 0 -5px;
       }
     </style>
 
-    <div class="deck">
-      <template is="dom-repeat" items="{{items}}">
-        <card-article class="card" data="{{item}}"></card-article>
+    <div class="deck row">
+      <template id="article" is="dom-repeat" items="{{articles}}" as="article">
+        <card-article article="{{article}}"></card-article>
       </template>
     </div>
 
@@ -23,8 +23,9 @@
     is: 'deck-articles',
 
     properties: {
-      items: {
-        type: Array
+      articles: {
+        type: Array,
+        value: function () { return []; }
       }
     }
 

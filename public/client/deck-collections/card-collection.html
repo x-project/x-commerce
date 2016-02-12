@@ -53,8 +53,7 @@
      <div class="card" on-click="on_click">
         <div class="card-header">
           <image-preview class="image card-img-top img-responsive" image="{{collection.images.0}}"
-            sizing="cover" like-size="400"
-            height="120" width="100">
+            sizing="cover" like-size="400" height="120" width="100">
           </image-preview>
         </div>
         <div class="card-block">
@@ -62,7 +61,8 @@
             <a class="link" href="/collections/{{collection.id}}">{{collection.title}}</a>
           </h4>
           <text-view text="{{collection.description}}" limit="20"></text-view>
-          <!-- input rating -->
+        <input-rating class="card-rating" value="{{_get_medium_rating(collection)}}">
+        </input-rating>
         </div>
       </div>
 
@@ -83,6 +83,27 @@
     on_click: function (event) {
       event.stopPropagation();
       page('/collections/' + this.collection.id);
+    },
+
+    _get_medium_rating: function (collection) {
+      if (!collection) {
+        return;
+      }
+      var products = collection.products || [];
+      var tmp_score = 0;
+      var tmp = [];
+      products.forEach(function (product) {
+        if (product.total_reviews > 0 && product.total_score > 0 && product.score_reviews > 1){
+          tmp.push(product.total_score);
+        }
+      });
+      if (tmp.length == 0) {
+        return 0;
+      }
+      var total = tmp.reduce(function(a, b) {
+        return a + b;
+      },0);
+      return total / tmp.length;
     }
 
   });

@@ -1,12 +1,12 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../part-footer/part-footer.html">
-<link rel="import" href="../part-header/part-header.html">
 <dom-module id="page-contact">
   <template>
+    <style include="style-grid"></style>
 
-    <layout-client>
-      <h1>Contact</h1>
+    <layout-client mode="waterfall-tall">
       <div class="container">
+        <h1>Contact</h1>
         <a href="{{mailto}}">{{data.store.email}}</a>
         <p>{{data.store.phone}}</p>
       </div>
