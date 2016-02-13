@@ -48,6 +48,10 @@
       .card-block {
         text-align: center;
       }
+      .card:hover {
+        cursor: pointer;
+        opacity: .5;
+      }
     </style>
 
      <div class="card" on-click="on_click">
@@ -61,8 +65,8 @@
             <a class="link" href="/collections/{{collection.id}}">{{collection.title}}</a>
           </h4>
           <text-view text="{{collection.description}}" limit="20"></text-view>
-        <input-rating class="card-rating" value="{{_get_medium_rating(collection)}}">
-        </input-rating>
+          <input-rating class="card-rating" value="{{_get_medium_rating(collection)}}">
+          </input-rating>
         </div>
       </div>
 
