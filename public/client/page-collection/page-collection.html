@@ -5,14 +5,6 @@
 <dom-module id="page-collection">
   <template>
     <style include="style-grid"></style>
-    <style>
-      .jumbotron {
-        --jumbotron-content: {
-          @apply(--layout-horizontal);
-          @apply(--layout-end);
-        }
-      }
-    </style>
 
     <api-model-count id="count" collection="products" response="{{count}}">
     </api-model-count>

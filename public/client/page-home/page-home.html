@@ -1,75 +1,23 @@
-<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
-<link rel="import" href="../part-header/part-header.html">
-<link rel="import" href="../part-pages/part-pages.html">
-<link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="../deck-collections/deck-collections.html">
+<link rel="import" href="../deck-products/deck-products.html">
 <link rel="import" href="../layout-client/layout-client.html">
 
 <dom-module id="page-home">
   <template>
     <style include="style-grid"></style>
 
-    <api-model-find id="find" collection="collections" response="{{collections}}"
-      perpage="{{perpage}}" page="{{page}}" include='["images","products"]'
-      on-response="on_response">
-    </api-model-find>
-
-    <api-model-count id="count" collection="collections" response="{{count}}">
-    </api-model-count>
-
     <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
-        <h1>Collections</h1>
-        <deck-collections collections="{{collections}}"></deck-collections>
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        </p>
-        <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
-        </part-pages>
+        <h1>Home</h1>
+        <deck-products products="{{products}}"></deck-products>
       </div>
     </layout-client>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -78,7 +26,7 @@
     properties: {
       perpage: {
         type: Number,
-        value: 20
+        value: 10
       },
       image: {
         type: String,
@@ -87,21 +35,25 @@
     },
 
     attached: function () {
-      this.$.count.send();
+      this.get_products();
     },
 
-    on_error: function (event) {
-      console.log(event)
+    get_products: function () {
+      Model.find('/api/products', this.get_filter_options())
+        .then(function (data) {
+          this.products = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
     },
 
-    on_response: function (event) {
-      // console.log(this.collections);
-    },
-
-    on_change_page: function (event) {
-      this.perpage = this.perpage;
-      this.page = event.detail.current - 1;
-      this.$.find.send();
+    get_filter_options: function () {
+      return {
+        include: ["images", "vendor"],
+        perpage: this.perpage,
+        order: ['published_at DESC']
+      };
     }
 
   });
