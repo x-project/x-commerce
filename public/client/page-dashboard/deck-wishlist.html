@@ -1,0 +1,29 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="part-wishlist-item.html">
+<dom-module id="deck-wishlist">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="items">
+      <template id="favourites" is="dom-repeat" items="{{favourites}}" as="favourite">
+        <part-wishlist-item favourite="{{favourite}}">
+        </part-wishlist-item>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'deck-wishlist',
+
+    properties: {
+      favourites: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

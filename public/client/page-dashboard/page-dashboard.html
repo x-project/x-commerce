@@ -1,0 +1,72 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="part-dashboard.html">
+<link rel="import" href="part-profile.html">
+<dom-module id="page-dashboard">
+  <template>
+    <style include="style-grid"></style>
+    <style>
+    .title {
+      font-size: 14px;
+      color: #000;
+      font-family: font-bold;
+      font-style: normal;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+    }
+    .sidebar{
+      position: fixed;
+    }
+    </style>
+
+    <layout-client mode="standard" image="">
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-3">
+            <div class="sidebar">
+              <h2 class="title">Profile</h2>
+                <part-profile></part-profile>
+            </div>
+          </div>
+          <div class="col col-sm-9">
+            <h2 class="title">Products</h2>
+            <part-dashboard customer="{{customer}}"></part-dashboard>
+          </div>
+        </div>
+      </div>
+    </layout-client>
+
+  </template>
+</dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'page-dashboard',
+
+    properties: {
+      customer: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      perpage: {
+        type: Number,
+        value: 10
+      },
+      image: {
+        type: String,
+        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+      }
+    },
+
+    attached: function () {
+      if(this.session.user != null) {
+        this.customer = this.session.user;
+      }
+    }
+
+  });
+</script>

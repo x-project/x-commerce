@@ -12,6 +12,7 @@
 <link rel="import" href="../page-cart/page-cart.html">
 <link rel="import" href="../page-collection/page-collection.html">
 <link rel="import" href="../page-contact/page-contact.html">
+<link rel="import" href="../page-dashboard/page-dashboard.html">
 <link rel="import" href="../page-forgot/page-forgot.html">
 <link rel="import" href="../page-home/page-home.html">
 <link rel="import" href="../page-login/page-login.html">
@@ -21,13 +22,13 @@
 <link rel="import" href="../page-products/page-products.html">
 <link rel="import" href="../page-reset/page-reset.html">
 <link rel="import" href="../page-review/page-review.html">
-<link rel="import" href="../page-reviews/page-reviews.html">
+<!-- <link rel="import" href="../page-reviews/page-reviews.html"> -->
 <link rel="import" href="../page-settings/page-settings.html">
 <link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-success/page-success.html">
 <link rel="import" href="../page-summary/page-summary.html">
 <link rel="import" href="../page-payment/page-payment.html">
-<link rel="import" href="../page-wishlist/page-wishlist.html">
+<!-- <link rel="import" href="../page-wishlist/page-wishlist.html"> -->
 <link rel="import" href="../page-passwordless-phone/page-passwordless-phone.html">
 <link rel="import" href="../page-passwordless-email/page-passwordless-email.html">
 <link rel="import" href="../page-test/page-test.html">
@@ -139,6 +140,12 @@
       });
     },
 
+    '/dashboard': function (context) {
+      this.init(context);
+      context.page_name = 'page-dashboard';
+      this.open_page(context);
+    },
+
     '/enter': function (context) {
       var ajax = document.createElement('iron-ajax');
       var token = context.querystring.split('=')[1];
@@ -236,11 +243,11 @@
       this.open_page(context);
     },
 
-    '/reviews': function (context) {
-      this.init(context);
-      context.page_name = 'page-reviews';
-      this.open_page(context);
-    },
+    // '/reviews': function (context) {
+    //   this.init(context);
+    //   context.page_name = 'page-reviews';
+    //   this.open_page(context);
+    // },
 
     '/reviews/:review_id': function (context) {
       this.init(context);
@@ -307,11 +314,11 @@
       this.open_page(context);
     },
 
-    '/wishlist': function (context) {
-      this.init(context);
-      context.page_name = 'page-wishlist';
-      this.open_page(context);
-    },
+    // '/wishlist': function (context) {
+    //   this.init(context);
+    //   context.page_name = 'page-wishlist';
+    //   this.open_page(context);
+    // },
 
     '/test': function (context) {
       this.init(context);

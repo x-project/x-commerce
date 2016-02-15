@@ -30,7 +30,7 @@
         <template is="dom-if" if="{{favourite.product_variant}}">
           <span>{{favourite.product_variant.name}}</span>
         </template>
-        <span>{{price}} $</span>
+        <span>${{price}}</span>
       </div>
       <div class="card-block">
         <button class="btn btn-secondary" on-click="on_click_remove">remove</button>
