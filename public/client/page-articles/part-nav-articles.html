@@ -1,0 +1,62 @@
+<link rel="import" href="../../styles/style-navs/style-navs.html">
+<dom-module id="part-nav-articles">
+  <style include="style-navs"></style>
+  <style>
+    ul {
+      position: fixed;
+    }
+    .nav-item {
+      margin-top: 20px;
+    }
+    .nav-link {
+      text-decoration: none;
+    }
+    .nav-link:hover {
+      opacity: .4;
+    }
+  </style>
+  <template>
+
+    <ul class="nav">
+      <template id="items" is="dom-repeat" items="{{categories}}" as="category" filter="filter">
+        <li class="nav-item">
+          <a class="nav-link" href="" on-click="on_click">{{category.property}}</a>
+        </li>
+      </template>
+        <li class="nav-item">
+          <a class="nav-link" href="" on-click="on_click">All</a>
+        </li>
+    </ul>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-nav-articles',
+
+    properties: {
+      categories: {
+        type: Array,
+        value: function () { return []; }
+      },
+      property: {
+        type: String,
+        value: 'name'
+      }
+    },
+
+    filter: function (item) {
+      item.property = item[this.property];
+      return true;
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      var category = this.$.items.itemForElement(event.target);
+      this.fire('click', category);
+    }
+
+  });
+</script>

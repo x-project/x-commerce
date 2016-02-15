@@ -1,8 +1,8 @@
 <link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="part-reviews-item.html">
+<link rel="import" href="strips-reviews.html">
 <dom-module id="part-reviews-items">
   <template>
-
     <style>
       .review {
         margin-top: 20px;
@@ -10,14 +10,10 @@
     </style>
 
     <api-model-find id="find" collection="reviews" response="{{reviews}}"
-      include=["customer","product"] on-response="on_response" on-error="on_error">
+      include='["customer",{"product": ["images", "options", "product_type", "variants", "vendor", "reviews","collections"]}]' on-response="on_response" on-error="on_error">
     </api-model-find>
 
-    <div class="list">
-      <template is="dom-repeat" items="{{reviews}}" as="review">
-        <part-reviews-item class="review" review="{{review}}"></part-reviews-item>
-      </template>
-    </div>
+    <strips-reviews reviews="{{reviews}}"><strips-reviews>
 
   </template>
 </dom-module>

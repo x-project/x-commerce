@@ -1,5 +1,6 @@
 <link rel="import" href="../field-long-text/field-long-text.html">
-<link rel="import" href="../field-text/field-text.html"><dom-module id="part-collection-info">
+<link rel="import" href="../field-text/field-text.html">
+<dom-module id="part-collection-info">
   <template>
     <style include="style-panel"></style>
 
@@ -7,8 +8,7 @@
       <h3 class="title">[[collection_info_title_label]]</h3>
       <field-text label="title" property="title" value="{{collection.title}}" error="{{error}}">
       </field-text>
-      <field-long-text label="description" property="description" value="{{collection.description}}"
-        error="{{error}}">
+      <field-long-text label="description" property="description" value="{{collection.description}}" error="{{error}}">
       </field-long-text>
     </div>
 

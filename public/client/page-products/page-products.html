@@ -1,28 +1,46 @@
-<link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../deck-products/deck-products.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-pages/part-pages.html">
-<link rel="import" href="../deck-products/deck-products.html">
+<link rel="import" href="part-nav-products.html">
 <dom-module id="page-products">
   <template>
     <style include="style-grid"></style>
-
-    <api-model-find id="find" collection="products" response="{{products}}"
-      order="title" perpage="{{perpage}}" page="{{page}}" include='["images", "vendor"]'
-      on-response="on_response">
-    </api-model-find>
-
-    <api-model-count id="count" collection="products" response="{{count}}">
-    </api-model-count>
-
-    <layout-client image="https://static.pexels.com/photos/17746/pexels-photo.jpg">
+    <style>
+    .title {
+      font-size: 14px;
+      color: #000;
+      font-family: font-bold;
+      font-style: normal;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.75px;
+    }
+    .sidebar{
+      position: fixed;
+    }
+    </style>
+    <layout-client image="{{image}}">
       <div class="container">
-        <h1>Products</h1>
-        <deck-products products="{{products}}"></deck-products>
-        <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
-        </part-pages>
+        <div class="row">
+          <div class="col col-sm-2">
+            <div class="sidebar">
+              <h2 class="title">Categories</h2>
+                <part-nav-products items="{{collections}}" property="title"
+                  on-click="on_click_nav" on-click-all="on_click_all">
+                </part-nav-products>
+            </div>
+          </div>
+          <div class="col col-sm-10">
+            <h2 class="title">Products</h2>
+            <deck-products products="{{products}}"></deck-products>
+            <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
+            </part-pages>
+          </div>
+        </div>
       </div>
     </layout-client>
+
 
   </template>
 </dom-module>
@@ -36,24 +54,89 @@
         type: Array,
         value: function () { return []; }
       },
-      perpage: {
-        type: Number,
+      image: {
+        type: String,
+        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
         value: 20
       }
     },
 
     attached: function () {
-      this.$.count.send();
+      this.count_products();
+      this.get_collections();
     },
 
-    on_response: function () {
-      // console.log(this.products);
+    get_collections: function () {
+      Model.find('/api/collections', this.get_filter_collections())
+        .then(function (data) {
+          this.collections = data;
+          console.log();
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_collections: function () {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: [{'products': ['images']}]
+      };
+    },
+
+    count_products: function () {
+      Model.count('/api/products/count')
+        .then(function (data) {
+          this.count = data.count;
+        }.bind(this))
+        .catch(function (error) {
+          this.count = 0;
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_products: function () {
+      Model.find('/api/products', this.get_filter_products())
+        .then(function (data) {
+          this.products = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_products: function () {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: ["images", "vendor"]
+      };
     },
 
     on_change_page: function (event) {
-      this.perpage = this.perpage;
+      event.stopPropagation();
       this.page = event.detail.current - 1;
-      this.$.find.send();
+      this.get_products();
+    },
+
+    on_click_nav: function (event) {
+      event.stopPropagation();
+      var products = event.detail.products;
+      this.set('products', products);
+    },
+
+    on_click_all: function () {
+      this.get_products();
     }
 
   });

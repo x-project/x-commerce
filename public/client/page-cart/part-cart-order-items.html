@@ -7,7 +7,8 @@
     <div class="panel">
       <template id="order_item" is="dom-repeat" items="{{cart}}" as="order_item">
         <part-cart-order-item order-item="{{order_item}}" on-remove-product="on_remove_product"
-          on-change-quantity="on_change_quantity"></part-cart-order-item>
+          on-change-quantity="on_change_quantity">
+        </part-cart-order-item>
       </template>
     </div>
 

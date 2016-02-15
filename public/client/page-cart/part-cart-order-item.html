@@ -14,7 +14,7 @@
     <style include="style-label"></style>
 
     <ul class="list-group">
-      <li class="list-group-item">
+      <li class="list-group-item" on-click="on_click_view">
         <span class="label label-default label-pill pull-right">{{quantity}}</span>
         <span>{{orderItem.product.title}}</span>
         <template is="dom-if" if="{{orderItem.variant}}">
@@ -25,7 +25,6 @@
           <button type="button" class="btn btn-secondary" on-click="on_click_decrease"> - </button>
           <button type="button" class="btn btn-secondary" on-click="on_click_increase"> + </button>
           <button type="button" class="btn btn-secondary" on-click="on_click_remove">remove</button>
-          <button type="button" class="btn btn-secondary" on-click="on_click_view">view</button>
         </div>
       </li>
     </ul>

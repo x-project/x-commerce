@@ -2,20 +2,48 @@
 <link rel="import" href="../../api-model-find/api-model-find.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="deck-articles.html">
+<link rel="import" href="part-nav-articles.html">
+
 <dom-module id="page-articles">
   <template>
     <style include="style-grid"></style>
+    <style>
+      .title {
+        font-size: 14px;
+        color: #000;
+        font-family: font-bold;
+        font-style: normal;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 0.75px;
+      }
+      .sidebar{
+        position: fixed;
+      }
+    </style>
 
-    <api-model-find id="find" collection="articles" include='["author", "category", "images"]'
-      response="{{articles}}" on-response="on_response">
-    </api-model-find>
-
-    <layout-client>
+    <layout-client image="{{image}}">
       <div class="container">
-        <h1>Articles</h1>
-        <deck-articles articles="{{articles}}"></deck-articles>
+        <div class="row">
+          <div class="col col-sm-2">
+            <div class="sidebar">
+              <h2 class="title">Categories</h2>
+                <part-nav-articles categories="{{categories}}" property="name"
+                  on-click="on_click_nav">
+                </part-nav-articles>
+            </div>
+          </div>
+          <div class="col col-sm-10">
+            <h2 class="title">Articles</h2>
+            <deck-articles articles="{{articles}}"></deck-articles>
+            <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
+            </part-pages>
+          </div>
+        </div>
       </div>
     </layout-client>
+
+
 
   </template>
 </dom-module>
@@ -29,16 +57,76 @@
       articles: {
         type: Array,
         value: function () { return []; }
+      },
+      category: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      image: {
+        type: String,
+        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+      },
+      page: {
+        type: Number,
+        value: 0
+      },
+      perpage: {
+        type: Number,
+        value: 20
       }
     },
 
     attached: function () {
-      this.$.find.send();
+      this.get_categories();
     },
 
-    on_response: function () {
-      // console.log(this.articles);
-    }
+    get_categories: function () {
+      Model.find('/api/categories', this.get_filter_collections())
+        .then(function (data) {
+          this.categories = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_collections: function () {
+      return { order: 'title' };
+    },
+
+    on_click_nav: function (event) {
+      event.stopPropagation();
+      this.category = event.detail;
+      this.get_articles();
+    },
+
+     get_articles: function () {
+      Model.find('/api/articles', this.get_filter_articles())
+        .then(function (data) {
+          this.articles = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_articles: function (category) {
+      var filter = {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: ["author","category","images"]
+      };
+      if (this.category)
+        filter.where = { category_id: this.category.id };
+      return filter;
+    },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.page = event.detail.current - 1;
+      this.get_articles();
+    },
 
   });
 </script>
