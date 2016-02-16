@@ -1,0 +1,31 @@
+<dom-module id="text-date">
+  <template>
+    <span>{{new_date}}</span>
+  </template>
+</dom-module>
+
+<script src="../../components/moment/moment.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'text-date',
+
+    properties: {
+      date: {
+        type: String,
+        notify: true,
+        observer: '_on_change_date'
+      },
+      format: {
+        type: String,
+        value: 'MM-DD-YYYY H:HH'
+      }
+    },
+
+    _on_change_date: function (date) {
+      this.set('new_date', moment(this.date).format(this.format));
+    }
+
+  });
+</script>

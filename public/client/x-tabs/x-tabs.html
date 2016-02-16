@@ -6,7 +6,7 @@
       };
     </style>
 
-    <content select="x-tab"></content>
+    <content select="[tab]"></content>
 
   </template>
 </dom-module>
@@ -23,7 +23,7 @@
     },
 
     on_change_current: function () {
-      var tabs = this.querySelectorAll('x-tab');
+      var tabs = this.querySelectorAll('[tab]');
       tabs = Array.prototype.slice.call(tabs);
       tabs.forEach(function (tab) {
         var current = tab.getAttribute('name') == this.current;

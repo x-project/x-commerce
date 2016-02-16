@@ -1,0 +1,32 @@
+<dom-module id="tr-link">
+  <template>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'tr-link',
+
+    properties: {
+      href: {
+        type: String,
+        value: '/'
+      },
+      is: {
+        type: String
+      }
+    },
+
+    listeners: {
+      'tap': 'on_click'
+    },
+
+    extends: 'tr',
+
+    on_click: function (event) {
+      event.stopPropagation();
+      page(this.href);
+    }
+
+  });
+</script>

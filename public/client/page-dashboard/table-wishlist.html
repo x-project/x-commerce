@@ -1,0 +1,77 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../components/text-view/text-view.html">
+<dom-module id="table-wishlist">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+    <style>
+      td i {
+        margin: 0 4px;
+      }
+      td i:hover{
+        color: #0275d8;
+      }
+      .actions i {
+        cursor: pointer;
+      }
+    </style>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <th>title</th>
+          <th>description</th>
+          <th>price</th>
+          <th>actions</th>
+        </thead>
+        <tbody>
+          <template id="items" is="dom-repeat" items="{{favourites}}" as="favourite">
+            <tr class="text-center" on-click="on_click_view">
+              <td>
+                <strong>{{favourite.product.title}}</strong>
+              </td>
+              <td>
+                <text-view text="{{favourite.product.description}}" limit="30"></text-view>
+              </td>
+              <td>
+                <span>{{favourite.product.price}}</span>
+              </td>
+              <td class="actions">
+                <i class="fa fa-eye" on-click="on_click_view"></i>
+                <i class="fa fa-trash-o" on-click="on_click_delete"></i>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'table-wishlist',
+
+    properties: {
+      favourites: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    on_click_view: function (event) {
+      event.stopPropagation();
+      var favorite = this.$.items.itemForElement(event.target);
+      page('/products/'+ favorite.product.id);
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      var item = this.$.items.itemForElement(event.target);
+      this.fire('delete', item);
+    }
+
+  });
+</script>

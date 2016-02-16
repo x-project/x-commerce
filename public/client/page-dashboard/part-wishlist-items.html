@@ -3,12 +3,12 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
-<link rel="import" href="deck-wishlist.html">
-<link rel="import" href="strips-wishlist.html">
+<link rel="import" href="table-wishlist.html">
 <dom-module id="part-wishlist-items">
   <template>
     <style include="style-grid"></style>
     <app-session id="session"></app-session>
+
     <api-model-find id="find" collection="customers" response="{{favourites}}"
       relation="wishlists" on-response="on_response" on-error="on_error">
     </api-model-find>
@@ -21,11 +21,8 @@
       on-error="on_error">
     </iron-ajax>
 
-<!--     <deck-wishlist favourites="{{favourites}}" on-add-description="on_add_description"
-      on-try-remove-favourite="on_try_remove_favourite">
-    </deck-wishlist> -->
-
-    <strips-wishlist favourites="{{favourites}}"></strips-wishlist>
+    <table-wishlist favourites="{{favourites}}" on-delete="on_try_remove_favourite">
+    </table-wishlist>
 
   </template>
 </dom-module>
@@ -34,19 +31,28 @@
 
     is: 'part-wishlist-items',
 
-    properties: {},
+    properties: {
+      session: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
 
     attached: function () {
-      var user = this.$.session.get('user');
-      this.$.find.modelId = user.id;
-      this.$.find.one = false;
-      this.$.find.include = [{'product': ['images','vendor', 'product_type']}, "product_variant"];
-      this.$.find.send();
+      if(Object.keys(this.session.user).length > 0) {
+        var user = this.session.user;
+        this.$.find.modelId = user.id;
+        this.$.find.one = false;
+        this.$.find.include = [{'product': ['images','vendor', 'product_type']}, "product_variant"];
+        this.$.find.send();
+        return;
+      }
     },
 
     on_try_remove_favourite: function (event) {
       event.stopPropagation();
-      var user = this.$.session.get('user');
+      var user = this.session.user;
       this.$.ajax_delete.url = '/api/customers/' + user.id + '/wishlists/' + event.detail.id;
       this.$.ajax_delete.generateRequest();
     },
@@ -60,8 +66,8 @@
       event.stopPropagation();
       var description = event.detail.description;
       var fav_model = event.detail.model;
-      var customer = this.$.session.get('user');
-      this.$.ajax_update.url = '/api/customers/' + customer.id + '/wishlists/' + fav_model.id;
+      var user = this.session.user;
+      this.$.ajax_update.url = '/api/customers/' + user.id + '/wishlists/' + fav_model.id;
       this.$.ajax_update.body = JSON.stringify({ description: description });
       this.$.ajax_update.generateRequest();
     },

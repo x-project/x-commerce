@@ -18,6 +18,9 @@
     "closed": {
       "type": "Boolean",
       "default": false
+    },
+    "date": {
+      "type": "Date"
     }
   },
   "relations": {

@@ -1,0 +1,90 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../components/text-view/text-view.html">
+<link rel="import" href="field-view.html">
+
+<dom-module id="table-view">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+    <style>
+      td i {
+        margin: 0 4px;
+      }
+      td i:hover{
+        color: #0275d8;
+      }
+      .actions i {
+        cursor: pointer;
+      }
+    </style>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr on-click="on_click_row">
+            <template is="dom-repeat" items="{{fields}}" as="field">
+              <th>{{field}}</th>
+            </template>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="items" is="dom-repeat" items="{{items}}" as="item">
+            <tr class="text-center" on-click="on_click_edit">
+              <template is="dom-repeat" items="{{fields}}" as="field">
+                <td>
+                  <text-view text="{{_value(item,field)}}" limit="30"></text-view>
+                </td>
+              </template>
+              <td class="actions">
+                <i class="fa fa-pencil" on-click="on_click_edit"></i>
+                <i class="fa fa-trash-o" on-click="on_click_delete"></i>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'table-view',
+
+    properties: {
+      items: {
+        type: Array,
+        value: function () { return []; }
+      },
+      fields: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    _value: function (item, field) {
+      return item[field];
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+      var item = this.$.items.itemForElement(event.target);
+      this.fire('click', item);
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      var item = this.$.items.itemForElement(event.target);
+      this.fire('delete', item);
+    }
+
+  });
+</script>

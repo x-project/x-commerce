@@ -20,20 +20,10 @@
     }
     </style>
 
-    <layout-client mode="standard" image="">
+    <layout-client image="{{image}}">
       <div class="container">
-        <div class="row">
-          <div class="col col-sm-3">
-            <div class="sidebar">
-              <h2 class="title">Profile</h2>
-                <part-profile></part-profile>
-            </div>
-          </div>
-          <div class="col col-sm-9">
-            <h2 class="title">Products</h2>
-            <part-dashboard customer="{{customer}}"></part-dashboard>
-          </div>
-        </div>
+        <h2 class="title">Dashboard</h2>
+        <part-dashboard session="{{session}}"></part-dashboard>
       </div>
     </layout-client>
 
@@ -48,7 +38,7 @@
     is: 'page-dashboard',
 
     properties: {
-      customer: {
+      session: {
         type: Object,
         value: function () { return {}; }
       },
@@ -58,13 +48,13 @@
       },
       image: {
         type: String,
-        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+        value: 'https://static.pexels.com/photos/42070/pexels-photo-42070.jpeg'
       }
     },
 
     attached: function () {
       if(this.session.user != null) {
-        this.customer = this.session.user;
+        this.session = this.session;
       }
     }
 

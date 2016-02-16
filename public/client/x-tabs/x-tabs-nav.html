@@ -1,0 +1,66 @@
+<dom-module id="x-tabs-nav">
+  <template>
+    <style>
+      :host {
+        display: block
+      }
+
+      .nav {
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+      }
+
+      .tab {
+        display: inline-block;
+        line-height: 30px;
+        margin: 0 10px;
+      }
+      .tab:hover {
+        border-bottom: 2px solid #ddd;
+      }
+      .tab[active] {
+        border-bottom: 2px solid #333;
+      }
+    </style>
+
+    <div class="nav">
+      <template id="tabs" is="dom-repeat" items="{{tabs}}" as="tab">
+        <a class="tab" active$={{is_active(tab,current)}} on-click="on_click_tab">{{tab}}</a>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'x-tabs-nav',
+
+    properties: {
+      tabs: {
+        type: Array,
+        value: function () { return []; },
+        observer: 'on_change_tabs'
+      },
+      current: {
+        type: String,
+        notify: true
+      }
+    },
+
+    on_change_tabs: function () {
+      this.current = this.tabs[0];
+    },
+
+    is_active: function (tab, current) {
+      return tab == current;
+    },
+
+    on_click_tab: function (event) {
+      var tab = this.$.tabs.itemForElement(event.target);
+      this.set('current', tab);
+    }
+
+  });
+</script>

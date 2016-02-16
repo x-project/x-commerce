@@ -205,8 +205,8 @@ var get_tax = function (data) {
       data.amount = amount;
       var order = {};
       var discount = 0;
+      var date_now = new Date(moment().format().split('+')[0] + 'Z');
       if (data.coupon) {
-        var date_now = new Date(moment().format().split('+')[0] + 'Z');
         var coupon_from_date = new Date(data.coupon.date_to);
         if (coupon_from_date - date_now > 0) {
           discount = data.coupon.discount;
@@ -216,6 +216,7 @@ var get_tax = function (data) {
       order.customer_id = data.customer.id;
       order.total = amount;
       order.discount = discount;
+      order.date = date_now;
       Order.create(order, function (err, model) {
         data.order = model;
         setImmediate(next, err);
@@ -517,6 +518,7 @@ var get_tax = function (data) {
   };
 
   Order.try_close_order_braintree = function (data) {
+    var date_now = moment().format().split('+')[0] + 'Z';
     return function (next) {
       if(!data.payment_status) {
         next();
@@ -528,6 +530,7 @@ var get_tax = function (data) {
       }
       if(data.payment_status.transaction.status === 'submitted_for_settlement') {
         data.order.status = 'closed';
+        data.order.date = date_now;
         Order.upsert(data.order, function (err, model) {
           data.order = model;
           setImmediate(next, err);
@@ -582,6 +585,7 @@ var get_tax = function (data) {
     return function (done) {
       var reviews_created = [];
       var review;
+      var date_now = new Date(moment().format().split('+')[0] + 'Z');
       async.each(data.products,
         function(product, callback) {
           review = {};
@@ -591,6 +595,7 @@ var get_tax = function (data) {
           review.title = '';
           review.text = '';
           review.rating = 0;
+          review.date = date_now;
           product.reviews.create(review, function (err, result) {
             callback();
           });

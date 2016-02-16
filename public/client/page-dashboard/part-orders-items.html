@@ -1,0 +1,38 @@
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="table-orders.html">
+<dom-module id="part-orders-items">
+  <template>
+    <style include="style-grid"></style>
+
+    <api-model-find id="find_orders" collection="orders" response="{{orders}}">
+    </api-model-find>
+
+    <table-orders orders="{{orders}}"><table-orders>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-orders-items',
+
+    properties: {
+      session: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      if(!this.session.user) {
+        return;
+      }
+      this.$.find_orders.where = { customer_id: this.session.user.id };
+      this.$.find_orders.one = false;
+      this.$.find_orders.accessToken = this.session.token;
+      this.$.find_orders.include = [ "customer", {"order_items":["product","product_variant"]}];
+      this.$.find_orders.send();
+    }
+
+  });
+</script>

@@ -1,30 +1,33 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../../styles/style-navs/style-navs.html">
 <link rel="import" href="../x-tabs/x-tabs.html">
+<link rel="import" href="../x-tabs/x-tabs-nav.html">
+<link rel="import" href="part-orders-items.html">
 <link rel="import" href="part-reviews-items.html">
 <link rel="import" href="part-wishlist-items.html">
 <dom-module id="part-dashboard">
   <template>
+    <style include="style-grid"></style>
+    <style include="style-button"></style>
     <style include="style-navs"></style>
 
-      <nav class="nav nav-tabs" role="tablist" on-click="on_click_nav">
-        <ul>
-          <li class="nav-item nav-link active" data-tab="reviews">reviews</li>
-          <li class="nav-item nav-link active" data-tab="orders">orders</li>
-          <li class="nav-item nav-link active" data-tab="wishlist">wishlist</li>
-        </ul>
-      </nav>
+    <div class="container">
+      <x-tabs-nav tabs='["reviews","orders","wishlist"]' current="{{current}}"></x-tabs-nav>
 
       <x-tabs id="tabs" current="{{current}}">
-        <x-tab name="reviews">
-          <part-reviews-items customer="{{customer}}"></part-reviews-items>
+        <x-tab tab name="reviews">
+          <part-reviews-items session="{{session}}"></part-reviews-items>
         </x-tab>
-        <x-tab name="description">
-          <div>description</div>
+        <x-tab tab name="orders">
+          <part-orders-items session="{{session}}"></part-orders-items>
         </x-tab>
-        <x-tab name="wishlist">
-          <part-wishlist-items></part-wishlist-items>
+        <x-tab tab name="wishlist">
+          <part-wishlist-items session="{{session}}"></part-wishlist-items>
         </x-tab>
       </x-tabs>
+
+    </div>
   </template>
 
 
@@ -35,17 +38,11 @@
     is: 'part-dashboard',
 
     properties: {
-      customer: {
+      session: {
         type: Object,
         value: function () { return {}; }
       }
     },
-
-    on_click_nav: function (event) {
-      event.stopPropagation();
-      var name = event.target.dataset.tab;
-      this.set('current', name);
-    }
 
   });
 </script>

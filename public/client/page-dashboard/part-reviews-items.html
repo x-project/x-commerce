@@ -1,5 +1,5 @@
 <link rel="import" href="../../components/app-link/app-link.html">
-<link rel="import" href="strips-reviews.html">
+<link rel="import" href="table-reviews.html">
 <dom-module id="part-reviews-items">
   <template>
     <style>
@@ -9,13 +9,16 @@
     </style>
 
     <api-model-find id="find" collection="reviews" response="{{reviews}}"
-      include='["customer",{"product": ["images", "options", "product_type", "variants", "vendor", "reviews","collections"]}]' on-response="on_response" on-error="on_error">
+       on-response="on_response" on-error="on_error">
     </api-model-find>
 
-    <strips-reviews reviews="{{reviews}}"><strips-reviews>
+    <table-reviews reviews="{{reviews}}"><table-reviews>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -26,27 +29,34 @@
         type: Array,
         value: function () { return []; }
       },
-      customer: {
+      session: {
         type: Object,
         value: function () { return {}; }
       }
     },
 
     attached: function  () {
-      if(Object.keys(this.customer).length > 0) {
-        this.$.find.where = { customer_id: this.customer.id };
-        this.$.find.send();
+      if(Object.keys(this.session.user).length > 0) {
+        this.get_reviews();
       }
     },
 
-    on_response: function  (event) {
-      event.stopPropagation();
-      // console.log(this.reviews);
+    get_reviews: function () {
+      Model.find('/api/reviews', this.get_filter_options())
+        .then(function (data) {
+          this.reviews = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
     },
 
-    on_error: function (event) {
-      event.stopPropagation();
-      console.log(event);
+    get_filter_options: function () {
+      return {
+        where: {customer_id: this.session.id},
+        include: ["customer",{"product": ["images", "options", "product_type", "variants", "vendor", "reviews","collections"]}],
+        order: ['rating',]
+      };
     }
 
   });

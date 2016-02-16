@@ -1,0 +1,81 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../components/text-view/text-view.html">
+<link rel="import" href="../text-date/text-date.html">
+<dom-module id="table-reviews">
+  <template>
+    <style include="style-table"></style>
+    <style include="style-basic"></style>
+    <style>
+      td i {
+        margin: 0 4px;
+      }
+      td i:hover{
+        color: #0275d8;
+      }
+      .actions i {
+        cursor: pointer;
+      }
+    </style>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>product</th>
+            <th>price</th>
+            <th>date</th>
+            <th>title</th>
+            <th>text</th>
+            <th>rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template id="reviews" is="dom-repeat" items="{{reviews}}" as="review">
+            <tr class="text-center" on-click="on_click_view">
+              <td>
+                <span>{{review.product.title}}</span>
+              </td>
+              <td>
+                <span>{{review.product.price}}</span>
+              </td>
+              <td>
+                <text-date date="{{review.date}}" format="MM-DD-YYYY H:HH"></text-date>
+              </td>
+              <td>
+                <text-view text="{{review.title}}" limit="20"></text-view>
+              </td>
+              <td>
+                <text-view text="{{review.text}}" limit="20"></text-view>
+              </td>
+              <td>
+                <strong>{{review.rating}}</strong>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'table-reviews',
+
+    properties: {
+      reviews: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    on_click_view: function (event) {
+      event.stopPropagation();
+      var review = this.$.reviews.itemForElement(event.target);
+      page('/reviews/'+ review.id);
+    }
+
+  });
+</script>

@@ -49,9 +49,10 @@
 
     on_response_orders: function (event) {
       event.stopPropagation();
-      this.$.find_reviews.one = false;
-      this.$.find_reviews.where = {customer_id: this.session.user.id}
-      this.$.find_reviews.send();
+      console.log(this.orders);
+      // this.$.find_reviews.one = false;
+      // this.$.find_reviews.where = {customer_id: this.session.user.id}
+      // this.$.find_reviews.send();
     },
 
     on_response_reviews: function (event) {
@@ -60,10 +61,10 @@
     },
 
     populate_order_from_reviews: function () {
-      this.orders.forEach( function (order) {
-        order.order_items.forEach( function (item) {
-          this.reviews.forEach( function (review) {
-            if (item.product.id === review.product_id) {
+      this.orders.forEach(function (order) {
+        order.order_items.forEach(function (item) {
+          this.reviews.forEach(function (review) {
+            if (item.product.id == review.product_id) {
               item.review = review;
             }
           });

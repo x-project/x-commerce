@@ -29,6 +29,9 @@
     },
     "feedback": {
       "type": "Number"
+    },
+    "date": {
+      "type": "Date"
     }
   },
   "validations": [],
