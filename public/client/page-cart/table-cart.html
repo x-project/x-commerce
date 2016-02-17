@@ -1,50 +1,83 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-table/style-table.html">
-<link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="part-quantity.html">
 <dom-module id="table-cart">
   <template>
     <style include="style-basic"></style>
     <style include="style-form"></style>
     <style include="style-panel"></style>
     <style include="style-table"></style>
-
+    <style>
+      #quantity_edit {
+        width: 20px;
+        display: inline;
+        text-align: center;
+      }
+      #total {
+        background-color: #F0FFF0;
+      }
+    </style>
+    <app-session id="session"></app-session>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>Product</th>
-          <th>Price (P)</th>
-          <th>Variant</th>
-          <th>Price (V)</th>
-          <th>Quantity</th>
-          <th>Subtotal</th>
-          <th>Actions</th>
+          <div class="col col-sm-8">
+            <th>Product</th>
+            <th>Price (P)</th>
+            <th>Variant</th>
+            <th>Price (V)</th>
+          </div>
+          <div class="quantity col col-sm-2">
+            <th>Quantity</th>
+          </div>
+          <div class="col col-sm-1">
+            <th>Subtotal</th>
+          </div>
+          <div class="col col-sm-1">
+            <th>Actions</th>
+          </div>
         </tr>
       </thead>
       <tbody>
-        <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
+        <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item" filter="filter">
           <tr class="text-center">
             <td>{{order_item.product.title}}</td>
             <td>{{order_item.product.price}}</td>
             <td>{{order_item.product_variant.name}}</td>
             <td>{{order_item.product_variant.price}}</td>
             <td>
-              <input id="quantity_edit" class="form-control" type="number" is="iron-input" min="1"
-                bind-value="{{quantity}}" on-keyup="on_edit_order_item">
+              <part-quantity order_item="{{order_item}}" on-update-quantity="on_update_quantity">
+              </part-quantity>
             </td>
             <td>{{calculate_subtotal(order_item)}}</td>
             <td>
-            <a is="app-link" class="btn btn-link" on-click="on_click_remove">
-              <i class="fa fa-trash-o"></i>
-            </a>
-            <a is="app-link" class="btn btn-link" href="/products/{{order_item.product.id}}" target="_blank">
-              <i class="fa fa-eye"></i>
-            </a>
+              <a is="app-link" class="btn btn-link" href="/products/{{order_item.product.id}}" target="_blank">
+                <i class="fa fa-eye"></i>
+              </a>
+              <a is="app-link" class="btn btn-link" on-click="on_click_remove">
+                <i class="fa fa-trash-o"></i>
+              </a>
             </td>
           </tr>
         </template>
+          <div class="space"></div>
+          <tr id="total" class="text-center">
+            <td><span>Total</span></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <span>{{update_subtotal()}}</span>
+            </td>
+            <td></td>
+          </tr>
       </tbody>
     </table>
+
   </template>
 </dom-module>
 <script>
@@ -57,6 +90,11 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    filter: function (order_item) {
+      this.quantity = order_item.quantity;
+      return true;
     },
 
     calculate_subtotal: function (order_item) {
@@ -87,6 +125,31 @@
       event.stopPropagation();
       var order_item = this.$.order_items.itemForElement(event.target);
       this.fire('remove-product', order_item);
+    },
+
+    on_update_quantity: function (event) {
+      event.stopPropagation();
+      var order_item = event.detail.item;
+      var new_quantity = event.detail.new_quantity;
+      this.fire('change-quantity', event.detail);
+    },
+
+    update_subtotal: function () {
+      var sub_tot = 0;
+      var cart = this.$.session.get('cart');
+      if (cart.length == 0) {
+        this.set('show', false);
+      }
+      cart.forEach(function (item) {
+        if(item.hasOwnProperty('variant')) {
+          sub_tot += item.quantity * item.variant.price;
+          return;
+        }
+        if(item.hasOwnProperty('product')) {
+          sub_tot += item.quantity * item.product.price;
+        }
+      }, this);
+      return sub_tot;
     }
 
   });

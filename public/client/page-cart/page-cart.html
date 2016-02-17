@@ -1,12 +1,13 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-date/part-date.html">
 <link rel="import" href="part-cart-order-items.html">
-<link rel="import" href="part-cart-order-detail.html">
 <dom-module id="page-cart">
   <template>
     <app-session id="session"></app-session>
     <style include="style-grid"></style>
+    <style include="style-button"></style>
 
     <api-model-find id="find_products" collection="products" response="{{products}}"
       on-response="on_response_find_products">
@@ -28,9 +29,7 @@
       <div class="container">
         <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart">
         </part-cart-order-items>
-        <part-cart-order-detail id="order_detail" cart="{{cart}}"
-          on-try-checkout="on_try_checkout">
-        </part-cart-order-detail>
+        <button class="btn btn-secondary" on-click="on_try_checkout">checkout</button>
       </div>
     </layout-client>
 
@@ -113,10 +112,9 @@
     on_try_checkout: function (event) {
       if (this.$.session.get('user')) {
         page('/summary');
+        return;
       }
-      else {
-        page('/signup');
-      }
+      page('/signup');
     },
 
     on_update_cart: function (event) {

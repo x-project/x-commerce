@@ -1,0 +1,59 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
+<dom-module id="part-quantity">
+  <template>
+    <style include="style-button"></style>
+    <style include="style-form"></style>
+    <style>
+      #quantity_edit {
+        width: 20px;
+        display: inline;
+        text-align: center;
+      }
+    </style>
+
+    <button class="btn btn-secondary" on-click="on_click_decrement"> - </button>
+    <input id="quantity_edit" class="form-control" type="number" is="iron-input"
+      min="1" bind-value="{{quantity}}" on-keyup="on_edit_order_item">
+    <button class="btn btn-secondary" on-click="on_click_increase"> + </button>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-quantity',
+
+    properties: {
+      order_item: {
+        type: Array,
+        value: function () { return []; }
+      }
+    },
+
+    attached: function () {
+      this.quantity = this.order_item.quantity;
+    },
+
+    on_click_decrement: function (event) {
+      event.stopPropagation();
+      this.quantity--;
+      this.update();
+    },
+
+    on_click_increase: function (event) {
+      event.stopPropagation();
+      this.quantity++;
+      this.update();
+    },
+
+    update: function () {
+      this.fire('update-quantity', {order_item: this.order_item, new_quantity: this.quantity});
+    },
+
+    on_edit_order_item: function (event) {
+      event.stopPropagation();
+    }
+
+  });
+</script>
