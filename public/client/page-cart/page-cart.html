@@ -25,7 +25,7 @@
     <iron-ajax id="create_order_items" method="POST" handle-as="json" content-type="application/json" on-response="on_response_create_order_items" on-error="on_error">
     </iron-ajax>
 
-    <layout-client>
+    <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
         <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart">
         </part-cart-order-items>
@@ -52,6 +52,10 @@
       order: {
         type: Object,
         value: function () { return {}; }
+      },
+      image: {
+        type: String,
+        value: 'https://media.restorationhardware.com/is/image/rhis/prod380003_DTL?$l-pd1$'
       }
     },
 
