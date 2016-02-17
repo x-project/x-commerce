@@ -1,18 +1,18 @@
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="part-cart-order-item.html">
+<link rel="import" href="table-cart.html">
 <dom-module id="part-cart-order-items">
   <template>
-    <style include="style-panel"></style>
-
     <div class="panel">
-      <template id="order_item" is="dom-repeat" items="{{cart}}" as="order_item">
-        <part-cart-order-item order-item="{{order_item}}" on-remove-product="on_remove_product"
-          on-change-quantity="on_change_quantity">
-        </part-cart-order-item>
-      </template>
+      <div class="table-responsive">
+        <table-cart order_items="{{cart}}" on-remove-product="on_remove_product"></table-cart>
+      </div>
+      <div class="total">
+        <strong class="label">Total</strong>
+        <span>{{total}}</span>
+      </div>
     </div>
-
   </template>
+
 </dom-module>
 <script>
   Polymer({
@@ -28,7 +28,7 @@
 
     on_remove_product: function (event) {
       event.stopPropagation();
-      var order_item = this.$.order_item.itemForElement(event.target);
+      var order_item = event.detail;
       var index = this.cart.indexOf(order_item);
       this.splice('cart', index, 1);
       this.fire('update-cart');

@@ -5,7 +5,6 @@
 <link rel="import" href="part-cart-order-detail.html">
 <dom-module id="page-cart">
   <template>
-
     <app-session id="session"></app-session>
     <style include="style-grid"></style>
 
@@ -27,8 +26,8 @@
 
     <layout-client>
       <div class="container">
-        <h1>Cart</h1>
-        <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart"></part-cart-order-items>
+        <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart">
+        </part-cart-order-items>
         <part-cart-order-detail id="order_detail" cart="{{cart}}"
           on-try-checkout="on_try_checkout">
         </part-cart-order-detail>

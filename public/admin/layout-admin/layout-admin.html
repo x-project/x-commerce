@@ -8,15 +8,16 @@
       .page {
         min-height: 100vh;
       }
+      .row {
+        background-color: #eee;
+      }
     </style>
 
     <div class="page">
-      <div class="container">
-        <div class="row">
-          <part-sidebar class="sidebar col col-sm-3"></part-sidebar>
-          <div class="main col col-sm-8">
-            <content></content>
-          </div>
+      <div class="row">
+        <part-sidebar class="sidebar col col-sm-2"></part-sidebar>
+        <div class="main col col-sm-9">
+          <content></content>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-articles-actions.html">
+<link rel="import" href="part-articles-items.html">
 <link rel="import" href="part-articles-items.html">
 <dom-module id="page-articles">
   <template>
@@ -10,7 +9,7 @@
       <h2>Articles</h2>
       <part-articles-actions></part-articles-actions>
       <part-articles-items articles="{{articles}}"></part-articles-items>
-      <part-coupons-pages on-change-page="on_change_page" perpage="{{perpage}}"
+      <part-articles-pages on-change-page="on_change_page" perpage="{{perpage}}"
         count="{{count}}">
       </part-coupons-pages>
     </layout-admin>

@@ -1,0 +1,93 @@
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<dom-module id="table-cart">
+  <template>
+    <style include="style-basic"></style>
+    <style include="style-form"></style>
+    <style include="style-panel"></style>
+    <style include="style-table"></style>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price (P)</th>
+          <th>Variant</th>
+          <th>Price (V)</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item">
+          <tr class="text-center">
+            <td>{{order_item.product.title}}</td>
+            <td>{{order_item.product.price}}</td>
+            <td>{{order_item.product_variant.name}}</td>
+            <td>{{order_item.product_variant.price}}</td>
+            <td>
+              <input id="quantity_edit" class="form-control" type="number" is="iron-input" min="1"
+                bind-value="{{quantity}}" on-keyup="on_edit_order_item">
+            </td>
+            <td>{{calculate_subtotal(order_item)}}</td>
+            <td>
+            <a is="app-link" class="btn btn-link" on-click="on_click_remove">
+              <i class="fa fa-trash-o"></i>
+            </a>
+            <a is="app-link" class="btn btn-link" href="/products/{{order_item.product.id}}" target="_blank">
+              <i class="fa fa-eye"></i>
+            </a>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'table-cart',
+
+    properties: {
+      order_items: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    calculate_subtotal: function (order_item) {
+      var subtotal = 0;
+      if (order_item.product_variant) {
+        subtotal = this.calculate_subtotal_variant(order_item);
+        if (!isNaN(subtotal)){
+          return subtotal;
+        }
+        return 'free';
+      }
+      subtotal = this.calculate_subtotal_product(order_item);
+      if (!isNaN(subtotal)) {
+        return subtotal
+      }
+      return 'free';
+    },
+
+    calculate_subtotal_variant: function (order_item) {
+      return order_item.quantity * order_item.product_variant.price;
+    },
+
+    calculate_subtotal_product: function (order_item) {
+      return order_item.quantity * order_item.product.price;
+    },
+
+    on_click_remove: function (event) {
+      event.stopPropagation();
+      var order_item = this.$.order_items.itemForElement(event.target);
+      this.fire('remove-product', order_item);
+    }
+
+  });
+</script>
