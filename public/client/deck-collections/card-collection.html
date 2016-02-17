@@ -3,11 +3,10 @@
 <link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="card-collection">
   <template>
-    <!-- /*<style include="style-card"></style>*/ -->
     <style>
       :host {
         display: inline-block;
-        padding: 10px 5px;
+        padding: 18px 8px;
         width: 25%;
         color: #333;
         box-sizing: border-box;
@@ -20,55 +19,32 @@
       .card-title {
         margin: 6px 0px;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 18px;
         font-family: font-light;
       }
       .card-title .link {
         color: #333;
         text-decoration: none;
       }
-      .card-text {
-        margin: 6px 0px;
-        font-size: 15px;
-        font-family: font-light;
-      }
-      .card-rating {
-        margin: 6px 0px;
-        --rating-star : {
-          font-size: 12px;
-          padding: 2px;
-        };
-      }
-      .card-detail {
-        margin: 6px 0;
-      }
-      .usd:before {
-        content: "$";
-      }
-      .card-block {
-        text-align: center;
-      }
       .card:hover {
+        opacity: .8;
         cursor: pointer;
-        opacity: .5;
       }
     </style>
 
-     <div class="card" on-click="on_click">
-        <div class="card-header">
-          <image-preview class="image card-img-top img-responsive" image="{{collection.images.0}}"
-            sizing="cover" like-size="400" height="120" width="100">
-          </image-preview>
-        </div>
-        <div class="card-block">
-          <h4 class="card-title">
-            <a class="link" href="/collections/{{collection.id}}">{{collection.title}}</a>
-          </h4>
-          <text-view text="{{collection.description}}" limit="20"></text-view>
-          <input-rating class="card-rating" value="{{_get_medium_rating(collection)}}">
-          </input-rating>
-        </div>
+    <div class="card" on-click="on_click_card">
+      <div class="card-header">
+        <image-preview class="image card-img-top img-responsive" sizing="cover"
+          image="{{collection.images.0}}" like-size="400" height="120" width="100">
+        </image-preview>
       </div>
+      <div class="card-block">
+        <h4 class="card-title">
+          <span class="card-title">{{collection.title}}</span>
+        </h4>
+        <text-view text="{{collection.description}}" limit="40"></text-view>
+      </div>
+    </div>
 
   </template>
 </dom-module>
@@ -84,30 +60,9 @@
       }
     },
 
-    on_click: function (event) {
+    on_click_card: function (event) {
       event.stopPropagation();
       page('/collections/' + this.collection.id);
-    },
-
-    _get_medium_rating: function (collection) {
-      if (!collection) {
-        return;
-      }
-      var products = collection.products || [];
-      var tmp_score = 0;
-      var tmp = [];
-      products.forEach(function (product) {
-        if (product.total_reviews > 0 && product.total_score > 0 && product.score_reviews > 1){
-          tmp.push(product.total_score);
-        }
-      });
-      if (tmp.length == 0) {
-        return 0;
-      }
-      var total = tmp.reduce(function(a, b) {
-        return a + b;
-      },0);
-      return total / tmp.length;
     }
 
   });

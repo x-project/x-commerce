@@ -125,7 +125,7 @@
       this.get_model({
         collection: 'collections',
         modelId: context.params.collection_id,
-        include: [{'products': ['images']}]
+        include: ["images"]
 
       })
       .then(function (model) {

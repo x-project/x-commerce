@@ -4,6 +4,7 @@
 <link rel="import" href="../../styles/style-navs/style-navs.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../x-tabs/x-tabs.html">
+<link rel="import" href="../x-tabs/x-tabs-nav.html">
 <link rel="import" href="part-product-cart.html">
 <link rel="import" href="part-product-details.html">
 <link rel="import" href="part-product-images.html">
@@ -112,7 +113,7 @@
                 <h4 class="vendor">By {{product.vendor.name}}</h4>
                 <h3 class="prod-type">in {{product.product_type.name}}</h3>
                 <h1 class="price">
-                  <span class="normal-price" line_through$="{{line_through}}">${{product.price}}</span>
+                  <span class="normal-price">${{product.price}}</span>
                 </h1>
                 <part-product-options class="field" product="{{product}}" variant="{{variant}}"
                   on-change="on_change">
@@ -141,23 +142,13 @@
       </div>
 
       <div class="container">
-        <nav class="nav nav-tabs" role="tablist" on-click="on_click_nav">
-          <ul>
-            <li class="nav-item nav-link active" data-tab="reviews">Reviews</li>
-            <li class="nav-item nav-link active" data-tab="description">Description</li>
-            <li class="nav-item nav-link active" data-tab="detail">Detail</li>
-          </ul>
-        </nav>
-
+        <x-tabs-nav tabs='["overview","reviews"]' current="{{current}}"></x-tabs-nav>
         <x-tabs id="tabs" current="{{current}}">
-          <x-tab name="reviews">
-            <part-product-reviews product="{{product}}"></part-product-reviews>
-          </x-tab>
-          <x-tab name="description">
+          <x-tab tab name="overview">
             <div>{{product.description}}</div>
           </x-tab>
-          <x-tab name="detail">
-            <part-product-details product="{{product}}"></part-product-details>
+          <x-tab tab name="reviews">
+            <part-product-reviews session="{{session}}" product="{{product}}"></part-product-reviews>
           </x-tab>
         </x-tabs>
       </div>
@@ -189,8 +180,7 @@
 
     attached: function () {
       this.product = this.data.product;
-      this.set('current', 'description');
-
+      this.set('current', 'overview');
     },
 
     on_change: function () {
@@ -219,8 +209,7 @@
     on_click_reviews: function (event) {
       event.stopPropagation();
       this.set('current', 'reviews');
-    },
-
+    }
 
 
   });

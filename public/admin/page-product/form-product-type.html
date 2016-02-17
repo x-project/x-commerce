@@ -100,6 +100,7 @@
     },
 
     update_model: function (data) {
+      console.log(this.product.id);
       Model.update('/api/products/' + this.product.id, data)
       .then(function (data) {
         this.product = data;
@@ -120,7 +121,7 @@
     },
 
     create_new_product: function () {
-      Model.create('/api/products', this.product)
+      Model.create('/api/products/', this.product)
         .then(function (data) {
           this.product = data;
           this.on_response_create();
@@ -169,7 +170,10 @@
 
     save_prod_type: function () {
       if (this.product.id) {
-        var data = { product_type_id: this.product_type.id };
+        var data = {
+          product_type_id: this.product_type.id,
+          published_at: this.product.published_at
+        };
         this.update_model(data);
         return;
       }

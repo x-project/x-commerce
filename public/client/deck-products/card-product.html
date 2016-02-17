@@ -4,11 +4,10 @@
 <link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="card-product">
   <template>
-    <!-- /*<style include="style-card"></style>*/ -->
     <style>
       :host {
         display: inline-block;
-        padding: 10px 5px;
+        padding: 18px 8px;
         width: 25%;
         color: #333;
         box-sizing: border-box;
@@ -21,7 +20,7 @@
       .card-title {
         margin: 6px 0px;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 18px;
         font-family: font-light;
       }
       .card-title .link {
@@ -34,51 +33,60 @@
         font-family: font-light;
       }
       .card-rating {
+        display: none;
         margin: 6px 0px;
         --rating-star : {
           font-size: 12px;
           padding: 2px;
         };
       }
+      .detail{
+         margin: 6px 0;
+        display: flex;
+        @apply(--layout-horizontal);
+        @apply(--layout-justified)
+      }
+      .card-detail {
+        margin: 6px 0;
+        font-family: font-light;
+        font-size: 14px;
+      }
       .usd:before {
         content: "$";
       }
+      .love:before{
+        font-size: 12px;
+        content: "♡ ";
+      }
+      .love:after{
+        content: "%";
+      }
+      .love:hover:before {
+        content: "♥ ";
+        color: rgb(218, 47, 18);
+      }
       .card:hover {
+        opacity: .8;
         cursor: pointer;
-        opacity: .5;
-      }
-      .card-block {
-        text-align: center;
-      }
-      .card-block {
-        overflow: hidden;
-      }
-      .details {
-        @apply(--layout-horizontal);
-        @apply(--layout-around-justified);
-        margin: 20px 0px;
       }
     </style>
 
-   <div class="card" on-click="on_click_card">
-       <div class="card-header">
-          <image-preview class="image card-img-top img-responsive" image="{{product.images.0}}"
-            sizing="cover" like-size="400"
-            height="120" width="100">
-          </image-preview>
-        </div>
+    <div class="card" on-click="on_click_card">
+      <div class="card-header">
+        <image-preview class="image card-img-top img-responsive" sizing="cover"
+          image="{{product.images.0}}" like-size="400" height="120" width="100">
+        </image-preview>
+      </div>
       <div class="card-block">
-        <h4 class="card-title">{{product.title}}</h4>
-        <h5 class="card-vendor">{{product.vendor.name}}</h5>
-        <text-view text="{{product.description}}" limit="60"></text-view>
-        <div class="details">
-          <div class="rating">
-            <input-rating class="card-rating" value="{{product.total_score}}">
-            </input-rating>
-          </div>
-          <div class="price">
-            <strong class="usd">{{product.price}}</strong>
-          </div>
+        <h4 class="card-title">
+          <span class="card-title">{{product.title}}</span>
+        </h4>
+        <div>{{product.product_type.name}}<span>&nbsp;</span></div>
+        <input-rating class="card-rating" value="{{product.total_score}}">
+        </input-rating>
+        <div class="detail">
+          <strong class="usd">{{product.price}}</strong>
+          <span class="love">{{product.total_score}}</span>
         </div>
       </div>
     </div>

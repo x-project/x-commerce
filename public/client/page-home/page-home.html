@@ -1,28 +1,16 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
-<link rel="import" href="../deck-products/deck-products.html">
+<link rel="import" href="../deck-collections/deck-collections.html">
 <link rel="import" href="../layout-client/layout-client.html">
-
 <dom-module id="page-home">
   <template>
     <style include="style-grid"></style>
-    <style>
-    .title {
-      font-size: 14px;
-      color: #000;
-      font-family: font-bold;
-      font-style: normal;
-      font-weight: 300;
-      text-transform: uppercase;
-      letter-spacing: 0.75px;
-    }
-    .sidebar{
-      position: fixed;
-    }
-    </style>
+
     <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
-        <h1 class="title">Home</h1>
-        <deck-products products="{{products}}"></deck-products>
+        <deck-collections collections="{{collections}}"></deck-collections>
+        <part-pages perpage="{{perpage}}" count="{{count}}"
+          on-change-page="on_change_page">
+        </part-pages>
       </div>
     </layout-client>
 
@@ -41,20 +29,24 @@
         type: Number,
         value: 10
       },
+      page: {
+        type: Number,
+        value: 0
+      },
       image: {
         type: String,
-        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+        value: '/images/bg3.jpg'
       }
     },
 
     attached: function () {
-      this.get_products();
+      this.get_collections();
     },
 
-    get_products: function () {
-      Model.find('/api/products', this.get_filter_options())
+    get_collections: function () {
+      Model.find('/api/collections', this.get_filter_options())
         .then(function (data) {
-          this.products = data;
+          this.collections = data;
         }.bind(this))
         .catch(function (error) {
           console.log(error);
@@ -63,10 +55,17 @@
 
     get_filter_options: function () {
       return {
-        include: ["images", "vendor"],
         perpage: this.perpage,
-        order: ['published_at DESC']
+        order: 'title',
+        page: this.page,
+        include: ["images"]
       };
+    },
+
+    on_change_page: function (event) {
+      event.stopPropagation();
+      this.page = event.detail.current - 1;
+      this.get_collections();
     }
 
   });

@@ -45,6 +45,7 @@
       Model.find('/api/reviews', this.get_filter_options())
         .then(function (data) {
           this.reviews = data;
+          console.log(this.reviews);
         }.bind(this))
         .catch(function (error) {
           console.log(error);

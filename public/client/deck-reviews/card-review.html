@@ -1,0 +1,56 @@
+<dom-module id="card-review">
+  <template>
+    <style>
+      :host{
+        display: block;
+      };
+      .review .head {
+        margin-bottom: 15px;
+      }
+      .love:before{
+        content: "♡";
+      }
+      .love:after{
+        content: "%";
+      }
+      .author{
+        font-family: font-bold;
+      }
+      .text{
+        font-size: inherit;
+        line-height: 1.3;
+        font-weight: 300;
+      }
+      .review{
+        padding: 20px 0;
+        border-bottom: 1px solid #e6e6e6;
+      }
+    </style>
+
+    <div class="review">
+      <div class="head">
+        <span class="date">On {{review.date}}, </span>
+        <span class="author">{{review.member.name}} {{review.member.last_name}}</span>
+        <span>said:</span>
+      </div>
+      <div class="body">
+        <div class="text">{{review.text}}</div>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'card-review',
+
+    properties: {
+      review: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

@@ -9,9 +9,17 @@
     <api-model-count id="count" collection="products" response="{{count}}">
     </api-model-count>
 
-    <layout-client>
-      <h1>Collection \ {{collection.title}}</h1>
+    <api-model-find id="find_products" collection="products" response="{{products}}"
+      on-response="on_response">
+    </api-model-find>
+
+    <layout-client image="{{image}}">
+      <div class="container">
         <deck-products products="{{products}}"></deck-products>
+        <part-pages perpage="{{perpage}}" count="{{count}}"
+          on-change-page="on_change_page">
+        </part-pages>
+      </div>
     </layout-client>
 
   </template>
@@ -25,13 +33,48 @@
       collection: {
         type: Array,
         value: function () { return []; }
+      },
+      session: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      image: {
+        type: String,
+        value: '/images/bg1.jpg'
       }
     },
 
     attached: function () {
       this.collection = this.data.collection;
-      this.products = this.collection.products;
-      this.count = this.products.length;
+      // var tmp = this.collection.images[0].base_url.replace('public/', '');
+      // var url = '/' + tmp + '/thumb-' + '800' + this.collection.images[0].extension;
+      // this.image = url;
+      this.get_products()
+    },
+
+   get_products: function () {
+      Model.find('/api/collections/' + this.collection.id + '/products', this.get_filter_products())
+        .then(function (data) {
+          this.products = data;
+        }.bind(this))
+        .catch(function (error) {
+          console.log(error);
+        }.bind(this));
+    },
+
+    get_filter_products: function () {
+      return {
+        perpage: this.perpage,
+        order: 'title',
+        page: this.page,
+        include: ["images","vendor","product_type"]
+      };
+    },
+
+   on_change_page: function (event) {
+      event.stopPropagation();
+      this.page = event.detail.current - 1;
+      this.get_products();
     }
 
   });

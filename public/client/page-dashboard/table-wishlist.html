@@ -28,7 +28,7 @@
           <template id="items" is="dom-repeat" items="{{favourites}}" as="favourite">
             <tr class="text-center" on-click="on_click_view">
               <td>
-                <strong>{{favourite.product.title}}</strong>
+                <span>{{favourite.product.title}}</span>
               </td>
               <td>
                 <text-view text="{{favourite.product.description}}" limit="30"></text-view>

@@ -1,5 +1,5 @@
 <link rel="import" href="../../components/api-model/api-model.html">
-<link rel="import" href="../part-reviews/part-reviews.html">
+<link rel="import" href="../deck-reviews/deck-reviews.html">
 <dom-module id="part-product-reviews">
   <template>
     <style>
@@ -12,10 +12,7 @@
       response="{{reviews}}">
     </api-model-find>
 
-    <h3>Reviews</h3>
-    <part-reviews reviews="{{reviews}}" product="{{product}}"
-      on-change-discussion="on_change_discussion">
-    </part-reviews>
+    <deck-reviews reviews="{{reviews}}"></deck-reviews>
 
   </template>
 </dom-module>
@@ -36,11 +33,6 @@
       this.$.find_reviews.include = ['customer', {'replies': 'author'}];
       this.$.find_reviews.where = {product_id: this.product.id, closed: true}
       this.$.find_reviews.send();
-    },
-
-    on_change_discussion: function (event) {
-      event.stopPropagation();
-      this.attached();
     }
 
   });

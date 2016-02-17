@@ -2,7 +2,6 @@
 <link rel="import" href="../deck-products/deck-products.html">
 <link rel="import" href="../layout-client/layout-client.html">
 <link rel="import" href="../part-pages/part-pages.html">
-<link rel="import" href="part-nav-products.html">
 <dom-module id="page-products">
   <template>
     <style include="style-grid"></style>
@@ -20,27 +19,16 @@
       position: fixed;
     }
     </style>
+
     <layout-client image="{{image}}">
       <div class="container">
-        <div class="row">
-          <div class="col col-sm-2">
-            <div class="sidebar">
-              <h2 class="title">Categories</h2>
-                <part-nav-products items="{{collections}}" property="title"
-                  on-click="on_click_nav" on-click-all="on_click_all">
-                </part-nav-products>
-            </div>
-          </div>
-          <div class="col col-sm-10">
-            <h2 class="title">Products</h2>
-            <deck-products products="{{products}}"></deck-products>
-            <part-pages perpage="{{perpage}}" count="{{count}}" on-change-page="on_change_page">
-            </part-pages>
-          </div>
-        </div>
+        <h2 class="title">Products</h2>
+        <deck-products products="{{products}}"></deck-products>
+        <part-pages perpage="{{perpage}}" count="{{count}}"
+          on-change-page="on_change_page">
+        </part-pages>
       </div>
     </layout-client>
-
 
   </template>
 </dom-module>
@@ -56,7 +44,7 @@
       },
       image: {
         type: String,
-        value: 'https://static.pexels.com/photos/17746/pexels-photo.jpg'
+        value: '/images/bg1.jpg'
       },
       page: {
         type: Number,
@@ -70,27 +58,6 @@
 
     attached: function () {
       this.count_products();
-      this.get_collections();
-    },
-
-    get_collections: function () {
-      Model.find('/api/collections', this.get_filter_collections())
-        .then(function (data) {
-          this.collections = data;
-          console.log();
-        }.bind(this))
-        .catch(function (error) {
-          console.log(error);
-        }.bind(this));
-    },
-
-    get_filter_collections: function () {
-      return {
-        perpage: this.perpage,
-        order: 'title',
-        page: this.page,
-        include: [{'products': ['images']}]
-      };
     },
 
     count_products: function () {
@@ -119,23 +86,13 @@
         perpage: this.perpage,
         order: 'title',
         page: this.page,
-        include: ["images", "vendor"]
+        include: ["images","vendor","product_type"]
       };
     },
 
     on_change_page: function (event) {
       event.stopPropagation();
       this.page = event.detail.current - 1;
-      this.get_products();
-    },
-
-    on_click_nav: function (event) {
-      event.stopPropagation();
-      var products = event.detail.products;
-      this.set('products', products);
-    },
-
-    on_click_all: function () {
       this.get_products();
     }
 

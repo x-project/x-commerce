@@ -1,9 +1,8 @@
 <link rel="import" href="../../styles/style-card/style-card.html">
 <link rel="import" href="../../components/text-view/text-view.html">
-
+<link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="card-article">
   <template>
-    <!-- /*<style include="style-card"></style>*/ -->
     <style>
       :host {
         display: inline-block;
@@ -20,7 +19,7 @@
       .card-title {
         margin: 6px 0px;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 18px;
         font-family: font-light;
       }
       .card-title .link {
@@ -32,32 +31,33 @@
         font-size: 15px;
         font-family: font-light;
       }
-      .card-rating {
-        margin: 6px 0px;
-        --rating-star : {
-          font-size: 12px;
-          padding: 2px;
-        };
-      }
-      .card-block {
-        text-align: center;
-      }
+
       .card:hover {
         cursor: pointer;
         opacity: .5;
       }
+
+      .detail{
+         margin: 6px 0;
+        display: flex;
+        @apply(--layout-horizontal);
+        @apply(--layout-justified)
+      }
+
     </style>
 
     <div class="card" on-click="on_click_card">
       <div class="card-header">
-        <image-preview class="image card-img-top img-responsive" image="{{article.images.0}}"
-          sizing="cover" like-size="400" height="120" width="100">
+        <image-preview class="image card-img-top img-responsive" sizing="cover"
+          image="{{article.images.0}}" like-size="400" height="120" width="100">
         </image-preview>
       </div>
       <div class="card-block">
         <h4 class="card-title">{{article.title}}</h4>
-        <h4 class="card-subtitle">{{article.author.fullname}}</h4>
         <text-view text="{{article.summary}}" limit="30"></text-view>
+        <div class="detail">
+          <span class="by">{{article.author.fullname}}</span>
+        </div>
       </div>
     </div>
 

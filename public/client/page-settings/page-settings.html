@@ -7,7 +7,7 @@
   <template>
     <style include="style-grid"></style>
 
-    <layout-client mode="waterfall-tall">
+    <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
         <h1>Settings</h1>
         <panel-settings-profile></panel-settings-profile>
@@ -26,7 +26,7 @@
     properties: {
       image: {
         type: String,
-        value: ''
+        value: 'http://cdn.nanxiongnandi.com/bing/BikeChain_JA-JP10008444080_1366x768.jpg'
       }
     }
 
