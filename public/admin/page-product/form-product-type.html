@@ -17,6 +17,9 @@
       button {
         display: block !important;
       }
+      button.prodtype {
+        margin-top: 10px;
+      }
     </style>
 
     <api-model-update id="update" collection="products" model-id="{{product.id}}"
@@ -32,7 +35,7 @@
       </div>
     </template>
 
-    <button class="btn btn-primary" on-click="on_click_add_prod_type">Add product type</button>
+    <button class="prodtype btn btn-primary" on-click="on_click_add_prod_type">Add product type</button>
 
     <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_product_types}}" on-change-page="on_change_page"

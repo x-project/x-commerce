@@ -4,10 +4,10 @@
   <template>
     <style include="style-panel"></style>
 
+    <h3 class="title">[[variant_coding_title]]</h3>
+    <h3 class="title"></h3>
     <div class="panel">
-      <h3 class="title">[[variant_coding_title]]</h3>
       <form-variant-inventory-coding variant="{{variant}}"></form-variant-inventory-coding>
-      <h3 class="title">[[variant_policy_label]]</h3>
       <form-variant-inventory-track variant="{{variant}}" product="{{product}}"></form-variant-inventory-track>
     </div>
 
@@ -21,12 +21,9 @@
     properties: {
       variant_coding_title: {
         type: String,
-        value: 'Coding'
+        value: 'Inventory'
       },
-      variant_policy_label: {
-        type: String,
-        value: 'Policy'
-      },
+
       variant: {
         type: Object,
         value: function () { return {}; }

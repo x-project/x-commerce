@@ -2,17 +2,27 @@
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-vendor-header.html">
-<link rel="import" href="part-vendor-actions.html">
 <link rel="import" href="part-vendor-info.html">
 <dom-module id="page-vendor">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
-      <part-vendor-info vendor="{{vendor}}" error="{{error}}"></part-vendor-info>
-      <part-vendor-actions></part-vendor-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-vendor-header vendor="{{vendor}}"></part-vendor-header>
+            <part-vendor-info vendor="{{vendor}}" error="{{error}}"></part-vendor-info>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

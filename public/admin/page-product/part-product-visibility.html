@@ -1,10 +1,12 @@
 <link rel="import" href="../../components/input-datetime/input-datetime.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../input-checkbox/input-checkbox.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <link rel="import" href="form-product-visibility.html">
 
 <dom-module id="part-product-visibility">
   <template>
+    <style include="style-panel"></style>
     <style include="style-button"></style>
     <style include="style-checkbox"></style>
     <style include="style-field"></style>
@@ -20,13 +22,15 @@
       input-datetime {
         --datetime-input: {
           @apply(--form-control);
+          box-sizing: border-box;
         };
         --datetime-button: {
         };
       }
     </style>
+
+    <h2 class="title">[[product_visibility_title_label]]</h2>
     <div class="panel" on-change-date="on_change_visibility">
-      <h2 class="title">[[product_visibility_title_label]]</h2>
       <div class="field">
         <input-checkbox checked="{{product.is_published}}"></input-checkbox>
         <label class="label">Online Store</label>

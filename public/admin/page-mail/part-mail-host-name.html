@@ -1,12 +1,15 @@
 <link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-mail-host-name">
   <template>
     <style include="style-button"></style>
+    <style include="style-panel"></style>
 
     <app-session id="session"></app-session>
+
+    <h2 class="title">Host name</h2>
     <div class="panel">
-      <h3>Host name</h3>
       <field-text label="Host name" property="text" value="{{message.text}}"
         error="{{error}}">
       </field-text>

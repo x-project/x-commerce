@@ -2,6 +2,7 @@
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-services-braintree.html">
 <link rel="import" href="part-services-email.html">
@@ -15,19 +16,32 @@
 <link rel="import" href="part-services-taxjar.html">
 <dom-module id="page-services">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-updated="on_updated">
-      <h1>Services</h1>
-      <part-services-plivo services="{{services}}"></part-services-plivo>
-      <part-services-braintree services="{{services}}"></part-services-braintree>
-      <part-services-stripe services="{{services}}"></part-services-stripe>
-      <part-services-taxjar services="{{services}}"></part-services-taxjar>
-      <part-services-phone services="{{services}}"></part-services-phone>
-      <part-services-google services="{{services}}"></part-services-google>
-      <part-services-facebook services="{{services}}"></part-services-facebook>
-      <part-services-mandrill services="{{services}}"></part-services-mandrill>
-      <part-services-email services="{{services}}"></part-services-email>
-      <part-services-secret-keys services="{{services}}"></part-services-secret-keys>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <h1>Services</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-services-plivo services="{{services}}"></part-services-plivo>
+            <part-services-braintree services="{{services}}"></part-services-braintree>
+            <part-services-stripe services="{{services}}"></part-services-stripe>
+            <part-services-taxjar services="{{services}}"></part-services-taxjar>
+            <part-services-email services="{{services}}"></part-services-email>
+          </div>
+          <div class="col col-sm-6">
+            <part-services-google services="{{services}}"></part-services-google>
+            <part-services-phone services="{{services}}"></part-services-phone>
+            <part-services-facebook services="{{services}}"></part-services-facebook>
+            <part-services-mandrill services="{{services}}"></part-services-mandrill>
+            <part-services-secret-keys services="{{services}}"></part-services-secret-keys>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

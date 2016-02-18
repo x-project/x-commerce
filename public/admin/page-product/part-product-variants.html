@@ -1,10 +1,11 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-product-shipping.html">
 <dom-module id="part-product-variants">
   <template>
     <style include="style-panel"></style>
 
+    <h2 class="title">[[product_variants_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[product_variants_title_label]]</h2>
       <template is="dom-if" if="{{product.id}}">
         <a is="app-link" href="/admin/products/{{product.id}}/variants">variants</a>
       </template>

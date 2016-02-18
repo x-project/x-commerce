@@ -8,42 +8,37 @@
       form[read]{
         pointer-events: none;
       }
-      #rating {
-        display: inline;
+      #rating {
+        display: block;
       }
-      #title-rating {
-
-      }
-      #text-rating {
-
-      }
-      #rating-score {
+      #text {
         display: block;
       }
     </style>
 
-
-    <a is="app-link" href="/reviews">Back to reviews</a>
-
     <form id="form" role="form" read$="{{read}}" on-submit="on_submit">
-      <div class="field" id="rating-score">
+
+      <div id="rating" class="field" id="rating-score">
         <label class="label">Rating</label>
-        <input-rating id="rating" values="[2,4,6,8,10]" value="{{review.rating}}"
+        <input-rating values="[2,4,6,8,10]" value="{{review.rating}}"
           editable on-change="on_change_rating">
         </input-rating>
       </div>
-      <div class="field" id="title-rating">
+
+      <div id="text" class="field" id="title-rating">
         <label class="label">Title</label>
         <field-text label="Title" property="title" value="{{review.title}}"
           error="{{error}}">
         </field-text>
       </div>
-      <div class="field" id="text-rating">
+
+      <div id="description" class="field" id="text-rating">
         <label class="label">Text</label>
         <field-long-text label="Text" property="text" value="{{review.text}}"
           error="{{error}}">
         </field-long-text>
       </div>
+
       <input id="submit" type="submit" value="submit"/>
     </form>
 

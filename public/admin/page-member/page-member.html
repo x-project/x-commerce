@@ -1,16 +1,34 @@
 <link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="form-member.html">
 
 <dom-module id="page-member">
   <template>
+    <style include="style-grid"></style>
+    <style include="style-panel"></style>
+    <style>
+      h2 {
+        padding-top: 50px;
+      }
+    </style>
 
     <app-session id="session"></app-session>
 
     <layout-admin>
-      <h2>Member</h2>
-      <form-member member="{{member}}" token="{{token}}"></form-member>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+          <h2 class="title">Member</h2>
+            <div class="panel">
+              <form-member member="{{member}}" token="{{token}}"></form-member>
+            </div>
+          </div>
+        </div>
+      </div>
     </layout-admin>
+
   </template>
 </dom-module>
 

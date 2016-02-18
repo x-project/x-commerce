@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-article-author.html">
 <link rel="import" href="form-article-category.html">
 <link rel="import" href="form-article-co-authors.html">
@@ -12,8 +13,8 @@
       }
     </style>
 
+    <h2 class="title">[[article_published_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[article_published_title_label]]</h2>
       <form-article-author class="organizzation" article="{{article}}" error="{{error}}"></form-article-author>
       <form-article-category class="organizzation" article="{{article}}" error="{{error}}"></form-article-category>
       <form-article-co-authors class="organizzation" article="{{article}}" error="{{error}}">

@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-product-collections.html">
 <link rel="import" href="form-product-tags.html">
 <link rel="import" href="form-product-type.html">
@@ -11,8 +12,8 @@
       }
     </style>
 
+    <h2 class="title">[[product_organization_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[product_organization_title_label]]</h2>
       <form-product-collections class="form" product="{{product}}"></form-product-collections>
       <form-product-vendor class="form" product="{{product}}"></form-product-vendor>
       <form-product-type class="form" product="{{product}}"></form-product-type>

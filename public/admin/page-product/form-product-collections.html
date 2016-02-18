@@ -30,6 +30,9 @@
       search-items.search[show] {
         display: block;
       }
+      button.collection {
+        margin-top: 10px;
+      }
     </style>
 
     <label class="label">[[product_collection_label]]</label>
@@ -38,7 +41,7 @@
       items="{{product.collections}}" on-delete-item="on_delete_collection">
     </selected-items>
 
-    <button class="btn btn-primary" on-click="on_click_add_collection">Add collection</button>
+    <button class="collection btn btn-primary" on-click="on_click_add_collection">Add collection</button>
 
     <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"

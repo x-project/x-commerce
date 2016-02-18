@@ -4,7 +4,6 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">[[orders_items_title_lable]]</h2>
       <table-view items="{{orders}}" fields=["status","total","discount"] on-click="on_click_edit"
         on-delete="on_delete_order">
       </table-view>
@@ -21,10 +20,6 @@
     is: 'part-orders-items',
 
     properties: {
-      orders_items_title_lable: {
-        type: String,
-        value: 'Orders'
-      },
       orders: {
         type: Array,
         value: function () { return []; }

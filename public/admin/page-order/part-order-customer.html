@@ -1,10 +1,11 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-order-customer.html">
 <dom-module id="part-order-customer">
   <template>
     <style include="style-panel"></style>
 
+    <h2 class="title">[[order_customer_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[order_customer_title_label]]</h2>
       <form-order-customer order="{{order}}" error="{{error}}"></form-order-customer>
     </div>
 

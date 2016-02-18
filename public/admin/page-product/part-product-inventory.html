@@ -1,7 +1,9 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-text/field-text.html">
 <link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-product-inventory">
   <template>
+    <style include="style-panel"></style>
     <style include="style-form"></style>
     <style include="style-checkbox"></style>
     <style include="style-field"></style>
@@ -14,8 +16,9 @@
         display: block;
       }
     </style>
+
+    <h2 class="title">[[product_inventory_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[product_inventory_title_label]]</h2>
       <field-text label="SKU" property="sku" value="{{product.sku}}"
         error="{{error}}">
       </field-text>

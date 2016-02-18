@@ -1,6 +1,6 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
@@ -14,16 +14,36 @@
 <link rel="import" href="part-variant-header.html">
 <dom-module id="page-variant">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <part-variant-header product="{{product}}" variant="{{variant}}"></part-variant-header>
-      <part-variant-available variant="{{variant}}" error="{{error}}"></part-variant-available>
-      <part-variant-pricing variant="{{variant}}" error="{{error}}"></part-variant-pricing>
-      <part-variant-inventory variant="{{variant}}" product="{{product}}" error="{{error}}">
-      </part-variant-inventory>
-      <part-variant-shipping variant="{{variant}}" error="{{error}}"></part-variant-shipping>
-      <part-variant-actions></part-variant-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-variant-header product="{{product}}" variant="{{variant}}"></part-variant-header>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-variant-pricing variant="{{variant}}" error="{{error}}"></part-variant-pricing>
+            <part-variant-inventory variant="{{variant}}" product="{{product}}" error="{{error}}">
+            </part-variant-inventory>
+          </div>
+          <div class="col col-sm-6">
+            <part-variant-available variant="{{variant}}" error="{{error}}"></part-variant-available>
+            <part-variant-shipping variant="{{variant}}" error="{{error}}"></part-variant-shipping>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-variant-actions></part-variant-actions>
+          </div>
+        </div>
+      </div>
     </layout-admin>
+
+
+
 
   </template>
 </dom-module>

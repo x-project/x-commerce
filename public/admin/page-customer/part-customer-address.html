@@ -12,23 +12,21 @@
         display: block !important;
         --input-location: {
           @apply(--form-control);
+          box-sizing: border-box;
         };
       }
       .phone {
         --input-phone-prefix: {
           @apply(--form-control);
-          width: 60%;
         };
         --input-phone-number: {
           @apply(--form-control);
-          width: 60%;
         };
       }
     </style>
 
+    <h2 class="title">Address</h2>
     <div class="panel">
-      <h2 class="title">Address</h2>
-
       <div class="field">
         <label class="label">Address</label>
         <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>

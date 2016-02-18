@@ -1,8 +1,4 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
@@ -10,21 +6,31 @@
 <link rel="import" href="part-order-notes.html">
 <link rel="import" href="part-order-header.html">
 <link rel="import" href="part-order-status.html">
-<link rel="import" href="part-order-actions.html">
 <dom-module id="page-order">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h1>Orders</h1>
-      <part-order-header order="{{order}}"></part-order-header>
-      <part-order-status order="{{order}}"></part-order-status>
-      <part-order-customer order="{{order}}" error="{{error}}"></part-order-customer>
-      <part-order-create-order-item order="{{order}}" error="{{error}}"
-        on-try-save-order-item="on_try_save_order_item">
-      </part-order-create-order-item>
-      <part-order-items id="items" order="{{order}}"></part-order-items>
-      <part-order-notes order="{{order}}"></part-order-notes>
-      <part-order-actions></part-order-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-order-header order="{{order}}"></part-order-header>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-order-status order="{{order}}"></part-order-status>
+            <part-order-items id="items" order="{{order}}"></part-order-items>
+            <part-order-create-order-item order="{{order}}" error="{{error}}"
+              on-try-save-order-item="on_try_save_order_item">
+            </part-order-create-order-item>
+          </div>
+          <div class="col col-sm-6">
+            <part-order-customer order="{{order}}" error="{{error}}"></part-order-customer>
+            <part-order-notes order="{{order}}"></part-order-notes>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

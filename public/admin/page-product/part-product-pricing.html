@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-number/field-number.html">
 <dom-module id="part-product-pricing">
   <template>
@@ -5,8 +6,8 @@
     <style include="style-checkbox"></style>
     <style include="style-field"></style>
 
+    <h2 class="title">[[product_pricing_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[product_pricing_title_label]]</h2>
       <field-number label="Price" property="price" value="{{product.price}}"
         error="{{error}}">
       </field-number>

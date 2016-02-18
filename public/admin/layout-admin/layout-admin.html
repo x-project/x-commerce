@@ -5,22 +5,22 @@
   <template>
   <style include="style-grid"></style>
     <style>
-      .page {
-        min-height: 100vh;
-      }
       .row {
         background-color: #eee;
+        min-height: 100vh;
+
+      }
+      .sidebar {
+        background-color: black;
       }
     </style>
 
-    <div class="page">
       <div class="row">
         <part-sidebar class="sidebar col col-sm-2"></part-sidebar>
-        <div class="main col col-sm-9">
+        <div class="main col col-sm-10">
           <content></content>
         </div>
       </div>
-    </div>
 
   </template>
 </dom-module>

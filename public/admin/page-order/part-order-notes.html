@@ -1,10 +1,11 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <dom-module id="part-order-notes">
   <template>
     <style include="style-panel"></style>
 
+    <h2 class="title">Detail</h2>
     <div class="panel">
-      <h2 class="title">Detail</h2>
       <field-long-text label="Notes" property="notes" value="{{order.notes}}"
         error="{{error}}">
       </field-long-text>

@@ -1,11 +1,8 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-customer-address.html">
 <link rel="import" href="part-customer-actions.html">
 <link rel="import" href="part-customer-header.html">
 <link rel="import" href="part-customer-note.html">
@@ -14,17 +11,28 @@
 <link rel="import" href="part-customer-tags.html">
 <dom-module id="page-customer">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h1>Customers</h1>
-      <part-customer-header customer="{{customer}}"></part-customer-header>
-      <part-customer-overview customer="{{customer}}" error="{{error}}">
-      </part-customer-overview>
-      <part-customer-address customer="{{customer}}"></part-customer-address>
-      <part-customer-send-email customer="{{customer}}"></part-customer-send-email>
-      <part-customer-note customer="{{customer}}"></part-customer-note>
-      <part-customer-tags customer="{{customer}}"></part-customer-tags>
-      <part-customer-actions></part-customer-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-customer-header customer="{{customer}}"></part-customer-header>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-customer-overview customer="{{customer}}" error="{{error}}">
+            </part-customer-overview>
+            <part-customer-send-email customer="{{customer}}"></part-customer-send-email>
+          </div>
+          <div class="col col-sm-6">
+            <part-customer-address customer="{{customer}}"></part-customer-address>
+            <part-customer-note customer="{{customer}}"></part-customer-note>
+            <part-customer-tags customer="{{customer}}"></part-customer-tags>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

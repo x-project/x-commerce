@@ -13,21 +13,21 @@
       search-items.search[show] {
         display: block;
       }
-      button {
-        display: block !important;
+      button.vendor {
+        margin-top: 10px;
       }
     </style>
 
     <label class="label">[[product_vendor_label]]</label>
 
     <template is="dom-if" if="{{product.vendor}}">
-      <div clas="vendor_selected">
+      <div class="vendor_selected">
         <span>{{product.vendor.name}}</span>
         <span class="remove_vendor" on-click="on_click_remove_vendor">X</span>
       </div>
     </template>
 
-    <button class="btn btn-primary" on-click="on_click_add_vendor">Add vendor</button>
+    <button class="vendor btn btn-primary" on-click="on_click_add_vendor">Add vendor</button>
 
     <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
       value="{{value}}" items="{{filter_vendors}}" on-change-page="on_change_page"

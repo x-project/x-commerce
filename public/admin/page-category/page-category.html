@@ -1,19 +1,24 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-category-actions.html">
 <link rel="import" href="part-category-header.html">
 <link rel="import" href="part-category-info.html">
 <dom-module id="page-category">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h1>Category</h1>
-      <part-category-header category="{{category}}"></part-category-header>
-      <part-category-info category="{{category}}" error="{{error}}"></part-category-info>
-      <part-category-actions></part-category-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-category-header category="{{category}}"></part-category-header>
+            <part-category-info category="{{category}}" error="{{error}}"></part-category-info>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

@@ -1,4 +1,5 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../image-previews/image-previews.html">
 <link rel="import" href="form-product-image.html">
 <dom-module id="part-product-image">
@@ -19,10 +20,9 @@
       }
     </style>
 
+    <h2 class="title">[[product_images_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[product_images_title_label]]</h2>
       <form-product-image product="{{product}}"></form-product-image>
-
       <div class="images panel">
         <template id="images" is="dom-repeat" items="{{product.images}}" as="image"
           filter="filter_image">

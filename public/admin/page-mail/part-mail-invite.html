@@ -1,13 +1,21 @@
 <link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-mail-invite">
   <template>
     <style include="style-button"></style>
+    <style include="style-panel"></style>
+    <style>
+      button {
+        margin-top: 10px;
+      }
+    </style>
 
     <app-session id="session"></app-session>
+
+    <h2 class="title">Invite content</h2>
     <div class="panel">
-      <h3>Invite content</h3>
       <field-text label="Subject" property="text" value="{{message.subject}}"
         error="{{error}}">
       </field-text>

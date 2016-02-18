@@ -11,15 +11,30 @@
 
 <dom-module id="page-mail">
   <template>
+    <style include="style-grid"></style>
 
     <app-session id="session"></app-session>
 
     <layout-admin on-try-create="on_try_create" on-try-update="on_try_update">
-      <h1>Mail messages</h1>
-      <part-mail-host-name messages="{{messages}}"></part-mail-host-name>
-      <part-mail-passwordless messages="{{messages}}"></part-mail-passwordless>
-      <part-mail-invite messages="{{messages}}"></part-mail-invite>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <h1>Mail messages</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-mail-host-name messages="{{messages}}"></part-mail-host-name>
+            <part-mail-passwordless messages="{{messages}}"></part-mail-passwordless>
+          </div>
+          <div class="col col-sm-6">
+            <part-mail-invite messages="{{messages}}"></part-mail-invite>
+          </div>
+        </div>
+      </div>
     </layout-admin>
+
+
 
   </template>
 </dom-module>

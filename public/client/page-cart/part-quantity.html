@@ -28,6 +28,18 @@
       order_item: {
         type: Array,
         value: function () { return []; }
+      },
+      quantity: {
+        type: Number,
+        value: 1,
+        observer: '_on_change'
+      }
+    },
+
+    _on_change: function (quantity) {
+      if (this.quantity <= 0) {
+        this.set('quantity', 1);
+        return;
       }
     },
 

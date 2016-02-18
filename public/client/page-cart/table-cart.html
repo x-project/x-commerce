@@ -43,11 +43,11 @@
       </thead>
       <tbody>
         <template id="order_items" is="dom-repeat" items="{{order_items}}" as="order_item" filter="filter">
-          <tr class="text-center">
+          <tr class="text-center" on-click="on_click_row">
             <td>{{order_item.product.title}}</td>
             <td>{{order_item.product.price}}</td>
-            <td>{{order_item.product_variant.name}}</td>
-            <td>{{order_item.product_variant.price}}</td>
+            <td>{{order_item.variant.name}}</td>
+            <td>{{order_item.variant.price}}</td>
             <td>
               <part-quantity order_item="{{order_item}}" on-update-quantity="on_update_quantity">
               </part-quantity>
@@ -71,7 +71,7 @@
             <td></td>
             <td></td>
             <td>
-              <span>{{update_subtotal()}}</span>
+              <span>{{total}}</span>
             </td>
             <td></td>
           </tr>
@@ -94,12 +94,13 @@
 
     filter: function (order_item) {
       this.quantity = order_item.quantity;
+      this.update_subtotal();
       return true;
     },
 
     calculate_subtotal: function (order_item) {
       var subtotal = 0;
-      if (order_item.product_variant) {
+      if (order_item.variant) {
         subtotal = this.calculate_subtotal_variant(order_item);
         if (!isNaN(subtotal)){
           return subtotal;
@@ -114,7 +115,7 @@
     },
 
     calculate_subtotal_variant: function (order_item) {
-      return order_item.quantity * order_item.product_variant.price;
+      return order_item.quantity * order_item.variant.price;
     },
 
     calculate_subtotal_product: function (order_item) {
@@ -149,7 +150,13 @@
           sub_tot += item.quantity * item.product.price;
         }
       }, this);
-      return sub_tot;
+      this.total = sub_tot;
+    },
+
+    on_click_row: function (event) {
+      event.stopPropagation();
+      var order_item = this.$.order_items.itemForElement(event.target);
+      page('/products/' + order_item.product.id);
     }
 
   });

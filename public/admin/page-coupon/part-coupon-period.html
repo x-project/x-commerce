@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-coupon-period.html">
 <dom-module id="part-coupon-period">
   <template>
@@ -15,8 +16,8 @@
       }
     </style>
 
+    <h2 class="title">[[coupon_period_title_label]]</h2>
     <div class="panel" on-change-date="on_change_date">
-      <h2 class="title">[[coupon_period_title_label]]</h2>
       <div class="field">
         <label class="label">From</label>
         <input-datetime value="{{coupon.date_from}}"></input-datetime>

@@ -1,6 +1,8 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <dom-module id="part-store-policy">
   <template>
+    <style include="style-panel"></style>
     <style include="style-label"></style>
     <style include="style-form"></style>
     <style include="style-field"></style>
@@ -13,8 +15,8 @@
       }
     </style>
 
+    <h2 class="title">[[policy_label]]</h2>
     <div class="panel">
-      <h3>[[policy_label]]</h3>
       <field-long-text label="Policy" property="policy" value="{{store.policy}}" error="{{error}}">
       </field-long-text>
     </div>

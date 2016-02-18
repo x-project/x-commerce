@@ -1,21 +1,28 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-prod-type-header.html">
 <link rel="import" href="part-prod-type-actions.html">
 <link rel="import" href="part-prod-type-info.html">
 <dom-module id="page-product_type">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <h1>Product Type</h1>
-      <part-prod-type-header prod_type="{{prod_type}}"></part-prod-type-header>
-      <part-prod-type-info prod_type="{{prod_type}}" error="{{error}}">
-      </part-prod-type-info>
-      <part-prod-type-actions></part-prod-type-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-prod-type-header prod_type="{{prod_type}}"></part-prod-type-header>
+            <part-prod-type-info prod_type="{{prod_type}}" error="{{error}}">
+            </part-prod-type-info>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

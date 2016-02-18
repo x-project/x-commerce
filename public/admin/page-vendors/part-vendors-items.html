@@ -4,7 +4,6 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-    <h2 class="title">[[vendors_items_title_label]]</h2>
       <table-view items="{{vendors}}" fields=["name","description"] on-click="on_click_edit"
         on-delete="on_delete_vendor">
       </table-view>
@@ -21,10 +20,6 @@
     is: 'part-vendors-items',
 
     properties: {
-      vendors_items_title_label: {
-        type: String,
-        value: 'Vendors'
-      },
       vendors: {
         type: Array,
         value: function () { return []; }

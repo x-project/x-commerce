@@ -4,7 +4,6 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <h2 class="title">[[customers_items_title_label]]</h2>
       <table-view items="{{customers}}" fields=["first_name","last_name","email"] on-click="on_click_edit"
         on-delete="on_delete_customer">
       </table-view>

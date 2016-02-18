@@ -1,7 +1,7 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-store-actions.html">
@@ -9,17 +9,36 @@
 <link rel="import" href="part-store-header.html">
 <link rel="import" href="part-store-image.html">
 <link rel="import" href="part-store-info.html">
+<link rel="import" href="part-store-payment-system.html">
 <link rel="import" href="part-store-policy.html">
 <dom-module id="page-store">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save">
-      <part-store-header store="{{store}}"></part-store-header>
-      <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
-      <part-store-contact store="{{store}}" error="{{error}}"></part-store-contact>
-      <part-store-image store="{{store}}" on-uploaded-image="on_upload_image"></part-store-image>
-      <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
-      <part-store-actions></part-store-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-store-header store="{{store}}"></part-store-header>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
+            <part-store-contact store="{{store}}" error="{{error}}"></part-store-contact>
+          </div>
+          <div class="col col-sm-6">
+            <part-store-image store="{{store}}" on-uploaded-image="on_upload_image"></part-store-image>
+            <part-store-payment-system store="{{store}}"></part-store-payment-system>
+            <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-store-actions></part-store-actions>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

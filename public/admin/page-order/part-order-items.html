@@ -1,7 +1,8 @@
-<link rel="import" href="../../styles/style-basic/style-basic.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-order-items">
   <template>
     <style include="style-basic"></style>
@@ -42,8 +43,8 @@
       on-response="on_response_delete">
     </iron-ajax>
 
+    <h2 class="title">Cart</h2>
     <div class="panel">
-      <h2 class="title">Cart</h2>
       <div class="table-responsive">
         <table class="table table-striped">
           <thead>

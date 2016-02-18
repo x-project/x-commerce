@@ -1,17 +1,13 @@
 <link rel="import" href="table-cart.html">
 <dom-module id="part-cart-order-items">
   <template>
-    <div class="panel">
-      <div class="table-responsive">
-        <table-cart order_items="{{cart}}" on-remove-product="on_remove_product"
-          on-change-quantity="on_change_quantity">
-        </table-cart>
-      </div>
-      <div class="total">
-        <strong class="label">Total</strong>
-        <span>{{total}}</span>
-      </div>
+
+    <div class="table-responsive">
+      <table-cart order_items="{{cart}}" on-remove-product="on_remove_product"
+        on-change-quantity="on_change_quantity">
+      </table-cart>
     </div>
+
   </template>
 
 </dom-module>
@@ -39,7 +35,6 @@
       event.stopPropagation();
       var order_item = event.detail.order_item;
       var index = this.cart.indexOf(order_item);
-      console.log(order_item, event.detail.new_quantity);
       this.cart[index].quantity = event.detail.new_quantity;
       this.fire('update-cart');
     }

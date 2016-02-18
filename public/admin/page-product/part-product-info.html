@@ -1,3 +1,4 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-product-info">
@@ -5,8 +6,8 @@
     <style include="style-panel"></style>
     <style include="style-field"></style>
 
+    <h2 class="title">[[product_basic_info_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[product_basic_info_label]]</h2>
       <field-text label="title" property="title" value="{{product.title}}" error="{{error}}">
       </field-text>
       <field-long-text label="description" property="description" value="{{product.description}}"

@@ -18,7 +18,6 @@
 <link rel="import" href="part-product-wish.html">
 <dom-module id="page-product">
   <template>
-
     <style include="style-grid"></style>
     <style include="style-navs"></style>
 
@@ -118,7 +117,7 @@
                 <part-product-options class="field" product="{{product}}" variant="{{variant}}"
                   on-change="on_change">
                 </part-product-options>
-                <part-product-cart class="field cart" product="{{product}}" variant="{{variant}}">
+                <part-product-cart id="cart" class="field cart" product="{{product}}" variant="{{variant}}">
                 </part-product-cart>
                 <part-product-wish product="{{product}}" variant="{{variant}}"></part-product-wish>
               </div>

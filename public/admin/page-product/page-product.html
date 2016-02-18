@@ -1,11 +1,10 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../../styles/style-color/style-color.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-product-actions.html">
 <link rel="import" href="part-product-header.html">
@@ -19,20 +18,37 @@
 <link rel="import" href="part-product-visibility.html">
 <dom-module id="page-product">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <part-product-header product="{{product}}"></part-product-header>
-      <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
-      <part-product-visibility product="{{product}}" error="{{error}}"
-        on-change-visibility="on_change_visibility"></part-product-visibility>
-      <part-product-image product="{{product}}" on-uploaded-image="on_upload_image">
-      </part-product-image>
-      <part-product-pricing product="{{product}}"></part-product-pricing>
-      <part-product-inventory product="{{product}}"></part-product-inventory>
-      <part-product-shipping product="{{product}}"></part-product-shipping>
-      <part-product-organization product="{{product}}" on-error="on_error"></part-product-organization>
-      <part-product-variants id="variants" product="{{product}}"></part-product-variants>
-      <part-product-actions></part-product-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-product-header product="{{product}}"></part-product-header>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-product-info product="{{product}}" error="{{error}}"></part-product-info>
+            <part-product-image product="{{product}}" on-uploaded-image="on_upload_image">
+            </part-product-image>
+            <part-product-organization product="{{product}}" on-error="on_error"></part-product-organization>
+            <part-product-variants id="variants" product="{{product}}"></part-product-variants>
+          </div>
+          <div class="col col-sm-6">
+            <part-product-pricing product="{{product}}"></part-product-pricing>
+            <part-product-visibility product="{{product}}" error="{{error}}"
+              on-change-visibility="on_change_visibility"></part-product-visibility>
+            <part-product-inventory product="{{product}}"></part-product-inventory>
+            <part-product-shipping product="{{product}}"></part-product-shipping>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-product-actions></part-product-actions>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

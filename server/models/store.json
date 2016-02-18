@@ -28,6 +28,11 @@
     },
     "policy": {
       "type": "String"
+    },
+    "payment_system": {
+      "type": ["String"],
+      "enum": ["braintree", "stripe"],
+      "default": ["braintree"]
     }
   },
   "relations": {

@@ -1,9 +1,10 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-category-info">
   <template>
   <style include="style-panel"></style>
 
+  <h2 class="title">Info</h2>
   <div class="panel">
-    <h2 class="title">Info</h2>
     <field-text label="Name" property="name" value="{{category.name}}" error="{{error}}"></field-text>
     <field-long-text label="description" property="description" value="{{category.description}}"
       error="{{error}}">

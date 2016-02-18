@@ -1,11 +1,12 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-number/field-number.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-coupon-discount">
   <template>
     <style include="style-panel"></style>
 
+    <h2 class="title">[[coupon_discount_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[coupon_discount_title_label]]</h2>
       <field-number label="Discount" property="discount" value="{{coupon.discount}}"
         error="{{error}}">
       </field-number>

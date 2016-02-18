@@ -1,14 +1,13 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-color/style-color.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
-<link rel="import" href="part-collection-actions.html">
 <link rel="import" href="part-collection-header.html">
 <link rel="import" href="part-collection-image.html">
 <link rel="import" href="part-collection-info.html">
@@ -16,21 +15,39 @@
 <link rel="import" href="part-collection-visibility.html">
 <dom-module id="page-collection">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <part-collection-header collection="{{collection}}"></part-collection-header>
-      <part-collection-info collection="{{collection}}" error="{{error}}">
-      </part-collection-info>
-      <part-collection-visibility collection="{{collection}}" error="{{error}}"
-        on-change-visibility="on_change_visibility">
-      </part-collection-visibility>
-      <part-collection-image collection="{{collection}}"
-        on-uploaded-image="on_uploaded_image">
-      </part-collection-image>
-      <part-collection-products id="products" collection="{{collection}}"
-        products="{{products}}" on-try-save="on_try_save" on-error="on_error">
-      </part-collection-products>
-      <part-collection-actions></part-collection-actions>
+      <div class="container">
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-collection-header collection="{{collection}}"></part-collection-header>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-6">
+            <part-collection-info collection="{{collection}}" error="{{error}}">
+            </part-collection-info>
+            <part-collection-image collection="{{collection}}"
+              on-uploaded-image="on_uploaded_image">
+            </part-collection-image>
+          </div>
+          <div class="col col-sm-6">
+            <part-collection-visibility collection="{{collection}}" error="{{error}}"
+              on-change-visibility="on_change_visibility">
+            </part-collection-visibility>
+
+            <part-collection-products id="products" collection="{{collection}}"
+              products="{{products}}" on-try-save="on_try_save" on-error="on_error">
+            </part-collection-products>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-sm-12">
+            <part-collection-actions></part-collection-actions>
+          </div>
+        </div>
+      </div>
     </layout-admin>
 
   </template>

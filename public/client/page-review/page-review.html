@@ -5,9 +5,10 @@
   <template>
     <style include="style-grid"></style>
 
-    <layout-client>
+    <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
         <h1>Review <span>{{data.review.product.title}}</span></h1>
+        <a is="app-link" href="/dashboard">Back to reviews</a>
         <part-feedback review="{{data.review}}"></part-feedback>
       </div>
     </layout-client>
@@ -23,6 +24,10 @@
       data: {
         type: Object,
         value: function () { return {}; }
+      },
+      image: {
+        type: String,
+        value: 'http://www.wall321.com/thumbnails/detail/20121105/paper%20text%20ubuntu%20power%20writing%202000x1333%20wallpaper_www.wall321.com_91.jpg'
       }
     }
 
