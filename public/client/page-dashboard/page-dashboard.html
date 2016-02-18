@@ -6,23 +6,13 @@
   <template>
     <style include="style-grid"></style>
     <style>
-    .title {
-      font-size: 14px;
-      color: #000;
-      font-family: font-bold;
-      font-style: normal;
-      font-weight: 300;
-      text-transform: uppercase;
-      letter-spacing: 0.75px;
-    }
-    .sidebar{
-      position: fixed;
-    }
+      part-dashboard {
+        margin-top: 20px;
+      }
     </style>
 
     <layout-client image="{{image}}">
       <div class="container">
-        <h2 class="title">Dashboard</h2>
         <part-dashboard session="{{session}}"></part-dashboard>
       </div>
     </layout-client>
