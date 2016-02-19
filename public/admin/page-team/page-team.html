@@ -19,18 +19,12 @@
     </api-model-find>
 
     <layout-admin>
-      <div class="container">
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-team-header manager="{{manager}}"></part-team-header>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-team-members manager="{{manager}}" members="{{members}}"></part-team-members>
-            <part-team-invites manager="{{manager}}" invites="{{invites}}"></part-team-invites>
-          </div>
-        </div>
+      <div class="toolbar">
+        <part-team-header manager="{{manager}}"></part-team-header>
+      </div>
+      <div class="main container">
+        <part-team-members manager="{{manager}}" members="{{members}}"></part-team-members>
+        <part-team-invites manager="{{manager}}" invites="{{invites}}"></part-team-invites>
       </div>
     </layout-admin>
 

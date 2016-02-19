@@ -1,25 +1,26 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-label/style-label.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-collections-actions.html">
+<link rel="import" href="part-collections-header.html">
 <link rel="import" href="part-collections-items.html">
 <link rel="import" href="part-collections-pages.html">
 <link rel="import" href="part-collections-search.html">
 <link rel="import" href="part-collections-stats.html">
 <dom-module id="page-collections">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin on-change-view="on_change_view">
-      <h1>Collections</h1>
-      <part-collections-actions></part-collections-actions>
-      <part-collections-search></part-collections-search>
-      <part-collections-stats></part-collections-stats>
-      <part-collections-items id="items" collections="{{collections}}"></part-collections-items>
-      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-products-pages>
+      <div class="toolbar">
+        <part-collections-header></part-collections-header>
+      </div>
+      <div class="main container">
+        <part-collections-search></part-collections-search>
+        <part-collections-stats></part-collections-stats>
+        <part-collections-items id="items" collections="{{collections}}"></part-collections-items>
+        <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-products-pages>
+      </div>
     </layout-admin>
 
   </template>

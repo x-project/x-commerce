@@ -16,12 +16,10 @@
     <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save">
-      <div class="container">
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-store-header store="{{store}}"></part-store-header>
-          </div>
-        </div>
+      <div class="toolbar">
+        <part-store-header store="{{store}}"></part-store-header>
+      </div>
+      <div class="main container">
         <div class="row">
           <div class="col col-sm-6">
             <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
@@ -31,11 +29,6 @@
             <part-store-image store="{{store}}" on-uploaded-image="on_upload_image"></part-store-image>
             <part-store-payment-system store="{{store}}"></part-store-payment-system>
             <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-store-actions></part-store-actions>
           </div>
         </div>
       </div>
@@ -63,6 +56,7 @@
     },
 
     attached: function () {
+      console.log("ciao");
       this.store = this.data.store;
     },
 

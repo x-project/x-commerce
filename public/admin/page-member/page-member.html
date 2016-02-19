@@ -8,21 +8,19 @@
   <template>
     <style include="style-grid"></style>
     <style include="style-panel"></style>
-    <style>
-      h2 {
-        padding-top: 50px;
-      }
-    </style>
 
     <app-session id="session"></app-session>
-
     <layout-admin>
-      <div class="container">
+      <div class="toolbar">
+        <h2 class="title">Member</h2>
+      </div>
+      <div class="main">
         <div class="row">
-          <div class="col col-sm-12">
-          <h2 class="title">Member</h2>
+          <div class="col col-sm-6">
             <div class="panel">
               <form-member member="{{member}}" token="{{token}}"></form-member>
+            </div>
+            <div class="col col-sm-6">
             </div>
           </div>
         </div>

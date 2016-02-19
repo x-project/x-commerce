@@ -1,26 +1,48 @@
+<link rel="import" href="../../components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../../components/layout-grid/layout-grid.html">
-<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../components/iron-icons/iron-icons.html">
+<link rel="import" href="../../components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <dom-module id="layout-admin">
   <template>
-  <style include="style-grid"></style>
     <style>
       .row {
         background-color: #eee;
         min-height: 100vh;
-
       }
-      .sidebar {
+      .nav {
+        border-right: 1px solid #ccc;
         background-color: black;
       }
+      paper-toolbar {
+        background-color: #ccc;
+      }
+      .main {
+        background-color: #eee;
+      }
+      .content {
+        min-height: 100vh;
+        margin-top: 40px;
+      }
+
     </style>
 
-      <div class="row">
-        <part-sidebar class="sidebar col col-sm-2"></part-sidebar>
-        <div class="main col col-sm-10">
-          <content></content>
+      <paper-drawer-panel id="drawerPanel" responsive-width="1280px">
+        <div class="nav" drawer>
+          <part-sidebar></part-sidebar>
         </div>
-      </div>
+        <paper-header-panel class="main" main mode="waterfall">
+          <paper-toolbar>
+            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+            <content select=".toolbar"></content>
+          </paper-toolbar>
+          <div class="content">
+            <content select=".main"></content>
+          </div>
+        </paper-header-panel>
+      </paper-drawer-panel>
 
   </template>
 </dom-module>

@@ -1,18 +1,24 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
-<dom-module id="part-products-actions">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<dom-module id="part-products-header">
   <template>
     <style include="style-button"></style>
+    <style include="style-panel"></style>
     <style>
       .panel-header {
         @apply(--layout-horizontal);
         @apply(--layout-justified);
-        margin-bottom: 20px;
       }
     </style>
 
     <div class="panel-header">
-      <a is="app-link" class="btn btn-secondary" href="/admin/products/new">create product</a>
+      <div>
+        <h1 class="page-title">Products</h1>
+      </div>
+      <div>
+        <a is="app-link" class="btn btn-secondary" href="/admin/products/new">create product</a>
+      </div>
     </div>
 
   </template>
@@ -20,7 +26,7 @@
 <script>
   Polymer({
 
-    is: 'part-products-actions'
+    is: 'part-products-header'
 
   });
 </script>

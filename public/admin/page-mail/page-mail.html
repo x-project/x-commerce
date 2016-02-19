@@ -16,12 +16,10 @@
     <app-session id="session"></app-session>
 
     <layout-admin on-try-create="on_try_create" on-try-update="on_try_update">
-      <div class="container">
-        <div class="row">
-          <div class="col col-sm-12">
-            <h1>Mail messages</h1>
-          </div>
-        </div>
+      <div class="toolbar">
+        <h1>Mail messages</h1>
+      </div>
+      <div class="main container">
         <div class="row">
           <div class="col col-sm-6">
             <part-mail-host-name messages="{{messages}}"></part-mail-host-name>
