@@ -1,7 +1,4 @@
-<link rel="import" href="../../styles/style-label/style-label.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-label/style-label.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-variants-header.html">
 <link rel="import" href="part-variants-options.html">
@@ -11,22 +8,14 @@
     <style include="style-grid"></style>
 
     <layout-admin>
-      <div class="container">
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-variants-header product="{{product}}"></part-variants-header>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-variants-items product="{{product}}" variants="{{variants}}"></part-variants-items>
-            <part-variants-options product="{{product}}" variants="{{variants}}"></part-variants-options>
-          </div>
-        </div>
+      <div class="toolbar">
+        <part-variants-header product="{{product}}"></part-variants-header>
+      </div>
+      <div class="main container">
+        <part-variants-items product="{{product}}" variants="{{variants}}"></part-variants-items>
+        <part-variants-options product="{{product}}" variants="{{variants}}"></part-variants-options>
       </div>
     </layout-admin>
-
-
 
   </template>
 </dom-module>

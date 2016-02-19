@@ -6,25 +6,22 @@
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-coupon-discount.html">
 <link rel="import" href="part-coupon-info.html">
-<link rel="import" href="part-coupon-header.html">
 <link rel="import" href="part-coupon-period.html">
 <dom-module id="page-coupon">
   <template>
     <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <div class="container">
+      <div class="toolbar">
+        <h1>Coupon / {{coupon.name}}</h1>
+      </div>
+      <div class="main container">
         <div class="row">
-          <div class="col col-sm-12">
-            <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-6">
+          <div class="col col-sm-8">
             <part-coupon-info coupon="{{coupon}}" error="{{error}}"></part-coupon-info>
             <part-coupon-discount coupon="{{coupon}}" error="{{error}}"></part-coupon-discount>
           </div>
-          <div class="col col-sm-6">
+          <div class="col col-sm-4">
             <part-coupon-period coupon="{{coupon}}" error="{{error}}"
               on-change-date="on_change_date">
             </part-coupon-period>

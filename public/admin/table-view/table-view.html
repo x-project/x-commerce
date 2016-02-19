@@ -2,7 +2,6 @@
 <link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../../components/text-view/text-view.html">
 <link rel="import" href="field-view.html">
-
 <dom-module id="table-view">
   <template>
     <style include="style-table"></style>
@@ -23,9 +22,8 @@
         <thead>
           <tr on-click="on_click_row">
             <template is="dom-repeat" items="{{fields}}" as="field">
-              <th>{{field}}</th>
+              <th>{{_uppercase_field(field)}}</th>
             </template>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,10 +34,6 @@
                   <text-view text="{{_value(item,field)}}" limit="30"></text-view>
                 </td>
               </template>
-              <td class="actions">
-                <i class="fa fa-pencil" on-click="on_click_edit"></i>
-                <i class="fa fa-trash-o" on-click="on_click_delete"></i>
-              </td>
             </tr>
           </template>
         </tbody>
@@ -84,6 +78,10 @@
       event.stopPropagation();
       var item = this.$.items.itemForElement(event.target);
       this.fire('delete', item);
+    },
+
+    _uppercase_field: function (field) {
+      return field.charAt(0).toUpperCase() + field.slice(1);
     }
 
   });

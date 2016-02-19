@@ -1,8 +1,10 @@
 <link rel="import" href="../../components/api-model-update/api-model-update.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="form-member">
   <template>
+    <style include="style-button"></style>
     <style include="style-form"></style>
 
     <api-model-update id="update" access-token="{{token}}"
@@ -13,7 +15,7 @@
       <field-text label="Full name" property="fullname" value="{{member.fullname}}"
         error="{{error}}">
       </field-text>
-      <input type="submit" class="button" value="update">
+      <input type="submit" class="btn btn-secondary" value="update">
     </form>
 
   </template>

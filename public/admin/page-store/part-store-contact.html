@@ -1,6 +1,6 @@
+<link rel="import" href="../../components/gold-email-input/gold-email-input.html">
 <link rel="import" href="../field-text/field-text.html">
 <link rel="import" href="../input-phone/input-phone.html">
-
 <dom-module id="part-store-contact">
   <template>
     <style include="style-panel"></style>
@@ -28,9 +28,7 @@
 
     <h2 class="title">[[part_contact_label]]</h2>
     <div class="panel">
-      <field-text label="Email" property="email" value="{{store.email}}"
-        error="{{error}}">
-      </field-text>
+      <gold-email-input label="Email" value="{{store.email}}"></gold-email-input>
       <input-phone class="mobile" label="Mobile Phone" phone="{{store.mobile_phone}}">
       </input-phone>
       <input-phone class="office" label="Office Phone" phone="{{store.office_phone}}">

@@ -1,10 +1,10 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
 <dom-module id="part-coupons-items">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-    <h2 class="title">[[coupons_items_title_label]]</h2>
       <table-view items="{{coupons}}" fields=["name","discount","code"] on-click="on_click_edit"
         on-delete="on_delete_coupon">
       </table-view>
@@ -21,10 +21,6 @@
     is: 'part-coupons-items',
 
     properties: {
-      coupons_items_title_label: {
-        type: String,
-        value: 'Coupons'
-      },
       coupons: {
         type: Array,
         value: function () { return []; }

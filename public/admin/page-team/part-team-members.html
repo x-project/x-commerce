@@ -1,12 +1,14 @@
 <link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../table-view/table-view.html">
 <link rel="import" href="table-members.html">
 <dom-module id="part-team-members">
-  <style include="style-panel"></style>
-
   <template>
+    <style include="style-panel"></style>
+
     <div class="panel">
       <h2 class="title">[[team_members_title_label]]</h2>
-      <table-members manager="{{manager}}" members="{{members}}"></table-members>
+      <table-view items="{{members}}" fields='["fullname","email","role"]' on-click="on_click">
+      </table-view>
     </div>
 
   </template>
@@ -30,6 +32,15 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_click: function (event) {
+      event.stopPropagation();
+      if (!this.manager.isMainAdmin) {
+        return;
+      }
+      var member = event.detail;
+      page('/admin/members/' + member.id);
     }
 
   });

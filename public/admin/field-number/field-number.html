@@ -1,13 +1,12 @@
+<link rel="import" href="../../components/paper-input/paper-input.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-number">
   <template>
-    <style include="style-label"></style>
-    <style include="style-form"></style>
     <style include="style-field"></style>
 
     <div class="field-number">
-      <label class="label">[[label]]</label>
-      <input class="form-control" type="number" is="iron-input" bind-value="{{value}}">
+      <paper-input label="[[label]]" value="{{value}}" type="number"></paper-input>
       <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
     </div>
 

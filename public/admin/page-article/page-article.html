@@ -1,26 +1,23 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-article-actions.html">
 <link rel="import" href="part-article-header.html">
 <link rel="import" href="part-article-image.html">
-<link rel="import" href="part-article-info.html">
 <link rel="import" href="part-article-organizzation.html">
+<link rel="import" href="part-article-info.html">
 <dom-module id="page-article">
   <template>
     <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <div class="container">
+      <div class="toolbar">
+        <part-article-header article="{{article}}"></part-article-header>
+      </div>
+      <div class="main container">
         <div class="row">
-          <div class="col col-sm-12">
-            <part-article-header article="{{article}}"></part-article-header>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-6">
+          <div class="col col-sm-8">
             <part-article-info article="{{article}}" error="{{error}}"></part-article-info>
           </div>
-          <div class="col col-sm-6">
+          <div class="col col-sm-4">
             <part-article-organizzation article="{{article}}" error="{{error}}" on-error="on_error">
             </part-article-organizzation>
             <part-article-image article="{{article}}" on-uploaded-image="on_uploaded_image">

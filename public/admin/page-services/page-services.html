@@ -1,7 +1,3 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-services-braintree.html">
@@ -19,12 +15,10 @@
     <style include="style-grid"></style>
 
     <layout-admin on-updated="on_updated">
-      <div class="container">
-        <div class="row">
-          <div class="col col-sm-12">
-            <h1>Services</h1>
-          </div>
-        </div>
+      <div class="toolbar">
+        <h1>Services</h1>
+      </div>
+      <div class="main container">
         <div class="row">
           <div class="col col-sm-6">
             <part-services-plivo services="{{services}}"></part-services-plivo>

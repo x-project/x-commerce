@@ -1,12 +1,9 @@
-<link rel="import" href="../../components/app-link/app-link.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../components/app-session/app-session.html">
 <dom-module id="item-invite">
   <template>
+    <style include="style-button"></style>
     <style>
-      :host {
-        display: block;
-      }
-
       .item {
         margin: 20px 20px 20px 20px;
       }
@@ -22,8 +19,8 @@
       </section>
       <template is="dom-if" if="{{is_pending(item.status)}}">
         <section>
-          <button on-click="on_resend" disabled?="{{resent}}">{{resend_text}}</button>
-          <button on-click="on_revoke" disabled?="{{revoked}}">{{revoke_text}}</button>
+          <button class="btn btn-secondary" on-click="on_resend" disabled?="{{resent}}">{{resend_text}}</button>
+          <button class="btn btn-secondary" on-click="on_revoke" disabled?="{{revoked}}">{{revoke_text}}</button>
         </section>
       </template>
     </div>

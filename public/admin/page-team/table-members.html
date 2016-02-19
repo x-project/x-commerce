@@ -13,9 +13,6 @@
             <th>Fullname</th>
             <th>Email</th>
             <th>Role</th>
-            <template is="dom-if" if="{{manager.isMainAdmin}}">
-              <th>Actions</th>
-            </template>
           </tr>
         </thead>
         <tbody>
@@ -24,13 +21,6 @@
               <td>{{member.fullname}}</td>
               <td>{{member.email}}</td>
               <td>{{member.role}}</td>
-              <td>
-                <template is="dom-if" if="{{manager.isMainAdmin}}">
-                  <a is="app-link" class="btn btn-link" href="/admin/members/{{member.id}}">
-                    <i class="fa fa-pencil"></i>
-                  </a>
-                </template>
-              </td>
             </tr>
           </template>
         </tbody>

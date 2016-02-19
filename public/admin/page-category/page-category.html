@@ -7,16 +7,16 @@
     <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <div class="container">
+      <div class="toolbar">
+        <part-category-header category="{{category}}"></part-category-header>
+      </div>
+      <div class="main container">
         <div class="row">
-          <div class="col col-sm-12">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-12">
-            <part-category-header category="{{category}}"></part-category-header>
+          <div class="col col-sm-3"></div>
+          <div class="col col-sm-6">
             <part-category-info category="{{category}}" error="{{error}}"></part-category-info>
           </div>
+          <div class="col col-sm-3"></div>
         </div>
       </div>
     </layout-admin>

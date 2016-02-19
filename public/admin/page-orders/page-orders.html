@@ -1,24 +1,25 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-orders-actions.html">
 <link rel="import" href="part-orders-items.html">
 <link rel="import" href="part-orders-search.html">
 <link rel="import" href="part-orders-stats.html">
 <link rel="import" href="part-orders-pages.html">
 <dom-module id="page-orders">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin>
-      <h1>Orders</h1>
-      <part-orders-actions></part-orders-actions>
-      <part-orders-search></part-orders-search>
-      <part-orders-stats></part-orders-stats>
-      <part-orders-items orders="{{orders}}"></part-orders-items>
-      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-products-pages>
+      <div class="toolbar">
+        <h1>Orders</h1>
+      </div>
+      <div class="main container">
+        <part-orders-search></part-orders-search>
+        <part-orders-stats></part-orders-stats>
+        <part-orders-items orders="{{orders}}"></part-orders-items>
+        <part-orders-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-orders-pages>
+      </div>
     </layout-admin>
 
   </template>

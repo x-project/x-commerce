@@ -1,10 +1,10 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
 <dom-module id="part-prod-types-items">
   <template>
     <style include="style-panel"></style>
 
     <div class="panel">
-    <h2 class="title">[[prod_type_items_title_label]]</h2>
       <table-view items="{{prod_types}}" fields=["name","description"] on-click="on_click_edit"
         on-delete="on_delete_prod_type">
       </table-view>
@@ -18,10 +18,6 @@
     is: 'part-prod-types-items',
 
     properties: {
-      prod_type_items_title_label: {
-        type: String,
-        value: 'Product types'
-      },
       prod_types: {
         type: Array,
         value: function () { return []; }

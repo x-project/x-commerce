@@ -1,6 +1,3 @@
-<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-customer-actions.html">
@@ -14,19 +11,17 @@
     <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <div class="container">
+      <div class="toolbar">
+        <part-customer-header customer="{{customer}}"></part-customer-header>
+      </div>
+      <div class="main container">
         <div class="row">
-          <div class="col col-sm-12">
-            <part-customer-header customer="{{customer}}"></part-customer-header>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-6">
+          <div class="col col-sm-8">
             <part-customer-overview customer="{{customer}}" error="{{error}}">
             </part-customer-overview>
             <part-customer-send-email customer="{{customer}}"></part-customer-send-email>
           </div>
-          <div class="col col-sm-6">
+          <div class="col col-sm-4">
             <part-customer-address customer="{{customer}}"></part-customer-address>
             <part-customer-note customer="{{customer}}"></part-customer-note>
             <part-customer-tags customer="{{customer}}"></part-customer-tags>

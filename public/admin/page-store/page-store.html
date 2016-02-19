@@ -21,14 +21,14 @@
       </div>
       <div class="main container">
         <div class="row">
-          <div class="col col-sm-6">
+          <div class="col col-sm-8">
             <part-store-info store="{{store}}" error="{{error}}"></part-store-info>
             <part-store-contact store="{{store}}" error="{{error}}"></part-store-contact>
+            <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
           </div>
-          <div class="col col-sm-6">
+          <div class="col col-sm-4">
             <part-store-image store="{{store}}" on-uploaded-image="on_upload_image"></part-store-image>
             <part-store-payment-system store="{{store}}"></part-store-payment-system>
-            <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
           </div>
         </div>
       </div>
@@ -56,7 +56,6 @@
     },
 
     attached: function () {
-      console.log("ciao");
       this.store = this.data.store;
     },
 

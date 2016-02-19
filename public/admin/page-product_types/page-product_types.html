@@ -1,24 +1,25 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-prod-types-actions.html">
 <link rel="import" href="part-prod-types-items.html">
 <link rel="import" href="part-prod-types-pages.html">
 <link rel="import" href="part-prod-types-search.html">
 <link rel="import" href="part-prod-types-stats.html">
 <dom-module id="page-product_types">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin>
-      <h1>Product types</h1>
-      <part-prod-types-actions></part-prod-types-actions>
-      <part-prod-types-search></part-prod-types-search>
-      <part-prod-types-stats></part-prod-types-stats>
-      <part-prod-types-items prod_types="{{prod_types}}"></part-prod-types-items>
-      <part-vendors-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-vendors-pages>
+      <div class="toolbar">
+        <h1>Product types</h1>
+      </div>
+      <div class="main container">
+        <part-prod-types-search></part-prod-types-search>
+        <part-prod-types-stats></part-prod-types-stats>
+        <part-prod-types-items prod_types="{{prod_types}}"></part-prod-types-items>
+        <part-vendors-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-vendors-pages>
+      </div>
     </layout-admin>
 
   </template>

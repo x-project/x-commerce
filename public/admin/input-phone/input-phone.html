@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/gold-phone-input/gold-phone-input.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <dom-module id="input-phone">
@@ -17,11 +18,11 @@
     </style>
 
     <div class="field">
-      <label class="label">[[label]]</label>
-      <input class="prefix" type="number" is="iron-input"
-        bind-value="{{prefix}}">
-      <input class="number" type="number" is="iron-input"
-        bind-value="{{number}}">
+      <!-- <input class="prefix" type="number" is="iron-input"
+        bind-value="{{prefix}}"> -->
+      <gold-phone-input label="[[label]]" country-code=""></gold-phone-input>
+      <!-- <input class="number" type="number" is="iron-input"
+        bind-value="{{number}}"> -->
     </div>
 
   </template>
@@ -33,48 +34,12 @@
 
     properties: {
       number: {
-        type: Number,
-        observer: '_on_change_number'
-      },
-      prefix: {
-        type: Number,
-        observer: '_on_change_prefix'
+        type: Number
       },
       phone: {
         type: String,
         notify: true
-      },
-      label: {
-        type: String,
-        value: ''
       }
-    },
-
-    attached: function () {
-      if (this.phone) {
-        if (this.phone.length > 0 && this.phone.indexOf('-') >= 0) {
-          var prefix_num = this.phone.split('-');
-          this.prefix = prefix_num[0];
-          this.number = prefix_num[1];
-          return;
-        }
-      }
-    },
-
-    _on_change_number: function () {
-      this.update_phone();
-    },
-
-    _on_change_prefix: function () {
-      this.update_phone();
-    },
-
-    update_phone: function () {
-      if (this.prefix.length > 0 && this.number.length > 0) {
-        this.phone = this.prefix + '-' + this.number;
-        return;
-      }
-      this.phone = '';
     }
 
   });

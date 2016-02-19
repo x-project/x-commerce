@@ -11,21 +11,19 @@
     <style include="style-grid"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
-      <div class="container">
+      <div class="toolbar">
+        <part-order-header order="{{order}}"></part-order-header>
+      </div>
+      <div class="main container">
         <div class="row">
-          <div class="col col-sm-12">
-            <part-order-header order="{{order}}"></part-order-header>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-sm-6">
+          <div class="col col-sm-8">
             <part-order-status order="{{order}}"></part-order-status>
             <part-order-items id="items" order="{{order}}"></part-order-items>
             <part-order-create-order-item order="{{order}}" error="{{error}}"
               on-try-save-order-item="on_try_save_order_item">
             </part-order-create-order-item>
           </div>
-          <div class="col col-sm-6">
+          <div class="col col-sm-4">
             <part-order-customer order="{{order}}" error="{{error}}"></part-order-customer>
             <part-order-notes order="{{order}}"></part-order-notes>
           </div>

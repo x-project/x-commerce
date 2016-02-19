@@ -1,20 +1,22 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-coupons-actions.html">
+<link rel="import" href="part-coupons-header.html">
 <link rel="import" href="part-coupons-items.html">
 <link rel="import" href="part-coupons-pages.html">
 <dom-module id="page-coupons">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin>
-      <h1>Coupons</h1>
-      <part-coupons-actions></part-coupons-actions>
-      <part-coupons-items coupons="{{coupons}}"></part-coupons-items>
-      <part-coupons-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-coupons-pages>
+      <div class="toolbar">
+        <h1>Coupons</h1>
+      </div>
+      <div class="main container">
+        <part-coupons-items coupons="{{coupons}}"></part-coupons-items>
+        <part-coupons-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-coupons-pages>
+      </div>
     </layout-admin>
 
   </template>

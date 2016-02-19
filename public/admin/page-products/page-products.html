@@ -1,5 +1,6 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-products-header.html">
@@ -7,29 +8,19 @@
 <link rel="import" href="part-products-pages.html">
 <link rel="import" href="part-products-search.html">
 <link rel="import" href="part-products-stats.html">
-<link rel="import" href="../../components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="part-products-pages.html">
 <dom-module id="page-products">
   <template>
     <style include="style-grid"></style>
-    <style>
-      #grid {
-        height: 400px;
-      }
-    </style>
 
     <layout-admin on-change-view="on_change_view">
       <div class="toolbar">
         <part-products-header></part-products-header>
       </div>
       <div class="main container">
-        <vaadin-grid id="grid" items="{{products}}">
-          <table>
-            <colgroup>
-              <col name="title">
-              <col name="price">
-            </colgroup>
-          </table>
-        </vaadin-grid>
+        <part-products-search></part-products-search>
+        <part-products-stats></part-products-stats>
+        <part-products-items id="items" products="{{products}}"></part-products-items>
         <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
           count="{{count}}">
         </part-products-pages>
@@ -49,11 +40,11 @@
         value: function () { return []; }
       },
       page: {
-        type: Number,
+        type: Number,
         value: 0
       },
       perpage: {
-        type: Number,
+        type: Number,
         value: 30
       }
     },

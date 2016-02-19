@@ -1,24 +1,29 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-vendors-actions.html">
+<link rel="import" href="part-vendors-header.html">
 <link rel="import" href="part-vendors-items.html">
 <link rel="import" href="part-vendors-pages.html">
 <link rel="import" href="part-vendors-search.html">
 <link rel="import" href="part-vendors-stats.html">
 <dom-module id="page-vendors">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin>
-      <h1>Vendors</h1>
-      <part-vendors-actions></part-vendors-actions>
-      <part-vendors-search></part-vendors-search>
-      <part-vendors-stats></part-vendors-stats>
-      <part-vendors-items vendors="{{vendors}}"></part-vendors-items>
-      <part-vendors-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-vendors-pages>
+      <div class="toolbar">
+        <part-vendors-header></part-vendors-header>
+      </div>
+      <div class="main container">
+        <part-vendors-search></part-vendors-search>
+        <part-vendors-stats></part-vendors-stats>
+        <part-vendors-items vendors="{{vendors}}"></part-vendors-items>
+        <part-vendors-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-vendors-pages>
+      </div>
     </layout-admin>
 
   </template>

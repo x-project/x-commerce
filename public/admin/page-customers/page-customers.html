@@ -1,26 +1,26 @@
-<link rel="import" href="../../styles/style-basic/style-basic.html">
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-table/style-table.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-customers-actions.html">
 <link rel="import" href="part-customers-items.html">
 <link rel="import" href="part-customers-pages.html">
 <link rel="import" href="part-customers-search.html">
 <link rel="import" href="part-customers-stats.html">
+<link rel="import" href="part-customers-pages.html">
 <dom-module id="page-customers">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin>
-      <h1>Customers</h1>
-      <part-customers-actions></part-customers-actions>
-      <part-customers-search></part-customers-search>
-      <part-customers-stats></part-customers-stats>
-      <part-customers-items customers="{{customers}}"></part-customers-items>
-      <part-products-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-products-pages>
+      <div class="toolbar">
+        <h1>Customers</h1>
+      </div>
+      <div class="main container">
+        <part-customers-search></part-customers-search>
+        <part-customers-stats></part-customers-stats>
+        <part-customers-items customers="{{customers}}"></part-customers-items>
+        <part-customers-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-customers-pages>
+      </div>
     </layout-admin>
 
   </template>

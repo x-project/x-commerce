@@ -17,23 +17,23 @@
       }
 
       .title {
-        font-family: font-bold;
+        font-family: font-inherit;
         font-size: 14px;
         margin-top: 0px;
         text-transform: uppercase;
       }
 
       .panel-header {
-        /*background-color: #CCCCCC;*/
-        /*margin-bottom: 20px;*/
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
       }
 
-      .page-title {
+      .panel-header h1 {
+        margin: 0;
+      }
+
+      .panel-header .title {
         font-family: font-bold;
-        font-size: 14px;
-        margin-top: 0px;
-        text-transform: uppercase;
-        color: red;
       }
 
     </style>

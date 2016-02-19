@@ -1,17 +1,21 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-articles-actions.html">
 <link rel="import" href="part-articles-items.html">
 <link rel="import" href="part-articles-pages.html">
 <dom-module id="page-articles">
   <template>
+    <style include="style-grid"></style>
 
     <layout-admin>
-      <h2>Articles</h2>
-      <part-articles-actions></part-articles-actions>
-      <part-articles-items articles="{{articles}}"></part-articles-items>
-      <part-articles-pages on-change-page="on_change_page" perpage="{{perpage}}"
-        count="{{count}}">
-      </part-coupons-pages>
+      <div class="toolbar">
+        <h2>Articles</h2>
+      </div>
+      <div class="main container">
+        <part-articles-items articles="{{articles}}"></part-articles-items>
+        <part-articles-pages on-change-page="on_change_page" perpage="{{perpage}}"
+          count="{{count}}">
+        </part-coupons-pages>
+      </part-articles-pages>
     </layout-admin>
 
   </template>
@@ -56,7 +60,6 @@
       Model.find('/api/articles', this.get_filter_options())
         .then(function (data) {
           this.articles = data;
-          console.log(this.articles);
         }.bind(this))
         .catch(function (error) {
           console.log(error);
@@ -73,7 +76,6 @@
     },
 
     on_change_page: function (event) {
-      console.log("ciao");
       this.page = event.detail.current - 1;
       this.get_articles();
     }
