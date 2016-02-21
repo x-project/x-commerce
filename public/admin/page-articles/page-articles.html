@@ -1,14 +1,18 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-articles-items.html">
 <link rel="import" href="part-articles-pages.html">
 <dom-module id="page-articles">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
     <layout-admin>
       <div class="toolbar">
-        <h2>Articles</h2>
+        <div class="panel-header">
+          <h1 class="title">Articles</h1>
+        </div>
       </div>
       <div class="main container">
         <part-articles-items articles="{{articles}}"></part-articles-items>

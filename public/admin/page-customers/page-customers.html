@@ -1,4 +1,5 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-customers-items.html">
 <link rel="import" href="part-customers-pages.html">
@@ -8,10 +9,13 @@
 <dom-module id="page-customers">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
     <layout-admin>
       <div class="toolbar">
-        <h1>Customers</h1>
+        <div class="panel-header">
+          <h1 class="title">Customers</h1>
+        </div>
       </div>
       <div class="main container">
         <part-customers-search></part-customers-search>

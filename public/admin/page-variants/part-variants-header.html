@@ -1,22 +1,13 @@
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-variants-header">
   <template>
-    <style include="style-breadcrumb"></style>
     <style include="style-panel"></style>
-    <style>
-      .panel-header {
-        margin-top: 20px;
-      }
-    </style>
 
-  <div class="panel-header">
-    <ol class="breadcrumb">
-      <li><a href="/admin/products">Products</a></li>
-      <li><a href="/admin/products/{{product.id}}">{{product.title}}</a></li>
-      <li class="active">variants</li>
-    </ol>
-  </div>
+    <div class="panel-header">
+      <div>
+        <h1 class="title">Products / {{product.title}} / variants</h1>
+      </div>
+    </div>
 
   </template>
 </dom-module>

@@ -36,19 +36,19 @@
       on-response="on_response_put" content-type="application/json">
     </iron-ajax>
 
-      <h2 class="title">[[collection_product_title_label]]</h2>
+    <h2 class="title">[[collection_product_title_label]]</h2>
     <div class="panel">
 
       <selected-items item="{{item_selected}}" property="title"
         items="{{collection.products}}" on-delete-item="on_delete_product">
       </selected-items>
 
-      <button class="btn btn-primary" on-click="on_click_add_product">Add product</button>
+      <button class="btn btn-primary" on-click="on_click_add_product">Add products</button>
 
       <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
         value="{{value}}" items="{{filter_products}}" on-change-page="on_change_page"
         count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
-        on-close-items="on_close_items" placeholder="search collections" property="title">
+        on-close-items="on_close_items" placeholder="search products" property="title">
       </search-items>
 
     </div>

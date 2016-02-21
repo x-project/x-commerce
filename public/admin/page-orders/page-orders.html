@@ -1,4 +1,5 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-orders-items.html">
 <link rel="import" href="part-orders-search.html">
@@ -7,10 +8,13 @@
 <dom-module id="page-orders">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
     <layout-admin>
       <div class="toolbar">
-        <h1>Orders</h1>
+        <div class="panel-header">
+          <h1 class="title">Orders</h1>
+        </div>
       </div>
       <div class="main container">
         <part-orders-search></part-orders-search>

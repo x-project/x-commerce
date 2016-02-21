@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
 <dom-module id="style-panel">
   <template>
     <style>
@@ -16,7 +17,7 @@
         border-radius: 2px;
       }
 
-      .title {
+      h2.title {
         font-family: font-inherit;
         font-size: 14px;
         margin-top: 0px;
@@ -28,12 +29,17 @@
         @apply(--layout-justified);
       }
 
-      .panel-header h1 {
+      .panel-header h1.title {
         margin: 0;
       }
 
-      .panel-header .title {
+      .panel-header h1.title {
         font-family: font-bold;
+      }
+
+      .btn-new {
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
       }
 
     </style>

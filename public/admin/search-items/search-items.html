@@ -1,4 +1,5 @@
 <link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../components/paper-input/paper-input.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="part-items-pages.html">
 <link rel="import" href="table-items.html">
@@ -24,21 +25,23 @@
         opacity: 1;
         color: #0275d8;
       }
+      .panel {
+        border: 1px solid #eee;
+      }
     </style>
 
+    <div class="close">
+      <span class="hide-items" on-click="on_click_closed_items">close</span>
+    </div>
 
-      <div class="close">
-        <span class="hide-items" on-click="on_click_closed_items">close</span>
-      </div>
+    <paper-input label="[[placeholder]]" value="{{value}}" on-keyup="on_change_value"
+      on-focus="on_change_value">
+    </paper-input>
 
-        <input class="form-control" type="text" is="iron-input" bind-value="{{value}}"
-          on-keyup="on_change_value" on-focus="on_change_value" placeholder="{{placeholder}}"/>
-
-        <div class="panel">
-          <table-items items="{{items}}" property="{{property}}"></table-items>
-          <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
-        </part-items-pages>
-
+    <div class="panel">
+      <table-items items="{{items}}" property="{{property}}"></table-items>
+      <part-items-pages on-change-page="on_change_page" perpage="{{perpage}}" count="{{count}}">
+      </part-items-pages>
     </div>
 
   </template>

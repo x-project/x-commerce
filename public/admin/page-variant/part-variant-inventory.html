@@ -1,15 +1,46 @@
+<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
+<link rel="import" href="../../styles/style-field/style-field.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="form-variant-inventory-coding.html">
-<link rel="import" href="form-variant-inventory-track.html">
+<link rel="import" href="../field-text/field-text.html">
+<link rel="import" href="../field-number/field-number.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
+
 <dom-module id="part-variant-inventory">
   <template>
+    <style include="style-checkbox"></style>
+    <style include="style-field"></style>
+    <style include="style-form"></style>
     <style include="style-panel"></style>
-
-    <h3 class="title">[[variant_coding_title]]</h3>
-    <h3 class="title"></h3>
+    <style>
+      #quantity {
+        display: none;
+      }
+      #quantity[show] {
+        display: block;
+      }
+    </style>
+    <h2 class="title">[[variant_coding_title]]</h2>
     <div class="panel">
-      <form-variant-inventory-coding variant="{{variant}}"></form-variant-inventory-coding>
-      <form-variant-inventory-track variant="{{variant}}" product="{{product}}"></form-variant-inventory-track>
+      <field-text label="[[variant_SKU_title]]" property="sku" value="{{variant.sku}}"
+        error="{{error}}">
+      </field-text>
+      <field-text label="[[variant_barcode_title]]" property="barcode" value="{{variant.barcode}}"
+        error="{{error}}">
+      </field-text>
+      <div class="field">
+        <input-checkbox checked="{{variant.track_quantity}}"></input-checkbox>
+        <label class="label">[[track_quantity]]</label>
+      </div>
+      <div id="quantity" show$="{{variant.track_quantity}}">
+        <field-number label="Quantity" property="quantity" value="{{variant.quantity}}"
+          error="{{error}}">
+        </field-number>
+        <div class="field">
+          <input-checkbox checked="{{variant.sell_after_purchase}}"></input-checkbox>
+          <label class="label stock">[[product_stock_label]]</label>
+        </div>
+      </div>
     </div>
 
   </template>
@@ -24,7 +55,22 @@
         type: String,
         value: 'Inventory'
       },
-
+      variant_SKU_title: {
+        type: String,
+        value: 'SKU'
+      },
+      variant_barcode_title: {
+        type: String,
+        value: 'barcode'
+      },
+      track_quantity: {
+        type: String,
+        value: 'track quantity'
+      },
+      product_stock_label: {
+        type: String,
+        value: 'Allow customers to purchase this product when it\'s out of stock'
+      },
       variant: {
         type: Object,
         value: function () { return {}; }
@@ -32,6 +78,10 @@
       product: {
         type: Object,
         value: function () { return {}; }
+      },
+      show: {
+        type: Boolean,
+        value: false
       }
     }
 

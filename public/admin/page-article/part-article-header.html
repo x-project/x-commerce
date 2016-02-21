@@ -1,40 +1,21 @@
-<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../styles/style-breadcrumb/style-breadcrumb.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-article-header">
   <template>
-    <style include="style-breadcrumb"></style>
     <style include="style-button"></style>
     <style include="style-panel"></style>
-    <style>
-      .panel-header {
-        @apply(--layout-horizontal);
-        @apply(--layout-justified);
-        margin-top: 20px;
-      }
-      .panel-header .actions{
-        @apply(--layout-center);
-      }
-      .btn {
-        margin-right: 4px;
-      }
-    </style>
 
     <div class="panel-header">
-      <ol class="breadcrumb">
-        <li>
-          <a href="/admin/articles">Articles</a>
-        </li>
-        <li class="active">{{article.title}}</li>
-      </ol>
-
-      <div class="panel-header actions">
+      <div>
+        <h1 class="title">Articles / {{article.title}}</h1>
+      </div>
+      <div class="actions">
         <button class="btn btn-secondary" on-click="on_click_save">save</button>
         <a is="app-link" class="btn btn-secondary" href="/articles/{{article.id}}" target="_blank">view</a>
         <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
       </div>
     </div>
+
   </template>
 </dom-module>
 

@@ -1,4 +1,5 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-coupons-header.html">
 <link rel="import" href="part-coupons-items.html">
@@ -6,10 +7,11 @@
 <dom-module id="page-coupons">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
     <layout-admin>
-      <div class="toolbar">
-        <h1>Coupons</h1>
+      <div class="toolbar panel-header">
+        <h1 class="title">Coupons</h1>
       </div>
       <div class="main container">
         <part-coupons-items coupons="{{coupons}}"></part-coupons-items>

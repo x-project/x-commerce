@@ -1,6 +1,6 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-collections-header.html">
 <link rel="import" href="part-collections-items.html">
 <link rel="import" href="part-collections-pages.html">
 <link rel="import" href="part-collections-search.html">
@@ -8,10 +8,11 @@
 <dom-module id="page-collections">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
-    <layout-admin on-change-view="on_change_view">
-      <div class="toolbar">
-        <part-collections-header></part-collections-header>
+    <layout-admin>
+      <div class="toolbar panel-header">
+        <h1 class="title">Collections</h1>
       </div>
       <div class="main container">
         <part-collections-search></part-collections-search>

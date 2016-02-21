@@ -1,13 +1,12 @@
-<link rel="import" href="../../components/app-link/app-link.html">
-<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-strip/style-strip.html">
 <link rel="import" href="../image-preview/image-preview.html">
 <dom-module id="strips-products">
   <template>
-    <style include="style-strip"></style>
     <style include="style-button"></style>
     <style include="style-label"></style>
+    <style include="style-strip"></style>
 
     <div class="items">
       <template id="products" is="dom-repeat" items="{{products}}" as="product">

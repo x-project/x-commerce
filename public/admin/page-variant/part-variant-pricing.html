@@ -1,12 +1,17 @@
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="form-variant-pricing.html">
+<link rel="import" href="../field-number/field-number.html">
 <dom-module id="part-variant-pricing">
 	<template>
     <style include="style-panel"></style>
 
-		<h2 class="title">[[variant_pricing_title_label]]</h2>
+    <h2 class="title">[[variant_pricing_title_label]]</h2>
     <div class="panel">
-		  <form-variant-pricing variant="{{variant}}"></form-variant-pricing>
+      <field-number label="Price" property="price" value="{{variant.price}}"
+        error="{{error}}">
+      </field-number>
+      <field-number label="Compare at price" property="compare_at_price"
+        value="{{variant.compare_at_price}}" error="{{error}}">
+      </field-number>
     </div>
 
 	</template>

@@ -1,12 +1,21 @@
+<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="form-variant-shipping.html">
+<link rel="import" href="../input-checkbox/input-checkbox.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-variant-shipping">
   <template>
+    <style include="style-checkbox"></style>
     <style include="style-panel"></style>
 
     <h2 class="title">[[variant_shipping_label]]</h2>
     <div class="panel">
-      <form-variant-shipping variant="{{variant}}"></form-variant-shipping>
+      <field-text label="[[weight_label]]" property="weight" value="{{variant.weight}}"
+        error="{{error}}">
+      </field-text>
+      <div class="field">
+        <input-checkbox checked="{{variant.require_shipping}}"></input-checkbox>
+        <label class="label">[[shipping_label]]</label>
+      </div>
     </div>
 
   </template>
@@ -20,6 +29,14 @@
       variant_shipping_label: {
         type: String,
         value: 'Shipping'
+      },
+      weight_label: {
+        type: String,
+        value: 'Weight'
+      },
+      shipping_label: {
+        type: String,
+        value: 'This product requires shipping'
       },
       variant: {
         type: Object,

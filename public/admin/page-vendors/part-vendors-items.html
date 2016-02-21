@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/paper-fab/paper-fab.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
 <dom-module id="part-vendors-items">
@@ -9,6 +10,7 @@
         on-delete="on_delete_vendor">
       </table-view>
     </div>
+    <paper-fab icon="add" on-click="on_click_add"></paper-fab>
 
   </template>
 </dom-module>
@@ -48,6 +50,11 @@
         .catch(function (error) {
           console.log(this.error);
         }.bind(this));
+    },
+
+    on_click_add: function (event) {
+      event.stopPropagation();
+      page('/admin/vendors/new')
     }
 
   });

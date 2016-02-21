@@ -1,13 +1,18 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-invite-header">
   <template>
-    <style>
-    :host {
-      display: block;
-    }
-    </style>
+    <style include="style-button"></style>
+    <style include="style-panel"></style>
 
-    <h2>Team</h2>
-    <h3>Invite new team member</h3>
+    <div class="panel-header">
+      <div>
+        <h1 class="title">Team Invite new team member</h1>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" on-click="on_click_invite">invite</button>
+      </div>
+    </div>
 
   </template>
 </dom-module>
@@ -15,7 +20,12 @@
 <script>
   Polymer({
 
-    is: 'part-invite-header'
+    is: 'part-invite-header',
+
+    on_click_invite: function (event) {
+      event.stopPropagation();
+      this.fire('try-invite');
+    }
 
   });
 </script>

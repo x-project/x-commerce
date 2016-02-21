@@ -1,5 +1,6 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../components/paper-fab/paper-fab.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-team-members.html">
@@ -24,6 +25,7 @@
       </div>
       <div class="main container">
         <part-team-members manager="{{manager}}" members="{{members}}"></part-team-members>
+        <paper-fab icon="add" on-click="on_click_add"></paper-fab>
         <part-team-invites manager="{{manager}}" invites="{{invites}}"></part-team-invites>
       </div>
     </layout-admin>
@@ -57,9 +59,13 @@
       var admin_token = this.$.session.get('admin_token');
       this.$.find_members.accessToken = admin_token;
       this.$.find_members.send();
-
       this.$.find_invites.accessToken = admin_token;
       this.$.find_invites.send();
+    },
+
+    on_click_add: function (event) {
+      event.stopPropagation();
+      page('/admin/invites/new')
     }
 
   });

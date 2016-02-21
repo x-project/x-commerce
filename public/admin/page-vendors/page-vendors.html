@@ -1,9 +1,6 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-vendors-header.html">
 <link rel="import" href="part-vendors-items.html">
 <link rel="import" href="part-vendors-pages.html">
 <link rel="import" href="part-vendors-search.html">
@@ -11,10 +8,11 @@
 <dom-module id="page-vendors">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
     <layout-admin>
-      <div class="toolbar">
-        <part-vendors-header></part-vendors-header>
+      <div class="toolbar panel-header">
+        <h1 class="title">Vendors</h1>
       </div>
       <div class="main container">
         <part-vendors-search></part-vendors-search>

@@ -3,6 +3,7 @@
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
+<link rel="import" href="../field-text/field-text.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="form-services-phone">
   <template>
@@ -22,23 +23,16 @@
     <app-session id="session"></app-session>
 
     <form class="panel-form" on-submit="on_submit">
-      <div class="field">
-        <label class="label">[[services_phone_src_label]]</label>
-        <input class="form-control" type="text" is="iron-input" bind-value="{{service.phone}}">
-        <input-errors property="taxjar_public_key" error="{{error.details}}"></input-errors>
-      </div>
+      <input-phone label="[[services_phone_src_label]]" phone="{{service.phone}}">
+      </input-phone>
+      <input-errors property="phone" error="{{error.details}}"></input-errors>
       <button id="update" type="submit" class="btn btn-secondary">update</button>
     </form>
-
     <div class="password" show$="{{show}}">
-      <div class="panel-form">
-        <div class="field">
-          <label class="label">Password</label>
-          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
-        </div>
-        <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
-        <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
-      </div>
+      <field-text label="Password" value="{{admin_password}}" error="{{error}}">
+      </field-text>
+      <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
+      <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
     </div>
 
   </template>

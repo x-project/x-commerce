@@ -1,8 +1,6 @@
 <link rel="import" href="../../components/api-model-create/api-model-create.html">
 <link rel="import" href="../../components/app-session/app-session.html">
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-invite-actions.html">
 <link rel="import" href="part-invite-header.html">
@@ -10,6 +8,7 @@
 
 <dom-module id="page-invite">
   <template>
+    <style include="style-grid"></style>
     <app-session id="session"></app-session>
 
     <api-model-create id="create" collection="invites" response="{{response}}"
@@ -17,10 +16,18 @@
     </api-model-create>
 
     <layout-admin on-try-invite="on_try_invite">
-      <part-invite-header></part-invite-header>
-      <part-invite-member member="{{member}}" error="{{error}}"></part-invite-member>
-      <part-invite-actions></part-invite-actions>
-
+      <div class="toolbar">
+        <part-invite-header></part-invite-header>
+      </div>
+      <div class="main container">
+        <div class="row">
+          <div class="col col-sm-3"></div>
+          <div class="col col-sm-6">
+            <part-invite-member member="{{member}}" error="{{error}}"></part-invite-member>
+          </div>
+          <div class="col col-sm-3"></div>
+        </div>
+      </div>
       <!--
       <template is="dom-if" if="{{error_occurs}}">
         <div class="error-box">Error! <span>{{response.message}}</span></div>

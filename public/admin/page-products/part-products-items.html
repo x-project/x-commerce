@@ -1,27 +1,19 @@
+<link rel="import" href="../../components/paper-fab/paper-fab.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
 <link rel="import" href="strips-products.html">
 <dom-module id="part-products-items">
   <template>
     <style include="style-panel"></style>
-    <style>
-      .view {
-        @apply(--layout-horizontal);
-        @apply(--layout-end-justified);
-        margin: 6px;
-      }
-      .view i {
-        margin: 0 4px;
-      }
-      .view i:hover {
-        color: #0275d8;
-      }
-    </style>
 
     <div class="panel">
-      <div id="views">
-        <table-view items="{{products}}" fields=["title","description","price"] on-click="on_click_edit" on-delete="on_delete_product">
-        </table-view>
-
+      <table-view items="{{products}}" fields=["title","description","price"] on-click="on_click_edit"
+        on-delete="on_delete_product">
+      </table-view>
+    </div>
+    <div class="btn-new">
+      <div>
+        <paper-fab icon="add" on-click="on_click_add"></paper-fab>
       </div>
     </div>
 
@@ -50,6 +42,7 @@
 
     on_delete_product: function (event) {
       var product = event.detail;
+      var product = event.detail;
       Model.delete('/api/products/' + product.id)
         .then(function (data) {
           page('/admin/products');
@@ -57,6 +50,11 @@
         .catch(function (error) {
           console.log(this.error);
         }.bind(this));
+    },
+
+    on_click_add: function (event){
+      event.stopPropagation();
+      page('/admin/products/new')
     }
 
   });

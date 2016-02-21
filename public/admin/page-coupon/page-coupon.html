@@ -4,6 +4,7 @@
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-coupon-header.html">
 <link rel="import" href="part-coupon-discount.html">
 <link rel="import" href="part-coupon-info.html">
 <link rel="import" href="part-coupon-period.html">
@@ -13,7 +14,7 @@
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
-        <h1>Coupon / {{coupon.name}}</h1>
+        <part-coupon-header coupon="{{coupon}}"></part-coupon-header>
       </div>
       <div class="main container">
         <div class="row">

@@ -1,14 +1,13 @@
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
-<link rel="import" href="table-members.html">
 <dom-module id="part-team-members">
   <template>
     <style include="style-panel"></style>
 
+    <h2 class="title">[[team_members_title_label]]</h2>
     <div class="panel">
-      <h2 class="title">[[team_members_title_label]]</h2>
       <table-view items="{{members}}" fields='["fullname","email","role"]' on-click="on_click">
-      </table-view>
+    </table-view>
     </div>
 
   </template>

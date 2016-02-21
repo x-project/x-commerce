@@ -1,9 +1,6 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-products-header.html">
 <link rel="import" href="part-products-items.html">
 <link rel="import" href="part-products-pages.html">
 <link rel="import" href="part-products-search.html">
@@ -12,10 +9,11 @@
 <dom-module id="page-products">
   <template>
     <style include="style-grid"></style>
+    <style include="style-panel"></style>
 
-    <layout-admin on-change-view="on_change_view">
-      <div class="toolbar">
-        <part-products-header></part-products-header>
+    <layout-admin>
+      <div class="toolbar panel-header">
+        <h1 class="title">Products</h1>
       </div>
       <div class="main container">
         <part-products-search></part-products-search>
@@ -29,6 +27,9 @@
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 

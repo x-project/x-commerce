@@ -21,7 +21,8 @@
     "paper-icon-button": "PolymerElements/paper-icon-button#^1.0.6",
     "vaadin-grid": "^1.0.0",
     "gold-phone-input": "PolymerElements/gold-phone-input#^1.0.8",
-    "gold-email-input": "PolymerElements/gold-email-input#^1.0.7"
+    "gold-email-input": "PolymerElements/gold-email-input#^1.0.7",
+    "paper-fab": "PolymerElements/paper-fab#^1.2.0"
   },
   "license": "MIT"
 }

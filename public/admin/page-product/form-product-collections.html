@@ -37,19 +37,19 @@
       }
     </style>
 
-    <label class="label">[[product_collection_label]]</label>
+      <label class="label">[[product_collection_label]]</label>
 
-    <selected-items item="{{item_selected}}" property="title"
-      items="{{product.collections}}" on-delete-item="on_delete_collection">
-    </selected-items>
+      <selected-items item="{{item_selected}}" property="title"
+        items="{{product.collections}}" on-delete-item="on_delete_collection">
+      </selected-items>
 
-    <button class="collection btn btn-primary" on-click="on_click_add_collection">Add collection</button>
+      <button class="collection btn btn-primary" on-click="on_click_add_collection">Add collection</button>
 
-    <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
-      value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"
-      count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
-      on-close-items="on_close_items" placeholder="search collections" property="title">
-    </search-items>
+      <search-items class="search" show$="{{show}}" on-change-value="on_change_value"
+        value="{{value}}" items="{{filter_collections}}" on-change-page="on_change_page"
+        count="{{count}}" perpage="{{perpage}}" on-select-item="on_select_item"
+        on-close-items="on_close_items" placeholder="search collections" property="title">
+      </search-items>
 
   </template>
 </dom-module>
