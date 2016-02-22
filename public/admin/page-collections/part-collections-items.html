@@ -20,11 +20,15 @@
     </style>
 
     <div class="panel">
-      <table-view items="{{collections}}" fields=["title","description"] on-click="on_click_edit"
-        on-delete="on_delete_collection">
+      <table-view items="{{collections}}" fields=["title","description"]
+        on-click="on_click_edit" on-delete="on_delete_collection">
       </table-view>
     </div>
-    <paper-fab icon="add" on-click="on_click_add"></paper-fab>
+    <div class="btn-new">
+      <div>
+        <paper-fab icon="add" on-click="on_click_add"></paper-fab>
+      </div>
+    </div>
 
   </template>
 </dom-module>

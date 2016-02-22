@@ -1,0 +1,42 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<dom-module id="part-coupon-header">
+  <template>
+    <style include="style-button"></style>
+    <style include="style-panel"></style>
+
+    <div class="panel-header">
+      <div>
+        <h1 class="title">Coupons / {{coupon.name}}</h1>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" on-click="on_click_save">save</button>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-coupon-header',
+
+    properties: {
+      coupon: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    },
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
+    }
+
+  });
+</script>

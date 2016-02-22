@@ -6,11 +6,15 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <table-view items="{{articles}}" fields=["title","summary","content"] on-click="on_click_edit"
-        on-delete="on_delete_article">
+      <table-view items="{{articles}}" fields=["title","summary","content"]
+        on-click="on_click_edit" on-delete="on_delete_article">
       </table-view>
     </div>
-    <paper-fab icon="add" on-click="on_click_add"></paper-fab>
+    <div class="btn-new">
+      <div>
+        <paper-fab icon="add" on-click="on_click_add"></paper-fab>
+      </div>
+    </div>
 
   </template>
 </dom-module>

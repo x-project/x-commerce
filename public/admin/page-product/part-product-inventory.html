@@ -4,6 +4,7 @@
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../field-text/field-text.html">
+<link rel="import" href="../field-number/field-number.html">
 <link rel="import" href="../input-checkbox/input-checkbox.html">
 <dom-module id="part-product-inventory">
   <template>
@@ -17,7 +18,7 @@
         display: none;
       }
       .hidden.field[show] {
-        display: block;
+        display: inline-block;
       }
     </style>
 
@@ -37,13 +38,14 @@
       </div>
 
       <div class="hidden field" show$="{{product.track_quantity}}">
-        <label class="label">Quantity</label>
-        <input class="form-control" type="number" is="iron-input" bind-value="{{product.quantity}}">
+        <field-number label="Quantity" property="quantity"
+          value="{{product.quantity}}" error="{{error}}">
+        </field-number>
       </div>
 
       <div class="hidden field" show$="{{product.track_quantity}}">
         <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
-        <label class="label">Allow customers to purchase this product when it\'s out of stock</label>
+        <label class="label">Allow customers to purchase this product when it's out of stock</label>
       </div>
     </div>
 

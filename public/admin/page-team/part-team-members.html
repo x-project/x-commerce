@@ -7,7 +7,12 @@
     <h2 class="title">[[team_members_title_label]]</h2>
     <div class="panel">
       <table-view items="{{members}}" fields='["fullname","email","role"]' on-click="on_click">
-    </table-view>
+      </table-view>
+    </div>
+    <div class="btn-new">
+      <div>
+        <paper-fab icon="add" on-click="on_click_add"></paper-fab>
+      </div>
     </div>
 
   </template>
@@ -40,6 +45,11 @@
       }
       var member = event.detail;
       page('/admin/members/' + member.id);
+    },
+
+    on_click_add: function (event) {
+      event.stopPropagation();
+      page('/admin/invites/new')
     }
 
   });

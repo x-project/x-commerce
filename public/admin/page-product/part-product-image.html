@@ -23,7 +23,7 @@
     <h2 class="title">[[product_images_title_label]]</h2>
     <div class="panel">
       <form-product-image product="{{product}}"></form-product-image>
-      <div class="images panel">
+      <div class="images">
         <template id="images" is="dom-repeat" items="{{product.images}}" as="image"
           filter="filter_image">
           <image-preview image="{{image}}" sizing="contain" like-size="120"

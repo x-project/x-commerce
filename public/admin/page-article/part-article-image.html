@@ -24,7 +24,7 @@
     <div class="panel">
       <form-article-image article="{{article}}"></form-article-image>
 
-      <div class="images panel">
+      <div class="images">
         <template id="images" is="dom-repeat" items="{{article.images}}" as="image"
           filter="image_filter">
            <image-preview image="{{image}}" sizing="contain" like-size="120"

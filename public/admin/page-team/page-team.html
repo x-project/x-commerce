@@ -25,7 +25,6 @@
       </div>
       <div class="main container">
         <part-team-members manager="{{manager}}" members="{{members}}"></part-team-members>
-        <paper-fab icon="add" on-click="on_click_add"></paper-fab>
         <part-team-invites manager="{{manager}}" invites="{{invites}}"></part-team-invites>
       </div>
     </layout-admin>
@@ -61,11 +60,6 @@
       this.$.find_members.send();
       this.$.find_invites.accessToken = admin_token;
       this.$.find_invites.send();
-    },
-
-    on_click_add: function (event) {
-      event.stopPropagation();
-      page('/admin/invites/new')
     }
 
   });
