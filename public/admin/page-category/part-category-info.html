@@ -3,15 +3,15 @@
 <link rel="import" href="../field-long-text/field-long-text.html">
 <dom-module id="part-category-info">
   <template>
-  <style include="style-panel"></style>
+    <style include="style-panel"></style>
 
-  <h2 class="title">Info</h2>
-  <div class="panel">
-    <field-text label="Name" property="name" value="{{category.name}}" error="{{error}}"></field-text>
-    <field-long-text label="description" property="description" value="{{category.description}}"
-      error="{{error}}">
-    </field-long-text>
-  </div>
+    <h2 class="title">Info</h2>
+    <div class="panel">
+      <field-text label="Name" property="name" value="{{category.name}}" error="{{error}}"></field-text>
+      <field-long-text label="description" property="description" value="{{category.description}}"
+        error="{{error}}">
+      </field-long-text>
+    </div>
 
   </template>
 </dom-module>

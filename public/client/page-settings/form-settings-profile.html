@@ -1,11 +1,10 @@
-<link rel="import" href="/components/iron-input/iron-input.html">
-<link rel="import" href="/components/input-location/input-location.html">
-<link rel="import" href="../input-date-of-birth/input-date-of-birth.html">
+<link rel="import" href="../../components/iron-input/iron-input.html">
+<link rel="import" href="../../components/input-location/input-location.html">
 <link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
-
+<link rel="import" href="../input-date-of-birth/input-date-of-birth.html">
 <dom-module id="form-settings-profile">
   <template>
     <style include="style-button"></style>
@@ -13,12 +12,16 @@
     <style include="style-checkbox"></style>
     <style include="style-basic"></style>
     <style>
-      input, input-date-of-birth, .lbl, input-location{
-        width: 50% !important;
-        margin: 10px 0;
-      }
       .gender {
         margin: 10px;
+      }
+      input-location {
+        box-sizing: border-box;
+        width: 100%;
+        --input-location: {
+          @apply(--form-control);
+          box-sizing: border-box;
+        };
       }
     </style>
 
@@ -44,7 +47,7 @@
 
         <div>
           <label class="lbl text-muted" for="location">location</label>
-          <input-location style-class="form-control" value="{{customer.location}}"></input-location>
+          <input-location class="" value="{{customer.location}}"></input-location>
         </div>
       </div>
 

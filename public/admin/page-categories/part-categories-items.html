@@ -6,10 +6,11 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <table-view items="{{categories}}" fields=["name","description"] on-click="on_click_edit"
-        on-delete="on_delete_category">
+      <table-view items="{{categories}}" fields=["name","description"]
+        on-click="on_click_edit">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>
@@ -47,17 +48,6 @@
       event.stopPropagation();
       var category = event.detail;
       page('/admin/categories/' + category.id);
-    },
-
-    on_delete_category: function (event) {
-      var category = event.detail;
-      Model.delete('/api/categories/' + category.id)
-        .then(function (data) {
-          page('/admin/categories');
-        }.bind(this))
-        .catch(function (error) {
-          console.log(this.error);
-        }.bind(this));
     },
 
     on_click_add: function (event) {

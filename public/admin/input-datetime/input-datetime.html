@@ -1,0 +1,69 @@
+<link rel="import" href="../../components/paper-input/paper-input.html">
+<dom-module id="input-datetime">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      input[type="datetime-local"] {
+        @apply(--input-datetime);
+      }
+      input:focus {
+        @apply(--input-datetime-focus);
+      }
+      .button {
+        @apply(--input-datetime-button);
+      }
+
+    </style>
+
+<!--     <input is="iron-input" type="datetime-local" step="60"
+      bind-value="{{parsed_datetime}}" on-change="on_change">
+ -->
+    <paper-input type="datetime-local" value="{{parsed_datetime}}" on-change="on_change"></paper-input>
+
+    <button id="now" class="button" on-click="on_click_now">{{label}}</button>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-datetime',
+
+    properties: {
+      value: {
+        type: String,
+        notify: true
+      },
+      parsed_datetime: {
+        type: String,
+        computed: 'parse(value)'
+      },
+      label: {
+        type: String,
+        value: 'now'
+      }
+    },
+
+    parse: function (value) {
+      if (!value) {
+        return '';
+      }
+
+      var parsed = value.slice(0, - 8);
+      return parsed;
+    },
+
+    on_click_now: function (event) {
+      event.preventDefault();
+      this.value = new Date().toISOString();
+    },
+
+    on_change: function (event) {
+      this.value = event.target.value + ':00.000Z';
+    }
+
+  });
+</script>

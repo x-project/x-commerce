@@ -6,14 +6,18 @@
     <style include="style-form"></style>
     <style>
       #quantity_edit {
-        width: 20px;
+        width: 60px;
         display: inline;
         text-align: center;
+        background-color: white;
+      }
+      .btn {
+        width: 40px;
       }
     </style>
 
     <button class="btn btn-secondary" on-click="on_click_decrement"> - </button>
-    <input id="quantity_edit" class="form-control" type="number" is="iron-input"
+    <input id="quantity_edit" readonly class="form-control" type="number" is="iron-input"
       min="1" bind-value="{{quantity}}" on-keyup="on_edit_order_item">
     <button class="btn btn-secondary" on-click="on_click_increase"> + </button>
 

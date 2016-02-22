@@ -7,9 +7,10 @@
 
     <div class="panel">
       <table-view items="{{articles}}" fields=["title","summary","content"]
-        on-click="on_click_edit" on-delete="on_delete_article">
+        on-click="on_click_edit">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>
@@ -47,17 +48,6 @@
       event.stopPropagation();
       var article = event.detail;
       page('/admin/articles/' + article.id);
-    },
-
-    on_delete_article: function (event) {
-      var article = event.detail;
-      Model.delete('/api/articles/' + article.id)
-        .then(function (data) {
-          page('/admin/articles');
-        }.bind(this))
-        .catch(function (error) {
-          console.log(this.error);
-        }.bind(this));
     },
 
     on_click_add: function (event) {

@@ -7,9 +7,10 @@
 
     <div class="panel">
       <table-view items="{{orders}}" fields=["status","total","discount"]
-        on-click="on_click_edit" on-delete="on_delete_order">
+        on-click="on_click_edit">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>
@@ -44,18 +45,6 @@
       var order = event.detail;
       page('/admin/orders/' + order.id);
     },
-
-    on_delete_order: function (event) {
-      var order = event.detail;
-      Model.delete('/api/orders/' + order.id)
-        .then(function (data) {
-          page('/admin/orders');
-        }.bind(this))
-        .catch(function (error) {
-          console.log(this.error);
-        }.bind(this));
-    },
-
 
     on_click_add: function (event) {
       event.stopPropagation();

@@ -33,11 +33,8 @@
     </div>
 
     <div class="password" show$="{{show}}">
-      <div class="panel-form">
-        <div class="field">
-          <label class="label">Password</label>
-          <input class="form-control" type="text" is="iron-input" bind-value="{{admin_password}}">
-        </div>
+        <input-secret label="Password" private_key="{{admin_password}}" error="{{error}}">
+        </input-secret>
         <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
         <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
       </div>

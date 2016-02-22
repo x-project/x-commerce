@@ -1,3 +1,4 @@
+<link rel="import" href="../../components/paper-fab/paper-fab.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
 <dom-module id="part-team-members">
@@ -9,6 +10,7 @@
       <table-view items="{{members}}" fields='["fullname","email","role"]' on-click="on_click">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>

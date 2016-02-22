@@ -7,14 +7,8 @@
     <style include="style-table"></style>
     <style include="style-basic"></style>
     <style>
-      td i {
-        margin: 0 4px;
-      }
-      td i:hover{
-        color: #0275d8;
-      }
-      .actions i {
-        cursor: pointer;
+      th {
+        text-transform: capitalize;
       }
     </style>
     <div class="table-responsive">
@@ -22,7 +16,7 @@
         <thead>
           <tr on-click="on_click_row">
             <template is="dom-repeat" items="{{fields}}" as="field">
-              <th>{{_uppercase_field(field)}}</th>
+              <th>{{field}}</th>
             </template>
           </tr>
         </thead>
@@ -31,7 +25,7 @@
             <tr class="text-center" on-click="on_click_edit">
               <template is="dom-repeat" items="{{fields}}" as="field">
                 <td>
-                  <text-view text="{{_value(item,field)}}" limit="30"></text-view>
+                  <text-view text="{{_value(item,field)}}" limit="20"></text-view>
                 </td>
               </template>
             </tr>
@@ -72,16 +66,6 @@
     on_click_row: function (event) {
       event.stopPropagation();
       event.preventDefault();
-    },
-
-    on_click_delete: function (event) {
-      event.stopPropagation();
-      var item = this.$.items.itemForElement(event.target);
-      this.fire('delete', item);
-    },
-
-    _uppercase_field: function (field) {
-      return field.charAt(0).toUpperCase() + field.slice(1);
     }
 
   });

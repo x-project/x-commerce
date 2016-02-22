@@ -6,10 +6,11 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <table-view items="{{customers}}" fields=["first_name","last_name","email"] on-click="on_click_edit"
-        on-delete="on_delete_customer">
+      <table-view items="{{customers}}" fields=["first_name","last_name","email"]
+        on-click="on_click_edit">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>
@@ -47,17 +48,6 @@
       event.stopPropagation();
       var customer = event.detail;
       page('/admin/customers/' + customer.id);
-    },
-
-    on_delete_customer: function (event) {
-      var customer = event.detail;
-      Model.delete('/api/customers/' + customer.id)
-        .then(function (data) {
-          page('/admin/customers');
-        }.bind(this))
-        .catch(function (error) {
-          console.log(this.error);
-        }.bind(this));
     },
 
     on_click_add: function (event) {

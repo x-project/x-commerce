@@ -1,29 +1,16 @@
 <link rel="import" href="../../components/paper-fab/paper-fab.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../table-view/table-view.html">
-<link rel="import" href="strips-collections.html">
 <dom-module id="part-collections-items">
   <template>
     <style include="style-panel"></style>
-    <style>
-      .view {
-        @apply(--layout-horizontal);
-        @apply(--layout-end-justified);
-        margin: 6px;
-      }
-      .view i {
-        margin: 0 4px;
-      }
-      .view i:hover {
-        color: #0275d8;
-      }
-    </style>
 
     <div class="panel">
       <table-view items="{{collections}}" fields=["title","description"]
-        on-click="on_click_edit" on-delete="on_delete_collection">
+        on-click="on_click_edit">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>
@@ -55,17 +42,6 @@
       event.stopPropagation();
       var collection = event.detail;
       page('/admin/collections/' + collection.id);
-    },
-
-    on_delete_collection: function (event) {
-      var collection = event.detail;
-      Model.delete('/api/collections/' + collection.id)
-        .then(function (data) {
-          page('/admin/collections');
-        }.bind(this))
-        .catch(function (error) {
-          console.log(this.error);
-        }.bind(this));
     },
 
     on_click_add: function (event) {

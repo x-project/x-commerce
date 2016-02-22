@@ -41,8 +41,8 @@
     </form>
 
     <div class="password" show$="{{show}}">
-      <field-text label="Password" value="{{admin_password}}" error="{{error}}">
-      </field-text>
+      <input-secret label="Password" private_key="{{admin_password}}" error="{{error}}">
+      </input-secret>
       <button class="btn btn-secondary" on-click="on_click_submit">submit</button>
       <button class="btn btn-secondary" on-click="on_click_undo">undo</button>
     </div>

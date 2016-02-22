@@ -6,10 +6,11 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <table-view items="{{prod_types}}" fields=["name","description"] on-click="on_click_edit"
-        on-delete="on_delete_prod_type">
+      <table-view items="{{prod_types}}" fields=["name","description"]
+        on-click="on_click_edit">
       </table-view>
     </div>
+
     <div class="btn-new">
       <div>
         <paper-fab icon="add" on-click="on_click_add"></paper-fab>
@@ -40,17 +41,6 @@
       event.stopPropagation();
       var prod_type = event.detail;
       page('/admin/product_types/' + prod_type.id);
-    },
-
-    on_delete_prod_type: function (event) {
-      var prod_type = event.detail;
-      Model.delete('/api/product_types/' + prod_type.id)
-        .then(function (data) {
-          page('/admin/product_types');
-        }.bind(this))
-        .catch(function (error) {
-          console.log(this.error);
-        }.bind(this));
     },
 
     on_click_add: function (event) {

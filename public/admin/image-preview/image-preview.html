@@ -71,13 +71,13 @@
       // put minium size in blur
       var url = this.get_image_url(min_size);
 
-      var rules = [
-        'background-image: url("' + url + '")',
-        'height: '+ this.height + 'px',
-        'width: ' + this.width + '%',
-        '-webkit-filter: '+ 'blur'+'('+ 5 +'px)'
-      ];
-      this.style = rules.join(';');
+      // var rules = [
+      //   'background-image: url("' + url + '")',
+      //   'height: '+ this.height + 'px',
+      //   'width: ' + this.width + '%',
+      //   'background-size: ' + this.sizing
+      // ];
+      // this.style = rules.join(';');
 
       //search the corrent or major or minor size
       var best_size = this.search_best_image();
@@ -87,7 +87,9 @@
         'background-image: url("' + url + '")',
         'height: '+ this.height + 'px',
         'width: ' + this.width + '%',
+        'background-size: ' + this.sizing
       ];
+      this.style = rules.join(';');
     },
 
     sort_thumbs_size: function () {

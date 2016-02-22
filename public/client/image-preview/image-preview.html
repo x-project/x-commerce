@@ -9,9 +9,13 @@
       background-position: center center;
       background-repeat: no-repeat;
       background-size: 100%;
+      -webkit-transition: background-size;
+      transition: background-size;
+      -webkit-transition-duration: 1s;
+      transition-duration: 1s;
     }
     .image:hover {
-      /*background-size: 130%;*/
+      background-size: 130%;
     }
     .image {
       @apply(--image-preview);
@@ -22,6 +26,9 @@
 
   </template>
 </dom-module>
+
+<script src="../../components/web-animations-js/web-animations.min.js"></script>
+
 <script>
   Polymer({
 
@@ -47,7 +54,7 @@
       },
       sizing: {
         type: String,
-        value: 'cover'
+        value: 'contain'
       }
     },
 
@@ -64,14 +71,13 @@
       // put minium size in blur
       var url = this.get_image_url(min_size);
 
-      var rules = [
-        'background-image: url("' + url + '")',
-        'height: '+ this.height + 'px',
-        'width: ' + this.width + '%',
-        '-webkit-filter: '+ 'blur'+'('+ 5 +'px)'
-      ];
-      this.style = rules.join(';');
-
+      // var rules = [
+      //   'background-image: url("' + url + '")',
+      //   'height: '+ this.height + 'px',
+      //   'width: ' + this.width + '%',
+      //   'background-size: ' + this.sizing
+      // ];
+      // this.style = rules.join(';');
 
       //search the corrent or major or minor size
       var best_size = this.search_best_image();
@@ -81,11 +87,9 @@
         'background-image: url("' + url + '")',
         'height: '+ this.height + 'px',
         'width: ' + this.width + '%',
+        'background-size: ' + this.sizing
       ];
-
-      this.async(function () {
-        this.style = rules.join(';');
-      }, 1500);
+      this.style = rules.join(';');
     },
 
     sort_thumbs_size: function () {
@@ -162,7 +166,7 @@
     },
 
     view_one_image: function () {
-      url = this.get_url()
+      var url = this.get_url();
       var rules = [
         'background-image: url("' + url + '")',
         'height: '+ this.height + 'px',

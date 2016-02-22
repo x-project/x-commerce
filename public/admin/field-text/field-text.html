@@ -2,12 +2,9 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-text">
   <template>
-    <style include="style-field"></style>
 
-    <div class="field">
-      <paper-input label="[[label]]" value="{{value}}"></paper-input>
-      <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
-    </div>
+    <paper-input label="[[label]]" type="text" value="{{value}}"></paper-input>
+    <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>

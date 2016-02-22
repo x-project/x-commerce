@@ -1,15 +1,10 @@
-<link rel="import" href="../../components/paper-input/paper-input.html">
 <link rel="import" href="../../components/paper-input/paper-textarea.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-long-text">
   <template>
-    <style include="style-field"></style>
 
-     <div class="filed">
-        <paper-textarea label="[[label]]" value="{{value}}"></paper-textarea>
-        <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
-      </div>
+    <paper-textarea label="[[label]]" type="text" value="{{value}}"></paper-textarea>
+    <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>

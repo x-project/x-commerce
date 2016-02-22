@@ -7,8 +7,8 @@
 
     <div class="panel">
       <h2 class="title">[[variants_title_label]]</h2>
-      <table-view items="{{variants}}" fields='["name","price","quantity"]' on-click="on_click_edit"
-        on-delete="on_delete_variant">
+      <table-view items="{{variants}}" fields='["name","price","quantity"]'
+        on-click="on_click_edit">
       </table-view>
     </div>
 
@@ -35,10 +35,6 @@
         type: Array,
         value: function () { return []; }
       }
-    },
-
-    on_delete_variant: function (event) {
-      event.stopPropagation();
     },
 
     on_click_edit: function (event) {

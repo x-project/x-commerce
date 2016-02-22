@@ -27,8 +27,8 @@
       <div class="images">
         <template id="images" is="dom-repeat" items="{{article.images}}" as="image"
           filter="image_filter">
-           <image-preview image="{{image}}" sizing="contain" like-size="120"
-            height="100" width="100">
+           <image-preview image="{{image}}" sizing="cover" like-size="400"
+            height="200" width="100">
           </image-preview>
         </template>
       </div>
