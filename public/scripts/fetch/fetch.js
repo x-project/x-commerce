@@ -35,9 +35,10 @@ Model.update = function (url, data, token) {
   .then(status);
 }
 
-Model.delete = function (url) {
+Model.delete = function (url, token) {
   return fetch(url, {
-    method: 'delete'
+    method: 'delete',
+    Authorization: token
   })
 }
 

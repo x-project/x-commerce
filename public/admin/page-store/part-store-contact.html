@@ -1,12 +1,10 @@
 <link rel="import" href="../../components/gold-email-input/gold-email-input.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../field-text/field-text.html">
 <link rel="import" href="../input-phone/input-phone.html">
 <dom-module id="part-store-contact">
   <template>
     <style include="style-panel"></style>
-    <style include="style-form"></style>
-    <style include="style-label"></style>
-    <style include="style-field"></style>
     <style>
       .mobile {
         --input-phone-prefix: {
@@ -22,6 +20,12 @@
         };
         --input-phone-number: {
           @apply(--form-control);
+        };
+      }
+      gold-email-input {
+        --paper-input-container-input: {
+          font-size: inherit;
+          font-family: inherit;
         };
       }
     </style>

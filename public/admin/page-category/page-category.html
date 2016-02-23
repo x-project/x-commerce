@@ -1,13 +1,16 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-category-header.html">
 <link rel="import" href="part-category-info.html">
 <dom-module id="page-category">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
+        <h1 class="title">Categories / {{category.name}}</h1>
         <part-category-header category="{{category}}"></part-category-header>
       </div>
       <div class="main container">

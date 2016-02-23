@@ -2,6 +2,14 @@
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-long-text">
   <template>
+    <style>
+      paper-textarea {
+        --paper-input-container-input: {
+          font-size: inherit;
+          font-family: inherit;
+        };
+      }
+    </style>
 
     <paper-textarea label="[[label]]" type="text" value="{{value}}"></paper-textarea>
     <input-errors property="{{property}}" error="{{error.details}}"></input-errors>

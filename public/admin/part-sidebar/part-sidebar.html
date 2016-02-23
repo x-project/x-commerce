@@ -13,10 +13,10 @@
       .title .link {
         text-decoration: none;
         color: #fff;
-        font-size: 18px;
+        font-size: 16px;
         text-transform: uppercase;
-        font-family: font-bold;
         letter-spacing: 1px;
+        margin-bottom: 10px;
       }
 
       .links {
@@ -29,13 +29,13 @@
         text-decoration: none;
         color: #fff;
         margin-bottom: 12px;
-        font-size: 16px;
+        font-size: 12px;
         font-family: font-light;
         letter-spacing: 1px;
+        padding-top: 10px;
       }
       .links .link:hover {
-        color: #333;
-        font-family: font-bold;
+        color: #ccc;
       }
 
       .links .link .fa {
@@ -49,7 +49,7 @@
         <li>
           <a is="app-link" class="link" href="/admin/store">
             <i class="fa fa-shopping-bag"></i>
-            <span>Store</span>
+            <span>Project</span>
           </a>
         </li>
         <li>
@@ -64,7 +64,15 @@
             <span>Mail</span>
           </a>
         </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/services">
+            <i class="fa fa-key"></i>
+            <span>Services</span>
+          </a>
+        </li>
       </ul>
+
+
       <ul class="links">
         <li>
           <a is="app-link" class="link" href="/admin/products">
@@ -122,14 +130,6 @@
           <a is="app-link" class="link" href="/admin/categories">
             <i class="fa fa-sitemap"></i>
             <span>Categories</span>
-          </a>
-        </li>
-      </ul>
-      <ul class="links">
-        <li>
-          <a is="app-link" class="link" href="/admin/services">
-            <i class="fa fa-key"></i>
-            <span>Services</span>
           </a>
         </li>
       </ul>

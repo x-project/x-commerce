@@ -1,7 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/app-session/app-session.html">
-<link rel="import" href="../../components/paper-fab/paper-fab.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-team-members.html">
 <link rel="import" href="part-team-header.html">
@@ -9,6 +9,7 @@
 <dom-module id="page-team">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <app-session id="session"></app-session>
 
@@ -21,6 +22,7 @@
 
     <layout-admin>
       <div class="toolbar">
+        <h1 class="title">Team</h1>
         <part-team-header manager="{{manager}}"></part-team-header>
       </div>
       <div class="main container">

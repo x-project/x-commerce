@@ -1,10 +1,19 @@
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../input-image/input-image.html">
 <dom-module id="form-article-image">
   <template>
+    <style include="style-form"></style>
 
-    <label class="label">image</label>
-    <div class="field">
-      <input-image collection="articles" model-id="{{article.id}}" folder="images"></input-image>
+    <app-session id="session"></app-session>
+
+    <div class="panel-form">
+      <div class="field">
+        <label class="label">image</label>
+        <input-image id="image" collection="articles" model-id="{{article.id}}" folder="images"
+          on-change="on_change" on-uploaded-image="on_uploaded_image">
+        </input-image>
+      </div>
     </div>
 
   </template>
@@ -19,6 +28,31 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_change: function (event) {
+      event.stopPropagation();
+      if (!this.article.images) {
+        this.$.image.update();
+        return;
+      }
+      this.update_image();
+    },
+
+    update_image: function () {
+      var token = this.$.session.get('admin_token');
+      Model.delete('/api/articles/' + this.article.id + '/images', token)
+      .then(function (data) {
+        this.$.image.update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+    on_uploaded_image: function (event) {
+      event.stopPropagation();
+      page('/admin/articles/' + this.article.id);
     }
 
   });

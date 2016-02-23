@@ -1,17 +1,20 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-customer-actions.html">
 <link rel="import" href="part-customer-header.html">
 <link rel="import" href="part-customer-note.html">
 <link rel="import" href="part-customer-overview.html">
-<link rel="import" href="part-customer-send-email.html">
 <link rel="import" href="part-customer-tags.html">
+<link rel="import" href="part-customer-send-email.html">
 <dom-module id="page-customer">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
+        <h1 class="title">Customers / {{customer.first_name}} {{customer.last_name}}</h1>
         <part-customer-header customer="{{customer}}"></part-customer-header>
       </div>
       <div class="main container">

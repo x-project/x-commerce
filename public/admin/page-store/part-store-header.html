@@ -1,18 +1,9 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-store-header">
   <template>
     <style include="style-button"></style>
-    <style include="style-panel"></style>
 
-    <div class="panel-header">
-      <div class="title">
-        <h1 class="title">Store / {{store.name}}</h1>
-      </div>
-      <div class="actions">
-        <button class="btn btn-secondary" on-click="on_click_save">save</button>
-      </div>
-    </div>
+    <button class="btn btn-secondary" on-click="on_click_save">save</button>
 
   </template>
 </dom-module>
@@ -20,13 +11,6 @@
   Polymer({
 
     is: 'part-store-header',
-
-    properties: {
-      store: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    },
 
     on_click_save: function (event) {
       event.stopPropagation();

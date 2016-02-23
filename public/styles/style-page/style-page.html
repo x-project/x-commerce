@@ -4,18 +4,15 @@
       :host {
         display: block;
       }
-
-      .page {
+      .toolbar {
+        width: 100%;
         @apply(--layout-horizontal);
-        min-height: 100vh;
+        @apply(--layout-justified);
+        @apply(--layout-center);
       }
-
-      .sidebar {
-        width: 280px;
-      }
-
-      .main {
-        @apply(--layout-flex);
+      .toolbar .title {
+        color: #333;
+        padding: 2px 0px;
       }
     </style>
   </template>

@@ -1,4 +1,5 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-article-header.html">
 <link rel="import" href="part-article-image.html">
@@ -7,9 +8,11 @@
 <dom-module id="page-article">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
+        <h1 class="title">Articles / {{article.title}}</h1>
         <part-article-header article="{{article}}"></part-article-header>
       </div>
       <div class="main container">
@@ -20,8 +23,7 @@
           <div class="col col-sm-4">
             <part-article-organizzation article="{{article}}" error="{{error}}" on-error="on_error">
             </part-article-organizzation>
-            <part-article-image article="{{article}}" on-uploaded-image="on_uploaded_image">
-            </part-article-image>
+            <part-article-image article="{{article}}"></part-article-image>
           </div>
         </div>
       </div>
@@ -90,11 +92,6 @@
 
     on_update_article: function () {
       page('/admin/articles/' + this.article.id);
-    },
-
-    on_uploaded_image: function (event) {
-      event.stopPropagation();
-      this.on_update_article();
     },
 
     validate_model: function () {

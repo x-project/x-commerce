@@ -5,11 +5,14 @@
       :host {
         display: block;
       }
-
-      input[type="datetime-local"] {
+      .input {
         @apply(--input-datetime);
+        --paper-input-container-input: {
+          font-size: inherit;
+          font-family: inherit;
+        };
       }
-      input:focus {
+      .input:focus {
         @apply(--input-datetime-focus);
       }
       .button {
@@ -18,10 +21,8 @@
 
     </style>
 
-<!--     <input is="iron-input" type="datetime-local" step="60"
-      bind-value="{{parsed_datetime}}" on-change="on_change">
- -->
-    <paper-input type="datetime-local" value="{{parsed_datetime}}" on-change="on_change"></paper-input>
+    <paper-input class="input" type="datetime-local" value="{{parsed_datetime}}" on-change="on_change">
+    </paper-input>
 
     <button id="now" class="button" on-click="on_click_now">{{label}}</button>
 

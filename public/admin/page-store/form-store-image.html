@@ -1,18 +1,25 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../input-image/input-image.html">
 <dom-module id="form-store-image">
   <template>
-  <style include="style-label"></style>
+    <style include="style-label"></style>
+
+    <app-session id="session"></app-session>
 
     <div class="panel-form">
       <div class="field">
         <label class="label">image</label>
-        <input-image collection="stores" model-id="{{store.id}}" folder="image">
+        <input-image id="image" collection="stores" model-id="{{store.id}}"
+          folder="image" on-change="on_change" on-uploaded-image="on_uploaded_image">
         </input-image>
       </div>
     </div>
 
   </template>
 </dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
 <script>
   Polymer({
 
@@ -23,6 +30,31 @@
         type: Object,
         value: function () { return {}; }
       }
+    },
+
+    on_change: function (event) {
+      event.stopPropagation();
+      if (!this.store.image) {
+        this.$.image.update();
+        return;
+      }
+      this.update_image();
+    },
+
+    update_image: function () {
+      var token = this.$.session.get('admin_token');
+      Model.delete('/api/stores/' + this.store.id + '/image', token)
+      .then(function (data) {
+        this.$.image.update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+    on_uploaded_image: function (event) {
+      event.stopPropagation();
+      page('/admin/store');
     }
 
   });

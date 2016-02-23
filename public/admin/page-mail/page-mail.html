@@ -1,6 +1,6 @@
 <link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-mail-host-name.html">
 <link rel="import" href="part-mail-invite.html">
@@ -8,12 +8,12 @@
 <dom-module id="page-mail">
   <template>
     <style include="style-grid"></style>
-    <style include="style-panel"></style>
+    <style include="style-page"></style>
 
     <app-session id="session"></app-session>
 
     <layout-admin on-try-create="on_try_create" on-try-update="on_try_update">
-      <div class="toolbar panel-header">
+      <div class="toolbar">
         <h1 class="title">Mail messages</h1>
       </div>
       <div class="main container">

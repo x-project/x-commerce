@@ -1,4 +1,5 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="../part-sidebar/part-sidebar.html">
 <link rel="import" href="part-collection-header.html">
@@ -9,9 +10,11 @@
 <dom-module id="page-collection">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
+        <h1 class="title">Collections / {{collection.title}}</h1>
         <part-collection-header collection="{{collection}}"></part-collection-header>
       </div>
       <div class="main container">
@@ -19,9 +22,7 @@
           <div class="col col-sm-8">
             <part-collection-info collection="{{collection}}" error="{{error}}">
             </part-collection-info>
-            <part-collection-image collection="{{collection}}"
-              on-uploaded-image="on_uploaded_image">
-            </part-collection-image>
+            <part-collection-image collection="{{collection}}"></part-collection-image>
           </div>
           <div class="col col-sm-4">
             <part-collection-visibility collection="{{collection}}" error="{{error}}"
@@ -108,11 +109,6 @@
       .catch(function (error) {
         this.error = error;
       }.bind(this));
-    },
-
-    on_uploaded_image: function (event) {
-      event.stopPropagation();
-      this.on_update_collection();
     },
 
     on_update_collection: function () {

@@ -1,15 +1,16 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
-<link rel="import" href="part-variants-header.html">
 <link rel="import" href="part-variants-options.html">
 <link rel="import" href="part-variants-items.html">
 <dom-module id="page-variants">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin>
       <div class="toolbar">
-        <part-variants-header product="{{product}}"></part-variants-header>
+        <h1 class="title">Products / {{product.title}} / variants</h1>
       </div>
       <div class="main container">
         <part-variants-items product="{{product}}" variants="{{variants}}"></part-variants-items>

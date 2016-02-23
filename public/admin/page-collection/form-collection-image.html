@@ -1,21 +1,20 @@
+<link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../input-image/input-image.html">
 <dom-module id="form-collection-image">
   <template>
     <style include="style-form"></style>
-    <style>
-      input-image {
-        @apply(--layout-input-image-button);
-      }
-    </style>
 
-    <form id="form" role="form" on-submit="on_submit">
+    <app-session id="session"></app-session>
+
+    <div class="panel-form">
       <div class="field">
         <label class="label">image</label>
-        <input-image collection="collections" model-id="{{collection.id}}" folder="images">
+        <input-image id="image" collection="collections" model-id="{{collection.id}}"
+          folder="images" on-change="on_change" on-uploaded-image="on_uploaded_image">
         </input-image>
       </div>
-    </form>
+    </div>
 
   </template>
 </dom-module>
@@ -31,9 +30,29 @@
       }
     },
 
-    on_submit: function (event) {
-      event.preventDefault();
+    on_change: function (event) {
       event.stopPropagation();
+      if (!this.collection.images) {
+        this.$.image.update();
+        return;
+      }
+      this.update_image();
+    },
+
+    update_image: function () {
+      var token = this.$.session.get('admin_token');
+      Model.delete('/api/collections/' + this.collection.id + '/images', token)
+      .then(function (data) {
+        this.$.image.update();
+      }.bind(this))
+      .catch(function (error) {
+        console.log(error);
+      }.bind(this));
+    },
+
+    on_uploaded_image: function (event) {
+      event.stopPropagation();
+      page('/admin/collections/' + this.collection.id);
     }
 
   });

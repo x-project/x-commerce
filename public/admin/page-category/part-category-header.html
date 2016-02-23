@@ -3,17 +3,9 @@
 <dom-module id="part-category-header">
   <template>
     <style include="style-button"></style>
-    <style include="style-panel"></style>
 
-    <div class="panel-header">
-      <div>
-        <h1 class="title">Categories / {{category.name}}</h1>
-      </div>
-      <div class="actions">
-        <button class="btn btn-secondary" on-click="on_click_save">save</button>
-        <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
-      </div>
-    </div>
+    <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
 
   </template>
 </dom-module>
@@ -22,14 +14,6 @@
   Polymer({
 
     is: 'part-category-header',
-
-    properties: {
-      category: {
-        type: Object,
-        value: function () { return {}; }
-      }
-    },
-
 
     on_click_delete: function (event) {
       event.stopPropagation();

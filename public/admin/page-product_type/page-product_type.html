@@ -1,16 +1,16 @@
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-prod-type-header.html">
 <link rel="import" href="part-prod-type-info.html">
 <dom-module id="page-product_type">
   <template>
     <style include="style-grid"></style>
-    <style include="style-panel"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
+        <h1 class="title">Product types / {{prod_type.name}}</h1>
         <part-prod-type-header prod_type="{{prod_type}}"></part-prod-type-header>
       </div>
       <div class="main container">

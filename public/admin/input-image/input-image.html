@@ -1,6 +1,5 @@
 <link rel="import" href="../api-image-upload/api-image-upload.html">
 <link rel="import" href="../../components/iron-signals/iron-signals.html">
-
 <dom-module id="input-image">
   <template>
     <style>
@@ -12,7 +11,7 @@
     <iron-signals on-iron-signal-save="on_save"></iron-signals>
 
     <api-image-upload id="request" collection="{{collection}}" model-id="{{modelId}}"
-      folder="{{folder}}" on-response="on_response">
+      folder="{{folder}}" on-response="on_response" access-token="">
     </api-image-upload>
 
     <input id="input" type="file" on-change="on_change_file">
@@ -47,14 +46,19 @@
         this.fire('try-save');
         return;
       }
-      this.$.request.send(this.file);
+      this.fire('change');
+      // this.$.request.send(this.file);
     },
 
     on_save: function (event) {
       event.stopPropagation();
+      this.update();
+    },
+
+    update: function () {
       if (this.file.name) {
         this.$.request.send(this.file);
-        this.fire();
+        return;
       }
     },
 

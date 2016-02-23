@@ -1,4 +1,5 @@
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-order-customer.html">
 <link rel="import" href="part-order-create-order-item.html">
@@ -9,9 +10,11 @@
 <dom-module id="page-order">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
       <div class="toolbar">
+        <h1 class="title">Orders / {{order.id}}</h1>
         <part-order-header order="{{order}}"></part-order-header>
       </div>
       <div class="main container">

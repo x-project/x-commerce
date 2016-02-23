@@ -1,8 +1,5 @@
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-store-actions.html">
 <link rel="import" href="part-store-contact.html">
@@ -14,9 +11,11 @@
 <dom-module id="page-store">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
 
     <layout-admin on-try-save="on_try_save">
       <div class="toolbar">
+        <h1 class="title">Store / {{store.name}}</h1>
         <part-store-header store="{{store}}"></part-store-header>
       </div>
       <div class="main container">
@@ -27,7 +26,7 @@
             <part-store-policy store="{{store}}" error="{{error}}"></part-store-policy>
           </div>
           <div class="col col-sm-4">
-            <part-store-image store="{{store}}" on-uploaded-image="on_upload_image"></part-store-image>
+            <part-store-image store="{{store}}"></part-store-image>
             <part-store-payment-system store="{{store}}"></part-store-payment-system>
           </div>
         </div>
@@ -57,7 +56,6 @@
 
     attached: function () {
       this.store = this.data.store;
-      console.log(this.store);
     },
 
     on_try_save: function (event) {
@@ -127,11 +125,7 @@
 
     on_update_store: function () {
       page('/admin/store/');
-    },
-
-    on_upload_image: function () {
-      this.on_update_store();
-    },
+    }
 
   });
 </script>

@@ -1,14 +1,18 @@
 <link rel="import" href="../../components/paper-input/paper-input.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-number">
   <template>
-    <style include="style-field"></style>
+    <style>
+      paper-input {
+        --paper-input-container-input: {
+          font-size: inherit;
+          font-family: inherit;
+        };
+      }
+    </style>
 
-    <div class="field-number">
-      <paper-input label="[[label]]" value="{{value}}" type="number"></paper-input>
-      <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
-    </div>
+    <paper-input label="[[label]]" value="{{value}}" type="number"></paper-input>
+    <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>

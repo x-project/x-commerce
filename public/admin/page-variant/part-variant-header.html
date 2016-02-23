@@ -1,20 +1,12 @@
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-variant-header">
   <template>
     <style include="style-button"></style>
-    <style include="style-panel"></style>
 
-    <div class="panel-header">
-      <div>
-        <h1 class="title">Products / {{product.title}} / variants / {{variant.name}}</h1>
-      </div>
-      <div class="actions">
-        <button class="btn btn-secondary" on-click="on_click_save">save</button>
-        <a is="app-link" class="btn btn-secondary" href="/products/{{product.id}}">view</a>
-        <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
-      </div>
-    </div>
+    <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    <a is="app-link" class="btn btn-secondary" href="/products/{{product.id}}">view</a>
+    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
+
   </template>
 </dom-module>
 <script>
@@ -23,10 +15,6 @@
     is: 'part-variant-header',
 
     properties: {
-      variant: {
-        type: Object,
-        value: function () { return {}; }
-      },
       product: {
         type: Object,
         value: function () { return {}; }
