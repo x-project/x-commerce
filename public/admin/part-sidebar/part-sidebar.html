@@ -5,7 +5,7 @@
         display: block;
       }
 
-      nav {
+/*      nav {
         padding: 20px;
         position: fixed;
       }
@@ -40,9 +40,159 @@
 
       .links .link .fa {
         width: 26px;
+      }*/
+      .links {
+        list-style: none;
+      }
+      .links .link {
+        padding-left: 22px;
+        text-decoration: none;
+        color: #fff;
+      }
+      li {
+        padding-top: 20px;
+      }
+      .link, span.active:hover {
+        color: black;
+        cursor: pointer;
+      }
+      .category {
+        color: #fff;
+      }
+      div.title {
+        padding-top: 20px;
+        padding-left: 40px;
+      }
+      div.title a.link {
+        color: white;
+        font-size: 20px;
+        font-family: font-light;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+      .links .category a {
+        text-decoration: none;
+        color: #fff;
+      }
+      span {
+        padding-left: 10px;
+        font-family: font-light;
+        letter-spacing: 1.5px;
       }
     </style>
+    <nav class="navigation">
+      <div class="title">
+        <a class="link" href="/admin">x-commerce</a>
+      </div>
+      <ul class="links">
+        <li class="category">
+          <i class="fa fa-key fa-lg"></i>
+          <span>Project</span>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/store">
+            <span class="active">Store</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/team">
+            <span class="active">Team</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/mail">
+            <span class="active">Mail</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/services">
+            <span class="active">Services</span>
+          </a>
+        </li>
+      </ul>
 
+      <ul class="links">
+        <li class="category">
+          <i class="fa fa-cube fa-lg"></i>
+          <span>Shop</span>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/products">
+            <span class="active">Products</span>
+          </a>
+        </li>
+       <li>
+          <a is="app-link" class="link" href="/admin/collections">
+            <span class="active">Collections</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/vendors">
+            <span class="active">Vendors</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/coupons">
+            <span class="active">Coupons</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/product_types">
+            <span class="active">Product types</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/customers">
+            <span class="active">Customers</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/orders">
+            <span class="active">Orders</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="links">
+        <li class="category">
+          <i class="fa fa-newspaper-o"></i>
+          <span>Magazine</span>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/articles">
+            <span class="active">Articles</span>
+          </a>
+        </li>
+        <li>
+          <a is="app-link" class="link" href="/admin/categories">
+            <span class="active">Categories</span>
+          </a>
+        </li>
+      </ul>
+
+
+
+      <ul class="links">
+        <li class="category">
+          <a is="app-link" href="/">
+            <i class="fa fa-home fa-lg"></i>
+            <span class="active">Home</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="links">
+        <li class="category" >
+          <a is="app-link" href="/" on-click="on_click_logout">
+            <i class="fa fa-sign-out"></i>
+            <span class="active">Logout</span>
+          </a>
+        </li>
+      </ul>
+
+
+
+    </nav>
+<!--
     <nav role="navigation">
       <h3 class="title"><a class="link" href="/admin">x-commerce</a></h3>
       <ul class="links">
@@ -149,7 +299,7 @@
           </a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
 
   </template>
 </dom-module>

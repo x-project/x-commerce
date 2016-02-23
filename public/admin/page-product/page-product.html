@@ -127,6 +127,10 @@
       page('/admin/products');
     },
 
+    on_update_product: function () {
+      page('/admin/products/' + this.product.id);
+    },
+
     validate_model: function () {
       var check = true;
       var error = this.create_custom_err();
