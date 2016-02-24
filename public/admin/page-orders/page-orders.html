@@ -19,7 +19,8 @@
       <div class="main container">
         <part-orders-search></part-orders-search>
         <part-orders-stats></part-orders-stats>
-        <part-orders-items orders="{{orders}}"></part-orders-items>
+        <part-orders-items orders="{{orders}}" fields="{{fields}}">
+        </part-orders-items>
         <part-orders-pages on-change-page="on_change_page" perpage="{{perpage}}"
           count="{{count}}">
         </part-orders-pages>
@@ -48,7 +49,6 @@
       }
     },
 
-
     attached: function () {
       this.count_orders();
     },
@@ -67,7 +67,7 @@
     get_orders: function () {
       Model.find('/api/orders', this.get_filter_options())
         .then(function (data) {
-          this.orders = data;
+          this.orders = this.populate_list(data);
         }.bind(this))
         .catch(function (error) {
           console.log(error);
@@ -80,6 +80,17 @@
         page: this.page,
         include: [{'order_items': ['product','product_variant']}, 'customer']
       };
+    },
+
+    populate_list: function (orders) {
+      this.fields = ["status","customer","num_items"];
+      return orders.map(function (order) {
+        var obj = {};
+        obj.status = order.status;
+        obj.customer = order.customer.first_name;
+        obj.num_items = order.order_items.length;
+        return obj;
+      });
     },
 
     on_change_page: function (event) {

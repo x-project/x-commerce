@@ -10,19 +10,25 @@
       selected-items {
         --selected-item: {
           padding: 4px 8px;
+          margin: 1px 2px;
           border-radius: 2px;
           display: inline-block;
           background-color: #eee;
         };
-        --layout-item-delete: {
-          padding-left: 8px;
+        --item-delete: {
+          padding-left: 1px;
           opacity: .4;
         };
-        --layout-item-delete-hover: {
+        --item-delete-hover: {
           opacity: 1;
           cursor: pointer;
         };
+        --item-hover: {
+          cursor: pointer;
+          opacity: .7;
+        };
       }
+
       search-items.search {
         display: none;
         margin-top: 1em;
@@ -40,7 +46,8 @@
     <div class="panel">
 
       <selected-items item="{{item_selected}}" property="title"
-        items="{{collection.products}}" on-delete-item="on_delete_product">
+        items="{{collection.products}}" on-delete-item="on_delete_product"
+        on-selected="on_selected">
       </selected-items>
 
       <button class="btn btn-primary" on-click="on_click_add_product">Add products</button>
@@ -229,6 +236,12 @@
       var product = event.detail;
       this.remove_product(product);
     },
+
+    on_selected: function (event) {
+      event.stopPropagation();
+      var product = event.detail;
+      page('/admin/products/' + product.id);
+    }
 
   });
 </script>

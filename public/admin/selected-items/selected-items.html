@@ -7,13 +7,22 @@
       .item {
         @apply(--selected-item);
       }
+      .delete {
+        @apply(--item-delete);
+      }
+      .delete:hover {
+        @apply(--item-delete-hover);
+      }
+      .item:hover {
+        @apply(--item-hover);
+      }
     </style>
 
     <div class="items">
       <template id="items" is="dom-repeat" items="{{items}}" filter="filter">
         <div class="item">
-          <span>{{item._name}}</span>
-          <span on-click="on_click_delete" class="delete">x</span>
+          <span class="item" on-click="on_click_item">{{item._name}}</span>
+          <span class="delete" on-click="on_click_delete" class="delete">x</span>
         <div>
       </template>
     </div>
@@ -62,6 +71,12 @@
       var index = this.items.indexOf(item);
       this.splice('items', index, 1);
       this.fire('delete-item', item);
+    },
+
+    on_click_item: function (event) {
+      event.stopPropagation();
+      var item = this.$.items.itemForElement(event.target);
+      this.fire('selected', item);
     },
 
     filter: function (item) {

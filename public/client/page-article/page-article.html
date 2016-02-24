@@ -5,20 +5,10 @@
 <dom-module id="page-article">
 	<template>
     <style include="style-grid"></style>
-    <style>
-    .container{
-      padding: 0 200px;
-    }
-    .image {
-        background-color: #eee;
-        margin-top: 10px;
-        height: 200px;
-        width: 100%;
-    }
-    </style>
+
     <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
-        <div class="">
+        <div class="image">
           <image-preview class="image card-img-top img-responsive" sizing="cover"
             image="{{article.images.0}}" like-size="800" height="200" width="100">
           </image-preview>

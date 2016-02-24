@@ -11,9 +11,8 @@
       #iframe {
         display: none;
       }
-      .date {
-        display: inline;
-        width: 20% !important;
+      #date {
+        width: 100px;
       }
       form {
         width: 500px;
@@ -44,10 +43,9 @@
     <div class="form-row">
       <label>
         <span>Expiration (MM/YYYY)</span>
-        <input class="form-control date" type="text" size="2" data-stripe="exp-month" value="12"/>
+        <input class="form-control" id="date" type="text" size="2" data-stripe="exp-month" value="12"/>
       </label>
-      <span> / </span>
-      <input class="form-control date" type="text" size="4" data-stripe="exp-year" value="2020"/>
+      <input class="form-control" id="date" type="text" size="4" data-stripe="exp-year" value="2020"/>
     </div>
 
     <input type="hidden" name="data" value="{{data}}">

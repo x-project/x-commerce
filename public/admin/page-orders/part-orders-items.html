@@ -6,8 +6,7 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-      <table-view items="{{orders}}" fields=["status","total","discount"]
-        on-click="on_click_edit">
+      <table-view items="{{orders}}" fields="{{fields}}" on-click="on_click_edit">
       </table-view>
     </div>
 
@@ -29,6 +28,10 @@
 
     properties: {
       orders: {
+        type: Array,
+        value: function () { return []; }
+      },
+      fields: {
         type: Array,
         value: function () { return []; }
       }

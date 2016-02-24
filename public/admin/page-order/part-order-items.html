@@ -1,11 +1,13 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-table/style-table.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <dom-module id="part-order-items">
   <template>
+    <style include="style-button"></style>
     <style include="style-basic"></style>
     <style include="style-form"></style>
     <style include="style-table"></style>
@@ -24,7 +26,10 @@
         display: block;
       }
       #quantity_edit {
-        width: 25px;
+        width: 40px;
+        display: inline;
+        text-align: center;
+        background-color: white;
       }
     </style>
 
@@ -67,8 +72,9 @@
                 <td>{{order_item.product_variant.name}}</td>
                 <td>{{order_item.product_variant.price}}</td>
                 <td>
-                  <input id="quantity_edit" class="form-control" type="number" is="iron-input" min="1"
-                    bind-value="{{order_item.quantity}}" on-keyup="on_edit_order_item">
+                  <button class="btn btn-secondary" on-click="on_click_decrement"> - </button>
+                  <input id="quantity_edit" class="form-control" type="number" is="iron-input" min="1" bind-value="{{order_item.quantity}}" readonly>
+                  <button class="btn btn-secondary" on-click="on_click_increase"> + </button>
                 </td>
                 <td>{{calculate_subtotal(order_item)}}</td>
                 <td>
@@ -201,19 +207,9 @@
       this.update_order_items();
     },
 
-    on_edit_order_item: function (event) {
-      event.stopPropagation();
-      var data = this.$.order_items.itemForElement(event.target);
-      this.$.ajax_put_order_item.url = '/api/orders/' + data.order_id + '/order_items/' + data.id;
-      var order_item = {
-        quantity: data.quantity,
-        order_id: data.order_id,
-        product_id: data.product_id,
-        product_variant_id: data.product_variant_id
-      };
-      this.$.ajax_put_order_item.body = JSON.stringify(order_item);
-      this.$.ajax_put_order_item.generateRequest();
-    },
+    // on_edit_order_item: function (event) {
+
+    // },
 
     on_response_update_order_item: function (event) {
       event.stopPropagation();
@@ -259,8 +255,33 @@
         total += (order_item.product.price || 0) * order_item.quantity;
       });
       this.total = total;
-    }
+    },
 
+    on_click_decrement: function (event) {
+      event.stopPropagation();
+      var data = this.$.order_items.itemForElement(event.target);
+      data.quantity--;
+      this.update_cart(data);
+    },
+
+    on_click_increase: function (event) {
+      event.stopPropagation();
+      var data = this.$.order_items.itemForElement(event.target);
+      data.quantity++;
+      this.update_cart(data);
+    },
+
+    update_cart: function (data) {
+      this.$.ajax_put_order_item.url = '/api/orders/' + data.order_id + '/order_items/' + data.id;
+      var order_item = {
+        quantity: data.quantity,
+        order_id: data.order_id,
+        product_id: data.product_id,
+        product_variant_id: data.product_variant_id
+      };
+      this.$.ajax_put_order_item.body = JSON.stringify(order_item);
+      this.$.ajax_put_order_item.generateRequest();
+    }
 
   });
 </script>

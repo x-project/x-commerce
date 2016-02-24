@@ -12,17 +12,22 @@
       selected-items {
         --selected-item: {
           padding: 4px 8px;
+          margin: 1px 2px;
           border-radius: 2px;
           display: inline-block;
           background-color: #eee;
         };
-        --layout-item-delete: {
-          padding-left: 8px;
+        --item-delete: {
+          padding-left: 1px;
           opacity: .4;
         };
-        --layout-item-delete-hover: {
+        --item-delete-hover: {
           opacity: 1;
           cursor: pointer;
+        };
+        --item-hover: {
+          cursor: pointer;
+          opacity: .7;
         };
       }
       search-items.search {
@@ -40,7 +45,8 @@
       <label class="label">[[product_collection_label]]</label>
 
       <selected-items item="{{item_selected}}" property="title"
-        items="{{product.collections}}" on-delete-item="on_delete_collection">
+        items="{{product.collections}}" on-delete-item="on_delete_collection"
+        on-selected="on_selected">
       </selected-items>
 
       <button class="collection btn btn-primary" on-click="on_click_add_collection">Add collection</button>
@@ -213,7 +219,12 @@
 
     on_error_create: function () {
       this.fire('error');
-    }
+    },
 
+    on_selected: function (event) {
+      event.stopPropagation();
+      var collection = event.detail;
+      page('/admin/collections/' + collection.id);
+    }
   });
 </script>
