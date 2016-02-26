@@ -1,48 +1,80 @@
 <link rel="import" href="../../components/api-user-login/api-user-login.html">
-<link rel="import" href="../../components/app-link/app-link.html">
 <link rel="import" href="../../components/button-connect-google/button-connect-google.html">
 <link rel="import" href="../../components/button-connect-facebook/button-connect-facebook.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
 <link rel="import" href="form-login.html">
 <dom-module id="page-login">
   <template>
-    <style include="layout-empty"></style>
+    <style include="style-page"></style>
+    <style include="style-panel"></style>
+    <style include="style-button"></style>
+    <style>
+      .title {
+        font-size: 24px;
+        text-align: center;
+      }
+      .panel {
+        width: 300px;
+      }
+      .button {
+        --button-connect-google:{
+          background-color: #DC4A32;
+          border-color: #DC4A32;
+          width: 258px;
+          margin-bottom: 10px;
+        }
+        --button-connect-facebook:{
+          background: #3b5998;
+          border-color: #324b80;
+          width: 258px;
+          margin-bottom: 10px;
+        }
+      }
+      .form-separator{
+        border-top: 1px solid #e7e9ec;
+        height: 1px;
+        margin: 40px 0;
+        }
+      .form-separator p{
+        margin: -11px 121px;
+        background-color: #fff;
+        padding: 0px 4px;
+      }
+    </style>
 
     <api-user-login id="login" collection="customers" credentials="{{credentials}}"
       response="{{response}}" on-response="on_response" on-error="on_error">
     </api-user-login>
 
+
     <layout-empty>
-      <div class="center">
-        <div id="panel" class="container">
-          <a is="app-link" href="/">&larr;</a>
-          <h3>Login</h3>
-          <button-connect-google client_id="{{client_google}}"
+      <div class="panel">
+        <h3 class="title">Sign In</h3>
+        <div>
+          <button-connect-google class="button" client_id="{{client_google}}"
             on-response="on_connect" on-error="on_error">
           </button-connect-google>
-
-          <button-connect-facebook client_id="{{client_facebook}}"
-            on-response="on_connect" on-error="on_error">
+          <button-connect-facebook class="button" client_id="{{client_facebook}}"
+           on-response="on_connect" on-error="on_error">
           </button-connect-facebook>
-
-          <div>
-            <a is="app-link" href="/passwordless_email">passwordless emal</a>
-          </div>
-          <div>
-            <a is="app-link" href="/passwordless_phone">passwordless phone</a>
-          </div>
-          <div>
-            or
+          <div class="form-separator">
+            <p>or</p>
           </div>
           <form-login id="form" on-submit="on_submit"></form-login>
-          <div>
-            <a is="app-link" href="/signup">not registered?</a>
-          </div>
-          <div>
-            <a is="app-link" href="/forgot">forgot password?</a>
-          </div>
+        </div>
+        <div>
+          <a is="app-link" class="btn btn-link" href="/forgot">Forgot password?</a>
+          <a is="app-link" class="btn btn-link" href="/signup">Sign up</a>
+        </div>
+        <div>
+          <a is="app-link"  class="btn btn-link" href="/passwordless_email">passwordless email</a>
+          <a is="app-link"  class="btn btn-link" href="/passwordless_phone">passwordless phone</a>
         </div>
       </div>
+
     </layout-empty>
 
   </template>

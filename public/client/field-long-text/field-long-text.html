@@ -1,29 +1,18 @@
-<link rel="import" href="../../components/iron-autogrow-textarea/iron-autogrow-textarea.html">
-<link rel="import" href="../../styles/style-field/style-field.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
-<link rel="import" href="../../styles/style-label/style-label.html">
+<link rel="import" href="../../components/paper-input/paper-textarea.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-long-text">
   <template>
-    <style include="style-label"></style>
-    <style include="style-form"></style>
-    <style include="style-field"></style>
     <style>
-      div.filed iron-autogrow-textarea.textarea {
-        display: block;
-        @apply(--iron-autogrow-textarea);
-          border: .0625rem solid #ccc;
-          border-radius: .25rem;
+      paper-textarea {
+        --paper-input-container-input: {
+          font-size: inherit;
+          font-family: inherit;
+        };
       }
     </style>
 
-     <div class="filed">
-        <label class="label">[[label]]</label>
-        <iron-autogrow-textarea class="textarea" is="iron-input"
-          bind-value="{{value}}" rows="8">
-        </iron-autogrow-textarea>
-        <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
-      </div>
+    <paper-textarea label="[[label]]" type="text" value="{{value}}"></paper-textarea>
+    <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>

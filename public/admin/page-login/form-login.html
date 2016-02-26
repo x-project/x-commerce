@@ -1,22 +1,35 @@
-<link rel="import" href="/components/iron-input/iron-input.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../input-secret/input-secret.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="form-login">
   <template>
-   <style include="style-form"></style>
+    <style include="style-button"></style>
+    <style>
+      .btn{
+        text-transform: uppercase;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        font-size: 12px;
+        width: 100%;
+      }
+      .buttons {
+        margin-top: 12px;
+        text-align: center;
+      }
+    </style>
 
-    <form class="form" on-submit="on_submit">
-      <div class="field" name="email">
-        <label class="label">[[label_email]]</label>
-        <input class="input" is="iron-input" type="text" bind-value="{{credentials.email}}">
-      </div>
-      <div class="field" name="password">
-        <label class="label">[[label_password]]</label>
-        <input class="input" is="iron-input" type="password" bind-value="{{credentials.password}}">
-      </div>
-      <div class="field" name="submit">
-        <input class="button" type="submit" value="[[label_submit]]" />
+    <form on-submit="on_submit">
+      <field-text label="email" property="email" value="{{credentials.email}}"
+        error="{{error}}">
+      </field-text>
+      <input-secret label="password" property="password" private_key="{{credentials.password}}"
+        error="{{error}}">
+      </input-secret>
+      <div class="buttons">
+        <button class="btn btn-sm btn-success" type="submit">login</button>
       </div>
     </form>
+
 
   </template>
 </dom-module>
@@ -26,14 +39,6 @@
     is: 'form-login',
 
     properties: {
-      label_email: {
-        type: String,
-        value: 'email'
-      },
-      label_password: {
-        type: String,
-        value: 'password'
-      },
       label_submit: {
         type: String,
         value: 'login'

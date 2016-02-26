@@ -1,22 +1,31 @@
 <link rel="import" href="../../components/api-user-login/api-user-login.html">
 <link rel="import" href="../../components/layout-grid/layout-grid.html">
+<link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../layout-empty/layout-empty.html">
 <link rel="import" href="form-login.html">
+
 <dom-module id="page-login">
   <template>
-    <style include="layout-empty"></style>
+    <style include="style-panel"></style>
+    <style>
+      .title{
+        font-size: 24px;
+        text-align: center;
+      }
+      .panel{
+        width: 300px;
+      }
+
+    </style>
 
     <api-user-login id="login" credentials="{{credentials}}" collection="managers"
       response="{{response}}" on-response="on_login" on-error="on_error">
     </api-user-login>
 
     <layout-empty>
-      <div class="center">
-        <div class="panel">
-          <a is="app-link" href="/">&larr;</a>
-          <h3>Login</h3>
-          <form-login id="form" on-submit="on_submit"></form-login>
-        </div>
+      <div class="panel">
+        <h3 class="title">Sign In</h3>
+        <form-login id="form" on-submit="on_submit"></form-login>
       </div>
     </layout-empty>
 

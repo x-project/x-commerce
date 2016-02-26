@@ -1,21 +1,34 @@
-<link rel="import" href="../../components/iron-input/iron-input.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
-<link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../style-button/style-button.html">
+<link rel="import" href="../style-form/style-form.html">
+<link rel="import" href="../field-text/field-text.html">
+
 <dom-module id="form-forgot">
   <template>
-    <style include="style-basic"></style>
     <style include="style-button"></style>
     <style include="style-form"></style>
+    <style>
+      .btn{
+        text-transform: uppercase;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        font-size: 12px;
+        width: 100%;
+      }
+      .buttons {
+        margin: 12px 0;
+        text-align: center;
+      }
+    </style>
 
     <form on-submit="on_submit">
-      <div class="field" name="email">
-        <label class="label">email</label>
-        <input class="form-control" is="iron-input" type="text" bind-value="{{email}}">
+      <field-text label="email" property="email" value="{{credentials.email}}"
+        error="{{error}}">
+      </field-text>
+
+      <div class="buttons">
+        <button class="btn btn-success" type="submit">reset</button>
       </div>
-      <div class="field">
-        <button class="btn btn-secondary" type="submit">reset</button>
-      </div>
+
     </form>
 
   </template>

@@ -1,25 +1,35 @@
-<link rel="import" href="../../components/polymer/polymer.html">
-<link rel="import" href="../../components/iron-input/iron-input.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../field-text/field-text.html">
+<link rel="import" href="../input-secret/input-secret.html">
 <dom-module id="form-login">
   <template>
     <style include="style-basic"></style>
     <style include="style-button"></style>
     <style include="style-form"></style>
-
-    <form on-submit="on_submit">
-      <div class="field" name="email">
-        <label class="text-muted">[[label_email]]</label>
-        <input class="form-control" is="iron-input" type="text" bind-value="{{credentials.email}}">
-      </div>
-      <div class="field" name="password">
-        <label class="text-muted">[[label_password]]</label>
-        <input class="form-control" is="iron-input" type="password"bind-value="{{credentials.password}}">
-      </div>
-      <div class="button">
-        <button class="btn btn-secondary" type="submit">[[label_submit]]</button>
+     <style>
+      .btn{
+        text-transform: uppercase;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        font-size: 12px;
+        width: 100%;
+      }
+      .buttons {
+        margin-top: 12px;
+        text-align: center;
+      }
+    </style>
+    <form id="form" on-submit="on_submit">
+      <field-text label="email" property="email" value="{{credentials.email}}"
+        error="{{error}}">
+      </field-text>
+      <input-secret label="password" property="password" private_key="{{credentials.password}}"
+        error="{{error}}">
+      </input-secret>
+      <div class="buttons">
+        <button  class="btn btn-success" on-click="on_submit">login</button>
       </div>
     </form>
 
@@ -52,7 +62,7 @@
 
     on_submit: function (event) {
       event.stopPropagation();
-      event.preventDefault();
+      console.log(this.credentials);
       this.fire('submit', this.credentials);
     },
 

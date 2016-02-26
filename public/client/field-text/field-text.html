@@ -1,15 +1,18 @@
+<link rel="import" href="../../components/paper-input/paper-input.html">
 <link rel="import" href="../input-errors/input-errors.html">
 <dom-module id="field-text">
   <template>
-    <style include="style-label"></style>
-    <style include="style-form"></style>
-    <style include="style-field"></style>
+    <style>
+      paper-input {
+        --paper-input-container-input: {
+          font-size: inherit;
+          font-family: inherit;
+        };
+      }
+    </style>
 
-    <div class="field">
-      <label class="label">[[label]]</label>
-      <input class="form-control" type="text" is="iron-input" bind-value="{{value}}">
-      <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
-    </div>
+    <paper-input label="[[label]]" type="text" value="{{value}}"></paper-input>
+    <input-errors property="{{property}}" error="{{error.details}}"></input-errors>
 
   </template>
 </dom-module>
