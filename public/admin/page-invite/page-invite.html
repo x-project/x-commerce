@@ -1,14 +1,15 @@
 <link rel="import" href="../../components/api-model-create/api-model-create.html">
 <link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
 <link rel="import" href="../layout-admin/layout-admin.html">
 <link rel="import" href="part-invite-actions.html">
 <link rel="import" href="part-invite-header.html">
 <link rel="import" href="part-invite-member.html">
-
 <dom-module id="page-invite">
   <template>
     <style include="style-grid"></style>
+    <style include="style-page"></style>
     <app-session id="session"></app-session>
 
     <api-model-create id="create" collection="invites" response="{{response}}"
@@ -17,6 +18,7 @@
 
     <layout-admin on-try-invite="on_try_invite">
       <div class="toolbar">
+        <h1 class="title">Team Invite new team member</h1>
         <part-invite-header></part-invite-header>
       </div>
       <div class="main container">

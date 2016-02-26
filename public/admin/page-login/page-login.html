@@ -37,6 +37,10 @@
 
     is: 'page-login',
 
+    attached: function () {
+
+    },
+
     on_submit: function (event) {
       this.credentials = event.detail;
       this.$.login.send();

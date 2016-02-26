@@ -27,8 +27,8 @@
 <link rel="import" href="../page-customers/page-customers.html">
 <link rel="import" href="../page-customer/page-customer.html">
 <link rel="import" href="../page-store/page-store.html">
-<link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-products/page-products.html">
+<link rel="import" href="../page-product/page-product.html">
 <link rel="import" href="../page-variants/page-variants.html">
 <link rel="import" href="../page-variant/page-variant.html">
 <link rel="import" href="../page-invite/page-invite.html">
@@ -37,8 +37,8 @@
 <link rel="import" href="../page-member/page-member.html">
 <link rel="import" href="../page-signup/page-signup.html">
 <link rel="import" href="../page-team/page-team.html">
-<link rel="import" href="../page-vendor/page-vendor.html">
 <link rel="import" href="../page-vendors/page-vendors.html">
+<link rel="import" href="../page-vendor/page-vendor.html">
 <link rel="import" href="../page-product_type/page-product_type.html">
 <link rel="import" href="../page-product_types/page-product_types.html">
 <link rel="import" href="../page-services/page-services.html">
@@ -118,7 +118,7 @@
         page('/admin/login');
         return;
       }
-      context.page_name = 'page-home';
+      context.page_name = 'page-store';
       this.open_page(context);
     },
 
@@ -337,7 +337,6 @@
         context.data.error = error;
       });
     },
-
 
     '/admin/invites/new': function (context) {
       this.init(context);

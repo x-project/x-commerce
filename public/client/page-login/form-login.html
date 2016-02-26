@@ -61,8 +61,8 @@
     },
 
     on_submit: function (event) {
+      event.preventDefault();
       event.stopPropagation();
-      console.log(this.credentials);
       this.fire('submit', this.credentials);
     },
 

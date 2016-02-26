@@ -11,8 +11,8 @@
         display: inline-block;
         margin-top: 50px;
       }
-      .container {
-        background-color: #ccc;
+      .all-page{
+        background-color: #efefef;;
       }
     </style>
 
@@ -20,17 +20,19 @@
     <style include="style-grid"></style>
 
     <layout-client mode="standard" image="">
-      <div class="container">
-        <h1 class="title">Cart Summary</h1>
-        <div class="row">
-          <div class="col col-sm-6">
-            <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
-              on-change-address="on_change_address">
-            </part-summary-order-detail>
-          </div>
-          <div class="col col-sm-6">
-            <payment-braintree id="braintree" on-success="on_success_pay"></payment-braintree>
-            <payment-stripe id="stripe"></payment-stripe>
+      <div class="all-page">
+        <div class="container">
+          <h1 class="title">Cart Summary</h1>
+          <div class="row">
+            <div class="col col-sm-6">
+              <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
+                on-change-address="on_change_address">
+              </part-summary-order-detail>
+            </div>
+            <div class="col col-sm-6">
+              <payment-braintree id="braintree" on-success="on_success_pay"></payment-braintree>
+              <payment-stripe id="stripe"></payment-stripe>
+            </div>
           </div>
         </div>
       </div>
