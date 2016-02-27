@@ -1,0 +1,32 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<dom-module id="part-store-about">
+  <template>
+    <style include="style-panel"></style>
+
+    <h2 class="title">[[about_label]]</h2>
+    <div class="panel">
+      <field-long-text label="About" property="about" value="{{store.about}}" error="{{error}}">
+      </field-long-text>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-store-about',
+
+    properties: {
+      about_label: {
+        type: String,
+        value: 'About'
+      },
+      store: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    }
+
+  });
+</script>

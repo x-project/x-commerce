@@ -11,17 +11,12 @@
       #iframe {
         display: none;
       }
-      #date {
-        width: 100px;
-      }
-      form {
-        width: 500px;
-      }
-      form .form-control {
-        width: 60%;
+      #pay {
+        width: 300px;
+        padding: 10px;
+        margin: 30px 80px;
       }
     </style>
-
   <app-session id="session"></app-session>
 
   <iframe id="iframe" name="form_sending_stripe" on-load="on_checkout_stripe"></iframe>
@@ -29,10 +24,8 @@
   <form action="/api/orders/stripe" method="POST" id="payment-form" target="form_sending_stripe">
     <span class="payment-errors"></span>
     <div class="form-row">
-      <label>
-        <span class="text-muted">Card Number</span>
-        <input class="form-control" type="text" size="20" data-stripe="number" name="number" value="4242424242424242"/>
-      </label>
+      <input class="form-control" type="text" size="20" data-stripe="number" name="number"
+        value="4242424242424242"/>
     </div>
     <div class="form-row">
       <label>

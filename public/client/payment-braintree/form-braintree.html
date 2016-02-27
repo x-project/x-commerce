@@ -1,7 +1,11 @@
-<link rel="import" href="/components/app-session/app-session.html">
+<link rel="import" href="../../components/app-session/app-session.html">
+<link rel="import" href="../../components/gold-cc-input/gold-cc-input.html">
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../components/gold-cc-cvc-input/gold-cc-cvc-input.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
+<link rel="import" href="../field-number/field-number.html">
 <dom-module id="form-braintree">
   <template>
     <app-session id="session"></app-session>
@@ -12,30 +16,48 @@
       #iframe {
         display: none;
       }
-      .data-braintree {
-        width: 100px;
-        display: inline
+      .date-container {
+        @apply(--layout-horizontal);
+      }
+      .date-month, .date-year {
+        @apply(--layout-flex-4);
+      }
+      .space {
+        @apply(--layout-flex-2);
+      }
+      #pay {
+        width: 300px;
+        padding: 10px;
+        margin: 30px 80px;
+
       }
     </style>
 
     <iframe id="iframe" name="form_sending" on-load="on_checkout"></iframe>
 
     <form action="/api/orders/checkout" id="form_card" method="post" target="form_sending">
-      <div class="field">
-        <label class="text-muted" for="card-number">Card Number</label>
-        <input class="form-control card" type="text" data-braintree-name="number" value="378282246310005">
-      </div>
-      <div class="field">
-        <label class="text-muted" for="expiration-date">Expiration Date</label>
-        <input class="form-control data-braintree" type="number"
-          data-braintree-name="expiration_month" value="1">
-        <input class="form-control data-braintree" type="number"
-          data-braintree-name="expiration_year" value="2020">
+      <div id="card-number">
+        <gold-cc-input class="card" label="card number" auto-validate data-braintree-name="number"
+          value="378282246310005">
+        </gold-cc-input>
       </div>
 
-      <input type="hidden" name="data" value="{{data}}">
+      <div class="date-container" id="expiration-date">
+        <div class="date-month">
+          <paper-input label="month" class="data-braintree" data-braintree-name="expiration_month"
+            type="number" value="2">
+          </paper-input>
+        </div>
+        <div class="space"></div>
+        <div class="date-year">
+          <paper-input label="year" class="data-braintree" data-braintree-name="expiration_year"
+            type="number" value="2020">
+          </paper-input>
+        </div>
+      </div>
 
       <input id="pay" type="submit" class="btn btn-success" value="pay">
+      <input type="hidden" name="data" value="{{data}}">
     </form>
 
   </template>

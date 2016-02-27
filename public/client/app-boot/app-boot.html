@@ -47,6 +47,8 @@
 
     is: 'app-boot',
 
+
+
     behaviors: [
       Polymer.RouterBehaviour
     ],
@@ -57,6 +59,7 @@
     },
 
     on_login: function (event) {
+      event.stopPropagation();
       this.session.set('user', event.detail.user);
       this.session.set('token', event.detail.id);
       page('/settings');

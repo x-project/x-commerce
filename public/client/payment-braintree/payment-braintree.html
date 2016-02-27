@@ -51,6 +51,7 @@
     on_success_payment: function (event) {
       event.stopPropagation();
       var res = event.detail;
+      console.log(res);
       if (Object.keys(res).length !== 0) {
         if (res.result.success && res.result.order.status === 'closed') {
           this.fire('success', res);

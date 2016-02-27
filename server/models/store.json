@@ -26,6 +26,9 @@
       "length": 64,
       "required": true
     },
+    "about": {
+      "type": "String"
+    },
     "policy": {
       "type": "String"
     },

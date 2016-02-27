@@ -9,10 +9,10 @@
       }
     </style>
 
-    <layout-client mode="waterfall-tall">
+    <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
         <h1>About</h1>
-        <p>{{data.store.description}}</p>
+        <p>{{store.about}}</p>
       </div>
     </layout-client>
 
@@ -22,7 +22,25 @@
 <script>
   Polymer({
 
-    is: 'page-about'
+    is: 'page-about',
+
+    properties: {
+      store: {
+        type: Object
+      },
+      image: {
+        type: String,
+        value: '/images/bg3.jpg'
+      }
+    },
+
+    attached: function () {
+      if (!this.store) {
+        this.store = this.data.store;
+        return;
+      }
+      console.log(this.data);
+    }
 
   });
 </script>

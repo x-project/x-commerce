@@ -83,7 +83,6 @@
     },
 
     on_logout: function (event) {
-      console.log("logout");
       this.$.session.unset('admin_token');
       this.$.session.unset('admin_user');
       page('/')

@@ -4,7 +4,7 @@
   <template>
     <style include="style-grid"></style>
 
-    <layout-client mode="waterfall-tall">
+    <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
         <h1>Contact</h1>
         <a href="{{mailto}}">{{data.store.email}}</a>
@@ -18,6 +18,13 @@
   Polymer({
 
     is: 'page-contact',
+
+    properties: {
+      image: {
+        type: String,
+        value: '/images/bg3.jpg'
+      }
+    },
 
     observer: [
       'update(data.store.email)'
