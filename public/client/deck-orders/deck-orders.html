@@ -1,0 +1,33 @@
+<link rel="import" href="../../styles/style-deck/style-deck.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="card-order.html">
+<dom-module id="deck-orders">
+  <template>
+    <style include="style-deck"></style>
+    <style include="style-grid"></style>
+
+
+    <div class="deck">
+      <template id="products" is="dom-repeat" items="{{orders}}" as="order">
+        <div class="order">
+          <card-order order="{{order}}"></card-order>
+        </div>
+      </template>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'deck-orders',
+
+    properties: {
+      orders: {
+        type: Array,
+        value: function () { return []; }
+      }
+    }
+
+  });
+</script>

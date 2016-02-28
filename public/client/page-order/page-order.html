@@ -1,6 +1,7 @@
 <link rel="import" href="../../components/api-model/api-model.html">
 <link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
+<link rel="import" href="../deck-orders/card-order.html">
 <link rel="import" href="list-order.html">
 <dom-module id="page-order">
   <template>
@@ -14,10 +15,15 @@
       on-response="on_response_reviews">
     </api-model-find>
 
-    <layout-client>
+    <layout-client mode="standard" image="">
       <div class="container">
-        <h1>My Orders</h1>
-        <list-order orders="{{orders_complete}}"></list-order>
+        <div class="row">
+          <div class="col col-sm-2"></div>
+          <div class="col col-sm-8">
+            <card-order order="{{order}}"></card-order>
+          </div>
+          <div class="col col-sm-2"></div>
+        </div>
       </div>
     </layout-client>
 
@@ -29,7 +35,7 @@
     is: 'page-order',
 
     properties: {
-      orders: {
+      order: {
         type: Array,
         value: function () { return []; }
       }
@@ -39,38 +45,14 @@
       if(!this.session.user) {
         return;
       }
-      this.$.find_orders.where = { customer_id: this.session.user.id };
-      this.$.find_orders.one = false;
-      this.$.find_orders.accessToken = this.session.token;
-      this.$.find_orders.include = [ "customer", {"order_items":["product","product_variant"]}];
-      this.$.find_orders.send();
+      this.order = this.data.order;
+
     },
 
     on_response_orders: function (event) {
       event.stopPropagation();
-      console.log(this.orders);
-      // this.$.find_reviews.one = false;
-      // this.$.find_reviews.where = {customer_id: this.session.user.id}
-      // this.$.find_reviews.send();
     },
 
-    on_response_reviews: function (event) {
-      event.stopPropagation();
-      this.populate_order_from_reviews();
-    },
-
-    populate_order_from_reviews: function () {
-      this.orders.forEach(function (order) {
-        order.order_items.forEach(function (item) {
-          this.reviews.forEach(function (review) {
-            if (item.product.id == review.product_id) {
-              item.review = review;
-            }
-          });
-        }, this);
-      }, this);
-      this.orders_complete = this.orders;
-    }
 
   });
 </script>

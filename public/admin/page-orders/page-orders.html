@@ -89,6 +89,7 @@
         obj.status = order.status;
         obj.customer = order.customer.first_name;
         obj.num_items = order.order_items.length;
+        obj.id = order.id;
         return obj;
       });
     },

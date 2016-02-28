@@ -1,0 +1,44 @@
+<link rel="import" href="../deck-products/deck-products.html">
+<dom-module id="card-order">
+  <template>
+  <style>
+    .order {
+      margin-top: 20px;
+    }
+  </style>
+    <div class="order">
+      <strong class="total">Total: {{order.total}} - Discount: {{order.discount}}</strong>
+      <deck-products products="{{_get_products(order)}}"></deck-products>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'card-order',
+
+    properties: {
+      order: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    on_click_card: function (event) {
+      page('/products/' + this.product.id);
+    },
+
+    _get_products: function (order) {
+      if (!order.order_items)
+        return;
+      var products = [];
+      order.order_items.forEach(function (order_item) {
+        products.push(order_item.product);
+      }, this);
+      return products;
+    }
+
+
+  });
+</script>

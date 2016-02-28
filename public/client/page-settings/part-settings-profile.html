@@ -1,7 +1,7 @@
 <link rel="import" href="../app-session/app-session.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="form-settings-profile.html">
-<dom-module id="panel-settings-profile">
+<dom-module id="part-settings-profile">
   <template>
     <style include="style-panel"></style>
 
@@ -22,7 +22,7 @@
 <script>
   Polymer({
 
-    is: 'panel-settings-profile',
+    is: 'part-settings-profile',
 
     attached: function () {
       this.customer = this.$.session.get('user');

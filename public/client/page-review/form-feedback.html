@@ -4,36 +4,35 @@
 <link rel="import" href="../input-rating/input-rating.html">
 <dom-module id="form-feedback">
   <template>
-    <style include="style-form">
+    <style>
       form[read]{
         pointer-events: none;
       }
-      #rating {
+      input-rating{
         display: block;
       }
       #text {
         display: block;
+
       }
+
     </style>
 
     <form id="form" role="form" read$="{{read}}" on-submit="on_submit">
 
-      <div id="rating" class="field" id="rating-score">
-        <label class="label">Rating</label>
+      <div id="rating">
         <input-rating values="[2,4,6,8,10]" value="{{review.rating}}"
           editable on-change="on_change_rating">
         </input-rating>
       </div>
 
       <div id="text" class="field" id="title-rating">
-        <label class="label">Title</label>
         <field-text label="Title" property="title" value="{{review.title}}"
           error="{{error}}">
         </field-text>
       </div>
 
       <div id="description" class="field" id="text-rating">
-        <label class="label">Text</label>
         <field-long-text label="Text" property="text" value="{{review.text}}"
           error="{{error}}">
         </field-long-text>

@@ -1,55 +1,51 @@
-<link rel="import" href="../../components/iron-input/iron-input.html">
 <link rel="import" href="../../components/input-location/input-location.html">
-<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../../components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
 <link rel="import" href="../input-date-of-birth/input-date-of-birth.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="form-settings-profile">
   <template>
     <style include="style-button"></style>
-    <style include="style-form"></style>
-    <style include="style-checkbox"></style>
-    <style include="style-basic"></style>
     <style>
-      .gender {
-        margin: 10px;
-      }
       input-location {
         box-sizing: border-box;
         width: 100%;
         --input-location: {
-          @apply(--form-control);
           box-sizing: border-box;
+          width: 100%;
+          outline: none;
+          border-left: none;
+          border-top: none;
+          border-right: none;
+          border-bottom: 1px solid;
+          font-size: inherit;
+          font-family: inherit;
         };
+      }
+      .btn {
+        margin: 5px 0;
       }
     </style>
 
     <form on-submit="on_submit">
-      <div class="form-group">
-        <label class="lbl text-muted" for="first_name">first name</label>
-        <input type="text" is="iron-input" class="form-control"
-          bind-value="{{customer.first_name}}">
-        <label class="lbl text-muted" for="last_name">last name</label>
-        <input type="text" is="iron-input" class="form-control"
-          bind-value="{{customer.last_name}}">
-        <label class="lbl text-muted" for="birth">date of birth</label>
-        <input-date-of-birth date="{{customer.date_of_birth}}"></input-date-of-birth>
+      <field-text label="first name" property="first_name" value="{{customer.first_name}}"
+        error="{{error}}">
+      </field-text>
+      <field-text label="last name" property="last_name" value="{{customer.last_name}}"
+        error="{{error}}">
+      </field-text>
+      <!-- <input-date-of-birth label="birthday" date="{{customer.date_of_birth}}">
+      </input-date-of-birth> -->
 
-        <div class="gender">
-          <label class="radio-inline">
-            <input type="radio" name="gender" id="male" value="M">Male
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="gender" id="female" value="F">Female
-          </label>
-        </div>
-
-        <div>
-          <label class="lbl text-muted" for="location">location</label>
-          <input-location class="" value="{{customer.location}}"></input-location>
-        </div>
+      <div>
+        <paper-radio-group selected="{{customer.gender}}">
+          <paper-radio-button name="male"><span>male</span></paper-radio-button>
+          <paper-radio-button name="female"><span>female</span></paper-radio-button>
+        </paper-radio-group>
       </div>
+
+      <input-location value="{{customer.location}}"></input-location>
 
       <button class="btn btn-secondary" type="submit" value="update">update</button>
     </form>
@@ -66,6 +62,10 @@
         type: Object,
         notify: true,
         value: function () { return {}; },
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; },
       }
     },
 
@@ -73,42 +73,15 @@
       if (!this.customer) {
         return;
       }
-      this.update_gender();
     },
 
     on_submit: function (event) {
+      console.log(this.customer);
       event.preventDefault();
       event.stopPropagation();
-      this.update();
-    },
-
-    update: function () {
+      console.log(this.customer);
       this.customer.date_of_birth = new Date(this.customer.date_of_birth).toISOString();
-      this.customer.gender = this.get_gender();
       this.fire('try-update');
-    },
-
-    get_gender: function () {
-      if (this.$.female.checked) {
-        return 'F'
-      }
-      if (this.$.male.checked) {
-        return 'M'
-      }
-      return '';
-    },
-
-    update_gender: function () {
-      if (!this.customer.gender) {
-        return '';
-      }
-      if (this.customer.gender === 'M') {
-        this.$.male.checked = true;
-        return;
-      }
-      if (this.customer.gender === 'F') {
-        this.$.female.checked = true; 
-      }
     }
 
   });

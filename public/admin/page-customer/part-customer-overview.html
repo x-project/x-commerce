@@ -1,13 +1,16 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
 <link rel="import" href="../../styles/style-panel/style-panel.html">
 <link rel="import" href="../input-secret/input-secret.html">
 <link rel="import" href="../field-long-text/field-long-text.html">
 <link rel="import" href="../field-text/field-text.html">
 <dom-module id="part-customer-overview">
   <template>
+    <style include="style-button"></style>
     <style include="style-panel"></style>
 
     <h2 class="title">Overview</h2>
     <div class="panel">
+      <label class="name">Basic info</label>
       <field-text label="First name" property="first_name" value="{{customer.first_name}}"
         error="{{error}}">
       </field-text>
@@ -18,7 +21,7 @@
       </field-text>
       <input-secret label="password" private_key="{{customer.password}}">
       </input-secret>
-      <button on-click="on_click_random_password">Get password</button>
+      <button class="btn btn-secondary" on-click="on_click_random_password">generate password</button>
     </div>
 
   </template>

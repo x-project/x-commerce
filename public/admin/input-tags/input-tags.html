@@ -1,0 +1,135 @@
+<dom-module id="input-tags">
+  <template>
+    <style>
+      .field .name {
+        display: block;
+        @apply(--label-tags);
+      }
+
+      .field {
+        @apply(--field-tags);
+        width: 100%;
+      }
+
+      .field .input {
+        border: none;
+        box-sizing: border-box;
+        @apply(--field-tags-input);
+
+      }
+      .field .input:focus,
+      .field .input:hover {
+        outline: none;
+        @apply(--field-tags-input-focus);
+      }
+
+      .tags {
+        display: inline-block;
+        border: 0 !important;
+        width: 100%;
+        @apply(--field-tags-items);
+      }
+
+      .tag {
+        @apply(--field-tags-item);
+      }
+
+      .tag .delete {
+        padding-left: 6px;
+        @apply(--field-tags-item-delete);
+      }
+
+      .tag .delete:hover {
+        cursor: pointer;
+        @apply(--field-tags-item-delete-hover);
+      }
+    </style>
+
+    <div class="field">
+      <label class="name">{{label}}</label>
+
+      <div class="tags">
+        <template id="tags" is="dom-repeat" items="{{tag_list}}">
+          <div class="tag">
+            <span class="value">{{item}}</span>
+            <span class="delete" on-click="on_click_delete">x</span>
+          <div>
+        </template>
+        <paper-input class="input" type="text" is="iron-input" value="{{tag}}"
+          label="{{placeholder}}" on-keyup="on_edit_tag"></paper-input>
+      </div>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'input-tags',
+
+    properties: {
+      label: {
+        type: String,
+        value: 'Tags'
+      },
+      placeholder: {
+        type: String,
+        value: 'insert tag'
+      },
+      tag: {
+        type: String,
+        value: ''
+      },
+      separators: {
+        type: Array,
+        value: function () { return [' ', ',']; }
+      },
+      tag_list: {
+        type: Array,
+        value: function () { return []; },
+        notify: true
+      }
+    },
+
+    on_edit_tag: function (event) {
+      event.stopPropagation();
+      if (event.keyCode === 13) {
+        this.add_tag(this.tag);
+        return;
+      }
+      if (this.tag.length === 0) {
+        return;
+      }
+      var keypressed = this.tag.charAt(this.tag.length-1);
+      if (this.separators.indexOf(keypressed) >= 0) {
+        this.tag = this.tag.slice(0,-1);
+        if (this.tag.length > 0) {
+          this.add_tag(this.tag);
+        }
+      }
+    },
+
+    add_tag: function (tag) {
+      if (!this.has_tag(tag)) {
+        this.push('tag_list', tag);
+      }
+      this.clear_tag();
+    },
+
+    has_tag: function (tag) {
+      return this.tag_list.indexOf(tag) >= 0;
+    },
+
+    clear_tag: function () {
+      this.set('tag', '');
+    },
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      var tag = this.$.tags.itemForElement(event.target);
+      var index = this.$.tags.indexForElement(event.target);
+      this.splice('tag_list', index, 1);
+    }
+
+  });
+</script>

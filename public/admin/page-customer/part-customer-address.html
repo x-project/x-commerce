@@ -13,11 +13,24 @@
     <style include="style-panel"></style>
     <style>
       input-location {
-        display: block !important;
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: 10px;
         --input-location: {
-          @apply(--form-control);
           box-sizing: border-box;
+          width: 100%;
+          outline: none;
+          border-left: none;
+          border-top: none;
+          border-right: none;
+          border-bottom: 1px solid #737373;
+              line-height: 24px;
+          font-size: inherit;
+          font-family: inherit;
         };
+      }
+      .btn {
+        margin: 5px 0;
       }
       .phone {
         --input-phone-prefix: {
@@ -31,10 +44,8 @@
 
     <h2 class="title">Address</h2>
     <div class="panel">
-      <div class="field">
-        <label class="label">Address</label>
-        <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
-      </div>
+      <label class="name">Address</label>
+      <input-location options="{{option}}" value="{{customer.location}}" place="{{place}}"></input-location>
       <field-number label="Location number" property="location_number" value="{{customer.location_number}}"
         error="{{error}}">
       </field-number>

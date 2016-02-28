@@ -19,7 +19,7 @@
     },
     "gender": {
       "type": "String",
-      "enum": ["M", "F"]
+      "enum": ["male", "female"]
     },
     "email": {
       "type": "String",

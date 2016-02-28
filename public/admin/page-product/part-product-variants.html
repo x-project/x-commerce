@@ -7,10 +7,11 @@
     <h2 class="title">[[product_variants_title_label]]</h2>
     <div class="panel">
       <template is="dom-if" if="{{product.id}}">
+        <label class="name">Go to variants </label>
         <a is="app-link" href="/admin/products/{{product.id}}/variants">variants</a>
       </template>
       <template is="dom-if" if="{{!product.id}}">
-        <p>Save to create variants.</p>
+        <p>Save to create variants</p>
       </template>
     </div>
 

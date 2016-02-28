@@ -1,16 +1,11 @@
-<link rel="import" href="../../components/iron-input/iron-input.html">
 <link rel="import" href="../../components/app-session/app-session.html">
 <link rel="import" href="../input-errors/input-errors.html">
-<link rel="import" href="../../styles/style-checkbox/style-checkbox.html">
-<link rel="import" href="../../styles/style-form/style-form.html">
+<link rel="import" href="../input-secret/input-secret.html">
 <link rel="import" href="../../styles/style-button/style-button.html">
-<link rel="import" href="../../styles/style-basic/style-basic.html">
+<link rel="import" href="../field-text/field-text.html">
 <dom-module id="form-settings-email">
   <template>
     <style include="style-button"></style>
-    <style include="style-form"></style>
-    <style include="style-checkbox"></style>
-    <style include="style-basic"></style>
 
     <app-session id="session"></app-session>
 
@@ -19,15 +14,19 @@
 
     <form on-submit="on_submit" on-keyup="on_keyup">
       <div class="form-group">
-        <label id="label-email" class="lbl text-muted" for="new_email">new email</label>
-        <input id="email" type="text" is="iron-input" class="form-control"
-          bind-value="{{data.email}}">
-        <label id="label-confirm" class="lbl text-muted" for="confirm_email">confirm email</label>
-        <input id="confirm" type="text" is="iron-input" class="form-control"
-          bind-value="{{data.confirm}}">
-        <label class="lbl text-muted" for="birth">password</label>
-        <input type="password" is="iron-input" class="form-control"
-          bind-value="{{data.password}}">
+
+
+      <field-text label="new email" property="email" value="{{data.email}}"
+        error="{{error}}">
+      </field-text>
+
+      <field-text label="confirm email" property="email" value="{{data.confirm}}"
+        error="{{error}}">
+      </field-text>
+
+      <input-secret label="password" private_key="{{data.password}}" error="{{error}}">
+      </input-secret>
+
       <button class="btn btn-secondary" type="submit" value="update">update</button>
     </form>
 
@@ -60,7 +59,6 @@
     on_submit: function (event) {
       event.stopPropagation();
       event.preventDefault();
-
       this.fire('try-update');
     },
 

@@ -1,8 +1,8 @@
-<link rel="import" href="../../components/input-tags/input-tags.html">
 <link rel="import" href="../../styles/style-field/style-field.html">
 <link rel="import" href="../../styles/style-form/style-form.html">
 <link rel="import" href="../../styles/style-label/style-label.html">
 <link rel="import" href="../input-errors/input-errors.html">
+<link rel="import" href="../input-tags/input-tags.html">
 <dom-module id="form-article-tags">
   <template>
     <style include="style-form"></style>
@@ -16,7 +16,6 @@
           border-radius: 2px;
         };
         --field-tags-input: {
-          @apply(--form-control);
           @apply(--input-tags);
         };
         --field-tags-item: {
@@ -24,10 +23,11 @@
           @apply(--label-primary);
           margin: 2px 0px;
           padding: 0.5em;
+          background-color: #ccc;
+          color: black;
           display: inline-block;
         };
         --label-tags: {
-          @apply(--label);
         };
       }
     </style>

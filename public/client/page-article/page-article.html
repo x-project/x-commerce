@@ -5,12 +5,17 @@
 <dom-module id="page-article">
 	<template>
     <style include="style-grid"></style>
+    <style>
+    .image {
+      margin-top: 20px;
+    }
+    </style>
 
     <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
         <div class="image">
           <image-preview class="image card-img-top img-responsive" sizing="cover"
-            image="{{article.images.0}}" like-size="800" height="200" width="100">
+            image="{{article.images.0}}" like-size="800" height="300" width="100">
           </image-preview>
         </div>
         <div class="detail">

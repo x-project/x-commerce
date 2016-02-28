@@ -1,3 +1,6 @@
+<link rel="import" href="../image-preview/image-preview.html">
+<link rel="import" href="../deck-products/card-product.html">
+
 <dom-module id="part-order-item-info">
   <template>
     <style>
@@ -9,8 +12,10 @@
         margin: 0;
       }
     </style>
-    <h3>Product info: </h3>
     <div class="item">
+<!--       <image-preview class="image card-img-top img-responsive" sizing="cover"
+        image="{{orderItem.product.images.0}}" like-size="400" height="100" width="100">
+      </image-preview>
       <label class="label">title</label>
       <span>{{orderItem.product.title}}</span>
       <label class="label">price</label>
@@ -27,7 +32,8 @@
       <span class="price">{{orderItem.quantity}}</span>
       <label class="label"> amount </label>
       <span class="price">{{total}}</span>
-      <a is="app-link" href="{{url_review}}">{{edit}}</a>
+      <a is="app-link" href="{{url_review}}">{{edit}}</a> -->
+      <card-product product="{{orderItem.product}}"></card-product>
     </div>
 
   </template>

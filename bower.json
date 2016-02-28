@@ -22,7 +22,9 @@
     "vaadin-grid": "^1.0.0",
     "gold-phone-input": "PolymerElements/gold-phone-input#^1.0.8",
     "gold-email-input": "PolymerElements/gold-email-input#^1.0.7",
-    "paper-fab": "PolymerElements/paper-fab#^1.2.0"
+    "paper-fab": "PolymerElements/paper-fab#^1.2.0",
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.0.9",
+    "paper-radio-button": "PolymerElements/paper-radio-button#^1.1.1"
   },
   "license": "MIT"
 }
