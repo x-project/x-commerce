@@ -6,7 +6,6 @@
     <style include="style-panel"></style>
 
     <div class="panel">
-    <h2 class="title">Braintree payment</h2>
       <form-braintree on-client-token-error="on_client_token_error"
         customer-id="{{customer_id}}" on-success="on_success_payment">
       </form-braintree>

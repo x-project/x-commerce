@@ -22,7 +22,6 @@
   <iframe id="iframe" name="form_sending_stripe" on-load="on_checkout_stripe"></iframe>
 
   <form action="/api/orders/stripe" method="POST" id="payment-form" target="form_sending_stripe">
-    <span class="payment-errors"></span>
     <div class="form-row">
       <input class="form-control" type="text" size="20" data-stripe="number" name="number"
         value="4242424242424242"/>

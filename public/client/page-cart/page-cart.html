@@ -10,7 +10,7 @@
     <style include="style-grid"></style>
     <style include="style-button"></style>
     <style>
-      #checkout{
+      .checkout{
         @apply(--layout-horizontal);
         @apply(--layout-center-justified);
         margin: 20px 0px;
@@ -40,8 +40,8 @@
       <div class="container">
           <part-cart-order-items cart="{{cart}}" on-update-cart="on_update_cart">
           </part-cart-order-items>
-        <div id="checkout">
-          <button class="btn btn-success" on-click="on_try_checkout">checkout</button>
+        <div class="checkout">
+          <button id="checkout" class="btn btn-success" on-click="on_try_checkout">checkout</button>
         </div>
       </div>
     </layout-client>
@@ -116,6 +116,7 @@
       }, this);
       this.$.session.set('cart', cart);
       this.cart = this.$.session.get('cart');
+      this.disabled_checkout(this.cart);
     },
 
     pluck: function (array, key) {
@@ -138,6 +139,15 @@
       event.stopPropagation();
       this.$.session.set('cart', this.cart);
       this.cart = this.$.session.get('cart');
+      this.disabled_checkout(this.cart);
+    },
+
+
+    disabled_checkout: function (cart) {
+      if (cart.length <= 0) {
+        this.$.checkout.disabled = true;
+        return;
+      }
     },
 
     on_error: function (event) {

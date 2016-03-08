@@ -3,7 +3,7 @@
   <template>
 
     <div class="table-responsive">
-      <table-cart order_items="{{cart}}" on-remove-product="on_remove_product"
+      <table-cart id="tabel" order_items="{{cart}}" on-remove-product="on_remove_product"
         on-change-quantity="on_change_quantity">
       </table-cart>
     </div>
@@ -19,8 +19,13 @@
     properties: {
       cart: {
         type: Array,
-        value: function () { return []; }
+        value: function () { return []; },
+        observer: '_on_change_cart'
       }
+    },
+
+    _on_change_cart: function () {
+      this.$.tabel.update_subtotal();
     },
 
     on_remove_product: function (event) {

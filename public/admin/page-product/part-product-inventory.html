@@ -18,7 +18,11 @@
         display: none;
       }
       .hidden.field[show] {
-        display: inline-block;
+        display: block;
+      }
+      .panel #label {
+        white-space: normal;
+        display: inline;
       }
     </style>
 
@@ -45,7 +49,7 @@
 
       <div class="hidden field" show$="{{product.track_quantity}}">
         <input-checkbox checked="{{product.sell_after_purchase}}"></input-checkbox>
-        <label class="label">Allow customers to purchase this product when it's out of stock</label>
+        <label id="label" class="label">Allow customers to purchase this product when it's out of stock</label>
       </div>
     </div>
 

@@ -12,7 +12,10 @@
         margin-top: 50px;
       }
       .all-page{
-        background-color: #efefef;;
+        background-color: #efefef;
+      }
+      .row {
+        margin-top: 50px;
       }
     </style>
 
@@ -22,7 +25,7 @@
     <layout-client mode="standard" image="">
       <div class="all-page">
         <div class="container">
-          <h1 class="title">Cart Summary</h1>
+          <!-- <h1 class="title">Cart Summary</h1> -->
           <div class="row">
             <div class="col col-sm-6">
               <part-summary-order-detail order-items="{{order_items}}" customer="{{customer}}"
@@ -30,7 +33,9 @@
               </part-summary-order-detail>
             </div>
             <div class="col col-sm-6">
+              <!-- <h2 class="title">Braintree payment</h2> -->
               <payment-braintree id="braintree" on-success="on_success_pay"></payment-braintree>
+              <!-- <h2 class="title">Stripe payment</h2> -->
               <!-- <payment-stripe id="stripe"></payment-stripe> -->
             </div>
           </div>

@@ -24,7 +24,9 @@
     "gold-email-input": "PolymerElements/gold-email-input#^1.0.7",
     "paper-fab": "PolymerElements/paper-fab#^1.2.0",
     "paper-radio-group": "PolymerElements/paper-radio-group#^1.0.9",
-    "paper-radio-button": "PolymerElements/paper-radio-button#^1.1.1"
+    "paper-radio-button": "PolymerElements/paper-radio-button#^1.1.1",
+    "fetch": "^0.11.0",
+    "es6-promise": "^3.2.1"
   },
   "license": "MIT"
 }
