@@ -1,0 +1,34 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../table-view/table-view.html">
+<dom-module id="part-reviews-items">
+  <template>
+    <style include="style-panel"></style>
+
+    <div class="panel">
+      <table-view items="{{reviews}}" fields='["title","text","rating","customer","product"]'
+        on-click="on_click_edit">
+      </table-view>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-reviews-items',
+
+    properties: {
+      reviews: {
+        type: Array,
+        value: function () { return []; },
+      }
+    },
+
+    on_click_edit: function (event) {
+      event.stopPropagation();
+      var review_id = event.detail.id;
+      page('/admin/reviews/' + review_id);
+    }
+
+  });
+</script>

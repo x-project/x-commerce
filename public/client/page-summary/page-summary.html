@@ -62,10 +62,11 @@
     on_success_pay: function (event) {
       event.stopPropagation();
       var response = event.detail;
-      // if (event.detail.result.complete.success) {
-      //   this.$.session.set('cart', []);
-      //   page('/order/' + event.detail.result.order.id);
-      // }
+      if (event.detail.result.success) {
+        this.$.session.set('cart', []);
+        // page('/orders/' + event.detail.result.order.id);
+        page('/success');
+      }
     },
 
     on_change_address: function (event) {

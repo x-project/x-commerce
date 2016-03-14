@@ -1,0 +1,64 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-reviews-items.html">
+<!-- <link rel="import" href="part-reviews-search.html"> -->
+<!-- <link rel="import" href="part-reviews-stats.html"> -->
+<dom-module id="page-reviews">
+  <template>
+    <style include="style-grid"></style>
+    <style include="style-page"></style>
+
+    <layout-admin>
+      <div class="toolbar">
+        <h1 class="title">Reviews / {{product.title}}</h1>
+      </div>
+      <div class="main container">
+        <!-- <part-reviews-search></part-vendors-search> -->
+        <!-- <part-reviews-stats></part-vendors-stats> -->
+        <part-reviews-items reviews="{{reviews}}"></part-reviews-items>
+      </div>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'page-reviews',
+
+    properties: {
+      product: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      variants: {
+        type: Array,
+        value: function () { return []; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.product = this.data.product;
+      var obj;
+      this.reviews = this.product.reviews.map(function (review) {
+        obj = {};
+        obj.id = review.id;
+        obj.title = review.title;
+        obj.text = review.text;
+        obj.rating = review.rating;
+        obj.customer = review.customer.first_name + ' ' + review.customer.last_name;
+        obj.product = review.product.title;
+        return obj;
+      });
+    }
+
+  });
+</script>

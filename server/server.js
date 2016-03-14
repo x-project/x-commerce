@@ -20,11 +20,11 @@ boot(app, __dirname, function(err) {
   auth(app);
 
   app.get('/admin/*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, '../public/build/admin.html'));
+    res.sendFile(path.resolve(__dirname, '../public/admin.html'));
   });
 
   app.get('/*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, '../public/build/index.html'));
+    res.sendFile(path.resolve(__dirname, '../public/index.html'));
   });
 
   require('./tasks/cron')(app);

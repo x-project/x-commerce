@@ -11,9 +11,8 @@
       }
     </style>
 
-    <api-user-signup id="signup" credentials="{{credentials}}" collection="members"
-      response="{{response}}" error="{{error}}"
-      on-response="on_signup" on-error="on_error">
+    <api-user-signup id="signup" credentials="{{credentials}}" collection="customers"
+      response="{{response}}" error="{{error}}" on-response="on_signup" on-error="on_error">
     </api-user-signup>
 
     <layout-empty>
@@ -57,11 +56,12 @@
     },
 
     on_signup: function (event) {
-      page('/');
+      page('/login');
     },
 
     on_error: function (event) {
       this.error_occurs = true;
+      console.log(event);
     }
 
   });

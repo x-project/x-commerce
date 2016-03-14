@@ -7,12 +7,10 @@
   "base": "User",
   "properties": {
     "first_name": {
-      "type": "String",
-      "required": true
+      "type": "String"
     },
     "last_name": {
-      "type": "String",
-      "required": true
+      "type": "String"
     },
     "date_of_birth" : {
       "type": "Date"

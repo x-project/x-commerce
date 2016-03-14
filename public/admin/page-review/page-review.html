@@ -1,0 +1,89 @@
+<link rel="import" href="../../styles/style-grid/style-grid.html">
+<link rel="import" href="../../styles/style-page/style-page.html">
+<link rel="import" href="../layout-admin/layout-admin.html">
+<link rel="import" href="part-review-header.html">
+<link rel="import" href="part-review-info.html">
+
+<dom-module id="page-review">
+  <template>
+    <style include="style-grid"></style>
+    <style include="style-page"></style>
+
+    <layout-admin on-try-save="on_try_save" on-try-delete="on_try_delete">
+      <div class="toolbar">
+        <h1 class="title">Review</h1>
+        <part-review-header></part-review-header>
+      </div>
+      <div class="main container">
+        <part-review-info review="{{review}}"></part-review-info>
+
+      </div>
+    </layout-admin>
+
+  </template>
+</dom-module>
+
+<script src="../../scripts/fetch/fetch.js"></script>
+
+<script>
+  Polymer({
+
+    is: 'page-review',
+
+    properties: {
+      review: {
+        type: Object,
+        value: function () { return {}; }
+      },
+      error: {
+        type: Object,
+        value: function () { return {}; }
+      }
+    },
+
+    attached: function () {
+      this.review = this.data.review;
+    },
+
+    on_try_save: function (event) {
+      event.stopPropagation();
+      this.update_review();
+    },
+
+    on_try_delete: function (event) {
+      event.stopPropagation();
+      this.delete_review();
+    },
+
+    update_review: function () {
+      Model.update('/api/reviews/' + this.review.id, this.review)
+        .then(function (data) {
+          this.review = data;
+          this.on_update_product();
+        }.bind(this))
+        .catch(function (error) {
+          this.error = error;
+        }.bind(this));
+    },
+
+    delete_review: function () {
+      Model.delete('/api/reviews/' + this.review.id)
+        .then(function (data) {
+          this.response_delete();
+        }.bind(this))
+        .catch(function (error) {
+          console.log(this.error);
+          this.error = error;
+        }.bind(this));
+    },
+
+    on_update_product: function () {
+      page('/admin/reviews/' + this.review.id);
+    },
+
+    response_delete: function () {
+      page('/admin/products/' + this.review.product.id + '/reviews');
+    },
+
+  });
+</script>

@@ -42,6 +42,8 @@
 <link rel="import" href="../page-product_type/page-product_type.html">
 <link rel="import" href="../page-product_types/page-product_types.html">
 <link rel="import" href="../page-services/page-services.html">
+<link rel="import" href="../page-reviews/page-reviews.html">
+<link rel="import" href="../page-review/page-review.html">
 <link rel="import" href="../page-404/page-404.html">
 <link rel="import" href="../page-test/page-test.html">
 <dom-module id="app-boot">
@@ -484,6 +486,56 @@
         .then(function (model) {
           context.page_name = 'page-variants';
           context.data.product = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
+    },
+
+    '/admin/products/:product_id/reviews': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.get_model({
+          collection: 'products',
+          modelId: context.params.product_id,
+          include: ['options', 'variants', {'reviews': ['customer','product']}]
+        })
+
+        .then(function (model) {
+          context.page_name = 'page-reviews';
+          context.data.product = model;
+          this.open_page(context);
+        }.bind(this))
+        .catch(function (error) {
+          context.page_name = 'page-404';
+          context.data.error = error;
+          this.open_page(context);
+        }.bind(this));
+    },
+
+    '/admin/reviews/:review_id': function (context) {
+      this.init(context);
+      if (!this.auth(context)) {
+        page('/admin/login');
+        return;
+      }
+
+      this.get_model({
+          collection: 'reviews',
+          modelId: context.params.review_id,
+          include: ['product']
+        })
+
+        .then(function (model) {
+          context.page_name = 'page-review';
+          context.data.review = model;
           this.open_page(context);
         }.bind(this))
         .catch(function (error) {

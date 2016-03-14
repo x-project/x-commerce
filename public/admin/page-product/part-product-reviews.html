@@ -1,16 +1,16 @@
 <link rel="import" href="../../styles/style-panel/style-panel.html">
-<dom-module id="part-product-reviews">
+<dom-module id="part-product-variants">
   <template>
     <style include="style-panel"></style>
 
-    <h2 class="title">[[product_reviews_title_label]]</h2>
+    <h2 class="title">[[product_variants_title_label]]</h2>
     <div class="panel">
       <template is="dom-if" if="{{product.id}}">
-        <label class="name">Go to reviews </label>
-        <a is="app-link" href="/admin/products/{{product.id}}/reviews">reviews</a>
+        <label class="name">Go to variants </label>
+        <a is="app-link" href="/admin/products/{{product.id}}/variants">variants</a>
       </template>
       <template is="dom-if" if="{{!product.id}}">
-        <p>Save to view reviews</p>
+        <p>Save to create variants</p>
       </template>
     </div>
 
@@ -19,12 +19,12 @@
 <script>
   Polymer({
 
-    is: 'part-product-reviews',
+    is: 'part-product-variants',
 
     properties: {
-      product_reviews_title_label: {
+      product_variants_title_label: {
         type: String,
-        value: 'Reviews'
+        value: 'Variants'
       },
       product: {
         type: Object,

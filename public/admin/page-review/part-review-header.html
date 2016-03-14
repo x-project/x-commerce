@@ -1,0 +1,27 @@
+<link rel="import" href="../../styles/style-button/style-button.html">
+<dom-module id="part-review-header">
+  <template>
+    <style include="style-button"></style>
+
+    <button class="btn btn-secondary" on-click="on_click_save">save</button>
+    <button class="btn btn-secondary" on-click="on_click_delete">delete</button>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-review-header',
+
+    on_click_delete: function (event) {
+      event.stopPropagation();
+      this.fire('try-delete');
+    },
+
+    on_click_save: function (event) {
+      event.stopPropagation();
+      this.fire('try-save');
+    }
+
+  });
+</script>

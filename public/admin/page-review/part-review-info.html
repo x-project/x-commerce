@@ -1,0 +1,30 @@
+<link rel="import" href="../../styles/style-panel/style-panel.html">
+<link rel="import" href="../field-long-text/field-long-text.html">
+<link rel="import" href="../input-rating/input-rating.html">
+<link rel="import" href="../field-text/field-text.html">
+<dom-module id="part-review-info">
+  <template>
+    <style include="style-panel"></style>
+
+    <h2 class="title">Review</h2>
+    <div class="panel">
+      <input-rating values="[2,4,6,8,10]" value="{{review.rating}}"
+         on-change="on_change_rating">
+      </input-rating>
+      <field-text label="Title" property="title" value="{{review.title}}"
+        error="{{error}}">
+      </field-text>
+      <field-long-text label="Text" property="text" value="{{review.text}}"
+        error="{{error}}">
+      </field-long-text>
+    </div>
+
+  </template>
+</dom-module>
+<script>
+  Polymer({
+
+    is: 'part-review-info'
+
+  });
+</script>

@@ -1,14 +1,21 @@
-<link rel="import" href="../../components/api-model/api-model.html">
+<link rel="import" href="../../styles/style-grid/style-grid.html">
 <link rel="import" href="../layout-client/layout-client.html">
-<link rel="import" href="part-success-order-info.html">
 <dom-module id="page-success">
   <template>
+    <style include="style-grid"></style>
+    <style>
+    .message {
+      font-size: 20px;
+      margin-top: 30px;
+    }
+    </style>
 
-    <layout-client>
-      <h1>Success <span>{{}}</span></h1>
+    <layout-client mode="waterfall-tall" image="{{image}}">
       <div class="container">
-        <a is="app-link" href="/orders">my orders</a>
-        <part-success-order-info order="{{data.order}}"></part-success-order-info>
+        <div class="message">
+          <strong>Your order has been successfully completed</strong>
+          <a is="app-link" href="/dashboard">go to my order</a>
+        </div>
       </div>
     </layout-client>
 
@@ -20,14 +27,13 @@
     is: 'page-success',
 
     properties: {
-      data: {
-        type: Object,
-        value: function () { return {}; }
+      image: {
+        type: String,
+        value: '/images/bg3.jpg'
       }
     },
 
     attached: function () {
-      // console.log(this.data.order);
     }
 
   });

@@ -9,6 +9,7 @@
 <link rel="import" href="part-product-pricing.html">
 <link rel="import" href="part-product-shipping.html">
 <link rel="import" href="part-product-variants.html">
+<link rel="import" href="part-product-reviews.html">
 <link rel="import" href="part-product-visibility.html">
 <dom-module id="page-product">
   <template>
@@ -34,6 +35,7 @@
               on-change-visibility="on_change_visibility"></part-product-visibility>
             <part-product-inventory product="{{product}}"></part-product-inventory>
             <part-product-shipping product="{{product}}"></part-product-shipping>
+            <part-product-reviews id="reviews" product="{{product}}"></part-product-reviews>
           </div>
         </div>
       </div>

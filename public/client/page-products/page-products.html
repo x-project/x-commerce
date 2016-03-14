@@ -51,7 +51,7 @@
       },
       perpage: {
         type: Number,
-        value: 40
+        value: 12
       }
     },
 
@@ -71,6 +71,7 @@
     },
 
     get_products: function () {
+      this.products = [];
       Model.find('/api/products', this.get_filter_products())
         .then(function (data) {
           this.products = data;
